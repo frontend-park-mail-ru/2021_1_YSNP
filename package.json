@@ -1,0 +1,26 @@
+{
+  "name": "2021_1_YSNP",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "lint": "eslint -c .eslintrc.js public",
+    "start": "DEBUG=express:* node server",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/frontend-park-mail-ru/2021_1_YSNP.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/frontend-park-mail-ru/2021_1_YSNP/issues"
+  },
+  "homepage": "https://github.com/frontend-park-mail-ru/2021_1_YSNP#readme",
+  "dependencies": {
+    "eslint": "^7.20.0",
+    "express": "^4.17.1"
+  }
+}
