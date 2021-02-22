@@ -1,3 +1,8 @@
+@font-face {
+    font-family: Roboto;
+    src: url(/fonts/Roboto-Regular.ttf)
+}
+
 .header {
     height: 7vh;
     width: 100vw;
@@ -43,6 +48,8 @@
 
 .header-inner-left__locationName {
     font-size: 1.5vh;
+    font-family: Roboto, serif;
+    color: rgb(71, 71, 71);
 }
 
 .header-inner-right {
@@ -59,6 +66,7 @@
     border: 0;
     border-radius: 3px;
 
+    font-family: Roboto, serif;
     color: rgb(255, 255, 255);
     background-color: rgb(211, 30, 30);
 }
