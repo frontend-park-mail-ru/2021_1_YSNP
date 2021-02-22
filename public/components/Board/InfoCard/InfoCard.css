@@ -1,7 +1,7 @@
 .info-card {
     width: 100%;
     border: 1px solid rgba(0,0,0,0.1);
-    height: 40vh;
+    height: 44vh;
     margin: 0 auto;
     display: block;
 }
@@ -18,7 +18,7 @@
 
 .info-card--profile {
     display: flex;
-    margin: 0 2vh;
+    margin: 0 0 0 3vh;
 }
 
 .info-card--profile__image{
@@ -44,7 +44,6 @@
     line-height: 28px;
     margin: 1vh 0 0 1vh;
     display: flex;
-    justify-content: center;
     align-items: center;
 }
 
@@ -89,7 +88,7 @@
 
 .info-card__time {
     text-align: center;
-    margin-top: 3vw;
+    margin-top: 4vw;
     font-style: normal;
     font-weight: normal;
     font-size: 2vh;
@@ -110,6 +109,7 @@
 
 .info-card--statistic-inner-views__views {
     margin-left: 1vh;
+    font-size: 1.5vh;
 }
 
 .info-card--statistic-inner-likes {
@@ -121,4 +121,5 @@
 
 .info-card--statistic-inner-likes__likes{
     margin-left: 1vh;
+    font-size: 1.5vh;
 }

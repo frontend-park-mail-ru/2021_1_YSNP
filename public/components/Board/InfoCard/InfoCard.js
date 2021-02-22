@@ -13,7 +13,7 @@ export class InfoCard {
                 <div class="info-card--profile">
                     <div class="info-card--profile__image"></div>
                     <div class="info-card--profile--container">
-                        <p class="info-card--profile--container__name">Екатерина</p>
+                        <p class="info-card--profile--container__name">Екатерина П.</p>
                         <span class="info-card--profile--container--rating">
                               <span class="info-card--profile--container--rating__rating">4.8</span>
                               <svg width="20" height="21" viewBox="0 0 20 21" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M10 0.895218L12.7861 7.42562L19.5106 8.21429L14.508 13.039L15.8779 20.0568L10 16.5082L4.12215 20.0568L5.49199 13.039L0.489435 8.21429L7.2139 7.42562L10 0.895218Z" fill="#F3DD14"/></svg>
