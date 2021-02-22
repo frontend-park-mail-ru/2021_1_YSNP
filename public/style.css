@@ -1,0 +1,13 @@
+@import "pages/styles/Authorization.css";
+@import "pages/styles/Landing.css";
+@import "pages/styles/Product.css";
+@import "pages/styles/ProductCreate.css";
+@import "pages/styles/Profile.css";
+@import "pages/styles/Registration.css";
+
+body {
+    margin: 0;
+    padding: 0;
+
+    background-color: rgb(245, 245, 245);
+}
