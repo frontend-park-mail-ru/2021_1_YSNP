@@ -1,0 +1,15 @@
+
+.navigation {
+    height: 3vh;
+    width: 80vw;
+    display: flex;
+    margin: 1vh auto;
+}
+
+.navigation--inner {
+    margin: auto 0;
+}
+
+.navigation--inner--back {
+    cursor: pointer;
+}
