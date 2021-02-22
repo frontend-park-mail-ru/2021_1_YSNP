@@ -25,23 +25,24 @@
 
 .header-inner-left__brand {
     margin-right: 1vw;
-    font-size: 3.5vh;
-
-    color: rgb(125, 125, 125);
 }
 
-.header-inner-left-location:hover {
-    color: aqua;
+.header-inner-left__location {
+    border: 0;
+    background-color: rgb(255, 255, 255);;
+}
+
+.header-inner-left__location:hover {
+    color: rgb(117, 148, 247);
     cursor: pointer;
 }
 
-.header-inner-left-location__img {
-    height: 1.3vh;
-    width: 1.3vw;
+.header-inner-left__location:focus {
+    outline: none;
 }
 
-.header-inner-left-location__name {
-    font-size: 2vh;
+.header-inner-left__locationName {
+    font-size: 1.5vh;
 }
 
 .header-inner-right {
@@ -62,7 +63,24 @@
     background-color: rgb(211, 30, 30);
 }
 
+.header-inner-right__createButton:hover {
+    background-color: rgb(219, 34, 34);
+    cursor: pointer;
+}
+
+.header-inner-right__createButton:focus {
+    outline: none;
+}
+
 .header-inner-right__account {
-    height: 4vh;
-    width: 4vw;
+    border: 0;
+    background-color: rgb(255, 255, 255);;
+}
+
+.header-inner-right__account:hover {
+    cursor: pointer;
+}
+
+.header-inner-right__account:focus {
+    outline: none;
 }
