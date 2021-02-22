@@ -2,6 +2,7 @@
 
 module.exports = {
     'env': {
+        'node': true,
         'browser': true,
         'serviceworker': true,
         'es2021': true
@@ -247,7 +248,7 @@ module.exports = {
         'key-spacing': [
             'warn',
             {
-                'beforeColon': true
+                'beforeColon': false
             }
         ],
         'keyword-spacing': [
@@ -302,12 +303,12 @@ module.exports = {
             'warn',
             'last'
         ],
-        'sort-keys': [
-            'warn'
-        ],
-        'sort-vars': [
-            'warn'
-        ],
+        // 'sort-keys': [
+        //     'warn'
+        // ],
+        // 'sort-vars': [
+        //     'warn'
+        // ],
         'space-before-blocks': [
             'warn'
         ],
@@ -374,9 +375,9 @@ module.exports = {
             'error',
             'never'
         ],
-        'sort-imports': [
-            'error'
-        ],
+        // 'sort-imports': [
+        //     'error'
+        // ],
         'template-curly-spacing': [
             'error'
         ],
@@ -386,17 +387,17 @@ module.exports = {
         ],
 
 
-        'require-jsdoc': [
-            'warn',
-            {
-                'require': {
-                    'FunctionDeclaration': true,
-                    'MethodDefinition': true,
-                    'ClassDeclaration': true,
-                    'ArrowFunctionExpression': true,
-                    'FunctionExpression': true
-                }
-            }
-        ]
+        // 'require-jsdoc': [
+        //     'warn',
+        //     {
+        //         'require': {
+        //             'FunctionDeclaration': true,
+        //             'MethodDefinition': true,
+        //             'ClassDeclaration': true,
+        //             'ArrowFunctionExpression': true,
+        //             'FunctionExpression': true
+        //         }
+        //     }
+        // ]
     }
 };
