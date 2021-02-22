@@ -3,7 +3,7 @@
     src: url(/fonts/Roboto-Regular.ttf)
 }
 
-.productCart {
+.product-card {
     height: 37vh;
     width: 21vw;
 
@@ -19,27 +19,27 @@
     transition-property: box-shadow;
 }
 
-.productCart:hover {
+.product-card:hover {
     cursor: pointer;
 
     box-shadow: rgba(0, 0, 0, 0.08) 0 8px 16px 0;
 }
 
-.productCart__like {
+.product-card__like {
     position: absolute;
     top: 1vh;
     right: 1vw;
 }
 
-.productCart__like:hover {
+.product-card__like:hover {
     cursor: pointer;
 }
 
-.productCart__like_liked {
+.product-card__like_liked {
     color: red;
 }
 
-.productCart__img {
+.product-card__img {
     height: 21vh;
     width: 100%;
 
@@ -48,7 +48,7 @@
     object-fit: cover;
 }
 
-.productCart-info {
+.product-card-info {
     height: 16vh;
     width: 100%;
 
@@ -56,7 +56,7 @@
     font-family: Roboto, serif;
 }
 
-.productCart-info-inner {
+.product-card-info-inner {
     height: 85%;
     width: 90%;
 
@@ -66,18 +66,18 @@
     flex-direction: column;
 }
 
-.productCart-info__name {
+.product-card-info__name {
     margin-bottom: 0.7vh;
 
     font-size: 2vh;
 }
 
-.productCart-info__date {
+.product-card-info__date {
     font-size: 1.5vh;
     color: rgb(142, 142, 142);
 }
 
-.productCart-info__amount {
+.product-card-info__amount {
     font-size: 2.5vh;
     height: 30px;
     width: 100%;
