@@ -5,7 +5,9 @@
 
 .product-card {
     height: 37vh;
-    width: 21vw;
+    width: 23vh;
+
+    margin: 1vh;
 
     position: relative;
 
@@ -28,7 +30,7 @@
 .product-card__like {
     position: absolute;
     top: 1vh;
-    right: 1vw;
+    right: 1vh;
 }
 
 .product-card__like:hover {
@@ -60,7 +62,7 @@
     height: 85%;
     width: 90%;
 
-    margin: 1vw;
+    margin: 1vh;
 
     display: flex;
     flex-direction: column;
