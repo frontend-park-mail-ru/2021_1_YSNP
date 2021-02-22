@@ -23,41 +23,44 @@
     background-color: rgb(255, 255, 255);
 }
 
-.header-inner-left {
+.header-left {
     display: flex;
     align-items: center;
 }
 
-.header-inner-left__brand {
+.header-left__brand {
     margin-right: 1vw;
 }
 
-.header-inner-left__location {
+.header-left__location {
     border: 0;
     background-color: rgb(255, 255, 255);;
 }
 
-.header-inner-left__location:hover {
-    color: rgb(117, 148, 247);
+.header-left__location:hover {
     cursor: pointer;
 }
 
-.header-inner-left__location:focus {
+.header-left__location:focus {
     outline: none;
 }
 
-.header-inner-left__locationName {
+.header-left__location-name {
     font-size: 1.5vh;
     font-family: Roboto, serif;
     color: rgb(71, 71, 71);
 }
 
-.header-inner-right {
+.header-left__location-name:hover {
+    color: rgb(117, 148, 247);
+}
+
+.header-right {
     display: flex;
     align-items: center;
 }
 
-.header-inner-right__createButton {
+.header-right__create-button {
     height: 4vh;
     width: 10vw;
 
@@ -71,24 +74,24 @@
     background-color: rgb(211, 30, 30);
 }
 
-.header-inner-right__createButton:hover {
+.header-right__create-button:hover {
     background-color: rgb(219, 34, 34);
     cursor: pointer;
 }
 
-.header-inner-right__createButton:focus {
+.header-right__create-button:focus {
     outline: none;
 }
 
-.header-inner-right__account {
+.header-right__account {
     border: 0;
     background-color: rgb(255, 255, 255);;
 }
 
-.header-inner-right__account:hover {
+.header-right__account:hover {
     cursor: pointer;
 }
 
-.header-inner-right__account:focus {
+.header-right__account:focus {
     outline: none;
 }
