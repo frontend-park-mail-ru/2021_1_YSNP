@@ -1,8 +1,6 @@
-console.log('Hello word!');
+import {Landing} from './pages/Landing.js';
 
 const app = document.getElementById('app');
 
-
-const title = document.createElement(' div');
-title.innerHTML = '<div class=\'title\'>Hello word!</div>';
-app.appendChild(title);
+const landing = new Landing(app);
+landing.render();

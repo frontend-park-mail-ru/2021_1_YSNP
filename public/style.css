@@ -1,17 +1,13 @@
-html,
+@import "pages/styles/Authorization.css";
+@import "pages/styles/Landing.css";
+@import "pages/styles/Product.css";
+@import "pages/styles/ProductCreate.css";
+@import "pages/styles/Profile.css";
+@import "pages/styles/Registration.css";
+
 body {
     margin: 0;
-    width: 100%;
-    height: 100vh;
-}
+    padding: 0;
 
-.title {
-    color: red;
-    font-size: 47px;
-}
-
-body {
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    background-color: rgb(245, 245, 245);
 }
