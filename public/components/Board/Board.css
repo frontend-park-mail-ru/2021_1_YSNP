@@ -1,5 +1,6 @@
 @import "../../components/Board/InfoCard/InfoCard.css";
 @import "../../components/Board/Carousel/Carousel.css";
+@import "../../components/Board/Description/Description.css";
 
 .board {
     font-family: Roboto, serif;

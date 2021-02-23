@@ -1,0 +1,41 @@
+.product-inner  {
+    margin-top: 3vw;
+}
+
+.product--description {
+    display: flex;
+}
+.product--description--topic {
+    width: 18%;
+}
+
+.product--description--description {
+    width: 75%;
+}
+
+.product--description--description__text {
+    font-family: Open Sans, sans-serif;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 1vw;
+    line-height: 22px;
+    color: #000000;
+}
+
+.product--description--description__title{
+    font-family: SF Pro Display, sans-serif;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 1.8vh;
+    line-height: 19px;
+
+    color: #000000;
+
+    opacity: 0.5;
+}
+
+.hr-description {
+    opacity: 0.2;
+    width: 90%;
+    margin-left: 0;
+}

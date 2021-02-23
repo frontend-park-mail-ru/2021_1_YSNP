@@ -56,7 +56,6 @@ export class Slider {
         }, 1000 / 60);
     }
 
-
     run() {
         document.getElementById('spinner').style.display = 'none';
         let carousel = this.Carousel.carousel = document.getElementById('carousel'),

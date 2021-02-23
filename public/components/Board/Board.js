@@ -2,6 +2,7 @@
 
 import {InfoCard} from './InfoCard/InfoCard.js';
 import {Slider} from './Carousel/Carousel.js';
+import {Description} from './Description/Description.js';
 
 export class Board {
     constructor(parent) {
@@ -86,5 +87,8 @@ export class Board {
         console.log(listeners);
         this.__carousel.listeners = listeners.scrolling;
         this.__carousel.render();
+
+        const description = new Description(parentLeftSide);
+        description.render();
     }
 }
