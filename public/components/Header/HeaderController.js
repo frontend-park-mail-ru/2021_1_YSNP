@@ -1,7 +1,5 @@
 'use strict';
 
-import {Header} from './Header.js';
-
 import {Profile} from '../../pages/Profile.js';
 import {Landing} from '../../pages/Landing.js';
 
@@ -12,11 +10,11 @@ export class HeaderController {
     /***
      *
      * @param {HTMLElement} parent - element callback will work with
-     * @param {Object} data - header data
+     * @param {Header} header - header
      */
-    constructor(parent, data) {
+    constructor(parent, header) {
         this.__parent = parent;
-        this.__header = new Header(this.__parent, data);
+        this.__header = header;
     }
 
     /***
