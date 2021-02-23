@@ -1,0 +1,56 @@
+.buttons{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    margin-bottom: 1vh;
+}
+
+button {
+    font-size: 14px;
+    display: inline;
+    padding: 3px 6px;
+    border: 2px solid #ccc;
+    background: #fff;
+    border-radius: 5px;
+    outline: none;
+}
+button:hover {
+    border: 2px solid #888;
+    background: #ffe;
+    cursor: pointer;
+}
+#carouselWrapper {
+    position: relative;
+    overflow: hidden;
+}
+#carousel {
+    position: absolute;
+    visibility: hidden;
+}
+
+.slider-inner {
+    display: flex;
+    margin-top: 2vw;
+}
+
+.preview {
+    padding-left: 2vw;
+    padding-right: 2vw;
+}
+
+.preview img{
+    margin-top: 0px;
+    width: 52vw;
+    height: 52vh;
+    object-fit: cover;
+}
+
+#next {
+    margin-top: 2vh;
+}
+
+.ThisLink{
+    pointer-events: none;
+    cursor: default;
+}

@@ -1,9 +1,10 @@
 .info-card {
-    width: 100%;
+    width: 20vw;
     border: 1px solid rgba(0,0,0,0.1);
     height: 44vh;
-    margin: 0 auto;
     display: block;
+    #position: fixed;
+    margin: 2vw auto 0;
 }
 
 .info-card__price {
