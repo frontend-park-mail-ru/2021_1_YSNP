@@ -1,19 +1,21 @@
 'use strict';
 
 /***
- * Product List listeners
+ * Product List controller
  */
 export class ProductListController {
     /***
      * Class constructor
+     * @param {HTMLElement} parent - element callback will work with
      * @param {ProductList} productList - product list
      */
-    constructor(productList) {
+    constructor(parent, productList) {
+        this.__parent = parent;
         this.__productList = productList;
     }
 
     /***
-     * Add listeners to product list
+     * Render and add listeners
      */
     control() {
         this.__productList.render();
