@@ -1,30 +1,80 @@
+'use strict';
+
+/***
+ * Product card component with img, name, date, amount and like
+ */
 export class ProductCard {
-    constructor(parent, data) {
+    /***
+     * Class constructor
+     * @param {HTMLElement} parent - element where the component will be inserted
+     * @param {Object} data - component data
+     * @param {Object} listeners - component listeners
+     */
+    constructor(parent, data, listeners = undefined) {
         this.__parent = parent;
-        this.__listeners = {};
+        this.__listeners = listeners;
         this.__data = data;
     }
 
+    /***
+     * Get listeners
+     * @returns {Object} - component listeners
+     */
     get listeners() {
         return this.__listeners;
     }
 
+    /***
+     * Set listeners
+     * @param {Object} val - component listeners
+     */
     set listeners(val) {
         this.__listeners = val;
     }
 
+    /***
+     * Add component listeners
+     */
     addListeners() {
         document
-            .getElementById(this.__data.id)
+            .querySelector(`[data-card-id='${this.__data.id}']`)
             .addEventListener(this.__listeners.productCardClick.type, this.__listeners.productCardClick.listener);
     }
 
+    /***
+     * Remove component listeners
+     */
     removeListeners() {
         document
-            .getElementById(this.__data.id)
+            .querySelector(`[data-card-id='${this.__data.id}']`)
             .removeEventListener(this.__listeners.productCardClick.type, this.__listeners.productCardClick.listener);
     }
 
+    /***
+     * Add like animation
+     */
+    like() {
+        document
+            .querySelector(`[data-card-id='${this.__data.id}']`)
+            .querySelector('[data-action=\'likeClick\']')
+            .classList.add('product-card__like_liked');
+    }
+
+    /***
+     * Remove like animation
+     */
+    dislike() {
+        document
+            .querySelector(`[data-card-id='${this.__data.id}']`)
+            .querySelector('[data-action=\'likeClick\']')
+            .classList.remove('product-card__like_liked');
+    }
+
+    /***
+     * Component HTML
+     * @returns {string} - html layout
+     * @private
+     */
     __getTemplate() {
         return `
            <div class="product-card" data-card-id="${this.__data.id}">
@@ -45,6 +95,9 @@ export class ProductCard {
         `;
     }
 
+    /***
+     * Add component to parent
+     */
     render() {
         const template = this.__getTemplate();
         this.__parent.insertAdjacentHTML('beforeend', template);

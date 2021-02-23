@@ -3,11 +3,22 @@ import {ProductList} from '../components/ProductList/ProductList.js';
 
 import {Profile} from './Profile.js';
 
+/***
+ * First (main) page
+ */
 export class Landing {
+    /***
+     * Class constructor
+     * @param {HTMLElement} parent - element where the component will be inserted
+     */
     constructor(parent) {
         this.__parent = parent;
     }
 
+    /***
+     * Header click callback
+     * @param {Event} ev - event
+     */
     listenerHeaderClick(ev) {
         ev.preventDefault();
         this.__header.removeListeners();
@@ -22,26 +33,46 @@ export class Landing {
             });
     }
 
+    /***
+     * Header brand click callback
+     * @private
+     */
     __openLanding() {
         const landing = new Landing(this.__parent);
         landing.render();
     }
 
+    /***
+     * Header map click callback
+     * @private
+     */
     __openMap() {
         const profile = new Profile(this.__parent);
         profile.render();
     }
 
+    /***
+     * Header create product click callback
+     * @private
+     */
     __openCreateProduct() {
         const profile = new Profile(this.__parent);
         profile.render();
     }
 
+    /***
+     * Header account click callback
+     * @private
+     */
     __openAccount() {
         const profile = new Profile(this.__parent);
         profile.render();
     }
 
+    /***
+     * Product List Click callback
+     * @param {Event} ev - event
+     */
     listenerProductListClick(ev) {
         ev.preventDefault();
 
@@ -67,16 +98,31 @@ export class Landing {
         }
     }
 
+    /***
+     * Product List like callback
+     * @param {number} id - product card id
+     * @private
+     */
     __likeClick(id) {
         console.log('like click', id);
     }
 
+    /***
+     * Product List card callback
+     * @param {number} id - product card id
+     * @private
+     */
     __openCard(id) {
         this.__productList.removeListeners();
 
         console.log('open card', id);
     }
 
+    /***
+     * Callback actions
+     * @returns {{header: {createProductClick: {open: *}, accountClick: {open: *}, locationClick: {open: *}, brandClick: {open: *}}, productList: {likeClick: {open: *}, cardClick: {open: *}}}}
+     * @private
+     */
     __getActions() {
         return {
             header: {
@@ -104,6 +150,11 @@ export class Landing {
         };
     }
 
+    /***
+     * Page listeners
+     * @returns {{header: {headerClick: {listener: *, type: string}}, productList: {productCardClick: {listener: *, type: string}}}}
+     * @private
+     */
     __createListeners() {
         return {
             header: {
@@ -121,6 +172,11 @@ export class Landing {
         };
     }
 
+    /***
+     * Test product list data
+     * @returns {({date: string, img: string, amount: string, name: string, id: string}|{date: string, img: string, amount: string, name: string, id: string}|{date: string, img: string, amount: string, name: string, id: string}|{date: string, img: string, amount: string, name: string, id: string}|{date: string, img: string, amount: string, name: string, id: string})[]}
+     * @private
+     */
     __get() {
         return [
             {
@@ -161,6 +217,9 @@ export class Landing {
         ];
     }
 
+    /***
+     * Add component to parent
+     */
     render() {
         this.__parent.innerHTML = '';
         const listeners = this.__createListeners();
@@ -172,5 +231,6 @@ export class Landing {
         this.__productList = new ProductList(this.__parent, this.__get());
         this.__productList.listeners = listeners.productList;
         this.__productList.render();
+        this.__productList.addListeners();
     }
 }
