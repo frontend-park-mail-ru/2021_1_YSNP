@@ -1,32 +1,60 @@
 'use strict';
 
+/***
+ * Header component
+ */
 export class Header {
-    constructor(parent, data) {
+    /***
+     * Class constructor
+     * @param {HTMLElement} parent - element where the component will be inserted
+     * @param {Object} data - element data
+     * @param {Object} listeners - component listeners
+     */
+    constructor(parent, data, listeners = undefined) {
         this.__parent = parent;
-        this.__listeners = {};
+        this.__listeners = listeners;
         this.__data = data;
     }
 
+    /***
+     * Get listeners
+     * @returns {Object}
+     */
     get listeners() {
         return this.__listeners;
     }
 
+    /***
+     * Set listeners
+     * @param val
+     */
     set listeners(val) {
         this.__listeners = val;
     }
 
+    /***
+     * Add component listeners
+     */
     addListeners() {
         document
             .getElementById('header')
             .addEventListener(this.__listeners.headerClick.type, this.__listeners.headerClick.listener);
     }
 
+    /***
+     * Remove component listeners
+     */
     removeListeners() {
         document
             .getElementById('header')
             .removeEventListener(this.__listeners.headerClick.type, this.__listeners.headerClick.listener);
     }
 
+    /***
+     * Component HTML
+     * @returns {string} - html layout
+     * @private
+     */
     __getTemplate() {
         return `
            <div class="header" id="header">
@@ -57,10 +85,11 @@ export class Header {
         `;
     }
 
+    /***
+     * Add component to parent
+     */
     render() {
         const template = this.__getTemplate();
         this.__parent.insertAdjacentHTML('beforeend', template);
-
-        this.addListeners();
     }
 }
