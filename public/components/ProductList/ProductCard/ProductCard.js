@@ -8,46 +8,10 @@ export class ProductCard {
      * Class constructor
      * @param {HTMLElement} parent - element where the component will be inserted
      * @param {Object} data - component data
-     * @param {Object} listeners - component listeners
      */
-    constructor(parent, data, listeners = undefined) {
+    constructor(parent, data) {
         this.__parent = parent;
-        this.__listeners = listeners;
         this.__data = data;
-    }
-
-    /***
-     * Get listeners
-     * @returns {Object} - component listeners
-     */
-    get listeners() {
-        return this.__listeners;
-    }
-
-    /***
-     * Set listeners
-     * @param {Object} val - component listeners
-     */
-    set listeners(val) {
-        this.__listeners = val;
-    }
-
-    /***
-     * Add component listeners
-     */
-    addListeners() {
-        document
-            .querySelector(`[data-card-id='${this.__data.id}']`)
-            .addEventListener(this.__listeners.productCardClick.type, this.__listeners.productCardClick.listener);
-    }
-
-    /***
-     * Remove component listeners
-     */
-    removeListeners() {
-        document
-            .querySelector(`[data-card-id='${this.__data.id}']`)
-            .removeEventListener(this.__listeners.productCardClick.type, this.__listeners.productCardClick.listener);
     }
 
     /***

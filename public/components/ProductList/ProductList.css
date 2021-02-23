@@ -1,4 +1,4 @@
-@import "../ProductCard/ProductCard.css";
+@import "ProductCard/ProductCard.css";
 
 .product-list {
     width: 100vw;

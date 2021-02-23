@@ -1,4 +1,4 @@
-import {ProductCard} from '../ProductCard/ProductCard.js';
+import {ProductCard} from './ProductCard/ProductCard.js';
 
 /***
  * Product List - table of components Product Card

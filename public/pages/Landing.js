@@ -1,5 +1,7 @@
 import {Header} from '../components/Header/Header.js';
+
 import {ProductList} from '../components/ProductList/ProductList.js';
+import {ProductListController} from '../components/ProductList/ProductListController.js';
 
 import {Profile} from './Profile.js';
 
@@ -70,55 +72,6 @@ export class Landing {
     }
 
     /***
-     * Product List Click callback
-     * @param {Event} ev - event
-     */
-    listenerProductListClick(ev) {
-        ev.preventDefault();
-
-        let id = undefined;
-        let action = undefined;
-        Object
-            .entries(ev.path)
-            .forEach(([, el]) => {
-                if (el.dataset !== undefined) {
-                    if ('action' in el.dataset && action === undefined) {
-                        action = el.dataset.action;
-                    }
-
-                    if ('cardId' in el.dataset) {
-                        id = el.dataset.cardId;
-                    }
-                }
-            });
-
-        if (action !== undefined) {
-            const actions = this.__getActions().productList;
-            actions[action].open(id);
-        }
-    }
-
-    /***
-     * Product List like callback
-     * @param {number} id - product card id
-     * @private
-     */
-    __likeClick(id) {
-        console.log('like click', id);
-    }
-
-    /***
-     * Product List card callback
-     * @param {number} id - product card id
-     * @private
-     */
-    __openCard(id) {
-        this.__productList.removeListeners();
-
-        console.log('open card', id);
-    }
-
-    /***
      * Callback actions
      * @returns {{header: {createProductClick: {open: *}, accountClick: {open: *}, locationClick: {open: *}, brandClick: {open: *}}, productList: {likeClick: {open: *}, cardClick: {open: *}}}}
      * @private
@@ -138,14 +91,6 @@ export class Landing {
                 accountClick: {
                     open: this.__openAccount.bind(this)
                 }
-            },
-            productList: {
-                cardClick: {
-                    open: this.__openCard.bind(this)
-                },
-                likeClick: {
-                    open: this.__likeClick.bind(this)
-                }
             }
         };
     }
@@ -162,12 +107,6 @@ export class Landing {
                     type: 'click',
                     listener: this.listenerHeaderClick.bind(this)
                 }
-            },
-            productList: {
-                productCardClick: {
-                    type: 'click',
-                    listener: this.listenerProductListClick.bind(this)
-                }
             }
         };
     }
@@ -177,7 +116,7 @@ export class Landing {
      * @returns {({date: string, img: string, amount: string, name: string, id: string}|{date: string, img: string, amount: string, name: string, id: string}|{date: string, img: string, amount: string, name: string, id: string}|{date: string, img: string, amount: string, name: string, id: string}|{date: string, img: string, amount: string, name: string, id: string})[]}
      * @private
      */
-    __get() {
+    __getProductListData() {
         return [
             {
                 id: '1',
@@ -228,9 +167,9 @@ export class Landing {
         this.__header.listeners = listeners.header;
         this.__header.render();
 
-        this.__productList = new ProductList(this.__parent, this.__get());
-        this.__productList.listeners = listeners.productList;
-        this.__productList.render();
-        this.__productList.addListeners();
+
+        const productList = new ProductList(this.__parent, this.__getProductListData());
+        this.__productListListeners = new ProductListController(productList);
+        this.__productListListeners.control();
     }
 }
