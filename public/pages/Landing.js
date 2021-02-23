@@ -1,9 +1,8 @@
 import {Header} from '../components/Header/Header.js';
+import {HeaderController} from '../components/Header/HeaderController.js';
 
 import {ProductList} from '../components/ProductList/ProductList.js';
 import {ProductListController} from '../components/ProductList/ProductListController.js';
-
-import {Profile} from './Profile.js';
 
 /***
  * First (main) page
@@ -18,96 +17,13 @@ export class Landing {
     }
 
     /***
-     * Header click callback
-     * @param {Event} ev - event
-     */
-    listenerHeaderClick(ev) {
-        ev.preventDefault();
-        this.__header.removeListeners();
-
-        const actions = this.__getActions().header;
-        Object
-            .entries(ev.path)
-            .forEach(([, el]) => {
-                if (el.dataset !== undefined && 'action' in el.dataset) {
-                    actions[el.dataset.action].open();
-                }
-            });
-    }
-
-    /***
-     * Header brand click callback
+     * Test header data
+     * @returns {{location: string}}
      * @private
      */
-    __openLanding() {
-        const landing = new Landing(this.__parent);
-        landing.render();
-    }
-
-    /***
-     * Header map click callback
-     * @private
-     */
-    __openMap() {
-        const profile = new Profile(this.__parent);
-        profile.render();
-    }
-
-    /***
-     * Header create product click callback
-     * @private
-     */
-    __openCreateProduct() {
-        const profile = new Profile(this.__parent);
-        profile.render();
-    }
-
-    /***
-     * Header account click callback
-     * @private
-     */
-    __openAccount() {
-        const profile = new Profile(this.__parent);
-        profile.render();
-    }
-
-    /***
-     * Callback actions
-     * @returns {{header: {createProductClick: {open: *}, accountClick: {open: *}, locationClick: {open: *}, brandClick: {open: *}}, productList: {likeClick: {open: *}, cardClick: {open: *}}}}
-     * @private
-     */
-    __getActions() {
+    __getHeaderData() {
         return {
-            header: {
-                brandClick: {
-                    open: this.__openLanding.bind(this)
-                },
-                locationClick: {
-                    open: this.__openMap.bind(this)
-                },
-                createProductClick: {
-                    open: this.__openCreateProduct.bind(this)
-                },
-                accountClick: {
-                    open: this.__openAccount.bind(this)
-                }
-            }
-        };
-    }
-
-    /***
-     * Page listeners
-     * @returns {{header: {headerClick: {listener: *, type: string}}, productList: {productCardClick: {listener: *, type: string}}}}
-     * @private
-     */
-    __createListeners() {
-        return {
-            header: {
-                headerClick: {
-                    type: 'click',
-                    listener: this.listenerHeaderClick.bind(this)
-                }
-            }
+            location: 'Москва'
         };
     }
 
@@ -161,15 +77,13 @@ export class Landing {
      */
     render() {
         this.__parent.innerHTML = '';
-        const listeners = this.__createListeners();
 
-        this.__header = new Header(this.__parent, {location: 'Москва'});
-        this.__header.listeners = listeners.header;
-        this.__header.render();
-
+        const header = new Header(this.__parent, this.__getHeaderData());
+        this.__headerController = new HeaderController(this.__parent, header);
+        this.__headerController.control();
 
         const productList = new ProductList(this.__parent, this.__getProductListData());
-        this.__productListListeners = new ProductListController(productList);
-        this.__productListListeners.control();
+        this.__productListController = new ProductListController(this.__parent, productList);
+        this.__productListController.control();
     }
 }
