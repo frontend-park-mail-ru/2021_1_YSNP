@@ -1,3 +1,5 @@
+'use strict';
+
 import {Header} from '../components/Header/Header.js';
 import {HeaderController} from '../components/Header/HeaderController.js';
 
