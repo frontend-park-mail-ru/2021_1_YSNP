@@ -29,6 +29,7 @@ export class Description {
      * @return {string}
      * @private
      * @this {Description}
+     * @readonly
      */
     get __getDescription() {
         const descriptions = this.__data.description;

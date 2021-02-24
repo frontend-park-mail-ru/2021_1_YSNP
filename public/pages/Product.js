@@ -4,12 +4,33 @@ import {Landing} from './Landing.js';
 import {Navigation} from '../components/Navigation/Navigation.js';
 import {Board} from '../components/Board/Board.js';
 
-
+/***
+ * @author Ivan Gorshkov
+ * Product class for product page
+ * @class Product
+ */
 export class Product {
+
+    /***
+     * @author Ivan Gorshkov
+     *
+     * init of class Product
+     * @param {HTMLElement} parent - parent element
+     * @constructor
+     * @this {Product}
+     * @public
+     */
     constructor(parent) {
         this.__parent = parent;
     }
 
+    /***
+     * @author Ivan Gorshkov
+     * listener for profile page
+     * @param {Event} ev - event
+     * @this {Product}
+     * @public
+     */
     listenerToProfile(ev) {
         ev.preventDefault();
 
@@ -20,6 +41,13 @@ export class Product {
         profile.render();
     }
 
+    /***
+     * @author Ivan Gorshkov
+     * listener for previous page
+     * @param {Event} ev - event
+     * @this {Product}
+     * @public
+     */
     listenerToBack(ev) {
         ev.preventDefault();
         this.__navigation.removeListeners();
@@ -28,6 +56,13 @@ export class Product {
         landing.render();
     }
 
+    /***
+     * @author Ivan Gorshkov
+     * func for create object of listeners
+     * @return {{backBtn: {toBack: {listener: *, type: string}}, header: {toProductCreate: {listener: *, type: string}}}}
+     * @this {Product}
+     * @private
+     */
     __createListeners() {
         return {
             header: {
@@ -45,6 +80,13 @@ export class Product {
         };
     }
 
+    /***
+     * @author Ivan Gorshkov
+     *
+     * Add component to parent
+     * @this {Product}
+     * @public
+     */
     render() {
         this.__parent.innerHTML = '';
         const listeners = this.__createListeners();

@@ -1,6 +1,22 @@
 'use strict';
 
+/***
+ * @author Ivan Gorshkov
+ * Slider class for carousel and preview pictures
+ * @class Slider
+ */
 export class Slider {
+
+    /***
+     * @author Ivan Gorshkov
+     *
+     * init of class Slider
+     * @param {HTMLElement} parent - parent element
+     * @param {Object} data - JSON Object
+     * @constructor
+     * @this {Slider}
+     * @public
+     */
     constructor(parent, data) {
         this.__parent = parent;
         this.__carousel = {
@@ -13,14 +29,38 @@ export class Slider {
 
     }
 
+    /***
+     * @author Ivan Gorshkov
+     *
+     * get Slider listeners
+     * @this {Slider}
+     * @private
+     * @readonly
+     * @return  {Object[]} array of listeners
+     */
     get listeners() {
         return this.__listeners;
     }
 
+    /***
+     * @author Ivan Gorshkov
+     *
+     * Set new listeners
+     * @this {Slider}
+     * @param  {Object[]} val - Object of listeners
+     * @public
+     */
     set listeners(val) {
         this.__listeners = val;
     }
 
+    /***
+     * @author Ivan Gorshkov
+     *
+     * insert forward img in carousel
+     * @private
+     * @this {Slider}
+     */
     rotateForward() {
         const carousel = this.__carousel.carousel,
             children = carousel.children,
@@ -29,6 +69,13 @@ export class Slider {
         carousel.insertBefore(lastChild, firstChild);
     }
 
+    /***
+     * @author Ivan Gorshkov
+     *
+     * insert backward img in carousel
+     * @private
+     * @this {Slider}
+     */
     rotateBackward() {
         const carousel = this.__carousel.carousel,
             children = carousel.children,
@@ -37,6 +84,13 @@ export class Slider {
         carousel.insertBefore(firstChild, lastChild.nextSibling);
     }
 
+    /***
+     * @author Ivan Gorshkov
+     *
+     * animation carousel when scroll
+     * @private
+     * @this {Slider}
+     */
     animate(begin, end, finalTask) {
         const carousel = this.__carousel.carousel,
             change = end - begin,
@@ -57,7 +111,14 @@ export class Slider {
         }, 1000 / 60);
     }
 
-    run() {
+    /***
+     * @author Ivan Gorshkov
+     *
+     * function create vertical carousel
+     * @private
+     * @this {Slider}
+     */
+    createCarousel() {
         document.getElementById('spinner').style.display = 'none';
         let carousel = this.__carousel.carousel = document.getElementById('carousel'),
             images = carousel.getElementsByTagName('img'),
@@ -96,6 +157,13 @@ export class Slider {
         wrapper.appendChild(carousel);
     }
 
+    /***
+     * @author Ivan Gorshkov
+     *
+     * listener for select photo
+     * @private
+     * @this {Slider}
+     */
     choosePhoto() {
         const elem = document.getElementById('pic');
         elem.src = this.src;
@@ -108,6 +176,15 @@ export class Slider {
         this.style.opacity = '1.0';
     }
 
+    /***
+     * @author Ivan Gorshkov
+     *
+     * getter for all photos
+     * @return {string}
+     * @private
+     * @this {Slider}
+     * @readonly
+     */
     get __getPhotos() {
         const photoArray = this.__data.photos;
         let htmlImg = '';
@@ -117,6 +194,15 @@ export class Slider {
         return htmlImg;
     }
 
+    /***
+     * @author Ivan Gorshkov
+     *
+     * getter for first photo of product
+     * @return {string}
+     * @private
+     * @this {Slider}
+     * @readonly
+     */
     get __getFirstPhotos() {
         const photoArray = this.__data.photos;
         let htmlImg = '';
@@ -124,6 +210,13 @@ export class Slider {
         return htmlImg;
     }
 
+    /***
+     * @author Ivan Gorshkov
+     * main template of component
+     * @return {string}
+     * @private
+     * @this {Slider}
+     */
     __getTemplate() {
         return `   
    <div class="slider-inner">
@@ -149,6 +242,13 @@ export class Slider {
         `;
     }
 
+    /***
+     * @author Ivan Gorshkov
+     *
+     * Add listeners from component
+     * @private
+     * @this {Slider}
+     */
     addListeners() {
         const prevButton = document.getElementById('prev'),
             nextButton = document.getElementById('next');
@@ -156,10 +256,17 @@ export class Slider {
         prevButton.addEventListener(this.listeners.toBack.type, this.__listeners.toBack.listener);
     }
 
+    /***
+     * @author Ivan Gorshkov
+     *
+     * Add component to parent
+     * @this {Slider}
+     * @public
+     */
     render() {
         const template = this.__getTemplate();
         this.__parent.insertAdjacentHTML('beforeend', template);
-        this.run();
+        this.createCarousel();
         this.addListeners();
     }
 }

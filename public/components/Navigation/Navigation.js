@@ -92,6 +92,7 @@ export class Navigation {
      *
      * Add listeners from component
      * @private
+     * @this {Slider}
      */
     addListeners() {
         document
