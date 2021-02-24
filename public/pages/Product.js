@@ -58,7 +58,7 @@ export class Product {
         this.__navigation.listeners = listeners.backBtn;
         this.__navigation.render();
 
-        this.__board = new Board(this.__parent);
+        this.__board = new Board(this.__parent, {identity: {id: 2099347381, title: 'Mercedes-Benz S-класс, 2014'}});
         this.__board.render();
     }
 }

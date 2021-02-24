@@ -1,14 +1,16 @@
 'use strict';
 
 export class Slider {
-    constructor(parent) {
+    constructor(parent, data) {
         this.__parent = parent;
-        this.Carousel = {
+        this.__carousel = {
             width: 60,
             numVisible: 6,
             duration: 400,
             padding: 10
         };
+        this.__data = data;
+
     }
 
     get listeners() {
@@ -19,9 +21,8 @@ export class Slider {
         this.__listeners = val;
     }
 
-
     rotateForward() {
-        const carousel = this.Carousel.carousel,
+        const carousel = this.__carousel.carousel,
             children = carousel.children,
             firstChild = children.item(0),
             lastChild = children.item(children.length - 1);
@@ -29,7 +30,7 @@ export class Slider {
     }
 
     rotateBackward() {
-        const carousel = this.Carousel.carousel,
+        const carousel = this.__carousel.carousel,
             children = carousel.children,
             firstChild = children.item(0),
             lastChild = children.item(children.length - 1);
@@ -37,9 +38,9 @@ export class Slider {
     }
 
     animate(begin, end, finalTask) {
-        const carousel = this.Carousel.carousel,
+        const carousel = this.__carousel.carousel,
             change = end - begin,
-            duration = this.Carousel.duration,
+            duration = this.__carousel.duration,
             startTime = Date.now();
         carousel.style.top = `${begin}px`;
         const animateInterval = window.setInterval(() => {
@@ -58,14 +59,14 @@ export class Slider {
 
     run() {
         document.getElementById('spinner').style.display = 'none';
-        let carousel = this.Carousel.carousel = document.getElementById('carousel'),
+        let carousel = this.__carousel.carousel = document.getElementById('carousel'),
             images = carousel.getElementsByTagName('img'),
             numImages = images.length,
-            imageWidth = this.Carousel.width,
+            imageWidth = this.__carousel.width,
             aspectRatio = images[0].width / images[0].height,
             imageHeight = imageWidth / aspectRatio,
-            padding = this.Carousel.padding,
-            rowHeight = this.Carousel.rowHeight = imageHeight + 2 * padding;
+            padding = this.__carousel.padding,
+            rowHeight = this.__carousel.rowHeight = imageHeight + 2 * padding;
         carousel.style.width = `${imageWidth}px`;
         for (let i = 0; i < numImages; ++i) {
             const image = images[i],
@@ -84,10 +85,10 @@ export class Slider {
             image.addEventListener('click', this.foo1, false);
             images[0].style.opacity = '1.0';
         }
-        this.Carousel.rowHeight = 70;
-        carousel.style.height = `${this.Carousel.numVisible * this.Carousel.rowHeight}px`;
+        this.__carousel.rowHeight = 70;
+        carousel.style.height = `${this.__carousel.numVisible * this.__carousel.rowHeight}px`;
         carousel.style.visibility = 'visible';
-        const wrapper = this.Carousel.wrapper = document.createElement('div');
+        const wrapper = this.__carousel.wrapper = document.createElement('div');
         wrapper.id = 'carouselWrapper';
         wrapper.style.width = `${carousel.offsetWidth}px`;
         wrapper.style.height = `${carousel.offsetHeight}px`;
@@ -107,6 +108,22 @@ export class Slider {
         this.style.opacity = '1.0';
     }
 
+    get __getPhotos() {
+        const photoArray = this.__data.photos;
+        let htmlImg = '';
+        photoArray.forEach((value) => {
+            htmlImg += `<img src="${value}" alt="">`;
+        });
+        return htmlImg;
+    }
+
+    get __getFirstPhotos() {
+        const photoArray = this.__data.photos;
+        let htmlImg = '';
+        htmlImg += `<img id="pic" src="${photoArray[0]}" alt="">`;
+        return htmlImg;
+    }
+
     __getTemplate() {
         return `   
    <div class="slider-inner">
@@ -118,13 +135,7 @@ export class Slider {
           <a id="prev"><svg width="20" height="11" viewBox="0 0 20 11" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M1 10.5L10 1.5L19 10.5" stroke="black"/></svg></a>
         </div>
         <div id="carousel">
-          <img src="../../../img/pic1.jpeg" alt="">
-          <img src="../../../img/pic2.jpeg" alt="">
-          <img src="../../../img/pic3.jpeg" alt="">
-          <img src="../../../img/pic4.jpeg" alt="">
-          <img src="../../../img/pic5.jpeg" alt="">
-          <img src="../../../img/pic6.jpeg" alt="">
-          <img src="../../../img/pic7.jpeg" alt="">
+              ${this.__getPhotos}
         </div>
         
         <div class="buttons">
@@ -132,7 +143,7 @@ export class Slider {
         </div>
     </div>
     <div class="preview">
-          <img id="pic" src="../../../img/pic1.jpeg" alt="">
+         ${this.__getFirstPhotos}
     </div>
 </div>
         `;
