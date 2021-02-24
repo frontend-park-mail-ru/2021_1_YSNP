@@ -7,12 +7,12 @@
     font-family: Roboto, serif;
     font-style: normal;
     font-weight: normal;
-    width: 80vw;
-    margin: 0 auto;
+    width: 76vw;
     background: white;
     border-radius: 1vh;
     box-shadow: 0 0 1vw rgba(0,0,0,0.2);
     padding: 2vw 2vw 1vw 2vw;
+    margin: 1.5vw auto 0;
 }
 
 .board--inner {
