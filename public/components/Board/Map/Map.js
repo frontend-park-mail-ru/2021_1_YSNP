@@ -27,8 +27,9 @@ export class Map {
      * @this {Map}
      */
     __getTemplate() {
-        return `   <div id="map">
-                   </div>
+        return `  
+            <div id="map">
+            </div>
         `;
     }
 

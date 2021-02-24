@@ -65,10 +65,8 @@ export class Board {
                    <p class="board--title__product-name">${this.__getTitle}</p>
                </div>
                <div class="board--inner">
-                   <div class="board--inner--left-side"  id="board--left-side">
-                   </div>
-                   <div class="board--inner--right-side" id="board--right-side">
-                   </div>
+                   <div class="board--inner--left-side"  id="board--left-side"></div>
+                   <div class="board--inner--right-side" id="board--right-side"></div>
                </div>
            </div>
         `;
@@ -86,14 +84,13 @@ export class Board {
         this.__carousel.rotateForward();
         const prevButton = document.getElementById('prev'),
             nextButton = document.getElementById('next');
-        prevButton.classList.add('ThisLink');
-        nextButton.classList.add('ThisLink');
-        console.log(prevButton, nextButton);
+        prevButton.classList.add('disabled');
+        nextButton.classList.add('disabled');
         const carousel = document.getElementById('carousel');
         this.__carousel.animate(-this.__carousel.__carousel.rowHeight, 0, () => {
             carousel.style.top = '0';
-            prevButton.classList.remove('ThisLink');
-            nextButton.classList.remove('ThisLink');
+            prevButton.classList.remove('disabled');
+            nextButton.classList.remove('disabled');
         });
     }
 
@@ -108,21 +105,52 @@ export class Board {
         ev.preventDefault();
         const prevButton = document.getElementById('prev'),
             nextButton = document.getElementById('next');
-        prevButton.classList.add('ThisLink');
-        nextButton.classList.add('ThisLink');
+        prevButton.classList.add('disabled');
+        nextButton.classList.add('disabled');
         const carousel = document.getElementById('carousel');
         this.__carousel.animate(0, -this.__carousel.__carousel.rowHeight, () => {
             this.__carousel.rotateBackward();
             carousel.style.top = '0';
-            prevButton.classList.remove('ThisLink');
-            nextButton.classList.remove('ThisLink');
+            prevButton.classList.remove('disabled');
+            nextButton.classList.remove('disabled');
         });
+    }
+
+    /***
+     * @author Ivan Gorshkov
+     *
+     * listener for select photo
+     * @private
+     * @this {Board}
+     */
+    listenerSelectImage(ev) {
+        ev.preventDefault();
+        const elem = document.getElementById('pic');
+        elem.src = ev.target.src;
+        const carousel = document.getElementById('carousel'),
+            images = carousel.getElementsByTagName('img');
+        for (let i = 0; i < images.length; ++i) {
+            images[i].style.opacity = '0.3';
+        }
+        ev.target.style.opacity = '1.0';
+    }
+
+    /***
+     * @author Ivan Gorshkov
+     *
+     * Remove listeners from component
+     * @public
+     * @this {Board}
+     */
+    removeListeners() {
+        this.__carousel.removeListeners();
     }
 
     /***
      * @author Ivan Gorshkov
      * func for create object of listeners
      * @return {{scrolling: {toNext: {listener: *, type: string}, toBack: {listener: *, type: string}}}}
+     * @this {Board}
      * @private
      */
     __createListeners() {
@@ -135,6 +163,10 @@ export class Board {
                 toBack: {
                     type: 'click',
                     listener: this.listenerToNext.bind(this)
+                },
+                selectImage: {
+                    type: 'click',
+                    listener: this.listenerSelectImage.bind(this)
                 }
             }
         };

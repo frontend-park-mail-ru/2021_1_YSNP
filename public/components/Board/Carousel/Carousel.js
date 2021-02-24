@@ -119,13 +119,12 @@ export class Slider {
      * @this {Slider}
      */
     createCarousel() {
-        document.getElementById('spinner').style.display = 'none';
-        let carousel = this.__carousel.carousel = document.getElementById('carousel'),
+        const carousel = this.__carousel.carousel = document.getElementById('carousel'),
             images = carousel.getElementsByTagName('img'),
             numImages = images.length,
-            imageWidth = this.__carousel.width,
-            aspectRatio = images[0].width / images[0].height,
-            imageHeight = imageWidth / aspectRatio,
+            imageWidth = this.__carousel.width;
+        let aspectRatio = images[0].width / images[0].height;
+        const imageHeight = imageWidth / aspectRatio,
             padding = this.__carousel.padding,
             rowHeight = this.__carousel.rowHeight = imageHeight + 2 * padding;
         carousel.style.width = `${imageWidth}px`;
@@ -143,7 +142,6 @@ export class Slider {
             carousel.insertBefore(frame, image);
             frame.appendChild(image);
 
-            image.addEventListener('click', this.choosePhoto, false);
             images[0].style.opacity = '1.0';
         }
         this.__carousel.rowHeight = 70;
@@ -155,25 +153,6 @@ export class Slider {
         wrapper.style.height = `${carousel.offsetHeight}px`;
         carousel.parentNode.insertBefore(wrapper, carousel);
         wrapper.appendChild(carousel);
-    }
-
-    /***
-     * @author Ivan Gorshkov
-     *
-     * listener for select photo
-     * @private
-     * @this {Slider}
-     */
-    choosePhoto() {
-        const elem = document.getElementById('pic');
-        elem.src = this.src;
-
-        const carousel = document.getElementById('carousel'),
-            images = carousel.getElementsByTagName('img');
-        for (let i = 0; i < images.length; ++i) {
-            images[i].style.opacity = '0.3';
-        }
-        this.style.opacity = '1.0';
     }
 
     /***
@@ -219,26 +198,22 @@ export class Slider {
      */
     __getTemplate() {
         return `   
-   <div class="slider-inner">
-    <div class="slider">
-        <div id="spinner"> 
-          Loading...
+        <div class="slider">
+            <div class="slider-inner">
+                <div class="buttons"> 
+                    <a id="prev"><svg width="20" height="11" viewBox="0 0 20 11" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M1 10.5L10 1.5L19 10.5" stroke="black"/></svg></a>
+                </div>
+                <div id="carousel">
+                    ${this.__getPhotos}
+                </div>
+                <div class="buttons">
+                    <a id="next"><svg width="21" height="12" viewBox="0 0 21 12" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M1 1L10.5 11L20 1" stroke="black"/></svg></a>
+                </div>
+            </div>
+            <div class="preview">
+                ${this.__getFirstPhotos}
+            </div>
         </div>
-        <div class="buttons"> 
-          <a id="prev"><svg width="20" height="11" viewBox="0 0 20 11" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M1 10.5L10 1.5L19 10.5" stroke="black"/></svg></a>
-        </div>
-        <div id="carousel">
-              ${this.__getPhotos}
-        </div>
-        
-        <div class="buttons">
-          <a id="next"><svg width="21" height="12" viewBox="0 0 21 12" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M1 1L10.5 11L20 1" stroke="black"/></svg></a>
-        </div>
-    </div>
-    <div class="preview">
-         ${this.__getFirstPhotos}
-    </div>
-</div>
         `;
     }
 
@@ -252,8 +227,32 @@ export class Slider {
     addListeners() {
         const prevButton = document.getElementById('prev'),
             nextButton = document.getElementById('next');
-        nextButton.addEventListener(this.listeners.toNext.type, this.__listeners.toNext.listener);
-        prevButton.addEventListener(this.listeners.toBack.type, this.__listeners.toBack.listener);
+        nextButton.addEventListener(this.listeners.toNext.type, this.listeners.toNext.listener);
+        prevButton.addEventListener(this.listeners.toBack.type, this.listeners.toBack.listener);
+        const carousel = document.getElementById('carousel'),
+            images = carousel.getElementsByTagName('img');
+        for (let i = 0; i < images.length; ++i) {
+            images[i].addEventListener(this.listeners.selectImage.type, this.listeners.selectImage.listener);
+        }
+    }
+
+    /***
+     * @author Ivan Gorshkov
+     *
+     * Remove listeners from component
+     * @public
+     * @this {Slider}
+     */
+    removeListeners() {
+        const prevButton = document.getElementById('prev'),
+            nextButton = document.getElementById('next');
+        nextButton.removeEventListener(this.listeners.toNext.type, this.listeners.toNext.listener);
+        prevButton.removeEventListener(this.listeners.toBack.type, this.listeners.toBack.listener);
+        const carousel = document.getElementById('carousel'),
+            images = carousel.getElementsByTagName('img');
+        for (let i = 0; i < images.length; ++i) {
+            images[i].removeEventListener(this.listeners.selectImage.type, this.listeners.selectImage.listener);
+        }
     }
 
     /***

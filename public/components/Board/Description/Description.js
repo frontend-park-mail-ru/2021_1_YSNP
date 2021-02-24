@@ -35,8 +35,8 @@ export class Description {
         const descriptions = this.__data.description;
         let des = '';
         descriptions.forEach((value) => {
-            console.log(value.text);
-            des += `<div class="product--description">
+            des += `
+            <div class="product--description">
                 <div class="product--description--topic">
                     <p class="product--description--description__title">${value.title}</p>
                 </div>
@@ -44,7 +44,8 @@ export class Description {
                     <p class="product--description--description__text"> ${value.text.replaceAll('\n', '<br/>')}</p>
                 </div>
             </div>
-            <hr class="hr-description"/>`;
+            <hr class="hr-description"/>
+            `;
         });
         return des;
     }

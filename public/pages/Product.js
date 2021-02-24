@@ -1,3 +1,5 @@
+'use strict';
+
 import {Header} from '../components/Header/Header.js';
 import {Profile} from './Profile.js';
 import {Landing} from './Landing.js';
@@ -36,7 +38,7 @@ export class Product {
 
         this.__header.removeListeners();
         this.__navigation.removeListeners();
-
+        this.__board.removeListeners();
         const profile = new Profile(this.__parent);
         profile.render();
     }
@@ -52,6 +54,7 @@ export class Product {
         ev.preventDefault();
         this.__navigation.removeListeners();
         this.__header.removeListeners();
+        this.__board.removeListeners();
         const landing = new Landing(this.__parent);
         landing.render();
     }
