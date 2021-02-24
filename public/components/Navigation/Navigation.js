@@ -1,21 +1,48 @@
 'use strict';
 
+/***
+ * @author Ivan Gorshkov
+ * Navigation class for top navigation
+ * @class Navigation
+ */
 export class Navigation {
+
+    /***
+     * @author Ivan Gorshkov
+     * init of class Navigation
+     * @constructor
+     * @this {Navigation}
+     */
     constructor(parent, title, route) {
         this.__parent = parent;
         this.__title = title;
         this.__route = route;
     }
 
+    /***
+     * @author Ivan Gorshkov
+     *
+     * get string of route to product
+     * @this {Navigation}
+     * @private
+     * @return  {string} return string with route
+     */
     get route() {
         let text = '';
         this.__route.route.forEach((value) => {
             text += ` ○ ${value}`;
         });
-        console.log();
         return text;
     }
 
+    /***
+     * @author Ivan Gorshkov
+     *
+     * get Navigation listeners
+     * @this {Navigation}
+     * @private
+     * @return  {string} return part of html
+     */
     __getTemplate() {
         return `           
            <div class="navigation">
@@ -30,26 +57,59 @@ export class Navigation {
         `;
     }
 
+    /***
+     * @author Ivan Gorshkov
+     *
+     * get Navigation listeners
+     * @this {Navigation}
+     * @private
+     * @return  {Object[]} array of listeners
+     */
     get listeners() {
         return this.__listeners;
     }
 
+    /***
+     * @author Ivan Gorshkov
+     *
+     * Set new listeners
+     * @this {Navigation}
+     * @param  {Object[]} val - Object of listeners
+     */
     set listeners(val) {
         this.__listeners = val;
     }
 
+    /***
+     * @author Ivan Gorshkov
+     *
+     * Add listeners from component
+     * @private
+     */
     addListeners() {
         document
             .getElementById('navigate-back')
-            .addEventListener(this.__listeners.toBack.type, this.__listeners.toBack.listener);
+            .addEventListener(this.listeners.toBack.type, this.listeners.toBack.listener);
     }
 
+    /***
+     * @author Ivan Gorshkov
+     *
+     * Remove listeners from component
+     * @this {Navigation}
+     */
     removeListeners() {
         document
             .getElementById('navigate-back')
-            .removeEventListener(this.__listeners.toBack.type, this.__listeners.toBack.listener);
+            .removeEventListener(this.listeners.toBack.type, this.listeners.toBack.listener);
     }
 
+    /***
+     * @author Ivan Gorshkov
+     *
+     * Add component to parent
+     * @this {Navigation}
+     */
     render() {
         const template = this.__getTemplate();
         this.__parent.insertAdjacentHTML('beforeend', template);
