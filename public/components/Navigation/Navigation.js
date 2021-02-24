@@ -10,8 +10,12 @@ export class Navigation {
     /***
      * @author Ivan Gorshkov
      * init of class Navigation
+     * @param {HTMLElement} parent - parent element
+     * @param {string} title - title for back button
+     * @param {Object} route - route to current product
      * @constructor
      * @this {Navigation}
+     * @public
      */
     constructor(parent, title, route) {
         this.__parent = parent;
@@ -25,6 +29,7 @@ export class Navigation {
      * get string of route to product
      * @this {Navigation}
      * @private
+     * @readonly
      * @return  {string} return string with route
      */
     get route() {
@@ -63,6 +68,7 @@ export class Navigation {
      * get Navigation listeners
      * @this {Navigation}
      * @private
+     * @readonly
      * @return  {Object[]} array of listeners
      */
     get listeners() {
@@ -75,6 +81,7 @@ export class Navigation {
      * Set new listeners
      * @this {Navigation}
      * @param  {Object[]} val - Object of listeners
+     * @public
      */
     set listeners(val) {
         this.__listeners = val;
@@ -97,6 +104,7 @@ export class Navigation {
      *
      * Remove listeners from component
      * @this {Navigation}
+     * @public
      */
     removeListeners() {
         document
@@ -109,6 +117,7 @@ export class Navigation {
      *
      * Add component to parent
      * @this {Navigation}
+     * @public
      */
     render() {
         const template = this.__getTemplate();

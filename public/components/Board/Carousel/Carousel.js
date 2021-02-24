@@ -82,7 +82,7 @@ export class Slider {
             carousel.insertBefore(frame, image);
             frame.appendChild(image);
 
-            image.addEventListener('click', this.foo1, false);
+            image.addEventListener('click', this.choosePhoto, false);
             images[0].style.opacity = '1.0';
         }
         this.__carousel.rowHeight = 70;
@@ -96,7 +96,7 @@ export class Slider {
         wrapper.appendChild(carousel);
     }
 
-    foo1() {
+    choosePhoto() {
         const elem = document.getElementById('pic');
         elem.src = this.src;
 
@@ -152,9 +152,8 @@ export class Slider {
     addListeners() {
         const prevButton = document.getElementById('prev'),
             nextButton = document.getElementById('next');
-        console.log(this.__listeners);
-        nextButton.addEventListener(this.__listeners.toNext.type, this.__listeners.toNext.listener);
-        prevButton.addEventListener(this.__listeners.toBack.type, this.__listeners.toBack.listener);
+        nextButton.addEventListener(this.listeners.toNext.type, this.__listeners.toNext.listener);
+        prevButton.addEventListener(this.listeners.toBack.type, this.__listeners.toBack.listener);
     }
 
     render() {

@@ -1,37 +1,110 @@
 'use strict';
 
+/***
+ * @author Ivan Gorshkov
+ * InfoCard class for card of seller with product price
+ * @class InfoCard
+ */
 export class InfoCard {
+
+    /***
+     * @author Ivan Gorshkov
+     *
+     * init of class InfoCard
+     * @param {HTMLElement} parent - parent element
+     * @param {Object} data - JSON Object
+     * @constructor
+     * @this {InfoCard}
+     * @public
+     */
     constructor(parent, data) {
         this.__parent = parent;
         this.__data = data;
     }
 
+    /***
+     * @author Ivan Gorshkov
+     *
+     * getter product price
+     * @return {string}
+     * @private
+     * @readonly
+     */
     get __getPrice() {
         const num = this.__data.infoCard.price;
         console.log(num);
         return num.toLocaleString() + num.toString().slice(num.toString().indexOf('.'));
     }
 
+    /***
+     * @author Ivan Gorshkov
+     *
+     * getter name of seller
+     * @return {string}
+     * @private
+     * @readonly
+     */
     get __getName() {
         return this.__data.infoCard.name;
     }
 
+    /***
+     * @author Ivan Gorshkov
+     *
+     * getter for a rating number
+     * @return {number}
+     * @private
+     * @readonly
+     */
     get __getRating() {
         return this.__data.infoCard.rating;
     }
 
+    /***
+     * @author Ivan Gorshkov
+     *
+     * getter for number of views
+     * @return {number}
+     * @private
+     * @readonly
+     */
     get __getViews() {
         return this.__data.infoCard.views;
     }
 
+    /***
+     * @author Ivan Gorshkov
+     *
+     * getter for number of likes
+     * @return {number}
+     * @private
+     * @readonly
+     */
     get __getLikes() {
         return this.__data.infoCard.likes;
     }
 
+    /***
+     * @author Ivan Gorshkov
+     *
+     * getter for a date
+     * @return {string}
+     * @private
+     * @readonly
+     */
     get __getDate() {
         return this.__data.infoCard.date;
     }
 
+    /***
+     * @author Ivan Gorshkov
+     *
+     * return html with stars
+     * @return {string}
+     * @private
+     * @readonly
+     * @this {InfoCard}
+     */
     get __getStarts() {
         const count = this.__data.infoCard.rating;
         const roundedCount = Math.round(count);
@@ -42,6 +115,14 @@ export class InfoCard {
         return stars;
     }
 
+    /***
+     * @author Ivan Gorshkov
+     *
+     * main template of component
+     * @return {string}
+     * @private
+     * @this {InfoCard}
+     */
     __getTemplate() {
         return `     
             <div class="info-card">
@@ -53,7 +134,7 @@ export class InfoCard {
                         <span class="info-card--profile--container--rating">
                               <span class="info-card--profile--container--rating__rating">${this.__getRating}</span>
                               ${this.__getStarts}
-                              </span>
+                        </span>
                     </div>
                 </div>
                 <div class="info-card--btn">
@@ -75,6 +156,13 @@ export class InfoCard {
         `;
     }
 
+    /***
+     * @author Ivan Gorshkov
+     *
+     * Add component to parent
+     * @this {InfoCard}
+     * @public
+     */
     render() {
         const template = this.__getTemplate();
         this.__parent.insertAdjacentHTML('beforeend', template);

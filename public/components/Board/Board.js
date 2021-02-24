@@ -5,20 +5,58 @@ import {Slider} from './Carousel/Carousel.js';
 import {Description} from './Description/Description.js';
 import {Map} from './Map/Map.js';
 
+/***
+ * @author Ivan Gorshkov
+ * Board class for contain product
+ * @class Board
+ */
 export class Board {
+
+    /***
+     * @author Ivan Gorshkov
+     * init of class Board
+     * @param {HTMLElement} parent - parent element
+     * @param {Object} data - JSON Object
+     * @constructor
+     * @this {Board}
+     * @public
+     */
     constructor(parent, data) {
         this.__parent = parent;
         this.__data = data;
     }
 
+    /***
+     * @author Ivan Gorshkov
+     * getter for id product
+     * @return {number}
+     * @private
+     * @readonly
+     * @this {Board}
+     */
     get __getId() {
         return this.__data.identity.id;
     }
 
+    /***
+     * @author Ivan Gorshkov
+     * getter for title of product
+     * @return {string}
+     * @private
+     * @readonly
+     * @this {Board}
+     */
     get __getTitle() {
         return this.__data.identity.title;
     }
 
+    /***
+     * @author Ivan Gorshkov
+     * main template of component
+     * @return {string}
+     * @private
+     * @this {Board}
+     */
     __getTemplate() {
         return `           
            <div class="board">
@@ -36,6 +74,13 @@ export class Board {
         `;
     }
 
+    /***
+     * @author Ivan Gorshkov
+     * listener for tern next picture
+     * @param {Event} ev - event
+     * @this {Board}
+     * @public
+     */
     listenerToNext(ev) {
         ev.preventDefault();
         this.__carousel.rotateForward();
@@ -52,6 +97,13 @@ export class Board {
         });
     }
 
+    /***
+     * @author Ivan Gorshkov
+     * listener for tern previous picture
+     * @param {Event} ev - event
+     * @this {Board}
+     * @public
+     */
     listenerToBack(ev) {
         ev.preventDefault();
         const prevButton = document.getElementById('prev'),
@@ -67,6 +119,12 @@ export class Board {
         });
     }
 
+    /***
+     * @author Ivan Gorshkov
+     * func for create object of listeners
+     * @return {{scrolling: {toNext: {listener: *, type: string}, toBack: {listener: *, type: string}}}}
+     * @private
+     */
     __createListeners() {
         return {
             scrolling: {
@@ -82,6 +140,13 @@ export class Board {
         };
     }
 
+    /***
+     * @author Ivan Gorshkov
+     *
+     * Add component to parent
+     * @this {Board}
+     * @public
+     */
     render() {
         const template = this.__getTemplate();
         this.__parent.insertAdjacentHTML('beforeend', template);
