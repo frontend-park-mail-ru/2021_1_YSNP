@@ -116,7 +116,9 @@ export class Registration {
     _phone(target) {
         if (this.__isValidPhone(target.value)) {
             target.style.border = '0.5px solid green';
-            target.parentNode.removeChild(target.nextSibling);
+            if (document.getElementById('phoneError') !== null) {
+                target.parentNode.removeChild(target.nextSibling);
+            }
         } else {
             target.style.border = '0.5px solid red';
             if (document.getElementById('phoneError') === null) {
@@ -135,7 +137,9 @@ export class Registration {
     __pas(target) {
         if (this.__checkPassword(target.value)) {
             target.style.border = '0.5px solid green';
-            target.parentNode.removeChild(target.nextSibling);
+            if (document.getElementById('passwordError') !== null) {
+                target.parentNode.removeChild(target.nextSibling);
+            }
         } else {
             target.style.border = '0.5px solid red';
             if (document.getElementById('passwordError') === null) {
@@ -158,6 +162,8 @@ export class Registration {
     listenerPassWord(ev) {
         ev.preventDefault();
         this.__pas(ev.target);
+        const element = document.getElementById(this.__RegistrationForm().passwordConfirm.id);
+        this.__confPas(element);
     }
 
     insertAfter(referenceNode, newNode) {
@@ -188,7 +194,9 @@ export class Registration {
     __mail(target) {
         if (this.__validateEmail(target.value)) {
             target.style.border = '0.5px solid green';
-            target.parentNode.removeChild(target.nextSibling);
+            if (document.getElementById('MailError') !== null) {
+                target.parentNode.removeChild(target.nextSibling);
+            }
         } else {
             target.style.border = '0.5px solid red';
             if (document.getElementById('MailError') === null) {
@@ -207,7 +215,9 @@ export class Registration {
     __empty(target) {
         if (target.value !== '') {
             target.style.border = '0.5px solid green';
-            target.parentNode.removeChild(target.nextSibling);
+            if (document.getElementById(`${target.id}Error`) !== null) {
+                target.parentNode.removeChild(target.nextSibling);
+            }
         } else {
             target.style.border = '0.5px solid red';
             if (document.getElementById(`${target.id}Error`) === null) {
@@ -230,11 +240,7 @@ export class Registration {
 
     listenerMail(ev) {
         ev.preventDefault();
-        if (this.__validateEmail(ev.target.value)) {
-            ev.target.style.border = '0.5px solid green';
-        } else {
-            ev.target.style.border = '0.5px solid red';
-        }
+        this.__mail(ev.target);
     }
 
     listenerName(ev) {
