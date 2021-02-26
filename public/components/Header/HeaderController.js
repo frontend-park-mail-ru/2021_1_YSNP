@@ -1,5 +1,3 @@
-'use strict';
-
 import {Profile} from '../../pages/Profile.js';
 import {Landing} from '../../pages/Landing.js';
 
@@ -21,8 +19,6 @@ export class HeaderController {
      * Render and add listeners
      */
     control() {
-        this.__header.render();
-
         this.__header.listeners = this.__createListeners();
         this.__header.addListeners();
     }
@@ -34,11 +30,11 @@ export class HeaderController {
      */
     __listenerHeaderClick(ev) {
         ev.preventDefault();
-        this.__header.removeListeners();
+        ev.stopPropagation();
 
         const actions = this.__getActions();
         Object
-            .entries(ev.path)
+            .entries(ev.composedPath())
             .forEach(([, el]) => {
                 if (el.dataset !== undefined && 'action' in el.dataset) {
                     actions[el.dataset.action].open();
@@ -47,8 +43,19 @@ export class HeaderController {
     }
 
     /***
+     *  Page click event
+     * @private
+     */
+    __listenerPageClick() {
+        document
+            .getElementById('header-dropdown')
+            .classList
+            .add('header-dropdown-content_hidden');
+    }
+
+    /***
      * Get header listeners
-     * @returns {{headerClick: {listener: *, type: string}}}
+     * @returns {{pageClick: {listener: *, type: string}, headerClick: {listener: *, type: string}}}
      * @private
      */
     __createListeners() {
@@ -56,6 +63,10 @@ export class HeaderController {
             headerClick: {
                 type: 'click',
                 listener: this.__listenerHeaderClick.bind(this)
+            },
+            pageClick: {
+                type: 'click',
+                listener: this.__listenerPageClick.bind(this)
             }
         };
     }
@@ -65,6 +76,8 @@ export class HeaderController {
      * @private
      */
     __openLanding() {
+        this.__header.removeListeners();
+
         const landing = new Landing(this.__parent);
         landing.render();
     }
@@ -74,6 +87,8 @@ export class HeaderController {
      * @private
      */
     __openMap() {
+        this.__header.removeListeners();
+
         const profile = new Profile(this.__parent);
         profile.render();
     }
@@ -83,8 +98,21 @@ export class HeaderController {
      * @private
      */
     __openCreateProduct() {
+        this.__header.removeListeners();
+
         const profile = new Profile(this.__parent);
         profile.render();
+    }
+
+    /***
+     * Header dropdown menu click callback
+     * @private
+     */
+    __openDropdownMenu() {
+        document
+            .getElementById('header-dropdown')
+            .classList
+            .toggle('header-dropdown-content_hidden');
     }
 
     /***
@@ -92,13 +120,15 @@ export class HeaderController {
      * @private
      */
     __openAccount() {
+        this.__header.removeListeners();
+
         const profile = new Profile(this.__parent);
         profile.render();
     }
 
     /***
      * Get header actions
-     * @returns {{createProductClick: {open: *}, accountClick: {open: *}, locationClick: {open: *}, brandClick: {open: *}}}
+     * @returns {{createProductClick: {open: *}, accountClick: {open: *}, dropdownClick: {open: *}, locationClick: {open: *}, brandClick: {open: *}}}
      * @private
      */
     __getActions() {
@@ -114,6 +144,9 @@ export class HeaderController {
             },
             accountClick: {
                 open: this.__openAccount.bind(this)
+            },
+            dropdownClick: {
+                open: this.__openDropdownMenu.bind(this)
             }
         };
     }
