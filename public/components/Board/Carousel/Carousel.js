@@ -149,6 +149,7 @@ export class Slider {
         carousel.style.visibility = 'visible';
         const wrapper = this.__carousel.wrapper = document.createElement('div');
         wrapper.id = 'carousel-wrapper';
+        wrapper.className = 'carousel-wrapper';
         wrapper.style.width = `${carousel.offsetWidth}px`;
         wrapper.style.height = `${carousel.offsetHeight}px`;
         carousel.parentNode.insertBefore(wrapper, carousel);
@@ -203,14 +204,14 @@ export class Slider {
                 <div class="slider-inner__button"> 
                     <a class="slider-inner__button-prev" id="prev"><svg width="20" height="11" viewBox="0 0 20 11" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M1 10.5L10 1.5L19 10.5" stroke="black"/></svg></a>
                 </div>
-                <div id="carousel">
+                <div class="carousel" id="carousel">
                     ${this.__getPhotos}
                 </div>
                 <div class="slider-inner__button">
                     <a class="slider-inner__button-next" id="next"><svg width="21" height="12" viewBox="0 0 21 12" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M1 1L10.5 11L20 1" stroke="black"/></svg></a>
                 </div>
             </div>
-            <div class="preview">
+            <div class="slider-preview">
                 ${this.__getFirstPhotos}
             </div>
         </div>

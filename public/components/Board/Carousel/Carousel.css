@@ -6,11 +6,11 @@
     margin-bottom: 1vh;
 }
 
-#carousel-wrapper {
+.carousel-wrapper {
     position: relative;
     overflow: hidden;
 }
-#carousel {
+.carousel {
     position: absolute;
     visibility: hidden;
 }
@@ -20,7 +20,7 @@
     margin-top: 2vw;
 }
 
-.preview {
+.slider-preview {
     padding-left: 2vw;
     padding-right: 2vw;
 }
@@ -36,7 +36,7 @@
     margin-top: 2vh;
 }
 
-.slider-inner__button-disabled {
+.button_disabled {
     pointer-events: none;
     cursor: default;
 }

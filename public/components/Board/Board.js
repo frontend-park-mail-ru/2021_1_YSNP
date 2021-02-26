@@ -84,13 +84,13 @@ export class Board {
         this.__carousel.rotateForward();
         const prevButton = document.getElementById('prev'),
             nextButton = document.getElementById('next');
-        prevButton.classList.add('slider-inner__button-disabled');
-        nextButton.classList.add('slider-inner__button-disabled');
+        prevButton.classList.add('button_disabled');
+        nextButton.classList.add('button_disabled');
         const carousel = document.getElementById('carousel');
         this.__carousel.animate(-this.__carousel.__carousel.rowHeight, 0, () => {
             carousel.style.top = '0';
-            prevButton.classList.remove('slider-inner__button-disabled');
-            nextButton.classList.remove('slider-inner__button-disabled');
+            prevButton.classList.remove('button_disabled');
+            nextButton.classList.remove('button_disabled');
         });
     }
 
@@ -105,14 +105,14 @@ export class Board {
         ev.preventDefault();
         const prevButton = document.getElementById('prev'),
             nextButton = document.getElementById('next');
-        prevButton.classList.add('slider-inner__button-disabled');
-        nextButton.classList.add('slider-inner__button-disabled');
+        prevButton.classList.add('button_disabled');
+        nextButton.classList.add('button_disabled');
         const carousel = document.getElementById('carousel');
         this.__carousel.animate(0, -this.__carousel.__carousel.rowHeight, () => {
             this.__carousel.rotateBackward();
             carousel.style.top = '0';
-            prevButton.classList.remove('slider-inner__button-disabled');
-            nextButton.classList.remove('slider-inner__button-disabled');
+            prevButton.classList.remove('button_disabled');
+            nextButton.classList.remove('button_disabled');
         });
     }
 
