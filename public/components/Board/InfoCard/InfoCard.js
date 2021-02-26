@@ -127,11 +127,11 @@ export class InfoCard {
             <div class="info-card">
                 <p class="info-card__price">${this.__getPrice} ₽</p>
                 <div class="info-card-profile">
-                    <div class="info-card-profile__image"></div>
-                    <div class="info-card-profile-container">
-                        <p class="info-card-profile__name">${this.__getName}</p>
-                        <span class="info-card-profile-rating">
-                              <span class="info-card-profile-rating__text">${this.__getRating}</span>
+                    <div class="info-card__image"></div>
+                    <div class="info-card-container">
+                        <p class="info-card__name">${this.__getName}</p>
+                        <span class="info-card-rating">
+                              <span class="info-card-rating__text">${this.__getRating}</span>
                               ${this.__getStarts}
                         </span>
                     </div>
