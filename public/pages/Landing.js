@@ -1,7 +1,7 @@
 import {Header} from '../components/Header/Header.js';
 import {Search} from '../components/Search/Search.js';
 
-import {Product} from './Product.js';
+import {Registration} from './Registration.js';
 import {Profile} from './Profile.js';
 
 export class Landing {
@@ -14,7 +14,7 @@ export class Landing {
 
         this.__search.removeListeners();
 
-        const product = new Product(this.__parent);
+        const product = new Registration(this.__parent);
         product.render();
     }
 
