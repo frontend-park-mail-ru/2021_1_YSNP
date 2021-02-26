@@ -65,8 +65,8 @@ export class Board {
                    <p class="board-title__product-name">${this.__getTitle}</p>
                </div>
                <div class="board-inner">
-                   <div class="board-inner-left-side"  id="board-left-side"></div>
-                   <div class="board-inner-right-side" id="board-right-side"></div>
+                   <div class="board-left"  id="board-left-side"></div>
+                   <div class="board-right" id="board-right-side"></div>
                </div>
            </div>
         `;

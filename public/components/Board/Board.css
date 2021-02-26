@@ -20,12 +20,12 @@
     width: 100%;
 }
 
-.board-inner-left-side {
+.board-left {
     width: 75%;
     height: 100%;
 }
 
-.board-inner-right-side {
+.board-right {
     width: 25%;
     height: 100%;
 }
