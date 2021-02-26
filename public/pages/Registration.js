@@ -21,7 +21,6 @@ export class Registration {
      */
     listenerToProfile(ev) {
         ev.preventDefault();
-
         this.__header.removeListeners();
         this.__navigation.removeListeners();
         const profile = new Profile(this.__parent);
@@ -46,20 +45,23 @@ export class Registration {
 
     listenerRegister(ev) {
         ev.preventDefault();
-        const element1 = document.getElementById(this.__RegistrationForm().passwordConfirm.id);
-        const element2 = document.getElementById(this.__RegistrationForm().phone.id);
-        const element3 = document.getElementById(this.__RegistrationForm().password.id);
-        const element4 = document.getElementById(this.__RegistrationForm().mail.id);
-        const element5 = document.getElementById(this.__RegistrationForm().name.id);
-        const element6 = document.getElementById(this.__RegistrationForm().surname.id);
-        const element7 = document.getElementById(this.__RegistrationForm().date.id);
-        this._phone(element2);
-        this.__pas(element3);
-        this.__confPas(element1);
-        this.__mail(element4);
-        this.__empty(element5);
-        this.__empty(element6);
-        this.__empty(element7);
+        const passwordConfirm = document.getElementById(this.__RegistrationForm().passwordConfirm.id);
+        const phone = document.getElementById(this.__RegistrationForm().phone.id);
+        const password = document.getElementById(this.__RegistrationForm().password.id);
+        const mail = document.getElementById(this.__RegistrationForm().mail.id);
+        const name = document.getElementById(this.__RegistrationForm().name.id);
+        const surname = document.getElementById(this.__RegistrationForm().surname.id);
+        const date = document.getElementById(this.__RegistrationForm().date.id);
+        const isValidpwdConfirm = this.__validateConfirmPwd(passwordConfirm);
+        const isValidPhone = this._validatePhone(phone);
+        const isValidPwd = this.__validatePas(password);
+        const isValidMail = this.__validateMail(mail);
+        const isValidName = this.__validateEmpty(name);
+        const isValidSurname = this.__validateEmpty(surname);
+        const isValidDate = this.__validateEmpty(date);
+        if (isValidDate && isValidMail && isValidName && isValidPhone && isValidPwd && isValidpwdConfirm && isValidSurname) {
+            alert('ok');
+        }
     }
 
     /***
@@ -92,160 +94,133 @@ export class Registration {
         };
     }
 
-
     __isValidPhone(phoneNumber) {
-        var found = phoneNumber.search(/^(\+{0,})(\d{0,})([(]{1}\d{1,3}[)]{0,}){0,}(\s?\d+|\+\d{2,3}\s{1}\d+|\d+){1}[\s|-]?\d+([\s|-]?\d+){1,2}(\s){0,}$/);
+        const found = phoneNumber.search(/^(\+{0,})(\d{0,})([(]{1}\d{1,3}[)]{0,}){0,}(\s?\d+|\+\d{2,3}\s{1}\d+|\d+){1}[\s|-]?\d+([\s|-]?\d+){1,2}(\s){0,}$/);
         return found > -1;
     }
 
-    __validateEmail(email) {
-        var re = /\S+@\S+\.\S+/;
+    __isValidEmail(email) {
+        const re = /\S+@\S+\.\S+/;
         return re.test(email);
     }
 
-    __checkPassword(inputtxt) {
-        var re = /(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,}/;
+    __isValidPwd(inputtxt) {
+        const re = /(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,}/;
         return re.test(inputtxt);
     }
 
-    listenerPhone(ev) {
-        ev.preventDefault();
-        this._phone(ev.target);
-    }
-
-    _phone(target) {
-        if (this.__isValidPhone(target.value)) {
-            target.style.border = '0.5px solid green';
-            if (document.getElementById('phoneError') !== null) {
-                target.parentNode.removeChild(target.nextSibling);
-            }
-        } else {
-            target.style.border = '0.5px solid red';
-            if (document.getElementById('phoneError') === null) {
-                const el = document.createElement('div');
-                el.id = 'phoneError';
-                el.innerHTML = `
-                        <ul>
-                          <li>Неверный формат телефона</li>
-                        </ul>
-                    `;
-                this.insertAfter(target, el);
-            }
+    __insertError(target, idError, textError) {
+        target.style.border = '0.5px solid red';
+        if (document.getElementById(idError) === null) {
+            const el = document.createElement('div');
+            el.id = idError;
+            el.innerHTML = textError;
+            target.parentNode.insertBefore(el, target.nextSibling);
         }
     }
 
-    __pas(target) {
-        if (this.__checkPassword(target.value)) {
-            target.style.border = '0.5px solid green';
-            if (document.getElementById('passwordError') !== null) {
-                target.parentNode.removeChild(target.nextSibling);
-            }
-        } else {
-            target.style.border = '0.5px solid red';
-            if (document.getElementById('passwordError') === null) {
-                const el = document.createElement('div');
-                el.id = 'passwordError';
-                el.innerHTML = `
+    __addSuccesses(target, idError) {
+        target.style.border = '0.5px solid green';
+        if (document.getElementById(idError) !== null) {
+            target.parentNode.removeChild(target.nextSibling);
+        }
+    }
+
+    _validatePhone(target) {
+        if (this.__isValidPhone(target.value)) {
+            this.__addSuccesses(target, 'phoneError');
+            return true;
+        }
+        this.__insertError(target, 'phoneError', `
+                        <ul>
+                          <li>Неверный формат телефона</li>
+                        </ul>`);
+        return false;
+    }
+
+    __validatePas(target) {
+        if (this.__isValidPwd(target.value)) {
+            this.__addSuccesses(target, 'passwordError');
+            return true;
+        }
+
+        this.__insertError(target, 'passwordError', `
                         <ul>
                           <li>От шести или более символов</li>
                           <li>Содержит хотя бы одну цифру</li>
                           <li>Хотя бы один символ нижнего регистра</li>
                           <li>Хотя бы один символ верхнего регистра</li>
                           <li>Только латинские символы</li>
-                        </ul>
-                    `;
-                this.insertAfter(target, el);
-            }
-        }
+                        </ul>`);
+        return false;
     }
 
-    listenerPassWord(ev) {
-        ev.preventDefault();
-        this.__pas(ev.target);
-        const element = document.getElementById(this.__RegistrationForm().passwordConfirm.id);
-        this.__confPas(element);
-    }
-
-    insertAfter(referenceNode, newNode) {
-        referenceNode.parentNode.insertBefore(newNode, referenceNode.nextSibling);
-    }
-
-
-    __confPas(target) {
+    __validateConfirmPwd(target) {
         const element = document.getElementById(this.__RegistrationForm().password.id);
         if (element.value === target.value && target.value !== '') {
-            target.style.border = '0.5px solid green';
-            target.parentNode.removeChild(target.nextSibling);
-        } else {
-            target.style.border = '0.5px solid red';
-            if (document.getElementById('passwordConfirmError') === null) {
-                const el = document.createElement('div');
-                el.id = 'passwordConfirmError';
-                el.innerHTML = `
+            this.__addSuccesses(target, 'passwordConfirmError');
+            return true;
+        }
+
+        this.__insertError(target, 'passwordConfirmError', `
                  <ul>
                      <li>Пароли не совпадают</li>
-                 </ul>
-`;
-                this.insertAfter(target, el);
-            }
-        }
+                 </ul>`);
+        return false;
     }
 
-    __mail(target) {
-        if (this.__validateEmail(target.value)) {
-            target.style.border = '0.5px solid green';
-            if (document.getElementById('MailError') !== null) {
-                target.parentNode.removeChild(target.nextSibling);
-            }
-        } else {
-            target.style.border = '0.5px solid red';
-            if (document.getElementById('MailError') === null) {
-                const el = document.createElement('div');
-                el.id = 'MailError';
-                el.innerHTML = `
+    __validateMail(target) {
+        if (this.__isValidEmail(target.value)) {
+            this.__addSuccesses(target, 'MailError');
+            return true;
+        }
+        this.__insertError(target, 'MailError', `
                  <ul>
                      <li>Неправильный формат mail</li>
-                 </ul>
-`;
-                this.insertAfter(target, el);
-            }
-        }
+                 </ul>`);
+        
+        return false;
     }
 
-    __empty(target) {
+    __validateEmpty(target) {
         if (target.value !== '') {
-            target.style.border = '0.5px solid green';
-            if (document.getElementById(`${target.id}Error`) !== null) {
-                target.parentNode.removeChild(target.nextSibling);
-            }
-        } else {
-            target.style.border = '0.5px solid red';
-            if (document.getElementById(`${target.id}Error`) === null) {
-                const el = document.createElement('div');
-                el.id = `${target.id}Error`;
-                el.innerHTML = `
+            this.__addSuccesses(target, `${target.id}Error`);
+            return true;
+        }
+
+        this.__insertError(target, `${target.id}Error`, `
                  <ul>
                      <li>Поле не должно быть пустым</li>
-                 </ul>
-`;
-                this.insertAfter(target, el);
-            }
-        }
+                 </ul>`);
+        
+        return false;
     }
 
-    listenerConfirmPassword(ev) {
+    listenerValidateConfirmPwd(ev) {
         ev.preventDefault();
-        this.__confPas(ev.target);
+        this.__validateConfirmPwd(ev.target);
     }
 
-    listenerMail(ev) {
+    listenerValidateMail(ev) {
         ev.preventDefault();
-        this.__mail(ev.target);
+        this.__validateMail(ev.target);
     }
 
-    listenerName(ev) {
+    listenerValidateEmpty(ev) {
         ev.preventDefault();
-        this.__empty(ev.target);
+        this.__validateEmpty(ev.target);
+    }
+
+    listenerValidatePhone(ev) {
+        ev.preventDefault();
+        this._validatePhone(ev.target);
+    }
+
+    listenerValidatePwd(ev) {
+        ev.preventDefault();
+        this.__validatePas(ev.target);
+        const element = document.getElementById(this.__RegistrationForm().passwordConfirm.id);
+        this.__validateConfirmPwd(element);
     }
 
     __RegistrationForm() {
@@ -257,7 +232,7 @@ export class Registration {
                 id: 'name',
                 listener: {
                     type: 'input',
-                    listener: this.listenerName.bind(this)
+                    listener: this.listenerValidateEmpty.bind(this)
                 }
             },
             surname: {
@@ -267,7 +242,7 @@ export class Registration {
                 id: 'surname',
                 listener: {
                     type: 'input',
-                    listener: this.listenerName.bind(this)
+                    listener: this.listenerValidateEmpty.bind(this)
                 }
             },
             phone: {
@@ -277,7 +252,7 @@ export class Registration {
                 id: 'phone',
                 listener: {
                     type: 'input',
-                    listener: this.listenerPhone.bind(this)
+                    listener: this.listenerValidatePhone.bind(this)
                 }
             },
             mail: {
@@ -287,7 +262,7 @@ export class Registration {
                 id: 'mail',
                 listener: {
                     type: 'input',
-                    listener: this.listenerMail.bind(this)
+                    listener: this.listenerValidateMail.bind(this)
                 }
             },
             password: {
@@ -297,7 +272,7 @@ export class Registration {
                 id: 'password',
                 listener: {
                     type: 'change',
-                    listener: this.listenerPassWord.bind(this)
+                    listener: this.listenerValidatePwd.bind(this)
                 }
             },
             passwordConfirm: {
@@ -307,7 +282,7 @@ export class Registration {
                 id: 'passwordConfirm',
                 listener: {
                     type: 'change',
-                    listener: this.listenerConfirmPassword.bind(this)
+                    listener: this.listenerValidateConfirmPwd.bind(this)
                 }
             },
             date: {
@@ -317,7 +292,7 @@ export class Registration {
                 id: 'date',
                 listener: {
                     type: 'change',
-                    listener: this.listenerName.bind(this)
+                    listener: this.listenerValidateEmpty.bind(this)
                 }
             }
         };
