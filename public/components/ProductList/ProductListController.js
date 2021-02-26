@@ -1,5 +1,3 @@
-'use strict';
-
 /***
  * Product List controller
  */
@@ -18,8 +16,6 @@ export class ProductListController {
      * Render and add listeners
      */
     control() {
-        this.__productList.render();
-
         this.__productList.listeners = this.__createListeners();
         this.__productList.addListeners();
     }
@@ -34,7 +30,7 @@ export class ProductListController {
         let id = undefined;
         let action = undefined;
         Object
-            .entries(ev.path)
+            .entries(ev.composedPath())
             .forEach(([, el]) => {
                 if (el.dataset !== undefined) {
                     if ('action' in el.dataset && action === undefined) {
@@ -74,6 +70,7 @@ export class ProductListController {
      */
     __likeCard(id) {
         console.log('like click', id);
+        this.__productList.like(id);
     }
 
     /***
