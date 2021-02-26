@@ -35,7 +35,7 @@ export class Navigation {
     get route() {
         let text = '';
         this.__route.route.forEach((value) => {
-            text += ` ○ ${value}`;
+            text += ` • ${value}`;
         });
         return text;
     }
