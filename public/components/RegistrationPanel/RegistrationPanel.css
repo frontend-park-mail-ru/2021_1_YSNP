@@ -25,11 +25,11 @@
 .product--description--description__text input {
     border: 0.5px solid rgba(0,0,0,0.2);
     box-sizing: border-box;
-    border-radius: 5px;
+    border-radius: 1vh;
 
     font-size: 1.8vh;
-    width: 250px;
-    height: 35px;
+    width: 15vw;
+    height: 2.5vw;
     padding-left: 10px;
 }
 
