@@ -1,5 +1,3 @@
-'use strict';
-
 import {Header} from '../components/Header/Header.js';
 import {HeaderController} from '../components/Header/HeaderController.js';
 
@@ -20,11 +18,14 @@ export class Landing {
 
     /***
      * Test header data
-     * @returns {{location: string}}
+     * @returns {{isAuth: boolean, location: string, avatar: string, user: string}}
      * @private
      */
     __getHeaderData() {
         return {
+            isAuth: true,
+            user: 'Алехин Сергей',
+            avatar: '/img/test-avatar.jpg',
             location: 'Москва'
         };
     }
@@ -81,10 +82,12 @@ export class Landing {
         this.__parent.innerHTML = '';
 
         const header = new Header(this.__parent, this.__getHeaderData());
+        header.render();
         this.__headerController = new HeaderController(this.__parent, header);
         this.__headerController.control();
 
         const productList = new ProductList(this.__parent, this.__getProductListData());
+        productList.render();
         this.__productListController = new ProductListController(this.__parent, productList);
         this.__productListController.control();
     }
