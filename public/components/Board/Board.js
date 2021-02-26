@@ -60,13 +60,13 @@ export class Board {
     __getTemplate() {
         return `           
            <div class="board">
-               <div class="board--title">
-                   <p class="board--title__product-id">№ ${this.__getId}</p>
-                   <p class="board--title__product-name">${this.__getTitle}</p>
+               <div class="board-title">
+                   <p class="board-title__product-id">№ ${this.__getId}</p>
+                   <p class="board-title__product-name">${this.__getTitle}</p>
                </div>
-               <div class="board--inner">
-                   <div class="board--inner--left-side"  id="board--left-side"></div>
-                   <div class="board--inner--right-side" id="board--right-side"></div>
+               <div class="board-inner">
+                   <div class="board-inner-left-side"  id="board-left-side"></div>
+                   <div class="board-inner-right-side" id="board-right-side"></div>
                </div>
            </div>
         `;
@@ -84,13 +84,13 @@ export class Board {
         this.__carousel.rotateForward();
         const prevButton = document.getElementById('prev'),
             nextButton = document.getElementById('next');
-        prevButton.classList.add('disabled');
-        nextButton.classList.add('disabled');
+        prevButton.classList.add('slider-inner__button-disabled');
+        nextButton.classList.add('slider-inner__button-disabled');
         const carousel = document.getElementById('carousel');
         this.__carousel.animate(-this.__carousel.__carousel.rowHeight, 0, () => {
             carousel.style.top = '0';
-            prevButton.classList.remove('disabled');
-            nextButton.classList.remove('disabled');
+            prevButton.classList.remove('slider-inner__button-disabled');
+            nextButton.classList.remove('slider-inner__button-disabled');
         });
     }
 
@@ -105,14 +105,14 @@ export class Board {
         ev.preventDefault();
         const prevButton = document.getElementById('prev'),
             nextButton = document.getElementById('next');
-        prevButton.classList.add('disabled');
-        nextButton.classList.add('disabled');
+        prevButton.classList.add('slider-inner__button-disabled');
+        nextButton.classList.add('slider-inner__button-disabled');
         const carousel = document.getElementById('carousel');
         this.__carousel.animate(0, -this.__carousel.__carousel.rowHeight, () => {
             this.__carousel.rotateBackward();
             carousel.style.top = '0';
-            prevButton.classList.remove('disabled');
-            nextButton.classList.remove('disabled');
+            prevButton.classList.remove('slider-inner__button-disabled');
+            nextButton.classList.remove('slider-inner__button-disabled');
         });
     }
 
@@ -182,8 +182,8 @@ export class Board {
     render() {
         const template = this.__getTemplate();
         this.__parent.insertAdjacentHTML('beforeend', template);
-        const parentRightSide = document.getElementById('board--right-side');
-        const parentLeftSide = document.getElementById('board--left-side');
+        const parentRightSide = document.getElementById('board-right-side');
+        const parentLeftSide = document.getElementById('board-left-side');
 
         this.__infoCard = new InfoCard(parentRightSide, {infoCard: {price: 3990000, name: 'Екатерина П.', rating: 4.1, views: 72358,
              likes: 2123, date: '11 февраля в 11:17'}});

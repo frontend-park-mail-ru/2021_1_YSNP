@@ -131,7 +131,7 @@ export class Slider {
         for (let i = 0; i < numImages; ++i) {
             const image = images[i],
                 frame = document.createElement('div');
-            frame.className = 'pictureFrame';
+            frame.className = 'picture-frame';
             aspectRatio = image.offsetWidth / image.offsetHeight;
             image.style.width = frame.style.width = `${imageWidth}px`;
             image.style.height = `${imageHeight}px`;
@@ -148,7 +148,7 @@ export class Slider {
         carousel.style.height = `${this.__carousel.numVisible * this.__carousel.rowHeight}px`;
         carousel.style.visibility = 'visible';
         const wrapper = this.__carousel.wrapper = document.createElement('div');
-        wrapper.id = 'carouselWrapper';
+        wrapper.id = 'carousel-wrapper';
         wrapper.style.width = `${carousel.offsetWidth}px`;
         wrapper.style.height = `${carousel.offsetHeight}px`;
         carousel.parentNode.insertBefore(wrapper, carousel);
@@ -185,7 +185,7 @@ export class Slider {
     get __getFirstPhotos() {
         const photoArray = this.__data.photos;
         let htmlImg = '';
-        htmlImg += `<img id="pic" src="${photoArray[0]}" alt="">`;
+        htmlImg += `<img class="preview-picture" id="pic" src="${photoArray[0]}" alt="">`;
         return htmlImg;
     }
 
@@ -200,14 +200,14 @@ export class Slider {
         return `   
         <div class="slider">
             <div class="slider-inner">
-                <div class="buttons"> 
-                    <a id="prev"><svg width="20" height="11" viewBox="0 0 20 11" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M1 10.5L10 1.5L19 10.5" stroke="black"/></svg></a>
+                <div class="slider-inner__button"> 
+                    <a class="slider-inner__button-prev" id="prev"><svg width="20" height="11" viewBox="0 0 20 11" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M1 10.5L10 1.5L19 10.5" stroke="black"/></svg></a>
                 </div>
                 <div id="carousel">
                     ${this.__getPhotos}
                 </div>
-                <div class="buttons">
-                    <a id="next"><svg width="21" height="12" viewBox="0 0 21 12" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M1 1L10.5 11L20 1" stroke="black"/></svg></a>
+                <div class="slider-inner__button">
+                    <a class="slider-inner__button-next" id="next"><svg width="21" height="12" viewBox="0 0 21 12" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M1 1L10.5 11L20 1" stroke="black"/></svg></a>
                 </div>
             </div>
             <div class="preview">

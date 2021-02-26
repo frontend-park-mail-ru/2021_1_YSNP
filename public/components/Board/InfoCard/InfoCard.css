@@ -17,23 +17,23 @@
     margin-bottom: 1vh;
 }
 
-.info-card--profile {
+.info-card-profile {
     display: flex;
     margin: 0 0 0 3vh;
 }
 
-.info-card--profile__image{
+.info-card-profile__image{
     width: 4vw;
     height: 4vw;
     background: #C4C4C4;
     border-radius: 100%;
 }
 
-.info-card--profile--container {
+.info-card-profile-container {
     display: block;
 }
 
-.info-card--profile--container__name {
+.info-card-profile-container__name {
     font-style: normal;
     font-weight: normal;
     font-size: 3vh;
@@ -41,21 +41,21 @@
     margin: 0 0 0 1vh;
 }
 
-.info-card--profile--container--rating {
+.info-card-profile-container-rating {
     line-height: 28px;
     margin: 1vh 0 0 1vh;
     display: flex;
     align-items: center;
 }
 
-.info-card--profile--container--rating__rating{
+.info-card-profile-container-rating__rating{
     font-style: normal;
     font-weight: normal;
     font-size: 2vh;
     margin-right: 1vh;
 }
 
-.info-card--btn {
+.info-card-btn {
     text-align: center;
     font-style: normal;
     font-weight: normal;
@@ -63,7 +63,7 @@
     line-height: 16px;
 }
 
-.info-card--btn__massage {
+.info-card-btn__massage {
     background: #D31E1E;
     border-radius: 0.5vh;
     border: none;
@@ -74,7 +74,7 @@
     font-size: 1.5vh;
 }
 
-.info-card--btn__number {
+.info-card-btn__number {
     width: 80%;
     height: 3vw;
     margin-top: 1vh;
@@ -96,31 +96,31 @@
     margin-bottom: 1vh;
 }
 
-.info-card--statistic {
+.info-card-statistic {
     display: flex;
     justify-content: center;
     align-items: center;
 }
 
-.info-card--statistic-inner-views {
+.info-card-statistic-inner-views {
     display: flex;
     justify-content: center;
     align-items: center;
 }
 
-.info-card--statistic-inner-views__views {
+.info-card-statistic-inner-views__views {
     margin-left: 1vh;
     font-size: 1.5vh;
 }
 
-.info-card--statistic-inner-likes {
+.info-card-statistic-inner-likes {
     display: flex;
     justify-content: center;
     align-items: center;
     margin-left: 1vh;
 }
 
-.info-card--statistic-inner-likes__likes{
+.info-card-statistic-inner-likes__likes{
     margin-left: 1vh;
     font-size: 1.5vh;
 }

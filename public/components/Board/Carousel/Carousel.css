@@ -1,4 +1,4 @@
-.buttons{
+.slider-inner__button{
     display: flex;
     justify-content: center;
     align-items: center;
@@ -6,7 +6,7 @@
     margin-bottom: 1vh;
 }
 
-#carouselWrapper {
+#carousel-wrapper {
     position: relative;
     overflow: hidden;
 }
@@ -25,22 +25,22 @@
     padding-right: 2vw;
 }
 
-.preview img{
+.preview-picture{
     margin-top: 0px;
     width: 49vw;
     height: 52vh;
     object-fit: cover;
 }
 
-#next {
+.slider-inner__button-next {
     margin-top: 2vh;
 }
 
-.disabled{
+.slider-inner__button-disabled {
     pointer-events: none;
     cursor: default;
 }
 
-.pictureFrame img{
+.picture-frame img{
     object-fit: cover;
 }

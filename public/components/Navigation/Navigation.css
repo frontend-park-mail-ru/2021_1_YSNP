@@ -8,10 +8,10 @@
     margin: 1vh auto;
 }
 
-.navigation--inner {
+.navigation-inner {
     margin: auto 0;
 }
 
-.navigation--inner--back {
+.navigation-inner-back {
     cursor: pointer;
 }
