@@ -2,18 +2,18 @@
     margin-top: 3vw;
 }
 
-.product-description {
+.product-des {
     display: flex;
 }
-.product-description-topic {
+.product-des-topic {
     width: 18%;
 }
 
-.product-description-description {
+.product-des-inner {
     width: 75%;
 }
 
-.product-description-description__text {
+.product-des__text {
     font-family: Open Sans, sans-serif;
     font-style: normal;
     font-weight: normal;
@@ -22,7 +22,7 @@
     color: #000000;
 }
 
-.product-description-description__title{
+.product-des-topic__title{
     font-family: SF Pro Display, sans-serif;
     font-style: normal;
     font-weight: normal;
@@ -34,7 +34,7 @@
     opacity: 0.5;
 }
 
-.hr-description {
+.hr-des {
     opacity: 0.2;
     width: 90%;
     margin-left: 0;

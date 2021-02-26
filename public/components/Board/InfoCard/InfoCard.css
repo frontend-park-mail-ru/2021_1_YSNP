@@ -33,7 +33,7 @@
     display: block;
 }
 
-.info-card-profile-container__name {
+.info-card-profile__name {
     font-style: normal;
     font-weight: normal;
     font-size: 3vh;
@@ -41,14 +41,14 @@
     margin: 0 0 0 1vh;
 }
 
-.info-card-profile-container-rating {
+.info-card-profile-rating {
     line-height: 28px;
     margin: 1vh 0 0 1vh;
     display: flex;
     align-items: center;
 }
 
-.info-card-profile-container-rating__rating{
+.info-card-profile-rating__text {
     font-style: normal;
     font-weight: normal;
     font-size: 2vh;
@@ -102,25 +102,25 @@
     align-items: center;
 }
 
-.info-card-statistic-inner-views {
+.info-card-statistic-views {
     display: flex;
     justify-content: center;
     align-items: center;
 }
 
-.info-card-statistic-inner-views__views {
+.info-card-statistic-views__text {
     margin-left: 1vh;
     font-size: 1.5vh;
 }
 
-.info-card-statistic-inner-likes {
+.info-card-statistic-likes {
     display: flex;
     justify-content: center;
     align-items: center;
     margin-left: 1vh;
 }
 
-.info-card-statistic-inner-likes__likes{
+.info-card-statistic-likes__text{
     margin-left: 1vh;
     font-size: 1.5vh;
 }

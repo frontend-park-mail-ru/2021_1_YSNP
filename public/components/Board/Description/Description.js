@@ -36,15 +36,15 @@ export class Description {
         let des = '';
         descriptions.forEach((value) => {
             des += `
-            <div class="product-description">
-                <div class="product-description-topic">
-                    <p class="product-description-description__title">${value.title}</p>
+            <div class="product-des">
+                <div class="product-des-topic">
+                    <p class="product-des-topic__title">${value.title}</p>
                 </div>
-                <div class="product-description-description">
-                    <p class="product-description-description__text"> ${value.text.replaceAll('\n', '<br/>')}</p>
+                <div class="product-des-inner">
+                    <p class="product-des__text"> ${value.text.replaceAll('\n', '<br/>')}</p>
                 </div>
             </div>
-            <hr class="hr-description"/>
+            <hr class="hr-des"/>
             `;
         });
         return des;

@@ -1,4 +1,4 @@
-.slider-inner__button{
+.slider__button{
     display: flex;
     justify-content: center;
     align-items: center;
@@ -10,7 +10,7 @@
     position: relative;
     overflow: hidden;
 }
-.carousel {
+.slider-carousel {
     position: absolute;
     visibility: hidden;
 }
@@ -25,14 +25,14 @@
     padding-right: 2vw;
 }
 
-.preview-picture{
+.slider-preview__picture{
     margin-top: 0px;
     width: 49vw;
     height: 52vh;
     object-fit: cover;
 }
 
-.slider-inner__button-next {
+.slider__button-next {
     margin-top: 2vh;
 }
 

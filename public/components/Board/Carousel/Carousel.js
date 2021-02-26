@@ -186,7 +186,7 @@ export class Slider {
     get __getFirstPhotos() {
         const photoArray = this.__data.photos;
         let htmlImg = '';
-        htmlImg += `<img class="preview-picture" id="pic" src="${photoArray[0]}" alt="">`;
+        htmlImg += `<img class="slider-preview__picture" id="pic" src="${photoArray[0]}" alt="">`;
         return htmlImg;
     }
 
@@ -201,14 +201,14 @@ export class Slider {
         return `   
         <div class="slider">
             <div class="slider-inner">
-                <div class="slider-inner__button"> 
-                    <a class="slider-inner__button-prev" id="prev"><svg width="20" height="11" viewBox="0 0 20 11" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M1 10.5L10 1.5L19 10.5" stroke="black"/></svg></a>
+                <div class="slider__button"> 
+                    <a class="slider__button-prev" id="prev"><svg width="20" height="11" viewBox="0 0 20 11" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M1 10.5L10 1.5L19 10.5" stroke="black"/></svg></a>
                 </div>
-                <div class="carousel" id="carousel">
+                <div class="slider-carousel" id="carousel">
                     ${this.__getPhotos}
                 </div>
-                <div class="slider-inner__button">
-                    <a class="slider-inner__button-next" id="next"><svg width="21" height="12" viewBox="0 0 21 12" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M1 1L10.5 11L20 1" stroke="black"/></svg></a>
+                <div class="slider__button">
+                    <a class="slider__button-next" id="next"><svg width="21" height="12" viewBox="0 0 21 12" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M1 1L10.5 11L20 1" stroke="black"/></svg></a>
                 </div>
             </div>
             <div class="slider-preview">
