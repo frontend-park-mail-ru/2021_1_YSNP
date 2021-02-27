@@ -134,6 +134,26 @@ export class BoardController {
 
     /***
      * @author Ivan Gorshkov
+     * listener to show number
+     * @this {BoardController}
+     * @private
+     */
+    __listenerShowNumber() {
+        console.log('number');
+    }
+
+    /***
+     * @author Ivan Gorshkov
+     * listener for write massage
+     * @this {BoardController}
+     * @private
+     */
+    __listenerWriteMassage() {
+        console.log('massage');
+    }
+
+    /***
+     * @author Ivan Gorshkov
      *
      * Object with all actions
      * @return {{selectClick: {open: *}, backClick: {open: *}, nextClick: {open: *}}}
@@ -150,6 +170,12 @@ export class BoardController {
             },
             selectClick: {
                 open: this.__listenerSelectImage.bind(this)
+            },
+            numberCLick: {
+                open: this.__listenerShowNumber.bind(this)
+            },
+            massageClick: {
+                open: this.__listenerWriteMassage.bind(this)
             }
         };
     }

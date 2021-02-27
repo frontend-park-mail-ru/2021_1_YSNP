@@ -93,6 +93,7 @@ export class Board {
      */
     listeners(val) {
         this.__carousel.listeners = val;
+        this.__infoCard.listeners = val;
     }
 
     /***
@@ -104,6 +105,7 @@ export class Board {
      */
     addListeners() {
         this.__carousel.addListeners();
+        this.__infoCard.addListeners();
     }
 
     /***

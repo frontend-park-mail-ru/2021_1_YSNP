@@ -58,7 +58,7 @@ export class Slider {
      * @author Ivan Gorshkov
      *
      * insert forward img in carousel
-     * @private
+     * @public
      * @this {Slider}
      */
     rotateForward() {

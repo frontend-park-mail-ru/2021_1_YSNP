@@ -136,9 +136,9 @@ export class InfoCard {
                         </span>
                     </div>
                 </div>
-                <div class="info-card-btn">
-                    <input class="info-card-btn__massage" type="button" value="Написать сообщение"/>
-                    <input class="info-card-btn__number" type="button" value="Показать номер"/>
+                <div class="info-card-btn" id="info-card-btns">
+                    <input class="info-card-btn__massage" type="button" value="Написать сообщение" data-action="massageClick"/>
+                    <input class="info-card-btn__number" type="button" value="Показать номер" data-action="numberCLick"/>
                 </div>
                 <p class="info-card__time">${this.__getDate}</p>
                 <div class="info-card-statistic">
@@ -153,6 +153,57 @@ export class InfoCard {
                 </div>
             </div>
         `;
+    }
+
+    /***
+     * @author Ivan Gorshkov
+     *
+     * get InfoCard listeners
+     * @this {InfoCard}
+     * @private
+     * @readonly
+     * @return  {Object[]} array of listeners
+     */
+    get listeners() {
+        return this.__listeners;
+    }
+
+    /***
+     * @author Ivan Gorshkov
+     *
+     * Set new listeners
+     * @this {InfoCard}
+     * @param  {Object[]} val - Object of listeners
+     * @public
+     */
+    set listeners(val) {
+        this.__listeners = val;
+    }
+
+    /***
+     * @author Ivan Gorshkov
+     *
+     * Add listeners from component
+     * @public
+     * @this {InfoCard}
+     */
+    addListeners() {
+        document
+            .getElementById('info-card-btns')
+            .addEventListener(this.listeners.board.type, this.listeners.board.listener);
+    }
+
+    /***
+     * @author Ivan Gorshkov
+     *
+     * Remove listeners from component
+     * @public
+     * @this {InfoCard}
+     */
+    removeListeners() {
+        document
+            .getElementById('info-card-btns')
+            .removeEventListener(this.listeners.board.type, this.listeners.board.listener);
     }
 
     /***
