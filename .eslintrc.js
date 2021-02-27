@@ -387,17 +387,17 @@ module.exports = {
         ],
 
 
-        // 'require-jsdoc': [
-        //     'warn',
-        //     {
-        //         'require': {
-        //             'FunctionDeclaration': true,
-        //             'MethodDefinition': true,
-        //             'ClassDeclaration': true,
-        //             'ArrowFunctionExpression': true,
-        //             'FunctionExpression': true
-        //         }
-        //     }
-        // ]
+        'require-jsdoc': [
+            'warn',
+            {
+                'require': {
+                    'FunctionDeclaration': true,
+                    'MethodDefinition': true,
+                    'ClassDeclaration': true,
+                    'ArrowFunctionExpression': true,
+                    'FunctionExpression': true
+                }
+            }
+        ]
     }
 };
