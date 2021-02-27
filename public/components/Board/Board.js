@@ -72,13 +72,6 @@ export class Board {
         `;
     }
 
-    /***
-     * @author Ivan Gorshkov
-     *
-     * listener for select photo
-     * @private
-     * @this {Board}
-     */
 
     /***
      * @author Ivan Gorshkov
@@ -91,15 +84,27 @@ export class Board {
         this.__carousel.removeListeners();
     }
 
-    listenersTMP(val) {
+    /***
+     * @author Ivan Gorshkov
+     *
+     * init listeners in components
+     * @public
+     * @this {Board}
+     */
+    listeners(val) {
         this.__carousel.listeners = val;
     }
 
-
+    /***
+     * @author Ivan Gorshkov
+     *
+     * add listeners to components
+     * @public
+     * @this {Board}
+     */
     addListeners() {
         this.__carousel.addListeners();
     }
-
 
     /***
      * @author Ivan Gorshkov

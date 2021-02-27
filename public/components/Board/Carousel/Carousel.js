@@ -22,7 +22,7 @@ export class Slider {
         this.__carousel = {
             width: 60,
             numVisible: 6,
-            duration: 400,
+            duration: 4000,
             padding: 10
         };
         this.__data = data;
@@ -73,7 +73,7 @@ export class Slider {
      * @author Ivan Gorshkov
      *
      * insert backward img in carousel
-     * @private
+     * @public
      * @this {Slider}
      */
     rotateBackward() {
@@ -88,7 +88,7 @@ export class Slider {
      * @author Ivan Gorshkov
      *
      * animation carousel when scroll
-     * @private
+     * @public
      * @this {Slider}
      */
     animate(begin, end, finalTask) {
@@ -115,7 +115,7 @@ export class Slider {
      * @author Ivan Gorshkov
      *
      * function create vertical carousel
-     * @private
+     * @public
      * @this {Slider}
      */
     createCarousel() {
@@ -200,7 +200,7 @@ export class Slider {
     __getTemplate() {
         return `   
         <div class="slider">
-            <div class="slider-inner" id="sliderTMP">
+            <div class="slider-inner" id="sliderPanel">
                 <div class="slider__button" data-action="nextClick"> 
                     <a class="slider__button-prev" id="prev"><svg width="20" height="11" viewBox="0 0 20 11" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M1 10.5L10 1.5L19 10.5" stroke="black"/></svg></a>
                 </div>
@@ -222,21 +222,13 @@ export class Slider {
      * @author Ivan Gorshkov
      *
      * Add listeners from component
-     * @private
+     * @public
      * @this {Slider}
      */
     addListeners() {
-
         document
-            .getElementById('sliderTMP')
-            .addEventListener(this.listeners.scrolling.type, this.listeners.scrolling.listener);
-
-        /*
-        const carousel = document.getElementById('carousel'),
-            images = carousel.getElementsByTagName('img');
-        for (let i = 0; i < images.length; ++i) {
-            images[i].addEventListener(this.listeners.selectImage.type, this.listeners.selectImage.listener);
-        }*/
+            .getElementById('sliderPanel')
+            .addEventListener(this.listeners.board.type, this.listeners.board.listener);
     }
 
     /***
@@ -247,15 +239,9 @@ export class Slider {
      * @this {Slider}
      */
     removeListeners() {
-        const prevButton = document.getElementById('prev'),
-            nextButton = document.getElementById('next');
-        nextButton.removeEventListener(this.listeners.toNext.type, this.listeners.toNext.listener);
-        prevButton.removeEventListener(this.listeners.toBack.type, this.listeners.toBack.listener);
-        const carousel = document.getElementById('carousel'),
-            images = carousel.getElementsByTagName('img');
-        for (let i = 0; i < images.length; ++i) {
-            images[i].removeEventListener(this.listeners.selectImage.type, this.listeners.selectImage.listener);
-        }
+        document
+            .getElementById('sliderPanel')
+            .removeEventListener(this.listeners.board.type, this.listeners.board.listener);
     }
 
     /***

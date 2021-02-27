@@ -30,6 +30,7 @@
     width: 49vw;
     height: 52vh;
     object-fit: cover;
+    user-select: none;
 }
 
 .slider__button-next {
@@ -42,5 +43,6 @@
 }
 
 .picture-frame img{
+    user-select: none;
     object-fit: cover;
 }

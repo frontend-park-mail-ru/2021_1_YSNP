@@ -65,17 +65,23 @@ export class Product {
     /***
      * @author Ivan Gorshkov
      *
-     * Add component to parent
+     * remove listeners
      * @this {Product}
      * @public
      */
-
     productRemoveListeners() {
         this.__header.removeListeners();
         this.__navigation.removeListeners();
         this.__board.removeListeners();
     }
 
+    /***
+     * @author Ivan Gorshkov
+     *
+     * Add component to parent
+     * @this {Product}
+     * @public
+     */
     render() {
         this.__parent.innerHTML = '';
         const listeners = this.__createListeners();
