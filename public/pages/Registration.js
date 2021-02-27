@@ -42,7 +42,6 @@ export class Registration {
         landing.render();
     }
 
-
     listenerRegister(ev) {
         ev.preventDefault();
         const passwordConfirm = document.getElementById(this.__RegistrationForm().passwordConfirm.id);
