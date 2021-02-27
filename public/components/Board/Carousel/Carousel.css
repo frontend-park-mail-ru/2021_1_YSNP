@@ -45,4 +45,5 @@
 .picture-frame img{
     user-select: none;
     object-fit: cover;
+    cursor: pointer;
 }
