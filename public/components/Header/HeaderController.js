@@ -87,10 +87,9 @@ export class HeaderController {
      * @private
      */
     __openMap() {
-        this.__header.removeListeners();
+        // this.__header.removeListeners();
 
-        const profile = new Profile(this.__parent);
-        profile.render();
+        console.log('Open map');
     }
 
     /***
@@ -98,10 +97,9 @@ export class HeaderController {
      * @private
      */
     __openCreateProduct() {
-        this.__header.removeListeners();
+        // this.__header.removeListeners();
 
-        const profile = new Profile(this.__parent);
-        profile.render();
+        console.log('Open create product');
     }
 
     /***
@@ -120,11 +118,64 @@ export class HeaderController {
      * @private
      */
     __openAccount() {
-        this.__header.removeListeners();
+        // this.__header.removeListeners();
+
+        console.log('Open account');
+    }
+
+    /***
+     * Header profile click callback
+     * @private
+     */
+    __openProfile() {
+        // this.__header.removeListeners();
+
+        console.log('Open profile');
 
         const profile = new Profile(this.__parent);
         profile.render();
     }
+
+    /***
+     * Header my products click callback
+     * @private
+     */
+    __openMyProducts() {
+        // this.__header.removeListeners();
+
+        console.log('Open my products');
+    }
+
+    /***
+     * Header messages click callback
+     * @private
+     */
+    __openMessages() {
+        // this.__header.removeListeners();
+
+        console.log('Open messages');
+    }
+
+    /***
+     * Header favorites click callback
+     * @private
+     */
+    __openFavorites() {
+        // this.__header.removeListeners();
+
+        console.log('Open favorites');
+    }
+
+    /***
+     * Header logout click callback
+     * @private
+     */
+    __logout() {
+        // this.__header.removeListeners();
+
+        console.log('Logout');
+    }
+
 
     /***
      * Get header actions
@@ -147,6 +198,21 @@ export class HeaderController {
             },
             dropdownClick: {
                 open: this.__openDropdownMenu.bind(this)
+            },
+            profileClick: {
+                open: this.__openProfile.bind(this)
+            },
+            myProductsClick: {
+                open: this.__openMyProducts.bind(this)
+            },
+            messagesClick: {
+                open: this.__openMessages.bind(this)
+            },
+            favoritesClick: {
+                open: this.__openFavorites.bind(this)
+            },
+            logoutClick: {
+                open: this.__logout.bind(this)
             }
         };
     }
