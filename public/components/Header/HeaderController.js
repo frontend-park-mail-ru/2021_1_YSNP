@@ -39,6 +39,24 @@ export class HeaderController {
      */
     __listenerHeaderClick(ev) {
         ev.preventDefault();
+
+        const actions = this.__getActions();
+        Object
+            .entries(ev.composedPath())
+            .forEach(([, el]) => {
+                if (el.dataset !== undefined && 'action' in el.dataset) {
+                    actions[el.dataset.action].open();
+                }
+            });
+    }
+
+    /***
+     * Dropdown click event
+     * @param {Event} ev - event
+     * @private
+     */
+    __listenerDropdownClick(ev) {
+        ev.preventDefault();
         ev.stopPropagation();
 
         const actions = this.__getActions();
@@ -52,19 +70,23 @@ export class HeaderController {
     }
 
     /***
-     *  Page click event
+     * Page click event
+     * @param {Event} ev - event
      * @private
      */
-    __listenerPageClick() {
+    __listenerPageClick(ev) {
+        ev.preventDefault();
+        ev.stopPropagation();
+
         document
-            .getElementById('header-dropdown')
+            .getElementById('header-dropdown-content')
             .classList
             .add('header-dropdown-content_hidden');
     }
 
     /***
      * Get header listeners
-     * @returns {{pageClick: {listener: *, type: string}, headerClick: {listener: *, type: string}}}
+     * @returns {{dropdownClick: {listener: *, type: string}, headerClick: {listener: *, type: string}}}
      * @private
      */
     __createListeners() {
@@ -72,6 +94,10 @@ export class HeaderController {
             headerClick: {
                 type: 'click',
                 listener: this.__listenerHeaderClick.bind(this)
+            },
+            dropdownClick: {
+                type: 'click',
+                listener: this.__listenerDropdownClick.bind(this)
             },
             pageClick: {
                 type: 'click',
@@ -87,8 +113,10 @@ export class HeaderController {
     __openLanding() {
         this.__pageRemoveListeners();
 
-        const landing = new Landing(this.__parent);
-        landing.render();
+        console.log('open landing');
+
+        // const landing = new Landing(this.__parent);
+        // landing.render();
     }
 
     /***
@@ -112,17 +140,6 @@ export class HeaderController {
     }
 
     /***
-     * Header dropdown menu click callback
-     * @private
-     */
-    __openDropdownMenu() {
-        document
-            .getElementById('header-dropdown')
-            .classList
-            .toggle('header-dropdown-content_hidden');
-    }
-
-    /***
      * Header account click callback
      * @private
      */
@@ -130,6 +147,17 @@ export class HeaderController {
         // this.__pageRemoveListeners();
 
         console.log('Open account');
+    }
+
+    /***
+     * Header dropdown menu click callback
+     * @private
+     */
+    __openDropdownMenu() {
+        document
+            .getElementById('header-dropdown-content')
+            .classList
+            .toggle('header-dropdown-content_hidden');
     }
 
     /***
