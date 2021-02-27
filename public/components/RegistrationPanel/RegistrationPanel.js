@@ -96,8 +96,6 @@ export class RegistrationPanel {
         this.__listeners = val;
     }
 
-
-
     /***
      * @author Ivan Gorshkov
      *
