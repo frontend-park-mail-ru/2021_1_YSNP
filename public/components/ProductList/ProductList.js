@@ -12,8 +12,8 @@ export class ProductList {
      */
     constructor(parent, data, listeners = undefined) {
         this.__parent = parent;
-        this.__listeners = listeners;
         this.__data = data;
+        this.__listeners = listeners;
         this.__productList = new Map();
     }
 
