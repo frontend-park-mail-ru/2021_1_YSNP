@@ -57,7 +57,6 @@ export class BoardController {
         });
     }
 
-
     /***
      * @author Ivan Gorshkov
      *

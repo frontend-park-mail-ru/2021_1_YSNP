@@ -72,7 +72,6 @@ export class Board {
         `;
     }
 
-
     /***
      * @author Ivan Gorshkov
      *
@@ -82,6 +81,7 @@ export class Board {
      */
     removeListeners() {
         this.__carousel.removeListeners();
+        this.__infoCard.removeListeners();
     }
 
     /***

@@ -166,12 +166,7 @@ export class Slider {
      * @readonly
      */
     get __getPhotos() {
-        const photoArray = this.__data.photos;
-        let htmlImg = '';
-        photoArray.forEach((value) => {
-            htmlImg += `<img src="${value}" alt="" data-action="selectClick">`;
-        });
-        return htmlImg;
+        return this.__data.photos.reduce((prev, cur) => prev += `<img src="${cur}" alt="" data-action="selectClick">`, '');
     }
 
     /***
@@ -184,10 +179,8 @@ export class Slider {
      * @readonly
      */
     get __getFirstPhotos() {
-        const photoArray = this.__data.photos;
-        let htmlImg = '';
-        htmlImg += `<img class="slider-preview__picture" id="pic" src="${photoArray[0]}" alt="">`;
-        return htmlImg;
+        const {photos} = this.__data;
+        return `<img class="slider-preview__picture" id="pic" src="${photos[0]}" alt="">`;
     }
 
     /***

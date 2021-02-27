@@ -35,11 +35,7 @@ export class Navigation {
      * @return  {string} return string with route
      */
     __getRoute() {
-        let text = '';
-        this.__route.route.forEach((value) => {
-            text += ` • ${value}`;
-        });
-        return text;
+        return this.__route.route.reduce(((previousValue, currentValue) => previousValue += ` • ${currentValue}`), '');
     }
 
     /***
