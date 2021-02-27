@@ -4,6 +4,7 @@ import {Header} from '../components/Header/Header.js';
 import {Profile} from './Profile.js';
 import {Landing} from './Landing.js';
 import {Navigation} from '../components/Navigation/Navigation.js';
+import {NavigationController} from '../components/Navigation/NavigationController.js';
 import {Board} from '../components/Board/Board.js';
 
 /***
@@ -45,24 +46,8 @@ export class Product {
 
     /***
      * @author Ivan Gorshkov
-     * listener for previous page
-     * @param {Event} ev - event
-     * @this {Product}
-     * @public
-     */
-    listenerToBack(ev) {
-        ev.preventDefault();
-        this.__navigation.removeListeners();
-        this.__header.removeListeners();
-        this.__board.removeListeners();
-        const landing = new Landing(this.__parent);
-        landing.render();
-    }
-
-    /***
-     * @author Ivan Gorshkov
      * func for create object of listeners
-     * @return {{backBtn: {toBack: {listener: *, type: string}}, header: {toProductCreate: {listener: *, type: string}}}}
+     * @return {{header: {toProductCreate: {listener: *, type: string}}}}
      * @this {Product}
      * @private
      */
@@ -72,12 +57,6 @@ export class Product {
                 toProductCreate: {
                     type: 'click',
                     listener: this.listenerToProfile.bind(this)
-                }
-            },
-            backBtn: {
-                toBack: {
-                    type: 'click',
-                    listener: this.listenerToBack.bind(this)
                 }
             }
         };
@@ -90,6 +69,13 @@ export class Product {
      * @this {Product}
      * @public
      */
+
+    productRemoveListeners() {
+        this.__header.removeListeners();
+        this.__navigation.removeListeners();
+        this.__board.removeListeners();
+    }
+
     render() {
         this.__parent.innerHTML = '';
         const listeners = this.__createListeners();
@@ -100,8 +86,10 @@ export class Product {
 
 
         this.__navigation = new Navigation(this.__parent, 'В результаты поиска', {route: ['С пробегом', 'Mercedes-Benz']});
-        this.__navigation.listeners = listeners.backBtn;
         this.__navigation.render();
+        this.__navigationController = new NavigationController(this.productRemoveListeners.bind(this), this.__parent, this.__navigation);
+        this.__navigationController.control();
+
 
         this.__board = new Board(this.__parent, {identity: {id: 2099347381, title: 'Mercedes-Benz S-класс, 2014'}});
         this.__board.render();
