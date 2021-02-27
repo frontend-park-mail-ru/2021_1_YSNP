@@ -2,25 +2,34 @@ import {Profile} from '../../pages/Profile.js';
 import {Landing} from '../../pages/Landing.js';
 
 /***
- * Header controller
+ * Header controller controller
  */
 export class HeaderController {
     /***
-     *
+     * Class constructor
+     * @param {Function} pageRemoveListeners - remove page listeners
      * @param {HTMLElement} parent - element callback will work with
      * @param {Header} header - header
      */
-    constructor(parent, header) {
+    constructor(pageRemoveListeners, parent, header) {
+        this.__pageRemoveListeners = pageRemoveListeners;
         this.__parent = parent;
         this.__header = header;
     }
 
     /***
-     * Render and add listeners
+     * Add listeners
      */
     control() {
         this.__header.listeners = this.__createListeners();
         this.__header.addListeners();
+    }
+
+    /***
+     * Remove Controller listeners
+     */
+    removeControllerListeners() {
+        this.__header.removeListeners();
     }
 
     /***
@@ -29,6 +38,24 @@ export class HeaderController {
      * @private
      */
     __listenerHeaderClick(ev) {
+        ev.preventDefault();
+
+        const actions = this.__getActions();
+        Object
+            .entries(ev.composedPath())
+            .forEach(([, el]) => {
+                if (el.dataset !== undefined && 'action' in el.dataset) {
+                    actions[el.dataset.action].open();
+                }
+            });
+    }
+
+    /***
+     * Dropdown click event
+     * @param {Event} ev - event
+     * @private
+     */
+    __listenerDropdownClick(ev) {
         ev.preventDefault();
         ev.stopPropagation();
 
@@ -43,19 +70,23 @@ export class HeaderController {
     }
 
     /***
-     *  Page click event
+     * Page click event
+     * @param {Event} ev - event
      * @private
      */
-    __listenerPageClick() {
+    __listenerPageClick(ev) {
+        ev.preventDefault();
+        ev.stopPropagation();
+
         document
-            .getElementById('header-dropdown')
+            .getElementById('header-dropdown-content')
             .classList
             .add('header-dropdown-content_hidden');
     }
 
     /***
      * Get header listeners
-     * @returns {{pageClick: {listener: *, type: string}, headerClick: {listener: *, type: string}}}
+     * @returns {{dropdownClick: {listener: *, type: string}, headerClick: {listener: *, type: string}}}
      * @private
      */
     __createListeners() {
@@ -63,6 +94,10 @@ export class HeaderController {
             headerClick: {
                 type: 'click',
                 listener: this.__listenerHeaderClick.bind(this)
+            },
+            dropdownClick: {
+                type: 'click',
+                listener: this.__listenerDropdownClick.bind(this)
             },
             pageClick: {
                 type: 'click',
@@ -76,10 +111,12 @@ export class HeaderController {
      * @private
      */
     __openLanding() {
-        this.__header.removeListeners();
+        this.__pageRemoveListeners();
 
-        const landing = new Landing(this.__parent);
-        landing.render();
+        console.log('open landing');
+
+        // const landing = new Landing(this.__parent);
+        // landing.render();
     }
 
     /***
@@ -87,7 +124,7 @@ export class HeaderController {
      * @private
      */
     __openMap() {
-        // this.__header.removeListeners();
+        // this.__pageRemoveListeners();
 
         console.log('Open map');
     }
@@ -97,9 +134,19 @@ export class HeaderController {
      * @private
      */
     __openCreateProduct() {
-        // this.__header.removeListeners();
+        // this.__pageRemoveListeners();
 
         console.log('Open create product');
+    }
+
+    /***
+     * Header account click callback
+     * @private
+     */
+    __openAccount() {
+        // this.__pageRemoveListeners();
+
+        console.log('Open account');
     }
 
     /***
@@ -108,19 +155,9 @@ export class HeaderController {
      */
     __openDropdownMenu() {
         document
-            .getElementById('header-dropdown')
+            .getElementById('header-dropdown-content')
             .classList
             .toggle('header-dropdown-content_hidden');
-    }
-
-    /***
-     * Header account click callback
-     * @private
-     */
-    __openAccount() {
-        // this.__header.removeListeners();
-
-        console.log('Open account');
     }
 
     /***
@@ -128,7 +165,7 @@ export class HeaderController {
      * @private
      */
     __openProfile() {
-        // this.__header.removeListeners();
+        // this.__pageRemoveListeners();
 
         console.log('Open profile');
 
@@ -141,7 +178,7 @@ export class HeaderController {
      * @private
      */
     __openMyProducts() {
-        // this.__header.removeListeners();
+        // this.__pageRemoveListeners();
 
         console.log('Open my products');
     }
@@ -151,7 +188,7 @@ export class HeaderController {
      * @private
      */
     __openMessages() {
-        // this.__header.removeListeners();
+        // this.__pageRemoveListeners();
 
         console.log('Open messages');
     }
@@ -161,7 +198,7 @@ export class HeaderController {
      * @private
      */
     __openFavorites() {
-        // this.__header.removeListeners();
+        // this.__pageRemoveListeners();
 
         console.log('Open favorites');
     }
@@ -171,7 +208,7 @@ export class HeaderController {
      * @private
      */
     __logout() {
-        // this.__header.removeListeners();
+        // this.__pageRemoveListeners();
 
         console.log('Logout');
     }

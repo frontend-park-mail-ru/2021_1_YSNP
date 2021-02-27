@@ -10,8 +10,8 @@ export class Header {
      */
     constructor(parent, data, listeners = undefined) {
         this.__parent = parent;
-        this.__listeners = listeners;
         this.__data = data;
+        this.__listeners = listeners;
     }
 
     /***
@@ -40,6 +40,10 @@ export class Header {
 
         if (this.__data.isAuth) {
             document
+                .getElementById('header-dropdown')
+                .addEventListener(this.__listeners.dropdownClick.type, this.__listeners.dropdownClick.listener);
+
+            document
                 .getElementById('app')
                 .addEventListener(this.__listeners.pageClick.type, this.__listeners.pageClick.listener);
         }
@@ -54,6 +58,10 @@ export class Header {
             .removeEventListener(this.__listeners.headerClick.type, this.__listeners.headerClick.listener);
 
         if (this.__data.isAuth) {
+            document
+                .getElementById('header-dropdown')
+                .removeEventListener(this.__listeners.dropdownClick.type, this.__listeners.dropdownClick.listener);
+
             document
                 .getElementById('app')
                 .removeEventListener(this.__listeners.pageClick.type, this.__listeners.pageClick.listener);
@@ -98,9 +106,9 @@ export class Header {
      */
     __getAuthTemplate() {
         return `
-            <div class="header-dropdown">
+            <div class="header-dropdown" id="header-dropdown">
                 <img class="header-dropdown__button" data-action="dropdownClick" src="${this.__data.avatar}"/>
-                <div class="header-dropdown-content header-dropdown-content_hidden" id="header-dropdown">
+                <div class="header-dropdown-content header-dropdown-content_hidden" id="header-dropdown-content">
                     <div class="header-dropdown-content-inner">
                         <span class="header-dropdown-content__user">${this.__data.user}</span>
                         <div class="header-dropdown-content__separator"></div>

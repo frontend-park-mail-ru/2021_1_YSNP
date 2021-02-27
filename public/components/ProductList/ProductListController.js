@@ -4,20 +4,29 @@
 export class ProductListController {
     /***
      * Class constructor
+     * @param {Function} pageRemoveListeners - remove page listeners
      * @param {HTMLElement} parent - element callback will work with
      * @param {ProductList} productList - product list
      */
-    constructor(parent, productList) {
+    constructor(pageRemoveListeners, parent, productList) {
+        this.__pageRemoveListeners = pageRemoveListeners;
         this.__parent = parent;
         this.__productList = productList;
     }
 
     /***
-     * Render and add listeners
+     * Add listeners
      */
     control() {
         this.__productList.listeners = this.__createListeners();
         this.__productList.addListeners();
+    }
+
+    /***
+     * Remove Controller listeners
+     */
+    removeControllerListeners() {
+        this.__productList.removeListeners();
     }
 
     /***
