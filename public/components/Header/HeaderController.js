@@ -2,25 +2,34 @@ import {Profile} from '../../pages/Profile.js';
 import {Landing} from '../../pages/Landing.js';
 
 /***
- * Header controller
+ * Header controller controller
  */
 export class HeaderController {
     /***
-     *
+     * Class constructor
+     * @param {Function} pageRemoveListeners - remove page listeners
      * @param {HTMLElement} parent - element callback will work with
      * @param {Header} header - header
      */
-    constructor(parent, header) {
+    constructor(pageRemoveListeners, parent, header) {
+        this.__pageRemoveListeners = pageRemoveListeners;
         this.__parent = parent;
         this.__header = header;
     }
 
     /***
-     * Render and add listeners
+     * Add listeners
      */
     control() {
         this.__header.listeners = this.__createListeners();
         this.__header.addListeners();
+    }
+
+    /***
+     * Remove Controller listeners
+     */
+    removeControllerListeners() {
+        this.__header.removeListeners();
     }
 
     /***
@@ -76,7 +85,7 @@ export class HeaderController {
      * @private
      */
     __openLanding() {
-        this.__header.removeListeners();
+        this.__pageRemoveListeners();
 
         const landing = new Landing(this.__parent);
         landing.render();
@@ -87,7 +96,7 @@ export class HeaderController {
      * @private
      */
     __openMap() {
-        // this.__header.removeListeners();
+        // this.__pageRemoveListeners();
 
         console.log('Open map');
     }
@@ -97,7 +106,7 @@ export class HeaderController {
      * @private
      */
     __openCreateProduct() {
-        // this.__header.removeListeners();
+        // this.__pageRemoveListeners();
 
         console.log('Open create product');
     }
@@ -118,7 +127,7 @@ export class HeaderController {
      * @private
      */
     __openAccount() {
-        // this.__header.removeListeners();
+        // this.__pageRemoveListeners();
 
         console.log('Open account');
     }
@@ -128,7 +137,7 @@ export class HeaderController {
      * @private
      */
     __openProfile() {
-        // this.__header.removeListeners();
+        // this.__pageRemoveListeners();
 
         console.log('Open profile');
 
@@ -141,7 +150,7 @@ export class HeaderController {
      * @private
      */
     __openMyProducts() {
-        // this.__header.removeListeners();
+        // this.__pageRemoveListeners();
 
         console.log('Open my products');
     }
@@ -151,7 +160,7 @@ export class HeaderController {
      * @private
      */
     __openMessages() {
-        // this.__header.removeListeners();
+        // this.__pageRemoveListeners();
 
         console.log('Open messages');
     }
@@ -161,7 +170,7 @@ export class HeaderController {
      * @private
      */
     __openFavorites() {
-        // this.__header.removeListeners();
+        // this.__pageRemoveListeners();
 
         console.log('Open favorites');
     }
@@ -171,7 +180,7 @@ export class HeaderController {
      * @private
      */
     __logout() {
-        // this.__header.removeListeners();
+        // this.__pageRemoveListeners();
 
         console.log('Logout');
     }

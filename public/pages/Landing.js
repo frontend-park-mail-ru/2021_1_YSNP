@@ -76,6 +76,15 @@ export class Landing {
     }
 
     /***
+     * Remove page listeners
+     * @private
+     */
+    __removePageListeners() {
+        this.__headerController.removeControllerListeners();
+        this.__productListController.removeControllerListeners();
+    }
+
+    /***
      * Add component to parent
      */
     render() {
@@ -83,12 +92,12 @@ export class Landing {
 
         const header = new Header(this.__parent, this.__getHeaderData());
         header.render();
-        this.__headerController = new HeaderController(this.__parent, header);
+        this.__headerController = new HeaderController(this.__removePageListeners.bind(this), this.__parent, header);
         this.__headerController.control();
 
         const productList = new ProductList(this.__parent, this.__getProductListData());
         productList.render();
-        this.__productListController = new ProductListController(this.__parent, productList);
+        this.__productListController = new ProductListController(this.__removePageListeners.bind(this), this.__parent, productList);
         this.__productListController.control();
     }
 }
