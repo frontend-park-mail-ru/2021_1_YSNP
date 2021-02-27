@@ -22,7 +22,7 @@ export class Slider {
         this.__carousel = {
             width: 60,
             numVisible: 6,
-            duration: 4000,
+            duration: 400,
             padding: 10
         };
         this.__data = data;

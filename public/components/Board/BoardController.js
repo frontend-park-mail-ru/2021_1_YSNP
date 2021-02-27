@@ -31,15 +31,12 @@ export class BoardController {
      */
     __listenerToNext() {
         this.__board.__carousel.rotateForward();
-        const prevButton = document.getElementById('prev'),
-            nextButton = document.getElementById('next');
-        prevButton.classList.add('button_disabled');
-        nextButton.classList.add('button_disabled');
+        const scrollingPanel = document.getElementById('sliderPanel');
+        scrollingPanel.classList.add('button_disabled');
         const carousel = document.getElementById('carousel');
         this.__board.__carousel.animate(-this.__board.__carousel.__carousel.rowHeight, 0, () => {
             carousel.style.top = '0';
-            prevButton.classList.remove('button_disabled');
-            nextButton.classList.remove('button_disabled');
+            scrollingPanel.classList.remove('button_disabled');
         });
     }
 
@@ -50,16 +47,13 @@ export class BoardController {
      * @private
      */
     __listenerToBack() {
-        const prevButton = document.getElementById('prev'),
-              nextButton = document.getElementById('next');
-        prevButton.classList.add('button_disabled');
-        nextButton.classList.add('button_disabled');
+        const scrollingPanel = document.getElementById('sliderPanel');
+        scrollingPanel.classList.add('button_disabled');
         const carousel = document.getElementById('carousel');
         this.__board.__carousel.animate(0, -this.__board.__carousel.__carousel.rowHeight, () => {
             this.__board.__carousel.rotateBackward();
             carousel.style.top = '0';
-            prevButton.classList.remove('button_disabled');
-            nextButton.classList.remove('button_disabled');
+            scrollingPanel.classList.remove('button_disabled');
         });
     }
 
