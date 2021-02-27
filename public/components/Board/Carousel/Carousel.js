@@ -169,7 +169,7 @@ export class Slider {
         const photoArray = this.__data.photos;
         let htmlImg = '';
         photoArray.forEach((value) => {
-            htmlImg += `<img src="${value}" alt="">`;
+            htmlImg += `<img src="${value}" alt="" data-action="selectClick">`;
         });
         return htmlImg;
     }
@@ -200,14 +200,14 @@ export class Slider {
     __getTemplate() {
         return `   
         <div class="slider">
-            <div class="slider-inner">
-                <div class="slider__button"> 
+            <div class="slider-inner" id="sliderTMP">
+                <div class="slider__button" data-action="nextClick"> 
                     <a class="slider__button-prev" id="prev"><svg width="20" height="11" viewBox="0 0 20 11" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M1 10.5L10 1.5L19 10.5" stroke="black"/></svg></a>
                 </div>
                 <div class="slider-carousel" id="carousel">
                     ${this.__getPhotos}
                 </div>
-                <div class="slider__button">
+                <div class="slider__button" data-action="backClick">
                     <a class="slider__button-next" id="next"><svg width="21" height="12" viewBox="0 0 21 12" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M1 1L10.5 11L20 1" stroke="black"/></svg></a>
                 </div>
             </div>
@@ -226,15 +226,17 @@ export class Slider {
      * @this {Slider}
      */
     addListeners() {
-        const prevButton = document.getElementById('prev'),
-            nextButton = document.getElementById('next');
-        nextButton.addEventListener(this.listeners.toNext.type, this.listeners.toNext.listener);
-        prevButton.addEventListener(this.listeners.toBack.type, this.listeners.toBack.listener);
+
+        document
+            .getElementById('sliderTMP')
+            .addEventListener(this.listeners.scrolling.type, this.listeners.scrolling.listener);
+
+        /*
         const carousel = document.getElementById('carousel'),
             images = carousel.getElementsByTagName('img');
         for (let i = 0; i < images.length; ++i) {
             images[i].addEventListener(this.listeners.selectImage.type, this.listeners.selectImage.listener);
-        }
+        }*/
     }
 
     /***
@@ -267,6 +269,5 @@ export class Slider {
         const template = this.__getTemplate();
         this.__parent.insertAdjacentHTML('beforeend', template);
         this.createCarousel();
-        this.addListeners();
     }
 }

@@ -2,10 +2,10 @@
 
 import {Header} from '../components/Header/Header.js';
 import {Profile} from './Profile.js';
-import {Landing} from './Landing.js';
 import {Navigation} from '../components/Navigation/Navigation.js';
 import {NavigationController} from '../components/Navigation/NavigationController.js';
 import {Board} from '../components/Board/Board.js';
+import {BoardController} from '../components/Board/BoardController.js';
 
 /***
  * @author Ivan Gorshkov
@@ -93,5 +93,7 @@ export class Product {
 
         this.__board = new Board(this.__parent, {identity: {id: 2099347381, title: 'Mercedes-Benz S-класс, 2014'}});
         this.__board.render();
+        this.__boardController = new BoardController(this.__parent, this.__board);
+        this.__boardController.control();
     }
 }

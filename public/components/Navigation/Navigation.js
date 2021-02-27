@@ -95,7 +95,6 @@ export class Navigation {
      * @this {Slider}
      */
     addListeners() {
-        console.log(this.__listeners);
         document
             .getElementById('navigate-back')
             .addEventListener(this.listeners.backButton.type, this.listeners.backButton.listener);

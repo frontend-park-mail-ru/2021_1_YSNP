@@ -74,66 +74,11 @@ export class Board {
 
     /***
      * @author Ivan Gorshkov
-     * listener for tern next picture
-     * @param {Event} ev - event
-     * @this {Board}
-     * @public
-     */
-    listenerToNext(ev) {
-        ev.preventDefault();
-        this.__carousel.rotateForward();
-        const prevButton = document.getElementById('prev'),
-            nextButton = document.getElementById('next');
-        prevButton.classList.add('button_disabled');
-        nextButton.classList.add('button_disabled');
-        const carousel = document.getElementById('carousel');
-        this.__carousel.animate(-this.__carousel.__carousel.rowHeight, 0, () => {
-            carousel.style.top = '0';
-            prevButton.classList.remove('button_disabled');
-            nextButton.classList.remove('button_disabled');
-        });
-    }
-
-    /***
-     * @author Ivan Gorshkov
-     * listener for tern previous picture
-     * @param {Event} ev - event
-     * @this {Board}
-     * @public
-     */
-    listenerToBack(ev) {
-        ev.preventDefault();
-        const prevButton = document.getElementById('prev'),
-            nextButton = document.getElementById('next');
-        prevButton.classList.add('button_disabled');
-        nextButton.classList.add('button_disabled');
-        const carousel = document.getElementById('carousel');
-        this.__carousel.animate(0, -this.__carousel.__carousel.rowHeight, () => {
-            this.__carousel.rotateBackward();
-            carousel.style.top = '0';
-            prevButton.classList.remove('button_disabled');
-            nextButton.classList.remove('button_disabled');
-        });
-    }
-
-    /***
-     * @author Ivan Gorshkov
      *
      * listener for select photo
      * @private
      * @this {Board}
      */
-    listenerSelectImage(ev) {
-        ev.preventDefault();
-        const elem = document.getElementById('pic');
-        elem.src = ev.target.src;
-        const carousel = document.getElementById('carousel'),
-            images = carousel.getElementsByTagName('img');
-        for (let i = 0; i < images.length; ++i) {
-            images[i].style.opacity = '0.3';
-        }
-        ev.target.style.opacity = '1.0';
-    }
 
     /***
      * @author Ivan Gorshkov
@@ -146,31 +91,15 @@ export class Board {
         this.__carousel.removeListeners();
     }
 
-    /***
-     * @author Ivan Gorshkov
-     * func for create object of listeners
-     * @return {{scrolling: {toNext: {listener: *, type: string}, toBack: {listener: *, type: string}}}}
-     * @this {Board}
-     * @private
-     */
-    __createListeners() {
-        return {
-            scrolling: {
-                toNext: {
-                    type: 'click',
-                    listener: this.listenerToBack.bind(this)
-                },
-                toBack: {
-                    type: 'click',
-                    listener: this.listenerToNext.bind(this)
-                },
-                selectImage: {
-                    type: 'click',
-                    listener: this.listenerSelectImage.bind(this)
-                }
-            }
-        };
+    listenersTMP(val) {
+        this.__carousel.listeners = val;
     }
+
+
+    addListeners() {
+        this.__carousel.addListeners();
+    }
+
 
     /***
      * @author Ivan Gorshkov
@@ -182,6 +111,7 @@ export class Board {
     render() {
         const template = this.__getTemplate();
         this.__parent.insertAdjacentHTML('beforeend', template);
+
         const parentRightSide = document.getElementById('board-right-side');
         const parentLeftSide = document.getElementById('board-left-side');
 
@@ -189,9 +119,8 @@ export class Board {
              likes: 2123, date: '11 февраля в 11:17'}});
         this.__infoCard.render();
 
-        const listeners = this.__createListeners();
+
         this.__carousel = new Slider(parentLeftSide, {photos: ['../../../img/pic1.jpeg', '../../../img/pic2.jpeg', '../../../img/pic3.jpeg', '../../../img/pic4.jpeg', '../../../img/pic5.jpeg', '../../../img/pic6.jpeg', '../../../img/pic7.jpeg']});
-        this.__carousel.listeners = listeners.scrolling;
         this.__carousel.render();
 
         this.__description = new Description(parentLeftSide, { description:

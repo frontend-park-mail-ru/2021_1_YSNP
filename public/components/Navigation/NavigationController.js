@@ -1,3 +1,5 @@
+'use strict';
+
 import {Landing} from '../../pages/Landing.js';
 
 
