@@ -34,12 +34,12 @@ export class RegistrationPanel {
         let fields = '';
         for (const prop in this.__data) {
             const element = this.__data[prop];
-            fields += `<div class="product--description">
-                <div class="product--description--topic">
-                    <p class="product--description--description__title">${element.title}</p>
+            fields += `<div class="product-des form-spacing">
+                <div class="product-des-topic">
+                    <p class="product-des-topic__title">${element.title}</p>
                 </div>
-                <div class="product--description--description">
-                    <p class="product--description--description__text"><input id="${element.id}" type="${element.inputType}" placeholder="${element.placeholder}" name="${element.id}"/></p>
+                <div class="product-des-inner">
+                    <input class="reg-panel__textfield" data-action="${element.dataAction}" id="${element.id}" type="${element.inputType}" placeholder="${element.placeholder}" name="${element.id}"/>
                 </div>
             </div>`;
         }
@@ -49,19 +49,19 @@ export class RegistrationPanel {
 
     __getTemplate() {
         return `           
-           <div class="reg-panel">
-               <div class="reg-panel--title">
+           <div class="board">
+               <div class="board--title">
                    <p class="reg-panel--title__product-name">Регистрация</p>
                </div>
                
-               <form>
-            ${this.__drawForm()}
-            <div class="product--description">
-                <div class="product--description--topic">
+               <form id="registrationForm">
+                    ${this.__drawForm()}
+            <div class="product-des">
+                <div class="product-des-topic">
                 
                 </div>
-                <div class="product--description--description">
-                    <p class="product--description--description__text"> <input type="submit" id="register" value="Зарегистрироваться"/></p>
+                <div class="product-des-inner">
+                  <input class="header-right__create-button reg__button" data-action="clickRegistration" type="submit" id="register" value="Зарегистрироваться"/>
                 </div>
             </div>
             
@@ -105,21 +105,20 @@ export class RegistrationPanel {
      */
 
     addListeners() {
-        for (const prop in this.__data) {
-            const element = this.__data[prop];
-            document
-                .getElementById(element.id)
-                .addEventListener(element.listener.type, element.listener.listener);
-        }
 
         document
-            .getElementById('register')
-            .addEventListener(this.listeners.register.type, this.listeners.register.listener);
+            .getElementById('registrationForm')
+            .addEventListener(this.listeners.validateInput.type, this.listeners.validateInput.listener);
+        document
+            .getElementById('registrationForm')
+            .addEventListener(this.listeners.validateChange.type, this.listeners.validateChange.listener);
+        document
+            .getElementById('registrationForm')
+            .addEventListener(this.listeners.registrationClick.type, this.listeners.registrationClick.listener);
     }
 
     render() {
         const template = this.__getTemplate();
         this.__parent.insertAdjacentHTML('beforeend', template);
-        this.addListeners();
     }
 }

@@ -1,49 +1,14 @@
-.reg-panel {
-    font-family: Roboto, serif;
-    font-style: normal;
-    font-weight: normal;
-    width: 76vw;
-    background: white;
-    border-radius: 1vh;
-    box-shadow: 0 0 1vw rgba(0,0,0,0.2);
-    padding: 2vw 2vw 1vw 2vw;
-    margin: 1.5vw auto 0;
-}
-
-
-.product--description {
-    display: flex;
-}
-.product--description--topic {
-    width: 18%;
-}
-
-.product--description--description {
-    width: 75%;
-}
-
-.product--description--description__text input {
-    border: 0.5px solid rgba(0,0,0,0.2);
+.reg-panel__textfield {
+    border: 1px solid rgba(0,0,0,0.2);
     box-sizing: border-box;
-    border-radius: 1vh;
+    border-radius: 0.5vh;
 
     font-size: 1.8vh;
-    width: 15vw;
     height: 2.5vw;
+    width: 15.5vw;
     padding-left: 10px;
 }
 
-.product--description--description__title{
-    font-family: SF Pro Display, sans-serif;
-    font-style: normal;
-    font-weight: normal;
-    font-size: 1.8vh;
-    line-height: 19px;
-
-    color: #000000;
-
-    opacity: 0.5;
-}
 
 
 .reg-panel--title__product-name {
@@ -54,4 +19,20 @@
 
 .reg-panel--title {
     margin-bottom: 1vw;
+}
+
+.list-errors {
+    padding-left: 1.8vh;
+    font-size: 1.8vh;
+    color: #D31E1E;
+}
+
+
+.reg__button {
+    font-size: 1vw;
+    transform: translate(25%, 0);
+}
+
+.form-spacing {
+    margin: 2vh;
 }
