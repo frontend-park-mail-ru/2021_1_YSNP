@@ -1,21 +1,49 @@
 'use strict';
 
-
+/***
+ * @author Ivan Gorshkov
+ *
+ * RegistrationPanelController control events of board and board component
+ * @class RegistrationPanelController
+ */
 export class RegistrationPanelController {
 
-    constructor(parent, productList) {
+    /***
+     * @author Ivan Gorshkov
+     *
+     * init of class RegistrationPanelController
+     * @param{HTMLElement} parent - parent component
+     * @param{RegistrationPanel} registartion - control component
+     * @constructor
+     * @this {RegistrationPanelController}
+     * @public
+     */
+    constructor(parent, registartion) {
         this.__parent = parent;
-        this.__registartion = productList;
+        this.__registartion = registartion;
     }
 
-
+    /***
+     * @author Ivan Gorshkov
+     *
+     * set listeners to all components
+     * @this {RegistrationPanelController}
+     * @public
+     */
     control() {
         this.__registartion.listeners = this.__createListeners();
         this.__registartion.addListeners();
     }
 
-
-    __listenerProductListClick(ev) {
+    /***
+     * @author Ivan Gorshkov
+     *
+     * main listener
+     * @private
+     * @this {RegistrationPanelController}
+     * @param{Event} ev - event
+     */
+    __listenersRegistrarion(ev) {
         ev.preventDefault();
 
         const actions = this.__getActions();
@@ -28,26 +56,40 @@ export class RegistrationPanelController {
             });
     }
 
-
+    /***
+     * @author Ivan Gorshkov
+     *
+     * function witch return Object of listeners
+     * @this {RegistrationPanelController}
+     * @return {{validateChange: {listener: *, type: string}, validateInput: {listener: *, type: string}, registrationClick: {listener: *, type: string}}}
+     * @private
+     */
     __createListeners() {
         return {
             registrationClick: {
                 type: 'click',
-                listener: this.__listenerProductListClick.bind(this)
+                listener: this.__listenersRegistrarion.bind(this)
             },
             validateInput: {
                 type: 'input',
-                listener: this.__listenerProductListClick.bind(this)
+                listener: this.__listenersRegistrarion.bind(this)
             },
             validateChange: {
                 type: 'change',
-                listener: this.__listenerProductListClick.bind(this)
+                listener: this.__listenersRegistrarion.bind(this)
 
             }
         };
     }
 
-
+    /***
+     * @author Ivan Gorshkov
+     *
+     * Object with all actions
+     * @return {{changePwd: {open: any}, inputConfirmPwd: {open: any}, clickRegistration: {open: *}, inputEmpty: {open: any}, inputPhone: {open: any}, inputMail: {open: any}, readURL: {open: *}, clickUpload: {open: *}}}
+     * @this {RegistrationPanelController}
+     * @private
+     */
     __getActions() {
         return {
             inputPhone: {
@@ -77,9 +119,16 @@ export class RegistrationPanelController {
         };
     }
 
+    /****
+     * @author Ivan Gorshkov
+     *
+     * update profile picture action
+     * @param input
+     * @private
+     */
     __read(input) {
         if (input.files && input.files[0]) {
-            var reader = new FileReader();
+            const reader = new FileReader();
 
             reader.onload = function(e) {
                 const elem = document.getElementById('profile-pic');
@@ -90,27 +139,65 @@ export class RegistrationPanelController {
         }
     }
 
+    /***
+     * @author Ivan Gorshkov
+     *
+     * open file system menu action
+     * @private
+     */
     __upload() {
         const elem = document.getElementById('file-upload');
-        console.log(elem);
         elem.click();
     }
 
+    /***
+     * @author Ivan Gorshkov
+     *
+     * validate number
+     * @param{string} phoneNumber
+     * @return {boolean}
+     * @private
+     */
     __isValidPhone(phoneNumber) {
         const found = phoneNumber.search(/^(\+{0,})(\d{0,})([(]{1}\d{1,3}[)]{0,}){0,}(\s?\d+|\+\d{2,3}\s{1}\d+|\d+){1}[\s|-]?\d+([\s|-]?\d+){1,2}(\s){0,}$/);
         return found > -1;
     }
 
+    /***
+     * @author Ivan Gorshkov
+     *
+     * validate mail
+     * @param{string} email
+     * @return {boolean}
+     * @private
+     */
     __isValidEmail(email) {
         const re = /\S+@\S+\.\S+/;
         return re.test(email);
     }
 
+    /***
+     * @author Ivan Gorshkov
+     *
+     * validate password
+     * @param{string} inputtxt
+     * @return {boolean}
+     * @private
+     */
     __isValidPwd(inputtxt) {
         const re = /(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,}/;
         return re.test(inputtxt);
     }
 
+    /***
+     * @author Ivan Gorshkov
+     *
+     * add to DOM error massage
+     * @param{HTMLElement} target
+     * @param{string} idError
+     * @param{string} textError
+     * @private
+     */
     __insertError(target, idError, textError) {
         target.style.border = '0.5px solid red';
         if (document.getElementById(idError) === null) {
@@ -121,6 +208,14 @@ export class RegistrationPanelController {
         }
     }
 
+    /***
+     * @author Ivan Gorshkov
+     *
+     * add success massage
+     * @param{HTMLElement} target
+     * @param{string} idError
+     * @private
+     */
     __addSuccesses(target, idError) {
         target.style.border = '0.5px solid green';
         if (document.getElementById(idError) !== null) {
@@ -128,6 +223,15 @@ export class RegistrationPanelController {
         }
     }
 
+    /***
+     * @author Ivan Gorshkov
+     *
+     * action to validate input phone
+     * @param{HTMLElement} target
+     * @return {boolean}
+     * @private
+     * @this {RegistrationPanelController}
+     */
     _validatePhone(target) {
         if (this.__isValidPhone(target.value)) {
             this.__addSuccesses(target, 'phoneError');
@@ -140,6 +244,15 @@ export class RegistrationPanelController {
         return false;
     }
 
+    /***
+     * @author Ivan Gorshkov
+     *
+     * action to validate input password
+     * @param{HTMLElement} target
+     * @return {boolean}
+     * @private
+     * @this {RegistrationPanelController}
+     */
     __validatePas(target) {
         if (this.__isValidPwd(target.value)) {
             this.__addSuccesses(target, 'passwordError');
@@ -159,6 +272,15 @@ export class RegistrationPanelController {
         return false;
     }
 
+    /***
+     * @author Ivan Gorshkov
+     *
+     * action to validate input confirmpassword
+     * @param{HTMLElement} target
+     * @return {boolean}
+     * @private
+     * @this {RegistrationPanelController}
+     */
     __validateConfirmPwd(target) {
         const element = document.getElementById('password');
         if (element.value === target.value && target.value !== '') {
@@ -173,6 +295,15 @@ export class RegistrationPanelController {
         return false;
     }
 
+    /***
+     * @author Ivan Gorshkov
+     *
+     * action to validate input mail
+     * @param{HTMLElement} target
+     * @return {boolean}
+     * @private
+     * @this {RegistrationPanelController}
+     */
     __validateMail(target) {
         if (this.__isValidEmail(target.value)) {
             this.__addSuccesses(target, 'MailError');
@@ -186,6 +317,15 @@ export class RegistrationPanelController {
         return false;
     }
 
+    /***
+     * @author Ivan Gorshkov
+     *
+     * action to validate input fields witch can not be empty
+     * @param{HTMLElement} target
+     * @return {boolean}
+     * @private
+     * @this {RegistrationPanelController}
+     */
     __validateEmpty(target) {
         if (target.value !== '') {
             this.__addSuccesses(target, `${target.id}Error`);
@@ -200,6 +340,13 @@ export class RegistrationPanelController {
         return false;
     }
 
+    /***
+     * @author Ivan Gorshkov
+     *
+     * action witch validate all fields (registration button)
+     * @private
+     * @this {RegistrationPanelController}
+     */
     __validateRegister() {
         const passwordConfirm = document.getElementById('passwordConfirm');
         const phone = document.getElementById('phone');

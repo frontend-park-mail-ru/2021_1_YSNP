@@ -48,7 +48,7 @@
 }
 
 .circle {
-    border-radius: 1000px !important;
+    border-radius: 100%;
     overflow: hidden;
     width: 9vw;
     height: 9vw;
@@ -88,5 +88,5 @@ img {
 
 .reg-picture {
     position: relative;
-    margin-bottom: 20px;
+    transform: translate(5%, 0);
 }

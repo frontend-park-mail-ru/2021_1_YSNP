@@ -7,12 +7,33 @@ import {Navigation} from '../components/Navigation/Navigation.js';
 import {NavigationController} from '../components/Navigation/NavigationController.js';
 import {RegistrationPanelController} from '../components/RegistrationPanel/RegistrationPanelController.js';
 
-
+/***
+ * @author Ivan Gorshkov
+ * Registration class for registration page
+ * @class Registration
+ */
 export class Registration {
+
+    /***
+     * @author Ivan Gorshkov
+     *
+     * init of class Registration
+     * @param {HTMLElement} parent - parent element
+     * @constructor
+     * @this {Registration}
+     * @public
+     */
     constructor(parent) {
         this.__parent = parent;
     }
 
+    /***
+     * @author Ivan Gorshkov
+     * TMP DATA
+     *
+     * @return {{date: {dataAction: string, inputType: string, placeholder: null, id: string, title: string}, password: {dataAction: string, inputType: string, placeholder: string, id: string, title: string}, mail: {dataAction: string, inputType: string, placeholder: string, id: string, title: string}, phone: {dataAction: string, inputType: string, placeholder: string, id: string, title: string}, passwordConfirm: {dataAction: string, inputType: string, placeholder: string, id: string, title: string}, surname: {dataAction: string, inputType: string, placeholder: string, id: string, title: string}, name: {dataAction: string, inputType: string, placeholder: string, id: string, title: string}}}
+     * @private
+     */
     __RegistrationForm() {
         return {
             name: {
@@ -67,7 +88,13 @@ export class Registration {
         };
     }
 
-
+    /***
+     * @author Ivan Gorshkov
+     * TMP DATA
+     *
+     * @return {{isAuth: boolean, location: string, avatar: string, user: string}}
+     * @private
+     */
     __getHeaderData() {
         return {
             isAuth: false,
@@ -77,10 +104,24 @@ export class Registration {
         };
     }
 
+    /***
+     * @author Ivan Gorshkov
+     *
+     * remove listeners
+     * @this {Product}
+     * @public
+     */
     __removePageListeners() {
         this.__headerController.removeControllerListeners();
     }
 
+    /***
+     * @author Ivan Gorshkov
+     *
+     * Add component to parent
+     * @this {Registration}
+     * @public
+     */
     render() {
         this.__parent.innerHTML = '';
 

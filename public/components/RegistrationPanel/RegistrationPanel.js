@@ -23,13 +23,11 @@ export class RegistrationPanel {
 
     /***
      * @author Ivan Gorshkov
-     * main template of component
+     * add input fields to template
      * @return {string}
      * @private
      * @this {RegistrationPanel}
      */
-
-
     __drawForm() {
         let fields = '';
         for (const prop in this.__data) {
@@ -47,6 +45,13 @@ export class RegistrationPanel {
         return fields;
     }
 
+    /***
+     * @author Ivan Gorshkov
+     * main template of component
+     * @return {string}
+     * @private
+     * @this {RegistrationPanel}
+     */
     __getTemplate() {
         return `           
                        
@@ -124,11 +129,10 @@ export class RegistrationPanel {
     /***
      * @author Ivan Gorshkov
      *
-     * Add component to parent
+     * add listeners
      * @this {RegistrationPanel}
      * @public
      */
-
     addListeners() {
 
         document
@@ -146,6 +150,13 @@ export class RegistrationPanel {
 
     }
 
+    /***
+     * @author Ivan Gorshkov
+     *
+     * Add component to parent
+     * @this {RegistrationPanel}
+     * @public
+     */
     render() {
         const template = this.__getTemplate();
         this.__parent.insertAdjacentHTML('beforeend', template);
