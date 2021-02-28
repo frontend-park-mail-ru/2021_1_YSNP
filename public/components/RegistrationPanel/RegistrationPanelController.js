@@ -17,6 +17,7 @@ export class RegistrationPanelController {
 
     __listenerProductListClick(ev) {
         ev.preventDefault();
+
         const actions = this.__getActions();
         Object
             .entries(ev.composedPath())
@@ -66,10 +67,34 @@ export class RegistrationPanelController {
             },
             clickRegistration: {
                 open: this.__validateRegister.bind(this)
+            },
+            clickUpload: {
+                open: this.__upload.bind(this)
+            },
+            readURL: {
+                open: this.__read.bind(this)
             }
         };
     }
 
+    __read(input) {
+        if (input.files && input.files[0]) {
+            var reader = new FileReader();
+
+            reader.onload = function(e) {
+                const elem = document.getElementById('profile-pic');
+                elem.src = e.target.result;
+            };
+
+            reader.readAsDataURL(input.files[0]);
+        }
+    }
+
+    __upload() {
+        const elem = document.getElementById('file-upload');
+        console.log(elem);
+        elem.click();
+    }
 
     __isValidPhone(phoneNumber) {
         const found = phoneNumber.search(/^(\+{0,})(\d{0,})([(]{1}\d{1,3}[)]{0,}){0,}(\s?\d+|\+\d{2,3}\s{1}\d+|\d+){1}[\s|-]?\d+([\s|-]?\d+){1,2}(\s){0,}$/);

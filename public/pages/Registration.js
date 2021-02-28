@@ -16,49 +16,49 @@ export class Registration {
     __RegistrationForm() {
         return {
             name: {
-                title: 'Имя',
+                title: 'Имя*',
                 placeholder: 'Имя',
                 inputType: 'text',
                 id: 'name',
                 dataAction: 'inputEmpty'
             },
             surname: {
-                title: 'Фамилия',
+                title: 'Фамилия*',
                 placeholder: 'Фамилия',
                 inputType: 'text',
                 id: 'surname',
                 dataAction: 'inputEmpty'
             },
             phone: {
-                title: 'Телефон',
+                title: 'Телефон*',
                 placeholder: 'Телефон',
                 inputType: 'tel',
                 id: 'phone',
                 dataAction: 'inputPhone'
             },
             mail: {
-                title: 'Почта',
+                title: 'Почта*',
                 placeholder: 'Почта',
                 inputType: 'email',
                 id: 'mail',
                 dataAction: 'inputMail'
             },
             password: {
-                title: 'Пароль',
+                title: 'Пароль*',
                 placeholder: 'Пароль',
                 inputType: 'password',
                 id: 'password',
                 dataAction: 'changePwd'
             },
             passwordConfirm: {
-                title: 'Повторите пароль',
+                title: 'Повторите пароль*',
                 placeholder: 'Пароль',
                 inputType: 'password',
                 id: 'passwordConfirm',
                 dataAction: 'inputConfirmPwd'
             },
             date: {
-                title: 'Дата рождения',
+                title: 'Дата рождения*',
                 placeholder: null,
                 inputType: 'date',
                 id: 'date',

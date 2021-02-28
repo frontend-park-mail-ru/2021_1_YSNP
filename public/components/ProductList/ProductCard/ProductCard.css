@@ -29,7 +29,7 @@
 .product-card:hover {
     cursor: pointer;
 
-    box-shadow: rgba(0, 0, 0, 0.5) 0 0 20px;
+    box-shadow: rgba(0, 0, 0, 0.5) 0 0 10px;
 }
 
 .product-card__like {

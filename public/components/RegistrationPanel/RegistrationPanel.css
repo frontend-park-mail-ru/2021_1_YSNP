@@ -36,3 +36,57 @@
 .form-spacing {
     margin: 2vh;
 }
+
+
+.profile-pic {
+    display: block;
+    object-fit: cover;
+}
+
+.file-upload {
+    display: none;
+}
+
+.circle {
+    border-radius: 1000px !important;
+    overflow: hidden;
+    width: 9vw;
+    height: 9vw;
+    border: 1px solid rgba(0,0,0,0.1);
+}
+
+img {
+    max-width: 100%;
+    height: auto;
+}
+
+.p-image {
+    top: 167px;
+    right: 30px;
+    color: #666666;
+    opacity: 0.5;
+    transition: all .3s cubic-bezier(.175, .885, .32, 1.275);
+}
+.p-image:hover {
+
+    opacity: 1;
+}
+
+.upload-button {
+    width: 1vw;
+    height: 1vw;
+    position: absolute;
+    top: 0;
+    left: 0;
+    transform: translate(7vw, 7vw);
+}
+
+.upload-button:hover {
+    transition: all .3s cubic-bezier(.175, .885, .32, 1.275);
+    color: #999;
+}
+
+.reg-picture {
+    position: relative;
+    margin-bottom: 20px;
+}
