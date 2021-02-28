@@ -19,7 +19,7 @@ export class ProductList {
 
     /***
      * Get listeners
-     * @returns {Object} - component listeners
+     * @returns {Object}
      */
     get listeners() {
         return this.__listeners;
@@ -69,7 +69,7 @@ export class ProductList {
 
     /***
      * Component HTML
-     * @returns {string} - html layout
+     * @returns {string}
      * @private
      */
     __getTemplate() {

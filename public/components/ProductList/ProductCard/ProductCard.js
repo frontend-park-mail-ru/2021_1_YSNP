@@ -34,7 +34,7 @@ export class ProductCard {
 
     /***
      * Component HTML
-     * @returns {string} - html layout
+     * @returns {string}
      * @private
      */
     __getTemplate() {
