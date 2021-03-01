@@ -31,7 +31,7 @@ export class ProductListController {
 
     /***
      * Product List click event
-     * @param {Event} ev - event
+     * @param {MouseEvent} ev - event
      */
     __listenerProductListClick(ev) {
         ev.preventDefault();
