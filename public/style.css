@@ -1,9 +1,19 @@
-@import "pages/styles/Authorization.css";
 @import "pages/styles/Landing.css";
 @import "pages/styles/Product.css";
 @import "pages/styles/ProductCreate.css";
 @import "pages/styles/Profile.css";
 @import "pages/styles/Registration.css";
+
+@import "pages/styles/Test.css";
+
+@font-face {
+    font-family: Roboto;
+    src: url(/fonts/Roboto-Regular.ttf)
+}
+
+* {
+    font-family: Roboto, serif;
+}
 
 body {
     margin: 0;
