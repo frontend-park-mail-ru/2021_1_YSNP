@@ -1,5 +1,4 @@
 import {Profile} from '../../pages/Profile.js';
-import {Landing} from '../../pages/Landing.js';
 import {Auth} from '../Auth/Auth.js';
 import {AuthController} from '../Auth/AuthController.js';
 
@@ -32,11 +31,15 @@ export class HeaderController {
      */
     removeControllerListeners() {
         this.__header.removeListeners();
+
+        if (this.__authController !== undefined) {
+            this.__authController.removeControllerListeners();
+        }
     }
 
     /***
      * Header click event
-     * @param {Event} ev - event
+     * @param {MouseEvent} ev - event
      * @private
      */
     __listenerHeaderClick(ev) {
@@ -58,7 +61,7 @@ export class HeaderController {
 
     /***
      * Dropdown click event
-     * @param {Event} ev - event
+     * @param {MouseEvent} ev - event
      * @private
      */
     __listenerDropdownClick(ev) {
@@ -77,7 +80,7 @@ export class HeaderController {
 
     /***
      * Page click event
-     * @param {Event} ev - event
+     * @param {MouseEvent} ev - event
      * @private
      */
     __listenerPageClick(ev) {
@@ -153,7 +156,7 @@ export class HeaderController {
         const auth = new Auth(this.__parent);
         auth.render();
 
-        this.__authController = new AuthController(this.__parent, auth);
+        this.__authController = new AuthController(this.__pageRemoveListeners, this.__parent, auth);
         this.__authController.control();
     }
 
