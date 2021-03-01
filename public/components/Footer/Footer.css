@@ -1,0 +1,29 @@
+
+.footer {
+    width: 80vw;
+    margin: 0 auto;
+    padding-top: 2vw;
+    font-family: Roboto, serif;
+    font-style: normal;
+    font-weight: normal;
+    padding-bottom: 2vw;
+}
+.footer-hr {
+    opacity: 0.2;
+}
+
+.footer-inner {
+    display: flex;
+    justify-content: space-between;
+
+}
+
+.footer-content {
+    margin-left: 1vh;
+    opacity: 0.5;
+    text-decoration: underline;
+}
+
+.footer-content p:hover {
+    color: #D31E1E;
+}

@@ -4,6 +4,7 @@
 @import "pages/styles/ProductCreate.css";
 @import "pages/styles/Profile.css";
 @import "pages/styles/Registration.css";
+@import "components/Footer/Footer.css";
 
 body {
     margin: 0;
