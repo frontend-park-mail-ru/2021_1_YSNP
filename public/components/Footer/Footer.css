@@ -13,17 +13,22 @@
 }
 
 .footer-inner {
+    margin-left: 1vh;
     display: flex;
     justify-content: space-between;
 
 }
 
-.footer-content {
-    margin-left: 1vh;
+.footer__link {
     opacity: 0.5;
     text-decoration: underline;
 }
+.footer__corp{
+    opacity: 0.5;
+}
 
-.footer-content p:hover {
+
+.footer__link:hover {
+    cursor: pointer;
     color: #D31E1E;
 }
