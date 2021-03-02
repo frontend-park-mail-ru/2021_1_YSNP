@@ -12,8 +12,8 @@ export class BoardController {
      * @author Ivan Gorshkov
      *
      * init of class BoardController
-     * @param{HTMLElement} parent - parent component
-     * @param{Board} board - control component
+     * @param {HTMLElement} parent - parent component
+     * @param {Board} board - control component
      * @constructor
      * @this {BoardController}
      * @public
@@ -34,6 +34,8 @@ export class BoardController {
         const scrollingPanel = document.getElementById('sliderPanel');
         scrollingPanel.classList.add('button_disabled');
         const carousel = document.getElementById('carousel');
+
+        // eslint-disable-next-line no-magic-numbers
         this.__board.__carousel.animate(-this.__board.__carousel.__carousel.rowHeight, 0, () => {
             carousel.style.top = '0';
             scrollingPanel.classList.remove('button_disabled');
@@ -50,6 +52,8 @@ export class BoardController {
         const scrollingPanel = document.getElementById('sliderPanel');
         scrollingPanel.classList.add('button_disabled');
         const carousel = document.getElementById('carousel');
+
+        // eslint-disable-next-line no-magic-numbers
         this.__board.__carousel.animate(0, -this.__board.__carousel.__carousel.rowHeight, () => {
             this.__board.__carousel.rotateBackward();
             carousel.style.top = '0';
@@ -63,6 +67,7 @@ export class BoardController {
      * listener for select photo
      * @private
      * @this {BoardController}
+     * @param {MouseEvent} ev - event
      */
     __listenerSelectImage(ev) {
         ev.preventDefault();
@@ -82,7 +87,7 @@ export class BoardController {
      * main listener
      * @private
      * @this {BoardController}
-     * @param{Event} ev - event
+     * @param {MouseEvent} ev - event
      */
     __listenerBoardClick(ev) {
         ev.preventDefault();
@@ -101,7 +106,7 @@ export class BoardController {
      *
      * function witch return Object of listeners
      * @this {BoardController}
-     * @return {{backButton: {listener: *, type: string}}}
+     * @return {{board: {listener: *, type: string}}}
      * @private
      */
     __createListeners() {
@@ -126,12 +131,20 @@ export class BoardController {
     }
 
     /***
+     * Remove Controller listeners
+     */
+    removeControllerListeners() {
+        this.__board.removeListeners();
+    }
+
+    /***
      * @author Ivan Gorshkov
      * listener to show number
      * @this {BoardController}
      * @private
      */
     __listenerShowNumber() {
+        // TODO(Ivan) release __listenerShowNumber
         console.log('number');
     }
 
@@ -142,6 +155,7 @@ export class BoardController {
      * @private
      */
     __listenerWriteMassage() {
+        // TODO(Ivan) release __listenerWriteMassage
         console.log('massage');
     }
 

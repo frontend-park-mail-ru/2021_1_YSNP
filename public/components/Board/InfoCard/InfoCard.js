@@ -26,7 +26,7 @@ export class InfoCard {
      * @author Ivan Gorshkov
      *
      * getter product price
-     * @return {string}
+     * @return {String}
      * @private
      * @readonly
      */
@@ -39,7 +39,7 @@ export class InfoCard {
      * @author Ivan Gorshkov
      *
      * getter name of seller
-     * @return {string}
+     * @return {String}
      * @private
      * @readonly
      */
@@ -51,7 +51,7 @@ export class InfoCard {
      * @author Ivan Gorshkov
      *
      * getter for a rating number
-     * @return {number}
+     * @return {Number}
      * @private
      * @readonly
      */
@@ -63,7 +63,7 @@ export class InfoCard {
      * @author Ivan Gorshkov
      *
      * getter for number of views
-     * @return {number}
+     * @return {Number}
      * @private
      * @readonly
      */
@@ -75,7 +75,7 @@ export class InfoCard {
      * @author Ivan Gorshkov
      *
      * getter for number of likes
-     * @return {number}
+     * @return {Number}
      * @private
      * @readonly
      */
@@ -108,6 +108,8 @@ export class InfoCard {
         const count = this.__data.infoCard.rating;
         const roundedCount = Math.round(count);
         let stars = '';
+
+        // eslint-disable-next-line no-magic-numbers
         Array(roundedCount).fill(1).forEach(() => {
             stars += '<svg width="20" height="21" viewBox="0 0 20 21" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M10 0.895218L12.7861 7.42562L19.5106 8.21429L14.508 13.039L15.8779 20.0568L10 16.5082L4.12215 20.0568L5.49199 13.039L0.489435 8.21429L7.2139 7.42562L10 0.895218Z" fill="#F3DD14"/></svg>';
         });
@@ -162,7 +164,7 @@ export class InfoCard {
      * @this {InfoCard}
      * @private
      * @readonly
-     * @return  {Object[]} array of listeners
+     * @return  {Object} array of listeners
      */
     get listeners() {
         return this.__listeners;
@@ -173,7 +175,7 @@ export class InfoCard {
      *
      * Set new listeners
      * @this {InfoCard}
-     * @param  {Object[]} val - Object of listeners
+     * @param  {Object} val - Object of listeners
      * @public
      */
     set listeners(val) {

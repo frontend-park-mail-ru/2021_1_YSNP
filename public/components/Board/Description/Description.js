@@ -26,7 +26,7 @@ export class Description {
      * @author Ivan Gorshkov
      *
      * getter of html with descriptions blocks
-     * @return {string}
+     * @return {String}
      * @private
      * @this {Description}
      * @readonly
@@ -54,7 +54,7 @@ export class Description {
      * @author Ivan Gorshkov
      *
      * main template of component
-     * @return {string}
+     * @return {String}
      * @private
      * @this {Description}
      */
