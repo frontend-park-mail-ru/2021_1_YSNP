@@ -52,7 +52,7 @@ export class NavigationController {
      * main listener
      * @private
      * @this {NavigationController}
-     * @param {Event} ev - event
+     * @param {MouseEvent} ev - event
      */
     __listenerBackClick(ev) {
         ev.preventDefault();

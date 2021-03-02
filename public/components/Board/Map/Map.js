@@ -22,7 +22,7 @@ export class Map {
     /***
      * @author Ivan Gorshkov
      * main template of component
-     * @return {String}
+     * @return {string}
      * @private
      * @this {Map}
      */
