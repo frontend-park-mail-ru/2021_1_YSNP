@@ -1,5 +1,7 @@
 'use strict';
 
+/* eslint-disable no-magic-numbers */
+
 /***
  * @author Ivan Gorshkov
  * Slider class for carousel and preview pictures
@@ -36,7 +38,7 @@ export class Slider {
      * @this {Slider}
      * @private
      * @readonly
-     * @return  {Object[]} array of listeners
+     * @return  {Object} array of listeners
      */
     get listeners() {
         return this.__listeners;
@@ -47,7 +49,7 @@ export class Slider {
      *
      * Set new listeners
      * @this {Slider}
-     * @param  {Object[]} val - Object of listeners
+     * @param  {Object} val - Object of listeners
      * @public
      */
     set listeners(val) {
@@ -160,20 +162,20 @@ export class Slider {
      * @author Ivan Gorshkov
      *
      * getter for all photos
-     * @return {string}
+     * @return {String}
      * @private
      * @this {Slider}
      * @readonly
      */
     get __getPhotos() {
-        return this.__data.photos.reduce((prev, cur) => prev += `<img src="${cur}" alt="" data-action="selectClick">`, '');
+        return this.__data.photos.reduce((prev, cur) => `${prev}<img src="${cur}" alt="" data-action="selectClick">`, '');
     }
 
     /***
      * @author Ivan Gorshkov
      *
      * getter for first photo of product
-     * @return {string}
+     * @return {String}
      * @private
      * @this {Slider}
      * @readonly
@@ -186,7 +188,7 @@ export class Slider {
     /***
      * @author Ivan Gorshkov
      * main template of component
-     * @return {string}
+     * @return {String}
      * @private
      * @this {Slider}
      */

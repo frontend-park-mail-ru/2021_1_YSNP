@@ -14,9 +14,9 @@ export class NavigationController {
      * @author Ivan Gorshkov
      *
      * init of class NavigationController
-     * @param{function} removingListeners - function to remove all listeners
-     * @param{HTMLElement} parent - parent component
-     * @param{Navigation} navigation - control component
+     * @param {Function} removingListeners - function to remove all listeners
+     * @param {HTMLElement} parent - parent component
+     * @param {Navigation} navigation - control component
      * @constructor
      * @this {NavigationController}
      * @public
@@ -40,12 +40,19 @@ export class NavigationController {
     }
 
     /***
+     * Remove Controller listeners
+     */
+    removeControllerListeners() {
+        this.__navigation.removeListeners();
+    }
+
+    /***
      * @author Ivan Gorshkov
      *
      * main listener
      * @private
      * @this {NavigationController}
-     * @param{Event} ev - event
+     * @param {Event} ev - event
      */
     __listenerBackClick(ev) {
         ev.preventDefault();

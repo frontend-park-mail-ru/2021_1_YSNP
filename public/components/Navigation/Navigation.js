@@ -35,7 +35,7 @@ export class Navigation {
      * @return  {string} return string with route
      */
     __getRoute() {
-        return this.__route.route.reduce(((previousValue, currentValue) => previousValue += ` • ${currentValue}`), '');
+        return this.__route.route.reduce(((previousValue, currentValue) => `${previousValue} • ${currentValue}`), '');
     }
 
     /***
@@ -44,7 +44,7 @@ export class Navigation {
      * get Navigation listeners
      * @this {Navigation}
      * @private
-     * @return  {string} return part of html
+     * @return {String} return part of html
      */
     __getTemplate() {
         return `           
@@ -67,7 +67,7 @@ export class Navigation {
      * @this {Navigation}
      * @private
      * @readonly
-     * @return  {Object[]} array of listeners
+     * @return {Object} array of listeners
      */
     get listeners() {
         return this.__listeners;
@@ -78,7 +78,7 @@ export class Navigation {
      *
      * Set new listeners
      * @this {Navigation}
-     * @param  {Object[]} val - Object of listeners
+     * @param  {Object} val - Object of listeners
      * @public
      */
     set listeners(val) {

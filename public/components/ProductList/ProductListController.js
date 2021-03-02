@@ -1,3 +1,5 @@
+import {Product} from '../../pages/Product.js';
+
 /***
  * Product List controller
  */
@@ -78,6 +80,8 @@ export class ProductListController {
      * @private
      */
     __likeCard(id) {
+        // TODO(Sergey) release __likeCard
+
         console.log('like click', id);
         this.__productList.like(id);
     }
@@ -89,6 +93,9 @@ export class ProductListController {
      */
     __openCard(id) {
         console.log('open card', id);
+
+        const product = new Product(this.__parent);
+        product.render();
     }
 
     /***
