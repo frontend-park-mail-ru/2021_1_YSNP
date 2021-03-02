@@ -31,7 +31,7 @@ export class HeaderController {
 
     /***
      * Header click event
-     * @param {Event} ev - event
+     * @param {MouseEvent} ev - event
      * @private
      */
     __listenerHeaderClick(ev) {
@@ -49,7 +49,7 @@ export class HeaderController {
 
     /***
      * Dropdown click event
-     * @param {Event} ev - event
+     * @param {MouseEvent} ev - event
      * @private
      */
     __listenerDropdownClick(ev) {
@@ -68,7 +68,7 @@ export class HeaderController {
 
     /***
      * Page click event
-     * @param {Event} ev - event
+     * @param {MouseEvent} ev - event
      * @private
      */
     __listenerPageClick(ev) {

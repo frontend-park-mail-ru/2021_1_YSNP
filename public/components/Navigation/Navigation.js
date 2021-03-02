@@ -44,7 +44,7 @@ export class Navigation {
      * get Navigation listeners
      * @this {Navigation}
      * @private
-     * @return {String} return part of html
+     * @return {string} return part of html
      */
     __getTemplate() {
         return `           

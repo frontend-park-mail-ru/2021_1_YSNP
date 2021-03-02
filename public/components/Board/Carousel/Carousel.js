@@ -162,7 +162,7 @@ export class Slider {
      * @author Ivan Gorshkov
      *
      * getter for all photos
-     * @return {String}
+     * @return {string}
      * @private
      * @this {Slider}
      * @readonly
@@ -175,7 +175,7 @@ export class Slider {
      * @author Ivan Gorshkov
      *
      * getter for first photo of product
-     * @return {String}
+     * @return {string}
      * @private
      * @this {Slider}
      * @readonly
@@ -188,7 +188,7 @@ export class Slider {
     /***
      * @author Ivan Gorshkov
      * main template of component
-     * @return {String}
+     * @return {string}
      * @private
      * @this {Slider}
      */

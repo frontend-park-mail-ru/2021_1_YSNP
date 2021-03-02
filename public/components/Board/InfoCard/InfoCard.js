@@ -26,7 +26,7 @@ export class InfoCard {
      * @author Ivan Gorshkov
      *
      * getter product price
-     * @return {String}
+     * @return {string}
      * @private
      * @readonly
      */
@@ -39,7 +39,7 @@ export class InfoCard {
      * @author Ivan Gorshkov
      *
      * getter name of seller
-     * @return {String}
+     * @return {string}
      * @private
      * @readonly
      */
@@ -51,7 +51,7 @@ export class InfoCard {
      * @author Ivan Gorshkov
      *
      * getter for a rating number
-     * @return {Number}
+     * @return {number}
      * @private
      * @readonly
      */
@@ -63,7 +63,7 @@ export class InfoCard {
      * @author Ivan Gorshkov
      *
      * getter for number of views
-     * @return {Number}
+     * @return {number}
      * @private
      * @readonly
      */
@@ -75,7 +75,7 @@ export class InfoCard {
      * @author Ivan Gorshkov
      *
      * getter for number of likes
-     * @return {Number}
+     * @return {number}
      * @private
      * @readonly
      */
