@@ -1,0 +1,17 @@
+@import "../../components/Profile/Profile.css";
+@import "../../components/Settings/Settings.css";
+
+.profile {
+    width: 100%;
+    margin-top: 3vh;
+    display: flex;
+    justify-content: center;
+    height: 90%;
+}
+
+.profile-box {
+    padding-left: 15vw;
+    padding-right: 15vw;
+    display: flex;
+    flex-direction: row;
+}
