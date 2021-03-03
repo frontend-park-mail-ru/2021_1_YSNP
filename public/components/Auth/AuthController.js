@@ -1,4 +1,4 @@
-import {telMask, telNumber, validationNumber} from '../../modules/tel.js';
+import {telMask, parseTelNumber, validationNumber} from '../../modules/telMask.js';
 
 /***
  * Auth controller
@@ -81,11 +81,11 @@ export class AuthController {
         ev.preventDefault();
         ev.stopPropagation();
 
-        const tel = telNumber(document.getElementById('auth-tel').value);
+        const tel = parseTelNumber(document.getElementById('auth-tel').value);
         const password = document.getElementById('auth-password').value;
         const {message, error} = validationNumber(tel);
 
-        if (error) {
+        if (!error) {
             this.__auth.errorText('');
             console.log('Tel', tel);
             console.log('Password', password);
