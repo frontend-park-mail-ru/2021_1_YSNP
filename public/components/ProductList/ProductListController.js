@@ -25,7 +25,7 @@ export class ProductListController {
     }
 
     /***
-     * Remove Controller listeners
+     * Remove listeners
      */
     removeControllerListeners() {
         this.__productList.removeListeners();

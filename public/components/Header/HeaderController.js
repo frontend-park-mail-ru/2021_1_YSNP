@@ -1,3 +1,6 @@
+import {Profile} from '../../pages/Profile.js';
+import {Auth} from '../Auth/Auth.js';
+import {AuthController} from '../Auth/AuthController.js';
 /***
  * Header controller controller
  */
@@ -23,10 +26,14 @@ export class HeaderController {
     }
 
     /***
-     * Remove Controller listeners
+     * Remove listeners
      */
     removeControllerListeners() {
         this.__header.removeListeners();
+
+        if (this.__authController !== undefined) {
+            this.__authController.removeControllerListeners();
+        }
     }
 
     /***
@@ -42,6 +49,10 @@ export class HeaderController {
             .entries(ev.composedPath())
             .forEach(([, el]) => {
                 if (el.dataset !== undefined && 'action' in el.dataset) {
+                    if (el.dataset.action === 'authClick') {
+                        ev.stopPropagation();
+                    }
+
                     actions[el.dataset.action].open();
                 }
             });
@@ -140,11 +151,12 @@ export class HeaderController {
      * Header account click callback
      * @private
      */
-    __openAccount() {
-        // TODO(Sergey) release __openAccount
-        // this.__pageRemoveListeners();
+    __openAuth() {
+        const auth = new Auth(this.__parent);
+        auth.render();
 
-        console.log('Open account');
+        this.__authController = new AuthController(this.__pageRemoveListeners, this.__parent, auth);
+        this.__authController.control();
     }
 
     /***
@@ -230,8 +242,8 @@ export class HeaderController {
             createProductClick: {
                 open: this.__openCreateProduct.bind(this)
             },
-            accountClick: {
-                open: this.__openAccount.bind(this)
+            authClick: {
+                open: this.__openAuth.bind(this)
             },
             dropdownClick: {
                 open: this.__openDropdownMenu.bind(this)
