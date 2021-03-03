@@ -78,8 +78,44 @@ export class RegistrationPanelController {
                 type: 'change',
                 listener: this.__listenersRegistrarion.bind(this)
 
+            },
+            showError: {
+                type: 'mouseover',
+                listener: this.__listenersMouseMove.bind(this)
+
+            },
+            hideError: {
+                type: 'mouseout',
+                listener: this.__listenersMouseOut.bind(this)
+
             }
         };
+    }
+
+    __listenersMouseMove(ev) {
+        ev.preventDefault();
+
+        const actions = this.__getActions();
+        Object
+            .entries(ev.composedPath())
+            .forEach(([, el]) => {
+                if (el.dataset !== undefined && 'move' in el.dataset) {
+                    actions[el.dataset.move].open(ev.target);
+                }
+            });
+    }
+
+    __listenersMouseOut(ev) {
+        ev.preventDefault();
+
+        const actions = this.__getActions();
+        Object
+            .entries(ev.composedPath())
+            .forEach(([, el]) => {
+                if (el.dataset !== undefined && 'moveout' in el.dataset) {
+                    actions[el.dataset.moveout].open(ev.target);
+                }
+            });
     }
 
     /***
@@ -115,8 +151,28 @@ export class RegistrationPanelController {
             },
             readURL: {
                 open: this.__read.bind(this)
+            },
+            mouseIn: {
+                open: this.mouseInInput.bind(this)
+            },
+            mouseOut: {
+                open: this.mouseOutInput.bind(this)
             }
         };
+    }
+
+    mouseOutInput(target) {
+        if (target.nextSibling.className === '') {
+            target.nextElementSibling.classList.add('error-hidden');
+        }
+
+    }
+
+    mouseInInput(target) {
+        if (target.nextSibling.className === 'error-hidden') {
+            target.nextElementSibling.classList.remove('error-hidden');
+        }
+
     }
 
     /****
@@ -199,11 +255,12 @@ export class RegistrationPanelController {
      * @private
      */
     __insertError(target, idError, textError) {
-        target.style.border = '0.5px solid red';
+        target.classList.add('input-error');
         if (document.getElementById(idError) === null) {
             const el = document.createElement('div');
             el.id = idError;
             el.innerHTML = textError;
+            el.className = 'error-hidden';
             target.parentNode.insertBefore(el, target.nextSibling);
         }
     }
@@ -217,7 +274,8 @@ export class RegistrationPanelController {
      * @private
      */
     __addSuccesses(target, idError) {
-        target.style.border = '0.5px solid green';
+        target.classList.remove('input-error');
+        target.classList.add('input-susses');
         if (document.getElementById(idError)) {
             target.parentNode.removeChild(target.nextSibling);
         }
@@ -237,12 +295,15 @@ export class RegistrationPanelController {
             this.__addSuccesses(target, 'phoneError');
             return true;
         }
-        this.__insertError(target, 'phoneError', `
-                        <ul class="list-errors">
-                          <li>Неверный формат телефона</li>
-                        </ul>`);
+        this.__insertError(target, 'phoneError', this.__createMessageError(`
+                  <ul class="list-errors">
+                    <li>Неверный формат телефона</li>
+                  </ul>
+    `));
         return false;
     }
+
+
 
     /***
      * @author Ivan Gorshkov
@@ -261,13 +322,7 @@ export class RegistrationPanelController {
             return true;
         }
 
-        this.__insertError(target, 'passwordError', `
-        <div class="container">
-          <div class="arrow">
-            <div class="outer"></div>
-            <div class="inner"></div>
-          </div>
-          <div class="message-body">
+        this.__insertError(target, 'passwordError', this.__createMessageError(`
                         <ul class="list-errors">
                           <li>От шести или более символов</li>
                           <li>Содержит хотя бы одну цифру</li>
@@ -275,9 +330,7 @@ export class RegistrationPanelController {
                           <li>Хотя бы один символ верхнего регистра</li>
                           <li>Только латинские символы</li>
                         </ul>
-          </div>
-        </div>
-`);
+    `));
         return false;
     }
 
@@ -297,10 +350,11 @@ export class RegistrationPanelController {
             return true;
         }
 
-        this.__insertError(target, 'passwordConfirmError', `
+        this.__insertError(target, 'passwordConfirmError', this.__createMessageError(`
                  <ul class="list-errors">
                      <li>Пароли не совпадают</li>
-                 </ul>`);
+                 </ul>
+    `));
         return false;
     }
 
@@ -318,11 +372,11 @@ export class RegistrationPanelController {
             this.__addSuccesses(target, 'MailError');
             return true;
         }
-        this.__insertError(target, 'MailError', `
-                 <ul class="list-errors">
+        this.__insertError(target, 'MailError', this.__createMessageError(`
+                  <ul class="list-errors">
                      <li>Неправильный формат mail</li>
-                 </ul>`);
-
+                 </ul>
+    `));
         return false;
     }
 
@@ -341,12 +395,26 @@ export class RegistrationPanelController {
             return true;
         }
 
-        this.__insertError(target, `${target.id}Error`, `
-                 <ul class="list-errors">
-                     <li>Поле не должно быть пустым</li>
-                 </ul>`);
-
+        this.__insertError(target, `${target.id}Error`, this.__createMessageError(`
+                  <ul class="list-errors">
+                         <li>Поле не должно быть пустым</li>
+                     </ul>
+    `));
         return false;
+    }
+
+    __createMessageError(errText) {
+        return `
+            <div class="message-container">
+              <div class="message__arrow">
+                <div class="message-outer"></div>
+                <div class="message-inner"></div>
+              </div>
+              <div class="message-body">
+                    ${errText}
+              </div>
+            </div>
+    `;
     }
 
     /***

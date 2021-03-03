@@ -22,7 +22,6 @@
 }
 
 .list-errors {
-    padding-left: 1.8vh;
     font-size: 1.8vh;
     color: #D31E1E;
 }
@@ -57,9 +56,7 @@
     border: 1px solid rgba(0,0,0,0.1);
 }
 
-img {
-    width: 100%;
-    height: 100%;
+.reg-panel__avatar {
 }
 
 .p-image {
@@ -92,21 +89,22 @@ img {
 .reg-picture {
     position: relative;
     transform: translate(5%, 0);
+    width: 100%;
+    height: 100%;
 }
 
 .product-des-inner {
     position: relative;
 }
 
-/* Message box starts here */
-.container {
+.message-container {
     clear: both;
     position: absolute;
     top: 0;
     left: 15.5vw;
 }
 
-.container .arrow {
+.message__arrow {
     width: 12px;
     height: 20px;
     overflow: hidden;
@@ -116,7 +114,7 @@ img {
     right: -1px;
 }
 
-.container .arrow .outer {
+.message-outer {
     width: 0;
     height: 0;
     border-right: 20px solid #000000;
@@ -125,9 +123,10 @@ img {
     position: absolute;
     top: 0;
     left: 0;
+    opacity: 0.1;
 }
 
-.container .arrow .inner {
+.message-inner {
     width: 0;
     height: 0;
     border-right: 20px solid #ffffff;
@@ -138,22 +137,24 @@ img {
     left: 2px;
 }
 
-.container .message-body {
+.message-body {
     float: left;
     width: 300px;
     height: auto;
-    border: 1px solid #CCC;
     background-color: #ffffff;
-    border: 1px solid #000000;
+    border: 1px solid rgba(0.0,0.0,0.0, 0.1);
     padding: 6px 8px;
-    -webkit-border-radius: 5px;
-    -moz-border-radius: 5px;
-    -o-border-radius: 5px;
     border-radius: 5px;
 }
 
-.container .message-body p {
-    margin: 0;
+.error-hidden {
+    display: none;
 }
 
+.input-susses {
+    border: 1px solid green;
+}
 
+.input-error {
+    border: 1px solid red;
+}

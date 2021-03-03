@@ -37,7 +37,7 @@ export class RegistrationPanel {
                     <p class="product-des-topic__title">${element.title}</p>
                 </div>
                 <div class="product-des-inner">
-                    <input ${element.params} class="reg-panel__textfield" data-action="${element.dataAction}" id="${element.id}" type="${element.inputType}" placeholder="${element.placeholder}" name="${element.id}"/>
+                    <input ${element.params} class="reg-panel__textfield" data-action="${element.dataAction}" data-move="mouseIn" data-moveout="mouseOut"  id="${element.id}" type="${element.inputType}" placeholder="${element.placeholder}" name="${element.id}"/>
                 </div>
             </div>`;
         }
@@ -147,6 +147,12 @@ export class RegistrationPanel {
         document
             .getElementById('avatar')
             .addEventListener(this.listeners.registrationClick.type, this.listeners.registrationClick.listener);
+        document
+            .getElementById('registrationForm')
+            .addEventListener(this.listeners.showError.type, this.listeners.showError.listener);
+        document
+            .getElementById('registrationForm')
+            .addEventListener(this.listeners.hideError.type, this.listeners.hideError.listener);
 
     }
 
