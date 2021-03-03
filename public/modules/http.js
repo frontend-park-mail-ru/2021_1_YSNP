@@ -1,13 +1,20 @@
 /***
- * Http work
+ * Http module
  */
 class Http {
+    /**
+     * Response http callback
+     * @callback responseCallback
+     * @param {number} status - response status
+     * @param {string} response - response body
+     */
+
     /***
      *
      * @param {string} method - http method
      * @param {string} url - http url
      * @param {Object} data - http data
-     * @param {Function} callback - response function
+     * @param {responseCallback} callback - response callback
      * @private
      */
     __ajax(method, url, data, callback) {
@@ -38,7 +45,7 @@ class Http {
     /***
      * Get http request
      * @param {String} url - http url
-     * @param {Function} callback - response function
+     * @param {responseCallback} callback - response callback
      */
     get(url, callback) {
         this.__ajax('GET', url, null, callback);
@@ -48,7 +55,7 @@ class Http {
      * Post http request
      * @param {string} url - http url
      * @param {Object} data - http data
-     * @param {Function} callback - response function
+     * @param {responseCallback} callback - response callback
      */
     post(url, data, callback) {
         this.__ajax('POST', url, data, callback);
