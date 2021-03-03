@@ -218,7 +218,7 @@ export class RegistrationPanelController {
      */
     __addSuccesses(target, idError) {
         target.style.border = '0.5px solid green';
-        if (document.getElementById(idError) !== null) {
+        if (document.getElementById(idError)) {
             target.parentNode.removeChild(target.nextSibling);
         }
     }
@@ -262,13 +262,22 @@ export class RegistrationPanelController {
         }
 
         this.__insertError(target, 'passwordError', `
+        <div class="container">
+          <div class="arrow">
+            <div class="outer"></div>
+            <div class="inner"></div>
+          </div>
+          <div class="message-body">
                         <ul class="list-errors">
                           <li>От шести или более символов</li>
                           <li>Содержит хотя бы одну цифру</li>
                           <li>Хотя бы один символ нижнего регистра</li>
                           <li>Хотя бы один символ верхнего регистра</li>
                           <li>Только латинские символы</li>
-                        </ul>`);
+                        </ul>
+          </div>
+        </div>
+`);
         return false;
     }
 
@@ -363,7 +372,7 @@ export class RegistrationPanelController {
         const isValidSurname = this.__validateEmpty(surname);
         const isValidDate = this.__validateEmpty(date);
         if (isValidDate && isValidMail && isValidName && isValidPhone && isValidPwd && isValidpwdConfirm && isValidSurname) {
-            alert('ok');
+           //TODO(Ivan) Отправка формы
         }
     }
 }

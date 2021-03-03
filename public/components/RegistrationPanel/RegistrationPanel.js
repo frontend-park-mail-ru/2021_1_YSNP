@@ -37,7 +37,7 @@ export class RegistrationPanel {
                     <p class="product-des-topic__title">${element.title}</p>
                 </div>
                 <div class="product-des-inner">
-                    <input class="reg-panel__textfield" data-action="${element.dataAction}" id="${element.id}" type="${element.inputType}" placeholder="${element.placeholder}" name="${element.id}"/>
+                    <input ${element.params} class="reg-panel__textfield" data-action="${element.dataAction}" id="${element.id}" type="${element.inputType}" placeholder="${element.placeholder}" name="${element.id}"/>
                 </div>
             </div>`;
         }
@@ -56,8 +56,8 @@ export class RegistrationPanel {
         return `           
                        
            <div class="board">
-               <div class="board--title">
-                   <p class="reg-panel--title__product-name">Регистрация</p>
+               <div class="board-title">
+                   <p class="reg-panel-title__product-name">Регистрация</p>
                </div>
                
                <form>
@@ -71,8 +71,8 @@ export class RegistrationPanel {
                     </div>
                 <div class="product-des-inner">
                   
-                   <div class="reg-picture"  id="avatar" data-action="clickUpload">
-                     <div class="circle">
+                   <div class="reg-picture">
+                     <div class="circle" id="avatar" data-action="clickUpload">
                        <img class="profile-pic" id="profile-pic" src="../../img/profile.png">
                      </div>
                      <div class="p-image">

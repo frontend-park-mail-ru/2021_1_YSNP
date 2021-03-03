@@ -41,49 +41,56 @@ export class Registration {
                 placeholder: 'Имя',
                 inputType: 'text',
                 id: 'name',
-                dataAction: 'inputEmpty'
+                dataAction: 'inputEmpty',
+                params: ''
             },
             surname: {
                 title: 'Фамилия*',
                 placeholder: 'Фамилия',
                 inputType: 'text',
                 id: 'surname',
-                dataAction: 'inputEmpty'
+                dataAction: 'inputEmpty',
+                params: ''
             },
             phone: {
                 title: 'Телефон*',
                 placeholder: 'Телефон',
                 inputType: 'tel',
                 id: 'phone',
-                dataAction: 'inputPhone'
+                dataAction: 'inputPhone',
+                params: ''
             },
             mail: {
                 title: 'Почта*',
                 placeholder: 'Почта',
                 inputType: 'email',
                 id: 'mail',
-                dataAction: 'inputMail'
+                dataAction: 'inputMail',
+                params: ''
             },
             password: {
                 title: 'Пароль*',
                 placeholder: 'Пароль',
                 inputType: 'password',
                 id: 'password',
-                dataAction: 'changePwd'
+                dataAction: 'changePwd',
+                params: ''
             },
             passwordConfirm: {
                 title: 'Повторите пароль*',
                 placeholder: 'Пароль',
                 inputType: 'password',
                 id: 'passwordConfirm',
-                dataAction: 'inputConfirmPwd'
+                dataAction: 'inputConfirmPwd',
+                params: ''
             },
             date: {
                 title: 'Дата рождения*',
-                placeholder: null,
+                placeholder: 'дд-мм-гггг',
                 inputType: 'date',
                 id: 'date',
-                dataAction: 'inputEmpty'
+                dataAction: 'inputEmpty',
+                params: 'min="1890-01-01" max="2040-12-31"'
             }
         };
     }
