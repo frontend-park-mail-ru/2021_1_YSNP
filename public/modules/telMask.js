@@ -23,18 +23,28 @@ function setCursorPosition(elem, pos) {
  * @param {Event} ev - event
  */
 export function telMask(ev) {
-    const matrix = '(___) ___ __ __';
+    const mask = '(___) ___ __ __';
     const val = ev.target.value.replace(/\D/g, '');
     let i = 0;
 
-    ev.target.value = matrix.replace(/./g, (a) => /[_\d]/.test(a) && i < val.length ? val.charAt(i++) : i >= val.length ? '' : a);
+    // Add mask to input data
+    ev.target.value = mask.replace(/./g, (a) => {
+        if (/[_\d]/.test(a) && i < val.length) {
+            return val.charAt(i++);
+        } else if (i >= val.length) {
+            return '';
+        }
+
+        return a;
+    });
 }
 
 /***
- * Get telephone number
- * @param {String} tel - telephone number with mask
+ * Parse telephone number (delete mask symbols)
+ * @param {string} tel - telephone number with mask
+ * @returns {string}
  */
-export function telNumber(tel) {
+export function parseTelNumber(tel) {
     return `+7${tel.replaceAll(' ', '')
         .replace('(', '')
         .replace(')', '')}`;
@@ -46,16 +56,16 @@ export function telNumber(tel) {
  * @returns {{message: string, error: boolean}}
  */
 export function validationNumber(number) {
-    // eslint-disable-next-line no-magic-numbers
-    if (number.length !== 12) {
+    const telSize = 12;
+    if (number.length !== telSize) {
         return {
             message: 'Неверно введен номер телефона',
-            error: false
+            error: true
         };
     }
 
     return {
         message: '',
-        error: true
+        error: false
     };
 }
