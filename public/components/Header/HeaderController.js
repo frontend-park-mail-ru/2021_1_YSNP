@@ -1,7 +1,6 @@
 import {Profile} from '../../pages/Profile.js';
 import {Auth} from '../Auth/Auth.js';
 import {AuthController} from '../Auth/AuthController.js';
-
 /***
  * Header controller controller
  */
@@ -120,12 +119,10 @@ export class HeaderController {
      * @private
      */
     __openLanding() {
-        this.__pageRemoveListeners();
+        // TODO(Sergey) release __openLanding
+        // this.__pageRemoveListeners();
 
         console.log('open landing');
-
-        // const landing = new Landing(this.__parent);
-        // landing.render();
     }
 
     /***
@@ -133,6 +130,7 @@ export class HeaderController {
      * @private
      */
     __openMap() {
+        // TODO(Sergey) release __openLanding
         // this.__pageRemoveListeners();
 
         console.log('Open map');
@@ -143,6 +141,7 @@ export class HeaderController {
      * @private
      */
     __openCreateProduct() {
+        // TODO(Sergey) release __openCreateProduct
         // this.__pageRemoveListeners();
 
         console.log('Open create product');
@@ -176,12 +175,10 @@ export class HeaderController {
      * @private
      */
     __openProfile() {
+        // TODO(Sergey) release __openProfile
         // this.__pageRemoveListeners();
 
         console.log('Open profile');
-
-        const profile = new Profile(this.__parent);
-        profile.render();
     }
 
     /***
@@ -189,6 +186,7 @@ export class HeaderController {
      * @private
      */
     __openMyProducts() {
+        // TODO(Sergey) release __openMyProducts
         // this.__pageRemoveListeners();
 
         console.log('Open my products');
@@ -199,6 +197,7 @@ export class HeaderController {
      * @private
      */
     __openMessages() {
+        // TODO(Sergey) release __openMessages
         // this.__pageRemoveListeners();
 
         console.log('Open messages');
@@ -209,6 +208,7 @@ export class HeaderController {
      * @private
      */
     __openFavorites() {
+        // TODO(Sergey) release __openFavorites
         // this.__pageRemoveListeners();
 
         console.log('Open favorites');
@@ -219,6 +219,7 @@ export class HeaderController {
      * @private
      */
     __logout() {
+        // TODO(Sergey) release __logout
         // this.__pageRemoveListeners();
 
         console.log('Logout');

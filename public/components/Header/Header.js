@@ -8,7 +8,7 @@ export class Header {
      * @param {Object} data - element data
      * @param {Object} listeners - component listeners
      */
-    constructor(parent, data, listeners = undefined) {
+    constructor(parent, data, listeners = {}) {
         this.__parent = parent;
         this.__data = data;
         this.__listeners = listeners;

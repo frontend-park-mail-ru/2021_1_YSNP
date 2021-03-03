@@ -5,7 +5,8 @@
   "main": "index.js",
   "scripts": {
     "lint": "eslint -c .eslintrc.js public",
-    "start": "DEBUG=express:* node server",
+    "start": "nohup nodejs server > /dev/null 2>&1 &",
+    "debug": "DEBUG=express:* node server",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
