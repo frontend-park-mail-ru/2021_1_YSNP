@@ -25,7 +25,7 @@ export class ProductListController {
     }
 
     /***
-     * Remove Controller listeners
+     * Remove listeners
      */
     removeControllerListeners() {
         this.__productList.removeListeners();
@@ -33,7 +33,7 @@ export class ProductListController {
 
     /***
      * Product List click event
-     * @param {Event} ev - event
+     * @param {MouseEvent} ev - event
      */
     __listenerProductListClick(ev) {
         ev.preventDefault();
@@ -80,6 +80,8 @@ export class ProductListController {
      * @private
      */
     __likeCard(id) {
+        // TODO(Sergey) release __likeCard
+
         console.log('like click', id);
         this.__productList.like(id);
     }
@@ -93,6 +95,9 @@ export class ProductListController {
         const page = new Product(this.__parent);
         page.render();
         console.log('open card', id);
+
+        const product = new Product(this.__parent);
+        product.render();
     }
 
     /***

@@ -271,9 +271,9 @@ module.exports = {
                 'max': 3
             }
         ],
-        'no-nested-ternary': [
-            'warn'
-        ],
+        // 'no-nested-ternary': [
+        //     'warn'
+        // ],
         'no-unneeded-ternary': [
             'warn'
         ],

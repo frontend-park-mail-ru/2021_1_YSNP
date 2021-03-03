@@ -8,6 +8,7 @@ import {NavigationController} from '../components/Navigation/NavigationControlle
 
 import {Board} from '../components/Board/Board.js';
 import {BoardController} from '../components/Board/BoardController.js';
+
 import {ProductList} from '../components/ProductList/ProductList.js';
 import {ProductListController} from '../components/ProductList/ProductListController.js';
 
@@ -40,9 +41,9 @@ export class Product {
      * @public
      */
     productRemoveListeners() {
-        this.__header.removeListeners();
-        this.__navigation.removeListeners();
-        this.__board.removeListeners();
+        this.__headerController.removeControllerListeners();
+        this.__navigationController.removeControllerListeners();
+        this.__boardController.removeControllerListeners();
     }
 
     __getHeaderData() {
@@ -104,21 +105,22 @@ export class Product {
      */
     render() {
         this.__parent.innerHTML = '';
+
         this.__header = new Header(this.__parent, this.__getHeaderData());
         this.__header.render();
         this.__headerController = new HeaderController(this.productRemoveListeners.bind(this), this.__parent, this.__header);
         this.__headerController.control();
 
 
-        this.__navigation = new Navigation(this.__parent, 'В результаты поиска', {route: ['С пробегом', 'Mercedes-Benz']});
-        this.__navigation.render();
-        this.__navigationController = new NavigationController(this.productRemoveListeners.bind(this), this.__parent, this.__navigation);
+        const navigation = new Navigation(this.__parent, 'В результаты поиска', {route: ['С пробегом', 'Mercedes-Benz']});
+        navigation.render();
+        this.__navigationController = new NavigationController(this.productRemoveListeners.bind(this), this.__parent, navigation);
         this.__navigationController.control();
 
 
-        this.__board = new Board(this.__parent, {identity: {id: 2099347381, title: 'Mercedes-Benz S-класс, 2014'}});
-        this.__board.render();
-        this.__boardController = new BoardController(this.__parent, this.__board);
+        const board = new Board(this.__parent, {identity: {id: 2099347381, title: 'Mercedes-Benz S-класс, 2014'}});
+        board.render();
+        this.__boardController = new BoardController(this.__parent, board);
         this.__boardController.control();
 
         const productList = new ProductList(this.__parent, this.__getProductListData());

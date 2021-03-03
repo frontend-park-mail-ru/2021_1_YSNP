@@ -10,7 +10,7 @@ export class ProductList {
      * @param {Object} data - component data
      * @param {Object} listeners - component listeners
      */
-    constructor(parent, data, listeners = undefined) {
+    constructor(parent, data, listeners = {}) {
         this.__parent = parent;
         this.__data = data;
         this.__listeners = listeners;
@@ -19,7 +19,7 @@ export class ProductList {
 
     /***
      * Get listeners
-     * @returns {Object} - component listeners
+     * @returns {Object}
      */
     get listeners() {
         return this.__listeners;
@@ -69,7 +69,7 @@ export class ProductList {
 
     /***
      * Component HTML
-     * @returns {string} - html layout
+     * @returns {string}
      * @private
      */
     __getTemplate() {

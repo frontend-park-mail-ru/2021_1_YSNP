@@ -1,7 +1,8 @@
 import {Profile} from '../../pages/Profile.js';
 import {Landing} from '../../pages/Landing.js';
 import {Registration} from '../../pages/Registration.js';
-
+import {Auth} from '../Auth/Auth.js';
+import {AuthController} from '../Auth/AuthController.js';
 /***
  * Header controller controller
  */
@@ -27,15 +28,19 @@ export class HeaderController {
     }
 
     /***
-     * Remove Controller listeners
+     * Remove listeners
      */
     removeControllerListeners() {
         this.__header.removeListeners();
+
+        if (this.__authController !== undefined) {
+            this.__authController.removeControllerListeners();
+        }
     }
 
     /***
      * Header click event
-     * @param {Event} ev - event
+     * @param {MouseEvent} ev - event
      * @private
      */
     __listenerHeaderClick(ev) {
@@ -46,6 +51,10 @@ export class HeaderController {
             .entries(ev.composedPath())
             .forEach(([, el]) => {
                 if (el.dataset !== undefined && 'action' in el.dataset) {
+                    if (el.dataset.action === 'authClick') {
+                        ev.stopPropagation();
+                    }
+
                     actions[el.dataset.action].open();
                 }
             });
@@ -53,7 +62,7 @@ export class HeaderController {
 
     /***
      * Dropdown click event
-     * @param {Event} ev - event
+     * @param {MouseEvent} ev - event
      * @private
      */
     __listenerDropdownClick(ev) {
@@ -72,7 +81,7 @@ export class HeaderController {
 
     /***
      * Page click event
-     * @param {Event} ev - event
+     * @param {MouseEvent} ev - event
      * @private
      */
     __listenerPageClick(ev) {
@@ -112,7 +121,8 @@ export class HeaderController {
      * @private
      */
     __openLanding() {
-        this.__pageRemoveListeners();
+        // TODO(Sergey) release __openLanding
+        // this.__pageRemoveListeners();
 
         console.log('open landing');
 
@@ -125,6 +135,7 @@ export class HeaderController {
      * @private
      */
     __openMap() {
+        // TODO(Sergey) release __openLanding
         // this.__pageRemoveListeners();
 
         console.log('Open map');
@@ -135,6 +146,7 @@ export class HeaderController {
      * @private
      */
     __openCreateProduct() {
+        // TODO(Sergey) release __openCreateProduct
         // this.__pageRemoveListeners();
 
         console.log('Open create product');
@@ -144,11 +156,18 @@ export class HeaderController {
      * Header account click callback
      * @private
      */
-    __openAccount() {
-        this.__pageRemoveListeners();
-        this.register = new Registration(this.__parent);
-        this.register.render();
-        console.log('Open account');
+//     __openAccount() {
+//         this.__pageRemoveListeners();
+//         this.register = new Registration(this.__parent);
+//         this.register.render();
+//         console.log('Open account');
+//     }
+    __openAuth() {
+        const auth = new Auth(this.__parent);
+        auth.render();
+
+        this.__authController = new AuthController(this.__pageRemoveListeners, this.__parent, auth);
+        this.__authController.control();
     }
 
     /***
@@ -167,12 +186,10 @@ export class HeaderController {
      * @private
      */
     __openProfile() {
+        // TODO(Sergey) release __openProfile
         // this.__pageRemoveListeners();
 
         console.log('Open profile');
-
-        const profile = new Profile(this.__parent);
-        profile.render();
     }
 
     /***
@@ -180,6 +197,7 @@ export class HeaderController {
      * @private
      */
     __openMyProducts() {
+        // TODO(Sergey) release __openMyProducts
         // this.__pageRemoveListeners();
 
         console.log('Open my products');
@@ -190,6 +208,7 @@ export class HeaderController {
      * @private
      */
     __openMessages() {
+        // TODO(Sergey) release __openMessages
         // this.__pageRemoveListeners();
 
         console.log('Open messages');
@@ -200,6 +219,7 @@ export class HeaderController {
      * @private
      */
     __openFavorites() {
+        // TODO(Sergey) release __openFavorites
         // this.__pageRemoveListeners();
 
         console.log('Open favorites');
@@ -210,6 +230,7 @@ export class HeaderController {
      * @private
      */
     __logout() {
+        // TODO(Sergey) release __logout
         // this.__pageRemoveListeners();
 
         console.log('Logout');
@@ -232,8 +253,8 @@ export class HeaderController {
             createProductClick: {
                 open: this.__openCreateProduct.bind(this)
             },
-            accountClick: {
-                open: this.__openAccount.bind(this)
+            authClick: {
+                open: this.__openAuth.bind(this)
             },
             dropdownClick: {
                 open: this.__openDropdownMenu.bind(this)
