@@ -108,7 +108,7 @@ export class RegistrationPanel {
      * @this {RegistrationPanel}
      * @private
      * @readonly
-     * @return  {Object[]} array of listeners
+     * @return  {{validateChange: {listener: *, type: string}, hideError: {listener: *, type: string}, validateInput: {listener: *, type: string}, showError: {listener: *, type: string}, registrationClick: {listener: *, type: string}}} array of listeners
      */
     get listeners() {
         return this.__listeners;
@@ -119,7 +119,7 @@ export class RegistrationPanel {
      *
      * Set new listeners
      * @this {RegistrationPanel}
-     * @param  {Object[]} val - Object of listeners
+     * @param  {{validateChange: {listener: *, type: string}, hideError: {listener: *, type: string}, validateInput: {listener: *, type: string}, showError: {listener: *, type: string}, registrationClick: {listener: *, type: string}}} val - Object of listeners
      * @public
      */
     set listeners(val) {
@@ -134,7 +134,6 @@ export class RegistrationPanel {
      * @public
      */
     addListeners() {
-
         document
             .getElementById('registrationForm')
             .addEventListener(this.listeners.validateInput.type, this.listeners.validateInput.listener);

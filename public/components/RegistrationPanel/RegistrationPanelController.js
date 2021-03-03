@@ -13,14 +13,14 @@ export class RegistrationPanelController {
      *
      * init of class RegistrationPanelController
      * @param{HTMLElement} parent - parent component
-     * @param{RegistrationPanel} registartion - control component
+     * @param{RegistrationPanel} registrationPanel - control component
      * @constructor
      * @this {RegistrationPanelController}
      * @public
      */
-    constructor(parent, registartion) {
+    constructor(parent, registrationPanel) {
         this.__parent = parent;
-        this.__registartion = registartion;
+        this.__registartion = registrationPanel;
     }
 
     /***
@@ -61,7 +61,7 @@ export class RegistrationPanelController {
      *
      * function witch return Object of listeners
      * @this {RegistrationPanelController}
-     * @return {{validateChange: {listener: *, type: string}, validateInput: {listener: *, type: string}, registrationClick: {listener: *, type: string}}}
+     * @return {{validateChange: {listener: *, type: string}, hideError: {listener: *, type: string}, validateInput: {listener: *, type: string}, showError: {listener: *, type: string}, registrationClick: {listener: *, type: string}}}
      * @private
      */
     __createListeners() {
@@ -81,7 +81,7 @@ export class RegistrationPanelController {
             },
             showError: {
                 type: 'mouseover',
-                listener: this.__listenersMouseMove.bind(this)
+                listener: this.__listenersMouseIn.bind(this)
 
             },
             hideError: {
@@ -92,7 +92,15 @@ export class RegistrationPanelController {
         };
     }
 
-    __listenersMouseMove(ev) {
+    /***
+     * @author Ivan Gorshkov
+     *
+     *  listener for MouseIn Event
+     * @private
+     * @this {RegistrationPanelController}
+     * @param{Event} ev - event
+     */
+    __listenersMouseIn(ev) {
         ev.preventDefault();
 
         const actions = this.__getActions();
@@ -105,6 +113,14 @@ export class RegistrationPanelController {
             });
     }
 
+    /***
+     * @author Ivan Gorshkov
+     *
+     *  listener for MouseOut Event
+     * @private
+     * @this {RegistrationPanelController}
+     * @param{Event} ev - event
+     */
     __listenersMouseOut(ev) {
         ev.preventDefault();
 
@@ -161,6 +177,14 @@ export class RegistrationPanelController {
         };
     }
 
+
+    /****
+     * @author Ivan Gorshkov
+     *
+     * action with mouse out event
+     * @param{Object} target - input element
+     * @private
+     */
     mouseOutInput(target) {
         if (target.nextSibling.className === '') {
             target.nextElementSibling.classList.add('error-hidden');
@@ -168,6 +192,13 @@ export class RegistrationPanelController {
 
     }
 
+    /****
+     * @author Ivan Gorshkov
+     *
+     * action with mouse in event
+     * @param{Object} target - input element
+     * @private
+     */
     mouseInInput(target) {
         if (target.nextSibling.className === 'error-hidden') {
             target.nextElementSibling.classList.remove('error-hidden');
@@ -249,13 +280,13 @@ export class RegistrationPanelController {
      * @author Ivan Gorshkov
      *
      * add to DOM error massage
-     * @param{HTMLElement} target
+     * @param{Object} target
      * @param{string} idError
      * @param{string} textError
      * @private
      */
     __insertError(target, idError, textError) {
-        target.classList.add('input-error');
+        target.classList.add('reg-panel__input-error');
         if (document.getElementById(idError) === null) {
             const el = document.createElement('div');
             el.id = idError;
@@ -269,13 +300,13 @@ export class RegistrationPanelController {
      * @author Ivan Gorshkov
      *
      * add success massage
-     * @param{HTMLElement} target
+     * @param{Object} target
      * @param{string} idError
      * @private
      */
     __addSuccesses(target, idError) {
-        target.classList.remove('input-error');
-        target.classList.add('input-susses');
+        target.classList.remove('reg-panel__input-error');
+        target.classList.add('reg-panel__input-susses');
         if (document.getElementById(idError)) {
             target.parentNode.removeChild(target.nextSibling);
         }
@@ -285,7 +316,7 @@ export class RegistrationPanelController {
      * @author Ivan Gorshkov
      *
      * action to validate input phone
-     * @param{HTMLElement} target
+     * @param{Object} target
      * @return {boolean}
      * @private
      * @this {RegistrationPanelController}
@@ -309,7 +340,7 @@ export class RegistrationPanelController {
      * @author Ivan Gorshkov
      *
      * action to validate input password
-     * @param{HTMLElement} target
+     * @param{Object} target
      * @return {boolean}
      * @private
      * @this {RegistrationPanelController}
@@ -338,7 +369,7 @@ export class RegistrationPanelController {
      * @author Ivan Gorshkov
      *
      * action to validate input confirmpassword
-     * @param{HTMLElement} target
+     * @param{Object} target
      * @return {boolean}
      * @private
      * @this {RegistrationPanelController}
@@ -362,7 +393,7 @@ export class RegistrationPanelController {
      * @author Ivan Gorshkov
      *
      * action to validate input mail
-     * @param{HTMLElement} target
+     * @param{Object} target
      * @return {boolean}
      * @private
      * @this {RegistrationPanelController}
@@ -384,7 +415,7 @@ export class RegistrationPanelController {
      * @author Ivan Gorshkov
      *
      * action to validate input fields witch can not be empty
-     * @param{HTMLElement} target
+     * @param{Object} target
      * @return {boolean}
      * @private
      * @this {RegistrationPanelController}
@@ -403,6 +434,15 @@ export class RegistrationPanelController {
         return false;
     }
 
+    /***
+     * @author Ivan Gorshkov
+     *
+     * create box massage with errors
+     * @param{string} errText
+     * @return {string}
+     * @private
+     * @this {RegistrationPanelController}
+     */
     __createMessageError(errText) {
         return `
             <div class="message-container">
