@@ -7,14 +7,14 @@ export class Auth {
      * @param {HTMLElement} parent - element where the component will be inserted
      * @param {Object} listeners - component listeners
      */
-    constructor(parent, listeners = undefined) {
+    constructor(parent, listeners = {}) {
         this.__parent = parent;
         this.__listeners = listeners;
     }
 
     /***
      * Form text error
-     * @param {String} val - error text
+     * @param {string} val - error text
      */
     errorText(val) {
         document
@@ -32,7 +32,7 @@ export class Auth {
 
     /***
      * Set listeners
-     * @param {Object} val -
+     * @param {Object} val - component listeners
      */
     set listeners(val) {
         this.__listeners = val;
@@ -136,7 +136,7 @@ export class Auth {
                         <button class="auth-content-form__button" type="submit">Войти</button>
                     </form>
                     <div class="auth-content-form__registration">
-                        <span>Еще не зарегестрировались?</span>
+                        <span>Еще не зарегистрировались?</span>
                         <a href="#" data-action="registrationClick">Создайте аккаунт.</a>
                     </div>
                 </div>
