@@ -1,17 +1,19 @@
-@import "../../components/Profile/Profile.css";
+@import "../../components/ProfileMenu/ProfileMenu.css";
 @import "../../components/Settings/Settings.css";
 
 .profile {
-    width: 100%;
+    width: 100vw;
     margin-top: 3vh;
     display: flex;
     justify-content: center;
-    height: 90%;
+    /*height: 90%;*/
 }
 
 .profile-box {
-    padding-left: 15vw;
+    /*width: 80%;*/
     padding-right: 15vw;
+    padding-left: 15vw;
     display: flex;
     flex-direction: row;
+    justify-content: center;
 }

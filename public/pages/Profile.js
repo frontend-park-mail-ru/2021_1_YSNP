@@ -1,16 +1,16 @@
 import {Header} from '../components/Header/Header.js';
 import {HeaderController} from '../components/Header/HeaderController.js';
 
-import {Profile} from '../components/Profile/Profile.js';
-import {ProfileController} from '../components/Profile/ProfileController.js';
+import {ProfileMenu} from '../components/ProfileMenu/ProfileMenu.js';
+import {ProfileMenuController} from '../components/ProfileMenu/ProfileMenuController.js';
 
 import {Settings} from '../components/Settings/Settings.js';
 import {SettingsController} from '../components/Settings/SettingsController.js';
 
 /***
- * Profile page
+ * ProfileMenu page
  */
-export class ProfilePage {
+export class Profile {
     /***
      * Class constructor
      * @param {HTMLElement} parent - element where the component will be inserted
@@ -70,14 +70,14 @@ export class ProfilePage {
             </div>`);
         const profilePage = document.getElementById('profile');
 
-        const profile = new Profile(profilePage, this.__getUserData());
+        const profile = new ProfileMenu(profilePage, this.__getUserData(), {page: 'settings'});
         profile.render();
-        this.__profileController = new ProfileController(this.__removePageListeners.bind(this), profilePage, profile);
+        this.__profileController = new ProfileMenuController(this.__removePageListeners.bind(this), this.__parent, profile);
         this.__profileController.control();
 
         const settings = new Settings(profilePage, this.__getUserData());
         settings.render();
-        this.__settingsController = new SettingsController(this.__removePageListeners.bind(this), profilePage, settings);
+        this.__settingsController = new SettingsController(this.__removePageListeners.bind(this), this.__parent, settings);
         this.__settingsController.control();
     }
 }

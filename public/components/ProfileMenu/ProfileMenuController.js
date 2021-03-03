@@ -1,7 +1,7 @@
 /***
- * Profile controller
+ * ProfileMenu controller
  */
-export class ProfileController {
+export class ProfileMenuController {
     /***
      * Class constructor
      * @param {Function} pageRemoveListeners - remove page listeners
@@ -30,8 +30,8 @@ export class ProfileController {
     }
 
     /***
-     * Profile click event
-     * @param {Event} ev - event
+     * ProfileMenu click event
+     * @param {Event} ev - mouse event
      * @private
      */
     __listenerProfileClick(ev) {
@@ -63,7 +63,7 @@ export class ProfileController {
 
     /***
      * Get profile actions
-     * @returns {{}}
+     * @returns {{favoritesClick: {open: *}, myPostsClick: {open: *}, settingsClick: {open: *}, messagesClick: {open: *}, supportClick: {open: *}}}
      * @private
      */
     __getActions() {
@@ -87,7 +87,7 @@ export class ProfileController {
     }
 
     /***
-     * Profile settings click callback
+     * ProfileMenu settings click callback
      * @private
      */
     __openSettings() {
@@ -98,9 +98,9 @@ export class ProfileController {
         document
             .getElementById('profile-menu-settings')
             .style.color = '#2e64f5';
-        document
-            .getElementById('profile-menu-favorites')
-            .style.color = '#000000';
+        // document
+        //     .getElementById('profile-menu-favorites').classList.add()
+        //     .style.color = '#000000';
         document
             .getElementById('profile-menu-posts')
             .style.color = '#000000';
@@ -109,7 +109,7 @@ export class ProfileController {
     }
 
     /***
-     * Profile favorites click callback
+     * ProfileMenu favorites click callback
      * @private
      */
     __openFavorites() {
@@ -130,7 +130,7 @@ export class ProfileController {
     }
 
     /***
-     * Profile my posts click callback
+     * ProfileMenu my posts click callback
      * @private
      */
     __openPosts() {
@@ -151,7 +151,7 @@ export class ProfileController {
     }
 
     /***
-     * Profile messages click callback
+     * ProfileMenu messages click callback
      * @private
      */
     __openMessages() {
@@ -174,7 +174,7 @@ export class ProfileController {
     }
 
     /***
-     * Profile support click callback
+     * ProfileMenu support click callback
      * @private
      */
     __openSupport() {

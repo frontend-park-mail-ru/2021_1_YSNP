@@ -3,42 +3,33 @@
     src: url(/fonts/Roboto-Regular.ttf)
 }
 
-.profile-left-part {
-    width: 19vw;
-    height: 70vh;
+.profile-menu {
+    width: 30vh;
+    height: 35vh;
     display: flex;
     flex-direction: row;
-    margin-right: 1vw;
+    margin-right: 1vh;
     font-family: Roboto, serif;
 }
 
-.profile-menu, .profile-main-settings {
+.profile-menu-inner {
     background: white;
     border-radius: 3px;
     box-shadow: 0px 4px 14px rgba(0, 0, 0, 0.1);
-
+    position: relative;
     display: flex;
     flex-direction: column;
-    padding-left: 1vw;
-}
-
-.profile-main-settings {
-    width: 45vw;
-    height: 20vh;
-
-    margin-top: 2vh;
-}
-.profile-menu {
-    width: 17vw;
-    height: 40vh;
+    padding-left: 1vh;
+    padding-right: 1vh;
+    width: 100%;
+    height: 100%;
     justify-content: left;
-    padding-bottom: 1vh;
 }
 
-.profile-user {
+.profile-menu-user {
     margin-top: 3vh;
     margin-bottom: 2vh;
-    width: 16vw;
+    width: 100%;
     height: 7vh;
     display: flex;
     flex-direction: row;
@@ -46,30 +37,30 @@
 
 .profile-menu__separator {
     border-top: 1px solid rgb(227, 227, 227);
-    width: 16vw;
     margin-bottom: 1vh;
 }
 
-.profile-user-inner {
+.profile-menu-user-inner {
     display: flex;
     flex-direction: column;
-    width: 13vw;
-    height: 3vw;
+    width: 100%;
+    height: 3vh;
 }
 
-.profile-user-avatar {
-    width: 4.5vh;
-    height: 4.5vh;
+.profile-menu-user__avatar {
+    width: 5.5vh;
+    height: 5.5vh;
+    object-fit: cover;
     background: #C4C4C4;
     border-radius: 50%;
 }
 
-.profile-user-name, .profile-user-rating {
-    font-size: 2vh;
+.profile-menu-user__name, .profile-menu-user__rating {
+    font-size: 2.5vh;
     margin-left: 1vw;
 }
 
-.profile-menu-content-item, .profile-settings-content-item{
+.profile-menu-content-item{
     height: 5vh;
     padding-left: 0.3vw;
     display: flex;
@@ -79,18 +70,16 @@
     opacity: 0.7;
     font-size: 2vh;
     text-decoration: none;
+    width: 100%;
 }
 
-.profile-menu-content-item{
-    width: 16vw;
-}
-.profile-settings-content-item{
-    width: 43.8vw;
-}
-
-.profile-menu-content-item:hover, .profile-settings-content-item:hover{
+.profile-menu-content-item:hover{
     background: #EEEEEE;
     cursor: pointer;
     color: black;
     opacity: 1;
+}
+
+.profile-menu__selected{
+    color: #2e64f5 !important;
 }
