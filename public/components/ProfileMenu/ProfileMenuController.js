@@ -92,18 +92,6 @@ export class ProfileMenuController {
      */
     __openSettings() {
         // this.__pageRemoveListeners();
-        document
-            .getElementById('profile-menu-messages')
-            .style.color = '#000000';
-        document
-            .getElementById('profile-menu-settings')
-            .style.color = '#2e64f5';
-        // document
-        //     .getElementById('profile-menu-favorites').classList.add()
-        //     .style.color = '#000000';
-        document
-            .getElementById('profile-menu-posts')
-            .style.color = '#000000';
 
         console.log('Click settings page');
     }
@@ -114,18 +102,7 @@ export class ProfileMenuController {
      */
     __openFavorites() {
         // this.__pageRemoveListeners();
-        document
-            .getElementById('profile-menu-messages')
-            .style.color = '#000000';
-        document
-            .getElementById('profile-menu-settings')
-            .style.color = '#000000';
-        document
-            .getElementById('profile-menu-favorites')
-            .style.color = '#2e64f5';
-        document
-            .getElementById('profile-menu-posts')
-            .style.color = '#000000';
+
         console.log('Click favorites page');
     }
 
@@ -135,18 +112,7 @@ export class ProfileMenuController {
      */
     __openPosts() {
         // this.__pageRemoveListeners();
-        document
-            .getElementById('profile-menu-messages')
-            .style.color = '#000000';
-        document
-            .getElementById('profile-menu-settings')
-            .style.color = '#000000';
-        document
-            .getElementById('profile-menu-favorites')
-            .style.color = '#000000';
-        document
-            .getElementById('profile-menu-posts')
-            .style.color = '#2e64f5';
+
         console.log('Click my posts page');
     }
 
@@ -156,19 +122,6 @@ export class ProfileMenuController {
      */
     __openMessages() {
         // this.__pageRemoveListeners();
-
-        document
-            .getElementById('profile-menu-messages')
-            .style.color = '#2e64f5';
-        document
-            .getElementById('profile-menu-settings')
-            .style.color = '#000000';
-        document
-            .getElementById('profile-menu-favorites')
-            .style.color = '#000000';
-        document
-            .getElementById('profile-menu-posts')
-            .style.color = '#000000';
 
         console.log('Click messages page');
     }
