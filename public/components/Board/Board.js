@@ -69,6 +69,8 @@ export class Board {
                    <div class="board-right" id="board-right-side"></div>
                </div>
            </div>
+           
+           <div class="same-product">Похожие объявления</div>
         `;
     }
 

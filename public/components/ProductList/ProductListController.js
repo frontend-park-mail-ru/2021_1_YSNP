@@ -92,6 +92,8 @@ export class ProductListController {
      * @private
      */
     __openCard(id) {
+        const page = new Product(this.__parent);
+        page.render();
         console.log('open card', id);
 
         const product = new Product(this.__parent);

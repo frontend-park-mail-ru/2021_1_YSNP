@@ -2,10 +2,11 @@
     font-family: Roboto, serif;
     font-style: normal;
     font-weight: normal;
+    font-size: 2vh;
     height: 3vh;
     width: 80vw;
     display: flex;
-    margin: 1vh auto;
+    margin: 2vh auto;
 }
 
 .navigation-inner {

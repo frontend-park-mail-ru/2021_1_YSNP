@@ -1,11 +1,12 @@
 .info-card {
-    width: 18vw;
     border: 1px solid rgba(0,0,0,0.1);
-    height: 44vh;
     display: block;
-    position: fixed;
+    position:sticky;
+    top: 20px;
     margin: 2vw 0 0 0.3vw;
+    padding-bottom: 1vw;
 }
+
 
 .info-card__price {
     font-style: normal;

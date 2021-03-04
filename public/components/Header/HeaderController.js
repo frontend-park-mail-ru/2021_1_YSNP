@@ -1,4 +1,6 @@
 import {Profile} from '../../pages/Profile.js';
+import {Landing} from '../../pages/Landing.js';
+import {Registration} from '../../pages/Registration.js';
 import {Auth} from '../Auth/Auth.js';
 import {AuthController} from '../Auth/AuthController.js';
 /***
@@ -123,6 +125,9 @@ export class HeaderController {
         // this.__pageRemoveListeners();
 
         console.log('open landing');
+
+         const landing = new Landing(this.__parent);
+         landing.render();
     }
 
     /***
@@ -151,6 +156,12 @@ export class HeaderController {
      * Header account click callback
      * @private
      */
+//     __openAccount() {
+//         this.__pageRemoveListeners();
+//         this.register = new Registration(this.__parent);
+//         this.register.render();
+//         console.log('Open account');
+//     }
     __openAuth() {
         const auth = new Auth(this.__parent);
         auth.render();

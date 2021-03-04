@@ -23,7 +23,7 @@ export class Landing {
      */
     __getHeaderData() {
         return {
-            isAuth: true,
+            isAuth: false,
             user: 'Алехин Сергей',
             avatar: '/img/test-avatar.jpg',
             location: 'Москва'
