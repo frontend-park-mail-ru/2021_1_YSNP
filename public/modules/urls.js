@@ -17,6 +17,18 @@ class Urls {
     get me() {
         return `${this.__url}/me`;
     }
+
+    get singIn() {
+        return `${this.__url}/singin`;
+    }
+
+    get singUp() {
+        return `${this.__url}/singup`;
+    }
+
+    get mainProducts() {
+        return `${this.__url}/`;
+    }
 }
 
 export const urls = new Urls();

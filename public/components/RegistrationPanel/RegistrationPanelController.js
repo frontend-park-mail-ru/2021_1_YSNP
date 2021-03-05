@@ -1,4 +1,6 @@
 'use strict';
+import {RegAuthUserModel} from '../../models/RegAuthUserModel.js';
+import {Landing} from '../../pages/Landing';
 
 /***
  * @author Ivan Gorshkov
@@ -21,6 +23,7 @@ export class RegistrationPanelController {
     constructor(parent, registrationPanel) {
         this.__parent = parent;
         this.__registartion = registrationPanel;
+        this.__model = new RegAuthUserModel();
     }
 
     /***
@@ -77,7 +80,6 @@ export class RegistrationPanelController {
             validateChange: {
                 type: 'change',
                 listener: this.__listenersRegistrarion.bind(this)
-
             },
             showError: {
                 type: 'mouseover',
@@ -322,7 +324,8 @@ export class RegistrationPanelController {
      * @this {RegistrationPanelController}
      */
     _validatePhone(target) {
-        if (this.__isValidPhone(target.value)) {
+        const {error} = this.__model.validationTelephone(target.value);
+        if (!error) {
             this.__addSuccesses(target, 'phoneError');
             return true;
         }
@@ -335,7 +338,6 @@ export class RegistrationPanelController {
     }
 
 
-
     /***
      * @author Ivan Gorshkov
      *
@@ -346,7 +348,8 @@ export class RegistrationPanelController {
      * @this {RegistrationPanelController}
      */
     __validatePas(target) {
-        if (this.__isValidPwd(target.value)) {
+        const {error} = this.__model.validationPassword(target.value);
+        if (!error) {
             this.__addSuccesses(target, 'passwordError');
             const element = document.getElementById('passwordConfirm');
             this.__validateConfirmPwd(element);
@@ -376,7 +379,8 @@ export class RegistrationPanelController {
      */
     __validateConfirmPwd(target) {
         const element = document.getElementById('password');
-        if (element.value === target.value && target.value !== '') {
+        const {error} = this.__model.validationConfirmPassword(element.value, target.value);
+        if (!error) {
             this.__addSuccesses(target, 'passwordConfirmError');
             return true;
         }
@@ -399,7 +403,8 @@ export class RegistrationPanelController {
      * @this {RegistrationPanelController}
      */
     __validateMail(target) {
-        if (this.__isValidEmail(target.value)) {
+        const {error} = this.__model.validationEmail(target.value);
+        if (!error) {
             this.__addSuccesses(target, 'MailError');
             return true;
         }
@@ -472,6 +477,7 @@ export class RegistrationPanelController {
         const name = document.getElementById('name');
         const surname = document.getElementById('surname');
         const date = document.getElementById('date');
+
         const isValidpwdConfirm = this.__validateConfirmPwd(passwordConfirm);
         const isValidPhone = this._validatePhone(phone);
         const isValidPwd = this.__validatePas(password);
@@ -480,7 +486,22 @@ export class RegistrationPanelController {
         const isValidSurname = this.__validateEmpty(surname);
         const isValidDate = this.__validateEmpty(date);
         if (isValidDate && isValidMail && isValidName && isValidPhone && isValidPwd && isValidpwdConfirm && isValidSurname) {
-           //TODO(Ivan) Отправка формы
+            this.__model.name = name.value;
+            this.__model.surname = surname.value;
+            this.__model.year = date.value;
+            this.__model.telephone = phone.value;
+            this.__model.email = mail.value;
+            this.__model.password = password.value;
+            this.__model.log();
+            this.__model.registration()
+                .then(({status, data}) => {
+                    console.log(status, data);
+
+                    if (status === 200) {
+                        const landing = new Landing(this.__parent);
+                        landing.render();
+                    }
+                });
         }
     }
 }

@@ -1,4 +1,7 @@
-import {telMask, parseTelNumber, validationNumber} from '../../modules/telMask.js';
+import {telMask, parseTelNumber} from '../../modules/telMask.js';
+import {Registration} from '../../pages/Registration.js';
+import {RegAuthUserModel} from '../../models/RegAuthUserModel.js';
+import {Landing} from '../../pages/Landing';
 
 /***
  * Auth controller
@@ -14,6 +17,7 @@ export class AuthController {
         this.__pageRemoveListeners = pageRemoveListeners;
         this.__parent = parent;
         this.__auth = auth;
+        this.__model = new RegAuthUserModel();
     }
 
     /***
@@ -81,17 +85,52 @@ export class AuthController {
         ev.preventDefault();
         ev.stopPropagation();
 
-        const tel = parseTelNumber(document.getElementById('auth-tel').value);
+        const telephone = parseTelNumber(document.getElementById('auth-tel').value);
         const password = document.getElementById('auth-password').value;
-        const {message, error} = validationNumber(tel);
+
+        const isValidTelephone = this.__isValidTelephone(telephone);
+        const isValidPassword = this.__isValidPassword(password);
+
+        if (isValidTelephone && isValidPassword) {
+            this.__model.log();
+            this.__model.auth()
+                .then(({status, data}) => {
+                    console.log(status, data);
+
+                    if (status === 200) {
+                        const landing = new Landing(this.__parent);
+                        landing.render();
+                    }
+                });
+        } else {
+            this.__auth.errorText('Неправильный номер или пароль');
+        }
+    }
+
+    __isValidTelephone(telephone) {
+        const {error} = this.__model.validationTelephone(telephone);
 
         if (!error) {
+            this.__model.telephone = telephone;
             this.__auth.errorText('');
-            console.log('Tel', tel);
-            console.log('Password', password);
-        } else {
-            this.__auth.errorText(message);
+
+            return true;
         }
+
+        return false;
+    }
+
+    __isValidPassword(password) {
+        const {error} = this.__model.validationPassword(password);
+
+        if (!error) {
+            this.__model.password = password;
+            this.__auth.errorText('');
+
+            return true;
+        }
+
+        return false;
     }
 
     /***
@@ -139,7 +178,8 @@ export class AuthController {
     __openRegistration() {
         this.__pageRemoveListeners();
 
-        console.log('Open registration');
+        const registration = new Registration(this.__parent);
+        registration.render();
     }
 
     /***

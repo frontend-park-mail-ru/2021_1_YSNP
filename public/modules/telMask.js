@@ -49,23 +49,3 @@ export function parseTelNumber(tel) {
         .replace('(', '')
         .replace(')', '')}`;
 }
-
-/***
- * Check number length
- * @param {String} number - input number
- * @returns {{message: string, error: boolean}}
- */
-export function validationNumber(number) {
-    const telSize = 12;
-    if (number.length !== telSize) {
-        return {
-            message: 'Неверно введен номер телефона',
-            error: true
-        };
-    }
-
-    return {
-        message: '',
-        error: false
-    };
-}
