@@ -91,12 +91,12 @@ export class Landing {
         this.__parent.innerHTML = '';
 
         const header = new Header(this.__parent, this.__getHeaderData());
-        header.render();
+        // header.render();
         this.__headerController = new HeaderController(this.__removePageListeners.bind(this), this.__parent, header);
         this.__headerController.control();
 
         const productList = new ProductList(this.__parent, this.__getProductListData());
-        productList.render();
+        // productList.render();
         this.__productListController = new ProductListController(this.__removePageListeners.bind(this), this.__parent, productList);
         this.__productListController.control();
     }
