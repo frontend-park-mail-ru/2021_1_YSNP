@@ -1,7 +1,9 @@
-import {telMask, parseTelNumber} from '../../modules/telMask.js';
 import {Registration} from '../../pages/Registration.js';
-import {RegAuthUserModel} from '../../models/RegAuthUserModel.js';
-import {Landing} from '../../pages/Landing';
+import {Landing} from '../../pages/Landing.js';
+
+import {AuthUserData} from '../../models/AuthUserData.js';
+
+import {telMask, parseTelNumber} from '../../modules/telMask.js';
 
 /***
  * Auth controller
@@ -17,7 +19,7 @@ export class AuthController {
         this.__pageRemoveListeners = pageRemoveListeners;
         this.__parent = parent;
         this.__auth = auth;
-        this.__model = new RegAuthUserModel();
+        this.__model = new AuthUserData();
     }
 
     /***
@@ -92,10 +94,15 @@ export class AuthController {
         const isValidPassword = this.__isValidPassword(password);
 
         if (isValidTelephone && isValidPassword) {
+            this.__model.fillUserData({
+                telephone: telephone,
+                password: password
+            });
             this.__model.log();
+
             this.__model.auth()
                 .then(({status, data}) => {
-                    console.log(status, data);
+                    console.log('Auth', status, data);
 
                     if (status === 200) {
                         const landing = new Landing(this.__parent);
@@ -107,26 +114,34 @@ export class AuthController {
         }
     }
 
+    /***
+     * Validate user telephone
+     * @param {string} telephone - user telephone
+     * @returns {boolean}
+     * @private
+     */
     __isValidTelephone(telephone) {
         const {error} = this.__model.validationTelephone(telephone);
 
         if (!error) {
-            this.__model.telephone = telephone;
             this.__auth.errorText('');
-
             return true;
         }
 
         return false;
     }
 
+    /***
+     * Validate user password
+     * @param {string} password - user password
+     * @returns {boolean}
+     * @private
+     */
     __isValidPassword(password) {
         const {error} = this.__model.validationPassword(password);
 
         if (!error) {
-            this.__model.password = password;
             this.__auth.errorText('');
-
             return true;
         }
 
