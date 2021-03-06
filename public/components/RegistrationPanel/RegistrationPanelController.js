@@ -1,6 +1,6 @@
-'use strict';
-import {RegAuthUserModel} from '../../models/RegAuthUserModel.js';
-import {Landing} from '../../pages/Landing';
+import {Landing} from '../../pages/Landing.js';
+
+import {RegUserData} from '../../models/RegUserData.js';
 
 /***
  * @author Ivan Gorshkov
@@ -23,7 +23,7 @@ export class RegistrationPanelController {
     constructor(parent, registrationPanel) {
         this.__parent = parent;
         this.__registartion = registrationPanel;
-        this.__model = new RegAuthUserModel();
+        this.__model = new RegUserData();
     }
 
     /***
@@ -485,18 +485,24 @@ export class RegistrationPanelController {
         const isValidName = this.__validateEmpty(name);
         const isValidSurname = this.__validateEmpty(surname);
         const isValidDate = this.__validateEmpty(date);
+
         if (isValidDate && isValidMail && isValidName && isValidPhone && isValidPwd && isValidpwdConfirm && isValidSurname) {
-            this.__model.name = name.value;
-            this.__model.surname = surname.value;
-            this.__model.year = date.value;
-            this.__model.telephone = phone.value;
-            this.__model.email = mail.value;
-            this.__model.password = password.value;
+            this.__model.fillUserData({
+                name: name.value,
+                surname: surname.value,
+                sex: 'мужской',
+                year: date.value,
+                telephone: phone.value,
+                email: mail.value,
+                password: password.value
+            });
+
             this.__model.log();
+
             this.__model.registration()
                 .then(({status, data}) => {
-                    console.log(status, data);
-
+                    console.log('Reg', status, data);
+                    
                     if (status === 200) {
                         const landing = new Landing(this.__parent);
                         landing.render();
