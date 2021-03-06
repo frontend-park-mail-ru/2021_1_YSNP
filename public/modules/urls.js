@@ -10,24 +10,32 @@ class Urls {
         this.__url = 'http://localhost:3000';
     }
 
-    /***
-     * Get auth user url
-     * @returns {string}
-     */
+    get main() {
+        return `${this.__url}/`;
+    }
+
+    get product() {
+        return `${this.__url}/product/`;
+    }
+
+    get productCreate() {
+        return `${this.__url}/product/create`;
+    }
+
     get me() {
         return `${this.__url}/me`;
     }
 
-    get singIn() {
-        return `${this.__url}/singin`;
+    get login() {
+        return `${this.__url}/login`;
     }
 
     get singUp() {
         return `${this.__url}/singup`;
     }
 
-    get mainProducts() {
-        return `${this.__url}/`;
+    get settings() {
+        return `${this.__url}/settings`;
     }
 }
 
