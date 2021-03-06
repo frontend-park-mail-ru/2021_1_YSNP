@@ -1,4 +1,5 @@
 import {telMask, parseTelNumber, validationNumber} from '../../modules/telMask.js';
+import {Registration} from '../../pages/Registration.js';
 
 /***
  * Auth controller
@@ -138,7 +139,8 @@ export class AuthController {
      */
     __openRegistration() {
         this.__pageRemoveListeners();
-
+        const reg = new Registration(this.__parent);
+        reg.render();
         console.log('Open registration');
     }
 

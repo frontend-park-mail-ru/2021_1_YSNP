@@ -3,6 +3,7 @@ import {Landing} from '../../pages/Landing.js';
 import {Registration} from '../../pages/Registration.js';
 import {Auth} from '../Auth/Auth.js';
 import {AuthController} from '../Auth/AuthController.js';
+import {ProductCreate} from '../../pages/ProductCreate.js';
 /***
  * Header controller controller
  */
@@ -85,8 +86,8 @@ export class HeaderController {
      * @private
      */
     __listenerPageClick(ev) {
-        ev.preventDefault();
-        ev.stopPropagation();
+        //ev.preventDefault();
+        //ev.stopPropagation();
 
         document
             .getElementById('header-dropdown-content')
@@ -147,8 +148,9 @@ export class HeaderController {
      */
     __openCreateProduct() {
         // TODO(Sergey) release __openCreateProduct
-        // this.__pageRemoveListeners();
-
+        this.__pageRemoveListeners();
+        const createProduct = new ProductCreate(this.__parent);
+        createProduct.render();
         console.log('Open create product');
     }
 

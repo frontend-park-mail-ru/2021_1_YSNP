@@ -36,7 +36,7 @@ export class RegistrationPanel {
                 <div class="product-des-topic">
                     <p class="product-des-topic__title">${element.title}</p>
                 </div>
-                <div class="product-des-inner">
+                <div class="form-inner">
                     <input ${element.params} class="reg-panel__textfield" data-action="${element.dataAction}" data-move="mouseIn" data-moveout="mouseOut"  id="${element.id}" type="${element.inputType}" placeholder="${element.placeholder}" name="${element.id}"/>
                 </div>
             </div>`;
@@ -54,7 +54,6 @@ export class RegistrationPanel {
      */
     __getTemplate() {
         return `           
-                       
            <div class="board">
                <div class="board-title">
                    <p class="reg-panel-title__product-name">Регистрация</p>
@@ -69,7 +68,7 @@ export class RegistrationPanel {
                     <div class="product-des-topic">
                         <p class="product-des-topic__title">Фото</p>
                     </div>
-                <div class="product-des-inner">
+                <div class="form-inner">
                   
                    <div class="reg-picture">
                      <div class="circle" id="avatar" data-action="clickUpload">
@@ -90,7 +89,7 @@ export class RegistrationPanel {
                 <div class="product-des-topic">
                 
                 </div>
-                <div class="product-des-inner" id="submitBtn">
+                <div class="form-inner" id="submitBtn">
                   <input class="header-right__create-button reg__button" data-action="clickRegistration" type="submit" id="register" value="Зарегистрироваться"/>
                 </div>
             </div>
