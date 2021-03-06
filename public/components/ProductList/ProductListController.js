@@ -1,5 +1,7 @@
 import {Product} from '../../pages/Product.js';
 
+import {ProductListModel} from '../../models/ProductListModel.js';
+
 /***
  * Product List controller
  */
@@ -14,14 +16,19 @@ export class ProductListController {
         this.__pageRemoveListeners = pageRemoveListeners;
         this.__parent = parent;
         this.__productList = productList;
+        this.__model = new ProductListModel();
     }
 
     /***
      * Add listeners
      */
-    control() {
+    async control() {
         this.__productList.listeners = this.__createListeners();
         this.__productList.addListeners();
+
+        await this.__model.update();
+        this.__productList.data = this.__model.productList;
+        this.__productList.render();
     }
 
     /***
