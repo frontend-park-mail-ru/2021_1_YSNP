@@ -1,8 +1,11 @@
-import {Profile} from '../../pages/Profile.js';
+// import {Profile} from '../../pages/Profile.js';
 import {Landing} from '../../pages/Landing.js';
-import {Registration} from '../../pages/Registration.js';
+
 import {Auth} from '../Auth/Auth.js';
 import {AuthController} from '../Auth/AuthController.js';
+
+import {UserModel} from '../../models/UserModel.js';
+
 /***
  * Header controller controller
  */
@@ -17,14 +20,19 @@ export class HeaderController {
         this.__pageRemoveListeners = pageRemoveListeners;
         this.__parent = parent;
         this.__header = header;
+        this.__model = new UserModel();
     }
 
     /***
      * Add listeners
      */
-    control() {
+    async control() {
         this.__header.listeners = this.__createListeners();
         this.__header.addListeners();
+
+        await this.__model.update();
+        this.__header.data = this.__model.jsonData;
+        this.__header.render();
     }
 
     /***
@@ -126,8 +134,8 @@ export class HeaderController {
 
         console.log('open landing');
 
-         const landing = new Landing(this.__parent);
-         landing.render();
+        const landing = new Landing(this.__parent);
+        landing.render();
     }
 
     /***

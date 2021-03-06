@@ -15,6 +15,22 @@ export class Header {
     }
 
     /***
+     * Get data
+     * @returns {Object}
+     */
+    get data() {
+        return this.__data;
+    }
+
+    /***
+     * Set data
+     * @param {Object} data - component data
+     */
+    set data(data) {
+        this.__data = data;
+    }
+
+    /***
      * Get listeners
      * @returns {Object}
      */
