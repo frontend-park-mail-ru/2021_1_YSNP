@@ -123,9 +123,9 @@ export class Product {
         this.__boardController = new BoardController(this.__parent, board);
         this.__boardController.control();
 
-        const productList = new ProductList(this.__parent, this.__getProductListData());
-        productList.render();
-        this.__productListController = new ProductListController(this.productRemoveListeners.bind(this), this.__parent, productList);
-        this.__productListController.control();
+        // const productList = new ProductList(this.__parent, this.__getProductListData());
+        // productList.render();
+        // this.__productListController = new ProductListController(this.productRemoveListeners.bind(this), this.__parent, productList);
+        // this.__productListController.control();
     }
 }

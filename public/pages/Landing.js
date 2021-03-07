@@ -87,17 +87,17 @@ export class Landing {
     /***
      * Add component to parent
      */
-    render() {
+    async render() {
         this.__parent.innerHTML = '';
 
-        const header = new Header(this.__parent, this.__getHeaderData());
+        const header = new Header(this.__parent);
         // header.render();
         this.__headerController = new HeaderController(this.__removePageListeners.bind(this), this.__parent, header);
-        this.__headerController.control();
+        await this.__headerController.control();
 
-        const productList = new ProductList(this.__parent, this.__getProductListData());
+        const productList = new ProductList(this.__parent);
         // productList.render();
         this.__productListController = new ProductListController(this.__removePageListeners.bind(this), this.__parent, productList);
-        this.__productListController.control();
+        await this.__productListController.control();
     }
 }
