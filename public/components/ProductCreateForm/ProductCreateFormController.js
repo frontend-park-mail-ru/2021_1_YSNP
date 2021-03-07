@@ -167,7 +167,10 @@ export class ProductCreateFormController {
                 open: this.delete.bind(this)
              },
             textareaInputEmpty: {
-                open: this._validatePhone.bind(this)
+                open: this._validateTextArea.bind(this)
+            },
+            priceInput: {
+                open: this._validatePriceInput.bind(this)
             },
             mouseIn: {
                 open: this.mouseInInput.bind(this)
@@ -284,7 +287,6 @@ export class ProductCreateFormController {
         }
     }
 
-
     /****
      * @author Ivan Gorshkov
      *
@@ -300,24 +302,20 @@ export class ProductCreateFormController {
             reader.onload = function(e) {
                 const elem = document.getElementById(`profile-pic${input.dataset.id}`);
                 elem.src = e.target.result;
-                elem.classList.add('product-pic_fullsize');
+                elem.classList.add('product__pic_fullsize');
                 if (input.dataset.id == self.count) {
                 const idPhto = document.getElementById('productPhoto');
                 idPhto.insertAdjacentHTML('beforeend', `
-                
-                       <div class="form-row" id="_profile-pic${self.count + 1}">    
-                          <label class="form-row__photolabel" data-action="clickUpload" 
-                          data-move="showCross" data-moveout="hideCross"> 
-                             <img class="product-pic" id="profile-pic${self.count + 1}" data-id="${self.count + 1}" src="../../img/photo.svg">
-                             <div class="cross error-hidden" id="delete${self.count + 1}" data-id='${self.count + 1}' data-action="delete" ></div>
-                           </label>
-                       </div>
+<div class="form-row" id="_profile-pic${self.count + 1}">    
+  <label class="form-row__photolabel" data-action="clickUpload" data-move="showCross" data-moveout="hideCross"> 
+     <img class="product__pic" id="profile-pic${self.count + 1}" data-id="${self.count + 1}" src="../../img/photo.svg">
+     <div class="cross error-hidden" id="delete${self.count + 1}" data-id='${self.count + 1}' data-action="delete" ></div>
+   </label>
+</div>
                 `);
                 const idfile = document.getElementById('files');
                 idfile.insertAdjacentHTML('beforeend', `
-                
-                <input name="[photos]" id="file-upload${self.count + 1}" data-id="${self.count + 1}" data-action="readURL" class="file-upload" type="file" accept="image/*"/>
-
+ <input name="[photos]" id="file-upload${self.count + 1}" data-id="${self.count + 1}" data-action="readURL" class="file-upload" type="file" accept="image/*"/>
 `);
                     self.count += 1;
                 }
@@ -351,15 +349,37 @@ export class ProductCreateFormController {
      * @private
      * @this {RegistrationPanelController}
      */
-    _validatePhone(target) {
-        if (target.value.length > 10) {
+    _validatePriceInput(target) {
+        if (target.value.length < 13) {
             this.__addSuccesses(target, `${target.id}Error`);
             return true;
         }
         this.__insertError(target, `${target.id}Error`, this.__createMessageError(`
-                  <ul class="list-errors">
-                    <li>Слишком короткое описание</li>
-                  </ul>
+<ul class="list-errors">
+    <li>Слишком большое число. Максимум 12 знаков</li>
+</ul>
+    `));
+        return false;
+    }
+
+    /***
+     * @author Ivan Gorshkov
+     *
+     * action to validate input phone
+     * @param{Object} target
+     * @return {boolean}
+     * @private
+     * @this {RegistrationPanelController}
+     */
+    _validateTextArea(target) {
+        if (target.value.length >= 10) {
+            this.__addSuccesses(target, `${target.id}Error`);
+            return true;
+        }
+        this.__insertError(target, `${target.id}Error`, this.__createMessageError(`
+<ul class="list-errors">
+    <li>Слишком короткое описание (минимум 10 знаков)</li>
+</ul>
     `));
         return false;
     }
@@ -375,15 +395,15 @@ export class ProductCreateFormController {
      */
     __createMessageError(errText) {
         return `
-            <div class="message-container">
-              <div class="message__arrow">
-                <div class="message-outer"></div>
-                <div class="message-inner"></div>
-              </div>
-              <div class="message-body">
-                    ${errText}
-              </div>
-            </div>
+<div class="message-container">
+    <div class="message__arrow">
+        <div class="message-outer"></div>
+        <div class="message-inner"></div>
+    </div>
+    <div class="message-body">
+        ${errText}
+    </div>
+</div>
     `;
     }
 }

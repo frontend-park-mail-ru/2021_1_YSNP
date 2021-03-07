@@ -10,7 +10,6 @@
 }
 
 
-
 .reg-panel-title__product-name {
     font-size: 3vh;
     margin: 0;
@@ -101,6 +100,7 @@
     display: flex;
     right: 0;
     top: 0;
+    z-index: 1000;
 }
 
 .message__arrow {

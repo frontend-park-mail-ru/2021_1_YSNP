@@ -89,7 +89,7 @@ export class ProductCreate {
                 id: 'categorySelect',
                 dataAction: 'inputEmpty',
                 options: this.__getOptionsCategories()
-            },
+            }, /*
             subCategories: {
                 title: 'Подкатегория*',
                 placeholder: 'Подкатегория',
@@ -97,7 +97,7 @@ export class ProductCreate {
                 id: 'subcategorySelect',
                 dataAction: 'inputEmpty',
                 options: this.__getOptionsSubcategories()
-            },
+            },*/
             type: {
                 title: 'Тип*',
                 placeholder: 'Тип',
@@ -111,7 +111,7 @@ export class ProductCreate {
                 placeholder: 'Цена',
                 inputType: 'number',
                 id: 'priceInput',
-                dataAction: 'inputEmpty'
+                dataAction: 'priceInput'
             },
             description: {
                 title: 'Описание*',
@@ -119,14 +119,14 @@ export class ProductCreate {
                 inputType: 'textarea',
                 id: 'textareaInput',
                 dataAction: 'textareaInputEmpty'
-            },
+            }/*,
             place: {
                 title: 'Местоположение*',
                 placeholder: 'Местоположение',
                 inputType: 'text',
                 id: 'placeInput',
                 dataAction: 'inputEmpty'
-            }
+            }*/
         };
     }
 
