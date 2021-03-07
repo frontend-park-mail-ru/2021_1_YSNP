@@ -14,7 +14,7 @@ class Http {
         const options = {
             method: method,
             mode: 'cors',
-            credential: 'include'
+            credentials: 'include'
         };
 
         if (data) {
