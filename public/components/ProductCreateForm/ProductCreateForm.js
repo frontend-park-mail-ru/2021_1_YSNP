@@ -8,7 +8,8 @@
 export class ProductCreateForm {
 
     /***
-     * @author Max Torzhkov
+     * @author Max Torzhkov, Ivan Gorshkov
+     * 
      * init of class ProductCreateForm
      * @param {HTMLElement} parent - parent element
      * @param {Object} data
@@ -25,6 +26,7 @@ export class ProductCreateForm {
 
     /***
      * @author Max Trozhkov
+     * 
      * get Navigation listeners
      * @this {ProductCreateForm}
      * @private
@@ -37,6 +39,7 @@ export class ProductCreateForm {
 
     /***
      * @author Max Torzhkov
+     * 
      * Set new listeners
      * @this {ProductCreateForm}
      * @param  {Object[]} val - Object of listeners
@@ -48,6 +51,7 @@ export class ProductCreateForm {
 
     /***
      * @author Max Torzhkov, Ivan Gorshkov
+     * 
      * Add component to parent
      * @this {ProductCreateForm}
      * @public
@@ -65,7 +69,6 @@ export class ProductCreateForm {
         document
             .getElementById('registrationForm')
             .addEventListener(this.listeners.validateInput.type, this.listeners.validateInput.listener);
-
         document
             .getElementById('productPhoto')
             .addEventListener(this.listeners.submitClick.type, this.listeners.submitClick.listener);
@@ -82,6 +85,7 @@ export class ProductCreateForm {
 
     /***
      * @author Max Torzhkov, Ivan Gorshkov
+     * 
      * Remove component from parent
      * @this {ProductCreateForm}
      * @public
@@ -113,6 +117,14 @@ export class ProductCreateForm {
             .removeEventListener(this.listeners.validateChange.type, this.listeners.validateChange.listener);
     }
 
+    /***
+     * @author Ivan Gorshkov
+     *
+     * draw a field
+     * @return {string}
+     * @private
+     * @this {ProductCreateForm}
+     */
     __drawField(element) {
         let text = '';
         if (element.inputType === 'select') {
@@ -140,6 +152,14 @@ export class ProductCreateForm {
         return text;
     }
 
+    /***
+     * @author Ivan Gorshkov
+     *
+     * draw a form fields
+     * @return {string}
+     * @private
+     * @this {ProductCreateForm}
+     */
     __drawForm() {
         let fields = '';
         for (const prop in this.__data) {
@@ -160,6 +180,7 @@ export class ProductCreateForm {
 
     /***
      * @author Max Torzhkov, Ivan Gorshkov
+     * 
      * main template of component
      * @return {string}
      * @private
@@ -186,7 +207,7 @@ export class ProductCreateForm {
                 <div class="photo-container" id="productPhoto">
                     <div class="form-row" id="_profile-pic0">    
                         <label class="form-row__photolabel" data-action="clickUpload" data-move="showCross" data-moveout="hideCross"> 
-                            <img class="product__pic" data-id='0' id="profile-pic0" src="../../img/photo.svg">
+                            <img class="product__pic" data-id='0' id="profile-pic0" src="../../img/photo.svg" alt="">
                             <div class="cross error-hidden" id="delete0" data-id='0' data-action="delete" ></div>
                         </label>  
                     </div>

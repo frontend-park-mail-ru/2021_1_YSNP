@@ -36,6 +36,14 @@ export class ProductCreateFormController {
         return this.__countPhoto;
     }
 
+    /***
+     * @author Ivan Gorshkov
+     *
+     * setter for picture count
+     * @this {ProductCreateFormController}
+     * @private
+     * @param {number} value - new value
+     */
     set __count(value) {
          this.__countPhoto = value;
     }
@@ -69,8 +77,14 @@ export class ProductCreateFormController {
      * @returns {{cost, name, photo, location, category, subcategory, info}}
      * @private
      */
-    __listenerSubmitClick(ev) {
-        alert(ev);
+    __listenerSubmitClick() {
+        const price = document.getElementById('priceInput');
+        const description = document.getElementById('textareaInput');
+        const isValidPrice = this.__validatePriceInput(price);
+        const isValidDescription = this.__validateTextArea(description);
+        if (isValidDescription && isValidPrice && this.__count !== 0) {
+            //TODO Add New Product
+        }
     }
 
     /***
