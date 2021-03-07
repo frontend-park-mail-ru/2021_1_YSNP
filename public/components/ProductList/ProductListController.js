@@ -90,7 +90,7 @@ export class ProductListController {
         // TODO(Sergey) release __likeCard
 
         console.log('like click', id);
-        this.__productList.like(id);
+        // this.__productList.like(id);
     }
 
     /***
@@ -99,11 +99,10 @@ export class ProductListController {
      * @private
      */
     __openCard(id) {
-        const page = new Product(this.__parent);
-        page.render();
+        this.__pageRemoveListeners();
         console.log('open card', id);
 
-        const product = new Product(this.__parent);
+        const product = new Product(this.__parent, id);
         product.render();
     }
 

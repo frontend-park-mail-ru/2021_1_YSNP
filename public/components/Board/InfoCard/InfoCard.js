@@ -31,7 +31,7 @@ export class InfoCard {
      * @readonly
      */
     get __getPrice() {
-        const num = this.__data.infoCard.price;
+        const num = this.__data.amount;
         return num.toLocaleString() + num.toString().slice(num.toString().indexOf('.'));
     }
 
@@ -44,7 +44,7 @@ export class InfoCard {
      * @readonly
      */
     get __getName() {
-        return this.__data.infoCard.name;
+        return this.__data.ownerName;
     }
 
     /***
@@ -56,7 +56,8 @@ export class InfoCard {
      * @readonly
      */
     get __getRating() {
-        return this.__data.infoCard.rating;
+        // return this.__data.ownerStars;
+        return 4.1;
     }
 
     /***
@@ -68,7 +69,7 @@ export class InfoCard {
      * @readonly
      */
     get __getViews() {
-        return this.__data.infoCard.views;
+        return this.__data.views;
     }
 
     /***
@@ -80,7 +81,7 @@ export class InfoCard {
      * @readonly
      */
     get __getLikes() {
-        return this.__data.infoCard.likes;
+        return this.__data.likes;
     }
 
     /***
@@ -92,7 +93,7 @@ export class InfoCard {
      * @readonly
      */
     get __getDate() {
-        return this.__data.infoCard.date;
+        return this.__data.date;
     }
 
     /***
@@ -105,7 +106,9 @@ export class InfoCard {
      * @this {InfoCard}
      */
     get __getStarts() {
-        const count = this.__data.infoCard.rating;
+        // const count = this.__data.ownerStars;
+        // TODO(Ivan) верни закоментированный код
+        const count = 4.1;
         const roundedCount = Math.round(count);
         let stars = '';
 

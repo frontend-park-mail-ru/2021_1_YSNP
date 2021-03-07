@@ -26,6 +26,14 @@ export class Board {
         this.__data = data;
     }
 
+    get data() {
+        return this.__data;
+    }
+
+    set data(data) {
+        this.__data = data;
+    }
+
     /***
      * @author Ivan Gorshkov
      * getter for id product
@@ -35,7 +43,7 @@ export class Board {
      * @this {Board}
      */
     get __getId() {
-        return this.__data.identity.id;
+        return this.__data.id;
     }
 
     /***
@@ -47,7 +55,7 @@ export class Board {
      * @this {Board}
      */
     get __getTitle() {
-        return this.__data.identity.title;
+        return this.__data.name;
     }
 
     /***
@@ -125,16 +133,17 @@ export class Board {
         const parentRightSide = document.getElementById('board-right-side');
         const parentLeftSide = document.getElementById('board-left-side');
 
-        this.__infoCard = new InfoCard(parentRightSide, {
-            infoCard: {
-                price: 3990000, name: 'Екатерина П.', rating: 4.1, views: 72358,
-                likes: 2123, date: '11 февраля в 11:17'
-            }
-        });
+        this.__infoCard = new InfoCard(parentRightSide, this.__data
+        //     infoCard: {
+        //         price: 3990000, name: 'Екатерина П.', rating: 4.1, views: 72358,
+        //         likes: 2123, date: '11 февраля в 11:17'
+        //     }
+        // }
+        );
         this.__infoCard.render();
 
 
-        this.__carousel = new Slider(parentLeftSide, {photos: ['../../../img/pic1.jpeg', '../../../img/pic2.jpeg', '../../../img/pic3.jpeg', '../../../img/pic4.jpeg', '../../../img/pic5.jpeg', '../../../img/pic6.jpeg', '../../../img/pic7.jpeg']});
+        this.__carousel = new Slider(parentLeftSide, this.__data);
         this.__carousel.render();
 
         this.__description = new Description(parentLeftSide, {
@@ -142,10 +151,7 @@ export class Board {
                 [
                     {
                         title: 'Описание',
-                        text: `Идеальное состояние, самая максимально возможная комплектация. Сделан рестайлинг полностью из оригинальных запчастей AMG63. Выхлопная система тоже AMG63. 1000% всё оригинал. Автомобиль полностью обслужен и не требует не рубля вложений. Вся ходовая новая, пневмо новая, все масла во всех агрегатах заменяны вместе с фильтрами. Колодки новые.
-АВТОМОБИЛЬ НЕ ТРЕБУЕТ НЕ РУБЛЯ ВЛОЖЕНИЙ!
-
-Комплект летних дисков с резиной R20 от W222 ОРИГИНАЛ.`
+                        text: this.__data.description
                     },
                     {
                         title: 'Категория',

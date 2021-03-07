@@ -4,7 +4,7 @@ import {Landing} from '../../pages/Landing.js';
 import {Auth} from '../Auth/Auth.js';
 import {AuthController} from '../Auth/AuthController.js';
 
-import {user} from '../../models/UserModel.js';
+import {UserModel} from '../../models/UserModel.js';
 
 import {http} from '../../modules/http.js';
 import {urls} from '../../modules/urls.js';
@@ -23,7 +23,7 @@ export class HeaderController {
         this.__pageRemoveListeners = pageRemoveListeners;
         this.__parent = parent;
         this.__header = header;
-        this.__model = user;
+        this.__model = new UserModel();
     }
 
     /***
@@ -31,7 +31,7 @@ export class HeaderController {
      */
     async control() {
         await this.__model.update();
-        this.__header.data = this.__model.jsonData();
+        this.__header.data = this.__model.getData();
         this.__header.render();
 
         this.__header.listeners = this.__createListeners();
@@ -97,9 +97,6 @@ export class HeaderController {
      * @private
      */
     __listenerPageClick(ev) {
-        ev.preventDefault();
-        ev.stopPropagation();
-
         document
             .getElementById('header-dropdown-content')
             .classList
@@ -168,12 +165,6 @@ export class HeaderController {
      * Header account click callback
      * @private
      */
-//     __openAccount() {
-//         this.__pageRemoveListeners();
-//         this.register = new Registration(this.__parent);
-//         this.register.render();
-//         console.log('Open account');
-//     }
     __openAuth() {
         const auth = new Auth(this.__parent);
         auth.render();
@@ -247,7 +238,8 @@ export class HeaderController {
 
         http.post(urls.logout, null)
         .then(({status, data}) => {
-            console.log('Header', status, data);
+            const landing = new Landing(this.__parent);
+            landing.render();
         });
 
         console.log('Logout');

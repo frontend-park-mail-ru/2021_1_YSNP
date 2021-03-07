@@ -1,5 +1,7 @@
 'use strict';
 
+import { ProductModel } from '../../models/ProductModel.js';
+
 /***
  * @author Ivan Gorshkov
  *
@@ -18,9 +20,11 @@ export class BoardController {
      * @this {BoardController}
      * @public
      */
-    constructor(parent, board) {
+    constructor(parent, board, id) {
         this.__parent = parent;
         this.__board = board;
+        this.__id = id;
+        this.__model = new ProductModel({id: this.__id});
     }
 
     /***
@@ -125,7 +129,11 @@ export class BoardController {
      * @this {BoardController}
      * @public
      */
-    control() {
+   async control() {
+        await this.__model.update();
+        this.__board.data = this.__model.getData();
+        this.__board.render();
+
         this.__board.listeners(this.__createListeners());
         this.__board.addListeners();
     }

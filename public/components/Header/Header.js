@@ -54,7 +54,7 @@ export class Header {
             .getElementById('header')
             .addEventListener(this.__listeners.headerClick.type, this.__listeners.headerClick.listener);
 
-        if (this.__data.isAuth) {
+        if (this.__data.name !== undefined) {
             document
                 .getElementById('header-dropdown')
                 .addEventListener(this.__listeners.dropdownClick.type, this.__listeners.dropdownClick.listener);
@@ -73,7 +73,7 @@ export class Header {
             .getElementById('header')
             .removeEventListener(this.__listeners.headerClick.type, this.__listeners.headerClick.listener);
 
-        if (this.__data.isAuth) {
+        if (this.__data.name !== undefined) {
             document
                 .getElementById('header-dropdown')
                 .removeEventListener(this.__listeners.dropdownClick.type, this.__listeners.dropdownClick.listener);
@@ -103,7 +103,7 @@ export class Header {
 
                             <button class="header-left-location" data-action="locationClick">
                                 <svg height="1vh" width="1vh" class="header-left-location__icon" viewBox="-119 -21 682 682.66669"  xmlns="http://www.w3.org/2000/svg"><path d="m216.210938 0c-122.664063 0-222.460938 99.796875-222.460938 222.460938 0 154.175781 222.679688 417.539062 222.679688 417.539062s222.242187-270.945312 222.242187-417.539062c0-122.664063-99.792969-222.460938-222.460937-222.460938zm67.121093 287.597656c-18.507812 18.503906-42.8125 27.757813-67.121093 27.757813-24.304688 0-48.617188-9.253907-67.117188-27.757813-37.011719-37.007812-37.011719-97.226562 0-134.238281 17.921875-17.929687 41.761719-27.804687 67.117188-27.804687 25.355468 0 49.191406 9.878906 67.121093 27.804687 37.011719 37.011719 37.011719 97.230469 0 134.238281zm0 0"/></svg>
-                                <span class="header-left-location__name">${this.__data.location}</span>
+                                <span class="header-left-location__name">Москва</span>
                             </button>
                         </div>
                         
@@ -123,10 +123,10 @@ export class Header {
     __getAuthTemplate() {
         return `
             <div class="header-dropdown" id="header-dropdown">
-                <img class="header-dropdown__button" data-action="dropdownClick" src="${this.__data.avatar}"/>
+                <img class="header-dropdown__button" data-action="dropdownClick" src="${this.__data.linkImage}"/>
                 <div class="header-dropdown-content header-dropdown-content_hidden" id="header-dropdown-content">
                     <div class="header-dropdown-content-inner">
-                        <span class="header-dropdown-content__user">${this.__data.user}</span>
+                        <span class="header-dropdown-content__user">${this.__data.surname} ${this.__data.name}</span>
                         <div class="header-dropdown-content__separator"></div>
                         <a href="#" class="header-dropdown-content-item" data-action="profileClick">
                            <svg height="2vh" width="2vh" class="header-dropdown-content__logo" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">

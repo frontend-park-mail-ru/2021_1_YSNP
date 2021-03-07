@@ -491,7 +491,7 @@ export class RegistrationPanelController {
                 name: name.value,
                 surname: surname.value,
                 sex: 'мужской',
-                date_birth: date.value,
+                dateBirth: date.value,
                 telephone: phone.value,
                 email: mail.value,
                 password: password.value
@@ -499,14 +499,10 @@ export class RegistrationPanelController {
 
             this.__model.log();
 
-            this.__model.registration()
-                .then(({status, data}) => {
-                    console.log('Reg', status, data);
-                    
-                    if (status === 200) {
-                        const landing = new Landing(this.__parent);
-                        landing.render();
-                    }
+            this.__model.registration(document.getElementById('registration-from'))
+                .then(() => {                    
+                    const landing = new Landing(this.__parent);
+                    landing.render();
                 });
         }
     }
