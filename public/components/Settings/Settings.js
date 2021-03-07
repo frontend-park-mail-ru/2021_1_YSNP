@@ -1,5 +1,5 @@
 /***
- *
+ * Settings on profile page
  */
 export class Settings {
     /***

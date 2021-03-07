@@ -1,0 +1,133 @@
+@font-face {
+    font-family: Roboto;
+    src: url(/fonts/Roboto-Regular.ttf)
+}
+
+.search{
+    width: 100%;
+    height: 90vh;
+    background-image: url("../../img/search-background.jpg");
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    font-family: Roboto, serif;
+}
+
+.search-background {
+    width: 100%;
+    height: 90%;
+    background: #1F2F2F;
+    opacity: 0.8;
+    z-index: 2;
+    position: absolute;
+}
+
+.search-content{
+    padding: 10vh;
+
+    position: relative;
+    z-index: 3;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.search-title {
+    width: 85vh;
+    font-size: 5vh;
+    color: #FFFFFF;
+}
+.search-line {
+    width: 85vh;
+    height: 5vh;
+    margin-top: 3vh;
+    margin-bottom: 3vh;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+.search-line__input{
+    width: 75vh;
+    height: 4vh;
+    font-size: 1.6vh;
+    padding-left: 1vh;
+    border: 0;
+    outline: 0;
+}
+.search-line__settings{
+    width: 3vh;
+    height: 3vh;
+    margin-top: 1vh;
+    z-index: 5;
+    cursor: pointer;
+    position: absolute;
+    margin-left: 72vh;
+}
+
+.search-line__button{
+    border: 0;
+    outline: 0;
+    width: 9vh;
+    height: 4.2vh;
+    margin-left: 0;
+    background: rgb(211, 30, 30);
+    border-radius: 1px;
+
+    font-size: 1.6vh;
+    color: #FFFFFF;
+}
+
+.search-line__button:hover {
+    background: #900000;
+    cursor: pointer;
+}
+
+.search-categories{
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    margin-left: 5vh;
+}
+
+.search-category-card{
+    width: 20vh;
+    height: 25vh;
+    color: #FFFFFF;
+    font-size: 1.5vh;
+    position: relative;
+    margin-right: 5vw;
+}
+
+.search-category__title {
+    margin-bottom: 2vh;
+    font-weight: 600;
+}
+
+.search-category__item{
+    display: flex;
+    flex-direction: column;
+}
+
+.search-category__item-inner{
+    margin-bottom: 0.5vh;
+    font-weight: 400;
+    text-decoration: none;
+    color: #FFFFFF;
+    opacity: 0.6;
+}
+
+.search-category__item-inner:hover{
+    color: #eeeeee;
+    opacity: 1;
+}
+
+input::-webkit-search-decoration,
+input::-webkit-search-cancel-button,
+input::-webkit-search-results-button,
+input::-webkit-search-results-decoration { display: none; }

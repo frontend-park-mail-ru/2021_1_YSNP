@@ -1,5 +1,5 @@
 /***
- *
+ * Menu on profile page
  */
 export class ProfileMenu {
     /***

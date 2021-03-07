@@ -4,6 +4,9 @@ import {HeaderController} from '../components/Header/HeaderController.js';
 import {ProductList} from '../components/ProductList/ProductList.js';
 import {ProductListController} from '../components/ProductList/ProductListController.js';
 
+import {Search} from '../components/Search/Search.js';
+import {SearchController} from '../components/Search/SearchController.js';
+
 /***
  * First (main) page
  */
@@ -76,6 +79,105 @@ export class Landing {
     }
 
     /***
+     * Get categories items
+     * @returns {({title: string, items: [string, string, string, string, string]}|{title: string, items: string[]}|{title: string, items: string[]}|{title: string, items: [string, string, string, string]}|{title: string, items: string[]})[]}
+     * @private
+     */
+    __getSearchCategories() {
+        return [
+            {
+                title: 'Транспорт',
+                items: [
+                    'Автомобили',
+                    'Мотоциклы и мототехника',
+                    'Грузовики и спецтехника',
+                    'Водный транспорт',
+                    'Запчасти и аксессуары'
+                ]
+            },
+            {
+                title: 'Недвижмость',
+                items: [
+                    'Квартиры',
+                    'Комнаты',
+                    'Дома, дачи, коттеджи',
+                    'Гаражи и машиноместа',
+                    'Земельные участки',
+                    'Коммерческая недвижимость',
+                    'Недвижимость за рубежом'
+                ]
+            },
+            {
+                title: 'Хобби и отдых',
+                items: [
+                    'Билеты и путешествия',
+                    'Велосипеды',
+                    'Книги и журналы',
+                    'Коллекционирование',
+                    'Музыкальные инструменты',
+                    'Охота и рыбалка',
+                    'Спорт и отдых'
+                ]
+            },
+            {
+                title: 'Работа',
+                items: [
+                    'Вакансии',
+                    'Резюме',
+                    'Готовый бизнес',
+                    'Оборудование для бизнеса'
+                ]
+            },
+            {
+                title: 'Для дома и дачи',
+                items: [
+                    'Бытовая техника',
+                    'Мебель и интерьер',
+                    'Посуда и товары для кухни',
+                    'Продукты питания',
+                    'Ремонт и строительство',
+                    'Растения'
+                ]
+            },
+            {
+                title: 'Бытовая электрика',
+                items: [
+                    'Аудио и видео',
+                    'Игры, приставки и программы',
+                    'Настольные компьютеры',
+                    'Ноутбуки',
+                    'Оргтехника и расходники',
+                    'Планшеты и электронные книги',
+                    'Телефоны',
+                    'Товары для компьютера',
+                    'Фототехника'
+                ]
+            },
+            {
+                title: 'Личные вещи',
+                items: [
+                    'Одежда, обувь, аксессуары',
+                    'Детская одежда и обувь',
+                    'Товары для детей и игрушки',
+                    'Часы и украшения',
+                    'Красота и здоровье'
+                ]
+            },
+            {
+                title: 'Животные',
+                items: [
+                    'Собаки',
+                    'Кошки',
+                    'Птицы',
+                    'Аквариум',
+                    'Другие животные',
+                    'Товары для животных'
+                ]
+            }
+        ];
+    }
+
+    /***
      * Remove page listeners
      * @private
      */
@@ -94,6 +196,11 @@ export class Landing {
         header.render();
         this.__headerController = new HeaderController(this.__removePageListeners.bind(this), this.__parent, header);
         this.__headerController.control();
+
+        const search = new Search(this.__parent, this.__getSearchCategories());
+        search.render();
+        this.__searchController = new SearchController(this.__removePageListeners.bind(this), this.__parent, search);
+        this.__searchController.control();
 
         const productList = new ProductList(this.__parent, this.__getProductListData());
         productList.render();
