@@ -4,7 +4,10 @@ import {Landing} from '../../pages/Landing.js';
 import {Auth} from '../Auth/Auth.js';
 import {AuthController} from '../Auth/AuthController.js';
 
-import {UserModel} from '../../models/UserModel.js';
+import {user} from '../../models/UserModel.js';
+
+import {http} from '../../modules/http.js';
+import {urls} from '../../modules/urls.js';
 
 /***
  * Header controller controller
@@ -20,19 +23,20 @@ export class HeaderController {
         this.__pageRemoveListeners = pageRemoveListeners;
         this.__parent = parent;
         this.__header = header;
-        this.__model = new UserModel();
+        this.__model = user;
     }
 
     /***
      * Add listeners
      */
     async control() {
+        await this.__model.update();
+        this.__header.data = this.__model.jsonData();
+        this.__header.render();
+
         this.__header.listeners = this.__createListeners();
         this.__header.addListeners();
 
-        await this.__model.update();
-        this.__header.data = this.__model.jsonData;
-        this.__header.render();
     }
 
     /***
@@ -240,6 +244,11 @@ export class HeaderController {
     __logout() {
         // TODO(Sergey) release __logout
         // this.__pageRemoveListeners();
+
+        http.post(urls.logout, null)
+        .then(({status, data}) => {
+            console.log('Header', status, data);
+        });
 
         console.log('Logout');
     }

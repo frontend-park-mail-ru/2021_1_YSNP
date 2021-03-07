@@ -23,12 +23,12 @@ export class ProductListController {
      * Add listeners
      */
     async control() {
-        this.__productList.listeners = this.__createListeners();
-        this.__productList.addListeners();
-
         await this.__model.update();
         this.__productList.data = this.__model.productList;
         this.__productList.render();
+
+        this.__productList.listeners = this.__createListeners();
+        this.__productList.addListeners();
     }
 
     /***

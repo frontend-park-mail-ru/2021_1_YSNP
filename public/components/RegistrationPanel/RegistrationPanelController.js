@@ -491,7 +491,7 @@ export class RegistrationPanelController {
                 name: name.value,
                 surname: surname.value,
                 sex: 'мужской',
-                year: date.value,
+                date_birth: date.value,
                 telephone: phone.value,
                 email: mail.value,
                 password: password.value

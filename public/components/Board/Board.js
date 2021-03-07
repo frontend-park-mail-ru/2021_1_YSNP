@@ -70,7 +70,7 @@ export class Board {
                </div>
            </div>
            
-           <div class="same-product">Похожие объявления</div>
+           <!--  <div class="same-product">Похожие объявления</div>-->
         `;
     }
 

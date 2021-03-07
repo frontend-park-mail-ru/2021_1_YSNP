@@ -10,7 +10,7 @@ export class ProductList {
      * @param {Object} data - component data
      * @param {Object} listeners - component listeners
      */
-    constructor(parent, data, listeners = {}) {
+    constructor(parent, data = {}, listeners = {}) {
         this.__parent = parent;
         this.__data = data;
         this.__listeners = listeners;

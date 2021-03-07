@@ -8,7 +8,7 @@ export class Header {
      * @param {Object} data - element data
      * @param {Object} listeners - component listeners
      */
-    constructor(parent, data, listeners = {}) {
+    constructor(parent, data = {}, listeners = {}) {
         this.__parent = parent;
         this.__data = data;
         this.__listeners = listeners;
@@ -208,7 +208,7 @@ export class Header {
         const template = this.__getTemplate();
         this.__parent.insertAdjacentHTML('beforeend', template);
 
-        const accountTemplate = this.__data.isAuth ? this.__getAuthTemplate() : this.__getNotAuthTemplate();
+        const accountTemplate = this.__data.name !== undefined ? this.__getAuthTemplate() : this.__getNotAuthTemplate();
         document.getElementById('header-right').insertAdjacentHTML('beforeend', accountTemplate);
     }
 }
