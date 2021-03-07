@@ -63,26 +63,8 @@ export class Settings {
      */
     removeListeners() {
         document
-            .getElementById('settings-file-upload')
-            .removeEventListener(this.listeners.validateChange.type, this.listeners.validateChange.listener);
-        document
-            .getElementById('settings-components')
-            .removeEventListener(this.listeners.validateInput.type, this.listeners.validateInput.listener);
-        document
-            .getElementById('settings-password')
-            .removeEventListener(this.listeners.validateInput.type, this.listeners.validateInput.listener);
-        document
-            .getElementById('settings-avatar')
-            .removeEventListener(this.listeners.settingsClick.type, this.listeners.settingsClick.listener);
-        document
             .getElementById('settings')
             .removeEventListener(this.__listeners.settingsClick.type, this.__listeners.settingsClick.listener);
-        document
-            .getElementById('settings')
-            .removeEventListener(this.listeners.showError.type, this.listeners.showError.listener);
-        document
-            .getElementById('settings')
-            .removeEventListener(this.listeners.hideError.type, this.listeners.hideError.listener);
     }
 
     /***
