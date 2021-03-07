@@ -35,6 +35,10 @@
         return `${this.__url}${this.__api}/signup`;
     }
 
+    get upload() {
+        return `${this.__url}${this.__api}/upload`;
+    }
+
     get settings() {
         return `${this.__url}${this.__api}/settings`;
     }

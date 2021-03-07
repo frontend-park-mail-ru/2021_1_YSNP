@@ -18,7 +18,7 @@ class Http {
         };
 
         if (data) {
-            options['body'] = JSON.stringify(data);
+            options['body'] = data;
         }
 
         return new Request(url, options);
@@ -45,8 +45,8 @@ class Http {
      * @param {any} data - post request data
      * @returns {Promise<{data: any, status: number}>}
      */
-    async post(url, data) {
-        const response = await fetch(this.__ajax(url, 'POST', data));
+    async post(url, data, photo = false) {
+        const response = await fetch(this.__ajax(url, 'POST', photo ? data : JSON.stringify(data)));
         const responseData = await response.json();
 
         return {
