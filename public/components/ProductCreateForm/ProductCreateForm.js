@@ -31,7 +31,7 @@ export class ProductCreateForm {
      * @this {ProductCreateForm}
      * @private
      * @readonly
-     * @return  {Object[]} array of listeners
+     * @return  {Object} array of listeners
      */
     get listeners() {
         return this.__listeners;
@@ -42,7 +42,7 @@ export class ProductCreateForm {
      * 
      * Set new listeners
      * @this {ProductCreateForm}
-     * @param  {Object[]} val - Object of listeners
+     * @param  {Object} val - Object of listeners
      * @public
      */
     set listeners(val) {

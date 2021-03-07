@@ -97,15 +97,15 @@ export class ProductCreateFormController {
         return {
             submitClick: {
                 type: 'click',
-                listener: this.__listenersRegistrarion.bind(this)
+                listener: this.__listenersClicks.bind(this)
             },
             validateInput: {
                 type: 'input',
-                listener: this.__listenersRegistrarion.bind(this)
+                listener: this.__listenersClicks.bind(this)
             },
             validateChange: {
                 type: 'change',
-                listener: this.__listenersRegistrarion.bind(this)
+                listener: this.__listenersClicks.bind(this)
 
             },
             showError: {
@@ -129,7 +129,7 @@ export class ProductCreateFormController {
      * @this {ProductCreateFormController}
      * @param{Event} ev - event
      */
-    __listenersRegistrarion(ev) {
+    __listenersClicks(ev) {
         ev.preventDefault();
         ev.stopPropagation();
         const actions = this.__getActions();
