@@ -1,14 +1,14 @@
 'use strict';
 
 /***
- * @author Max Torzhkov
+ * @author Max Torzhkov, Ivan Gorshkov
  * ProduCreateForm controller
  * @class ProductCreateFormController
  */
 export class ProductCreateFormController {
 
     /***
-     * @author Max Torzhkov
+     * @author Max Torzhkov, Ivan Gorshkov
      * Class constructor
      * @param {Function} pageRemoveListeners - remove page listeners
      * @param {HTMLElement} parent - element callback will work with
@@ -24,16 +24,25 @@ export class ProductCreateFormController {
         this.__countPhoto = 0;
     }
 
-    get count() {
+    /***
+     * @author Ivan Gorshkov
+     *
+     * getter for picture count
+     * @return {number}
+     * @this {ProductCreateFormController}
+     * @private
+     */
+    get __count() {
         return this.__countPhoto;
     }
 
-    set count(value) {
+    set __count(value) {
          this.__countPhoto = value;
     }
 
     /***
      * @author Max Torzhkov
+     *
      * Add listeners
      * @this {ProductCreateFormController}
      * @public
@@ -54,19 +63,20 @@ export class ProductCreateFormController {
     }
 
     /***
-     * @author Max Torzhkov
+     * @author Max Torzhkov, Ivan Gorshkov
      * listener for submit
      * @param {Event} ev - event
      * @returns {{cost, name, photo, location, category, subcategory, info}}
-     * @public
+     * @private
      */
     __listenerSubmitClick(ev) {
+        alert(ev);
     }
 
     /***
-     * @author Max Torzhkov
+     * @author Max Torzhkov, Ivan Gorshkov
      * Get form listeners
-     * @returns {{submitClick: {listener: any, type: string}}}
+     * @returns {Object}
      * @private
      */
     __createListeners() {
@@ -102,7 +112,7 @@ export class ProductCreateFormController {
      *
      * main listener
      * @private
-     * @this {RegistrationPanelController}
+     * @this {ProductCreateFormController}
      * @param{Event} ev - event
      */
     __listenersRegistrarion(ev) {
@@ -122,9 +132,9 @@ export class ProductCreateFormController {
     /***
      * @author Ivan Gorshkov
      *
-     *  listener for MouseIn Event
+     * listener for MouseIn Event
      * @private
-     * @this {RegistrationPanelController}
+     * @this {ProductCreateFormController}
      * @param{Event} ev - event
      */
     __listenersMouseIn(ev) {
@@ -145,7 +155,7 @@ export class ProductCreateFormController {
      *
      *  listener for MouseOut Event
      * @private
-     * @this {RegistrationPanelController}
+     * @this {ProductCreateFormController}
      * @param{Event} ev - event
      */
     __listenersMouseOut(ev) {
@@ -161,22 +171,33 @@ export class ProductCreateFormController {
             });
     }
 
+    /***
+     * @author Ivan Gorshkov
+     *
+     * Object with all actions
+     * @return {Object}
+     * @this {ProductCreateFormController}
+     * @private
+     */
     __getActions() {
         return {
+            submitClick: {
+                open: this.__listenerSubmitClick.bind(this)
+            },
             delete: {
-                open: this.delete.bind(this)
+                open: this.__deletePicture.bind(this)
              },
             textareaInputEmpty: {
-                open: this._validateTextArea.bind(this)
+                open: this.__validateTextArea.bind(this)
             },
             priceInput: {
-                open: this._validatePriceInput.bind(this)
+                open: this.__validatePriceInput.bind(this)
             },
             mouseIn: {
-                open: this.mouseInInput.bind(this)
+                open: this.__mouseInInput.bind(this)
             },
             mouseOut: {
-                open: this.mouseOutInput.bind(this)
+                open: this.__mouseOutInput.bind(this)
             },
             clickUpload: {
                 open: this.__upload.bind(this)
@@ -185,15 +206,23 @@ export class ProductCreateFormController {
                 open: this.__read.bind(this)
             },
             showCross: {
-                open: this.showCross.bind(this)
+                open: this.__showCross.bind(this)
             },
             hideCross: {
-                open: this.hideCross.bind(this)
+                open: this.__hideCross.bind(this)
             }
         };
     }
 
-    delete(target) {
+    /***
+     * @author Ivan Gorshkov
+     *
+     * Action for deleting pictures
+     * @return {Object}
+     * @this {ProductCreateFormController}
+     * @private
+     */
+    __deletePicture(target) {
         document.getElementById(`_profile-pic${target.dataset.id}`).remove();
         document.getElementById(`file-upload${target.dataset.id}`).remove();
     }
@@ -201,25 +230,24 @@ export class ProductCreateFormController {
     /****
      * @author Ivan Gorshkov
      *
-     * action with mouse out event
-     * @param{Object} target - input element
+     * action for cross showing
+     * @param{Object} target - photo frame
      * @private
      */
-    showCross(target) {
+    __showCross(target) {
         if (target.src !== 'http://localhost:3000/img/photo.svg') {
                 document.getElementById(`delete${target.dataset.id}`).classList.remove('error-hidden');
-
         }
     }
 
     /****
      * @author Ivan Gorshkov
      *
-     * action with mouse in event
+     * action for cross hide
      * @param{Object} target - input element
      * @private
      */
-    hideCross(target) {
+    __hideCross(target) {
         if (target.src !== 'http://localhost:3000/img/photo.svg') {
                 document.getElementById(`delete${target.dataset.id}`).classList.add('error-hidden');
         }
@@ -232,7 +260,7 @@ export class ProductCreateFormController {
      * @param{Object} target - input element
      * @private
      */
-    mouseOutInput(target) {
+    __mouseOutInput(target) {
         if (target.nextSibling.className === '') {
             target.nextElementSibling.classList.add('error-hidden');
         }
@@ -246,7 +274,7 @@ export class ProductCreateFormController {
      * @param{Object} target - input element
      * @private
      */
-    mouseInInput(target) {
+    __mouseInInput(target) {
         if (target.nextSibling.className === 'error-hidden') {
             target.nextElementSibling.classList.remove('error-hidden');
         }
@@ -275,7 +303,7 @@ export class ProductCreateFormController {
     /***
      * @author Ivan Gorshkov
      *
-     * add success massage
+     * change to success
      * @param{Object} target
      * @param{string} idError
      * @private
@@ -303,21 +331,21 @@ export class ProductCreateFormController {
                 const elem = document.getElementById(`profile-pic${input.dataset.id}`);
                 elem.src = e.target.result;
                 elem.classList.add('product__pic_fullsize');
-                if (input.dataset.id == self.count) {
+                if (parseInt(input.dataset.id) === self.__count) {
                 const idPhto = document.getElementById('productPhoto');
                 idPhto.insertAdjacentHTML('beforeend', `
-<div class="form-row" id="_profile-pic${self.count + 1}">    
+<div class="form-row" id="_profile-pic${self.__count + 1}">    
   <label class="form-row__photolabel" data-action="clickUpload" data-move="showCross" data-moveout="hideCross"> 
-     <img class="product__pic" id="profile-pic${self.count + 1}" data-id="${self.count + 1}" src="../../img/photo.svg">
-     <div class="cross error-hidden" id="delete${self.count + 1}" data-id='${self.count + 1}' data-action="delete" ></div>
+     <img class="product__pic" id="profile-pic${self.__count + 1}" data-id="${self.__count + 1}" src="../../img/photo.svg">
+     <div class="cross error-hidden" id="delete${self.__count + 1}" data-id='${self.__count + 1}' data-action="delete" ></div>
    </label>
 </div>
                 `);
                 const idfile = document.getElementById('files');
                 idfile.insertAdjacentHTML('beforeend', `
- <input name="[photos]" id="file-upload${self.count + 1}" data-id="${self.count + 1}" data-action="readURL" class="file-upload" type="file" accept="image/*"/>
+ <input name="[photos]" id="file-upload${self.__count + 1}" data-id="${self.__count + 1}" data-action="readURL" class="file-upload" type="file" accept="image/*"/>
 `);
-                    self.count += 1;
+                    self.__count += 1;
                 }
             };
 
@@ -333,23 +361,24 @@ export class ProductCreateFormController {
      * @private
      */
     __upload(target) {
-        if (this.count <= 10) {
+        if (this.__count <= 10) {
             const elem = document.getElementById(`file-upload${target.dataset.id}`);
             elem.click();
         }
-
     }
 
     /***
      * @author Ivan Gorshkov
      *
-     * action to validate input phone
+     * action to validate price
      * @param{Object} target
      * @return {boolean}
      * @private
-     * @this {RegistrationPanelController}
+     * @this {ProductCreateFormController}
      */
-    _validatePriceInput(target) {
+    __validatePriceInput(target) {
+        target.value = target.value.toString().replace(/-/g, '');
+
         if (target.value.length < 13) {
             this.__addSuccesses(target, `${target.id}Error`);
             return true;
@@ -365,13 +394,13 @@ export class ProductCreateFormController {
     /***
      * @author Ivan Gorshkov
      *
-     * action to validate input phone
+     * action to validate textArea
      * @param{Object} target
      * @return {boolean}
      * @private
-     * @this {RegistrationPanelController}
+     * @this {ProductCreateFormController}
      */
-    _validateTextArea(target) {
+    __validateTextArea(target) {
         if (target.value.length >= 10) {
             this.__addSuccesses(target, `${target.id}Error`);
             return true;
@@ -391,7 +420,7 @@ export class ProductCreateFormController {
      * @param{string} errText
      * @return {string}
      * @private
-     * @this {RegistrationPanelController}
+     * @this {ProductCreateFormController}
      */
     __createMessageError(errText) {
         return `

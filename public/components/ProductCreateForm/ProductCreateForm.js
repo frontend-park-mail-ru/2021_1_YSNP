@@ -125,7 +125,7 @@ export class ProductCreateForm {
         }
 
         if (element.inputType === 'text' || element.inputType === 'number') {
-            text = `<input class="reg-panel__textfield" data-action="${element.dataAction}"
+            text = `<input min="0" class="reg-panel__textfield" data-action="${element.dataAction}"
                           data-move="mouseIn" data-moveout="mouseOut" id="${element.id}" type="${element.inputType}"
                           placeholder="${element.placeholder}" name="${element.id}"/>`;
         }
@@ -196,7 +196,7 @@ export class ProductCreateForm {
         <div class="product-des">
             <div class="product-des-topic"></div>
             <div class="form-inner" id="submitBtn">
-                <input class="header-right__create-button reg__button"  type="submit" id="register" value="Продолжить"/>
+                <input class="header-right__create-button reg__button" data-action="submitClick" type="submit" id="register" value="Продолжить"/>
             </div>
         </div>
     </form>
