@@ -25,11 +25,12 @@ export class RegUserData extends PasswordUserModel {
             id: 0,
             name: this.__name,
             surname: this.__surname,
-            date_birth: this.__date_birth,
+            dateBirth: this.__dateBirth,
             sex: this.__sex,
             email: this.__email,
             telephone: this.__telephone,
-            password: this.__password
+            password: this.__password,
+            linkImages: this.__linkImages
         };
     }
 
@@ -37,9 +38,29 @@ export class RegUserData extends PasswordUserModel {
      * Post registration user data to backend
      * @returns {Promise<{data: *, status: number}>}
      */
-    async registration() {
-        const data = this.__jsonData();
-        return await http.post(urls.singUp, data);
+    async registration(form) {
+        return await http.post(urls.upload, new FormData(form), true)
+        .then(({status, data}) => {
+            if (status === 200) {
+                console.log(data);
+                this.__linkImages.push(data.linkImages);
+
+                http.post(urls.singUp, this.__jsonData());
+            }
+
+            // if (status === 400) {
+            //     throw new Error('Слишком большой размер фото, пожалуйста, загрузите фото меньшего размера');
+            // }
+
+            // if (status === 403) {
+            //     throw new Error('Пожалуйста, загрузите фото с вашим лицом');
+            // }
+
+            // if (status === 500) {
+            //     throw new Error('Неизвестная ошибка, пожалуйста, попробуйте позже');
+            // }
+        });
+       
     }
 
     /***
@@ -51,10 +72,10 @@ export class RegUserData extends PasswordUserModel {
             name: this.__name,
             surname: this.__surname,
             sex: this.__sex,
-            date_birth: this.__date_birth,
+            dateBirth: this.__dateBirth,
             email: this.__email,
             telephone: this.__telephone,
-            linkImage: this.__linkImage,
+            linkImages: this.__linkImages,
             password: this.__password
         });
     }

@@ -16,7 +16,7 @@ export class SettingsUserData extends PasswordUserModel {
         return {
             name: this.__name,
             surname: this.__surname,
-            date_birth: this.__date_birth,
+            dateBirth: this.__dateBirth,
             sex: this.__sex,
             email: this.__email,
             telephone: this.__telephone,
@@ -42,7 +42,7 @@ export class SettingsUserData extends PasswordUserModel {
             name: this.__name,
             surname: this.__surname,
             sex: this.__sex,
-            date_birth: this.__date_birth,
+            dateBirth: this.__dateBirth,
             email: this.__email,
             telephone: this.__telephone,
             linkImage: this.__linkImage,

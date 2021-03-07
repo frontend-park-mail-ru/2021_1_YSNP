@@ -36,7 +36,6 @@ export class ProductListModel {
      * @private
      */
     __parseData(data) {
-        console.log(data);
         data.product_list.forEach((productJson) => {
             const product = new ProductModel(productJson);
             this.__productList.push(product);

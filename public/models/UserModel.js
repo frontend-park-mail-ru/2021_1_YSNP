@@ -81,16 +81,16 @@ export class UserModel {
      * Get user year
      * @returns {string}
      */
-    get date_birth() {
-        return this.__date_birth;
+    get dateBirth() {
+        return this.__dateBirth;
     }
 
     /***
      * Set user year
      * @param {string} year - user year
      */
-    set date_birth(year) {
-        this.__date_birth = year;
+    set dateBirth(year) {
+        this.__dateBirth = year;
     }
 
     /***
@@ -270,24 +270,36 @@ export class UserModel {
         this.__name = data.name;
         this.__surname = data.surname;
         this.__sex = data.sex;
-        this.__date_birth = data.date_birth;
+        this.__dateBirth = data.dateBirth;
         this.__email = data.email;
         this.__telephone = data.telephone;
-        this.__linkImage = data.linkImage;
+        this.__linkImages = data.linkImages !== undefined ? data.linkImages : [];
     }
 
     /***
      * Get user model Json
      * @returns {{year: (Object.year|string|*), surname: (Object.surname|string|*), sex: (Object.sex|string|*), name: (Object.name|string|*), telephone: (Object.telephone|string|*), email: (Object.email|string|*)}}
      */
-    jsonData() {
+    __jsonData() {
         return {
             name: this.__name,
             surname: this.__surname,
             sex: this.__sex,
-            date_birth: this.__date_birth,
+            dateBirth: this.__dateBirth,
             email: this.__email,
             telephone: this.__telephone
+        };
+    }
+
+    getData() {
+        return {
+            name: this.__name,
+            surname: this.__surname,
+            sex: this.__sex,
+            dateBirth: this.__dateBirth,
+            email: this.__email,
+            telephone: this.__telephone,
+            linkImage: this.__linkImages !== undefined ? this.__linkImages[0] : null
         };
     }
 
@@ -318,10 +330,10 @@ export class UserModel {
             name: this.__name,
             surname: this.__surname,
             sex: this.__sex,
-            year: this.__year,
+            dateBirth: this.__dateBirth,
             email: this.__email,
             telephone: this.__telephone,
-            linkImage: this.__linkImage
+            linkImages: this.__linkImages
         });
     }
 }

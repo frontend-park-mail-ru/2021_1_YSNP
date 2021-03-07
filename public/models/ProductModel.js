@@ -299,6 +299,26 @@ export class ProductModel {
         };
     }
 
+    getData() {
+        return {
+            id: this.__id,
+            name: this.__name,
+            date: this.__date,
+            amount: this.__amount,
+            description: this.__description,
+            views: this.__views,
+            likes: this.__likes,
+            userLiked: this.__userLiked,
+            linkImages: this.__linkImages,
+            ownerId: this.__ownerId,
+            ownerName: this.__ownerName,
+            ownerSurname: this.__ownerSurname,
+            ownerStars: this.__ownerStars
+        }
+    }
+
+
+
     /***
      * Get product data from backend
      * @returns {Promise<void>}
@@ -307,6 +327,7 @@ export class ProductModel {
         await http.get(urls.product + this.__id)
             .then(({status, data}) => {
                 if (status === 200) {
+                    console.log(data);
                     this.fillProductModel(data);
                 }
             })
