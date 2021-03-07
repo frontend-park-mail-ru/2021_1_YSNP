@@ -28,8 +28,9 @@ export class Product {
      * @this {Product}
      * @public
      */
-    constructor(parent) {
+    constructor(parent, id) {
         this.__parent = parent;
+        this.__id = id;
     }
 
 
@@ -103,25 +104,22 @@ export class Product {
      * @this {Product}
      * @public
      */
-    render() {
+    async render() {
         this.__parent.innerHTML = '';
 
-        this.__header = new Header(this.__parent, this.__getHeaderData());
-        this.__header.render();
+        this.__header = new Header(this.__parent);
         this.__headerController = new HeaderController(this.productRemoveListeners.bind(this), this.__parent, this.__header);
-        this.__headerController.control();
-
+        await this.__headerController.control();
 
         const navigation = new Navigation(this.__parent, 'В результаты поиска', {route: ['С пробегом', 'Mercedes-Benz']});
         navigation.render();
         this.__navigationController = new NavigationController(this.productRemoveListeners.bind(this), this.__parent, navigation);
         this.__navigationController.control();
 
-
         const board = new Board(this.__parent, {identity: {id: 2099347381, title: 'Mercedes-Benz S-класс, 2014'}});
-        board.render();
-        this.__boardController = new BoardController(this.__parent, board);
-        this.__boardController.control();
+        // board.render();
+        this.__boardController = new BoardController(this.__parent, board, this.__id);
+        await this.__boardController.control();
 
         // const productList = new ProductList(this.__parent, this.__getProductListData());
         // productList.render();
