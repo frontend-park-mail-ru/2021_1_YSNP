@@ -22,9 +22,10 @@ export class RegUserData extends PasswordUserModel {
      */
     __jsonData() {
         return {
+            id: 0,
             name: this.__name,
             surname: this.__surname,
-            year: this.__year,
+            date_birth: this.__date_birth,
             sex: this.__sex,
             email: this.__email,
             telephone: this.__telephone,
@@ -50,7 +51,7 @@ export class RegUserData extends PasswordUserModel {
             name: this.__name,
             surname: this.__surname,
             sex: this.__sex,
-            year: this.__year,
+            date_birth: this.__date_birth,
             email: this.__email,
             telephone: this.__telephone,
             linkImage: this.__linkImage,

@@ -81,16 +81,16 @@ export class UserModel {
      * Get user year
      * @returns {string}
      */
-    get year() {
-        return this.__year;
+    get date_birth() {
+        return this.__date_birth;
     }
 
     /***
      * Set user year
      * @param {string} year - user year
      */
-    set year(year) {
-        this.__year = year;
+    set date_birth(year) {
+        this.__date_birth = year;
     }
 
     /***
@@ -270,7 +270,7 @@ export class UserModel {
         this.__name = data.name;
         this.__surname = data.surname;
         this.__sex = data.sex;
-        this.__year = data.year;
+        this.__date_birth = data.date_birth;
         this.__email = data.email;
         this.__telephone = data.telephone;
         this.__linkImage = data.linkImage;
@@ -285,7 +285,7 @@ export class UserModel {
             name: this.__name,
             surname: this.__surname,
             sex: this.__sex,
-            year: this.__year,
+            date_birth: this.__date_birth,
             email: this.__email,
             telephone: this.__telephone
         };
