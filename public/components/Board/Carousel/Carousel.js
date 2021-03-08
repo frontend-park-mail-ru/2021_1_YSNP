@@ -168,7 +168,7 @@ export class Slider {
      * @readonly
      */
     get __getPhotos() {
-        return this.__data.photos.reduce((prev, cur) => `${prev}<img src="${cur}" alt="" data-action="selectClick">`, '');
+        return this.__data.linkImages.reduce((prev, cur) => `${prev}<img src="${cur}" alt="" data-action="selectClick">`, '');
     }
 
     /***
@@ -181,8 +181,8 @@ export class Slider {
      * @readonly
      */
     get __getFirstPhotos() {
-        const {photos} = this.__data;
-        return `<img class="slider-preview__picture" id="pic" src="${photos[0]}" alt="">`;
+        const {linkImages} = this.__data;
+        return `<img class="slider-preview__picture" id="pic" src="${linkImages[0]}" alt="">`;
     }
 
     /***

@@ -2,63 +2,57 @@
  * Http module
  */
 class Http {
-    /**
-     * Response http callback
-     * @callback responseCallback
-     * @param {number} status - response status
-     * @param {string} response - response body
-     */
-
     /***
-     *
+     * Create request that returns to fetch
+     * @param {string} url -  http url
      * @param {string} method - http method
-     * @param {string} url - http url
-     * @param {Object} data - http data
-     * @param {responseCallback} callback - response callback
+     * @param {any} data - http data
+     * @returns {Request}
      * @private
      */
-    __ajax(method, url, data, callback) {
-        const xhr = new XMLHttpRequest();
-        xhr.open(method, url, true);
-        xhr.withCredentials = true;
-
-        xhr.addEventListener('readystatechange', () => {
-            if (xhr.readyState !== XMLHttpRequest.DONE) {
-                return;
-            }
-
-            callback(xhr.status, xhr.responseText);
-        });
-
+    __ajax(url, method, data) {
+        const options = {
+            method: method,
+            mode: 'cors',
+            credentials: 'include'
+        };
 
         if (data) {
-            xhr.setRequestHeader('Content-type', 'application/json; charset=utf8');
-            xhr.send(JSON.stringify(data));
-            return;
+            options['body'] = data;
         }
 
-        console.log(xhr);
-
-        xhr.send();
+        return new Request(url, options);
     }
 
     /***
-     * Get http request
-     * @param {String} url - http url
-     * @param {responseCallback} callback - response callback
+     * Ajax get request
+     * @param {string} url - get request url
+     * @returns {Promise<{data: any, status: number}>}
      */
-    get(url, callback) {
-        this.__ajax('GET', url, null, callback);
+    async get(url) {
+        const response = await fetch(this.__ajax(url, 'GET', null));
+        const responseData = await response.json();
+
+        return {
+            status: response.status,
+            data: responseData
+        };
     }
 
     /***
-     * Post http request
-     * @param {string} url - http url
-     * @param {Object} data - http data
-     * @param {responseCallback} callback - response callback
+     * Ajax post request
+     * @param {string} url - post request url
+     * @param {any} data - post request data
+     * @returns {Promise<{data: any, status: number}>}
      */
-    post(url, data, callback) {
-        this.__ajax('POST', url, data, callback);
+    async post(url, data, photo = false) {
+        const response = await fetch(this.__ajax(url, 'POST', photo ? data : JSON.stringify(data)));
+        const responseData = await response.json();
+
+        return {
+            status: response.status,
+            data: responseData
+        };
     }
 }
 

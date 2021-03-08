@@ -129,13 +129,12 @@ export class Registration {
      * @this {Registration}
      * @public
      */
-    render() {
+    async render() {
         this.__parent.innerHTML = '';
 
-        this.__header = new Header(this.__parent, this.__getHeaderData());
-        this.__header.render();
+        this.__header = new Header(this.__parent);
         this.__headerController = new HeaderController(this.__removePageListeners.bind(this), this.__parent, this.__header);
-        this.__headerController.control();
+        await this.__headerController.control();
 
         this.__navigation = new Navigation(this.__parent, 'Главная страница', {route: ['Регистрация профиля']});
         this.__navigation.render();
