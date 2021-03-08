@@ -109,7 +109,7 @@ export class ProductCreate {
             price: {
                 title: 'Цена*',
                 placeholder: 'Цена (₽)',
-                inputType: 'number',
+                inputType: 'text',
                 id: 'priceInput',
                 dataAction: 'priceInput'
             },

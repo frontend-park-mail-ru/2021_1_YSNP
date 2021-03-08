@@ -249,7 +249,7 @@ export class ProductCreateFormController {
      * @private
      */
     __showCross(target) {
-        if (target.src !== 'http://localhost:3000/img/photo.svg') {
+        if (parseInt(target.dataset.id) !== this.__count && (target.tagName === 'IMG' || target.tagName === 'DIV')) {
                 document.getElementById(`delete${target.dataset.id}`).classList.remove('error-hidden');
         }
     }
@@ -262,7 +262,7 @@ export class ProductCreateFormController {
      * @private
      */
     __hideCross(target) {
-        if (target.src !== 'http://localhost:3000/img/photo.svg') {
+        if (parseInt(target.dataset.id) !== this.__count && (target.tagName === 'IMG' || target.tagName === 'DIV')) {
                 document.getElementById(`delete${target.dataset.id}`).classList.add('error-hidden');
         }
     }
@@ -391,19 +391,12 @@ export class ProductCreateFormController {
      * @this {ProductCreateFormController}
      */
     __validatePriceInput(target) {
-        target.value = target.value.toString().replace(/-/g, '');
-
-        if (target.value.length < 13) {
-            this.__addSuccesses(target, `${target.id}Error`);
-            return true;
+        if (target.value.length > 15) {
+            target.value = target.value.slice(0, -1);
         }
-        this.__insertError(target, `${target.id}Error`, this.__createMessageError(`
-<ul class="list-errors">
-    <li>Слишком большое число. Максимум 12 знаков</li>
-</ul>
-    `));
-        return false;
+        return true;
     }
+
 
     /***
      * @author Ivan Gorshkov
