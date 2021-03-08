@@ -1,5 +1,5 @@
-import {http} from '../modules/http.js';
-import {urls} from '../modules/urls.js';
+import { http } from '../modules/http.js';
+import { urls } from '../modules/urls.js';
 
 /***
  * Product model
@@ -301,7 +301,8 @@ export class ProductModel {
         return {
             name: this.__name,
             description: this.__description,
-            amount: this.__amount
+            amount: this.__amount,
+            linkImages: this.__linkImages
         };
     }
 
@@ -331,7 +332,7 @@ export class ProductModel {
      */
     async update() {
         await http.get(urls.product + this.__id)
-            .then(({status, data}) => {
+            .then(({ status, data }) => {
                 if (status === 200) {
                     console.log(data);
                     this.fillProductModel(data);
@@ -347,20 +348,15 @@ export class ProductModel {
      * @returns {Promise<void>}
      */
     async create(form) {
-        return http.post(urls.productUploadPhotos, new FormData(form), true).then(({status, data}) => {
+        return http.post(urls.productUploadPhotos, new FormData(form), true).then(({ status, data }) => {
             if (status === 200) {
                 console.log(data);
-                this.fillProductModel(data);
+                this.__linkImages = data.linkImages;
+                const model = this.__jsonData();
+                http.post(urls.productCreate, model);
             }
-
-        }).then(({status, data}) => {
-            if (status === 200) {
-                this.__linkImages.push(data.linkImages);
-            }
-            const dataInf = this.__jsonData();
-            http.post(urls.productCreate, dataInf);
         }).catch((err) => {
-                console.log(err.message);
+            console.log(err.message);
         });
     }
 

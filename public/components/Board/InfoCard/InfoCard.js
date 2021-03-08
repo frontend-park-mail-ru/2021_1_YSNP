@@ -32,7 +32,7 @@ export class InfoCard {
      */
     get __getPrice() {
         const num = this.__data.amount;
-        return num.toLocaleString() + num.toString().slice(num.toString().indexOf('.'));
+        return num.toLocaleString();
     }
 
     /***

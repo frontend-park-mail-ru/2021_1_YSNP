@@ -1,7 +1,7 @@
 'use strict';
 
-import {ProductModel} from '../../models/ProductModel.js';
-import {Landing} from '../../pages/Landing.js';
+import { ProductModel } from '../../models/ProductModel.js';
+import { Landing } from '../../pages/Landing.js';
 
 /***
  * @author Max Torzhkov, Ivan Gorshkov
@@ -49,7 +49,7 @@ export class ProductCreateFormController {
      * @param {number} value - new value
      */
     set __count(value) {
-         this.__countPhoto = value;
+        this.__countPhoto = value;
     }
 
     /***
@@ -92,7 +92,7 @@ export class ProductCreateFormController {
             this.__model.fillProductModel({
                 name: name.value,
                 description: description.value,
-                amount: price.value.toString().split(' ').join('')
+                amount: parseInt(price.value.toString().split(' ').join(''))
             });
 
             this.__model.log();
@@ -213,7 +213,7 @@ export class ProductCreateFormController {
             },
             delete: {
                 open: this.__deletePicture.bind(this)
-             },
+            },
             textareaInputEmpty: {
                 open: this.__validateTextArea.bind(this)
             },
@@ -255,7 +255,7 @@ export class ProductCreateFormController {
      * @this {ProductCreateFormController}
      */
     __validateEmptyInput(target) {
-        const {error, message} = this.__model.validationName(target.value.toString());
+        const { error, message } = this.__model.validationName(target.value.toString());
         if (!error) {
             this.__addSuccesses(target, `${target.id}Error`);
             return true;
@@ -306,7 +306,7 @@ export class ProductCreateFormController {
      */
     __showCross(target) {
         if (parseInt(target.dataset.id) !== this.__count && (target.tagName === 'IMG' || target.tagName === 'DIV')) {
-                document.getElementById(`delete${target.dataset.id}`).classList.remove('error-hidden');
+            document.getElementById(`delete${target.dataset.id}`).classList.remove('error-hidden');
         }
     }
 
@@ -319,7 +319,7 @@ export class ProductCreateFormController {
      */
     __hideCross(target) {
         if (parseInt(target.dataset.id) !== this.__count && (target.tagName === 'IMG' || target.tagName === 'DIV')) {
-                document.getElementById(`delete${target.dataset.id}`).classList.add('error-hidden');
+            document.getElementById(`delete${target.dataset.id}`).classList.add('error-hidden');
         }
     }
 
@@ -427,7 +427,7 @@ export class ProductCreateFormController {
                 `);
             const idfile = document.getElementById('files');
             idfile.insertAdjacentHTML('beforeend', `
-                <input name="[photos]" id="file-upload${this.__count + 1}" data-id="${this.__count + 1}" data-action="readURL" class="file-upload" type="file" accept="image/*"/>
+                <input name="photos" id="file-upload${this.__count + 1}" data-id="${this.__count + 1}" data-action="readURL" class="file-upload" type="file" accept="image/*"/>
             `);
             this.__count += 1;
         }
@@ -457,7 +457,7 @@ export class ProductCreateFormController {
      * @this {ProductCreateFormController}
      */
     __validatePriceInput(target) {
-        const {error, message} = this.__model.validationAmount(target.value.replace(/[^0-9]/g, '').toString());
+        const { error, message } = this.__model.validationAmount(target.value.replace(/[^0-9]/g, '').toString());
 
         this.__addSuccesses(target, `${target.id}Error`);
 
@@ -484,7 +484,7 @@ export class ProductCreateFormController {
             return false;
         }
         return true;
-}
+    }
 
 
     /***
@@ -498,7 +498,7 @@ export class ProductCreateFormController {
      */
     __validateTextArea(target) {
 
-        const {error, message} = this.__model.validationDescription(target.value.toString());
+        const { error, message } = this.__model.validationDescription(target.value.toString());
 
         if (!error) {
             this.__addSuccesses(target, `${target.id}Error`);

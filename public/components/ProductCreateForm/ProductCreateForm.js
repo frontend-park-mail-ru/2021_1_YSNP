@@ -194,7 +194,7 @@ export class ProductCreateForm {
                 </div>
                 <form method="post" id="createProductForm" name="create" enctype="multipart/form-data">
                     <div id="files">
-                        <input id="file-upload0" name="[photos]" data-id="0" data-action="readURL" class="file-upload" type="file" accept="image/*"/>
+                        <input id="file-upload0" name="photos" data-id="0" data-action="readURL" class="file-upload" type="file" accept="image/*"/>
                     </div>
                     <div id="registrationForm">
                         ${this.__drawForm()}
@@ -235,4 +235,3 @@ export class ProductCreateForm {
         this.__parent.insertAdjacentHTML('beforeend', template);
     }
 }
-
