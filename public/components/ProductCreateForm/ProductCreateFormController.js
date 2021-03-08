@@ -239,24 +239,24 @@ export class ProductCreateFormController {
     __deletePicture(target) {
         document.getElementById(`_profile-pic${target.dataset.id}`).remove();
         document.getElementById(`file-upload${target.dataset.id}`).remove();
-        const elements = document.getElementsByClassName('cross');
-        const elements2 = document.getElementsByClassName('product__pic');
-        const elements3 = document.getElementsByClassName('form-row');
-        const elements4 = document.getElementsByClassName('file-upload');
+        const crosses = document.getElementsByClassName('cross');
+        const pictures = document.getElementsByClassName('product__pic');
+        const pictureFrames = document.getElementsByClassName('form-row');
+        const filesInput = document.getElementsByClassName('file-upload');
         this.__count -= 1;
         for (let i = 0; i <= this.__count; i++) {
-            elements[i].id = `delete${i}`;
-            elements[i].dataset.id = i.toString();
-            elements2[i].id = `product__pic${i}`;
-            elements2[i].dataset.id = i.toString();
-            elements3[i].id = `_profile-pic${i}`;
-            elements4[i].dataset.id = i.toString();
-            elements4[i].id = `file-upload${i}`;
+            crosses[i].id = `delete${i}`;
+            crosses[i].dataset.id = i.toString();
+            pictures[i].id = `product__pic${i}`;
+            pictures[i].dataset.id = i.toString();
+            pictureFrames[i].id = `_profile-pic${i}`;
+            filesInput[i].dataset.id = i.toString();
+            filesInput[i].id = `file-upload${i}`;
         }
         document.event.stopImmediatePropagation();
     }
 
-    /****
+    /***
      * @author Ivan Gorshkov
      *
      * action for cross showing
@@ -269,7 +269,7 @@ export class ProductCreateFormController {
         }
     }
 
-    /****
+    /***
      * @author Ivan Gorshkov
      *
      * action for cross hide
@@ -282,7 +282,7 @@ export class ProductCreateFormController {
         }
     }
 
-    /****
+    /***
      * @author Ivan Gorshkov
      *
      * action with mouse out event
@@ -352,34 +352,43 @@ export class ProductCreateFormController {
      * @private
      */
     __read(input) {
-        const self = this;
         if (input.files && input.files[0]) {
             const reader = new FileReader();
 
-            reader.onload = function(e) {
-                const elem = document.getElementById(`product__pic${input.dataset.id}`);
-                console.log(elem);
-                elem.src = e.target.result;
-                elem.classList.add('product__pic_fullsize');
-                if (parseInt(input.dataset.id) === self.__count) {
-                const idPhto = document.getElementById('productPhoto');
-                idPhto.insertAdjacentHTML('beforeend', `
-<div class="form-row" id="_profile-pic${self.__count + 1}">    
-  <label class="form-row__photolabel" data-action="clickUpload" data-move="showCross" data-moveout="hideCross"> 
-     <img class="product__pic" id="product__pic${self.__count + 1}" data-id="${self.__count + 1}" src="../../img/photo.svg">
-     <div class="cross error-hidden" id="delete${self.__count + 1}" data-id='${self.__count + 1}' data-action="delete" ></div>
-   </label>
-</div>
-                `);
-                const idfile = document.getElementById('files');
-                idfile.insertAdjacentHTML('beforeend', `
- <input name="[photos]" id="file-upload${self.__count + 1}" data-id="${self.__count + 1}" data-action="readURL" class="file-upload" type="file" accept="image/*"/>
-`);
-                    self.__count += 1;
-                }
-            };
+            reader.onload = this.__onReaderLoad.bind(this, input);
 
             reader.readAsDataURL(input.files[0]);
+        }
+
+    }
+
+    /***
+     * @author Ivan Gorshkov
+     *
+     * function when picture loaded
+     * @param{Object} input - file input
+     * @param{Event} e - event from file input
+     * @private
+     */
+    __onReaderLoad(input, e) {
+        const elem = document.getElementById(`product__pic${input.dataset.id}`);
+        elem.src = e.target.result;
+        elem.classList.add('product__pic_fullsize');
+        if (parseInt(input.dataset.id) === this.__count) {
+            const idPhto = document.getElementById('productPhoto');
+            idPhto.insertAdjacentHTML('beforeend', `
+                <div class="form-row" id="_profile-pic${this.__count + 1}">    
+                  <label class="form-row__photolabel" data-action="clickUpload" data-move="showCross" data-moveout="hideCross"> 
+                     <img class="product__pic" id="product__pic${this.__count + 1}" data-id="${this.__count + 1}" src="../../img/photo.svg" alt="">
+                     <div class="cross error-hidden" id="delete${this.__count + 1}" data-id='${this.__count + 1}' data-action="delete" ></div>
+                   </label>
+                </div>
+                `);
+            const idfile = document.getElementById('files');
+            idfile.insertAdjacentHTML('beforeend', `
+                <input name="[photos]" id="file-upload${this.__count + 1}" data-id="${this.__count + 1}" data-action="readURL" class="file-upload" type="file" accept="image/*"/>
+            `);
+            this.__count += 1;
         }
 
     }
@@ -409,9 +418,9 @@ export class ProductCreateFormController {
     __validatePriceInput(target) {
         if (target.value.length === 0) {
             this.__insertError(target, `${target.id}Error`, this.__createMessageError(`
-<ul class="list-errors">
-    <li>Поле с ценой не должно быть путсым</li>
-</ul>
+        <ul class="list-errors">
+            <li>Поле с ценой не должно быть путсым</li>
+        </ul>
     `));
             return false;
         } 
@@ -423,13 +432,13 @@ export class ProductCreateFormController {
         }
 
         const tmpString = target.value.replace(/[^0-9]/g, '').toString();
-        let newStr = '';
-        tmpString.split('').reverse().forEach((value, index) => {
-            if (index % 3 === 0 && index !== 0) {
-                newStr += ' ';
+        const newStr = tmpString.split('').reverse().reduce((previousValue, currentValue, currentIndex) => {
+            if (currentIndex % 3 === 0 && currentIndex !== 0) {
+                return `${previousValue} ${currentValue}`;
             }
-            newStr += value.toString();
-        });
+            return previousValue + currentValue.toString();
+        }, '');
+
         target.value = newStr.split('').reverse().join('');
         return true;
 }
@@ -450,9 +459,9 @@ export class ProductCreateFormController {
             return true;
         }
         this.__insertError(target, `${target.id}Error`, this.__createMessageError(`
-<ul class="list-errors">
-    <li>Слишком короткое описание (минимум 10 знаков)</li>
-</ul>
+        <ul class="list-errors">
+            <li>Слишком короткое описание (минимум 10 знаков)</li>
+        </ul>
     `));
         return false;
     }
@@ -468,19 +477,15 @@ export class ProductCreateFormController {
      */
     __createMessageError(errText) {
         return `
-<div class="message-container">
-    <div class="message__arrow">
-        <div class="message-outer"></div>
-        <div class="message-inner"></div>
-    </div>
-    <div class="message-body">
-        ${errText}
-    </div>
-</div>
+        <div class="message-container">
+            <div class="message__arrow">
+                <div class="message-outer"></div>
+                <div class="message-inner"></div>
+            </div>
+            <div class="message-body">
+                ${errText}
+            </div>
+        </div>
     `;
     }
 }
-
-String.prototype.splice = function(idx, rem, str) {
-    return this.slice(0, idx) + str + this.slice(idx + Math.abs(rem));
-};

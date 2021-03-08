@@ -9,7 +9,7 @@ export class ProductCreateForm {
 
     /***
      * @author Max Torzhkov, Ivan Gorshkov
-     * 
+     *
      * init of class ProductCreateForm
      * @param {HTMLElement} parent - parent element
      * @param {Object} data
@@ -26,7 +26,7 @@ export class ProductCreateForm {
 
     /***
      * @author Max Trozhkov
-     * 
+     *
      * get Navigation listeners
      * @this {ProductCreateForm}
      * @private
@@ -39,7 +39,7 @@ export class ProductCreateForm {
 
     /***
      * @author Max Torzhkov
-     * 
+     *
      * Set new listeners
      * @this {ProductCreateForm}
      * @param  {Object} val - Object of listeners
@@ -51,7 +51,7 @@ export class ProductCreateForm {
 
     /***
      * @author Max Torzhkov, Ivan Gorshkov
-     * 
+     *
      * Add component to parent
      * @this {ProductCreateForm}
      * @public
@@ -85,7 +85,7 @@ export class ProductCreateForm {
 
     /***
      * @author Max Torzhkov, Ivan Gorshkov
-     * 
+     *
      * Remove component from parent
      * @this {ProductCreateForm}
      * @public
@@ -129,9 +129,9 @@ export class ProductCreateForm {
         let text = '';
         if (element.inputType === 'select') {
             text = `<select id="${element.id}" class="reg-panel__textfield"  name="${element.id}" >`;
-                element.options.forEach(((value) => {
-                    text += `<option>${value}</option>`;
-                }));
+            element.options.forEach(((value) => {
+                text += `<option>${value}</option>`;
+            }));
             text += '</select>';
 
         }
@@ -165,22 +165,22 @@ export class ProductCreateForm {
         for (const prop in this.__data) {
             const element = this.__data[prop];
             fields += `
-<div class="product-des form-spacing">
-    <div class="product-des-topic">
-        <p class="product-des-topic__title">${element.title}</p>
-    </div>
-    <div class="form-inner">
-        ${this.__drawField(element)}
-    </div>
-</div>
-`;
+                <div class="product-des form-spacing">
+                    <div class="product-des-topic">
+                        <p class="product-des-topic__title">${element.title}</p>
+                    </div>
+                    <div class="form-inner">
+                        ${this.__drawField(element)}
+                    </div>
+                </div>
+            `;
         }
         return fields;
     }
 
     /***
      * @author Max Torzhkov, Ivan Gorshkov
-     * 
+     *
      * main template of component
      * @return {string}
      * @private
@@ -188,42 +188,40 @@ export class ProductCreateForm {
      */
     __getTemplate() {
         return `   
-<div class="board">
-    <div class="board-title">
-        <p class="reg-panel-title__product-name">Создание объявления</p>
-    </div>
-    <form method="post" action="/" name="test" enctype="multipart/form-data">
-        <div id="files">
-            <input id="file-upload0" name="[photos]" data-id="0" data-action="readURL" class="file-upload" type="file" accept="image/*"/>
-        </div>
-        <div id="registrationForm">
-            ${this.__drawForm()}
-        </div>
-        <div class="product-des form-spacing">
-            <div class="product-des-topic ">
-                <p class="product-des-topic__title">Фото</p>
-            </div>
-            <div class="form-inner">
-                <div class="photo-container" id="productPhoto">
-                    <div class="form-row" id="_profile-pic0">    
-                        <label class="form-row__photolabel" data-action="clickUpload" data-move="showCross" data-moveout="hideCross"> 
-                            <img class="product__pic" data-id='0' id="product__pic0" src="../../img/photo.svg" alt="">
-                            <div class="cross error-hidden" id="delete0" data-id='0' data-action="delete" ></div>
-                        </label>  
-                    </div>
+            <div class="board">
+                <div class="board-title">
+                    <p class="reg-panel-title__product-name">Создание объявления</p>
                 </div>
-            </div>
-        </div>
-        <div class="product-des">
-            <div class="product-des-topic"></div>
-            <div class="form-inner" id="submitBtn">
-                <input class="header-right__create-button reg__button" data-action="submitClick" type="submit" id="register" value="Продолжить"/>
-            </div>
-        </div>
-    </form>
-    
-</div>
-         
+                <form method="post" action="/" name="test" enctype="multipart/form-data">
+                    <div id="files">
+                        <input id="file-upload0" name="[photos]" data-id="0" data-action="readURL" class="file-upload" type="file" accept="image/*"/>
+                    </div>
+                    <div id="registrationForm">
+                        ${this.__drawForm()}
+                    </div>
+                    <div class="product-des form-spacing">
+                        <div class="product-des-topic ">
+                            <p class="product-des-topic__title">Фото</p>
+                        </div>
+                        <div class="form-inner">
+                            <div class="photo-container" id="productPhoto">
+                                <div class="form-row" id="_profile-pic0">    
+                                    <label class="form-row__photolabel" data-action="clickUpload" data-move="showCross" data-moveout="hideCross"> 
+                                        <img class="product__pic" data-id='0' id="product__pic0" src="../../img/photo.svg" alt="">
+                                        <div class="cross error-hidden" id="delete0" data-id='0' data-action="delete" ></div>
+                                    </label>  
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="product-des">
+                        <div class="product-des-topic"></div>
+                        <div class="form-inner" id="submitBtn">
+                            <input class="header-right__create-button reg__button" data-action="submitClick" type="submit" id="register" value="Продолжить"/>
+                        </div>
+                    </div>
+                </form>
+            </div>   
         `;
     }
 

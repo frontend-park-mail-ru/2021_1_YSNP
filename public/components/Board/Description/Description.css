@@ -6,7 +6,7 @@
     display: flex;
 }
 .product-des-topic {
-    width: 18%;
+    min-width: 18%;
 }
 
 .product-des-inner {
