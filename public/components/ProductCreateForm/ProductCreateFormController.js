@@ -239,6 +239,21 @@ export class ProductCreateFormController {
     __deletePicture(target) {
         document.getElementById(`_profile-pic${target.dataset.id}`).remove();
         document.getElementById(`file-upload${target.dataset.id}`).remove();
+        const elements = document.getElementsByClassName('cross');
+        const elements2 = document.getElementsByClassName('product__pic');
+        const elements3 = document.getElementsByClassName('form-row');
+        const elements4 = document.getElementsByClassName('file-upload');
+        this.__count -= 1;
+        for (let i = 0; i <= this.__count; i++) {
+            elements[i].id = `delete${i}`;
+            elements[i].dataset.id = i.toString();
+            elements2[i].id = `product__pic${i}`;
+            elements2[i].dataset.id = i.toString();
+            elements3[i].id = `_profile-pic${i}`;
+            elements4[i].dataset.id = i.toString();
+            elements4[i].id = `file-upload${i}`;
+        }
+        document.event.stopImmediatePropagation();
     }
 
     /****
@@ -342,7 +357,8 @@ export class ProductCreateFormController {
             const reader = new FileReader();
 
             reader.onload = function(e) {
-                const elem = document.getElementById(`profile-pic${input.dataset.id}`);
+                const elem = document.getElementById(`product__pic${input.dataset.id}`);
+                console.log(elem);
                 elem.src = e.target.result;
                 elem.classList.add('product__pic_fullsize');
                 if (parseInt(input.dataset.id) === self.__count) {
@@ -350,7 +366,7 @@ export class ProductCreateFormController {
                 idPhto.insertAdjacentHTML('beforeend', `
 <div class="form-row" id="_profile-pic${self.__count + 1}">    
   <label class="form-row__photolabel" data-action="clickUpload" data-move="showCross" data-moveout="hideCross"> 
-     <img class="product__pic" id="profile-pic${self.__count + 1}" data-id="${self.__count + 1}" src="../../img/photo.svg">
+     <img class="product__pic" id="product__pic${self.__count + 1}" data-id="${self.__count + 1}" src="../../img/photo.svg">
      <div class="cross error-hidden" id="delete${self.__count + 1}" data-id='${self.__count + 1}' data-action="delete" ></div>
    </label>
 </div>
@@ -375,7 +391,7 @@ export class ProductCreateFormController {
      * @private
      */
     __upload(target) {
-        if (this.__count <= 10) {
+        if (this.__count < 10) {
             const elem = document.getElementById(`file-upload${target.dataset.id}`);
             elem.click();
         }

@@ -207,7 +207,7 @@ export class ProductCreateForm {
                 <div class="photo-container" id="productPhoto">
                     <div class="form-row" id="_profile-pic0">    
                         <label class="form-row__photolabel" data-action="clickUpload" data-move="showCross" data-moveout="hideCross"> 
-                            <img class="product__pic" data-id='0' id="profile-pic0" src="../../img/photo.svg" alt="">
+                            <img class="product__pic" data-id='0' id="product__pic0" src="../../img/photo.svg" alt="">
                             <div class="cross error-hidden" id="delete0" data-id='0' data-action="delete" ></div>
                         </label>  
                     </div>
