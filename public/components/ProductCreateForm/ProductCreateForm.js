@@ -136,7 +136,7 @@ export class ProductCreateForm {
 
         }
 
-        if (element.inputType === 'text' || element.inputType === 'number') {
+        if (element.inputType === 'text') {
             text = `<input min="0" class="reg-panel__textfield" data-action="${element.dataAction}"
                           data-move="mouseIn" data-moveout="mouseOut" id="${element.id}" type="${element.inputType}"
                           placeholder="${element.placeholder}" name="${element.id}"/>`;

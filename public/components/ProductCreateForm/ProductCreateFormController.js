@@ -407,11 +407,32 @@ export class ProductCreateFormController {
      * @this {ProductCreateFormController}
      */
     __validatePriceInput(target) {
+        if (target.value.length === 0) {
+            this.__insertError(target, `${target.id}Error`, this.__createMessageError(`
+<ul class="list-errors">
+    <li>Поле с ценой не должно быть путсым</li>
+</ul>
+    `));
+            return false;
+        } 
+        this.__addSuccesses(target, `${target.id}Error`);
+        
+
         if (target.value.length > 15) {
             target.value = target.value.slice(0, -1);
         }
+
+        const tmpString = target.value.replace(/[^0-9]/g, '').toString();
+        let newStr = '';
+        tmpString.split('').reverse().forEach((value, index) => {
+            if (index % 3 === 0 && index !== 0) {
+                newStr += ' ';
+            }
+            newStr += value.toString();
+        });
+        target.value = newStr.split('').reverse().join('');
         return true;
-    }
+}
 
 
     /***
@@ -460,3 +481,6 @@ export class ProductCreateFormController {
     }
 }
 
+String.prototype.splice = function(idx, rem, str) {
+    return this.slice(0, idx) + str + this.slice(idx + Math.abs(rem));
+};
