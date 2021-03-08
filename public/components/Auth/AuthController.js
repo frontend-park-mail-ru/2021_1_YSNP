@@ -139,9 +139,9 @@ export class AuthController {
      */
     __openRegistration() {
         this.__pageRemoveListeners();
-        const reg = new Registration(this.__parent);
-        reg.render();
-        console.log('Open registration');
+
+        const registration = new Registration(this.__parent);
+        registration.render();
     }
 
     /***
