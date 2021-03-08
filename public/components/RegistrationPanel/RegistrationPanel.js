@@ -59,8 +59,8 @@ export class RegistrationPanel {
                    <p class="reg-panel-title__product-name">Регистрация</p>
                </div>
                
-               <form>
-               <input id="file-upload" data-action="readURL" class="file-upload" type="file" accept="image/*"/>
+               <form id="registration-from" enctype="multipart/form-data">
+               <input id="file-upload" name="file-upload" data-action="readURL" class="file-upload" type="file" accept="image/*"/>
                <div id="registrationForm">
                     ${this.__drawForm()}
                     </div>

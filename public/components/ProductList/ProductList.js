@@ -10,11 +10,27 @@ export class ProductList {
      * @param {Object} data - component data
      * @param {Object} listeners - component listeners
      */
-    constructor(parent, data, listeners = {}) {
+    constructor(parent, data = {}, listeners = {}) {
         this.__parent = parent;
         this.__data = data;
         this.__listeners = listeners;
         this.__productList = new Map();
+    }
+
+    /***
+     * Get data
+     * @returns {Object}
+     */
+    get data() {
+        return this.__data;
+    }
+
+    /***
+     * Set data
+     * @param {Object} data - component data
+     */
+    set data(data) {
+        this.__data = data;
     }
 
     /***

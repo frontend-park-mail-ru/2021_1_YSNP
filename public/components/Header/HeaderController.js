@@ -1,9 +1,14 @@
-import {Profile} from '../../pages/Profile.js';
+// import {Profile} from '../../pages/Profile.js';
 import {Landing} from '../../pages/Landing.js';
-import {Registration} from '../../pages/Registration.js';
+
 import {Auth} from '../Auth/Auth.js';
 import {AuthController} from '../Auth/AuthController.js';
 import {ProductCreate} from '../../pages/ProductCreate.js';
+
+import {UserModel} from '../../models/UserModel.js';
+
+import {http} from '../../modules/http.js';
+import {urls} from '../../modules/urls.js';
 /***
  * Header controller controller
  */
@@ -18,14 +23,20 @@ export class HeaderController {
         this.__pageRemoveListeners = pageRemoveListeners;
         this.__parent = parent;
         this.__header = header;
+        this.__model = new UserModel();
     }
 
     /***
      * Add listeners
      */
-    control() {
+    async control() {
+        await this.__model.update();
+        this.__header.data = this.__model.getData();
+        this.__header.render();
+
         this.__header.listeners = this.__createListeners();
         this.__header.addListeners();
+
     }
 
     /***
@@ -86,9 +97,6 @@ export class HeaderController {
      * @private
      */
     __listenerPageClick(ev) {
-        //ev.preventDefault();
-        //ev.stopPropagation();
-
         document
             .getElementById('header-dropdown-content')
             .classList
@@ -127,8 +135,8 @@ export class HeaderController {
 
         console.log('open landing');
 
-         const landing = new Landing(this.__parent);
-         landing.render();
+        const landing = new Landing(this.__parent);
+        landing.render();
     }
 
     /***
@@ -158,12 +166,6 @@ export class HeaderController {
      * Header account click callback
      * @private
      */
-//     __openAccount() {
-//         this.__pageRemoveListeners();
-//         this.register = new Registration(this.__parent);
-//         this.register.render();
-//         console.log('Open account');
-//     }
     __openAuth() {
         const auth = new Auth(this.__parent);
         auth.render();
@@ -234,6 +236,12 @@ export class HeaderController {
     __logout() {
         // TODO(Sergey) release __logout
         // this.__pageRemoveListeners();
+
+        http.post(urls.logout, null)
+        .then(({status, data}) => {
+            const landing = new Landing(this.__parent);
+            landing.render();
+        });
 
         console.log('Logout');
     }

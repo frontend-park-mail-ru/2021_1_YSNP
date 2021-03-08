@@ -1,5 +1,7 @@
 import {Product} from '../../pages/Product.js';
 
+import {ProductListModel} from '../../models/ProductListModel.js';
+
 /***
  * Product List controller
  */
@@ -14,12 +16,17 @@ export class ProductListController {
         this.__pageRemoveListeners = pageRemoveListeners;
         this.__parent = parent;
         this.__productList = productList;
+        this.__model = new ProductListModel();
     }
 
     /***
      * Add listeners
      */
-    control() {
+    async control() {
+        await this.__model.update();
+        this.__productList.data = this.__model.productList;
+        this.__productList.render();
+
         this.__productList.listeners = this.__createListeners();
         this.__productList.addListeners();
     }
@@ -83,7 +90,7 @@ export class ProductListController {
         // TODO(Sergey) release __likeCard
 
         console.log('like click', id);
-        this.__productList.like(id);
+        // this.__productList.like(id);
     }
 
     /***
@@ -92,11 +99,10 @@ export class ProductListController {
      * @private
      */
     __openCard(id) {
-        const page = new Product(this.__parent);
-        page.render();
+        this.__pageRemoveListeners();
         console.log('open card', id);
 
-        const product = new Product(this.__parent);
+        const product = new Product(this.__parent, id);
         product.render();
     }
 
