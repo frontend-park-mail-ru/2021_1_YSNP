@@ -23,6 +23,10 @@
         return `${this.__url}${this.__api}/product/create`;
     }
 
+    get productUploadPhotos() {
+        return `${this.__url}${this.__api}/product/upload`;
+    }
+
     get me() {
         return `${this.__url}${this.__api}/me`;
     }

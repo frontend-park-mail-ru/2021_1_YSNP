@@ -1,5 +1,8 @@
 'use strict';
 
+import {ProductModel} from '../../models/ProductModel.js';
+import {Landing} from '../../pages/Landing.js';
+
 /***
  * @author Max Torzhkov, Ivan Gorshkov
  * ProduCreateForm controller
@@ -22,6 +25,7 @@ export class ProductCreateFormController {
         this.__parent = parent;
         this.__productCreateForm = productCreateForm;
         this.__countPhoto = 0;
+        this.__model = new ProductModel();
     }
 
     /***
@@ -80,10 +84,19 @@ export class ProductCreateFormController {
     __listenerSubmitClick() {
         const price = document.getElementById('priceInput');
         const description = document.getElementById('textareaInput');
+        const name = document.getElementById('nameInput');
         const isValidPrice = this.__validatePriceInput(price);
         const isValidDescription = this.__validateTextArea(description);
-        if (isValidDescription && isValidPrice && this.__count !== 0) {
-            //TODO Add New Product
+        const isValidname = this.__validateEmptyInput(name);
+        if (isValidname && isValidDescription && isValidPrice && this.__count !== 0) {
+            this.__model.fillProductModel({
+                name: name.value,
+                description: description.value,
+                amount: price.value.toString().split(' ').join('')
+            });
+
+            this.__model.log();
+            this.__model.create(document.getElementById('createProductForm'));
         }
     }
 
@@ -224,8 +237,36 @@ export class ProductCreateFormController {
             },
             hideCross: {
                 open: this.__hideCross.bind(this)
+            },
+            inputEmpty: {
+                open: this.__validateEmptyInput.bind(this)
             }
         };
+    }
+
+
+    /***
+     * @author Ivan Gorshkov
+     *
+     * action to validate name
+     * @param{Object} target
+     * @return {boolean}
+     * @private
+     * @this {ProductCreateFormController}
+     */
+    __validateEmptyInput(target) {
+        const {error, message} = this.__model.validationName(target.value.toString());
+        if (!error) {
+            this.__addSuccesses(target, `${target.id}Error`);
+            return true;
+        }
+
+        this.__insertError(target, `${target.id}Error`, this.__createMessageError(`
+        <ul class="list-errors">
+            <li>${message}</li>
+        </ul>
+    `));
+        return false;
     }
 
     /***
@@ -416,16 +457,9 @@ export class ProductCreateFormController {
      * @this {ProductCreateFormController}
      */
     __validatePriceInput(target) {
-        if (target.value.length === 0) {
-            this.__insertError(target, `${target.id}Error`, this.__createMessageError(`
-        <ul class="list-errors">
-            <li>Поле с ценой не должно быть путсым</li>
-        </ul>
-    `));
-            return false;
-        } 
+        const {error, message} = this.__model.validationAmount(target.value.replace(/[^0-9]/g, '').toString());
+
         this.__addSuccesses(target, `${target.id}Error`);
-        
 
         if (target.value.length > 15) {
             target.value = target.value.slice(0, -1);
@@ -440,6 +474,15 @@ export class ProductCreateFormController {
         }, '');
 
         target.value = newStr.split('').reverse().join('');
+
+        if (error) {
+            this.__insertError(target, `${target.id}Error`, this.__createMessageError(`
+        <ul class="list-errors">
+            <li>${message}</li>
+        </ul>
+    `));
+            return false;
+        }
         return true;
 }
 
@@ -454,13 +497,16 @@ export class ProductCreateFormController {
      * @this {ProductCreateFormController}
      */
     __validateTextArea(target) {
-        if (target.value.length >= 10) {
+
+        const {error, message} = this.__model.validationDescription(target.value.toString());
+
+        if (!error) {
             this.__addSuccesses(target, `${target.id}Error`);
             return true;
         }
         this.__insertError(target, `${target.id}Error`, this.__createMessageError(`
         <ul class="list-errors">
-            <li>Слишком короткое описание (минимум 10 знаков)</li>
+            <li>${message}</li>
         </ul>
     `));
         return false;

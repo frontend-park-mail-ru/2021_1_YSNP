@@ -192,7 +192,7 @@ export class ProductCreateForm {
                 <div class="board-title">
                     <p class="reg-panel-title__product-name">Создание объявления</p>
                 </div>
-                <form method="post" action="/" name="test" enctype="multipart/form-data">
+                <form method="post" id="createProductForm" name="create" enctype="multipart/form-data">
                     <div id="files">
                         <input id="file-upload0" name="[photos]" data-id="0" data-action="readURL" class="file-upload" type="file" accept="image/*"/>
                     </div>

@@ -232,27 +232,33 @@ export class ProductModel {
      */
     validationDescription(description) {
         const maxSize = 1000;
-        if (description !== '' && description.length < maxSize) {
+        const minSize = 10;
+        if (description.length >= maxSize && description.length >= minSize) {
             return {
-                message: '',
-                error: false
+                message: 'Слишком длинный текст. Текст не должен привышать 1000 символов',
+                error: true
             };
         }
 
-
+        if (description.length < minSize) {
+            return {
+                message: 'Слишком короткое описание (минимум 10 знаков)',
+                error: true
+            };
+        }
         return {
-            message: 'Поле не должно быть пустым',
-            error: true
+            message: '',
+            error: false
         };
     }
 
     /***
      * Validate product amount
-     * @param {number} amount - product amount
+     * @param {string} amount - product amount
      * @returns {{message: string, error: boolean}}
      */
     validationAmount(amount) {
-        if (amount !== '' && typeof amount === 'number') {
+        if (amount !== '') {
             return {
                 message: '',
                 error: false
@@ -314,7 +320,7 @@ export class ProductModel {
             ownerName: this.__ownerName,
             ownerSurname: this.__ownerSurname,
             ownerStars: this.__ownerStars
-        }
+        };
     }
 
 
@@ -338,11 +344,24 @@ export class ProductModel {
 
     /***
      * Post create new product
-     * @returns {Promise<{data: *, status: number}>}
+     * @returns {Promise<void>}
      */
-    async create() {
-        const data = this.__jsonData();
-        return await http.post(urls.productCreate, data);
+    async create(form) {
+        return http.post(urls.productUploadPhotos, new FormData(form), true).then(({status, data}) => {
+            if (status === 200) {
+                console.log(data);
+                this.fillProductModel(data);
+            }
+
+        }).then(({status, data}) => {
+            if (status === 200) {
+                this.__linkImages.push(data.linkImages);
+            }
+            const dataInf = this.__jsonData();
+            http.post(urls.productCreate, dataInf);
+        }).catch((err) => {
+                console.log(err.message);
+        });
     }
 
     /***
