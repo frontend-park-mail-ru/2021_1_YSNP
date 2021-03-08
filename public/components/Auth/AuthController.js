@@ -1,3 +1,4 @@
+
 import {Registration} from '../../pages/Registration.js';
 import {Landing} from '../../pages/Landing.js';
 

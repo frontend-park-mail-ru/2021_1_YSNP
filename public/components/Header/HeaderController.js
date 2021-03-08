@@ -3,12 +3,12 @@ import {Landing} from '../../pages/Landing.js';
 
 import {Auth} from '../Auth/Auth.js';
 import {AuthController} from '../Auth/AuthController.js';
+import {ProductCreate} from '../../pages/ProductCreate.js';
 
 import {UserModel} from '../../models/UserModel.js';
 
 import {http} from '../../modules/http.js';
 import {urls} from '../../modules/urls.js';
-
 /***
  * Header controller controller
  */
@@ -156,8 +156,9 @@ export class HeaderController {
      */
     __openCreateProduct() {
         // TODO(Sergey) release __openCreateProduct
-        // this.__pageRemoveListeners();
-
+        this.__pageRemoveListeners();
+        const createProduct = new ProductCreate(this.__parent);
+        createProduct.render();
         console.log('Open create product');
     }
 

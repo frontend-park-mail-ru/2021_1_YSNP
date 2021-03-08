@@ -10,7 +10,6 @@
 }
 
 
-
 .reg-panel-title__product-name {
     font-size: 3vh;
     margin: 0;
@@ -90,15 +89,18 @@
     transform: translate(5%, 0);
 }
 
-.product-des-inner {
+.form-inner {
     position: relative;
 }
 
 .message-container {
     clear: both;
     position: absolute;
+    transform: translateX(100%);
+    display: flex;
+    right: 0;
     top: 0;
-    left: 15.5vw;
+    z-index: 1000;
 }
 
 .message__arrow {
