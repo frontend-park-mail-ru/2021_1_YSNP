@@ -370,6 +370,26 @@ export class SettingsController {
     }
 
     /***
+     * Draw popup
+     * @param message
+     * @returns {string}
+     * @private
+     */
+    __drawPopup(message) {
+        return `
+        <div class="popup">
+            <div class="popup-inner">
+                <div class="popup-message">${message}</div>
+                <div class="popup-buttons">
+                    <button id="popup-save" class="settings-title__save_button" data-action="savePasswordClick">Остаться</button>
+                    <button id="popup-cancel" class="settings-title__reset_button" data-action="resetPasswordClick">Отменить</button>
+                </div>
+            </div>
+        </div>
+        `;
+    }
+
+    /***
      * Settings save changes click callback
      * @private
      */
@@ -406,7 +426,7 @@ export class SettingsController {
 
 
         const sexEl = document.getElementById('settings-gender');
-        const sex = sexEl.selectedIndex;
+        const sex = sexEl.options[sexEl.selectedIndex].value;
         const img = document.getElementById('settings-profile-pic').src;
 
         if (isValidSurname && isValidName && isValidBirthday && isValidPhone && isValidMail) {

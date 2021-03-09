@@ -77,11 +77,11 @@ export class SettingsUserData extends PasswordUserModel {
     async settings() {
         const data = this.__jsonData();
         console.log(data);
-        return await http.post(urls.settings, data, true)
+        return await http.post(urls.settings, data)
             .then(({status, data}) => {
                 if (status === 200) {
                     console.log(data);
-                    this.__linkImages.push(data.linkImages);
+                    // this.__linkImages.push(data.linkImages);
                     return {isUpdate: true};
                 }
                 if (status === 401) {

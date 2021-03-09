@@ -127,8 +127,8 @@ export class Settings {
 <!--                         </div> -->
                         <div class="settings-input-inner">
                             <select id="settings-gender" class="settings-components__input" disabled>                              
-                                <option name="female">Женский</option>
-                                <option name="male">Мужской</option>
+                                <option value="female" name="female">Женский</option>
+                                <option value="male" name="male">Мужской</option>
                             </select>                               
                         </div>
                         <div class="settings-input-inner">
