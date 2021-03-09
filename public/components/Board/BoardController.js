@@ -16,6 +16,7 @@ export class BoardController {
      * init of class BoardController
      * @param {HTMLElement} parent - parent component
      * @param {Board} board - control component
+     * @param {number} id - id of product
      * @constructor
      * @this {BoardController}
      * @public

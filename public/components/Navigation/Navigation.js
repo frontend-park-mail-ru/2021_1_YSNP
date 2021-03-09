@@ -32,7 +32,7 @@ export class Navigation {
      * @this {Navigation}
      * @private
      * @readonly
-     * @return  {string} return string with route
+     * @return {T} return string with route
      */
     __getRoute() {
         return this.__route.route.reduce(((previousValue, currentValue) => `${previousValue} • ${currentValue}`), '');

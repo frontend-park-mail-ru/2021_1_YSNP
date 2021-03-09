@@ -56,8 +56,9 @@ export class InfoCard {
      * @readonly
      */
     get __getRating() {
+        const tmpStars = 4.1;
         // return this.__data.ownerStars;
-        return 4.1;
+        return tmpStars;
     }
 
     /***
