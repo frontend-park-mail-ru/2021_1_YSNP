@@ -54,7 +54,7 @@ export class Header {
             .getElementById('header')
             .addEventListener(this.__listeners.headerClick.type, this.__listeners.headerClick.listener);
 
-        if (this.__data.name !== undefined) {
+        if (this.__data.isAuth) {
             document
                 .getElementById('header-dropdown')
                 .addEventListener(this.__listeners.dropdownClick.type, this.__listeners.dropdownClick.listener);
@@ -73,7 +73,7 @@ export class Header {
             .getElementById('header')
             .removeEventListener(this.__listeners.headerClick.type, this.__listeners.headerClick.listener);
 
-        if (this.__data.name !== undefined) {
+        if (this.__data.isAuth) {
             document
                 .getElementById('header-dropdown')
                 .removeEventListener(this.__listeners.dropdownClick.type, this.__listeners.dropdownClick.listener);
@@ -208,7 +208,7 @@ export class Header {
         const template = this.__getTemplate();
         this.__parent.insertAdjacentHTML('beforeend', template);
 
-        const accountTemplate = this.__data.name !== undefined ? this.__getAuthTemplate() : this.__getNotAuthTemplate();
+        const accountTemplate = this.__data.isAuth ? this.__getAuthTemplate() : this.__getNotAuthTemplate();
         document.getElementById('header-right').insertAdjacentHTML('beforeend', accountTemplate);
     }
 }

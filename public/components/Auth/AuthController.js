@@ -19,6 +19,7 @@ export class AuthController {
         this.__pageRemoveListeners = pageRemoveListeners;
         this.__parent = parent;
         this.__auth = auth;
+        this.__isShown = false;
         this.__model = new AuthUserData();
     }
 
@@ -28,13 +29,16 @@ export class AuthController {
     control() {
         this.__auth.listeners = this.__createListeners();
         this.__auth.addListeners();
+        this.__isShown = true;
     }
 
     /***
      *  Remove listeners
      */
     removeControllerListeners() {
-        this.__auth.removeListeners();
+        if (this.__isShown) {
+            this.__auth.removeListeners();
+        }
     }
 
     /***
@@ -73,8 +77,7 @@ export class AuthController {
      */
     __listenerKeyClick(ev) {
         if (ev.key === 'Escape') {
-            this.__auth.removeListeners();
-            this.__auth.remove();
+            this.__closeAuth();
         }
     }
 
@@ -98,13 +101,10 @@ export class AuthController {
                 telephone: telephone,
                 password: password
             });
-            this.__model.log();
 
             this.__model.auth()
-                .then(({status, data}) => {
-                    console.log('Auth', status, data);
-
-                    if (status === 200) {
+                .then(({isAuth}) => {
+                    if (isAuth) {
                         const landing = new Landing(this.__parent);
                         landing.render();
                     }
@@ -204,6 +204,7 @@ export class AuthController {
     __closeAuth() {
         this.__auth.removeListeners();
         this.__auth.remove();
+        this.__isShown = false;
     }
 
     /***
