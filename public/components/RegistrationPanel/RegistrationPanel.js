@@ -22,6 +22,16 @@ export class RegistrationPanel {
     }
 
     /***
+     * Form text error
+     * @param {string} val - error text
+     */
+    errorText(val) {
+        document
+            .getElementById('auth-error')
+            .textContent = val;
+    }
+
+    /***
      * @author Ivan Gorshkov
      * add input fields to template
      * @return {string}
@@ -83,6 +93,10 @@ export class RegistrationPanel {
            <div class="board">
                <div class="board-title">
                    <p class="reg-panel-title__product-name">Регистрация</p>
+                   
+                 <div class="auth-content-inner__error reg-error" id="auth-error">
+                    <span></span>
+                </div>
                </div>
                
                <form id="registration-from" enctype="multipart/form-data">

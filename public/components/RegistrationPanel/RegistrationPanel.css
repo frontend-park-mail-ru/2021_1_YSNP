@@ -8,6 +8,10 @@
     padding-left: 10px;
 }
 
+.reg-error{
+    text-align: left;
+}
+
 .reg-panel__coutry-code {
     margin: 0;
     height: 2.5vw;

@@ -256,6 +256,7 @@ export class RegistrationPanelController {
             el.id = idError;
             el.innerHTML = textError;
             el.className = 'error-hidden';
+
             target.parentNode.insertBefore(el, target.nextSibling);
         }
     }
@@ -300,7 +301,8 @@ export class RegistrationPanelController {
      * @private
      */
     __validatePhone(target) {
-        const { error, message } = this.__model.validationTelephone(target.value);
+
+        const { error, message } = this.__model.validationTelephone(parseTelNumber(target.value));
         if (!error) {
             this.__addSuccesses(target, 'phoneError');
             return true;
@@ -500,7 +502,6 @@ export class RegistrationPanelController {
         const name = document.getElementById('name');
         const surname = document.getElementById('surname');
         const date = document.getElementById('date');
-
         const isValidpwdConfirm = this.__validateConfirmPwd(passwordConfirm);
         const isValidPhone = this.__validatePhone(phone);
         const isValidPwd = this.__validatePas(password);
@@ -516,7 +517,7 @@ export class RegistrationPanelController {
                 surname: surname.value,
                 sex: sex.options[sex.selectedIndex].text,
                 dateBirth: date.value,
-                telephone: parseTelNumber(phone.value),
+                telephone: phone,
                 email: mail.value,
                 password: password.value
             });
@@ -527,7 +528,9 @@ export class RegistrationPanelController {
                 .then(() => {
                     const landing = new Landing(this.__parent);
                     landing.render();
-                });
+                }).catch((data) => {
+                this.__registartion.errorText(data);
+            });
         }
     }
 }
