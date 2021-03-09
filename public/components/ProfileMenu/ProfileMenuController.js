@@ -1,3 +1,5 @@
+import {SettingsUserData} from '../../models/SettingsUserData.js';
+
 /***
  * ProfileMenu controller
  */
@@ -12,12 +14,17 @@ export class ProfileMenuController {
         this.__pageRemoveListeners = pageRemoveListeners;
         this.__parent = parent;
         this.__profile = profile;
+        this.__model = new SettingsUserData();
     }
 
     /***
      * Add listeners
      */
-    control() {
+    async control() {
+        await this.__model.update();
+        this.__profile.data = this.__model.getData();
+        this.__profile.render();
+
         this.__profile.listeners = this.__createListeners();
         this.__profile.addListeners();
     }

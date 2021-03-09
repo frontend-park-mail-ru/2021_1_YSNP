@@ -6,8 +6,8 @@
      * Class constructor
      */
     constructor() {
-        this.__url = 'http://89.208.199.170:8080';
-        // this.__url = 'http://localhost:3000';
+        // this.__url = 'http://89.208.199.170:8080';
+        this.__url = 'http://localhost:8080';
         this.__api = '/api/v1';
     }
 
@@ -45,6 +45,10 @@
 
     get logout() {
         return `${this.__url}${this.__api}/logout`;
+    }
+
+    get newPassword() {
+        return `${this.__url}${this.__api}/settings/password`;
     }
 }
 

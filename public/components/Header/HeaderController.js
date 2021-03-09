@@ -93,10 +93,9 @@ export class HeaderController {
 
     /***
      * Page click event
-     * @param {MouseEvent} ev - event
      * @private
      */
-    __listenerPageClick(ev) {
+    __listenerPageClick() {
         document
             .getElementById('header-dropdown-content')
             .classList

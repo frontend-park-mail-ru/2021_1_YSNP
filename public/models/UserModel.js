@@ -142,12 +142,12 @@ export class UserModel {
     }
 
     /***
-     * Validate user name
-     * @param {string} name - user name
+     * Validate user name/surname/patronymic/location
+     * @param {string} value - value of user field
      * @returns {{message: string, error: boolean}}
      */
-    validationName(name) {
-        if (name !== '') {
+    validationString(value) {
+        if (value !== '') {
             return {
                 message: '',
                 error: false
