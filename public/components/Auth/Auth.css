@@ -99,7 +99,7 @@
 .auth-content-form__tel:focus {
     outline: none;
 
-    border-radius: 1vh;
+    border-radius: 0.5vh;
     box-shadow: 0 0 0 2px rgb(0, 84, 197);
 }
 
@@ -111,7 +111,7 @@
 .auth-content-form__password:focus {
     outline: none;
 
-    border-radius: 1vh;
+    border-radius: 0.5vh;
     box-shadow: 0 0 0 2px rgb(0, 84, 197);
 }
 

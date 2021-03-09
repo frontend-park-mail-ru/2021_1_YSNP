@@ -60,7 +60,7 @@
     margin-left: 1vw;
 }
 
-.profile-menu-content-item{
+.profile-menu-content-item {
     height: 5vh;
     padding-left: 0.3vw;
     display: flex;
@@ -73,13 +73,11 @@
     width: 100%;
 }
 
-.profile-menu-content-item:hover{
-    background: #EEEEEE;
+.profile-menu-content-item:hover {
+    color: #2e64f5;
     cursor: pointer;
-    color: black;
-    opacity: 1;
 }
 
-.profile-menu__selected{
-    color: #2e64f5 !important;
+.profile-menu__selected {
+    color: #2e64f5;
 }

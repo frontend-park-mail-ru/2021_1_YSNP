@@ -26,8 +26,6 @@ export class SettingsController {
         await this.__model.update();
         this.__settings.data = this.__model.getData();
 
-        this.__model.log();
-
         this.__settings.render();
         this.__settings.listeners = this.__createListeners();
         this.__settings.addListeners();
@@ -369,7 +367,7 @@ export class SettingsController {
                 //     .getElementById('settings-location')
                 //     .value = this.__model.location;
                 const elem = document.getElementById('settings-profile-pic');
-                elem.src = this.__model.linkImage;
+                elem.src = this.__model.getFirstImage();
                 this.__disableEditing();
                 this.__isOpen = false;
             }
@@ -452,15 +450,15 @@ export class SettingsController {
                 password: 'password',
                 linkImages: img
             });
-            this.__model.log();
             this.__model.settings()
                 .then(({isUpdate}) => {
-                    console.log(isUpdate);
-                    const err = document.getElementById('settings-password-error');
-                    err.classList.add('settings-error_hidden');
-                    err.classList.remove('settings-error_visible');
-                    const profile = new Profile(this.__parent);
-                    profile.render();
+                    if (isUpdate) {
+                        const err = document.getElementById('settings-password-error');
+                        err.classList.add('settings-error_hidden');
+                        err.classList.remove('settings-error_visible');
+                        const profile = new Profile(this.__parent);
+                        profile.render();
+                    }
                 })
                 .catch((error) => {
                     const err = document.getElementById('settings-error');
