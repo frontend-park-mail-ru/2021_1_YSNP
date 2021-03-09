@@ -1,6 +1,6 @@
-import {Landing} from '../../pages/Landing.js';
+import { Landing } from '../../pages/Landing.js';
 
-import {RegUserData} from '../../models/RegUserData.js';
+import { RegUserData } from '../../models/RegUserData.js';
 
 /***
  * @author Ivan Gorshkov
@@ -242,45 +242,6 @@ export class RegistrationPanelController {
     /***
      * @author Ivan Gorshkov
      *
-     * validate number
-     * @param{string} phoneNumber
-     * @return {boolean}
-     * @private
-     */
-    __isValidPhone(phoneNumber) {
-        const found = phoneNumber.search(/^(\+{0,})(\d{0,})([(]{1}\d{1,3}[)]{0,}){0,}(\s?\d+|\+\d{2,3}\s{1}\d+|\d+){1}[\s|-]?\d+([\s|-]?\d+){1,2}(\s){0,}$/);
-        return found > -1;
-    }
-
-    /***
-     * @author Ivan Gorshkov
-     *
-     * validate mail
-     * @param{string} email
-     * @return {boolean}
-     * @private
-     */
-    __isValidEmail(email) {
-        const re = /\S+@\S+\.\S+/;
-        return re.test(email);
-    }
-
-    /***
-     * @author Ivan Gorshkov
-     *
-     * validate password
-     * @param{string} inputtxt
-     * @return {boolean}
-     * @private
-     */
-    __isValidPwd(inputtxt) {
-        const re = /(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,}/;
-        return re.test(inputtxt);
-    }
-
-    /***
-     * @author Ivan Gorshkov
-     *
      * add to DOM error massage
      * @param{Object} target
      * @param{string} idError
@@ -324,14 +285,14 @@ export class RegistrationPanelController {
      * @this {RegistrationPanelController}
      */
     _validatePhone(target) {
-        const {error} = this.__model.validationTelephone(target.value);
+        const { error, message } = this.__model.validationTelephone(target.value);
         if (!error) {
             this.__addSuccesses(target, 'phoneError');
             return true;
         }
         this.__insertError(target, 'phoneError', this.__createMessageError(`
                   <ul class="list-errors">
-                    <li>Неверный формат телефона</li>
+                    <li>${message}</li>
                   </ul>
     `));
         return false;
@@ -348,21 +309,19 @@ export class RegistrationPanelController {
      * @this {RegistrationPanelController}
      */
     __validatePas(target) {
-        const {error} = this.__model.validationPassword(target.value);
-        if (!error) {
-            this.__addSuccesses(target, 'passwordError');
-            const element = document.getElementById('passwordConfirm');
-            this.__validateConfirmPwd(element);
-            return true;
-        }
+            const { error, message } = this.__model.validationPassword(target.value);
+            if (!error) {
+                this.__addSuccesses(target, 'passwordError');
+                const element = document.getElementById('passwordConfirm');
+                this.__validateConfirmPwd(element);
+                return true;
+            }
 
-        this.__insertError(target, 'passwordError', this.__createMessageError(`
+            this.__insertError(target, 'passwordError', this.__createMessageError(`
                         <ul class="list-errors">
-                          <li>От шести или более символов</li>
-                          <li>Содержит хотя бы одну цифру</li>
-                          <li>Хотя бы один символ нижнего регистра</li>
-                          <li>Хотя бы один символ верхнего регистра</li>
-                          <li>Только латинские символы</li>
+                        ${message.reduce((prev, cur)=> {
+                            return prev + `<li>${cur}</li>`
+                        },'')}
                         </ul>
     `));
         return false;
@@ -379,7 +338,7 @@ export class RegistrationPanelController {
      */
     __validateConfirmPwd(target) {
         const element = document.getElementById('password');
-        const {error} = this.__model.validationConfirmPassword(element.value, target.value);
+        const { error, message } = this.__model.validationConfirmPassword(element.value, target.value);
         if (!error) {
             this.__addSuccesses(target, 'passwordConfirmError');
             return true;
@@ -387,7 +346,7 @@ export class RegistrationPanelController {
 
         this.__insertError(target, 'passwordConfirmError', this.__createMessageError(`
                  <ul class="list-errors">
-                     <li>Пароли не совпадают</li>
+                     <li>${message}</li>
                  </ul>
     `));
         return false;
@@ -403,14 +362,14 @@ export class RegistrationPanelController {
      * @this {RegistrationPanelController}
      */
     __validateMail(target) {
-        const {error} = this.__model.validationEmail(target.value);
+        const { error, message } = this.__model.validationEmail(target.value);
         if (!error) {
             this.__addSuccesses(target, 'MailError');
             return true;
         }
         this.__insertError(target, 'MailError', this.__createMessageError(`
                   <ul class="list-errors">
-                     <li>Неправильный формат mail</li>
+                     <li>${message}</li>
                  </ul>
     `));
         return false;
@@ -500,7 +459,7 @@ export class RegistrationPanelController {
             this.__model.log();
 
             this.__model.registration(document.getElementById('registration-from'))
-                .then(() => {                    
+                .then(() => {
                     const landing = new Landing(this.__parent);
                     landing.render();
                 });
