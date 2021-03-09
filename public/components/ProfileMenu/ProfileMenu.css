@@ -4,7 +4,7 @@
 }
 
 .profile-menu {
-    width: 30vh;
+    width: 34vh;
     height: 35vh;
     display: flex;
     flex-direction: row;
@@ -19,8 +19,8 @@
     position: relative;
     display: flex;
     flex-direction: column;
-    padding-left: 1vh;
-    padding-right: 1vh;
+    padding-left: 2.5vh;
+    padding-right: 2.5vh;
     width: 100%;
     height: 100%;
     justify-content: left;
