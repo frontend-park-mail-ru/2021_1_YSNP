@@ -1,9 +1,9 @@
 'use strict';
 
-import {InfoCard} from './InfoCard/InfoCard.js';
-import {Slider} from './Carousel/Carousel.js';
-import {Description} from './Description/Description.js';
-import {Map} from './Map/Map.js';
+import { InfoCard } from './InfoCard/InfoCard.js';
+import { Slider } from './Carousel/Carousel.js';
+import { Description } from './Description/Description.js';
+import { Map } from './Map/Map.js';
 
 /***
  * @author Ivan Gorshkov
@@ -26,10 +26,26 @@ export class Board {
         this.__data = data;
     }
 
+    /***
+     * @author Ivan Gorshkov
+     *
+     * getter for data product
+     * @return {Object}
+     * @private
+     * @readonly
+     * @this {Board}
+     */
     get data() {
         return this.__data;
     }
 
+    /***
+     * @author Ivan Gorshkov
+     *
+     * setter for data product
+     * @param {Object} data - data of product
+     * @this {Board}
+     */
     set data(data) {
         this.__data = data;
     }
@@ -133,13 +149,7 @@ export class Board {
         const parentRightSide = document.getElementById('board-right-side');
         const parentLeftSide = document.getElementById('board-left-side');
 
-        this.__infoCard = new InfoCard(parentRightSide, this.__data
-        //     infoCard: {
-        //         price: 3990000, name: 'Екатерина П.', rating: 4.1, views: 72358,
-        //         likes: 2123, date: '11 февраля в 11:17'
-        //     }
-        // }
-        );
+        this.__infoCard = new InfoCard(parentRightSide, this.__data);
         this.__infoCard.render();
 
 
@@ -147,25 +157,22 @@ export class Board {
         this.__carousel.render();
 
         this.__description = new Description(parentLeftSide, {
-            description:
-                [
-                    {
-                        title: 'Описание',
-                        text: this.__data.description
-                    },
-                    {
-                        title: 'Категория',
-                        text: 'Автомобиль'
-                    },
-                    {
-                        title: 'Подкатегория',
-                        text: 'С пробегом'
-                    },
-                    {
-                        title: 'Адрес',
-                        text: 'Москва, Профсоюзная улица, 132к2, Коньково'
-                    }
-                ]
+            description: [{
+                    title: 'Описание',
+                    text: this.__data.description
+                },
+                {
+                    title: 'Категория',
+                    text: this.__data.category
+                },
+                {
+                    title: 'Подкатегория',
+                    text: 'С пробегом'
+                },
+                {
+                    title: 'Адрес',
+                    text: 'Москва, Профсоюзная улица, 132к2, Коньково'
+                }]
         });
         this.__description.render();
 

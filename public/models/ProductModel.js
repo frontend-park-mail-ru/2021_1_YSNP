@@ -1,5 +1,6 @@
 import {http} from '../modules/http.js';
 import {urls} from '../modules/urls.js';
+import {httpStatus} from '../modules/httpStatus.js';
 
 /***
  * Product model
@@ -27,6 +28,22 @@ export class ProductModel {
      */
     set id(id) {
         this.__id = id;
+    }
+
+    /***
+     * Get product category
+     * @returns {string}
+     */
+    get category() {
+        return this.__category;
+    }
+
+    /***
+     * Set product category
+     * @param {string} category - product category
+     */
+    set category(category) {
+        this.__category = category;
     }
 
     /***
@@ -206,6 +223,15 @@ export class ProductModel {
     }
 
     /***
+     * Get first image
+     * @returns {string}
+     */
+    __getFirstImage() {
+        const start = 0;
+        return this.__linkImages[start];
+    }
+
+    /***
      * Validate product name
      * @param {string} name - product name
      * @returns {{message: string, error: boolean}}
@@ -232,27 +258,33 @@ export class ProductModel {
      */
     validationDescription(description) {
         const maxSize = 1000;
-        if (description !== '' && description.length < maxSize) {
+        const minSize = 10;
+        if (description.length >= maxSize && description.length >= minSize) {
             return {
-                message: '',
-                error: false
+                message: 'Слишком длинный текст. Текст не должен привышать 1000 символов',
+                error: true
             };
         }
 
-
+        if (description.length < minSize) {
+            return {
+                message: 'Слишком короткое описание (минимум 10 знаков)',
+                error: true
+            };
+        }
         return {
-            message: 'Поле не должно быть пустым',
-            error: true
+            message: '',
+            error: false
         };
     }
 
     /***
      * Validate product amount
-     * @param {number} amount - product amount
+     * @param {string} amount - product amount
      * @returns {{message: string, error: boolean}}
      */
     validationAmount(amount) {
-        if (amount !== '' && typeof amount === 'number') {
+        if (amount !== '') {
             return {
                 message: '',
                 error: false
@@ -284,6 +316,8 @@ export class ProductModel {
         this.__ownerName = data.ownerName;
         this.__ownerSurname = data.ownerSurname;
         this.__ownerStars = data.ownerStars;
+        this.__category = data.category;
+
     }
 
     /***
@@ -295,16 +329,23 @@ export class ProductModel {
         return {
             name: this.__name,
             description: this.__description,
-            amount: this.__amount
+            amount: this.__amount,
+            linkImages: this.__linkImages,
+            category: this.__category
         };
     }
 
+    /***
+     * Get model data to view
+     * @returns {{date: (Object.date|string|*), ownerStars: (Object.ownerStars|number|*), amount: (Object.amount|number|*), description: (Object.description|string|*), ownerId: (Object.ownerId|string|*), userLiked: (Object.userLiked|boolean|*), ownerName: (Object.ownerName|string|*), name: (Object.name|string|*), ownerSurname: (Object.ownerSurname|string|*), linkImages: Object.linkImages, id: (Object.id|string|*), views: (Object.views|number|*), likes: (Object.likes|number|*)}}
+     */
     getData() {
         return {
             id: this.__id,
             name: this.__name,
             date: this.__date,
             amount: this.__amount,
+            category: this.__category,
             description: this.__description,
             views: this.__views,
             likes: this.__likes,
@@ -314,35 +355,66 @@ export class ProductModel {
             ownerName: this.__ownerName,
             ownerSurname: this.__ownerSurname,
             ownerStars: this.__ownerStars
-        }
+        };
     }
 
-
+    /***
+     * Get model data to view
+     * @returns {{date: (Object.date|string|*), amount: (Object.amount|number|*), linkImage: string, name: (Object.name|string|*), id: (Object.id|string|*), userLiked: (Object.userLiked|boolean|*)}}
+     */
+    getMainData() {
+        return {
+            id: this.__id,
+            name: this.__name,
+            date: this.__date,
+            amount: this.__amount,
+            userLiked: this.__userLiked,
+            linkImage: this.__getFirstImage()
+        };
+    }
 
     /***
      * Get product data from backend
-     * @returns {Promise<void>}
+     * @returns {Promise<{isUpdate: boolean}|void>}
      */
     async update() {
-        await http.get(urls.product + this.__id)
+        return await http.get(urls.product + this.__id)
             .then(({status, data}) => {
-                if (status === 200) {
-                    console.log(data);
+                if (status === httpStatus.StatusOK) {
                     this.fillProductModel(data);
+                    return {isUpdate: true};
                 }
+
+                if (status === httpStatus.StatusBadRequest) {
+                    throw data;
+                }
+
+                if (status === httpStatus.StatusInternalServerError) {
+                    throw data;
+                }
+
+                return {isUpdate: false};
             })
             .catch((err) => {
-                console.log(err.message);
+                console.log('ProductModel update', err.message);
             });
     }
 
     /***
      * Post create new product
-     * @returns {Promise<{data: *, status: number}>}
+     * @returns {Promise<void>}
      */
-    async create() {
-        const data = this.__jsonData();
-        return await http.post(urls.productCreate, data);
+    async create(form) {
+        return http.post(urls.productUploadPhotos, new FormData(form), true).then(({ status, data }) => {
+            if (status === 200) {
+                console.log(data);
+                this.__linkImages = data.linkImages;
+                const model = this.__jsonData();
+                return http.post(urls.productCreate, model);
+            }
+        }).catch((err) => {
+            console.log(err.message);
+        });
     }
 
     /***
@@ -362,7 +434,8 @@ export class ProductModel {
             ownerId: this.__ownerId,
             ownerName: this.__ownerName,
             ownerSurname: this.__ownerSurname,
-            ownerStars: this.__ownerStars
+            ownerStars: this.__ownerStars,
+            category: this.__category
         });
     }
 }

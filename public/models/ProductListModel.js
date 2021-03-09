@@ -1,7 +1,9 @@
-import {ProductModel} from './ProductModel.js';
+import { ProductModel } from './ProductModel.js';
+
 
 import {http} from '../modules/http.js';
 import {urls} from '../modules/urls.js';
+import {httpStatus} from '../modules/httpStatus.js';
 
 /***
  * Product list model
@@ -40,6 +42,7 @@ export class ProductListModel {
             const product = new ProductModel(productJson);
             this.__productList.push(product);
         });
+
     }
 
     /***
@@ -47,14 +50,21 @@ export class ProductListModel {
      * @returns {Promise<void>}
      */
     async update() {
-        await http.get(urls.main)
+        return await http.get(urls.productList)
             .then(({status, data}) => {
-                if (status === 200) {
+                if (status === httpStatus.StatusOK) {
                     this.__parseData(data);
+                    return {isUpdate: true};
                 }
+
+                if (status === httpStatus.StatusInternalServerError) {
+                    throw data;
+                }
+
+                return {isUpdate: false};
             })
             .catch((err) => {
-                console.log(err.message);
+                console.log('ProductListModel update', err.message);
             });
     }
 

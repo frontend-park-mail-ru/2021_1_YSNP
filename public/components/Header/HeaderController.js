@@ -1,14 +1,12 @@
-// import {Profile} from '../../pages/Profile.js';
+import {Profile} from '../../pages/Profile.js';
 import {Landing} from '../../pages/Landing.js';
+import {ProductCreate} from '../../pages/ProductCreate.js';
 
 import {Auth} from '../Auth/Auth.js';
 import {AuthController} from '../Auth/AuthController.js';
-import {ProductCreate} from '../../pages/ProductCreate.js';
 
-import {UserModel} from '../../models/UserModel.js';
+import {user} from '../../models/UserModel.js';
 
-import {http} from '../../modules/http.js';
-import {urls} from '../../modules/urls.js';
 /***
  * Header controller controller
  */
@@ -23,7 +21,7 @@ export class HeaderController {
         this.__pageRemoveListeners = pageRemoveListeners;
         this.__parent = parent;
         this.__header = header;
-        this.__model = new UserModel();
+        this.__model = user;
     }
 
     /***
@@ -36,7 +34,6 @@ export class HeaderController {
 
         this.__header.listeners = this.__createListeners();
         this.__header.addListeners();
-
     }
 
     /***
@@ -63,9 +60,7 @@ export class HeaderController {
             .entries(ev.composedPath())
             .forEach(([, el]) => {
                 if (el.dataset !== undefined && 'action' in el.dataset) {
-                    if (el.dataset.action === 'authClick') {
-                        ev.stopPropagation();
-                    }
+                    ev.stopPropagation();
 
                     actions[el.dataset.action].open();
                 }
@@ -129,10 +124,7 @@ export class HeaderController {
      * @private
      */
     __openLanding() {
-        // TODO(Sergey) release __openLanding
-        // this.__pageRemoveListeners();
-
-        console.log('open landing');
+        this.__pageRemoveListeners();
 
         const landing = new Landing(this.__parent);
         landing.render();
@@ -144,7 +136,6 @@ export class HeaderController {
      */
     __openMap() {
         // TODO(Sergey) release __openLanding
-        // this.__pageRemoveListeners();
 
         console.log('Open map');
     }
@@ -154,11 +145,16 @@ export class HeaderController {
      * @private
      */
     __openCreateProduct() {
-        // TODO(Sergey) release __openCreateProduct
-        this.__pageRemoveListeners();
-        const createProduct = new ProductCreate(this.__parent);
-        createProduct.render();
-        console.log('Open create product');
+        if (this.__model.isAuth) {
+            this.__pageRemoveListeners();
+
+            const productCreate = new ProductCreate(this.__parent);
+            productCreate.render();
+
+            console.log('Open create product');
+        } else {
+            this.__openAuth();
+        }
     }
 
     /***
@@ -168,7 +164,6 @@ export class HeaderController {
     __openAuth() {
         const auth = new Auth(this.__parent);
         auth.render();
-
         this.__authController = new AuthController(this.__pageRemoveListeners, this.__parent, auth);
         this.__authController.control();
     }
@@ -189,8 +184,10 @@ export class HeaderController {
      * @private
      */
     __openProfile() {
-        // TODO(Sergey) release __openProfile
-        // this.__pageRemoveListeners();
+        this.__pageRemoveListeners();
+
+        const settings = new Profile(this.__parent);
+        settings.render();
 
         console.log('Open profile');
     }
@@ -234,21 +231,20 @@ export class HeaderController {
      */
     __logout() {
         // TODO(Sergey) release __logout
-        // this.__pageRemoveListeners();
 
-        http.post(urls.logout, null)
-        .then(({status, data}) => {
-            const landing = new Landing(this.__parent);
-            landing.render();
-        });
-
-        console.log('Logout');
+        this.__model.logout()
+            .then(({isLogout}) => {
+                if (isLogout) {
+                    this.__pageRemoveListeners();
+                    const landing = new Landing(this.__parent);
+                    landing.render();
+                }
+            });
     }
-
 
     /***
      * Get header actions
-     * @returns {{createProductClick: {open: *}, accountClick: {open: *}, dropdownClick: {open: *}, locationClick: {open: *}, brandClick: {open: *}}}
+     * @returns {{favoritesClick: {open: *}, logoutClick: {open: *}, createProductClick: {open: *}, authClick: {open: *}, dropdownClick: {open: *}, locationClick: {open: *}, messagesClick: {open: *}, profileClick: {open: *}, brandClick: {open: *}, myProductsClick: {open: *}}}
      * @private
      */
     __getActions() {

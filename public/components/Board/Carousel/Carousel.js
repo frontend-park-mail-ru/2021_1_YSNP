@@ -125,21 +125,16 @@ export class Slider {
             images = carousel.getElementsByTagName('img'),
             numImages = images.length,
             imageWidth = this.__carousel.width;
-        let aspectRatio = images[0].width / images[0].height;
-        const imageHeight = imageWidth / aspectRatio,
-            padding = this.__carousel.padding,
-            rowHeight = this.__carousel.rowHeight = imageHeight + 2 * padding;
         carousel.style.width = `${imageWidth}px`;
         for (let i = 0; i < numImages; ++i) {
             const image = images[i],
                 frame = document.createElement('div');
             frame.className = 'picture-frame';
-            aspectRatio = image.offsetWidth / image.offsetHeight;
-            image.style.width = frame.style.width = `${imageWidth}px`;
-            image.style.height = `${imageHeight}px`;
-            image.style.paddingTop = `${padding}px`;
-            image.style.paddingBottom = `${padding}px`;
-            frame.style.height = `${rowHeight}px`;
+            image.style.width = frame.style.width = '5vw';
+            image.style.height = '4vw';
+            image.style.paddingTop = '1vh';
+            image.style.paddingBottom = '1vh';
+            frame.style.height = '5vw';
             image.style.opacity = '0.3';
             carousel.insertBefore(frame, image);
             frame.appendChild(image);
@@ -152,8 +147,8 @@ export class Slider {
         const wrapper = this.__carousel.wrapper = document.createElement('div');
         wrapper.id = 'carousel-wrapper';
         wrapper.className = 'carousel-wrapper';
-        wrapper.style.width = `${carousel.offsetWidth}px`;
-        wrapper.style.height = `${carousel.offsetHeight}px`;
+        wrapper.style.width = '5vw';
+        wrapper.style.height = '43vh';
         carousel.parentNode.insertBefore(wrapper, carousel);
         wrapper.appendChild(carousel);
     }
@@ -181,7 +176,7 @@ export class Slider {
      * @readonly
      */
     get __getFirstPhotos() {
-        const {linkImages} = this.__data;
+        const { linkImages } = this.__data;
         return `<img class="slider-preview__picture" id="pic" src="${linkImages[0]}" alt="">`;
     }
 
@@ -197,13 +192,13 @@ export class Slider {
         <div class="slider">
             <div class="slider-inner" id="sliderPanel">
                 <div class="slider__button" data-action="nextClick"> 
-                    <a class="slider__button-prev" id="prev"><svg width="20" height="11" viewBox="0 0 20 11" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M1 10.5L10 1.5L19 10.5" stroke="black"/></svg></a>
+                    <a class="slider__button-prev" id="prev"><svg width="2vw" height="2vw" viewBox="0 0 20 11" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M1 10.5L10 1.5L19 10.5" stroke="black"/></svg></a>
                 </div>
                 <div class="slider-carousel" id="carousel">
                     ${this.__getPhotos}
                 </div>
                 <div class="slider__button" data-action="backClick">
-                    <a class="slider__button-next" id="next"><svg width="21" height="12" viewBox="0 0 21 12" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M1 1L10.5 11L20 1" stroke="black"/></svg></a>
+                    <a class="slider__button-next" id="next"><svg width="2vw" height="2vw"  viewBox="0 0 21 12" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M1 1L10.5 11L20 1" stroke="black"/></svg></a>
                 </div>
             </div>
             <div class="slider-preview">

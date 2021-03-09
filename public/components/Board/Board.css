@@ -5,11 +5,12 @@
     width: 76vw;
     background: white;
     border-radius: 1vh;
-    box-shadow: 0 0 1vw rgba(0,0,0,0.2);
+    box-shadow: 0 0 1vw rgba(0, 0, 0, 0.2);
     padding: 2vw 2vw 1vw 2vw;
     margin: 1.5vw auto 0;
 }
-.same-product{
+
+.same-product {
     font-family: Roboto, serif;
     font-style: normal;
     font-weight: normal;
@@ -18,6 +19,7 @@
     border-radius: 1vh;
     margin: 1vw auto;
 }
+
 .board-inner {
     display: flex;
     width: 100%;
@@ -39,5 +41,4 @@
 .board-title__product-name {
     font-size: 4vh;
     margin: 0;
-    line-height: 42px;
 }

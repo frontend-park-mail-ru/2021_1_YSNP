@@ -22,6 +22,16 @@ export class RegistrationPanel {
     }
 
     /***
+     * Form text error
+     * @param {string} val - error text
+     */
+    errorText(val) {
+        document
+            .getElementById('auth-error')
+            .textContent = val;
+    }
+
+    /***
      * @author Ivan Gorshkov
      * add input fields to template
      * @return {string}
@@ -32,20 +42,46 @@ export class RegistrationPanel {
         let fields = '';
         for (const prop in this.__data) {
             const element = this.__data[prop];
+            let inputElement = '';
+            if (element.inputType === 'tel') {
+                inputElement = ` 
+                    <input class="auth-content-form__input auth-content-form__country reg-panel__coutry-code" readOnly required value="+7">
+                    <input class="auth-content-form__input auth-content-form__tel reg-panel__tel" data-action="${element.dataAction}" data-move="mouseIn" data-moveout="mouseOut"  id="${element.id}" type="${element.inputType}" placeholder="${element.placeholder}" name="${element.id}" required>
+                `;
+            } else {
+                inputElement = ` 
+                    <input ${element.params} class="reg-panel__textfield" data-action="${element.dataAction}" data-move="mouseIn" data-moveout="mouseOut"  id="${element.id}" type="${element.inputType}" placeholder="${element.placeholder}" name="${element.id}"/>
+                `;
+            }
+
             fields += `<div class="product-des form-spacing">
                 <div class="product-des-topic">
                     <p class="product-des-topic__title">${element.title}</p>
                 </div>
                 <div class="form-inner">
-                    <input ${element.params} class="reg-panel__textfield" data-action="${element.dataAction}" data-move="mouseIn" data-moveout="mouseOut"  id="${element.id}" type="${element.inputType}" placeholder="${element.placeholder}" name="${element.id}"/>
+                    ${inputElement}
                 </div>
+                 
             </div>`;
         }
 
+        fields += `
+        <div class="product-des form-spacing">
+                <div class="product-des-topic">
+                    <p class="product-des-topic__title">Пол</p>
+                </div>
+                <div class="form-inner">
+                    <select id="sex" class="settings-components__input">
+                        <option value=”Женский”>Женский</option>
+                        <option value=”Мужской”>Мужской</option>
+                    </select>
+                </div>
+            </div>
+        `;
         return fields;
     }
 
-    /***
+/***
      * @author Ivan Gorshkov
      * main template of component
      * @return {string}
@@ -57,6 +93,10 @@ export class RegistrationPanel {
            <div class="board">
                <div class="board-title">
                    <p class="reg-panel-title__product-name">Регистрация</p>
+                   
+                 <div class="auth-content-inner__error reg-error" id="auth-error">
+                    <span></span>
+                </div>
                </div>
                
                <form id="registration-from" enctype="multipart/form-data">
@@ -72,7 +112,7 @@ export class RegistrationPanel {
                   
                    <div class="reg-picture">
                      <div class="circle" id="avatar" data-action="clickUpload">
-                       <img class="profile-pic" id="profile-pic" src="../../img/profile.png">
+                       <img class="profile-pic" id="profile-pic" src="../../img/profile.png" alt="">
                      </div>
                      <div class="p-image">
                        <i class="upload-button" >

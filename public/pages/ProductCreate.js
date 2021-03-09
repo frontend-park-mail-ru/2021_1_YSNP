@@ -13,6 +13,7 @@ import {ProductCreateFormController} from '../components/ProductCreateForm/Produ
  * @class ProductCreate
  */
 export class ProductCreate {
+
     /***
      * @author Max Torzhkov
      * Class constructor
@@ -33,16 +34,14 @@ export class ProductCreate {
     __removePageListeners() {
     }
 
-    __getHeaderData() {
-        return {
-            isAuth: true,
-            user: 'Алехин Сергей',
-            avatar: '/img/test-avatar.jpg',
-            location: 'Москва'
-        };
-    }
 
-
+    /***
+     * @author Max Torzhkov
+     *
+     * array of categories
+     * @return {string[]}
+     * @private
+     */
     __getOptionsCategories() {
         return [
                 'Автомобиль',
@@ -54,34 +53,39 @@ export class ProductCreate {
                 'Животные',
                 'Услуги'
             ];
-}
-
-    __getOptionsSubcategories() {
-        return [
-            'Седан',
-            'Хетчбэк',
-            'Внедорожник',
-            'Универсал',
-            'Минивэн',
-            'Купе',
-            'Пикап',
-            'Кабриолет',
-            'Родстер',
-            'Лимузин',
-            'Тарга'
-        ];
     }
 
+
+    /***
+     * @author Max Torzhkov
+     *
+     * array of types
+     * @return {string[]}
+     * @private
+     */
     __getOptionsType() {
         return [
             'Новое',
             'Б/у'
-
         ];
     }
 
+    /***
+     * @author Max Torzhkov
+     *
+     * Object of input fields
+     * @return {Object} - fields of createForm
+     * @private
+     */
     __RegistrationForm() {
         return {
+            name: {
+                title: 'Название*',
+                placeholder: 'Название товара',
+                inputType: 'text',
+                id: 'nameInput',
+                dataAction: 'inputEmpty'
+            },
             categories: {
                 title: 'Категория*',
                 placeholder: 'Категория',
@@ -135,13 +139,12 @@ export class ProductCreate {
      * Add component to parent
      * @this {ProductCreateForm}
      */
-    render() {
+    async render() {
         this.__parent.innerHTML = '';
 
-        this.__header = new Header(this.__parent, this.__getHeaderData());
-        this.__header.render();
+        this.__header = new Header(this.__parent);
         this.__headerController = new HeaderController(this.__removePageListeners.bind(this), this.__parent, this.__header);
-        this.__headerController.control();
+        await this.__headerController.control();
 
 
         const navigation = new Navigation(this.__parent, 'Главная страница', {route: ['Создать объявление']});

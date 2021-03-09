@@ -7,6 +7,10 @@ import {urls} from '../modules/urls.js';
  * Settings user model
  */
 export class SettingsUserData extends PasswordUserModel {
+    fillUserData(data) {
+        super.fillUserData(data);
+    }
+
     /***
      * Fill user model data
      * @param {Object} data - user data

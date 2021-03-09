@@ -1,6 +1,6 @@
-import {Landing} from '../../pages/Landing.js';
-
-import {RegUserData} from '../../models/RegUserData.js';
+import { Landing } from '../../pages/Landing.js';
+import { RegUserData } from '../../models/RegUserData.js';
+import {telMask, parseTelNumber} from '../../modules/telMask.js';
 
 /***
  * @author Ivan Gorshkov
@@ -54,7 +54,7 @@ export class RegistrationPanelController {
             .entries(ev.composedPath())
             .forEach(([, el]) => {
                 if (el.dataset !== undefined && 'action' in el.dataset) {
-                    actions[el.dataset.action].open(ev.target);
+                    actions[el.dataset.action].open(ev);
                 }
             });
     }
@@ -147,19 +147,19 @@ export class RegistrationPanelController {
     __getActions() {
         return {
             inputPhone: {
-                open: this._validatePhone.bind(this)
+                open: this.__validatePhoneListener.bind(this)
             },
             changePwd: {
-                open: this.__validatePas.bind(this)
+                open: this.__validatePasListener.bind(this)
             },
             inputConfirmPwd: {
-                open: this.__validateConfirmPwd.bind(this)
+                open: this.__validateConfirmPwdListener.bind(this)
             },
             inputMail: {
-                open: this.__validateMail.bind(this)
+                open: this.__validateMailListener.bind(this)
             },
             inputEmpty: {
-                open: this.__validateEmpty.bind(this)
+                open: this.__validateEmptyListener.bind(this)
             },
             clickRegistration: {
                 open: this.__validateRegister.bind(this)
@@ -212,11 +212,12 @@ export class RegistrationPanelController {
      * @author Ivan Gorshkov
      *
      * update profile picture action
-     * @param input
      * @private
+     * @param ev
      */
-    __read(input) {
-        if (input.files && input.files[0]) {
+    __read(ev) {
+        const firstIndex = 0;
+        if (ev.target.files && ev.target.files[firstIndex]) {
             const reader = new FileReader();
 
             reader.onload = function(e) {
@@ -224,7 +225,7 @@ export class RegistrationPanelController {
                 elem.src = e.target.result;
             };
 
-            reader.readAsDataURL(input.files[0]);
+            reader.readAsDataURL(ev.target.files[firstIndex]);
         }
     }
 
@@ -237,45 +238,6 @@ export class RegistrationPanelController {
     __upload() {
         const elem = document.getElementById('file-upload');
         elem.click();
-    }
-
-    /***
-     * @author Ivan Gorshkov
-     *
-     * validate number
-     * @param{string} phoneNumber
-     * @return {boolean}
-     * @private
-     */
-    __isValidPhone(phoneNumber) {
-        const found = phoneNumber.search(/^(\+{0,})(\d{0,})([(]{1}\d{1,3}[)]{0,}){0,}(\s?\d+|\+\d{2,3}\s{1}\d+|\d+){1}[\s|-]?\d+([\s|-]?\d+){1,2}(\s){0,}$/);
-        return found > -1;
-    }
-
-    /***
-     * @author Ivan Gorshkov
-     *
-     * validate mail
-     * @param{string} email
-     * @return {boolean}
-     * @private
-     */
-    __isValidEmail(email) {
-        const re = /\S+@\S+\.\S+/;
-        return re.test(email);
-    }
-
-    /***
-     * @author Ivan Gorshkov
-     *
-     * validate password
-     * @param{string} inputtxt
-     * @return {boolean}
-     * @private
-     */
-    __isValidPwd(inputtxt) {
-        const re = /(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,}/;
-        return re.test(inputtxt);
     }
 
     /***
@@ -294,6 +256,7 @@ export class RegistrationPanelController {
             el.id = idError;
             el.innerHTML = textError;
             el.className = 'error-hidden';
+
             target.parentNode.insertBefore(el, target.nextSibling);
         }
     }
@@ -318,37 +281,64 @@ export class RegistrationPanelController {
      * @author Ivan Gorshkov
      *
      * action to validate input phone
-     * @param{Object} target
+     * @param{Event} ev
      * @return {boolean}
      * @private
      * @this {RegistrationPanelController}
      */
-    _validatePhone(target) {
-        const {error} = this.__model.validationTelephone(target.value);
+    __validatePhoneListener(ev) {
+        telMask(ev);
+        return this.__validatePhone(ev.target);
+    }
+
+    /***
+     * @author Ivan Gorshkov
+     *
+     * function witch validate target for phone value
+     * @param target
+     * @return {boolean}
+     * @this {RegistrationPanelController}
+     * @private
+     */
+    __validatePhone(target) {
+
+        const { error, message } = this.__model.validationTelephone(parseTelNumber(target.value));
         if (!error) {
             this.__addSuccesses(target, 'phoneError');
             return true;
         }
         this.__insertError(target, 'phoneError', this.__createMessageError(`
                   <ul class="list-errors">
-                    <li>Неверный формат телефона</li>
+                    <li>${message}</li>
                   </ul>
     `));
         return false;
     }
 
-
     /***
      * @author Ivan Gorshkov
      *
      * action to validate input password
-     * @param{Object} target
      * @return {boolean}
      * @private
      * @this {RegistrationPanelController}
+     * @param ev
+     */
+    __validatePasListener(ev) {
+        return this.__validatePas(ev.target);
+    }
+
+    /***
+     * @author Ivan Gorshkov
+     *
+     * function witch validate target for password value
+     * @param target
+     * @return {boolean}
+     * @this {RegistrationPanelController}
+     * @private
      */
     __validatePas(target) {
-        const {error} = this.__model.validationPassword(target.value);
+        const { error, message } = this.__model.validationPassword(target.value);
         if (!error) {
             this.__addSuccesses(target, 'passwordError');
             const element = document.getElementById('passwordConfirm');
@@ -358,11 +348,7 @@ export class RegistrationPanelController {
 
         this.__insertError(target, 'passwordError', this.__createMessageError(`
                         <ul class="list-errors">
-                          <li>От шести или более символов</li>
-                          <li>Содержит хотя бы одну цифру</li>
-                          <li>Хотя бы один символ нижнего регистра</li>
-                          <li>Хотя бы один символ верхнего регистра</li>
-                          <li>Только латинские символы</li>
+                        ${message.reduce((prev, cur) => `${prev}<li>${cur}</li>`, '')}
                         </ul>
     `));
         return false;
@@ -372,14 +358,27 @@ export class RegistrationPanelController {
      * @author Ivan Gorshkov
      *
      * action to validate input confirmpassword
-     * @param{Object} target
      * @return {boolean}
      * @private
      * @this {RegistrationPanelController}
+     * @param ev
+     */
+    __validateConfirmPwdListener(ev) {
+        return this.__validateConfirmPwd(ev.target);
+    }
+
+    /***
+     * @author Ivan Gorshkov
+     *
+     * function witch validate target for ConfirmPwd value
+     * @param target
+     * @return {boolean}
+     * @this {RegistrationPanelController}
+     * @private
      */
     __validateConfirmPwd(target) {
         const element = document.getElementById('password');
-        const {error} = this.__model.validationConfirmPassword(element.value, target.value);
+        const { error, message } = this.__model.validationConfirmPassword(element.value, target.value);
         if (!error) {
             this.__addSuccesses(target, 'passwordConfirmError');
             return true;
@@ -387,7 +386,7 @@ export class RegistrationPanelController {
 
         this.__insertError(target, 'passwordConfirmError', this.__createMessageError(`
                  <ul class="list-errors">
-                     <li>Пароли не совпадают</li>
+                     <li>${message}</li>
                  </ul>
     `));
         return false;
@@ -397,20 +396,33 @@ export class RegistrationPanelController {
      * @author Ivan Gorshkov
      *
      * action to validate input mail
-     * @param{Object} target
      * @return {boolean}
      * @private
      * @this {RegistrationPanelController}
+     * @param ev
+     */
+    __validateMailListener(ev) {
+        return this.__validateMail(ev.target);
+    }
+
+    /***
+     * @author Ivan Gorshkov
+     *
+     * function witch validate target for email value
+     * @param target
+     * @return {boolean}
+     * @this {RegistrationPanelController}
+     * @private
      */
     __validateMail(target) {
-        const {error} = this.__model.validationEmail(target.value);
+        const { error, message } = this.__model.validationEmail(target.value);
         if (!error) {
             this.__addSuccesses(target, 'MailError');
             return true;
         }
         this.__insertError(target, 'MailError', this.__createMessageError(`
                   <ul class="list-errors">
-                     <li>Неправильный формат mail</li>
+                     <li>${message}</li>
                  </ul>
     `));
         return false;
@@ -420,10 +432,23 @@ export class RegistrationPanelController {
      * @author Ivan Gorshkov
      *
      * action to validate input fields witch can not be empty
-     * @param{Object} target
      * @return {boolean}
      * @private
      * @this {RegistrationPanelController}
+     * @param ev
+     */
+    __validateEmptyListener(ev) {
+        return this.__validateEmpty(ev.target);
+    }
+
+    /***
+     * @author Ivan Gorshkov
+     *
+     * function witch validate target for empty value
+     * @param target
+     * @return {boolean}
+     * @this {RegistrationPanelController}
+     * @private
      */
     __validateEmpty(target) {
         if (target.value !== '') {
@@ -477,22 +502,22 @@ export class RegistrationPanelController {
         const name = document.getElementById('name');
         const surname = document.getElementById('surname');
         const date = document.getElementById('date');
-
         const isValidpwdConfirm = this.__validateConfirmPwd(passwordConfirm);
-        const isValidPhone = this._validatePhone(phone);
+        const isValidPhone = this.__validatePhone(phone);
         const isValidPwd = this.__validatePas(password);
         const isValidMail = this.__validateMail(mail);
         const isValidName = this.__validateEmpty(name);
         const isValidSurname = this.__validateEmpty(surname);
         const isValidDate = this.__validateEmpty(date);
+        const sex = document.getElementById('sex');
 
         if (isValidDate && isValidMail && isValidName && isValidPhone && isValidPwd && isValidpwdConfirm && isValidSurname) {
             this.__model.fillUserData({
                 name: name.value,
                 surname: surname.value,
-                sex: 'мужской',
+                sex: sex.options[sex.selectedIndex].text,
                 dateBirth: date.value,
-                telephone: phone.value,
+                telephone: parseTelNumber(phone.value),
                 email: mail.value,
                 password: password.value
             });
@@ -500,10 +525,12 @@ export class RegistrationPanelController {
             this.__model.log();
 
             this.__model.registration(document.getElementById('registration-from'))
-                .then(() => {                    
+                .then(() => {
                     const landing = new Landing(this.__parent);
                     landing.render();
-                });
+                }).catch((data) => {
+                this.__registartion.errorText(data);
+            });
         }
     }
 }
