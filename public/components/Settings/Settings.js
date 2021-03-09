@@ -35,8 +35,27 @@ export class Settings {
      */
     addListeners() {
         document
+            .getElementById('settings-file-upload')
+            .addEventListener(this.listeners.validateChange.type, this.listeners.validateChange.listener);
+        document
+            .getElementById('settings-components')
+            .addEventListener(this.listeners.validateInput.type, this.listeners.validateInput.listener);
+        document
+            .getElementById('settings-password')
+            .addEventListener(this.listeners.validateInput.type, this.listeners.validateInput.listener);
+        document
+            .getElementById('settings-avatar')
+            .addEventListener(this.listeners.settingsClick.type, this.listeners.settingsClick.listener);
+        document
             .getElementById('settings')
             .addEventListener(this.__listeners.settingsClick.type, this.__listeners.settingsClick.listener);
+        document
+            .getElementById('settings')
+            .addEventListener(this.listeners.showError.type, this.listeners.showError.listener);
+        document
+            .getElementById('settings')
+            .addEventListener(this.listeners.hideError.type, this.listeners.hideError.listener);
+
     }
 
     /***
@@ -44,8 +63,26 @@ export class Settings {
      */
     removeListeners() {
         document
+            .getElementById('settings-file-upload')
+            .removeEventListener(this.listeners.validateChange.type, this.listeners.validateChange.listener);
+        document
+            .getElementById('settings-components')
+            .removeEventListener(this.listeners.validateInput.type, this.listeners.validateInput.listener);
+        document
+            .getElementById('settings-password')
+            .removeEventListener(this.listeners.validateInput.type, this.listeners.validateInput.listener);
+        document
+            .getElementById('settings-avatar')
+            .removeEventListener(this.listeners.settingsClick.type, this.listeners.settingsClick.listener);
+        document
             .getElementById('settings')
             .removeEventListener(this.__listeners.settingsClick.type, this.__listeners.settingsClick.listener);
+        document
+            .getElementById('settings')
+            .removeEventListener(this.listeners.showError.type, this.listeners.showError.listener);
+        document
+            .getElementById('settings')
+            .removeEventListener(this.listeners.hideError.type, this.listeners.hideError.listener);
     }
 
     /***
@@ -56,7 +93,7 @@ export class Settings {
     __getTemplate() {
         return `
         <div class="settings" id="settings">
-            <div class="settings-inner">
+            <form class="settings-inner">
                 <div class="settings-title">
                     <span>Личные данные</span>
                     <span class="settings-title__edit" id="settings-edit" data-action="editClick">
@@ -77,24 +114,61 @@ export class Settings {
                         <span class="settings-components__title">Телефон</span>
                         <span class="settings-components__title">Город</span>
                         <span class="settings-components__title">E-mail</span>
-                        <span class="settings-components__title settings-photo-label" id="settings-photo-label" >Фото</span>
                     </div>
-                    <div class="settings-right-components">
-                        <input id="settings-input-surname" required class="settings-components__input" type="text" value="${this.__data.surname}" readonly>
-                        <input id="settings-input-name" required class="settings-components__input" type="text" value="${this.__data.name}" readonly>
-                        <input id="settings-input-patronymic" class="settings-components__input" type="text" value="${this.__data.patronymic}" readonly>                             
-                        <select id="settings-input-gender" class="settings-components__input" disabled>
-                            <option value=”woman”>Женский</option>
-                            <option value=”man”>Мужской</option>
-                        </select>                               
-                        <input id="settings-input-birthday" class="settings-components__input" type="date" min="1900-01-01" max="2021-01-01" value="${this.__data.birthday}" readonly>                             
-                        <input id="settings-input-telephone" class="settings-components__input" type="tel" value="${this.__data.telephone}" readonly>                             
-                        <input id="settings-input-location" class="settings-components__input" type="text" value="${this.__data.location}" readonly>                             
-                        <input id="settings-input-email" required class="settings-components__input" type="email" value="${this.__data.email}" readonly>     
-                        <input style="visibility: hidden" id="settings-file-upload" data-action="uploadFileClick" class="settings-components__input" type="file" accept="image/*"/>
+                    <div class="settings-right-components" id="settings-components">
+                        <div class="settings-input-inner">
+                            <input id="settings-surname" data-action="inputEmpty" required class="settings-components__input" type="text" value="${this.__data.surname}" data-move="mouseIn" data-moveout="mouseOut" readonly>
+                        </div>
+                        <div class="settings-input-inner">
+                            <input id="settings-name" data-action="inputEmpty" required class="settings-components__input" type="text" value="${this.__data.name}" data-move="mouseIn" data-moveout="mouseOut" readonly>
+                        </div>
+                        <div class="settings-input-inner">
+                            <input id="settings-patronymic" data-action="inputEmpty" class="settings-components__input" type="text" value="${this.__data.patronymic}" data-move="mouseIn" data-moveout="mouseOut" readonly>                             
+                        </div> 
+                        <div class="settings-input-inner">
+                            <select id="settings-gender" class="settings-components__input" disabled>
+                                <option value=”woman”>Женский</option>
+                                <option value=”man”>Мужской</option>
+                            </select>                               
+                        </div>
+                        <div class="settings-input-inner">
+                            <input id="settings-birthday" data-action="inputEmpty" class="settings-components__input" type="date" min="1900-01-01" max="2021-01-01" value="${this.__data.birthday}" data-move="mouseIn" data-moveout="mouseOut" readonly>                             
+                        </div>
+                        <div class="settings-input-inner">
+                            <input id="settings-telephone" data-action="inputPhone" class="settings-components__input" type="tel" value="${this.__data.telephone}" data-move="mouseIn" data-moveout="mouseOut" readonly>                             
+                        </div>
+                        <div class="settings-input-inner">
+                            <input id="settings-location" data-action="inputEmpty" class="settings-components__input" type="text" value="${this.__data.location}" data-move="mouseIn" data-moveout="mouseOut" readonly>                             
+                        </div>
+                        <div class="settings-input-inner">
+                            <input id="settings-email" data-action="inputMail" required class="settings-components__input" type="email" value="${this.__data.email}" data-move="mouseIn" data-moveout="mouseOut" readonly>     
+                        </div>
+                        
                     </div>
                 </div>
-<!--                <div class="settings__separator"></div>-->
+  
+
+                <div class="settings__separator"></div>
+                <div class="settings-photo-inner">
+                    <span class="settings-components__title">Фото</span>                
+                    <div class="settings-input-inner">
+                        <input id="settings-file-upload" data-action="readURL" class="file-upload" type="file" accept="image/*"/>
+                        <div class="settings-avatar">
+                             <div class="settings-avatar-inner" id="settings-avatar" data-action="clickUpload">
+                                 <img class="settings-avatar__pic" id="settings-profile-pic" src="${this.__data.avatar}" alt="img">                            
+                                 <div class="settings-avatar-upload">
+                                       <i class="settings-avatar-upload__button" id="settings-upload-button">
+                                            <svg width="32" height="32" viewBox="0 0 32 32" fill="white" xmlns="http://www.w3.org/2000/svg">
+                                                <path opacity="1" d="M21.3333 10.6667H19.5556C18.5778 10.6667 17.7778 9.86667 17.7778 8.88889V0H3.55556C1.6 0 0 1.6 0 3.55556V28.4444C0 30.4 1.6 32 3.55556 32H28.4444C30.4 32 32 30.4 32 28.4444V14.2222H23.1111C22.1333 14.2222 21.3333 13.4222 21.3333 12.4444V10.6667ZM24.8889 24.8889H7.11111C6.94603 24.8889 6.78422 24.8429 6.64379 24.7561C6.50337 24.6693 6.38989 24.5452 6.31606 24.3975C6.24224 24.2499 6.21099 24.0846 6.22581 23.9202C6.24064 23.7558 6.30095 23.5987 6.4 23.4667L9.95556 18.72C10.3111 18.24 11.0222 18.24 11.3778 18.72L14.6667 23.1111L19.2889 16.9422C19.6444 16.4622 20.3556 16.4622 20.7111 16.9422L25.6 23.4667C25.699 23.5987 25.7594 23.7558 25.7742 23.9202C25.789 24.0846 25.7578 24.2499 25.6839 24.3975C25.6101 24.5452 25.4966 24.6693 25.3562 24.7561C25.2158 24.8429 25.054 24.8889 24.8889 24.8889Z" fill="gray"/>
+                                                <path opacity="1" d="M28.3333 3.66667V1.83333C28.3333 0.825 27.5083 0 26.5 0C25.4917 0 24.6667 0.825 24.6667 1.83333V3.66667H22.8333C21.825 3.66667 21 4.49167 21 5.5C21 6.50833 21.825 7.33333 22.8333 7.33333H24.6667V9.16667C24.6667 10.175 25.4917 11 26.5 11C27.5083 11 28.3333 10.175 28.3333 9.16667V7.33333H30.1667C31.175 7.33333 32 6.50833 32 5.5C32 4.49167 31.175 3.66667 30.1667 3.66667H28.3333Z" fill="gray"/>
+                                            </svg>
+                                       </i>
+                                 </div>
+                             </div>
+                        </div>
+                    </div>
+                </div>
+                
 <!--            <div class="settings-add-account">-->
 <!--                <span class="settings-components__title">Привязать аккаунт</span>-->
 <!--                <a class="settings-add-account__icon">-->
@@ -122,6 +196,35 @@ export class Settings {
 <!--                </a>-->
 <!--            </div>-->
                
+            </form>
+            
+            <div class="settings-change-password">
+                <div class="settings-change-password-inner">
+                    <div class="settings-title">
+                        <span>Поменять пароль</span>
+                        <button id="settings-save-pass" class="settings-title__save_button" data-action="savePasswordClick">Сохранить пароль</button>
+                        <button id="settings-reset-pass" class="settings-title__reset_button" data-action="resetPasswordClick">Отменить изменения</button>
+                    </div>
+                    <div class="settings__separator"></div>
+                    <div class="settings-passwords-inner">
+                        <div class="settings-left-components">
+                            <span class="settings-components__title">Старый пароль</span>
+                            <span class="settings-components__title">Новый пароль</span>
+                            <span class="settings-components__title">Подвердите пароль</span>
+                        </div>
+                        <div class="settings-right-components">
+                            <div class="settings-input-inner" id="settings-password">
+                                <input id="settings-old-pass" data-action="checkPasswd" required class="settings-components__input" type="password" data-move="mouseIn" data-moveout="mouseOut">
+                            </div>
+                            <div class="settings-input-inner">
+                                <input id="settings-new-pass" data-action="changePwd" required class="settings-components__input" type="password" data-move="mouseIn" data-moveout="mouseOut" readonly>
+                            </div>
+                            <div class="settings-input-inner">
+                                <input id="settings-confirm-pass" data-action="inputConfirmPwd" required class="settings-components__input" type="password" data-move="mouseIn" data-moveout="mouseOut" readonly>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
 <!--            <div class="settings-main-settings">-->
 <!--                <div class="settings-title">Общие настройки</div>-->
