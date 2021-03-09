@@ -1,3 +1,5 @@
+/* eslint-disable no-unused-vars */
+
 /***
  * Set cursor pointer in input
  * @param {HTMLInputElement} elem - input element
