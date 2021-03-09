@@ -340,18 +340,18 @@ export class UserModel {
                 }
 
                 if (status === httpStatus.StatusUnauthorized) {
-                    throw new Error(data.message);
+                    throw data;
                 }
 
                 if (status === httpStatus.StatusInternalServerError) {
-                    throw new Error(data.message);
+                    throw data;
                 }
 
                 this.__isAuth = false;
                 return {isUpdate: false};
             })
             .catch((err) => {
-                console.log('UserModel update', err);
+                console.log('UserModel update', err.message);
             });
     }
 
@@ -367,17 +367,17 @@ export class UserModel {
                 }
 
                 if (status === httpStatus.StatusUnauthorized) {
-                    throw new Error(data.message);
+                    throw data;
                 }
 
                 if (status === httpStatus.StatusInternalServerError) {
-                    throw new Error(data.message);
+                    throw data;
                 }
 
                 return {isLogout: false};
             })
             .catch((err) => {
-                console.log('UserModel logout', err);
+                console.log('UserModel logout', err.message);
             });
     }
 

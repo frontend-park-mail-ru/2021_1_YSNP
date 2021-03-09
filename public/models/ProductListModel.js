@@ -48,7 +48,7 @@ export class ProductListModel {
      * @returns {Promise<void>}
      */
     async update() {
-        return await http.get(urls.main)
+        return await http.get(urls.productList)
             .then(({status, data}) => {
                 if (status === httpStatus.StatusOK) {
                     this.__parseData(data);
@@ -56,13 +56,13 @@ export class ProductListModel {
                 }
 
                 if (status === httpStatus.StatusInternalServerError) {
-                    throw new Error(data.message);
+                    throw data;
                 }
 
                 return {isUpdate: false};
             })
             .catch((err) => {
-                console.log('ProductListModel update', err);
+                console.log('ProductListModel update', err.message);
             });
     }
 

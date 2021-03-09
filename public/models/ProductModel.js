@@ -207,6 +207,15 @@ export class ProductModel {
     }
 
     /***
+     * Get first image
+     * @returns {string}
+     */
+    __getFirstImage() {
+        const start = 0;
+        return this.__linkImages[start];
+    }
+
+    /***
      * Validate product name
      * @param {string} name - product name
      * @returns {{message: string, error: boolean}}
@@ -323,6 +332,21 @@ export class ProductModel {
     }
 
     /***
+     * Get model data to view
+     * @returns {{date: (Object.date|string|*), amount: (Object.amount|number|*), linkImage: string, name: (Object.name|string|*), id: (Object.id|string|*), userLiked: (Object.userLiked|boolean|*)}}
+     */
+    getMainData() {
+        return {
+            id: this.__id,
+            name: this.__name,
+            date: this.__date,
+            amount: this.__amount,
+            userLiked: this.__userLiked,
+            linkImage: this.__getFirstImage()
+        };
+    }
+
+    /***
      * Get product data from backend
      * @returns {Promise<{isUpdate: boolean}|void>}
      */
@@ -335,17 +359,17 @@ export class ProductModel {
                 }
 
                 if (status === httpStatus.StatusBadRequest) {
-                    throw new Error(data.message);
+                    throw data;
                 }
 
                 if (status === httpStatus.StatusInternalServerError) {
-                    throw new Error(data.message);
+                    throw data;
                 }
 
                 return {isUpdate: false};
             })
             .catch((err) => {
-                console.log('ProductModel update', err);
+                console.log('ProductModel update', err.message);
             });
     }
 
