@@ -517,7 +517,7 @@ export class RegistrationPanelController {
                 surname: surname.value,
                 sex: sex.options[sex.selectedIndex].text,
                 dateBirth: date.value,
-                telephone: phone,
+                telephone: parseTelNumber(phone.value),
                 email: mail.value,
                 password: password.value
             });
