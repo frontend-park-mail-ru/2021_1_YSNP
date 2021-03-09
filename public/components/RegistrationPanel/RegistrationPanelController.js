@@ -290,6 +290,15 @@ export class RegistrationPanelController {
         return this.__validatePhone(ev.target);
     }
 
+    /***
+     * @author Ivan Gorshkov
+     *
+     * function witch validate target for phone value
+     * @param target
+     * @return {boolean}
+     * @this {RegistrationPanelController}
+     * @private
+     */
     __validatePhone(target) {
         const { error, message } = this.__model.validationTelephone(target.value);
         if (!error) {
@@ -317,6 +326,15 @@ export class RegistrationPanelController {
         return this.__validatePas(ev.target);
     }
 
+    /***
+     * @author Ivan Gorshkov
+     *
+     * function witch validate target for password value
+     * @param target
+     * @return {boolean}
+     * @this {RegistrationPanelController}
+     * @private
+     */
     __validatePas(target) {
         const { error, message } = this.__model.validationPassword(target.value);
         if (!error) {
@@ -347,6 +365,15 @@ export class RegistrationPanelController {
         return this.__validateConfirmPwd(ev.target);
     }
 
+    /***
+     * @author Ivan Gorshkov
+     *
+     * function witch validate target for ConfirmPwd value
+     * @param target
+     * @return {boolean}
+     * @this {RegistrationPanelController}
+     * @private
+     */
     __validateConfirmPwd(target) {
         const element = document.getElementById('password');
         const { error, message } = this.__model.validationConfirmPassword(element.value, target.value);
@@ -376,6 +403,15 @@ export class RegistrationPanelController {
         return this.__validateMail(ev.target);
     }
 
+    /***
+     * @author Ivan Gorshkov
+     *
+     * function witch validate target for email value
+     * @param target
+     * @return {boolean}
+     * @this {RegistrationPanelController}
+     * @private
+     */
     __validateMail(target) {
         const { error, message } = this.__model.validationEmail(target.value);
         if (!error) {
@@ -403,6 +439,15 @@ export class RegistrationPanelController {
         return this.__validateEmpty(ev.target);
     }
 
+    /***
+     * @author Ivan Gorshkov
+     *
+     * function witch validate target for empty value
+     * @param target
+     * @return {boolean}
+     * @this {RegistrationPanelController}
+     * @private
+     */
     __validateEmpty(target) {
         if (target.value !== '') {
             this.__addSuccesses(target, `${target.id}Error`);
