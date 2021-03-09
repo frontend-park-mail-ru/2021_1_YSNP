@@ -260,13 +260,26 @@ export class UserModel {
     }
 
     /***
+     * @author Ivan Gorshkov
+     *
+     * validate number
+     * @param{string} phoneNumber
+     * @return {boolean}
+     * @private
+     */
+    __isValidPhone(phoneNumber) {
+        const found = phoneNumber.search(/^(\+{0,})(\d{0,})([(]{1}\d{1,3}[)]{0,}){0,}(\s?\d+|\+\d{2,3}\s{1}\d+|\d+){1}[\s|-]?\d+([\s|-]?\d+){1,2}(\s){0,}$/);
+        return found > -1;
+    }
+
+    /***
      * Validate user telephone
      * @param {string} telephone - user telephone
      * @returns {{message: string, error: boolean}}
      */
     validationTelephone(telephone) {
         const telSize = 12;
-        if (telephone.length === telSize) {
+        if (telephone.length === telSize && this.__isValidPhone(telephone)) {
             return {
                 message: '',
                 error: false

@@ -1,5 +1,8 @@
 'use strict';
 
+import { ProductModel } from '../../models/ProductModel.js';
+import { Landing } from '../../pages/Landing.js';
+
 /***
  * @author Max Torzhkov, Ivan Gorshkov
  * ProduCreateForm controller
@@ -22,6 +25,7 @@ export class ProductCreateFormController {
         this.__parent = parent;
         this.__productCreateForm = productCreateForm;
         this.__countPhoto = 0;
+        this.__model = new ProductModel();
     }
 
     /***
@@ -45,7 +49,7 @@ export class ProductCreateFormController {
      * @param {number} value - new value
      */
     set __count(value) {
-         this.__countPhoto = value;
+        this.__countPhoto = value;
     }
 
     /***
@@ -80,10 +84,29 @@ export class ProductCreateFormController {
     __listenerSubmitClick() {
         const price = document.getElementById('priceInput');
         const description = document.getElementById('textareaInput');
+        const name = document.getElementById('nameInput');
         const isValidPrice = this.__validatePriceInput(price);
         const isValidDescription = this.__validateTextArea(description);
-        if (isValidDescription && isValidPrice && this.__count !== 0) {
-            //TODO Add New Product
+        const isValidname = this.__validateEmptyInput(name);
+        const category = document.getElementById('categorySelect');
+        if (isValidname && isValidDescription && isValidPrice && this.__count !== 0) {
+            this.__model.fillProductModel({
+                name: name.value,
+                description: description.value,
+                amount: parseInt(price.value.toString().split(' ').join('')),
+                category: category.options[category.selectedIndex].text
+            });
+
+            this.__model.log();
+            const button = document.getElementById('submitProduct');
+            button.value = 'Загрузка...';
+            button.disabled = true;
+            this.__model.create(document.getElementById('createProductForm')).then(({ status }) => {
+                if (status === 200) {
+                    const landing = new Landing(this.__parent);
+                    landing.render();
+                }
+            });
         }
     }
 
@@ -137,7 +160,6 @@ export class ProductCreateFormController {
             .entries(ev.composedPath())
             .forEach(([, el]) => {
                 if (el.dataset !== undefined && 'action' in el.dataset) {
-                    ev.stopPropagation();
                     actions[el.dataset.action].open(ev.target);
                 }
             });
@@ -200,7 +222,7 @@ export class ProductCreateFormController {
             },
             delete: {
                 open: this.__deletePicture.bind(this)
-             },
+            },
             textareaInputEmpty: {
                 open: this.__validateTextArea.bind(this)
             },
@@ -224,8 +246,36 @@ export class ProductCreateFormController {
             },
             hideCross: {
                 open: this.__hideCross.bind(this)
+            },
+            inputEmpty: {
+                open: this.__validateEmptyInput.bind(this)
             }
         };
+    }
+
+
+    /***
+     * @author Ivan Gorshkov
+     *
+     * action to validate name
+     * @param{Object} target
+     * @return {boolean}
+     * @private
+     * @this {ProductCreateFormController}
+     */
+    __validateEmptyInput(target) {
+        const { error, message } = this.__model.validationName(target.value.toString());
+        if (!error) {
+            this.__addSuccesses(target, `${target.id}Error`);
+            return true;
+        }
+
+        this.__insertError(target, `${target.id}Error`, this.__createMessageError(`
+        <ul class="list-errors">
+            <li>${message}</li>
+        </ul>
+    `));
+        return false;
     }
 
     /***
@@ -243,6 +293,7 @@ export class ProductCreateFormController {
         const pictures = document.getElementsByClassName('product__pic');
         const pictureFrames = document.getElementsByClassName('form-row');
         const filesInput = document.getElementsByClassName('file-upload');
+        const labelPhoto = document.getElementsByClassName('form-row__photolabel');
         this.__count -= 1;
         for (let i = 0; i <= this.__count; i++) {
             crosses[i].id = `delete${i}`;
@@ -252,6 +303,7 @@ export class ProductCreateFormController {
             pictureFrames[i].id = `_profile-pic${i}`;
             filesInput[i].dataset.id = i.toString();
             filesInput[i].id = `file-upload${i}`;
+            labelPhoto[i].dataset.id = i.toString();
         }
         document.event.stopImmediatePropagation();
     }
@@ -265,7 +317,7 @@ export class ProductCreateFormController {
      */
     __showCross(target) {
         if (parseInt(target.dataset.id) !== this.__count && (target.tagName === 'IMG' || target.tagName === 'DIV')) {
-                document.getElementById(`delete${target.dataset.id}`).classList.remove('error-hidden');
+            document.getElementById(`delete${target.dataset.id}`).classList.remove('error-hidden');
         }
     }
 
@@ -278,7 +330,7 @@ export class ProductCreateFormController {
      */
     __hideCross(target) {
         if (parseInt(target.dataset.id) !== this.__count && (target.tagName === 'IMG' || target.tagName === 'DIV')) {
-                document.getElementById(`delete${target.dataset.id}`).classList.add('error-hidden');
+            document.getElementById(`delete${target.dataset.id}`).classList.add('error-hidden');
         }
     }
 
@@ -378,7 +430,7 @@ export class ProductCreateFormController {
             const idPhto = document.getElementById('productPhoto');
             idPhto.insertAdjacentHTML('beforeend', `
                 <div class="form-row" id="_profile-pic${this.__count + 1}">    
-                  <label class="form-row__photolabel" data-action="clickUpload" data-move="showCross" data-moveout="hideCross"> 
+                  <label class="form-row__photolabel" data-action="clickUpload" data-move="showCross" data-moveout="hideCross" data-id="${this.__count + 1}"> 
                      <img class="product__pic" id="product__pic${this.__count + 1}" data-id="${this.__count + 1}" src="../../img/photo.svg" alt="">
                      <div class="cross error-hidden" id="delete${this.__count + 1}" data-id='${this.__count + 1}' data-action="delete" ></div>
                    </label>
@@ -386,7 +438,7 @@ export class ProductCreateFormController {
                 `);
             const idfile = document.getElementById('files');
             idfile.insertAdjacentHTML('beforeend', `
-                <input name="[photos]" id="file-upload${this.__count + 1}" data-id="${this.__count + 1}" data-action="readURL" class="file-upload" type="file" accept="image/*"/>
+                <input name="photos" id="file-upload${this.__count + 1}" data-id="${this.__count + 1}" data-action="readURL" class="file-upload" type="file" accept="image/*"/>
             `);
             this.__count += 1;
         }
@@ -416,16 +468,9 @@ export class ProductCreateFormController {
      * @this {ProductCreateFormController}
      */
     __validatePriceInput(target) {
-        if (target.value.length === 0) {
-            this.__insertError(target, `${target.id}Error`, this.__createMessageError(`
-        <ul class="list-errors">
-            <li>Поле с ценой не должно быть путсым</li>
-        </ul>
-    `));
-            return false;
-        } 
+        const { error, message } = this.__model.validationAmount(target.value.replace(/[^0-9]/g, '').toString());
+
         this.__addSuccesses(target, `${target.id}Error`);
-        
 
         if (target.value.length > 15) {
             target.value = target.value.slice(0, -1);
@@ -440,8 +485,17 @@ export class ProductCreateFormController {
         }, '');
 
         target.value = newStr.split('').reverse().join('');
+
+        if (error) {
+            this.__insertError(target, `${target.id}Error`, this.__createMessageError(`
+        <ul class="list-errors">
+            <li>${message}</li>
+        </ul>
+    `));
+            return false;
+        }
         return true;
-}
+    }
 
 
     /***
@@ -454,13 +508,16 @@ export class ProductCreateFormController {
      * @this {ProductCreateFormController}
      */
     __validateTextArea(target) {
-        if (target.value.length >= 10) {
+
+        const { error, message } = this.__model.validationDescription(target.value.toString());
+
+        if (!error) {
             this.__addSuccesses(target, `${target.id}Error`);
             return true;
         }
         this.__insertError(target, `${target.id}Error`, this.__createMessageError(`
         <ul class="list-errors">
-            <li>Слишком короткое описание (минимум 10 знаков)</li>
+            <li>${message}</li>
         </ul>
     `));
         return false;

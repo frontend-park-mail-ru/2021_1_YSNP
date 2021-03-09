@@ -35,6 +35,10 @@ class Urls {
         return `${this.__url}${this.__api}/product/create`;
     }
 
+    get productUploadPhotos() {
+        return `${this.__url}${this.__api}/product/upload`;
+    }
+
     /***
      * Get user profile url
      * @returns {string}

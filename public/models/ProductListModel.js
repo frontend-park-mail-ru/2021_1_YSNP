@@ -1,4 +1,5 @@
-import {ProductModel} from './ProductModel.js';
+import { ProductModel } from './ProductModel.js';
+
 
 import {http} from '../modules/http.js';
 import {urls} from '../modules/urls.js';
@@ -41,6 +42,7 @@ export class ProductListModel {
             const product = new ProductModel(productJson);
             this.__productList.push(product);
         });
+
     }
 
     /***

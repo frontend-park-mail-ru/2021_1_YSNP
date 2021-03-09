@@ -31,6 +31,22 @@ export class ProductModel {
     }
 
     /***
+     * Get product category
+     * @returns {string}
+     */
+    get category() {
+        return this.__category;
+    }
+
+    /***
+     * Set product category
+     * @param {string} category - product category
+     */
+    set category(category) {
+        this.__category = category;
+    }
+
+    /***
      * Get product name
      * @returns {string}
      */
@@ -242,27 +258,33 @@ export class ProductModel {
      */
     validationDescription(description) {
         const maxSize = 1000;
-        if (description !== '' && description.length < maxSize) {
+        const minSize = 10;
+        if (description.length >= maxSize && description.length >= minSize) {
             return {
-                message: '',
-                error: false
+                message: 'Слишком длинный текст. Текст не должен привышать 1000 символов',
+                error: true
             };
         }
 
-
+        if (description.length < minSize) {
+            return {
+                message: 'Слишком короткое описание (минимум 10 знаков)',
+                error: true
+            };
+        }
         return {
-            message: 'Поле не должно быть пустым',
-            error: true
+            message: '',
+            error: false
         };
     }
 
     /***
      * Validate product amount
-     * @param {number} amount - product amount
+     * @param {string} amount - product amount
      * @returns {{message: string, error: boolean}}
      */
     validationAmount(amount) {
-        if (amount !== '' && typeof amount === 'number') {
+        if (amount !== '') {
             return {
                 message: '',
                 error: false
@@ -294,6 +316,8 @@ export class ProductModel {
         this.__ownerName = data.ownerName;
         this.__ownerSurname = data.ownerSurname;
         this.__ownerStars = data.ownerStars;
+        this.__category = data.category;
+
     }
 
     /***
@@ -305,7 +329,9 @@ export class ProductModel {
         return {
             name: this.__name,
             description: this.__description,
-            amount: this.__amount
+            amount: this.__amount,
+            linkImages: this.__linkImages,
+            category: this.__category
         };
     }
 
@@ -319,6 +345,7 @@ export class ProductModel {
             name: this.__name,
             date: this.__date,
             amount: this.__amount,
+            category: this.__category,
             description: this.__description,
             views: this.__views,
             likes: this.__likes,
@@ -375,11 +402,19 @@ export class ProductModel {
 
     /***
      * Post create new product
-     * @returns {Promise<{data: *, status: number}>}
+     * @returns {Promise<void>}
      */
-    async create() {
-        const data = this.__jsonData();
-        return await http.post(urls.productCreate, data);
+    async create(form) {
+        return http.post(urls.productUploadPhotos, new FormData(form), true).then(({ status, data }) => {
+            if (status === 200) {
+                console.log(data);
+                this.__linkImages = data.linkImages;
+                const model = this.__jsonData();
+                return http.post(urls.productCreate, model);
+            }
+        }).catch((err) => {
+            console.log(err.message);
+        });
     }
 
     /***
@@ -399,7 +434,8 @@ export class ProductModel {
             ownerId: this.__ownerId,
             ownerName: this.__ownerName,
             ownerSurname: this.__ownerSurname,
-            ownerStars: this.__ownerStars
+            ownerStars: this.__ownerStars,
+            category: this.__category
         });
     }
 }

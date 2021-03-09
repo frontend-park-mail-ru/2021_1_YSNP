@@ -82,6 +82,13 @@ export class ProductCreate {
 
     __RegistrationForm() {
         return {
+            name: {
+                title: 'Название*',
+                placeholder: 'Название товара',
+                inputType: 'text',
+                id: 'nameInput',
+                dataAction: 'inputEmpty'
+            },
             categories: {
                 title: 'Категория*',
                 placeholder: 'Категория',
@@ -135,13 +142,12 @@ export class ProductCreate {
      * Add component to parent
      * @this {ProductCreateForm}
      */
-    render() {
+    async render() {
         this.__parent.innerHTML = '';
 
-        this.__header = new Header(this.__parent, this.__getHeaderData());
-        this.__header.render();
+        this.__header = new Header(this.__parent);
         this.__headerController = new HeaderController(this.__removePageListeners.bind(this), this.__parent, this.__header);
-        this.__headerController.control();
+        await this.__headerController.control();
 
 
         const navigation = new Navigation(this.__parent, 'Главная страница', {route: ['Создать объявление']});
