@@ -43,6 +43,7 @@ export class RegistrationPanel {
                     <input ${element.params} class="reg-panel__textfield" data-action="${element.dataAction}" data-move="mouseIn" data-moveout="mouseOut"  id="${element.id}" type="${element.inputType}" placeholder="${element.placeholder}" name="${element.id}"/>
                 `;
             }
+
             fields += `<div class="product-des form-spacing">
                 <div class="product-des-topic">
                     <p class="product-des-topic__title">${element.title}</p>
@@ -54,6 +55,19 @@ export class RegistrationPanel {
             </div>`;
         }
 
+        fields += `
+        <div class="product-des form-spacing">
+                <div class="product-des-topic">
+                    <p class="product-des-topic__title">Пол</p>
+                </div>
+                <div class="form-inner">
+                    <select id="sex" class="settings-components__input">
+                        <option value=”Женский”>Женский</option>
+                        <option value=”Мужской”>Мужской</option>
+                    </select>
+                </div>
+            </div>
+        `;
         return fields;
     }
 
