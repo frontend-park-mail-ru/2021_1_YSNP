@@ -553,9 +553,9 @@ export class SettingsController {
         document
             .getElementById('settings-birthday')
             .removeAttribute('readonly');
-        document
-            .getElementById('settings-telephone')
-            .removeAttribute('readonly');
+        // document
+        //     .getElementById('settings-telephone')
+        //     .removeAttribute('readonly');
         // document
         //     .getElementById('settings-location')
         //     .removeAttribute('readonly');

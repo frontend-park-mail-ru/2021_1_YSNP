@@ -4,6 +4,8 @@ import {http} from '../modules/http.js';
 import {urls} from '../modules/urls.js';
 import {httpStatus} from '../modules/httpStatus.js';
 
+import {deleteSymbolsXSS} from '../modules/xss.js';
+
 /***
  * Settings user model
  */
@@ -21,8 +23,8 @@ export class SettingsUserData extends PasswordUserModel {
      * @param data
      */
     fillNewPassword(data) {
-        this.__oldPassword = data.oldPass;
-        this.__newPassword = data.newPass;
+        this.__oldPassword = deleteSymbolsXSS(data.oldPass);
+        this.__newPassword = deleteSymbolsXSS(data.newPass);
     }
 
     /***
