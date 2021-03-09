@@ -2,15 +2,12 @@ import {PasswordUserModel} from './PasswordUserModel.js';
 
 import {http} from '../modules/http.js';
 import {urls} from '../modules/urls.js';
+import {httpStatus} from '../modules/httpStatus.js';
 
 /***
  * Settings user model
  */
 export class SettingsUserData extends PasswordUserModel {
-    fillUserData(data) {
-        super.fillUserData(data);
-    }
-
     /***
      * Fill user model data
      * @param {Object} data - user data
@@ -59,6 +56,14 @@ export class SettingsUserData extends PasswordUserModel {
     }
 
     /***
+     * Get first image
+     * @returns {string}
+     */
+    getFirstImage() {
+        return super.__getFirstImage();
+    }
+
+    /***
      * Get user Data for settings
      * @returns {{linkImage: (*|null), surname: (Object.surname|string|*), sex: (Object.sex|string|*), name: (Object.name|string|*), telephone: (Object.telephone|string|*), dateBirth: (Object.dateBirth|string|*), email: (Object.email|string|*)}}
      */
@@ -70,7 +75,7 @@ export class SettingsUserData extends PasswordUserModel {
             sex: this.__sex,
             email: this.__email,
             telephone: this.__telephone,
-            linkImage: this.__linkImages !== undefined ? this.__linkImages[0] : null
+            linkImage: this.__linkImages !== undefined ? this.getFirstImage() : []
         };
     }
 
@@ -82,19 +87,23 @@ export class SettingsUserData extends PasswordUserModel {
         const data = this.__jsonData();
         return await http.post(urls.settings, data)
             .then(({status}) => {
-                if (status === 200) {
+                if (status === httpStatus.StatusOK) {
                     // this.__linkImages.push(data.linkImages);
                     return {isUpdate: true};
                 }
-                if (status === 401) {
-                    throw Error('user unauthorized');
-                }
-                if (status === 400) {
+
+                if (status === httpStatus.StatusBadRequest) {
                     throw Error('Bad request');
                 }
-                if (status === 500) {
+
+                if (status === httpStatus.StatusUnauthorized) {
+                    throw Error('user unauthorized');
+                }
+
+                if (status === httpStatus.StatusInternalServerError) {
                     throw Error('Internal server error');
                 }
+
                 return {isUpdate: true};
             });
     }
@@ -107,7 +116,7 @@ export class SettingsUserData extends PasswordUserModel {
         const data = this.__jsonPassword();
         return await http.post(urls.newPassword, data)
             .then(({status}) => {
-                if (status === 400) {
+                if (status === httpStatus.StatusBadRequest) {
                     throw Error('Неправильно введен пароль');
                 }
             });

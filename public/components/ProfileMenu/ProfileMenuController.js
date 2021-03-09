@@ -8,7 +8,7 @@ export class ProfileMenuController {
      * Class constructor
      * @param {Function} pageRemoveListeners - remove page listeners
      * @param {HTMLElement} parent - element callback will work with
-     * @param {Profile} profile - profile
+     * @param {ProfileMenu} profile - profile
      */
     constructor(pageRemoveListeners, parent, profile) {
         this.__pageRemoveListeners = pageRemoveListeners;

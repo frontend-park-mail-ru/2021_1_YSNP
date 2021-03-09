@@ -13,7 +13,6 @@ import {ProductCreateFormController} from '../components/ProductCreateForm/Produ
  * @class ProductCreate
  */
 export class ProductCreate {
-
     /***
      * @author Max Torzhkov
      * Class constructor
@@ -32,6 +31,9 @@ export class ProductCreate {
      * @private
      */
     __removePageListeners() {
+        // this.__headerController.removeControllerListeners();
+        // this.__navigationController.removeControllerListeners();
+        // this.__productCreateFormController.removeControllerListeners();
     }
 
 
@@ -44,15 +46,15 @@ export class ProductCreate {
      */
     __getOptionsCategories() {
         return [
-                'Автомобиль',
-                'Электроника',
-                'Одежда',
-                'Хобби',
-                'Запчасти',
-                'Спорт',
-                'Животные',
-                'Услуги'
-            ];
+            'Автомобиль',
+            'Электроника',
+            'Одежда',
+            'Хобби',
+            'Запчасти',
+            'Спорт',
+            'Животные',
+            'Услуги'
+        ];
     }
 
 
@@ -146,17 +148,14 @@ export class ProductCreate {
         this.__headerController = new HeaderController(this.__removePageListeners.bind(this), this.__parent, this.__header);
         await this.__headerController.control();
 
-
         const navigation = new Navigation(this.__parent, 'Главная страница', {route: ['Создать объявление']});
         navigation.render();
         this.__navigationController = new NavigationController(this.__removePageListeners.bind(this), this.__parent, navigation);
         this.__navigationController.control();
-
 
         const productCreateForm = new ProductCreateForm(this.__parent, this.__RegistrationForm());
         productCreateForm.render();
         this.__productCreateFormController = new ProductCreateFormController(this.__removePageListeners.bind(this), this.__parent, productCreateForm);
         this.__productCreateFormController.control();
     }
-
 }
