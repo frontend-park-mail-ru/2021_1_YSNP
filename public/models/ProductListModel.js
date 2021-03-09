@@ -1,7 +1,7 @@
-import {ProductModel} from './ProductModel.js';
+import { ProductModel } from './ProductModel.js';
 
-import {http} from '../modules/http.js';
-import {urls} from '../modules/urls.js';
+import { http } from '../modules/http.js';
+import { urls } from '../modules/urls.js';
 
 /***
  * Product list model
@@ -40,6 +40,7 @@ export class ProductListModel {
             const product = new ProductModel(productJson);
             this.__productList.push(product);
         });
+
     }
 
     /***
@@ -48,7 +49,7 @@ export class ProductListModel {
      */
     async update() {
         await http.get(urls.main)
-            .then(({status, data}) => {
+            .then(({ status, data }) => {
                 if (status === 200) {
                     this.__parseData(data);
                 }
