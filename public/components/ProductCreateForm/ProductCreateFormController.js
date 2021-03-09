@@ -100,7 +100,7 @@ export class ProductCreateFormController {
             this.__model.log();
             const button = document.getElementById('submitProduct');
             button.value = 'Загрузка...';
-            button.disabled = true
+            button.disabled = true;
             this.__model.create(document.getElementById('createProductForm')).then(({ status }) => {
                 if (status === 200) {
                     const landing = new Landing(this.__parent);
@@ -160,7 +160,6 @@ export class ProductCreateFormController {
             .entries(ev.composedPath())
             .forEach(([, el]) => {
                 if (el.dataset !== undefined && 'action' in el.dataset) {
-                    ev.stopPropagation();
                     actions[el.dataset.action].open(ev.target);
                 }
             });
@@ -294,6 +293,7 @@ export class ProductCreateFormController {
         const pictures = document.getElementsByClassName('product__pic');
         const pictureFrames = document.getElementsByClassName('form-row');
         const filesInput = document.getElementsByClassName('file-upload');
+        const labelPhoto = document.getElementsByClassName('form-row__photolabel');
         this.__count -= 1;
         for (let i = 0; i <= this.__count; i++) {
             crosses[i].id = `delete${i}`;
@@ -303,6 +303,7 @@ export class ProductCreateFormController {
             pictureFrames[i].id = `_profile-pic${i}`;
             filesInput[i].dataset.id = i.toString();
             filesInput[i].id = `file-upload${i}`;
+            labelPhoto[i].dataset.id = i.toString();
         }
         document.event.stopImmediatePropagation();
     }
@@ -429,7 +430,7 @@ export class ProductCreateFormController {
             const idPhto = document.getElementById('productPhoto');
             idPhto.insertAdjacentHTML('beforeend', `
                 <div class="form-row" id="_profile-pic${this.__count + 1}">    
-                  <label class="form-row__photolabel" data-action="clickUpload" data-move="showCross" data-moveout="hideCross"> 
+                  <label class="form-row__photolabel" data-action="clickUpload" data-move="showCross" data-moveout="hideCross" data-id="${this.__count + 1}"> 
                      <img class="product__pic" id="product__pic${this.__count + 1}" data-id="${this.__count + 1}" src="../../img/photo.svg" alt="">
                      <div class="cross error-hidden" id="delete${this.__count + 1}" data-id='${this.__count + 1}' data-action="delete" ></div>
                    </label>

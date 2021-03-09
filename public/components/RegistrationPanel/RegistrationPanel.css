@@ -91,6 +91,7 @@
 
 .form-inner {
     position: relative;
+    margin: auto 0;
 }
 
 .message-container {
