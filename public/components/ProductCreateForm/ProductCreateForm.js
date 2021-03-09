@@ -8,27 +8,30 @@
 export class ProductCreateForm {
 
     /***
-     * @author Max Torzhkov
+     * @author Max Torzhkov, Ivan Gorshkov
+     *
      * init of class ProductCreateForm
      * @param {HTMLElement} parent - parent element
+     * @param {Object} data
      * @constructor
      * @this {ProductCreateForm}
      * @public
      */
-    constructor(parent) {
+    constructor(parent, data) {
         this.__parent = parent;
         this.__listeners = {};
-        //this.__data = data;
+        this.__data = data;
     }
 
 
     /***
      * @author Max Trozhkov
+     *
      * get Navigation listeners
      * @this {ProductCreateForm}
      * @private
      * @readonly
-     * @return  {Object[]} array of listeners
+     * @return  {Object} array of listeners
      */
     get listeners() {
         return this.__listeners;
@@ -36,9 +39,10 @@ export class ProductCreateForm {
 
     /***
      * @author Max Torzhkov
+     *
      * Set new listeners
      * @this {ProductCreateForm}
-     * @param  {Object[]} val - Object of listeners
+     * @param  {Object} val - Object of listeners
      * @public
      */
     set listeners(val) {
@@ -46,79 +50,178 @@ export class ProductCreateForm {
     }
 
     /***
-     * @author Max Torzhkov
+     * @author Max Torzhkov, Ivan Gorshkov
+     *
      * Add component to parent
      * @this {ProductCreateForm}
      * @public
      */
     addListeners() {
         document
-            .getElementById('product-create-form')
+            .getElementById('register')
             .addEventListener(this.__listeners.submitClick.type, this.__listeners.submitClick.listener);
+        document
+            .getElementById('registrationForm')
+            .addEventListener(this.listeners.showError.type, this.listeners.showError.listener);
+        document
+            .getElementById('registrationForm')
+            .addEventListener(this.listeners.hideError.type, this.listeners.hideError.listener);
+        document
+            .getElementById('registrationForm')
+            .addEventListener(this.listeners.validateInput.type, this.listeners.validateInput.listener);
+        document
+            .getElementById('productPhoto')
+            .addEventListener(this.listeners.submitClick.type, this.listeners.submitClick.listener);
+        document
+            .getElementById('productPhoto')
+            .addEventListener(this.listeners.showError.type, this.listeners.showError.listener);
+        document
+            .getElementById('productPhoto')
+            .addEventListener(this.listeners.hideError.type, this.listeners.hideError.listener);
+        document
+            .getElementById('files')
+            .addEventListener(this.listeners.validateChange.type, this.listeners.validateChange.listener);
     }
 
     /***
-     * @author Max Torzhkov
+     * @author Max Torzhkov, Ivan Gorshkov
+     *
      * Remove component from parent
      * @this {ProductCreateForm}
      * @public
      */
     removeListeners() {
         document
-            .getElementById('product-create-form')
+            .getElementById('register')
             .removeEventListener(this.__listeners.submitClick.type, this.__listeners.submitClick.listener);
+        document
+            .getElementById('registrationForm')
+            .removeEventListener(this.listeners.showError.type, this.listeners.showError.listener);
+        document
+            .getElementById('registrationForm')
+            .removeEventListener(this.listeners.hideError.type, this.listeners.hideError.listener);
+        document
+            .getElementById('registrationForm')
+            .removeEventListener(this.listeners.validateInput.type, this.listeners.validateInput.listener);
+        document
+            .getElementById('productPhoto')
+            .removeEventListener(this.listeners.submitClick.type, this.listeners.submitClick.listener);
+        document
+            .getElementById('productPhoto')
+            .removeEventListener(this.listeners.showError.type, this.listeners.showError.listener);
+        document
+            .getElementById('productPhoto')
+            .removeEventListener(this.listeners.hideError.type, this.listeners.hideError.listener);
+        document
+            .getElementById('files')
+            .removeEventListener(this.listeners.validateChange.type, this.listeners.validateChange.listener);
     }
 
+    /***
+     * @author Ivan Gorshkov
+     *
+     * draw a field
+     * @return {string}
+     * @private
+     * @this {ProductCreateForm}
+     */
+    __drawField(element) {
+        let text = '';
+        if (element.inputType === 'select') {
+            text = `<select id="${element.id}" class="reg-panel__textfield"  name="${element.id}" >`;
+            element.options.forEach(((value) => {
+                text += `<option>${value}</option>`;
+            }));
+            text += '</select>';
+
+        }
+
+        if (element.inputType === 'text') {
+            text = `<input min="0" class="reg-panel__textfield" data-action="${element.dataAction}"
+                          data-move="mouseIn" data-moveout="mouseOut" id="${element.id}" type="${element.inputType}"
+                          placeholder="${element.placeholder}" name="${element.id}"/>`;
+        }
+
+        if (element.inputType === 'textarea') {
+            text = `<textarea class="form-row__textarea" data-action="${element.dataAction}"
+                          data-move="mouseIn" data-moveout="mouseOut" id="${element.id}"
+                          placeholder="${element.placeholder}" name="${element.id}" maxlength="5000"/></textarea>`;
+        }
+
+
+        return text;
+    }
 
     /***
-     * @author Max Torzhkov
+     * @author Ivan Gorshkov
+     *
+     * draw a form fields
+     * @return {string}
+     * @private
+     * @this {ProductCreateForm}
+     */
+    __drawForm() {
+        let fields = '';
+        for (const prop in this.__data) {
+            const element = this.__data[prop];
+            fields += `
+                <div class="product-des form-spacing">
+                    <div class="product-des-topic">
+                        <p class="product-des-topic__title">${element.title}</p>
+                    </div>
+                    <div class="form-inner">
+                        ${this.__drawField(element)}
+                    </div>
+                </div>
+            `;
+        }
+        return fields;
+    }
+
+    /***
+     * @author Max Torzhkov, Ivan Gorshkov
+     *
      * main template of component
      * @return {string}
      * @private
      * @this {ProductCreateForm}
      */
     __getTemplate() {
-        return `
-                <div class="product-create">
-                        <div class="product-create-inner">
-                        <h2 class="product-create-inner__title">Создание объявления</h2>
-                        <form id="product-create-form" class="inner-form">
-<!--                            <div class="form-row">-->
-<!--                                <label class="form-row__label" for="productCategory">Категория</label>-->
-<!--                                <select id="productCategory" class="form-row__input" name="productCategory" required></select>-->
-<!--                            </div>-->
-<!--                            <div class="form-row">-->
-<!--                                    <label class="form-row__label" for="productSubcategory">Подкатегория</label>-->
-<!--                                    <select id="productSubcategory" class="form-row__input" name="productSubcategory" required></select>-->
-<!--                            </div>-->
-                            <div class="form-row">
-                                    <label class="form-row__label" for="productName">Название</label>
-                                    <input id="productName" class="form-row__input" name="productName" required>
-                            </div>
-                            <div class="form-row">
-                                    <label class="form-row__label" for="productCost">Цена</label>
-                                    <input id="productCost" class="form-row__input" name="productCost" pattern="(0\\.((0[1-9]{1})|([1-9]{1}([0-9]{1})?)))|(([1-9]+[0-9]*)(\\.([0-9]{1,2}))?)" required>
-                            </div>
-                            <div class="form-row">    
-                                    <label class="form-row__label" for="productInfo">Описание</label>
-                                    <textarea id="productInfo" class="form-row__textarea" maxlength="5000" name="productInfo" required></textarea>
-                            </div>
-                            <div class="form-row">    
-                                    <label class="form-row__label" for="productPhoto">Фото</label>
-                                    <label class="form-row__photolabel" >
-                                        <input id="productPhoto" name="productPhoto" class="form-row__photoinput" type="file" accept="image/gif,image/png,image/jpeg,image/pjpeg" multiple="" data-marker="add/input" value="" required>
-                                    </label>
-                            </div>
-<!--                            <div class="form-row">-->
-<!--                                    <label class="form-row__label" for="productLocation">Местоположение</label>-->
-<!--                                    <input id="productLocation" class="form-row__input" name="productLocation">-->
-<!--                            </div>-->
-                            <div class="inner-button">
-                                <input type="submit" class="inner-button__button" id="create" value="Продолжить">
-                            </div>
-                            </form>
-                        </div>
+        return `   
+            <div class="board">
+                <div class="board-title">
+                    <p class="reg-panel-title__product-name">Создание объявления</p>
                 </div>
+                <form method="post" action="/" name="test" enctype="multipart/form-data">
+                    <div id="files">
+                        <input id="file-upload0" name="[photos]" data-id="0" data-action="readURL" class="file-upload" type="file" accept="image/*"/>
+                    </div>
+                    <div id="registrationForm">
+                        ${this.__drawForm()}
+                    </div>
+                    <div class="product-des form-spacing">
+                        <div class="product-des-topic ">
+                            <p class="product-des-topic__title">Фото</p>
+                        </div>
+                        <div class="form-inner">
+                            <div class="photo-container" id="productPhoto">
+                                <div class="form-row" id="_profile-pic0">    
+                                    <label class="form-row__photolabel" data-action="clickUpload" data-move="showCross" data-moveout="hideCross"> 
+                                        <img class="product__pic" data-id='0' id="product__pic0" src="../../img/photo.svg" alt="">
+                                        <div class="cross error-hidden" id="delete0" data-id='0' data-action="delete" ></div>
+                                    </label>  
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="product-des">
+                        <div class="product-des-topic"></div>
+                        <div class="form-inner" id="submitBtn">
+                            <input class="header-right__create-button reg__button" data-action="submitClick" type="submit" id="register" value="Продолжить"/>
+                        </div>
+                    </div>
+                </form>
+            </div>   
         `;
     }
 
@@ -132,3 +235,4 @@ export class ProductCreateForm {
         this.__parent.insertAdjacentHTML('beforeend', template);
     }
 }
+
