@@ -24,6 +24,7 @@ export class RegistrationPanelController {
         this.__parent = parent;
         this.__registartion = registrationPanel;
         this.__model = new RegUserData();
+        this.__isPicAdd = false;
     }
 
     /***
@@ -225,6 +226,7 @@ export class RegistrationPanelController {
                 elem.src = e.target.result;
             };
 
+            this.__isPicAdd = true;
             reader.readAsDataURL(ev.target.files[firstIndex]);
         }
     }
@@ -487,6 +489,16 @@ export class RegistrationPanelController {
     `;
     }
 
+    __validatePhoto() {
+        if (this.__isPicAdd === true) {
+            document.getElementById('avatar').classList.remove('reg-panel__input-error');
+            document.getElementById('avatar').classList.add('reg-panel__input-susses');
+            return true;
+        }
+        document.getElementById('avatar').classList.add('reg-panel__input-error');
+        return false;
+    }
+
     /***
      * @author Ivan Gorshkov
      *
@@ -509,9 +521,10 @@ export class RegistrationPanelController {
         const isValidName = this.__validateEmpty(name);
         const isValidSurname = this.__validateEmpty(surname);
         const isValidDate = this.__validateEmpty(date);
+        const isPhoto = this.__validatePhoto();
         const sex = document.getElementById('sex');
 
-        if (isValidDate && isValidMail && isValidName && isValidPhone && isValidPwd && isValidpwdConfirm && isValidSurname) {
+        if (isPhoto && isValidDate && isValidMail && isValidName && isValidPhone && isValidPwd && isValidpwdConfirm && isValidSurname) {
             this.__model.fillUserData({
                 name: name.value,
                 surname: surname.value,
