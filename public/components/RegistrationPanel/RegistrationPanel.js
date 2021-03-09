@@ -32,20 +32,32 @@ export class RegistrationPanel {
         let fields = '';
         for (const prop in this.__data) {
             const element = this.__data[prop];
+            let inputElement = '';
+            if (element.inputType === 'tel') {
+                inputElement = ` 
+                    <input class="auth-content-form__input auth-content-form__country reg-panel__coutry-code" readOnly required value="+7">
+                    <input class="auth-content-form__input auth-content-form__tel reg-panel__tel" data-action="${element.dataAction}" data-move="mouseIn" data-moveout="mouseOut"  id="${element.id}" type="${element.inputType}" placeholder="${element.placeholder}" name="${element.id}" required>
+                `;
+            } else {
+                inputElement = ` 
+                    <input ${element.params} class="reg-panel__textfield" data-action="${element.dataAction}" data-move="mouseIn" data-moveout="mouseOut"  id="${element.id}" type="${element.inputType}" placeholder="${element.placeholder}" name="${element.id}"/>
+                `;
+            }
             fields += `<div class="product-des form-spacing">
                 <div class="product-des-topic">
                     <p class="product-des-topic__title">${element.title}</p>
                 </div>
                 <div class="form-inner">
-                    <input ${element.params} class="reg-panel__textfield" data-action="${element.dataAction}" data-move="mouseIn" data-moveout="mouseOut"  id="${element.id}" type="${element.inputType}" placeholder="${element.placeholder}" name="${element.id}"/>
+                    ${inputElement}
                 </div>
+                 
             </div>`;
         }
 
         return fields;
     }
 
-    /***
+/***
      * @author Ivan Gorshkov
      * main template of component
      * @return {string}
