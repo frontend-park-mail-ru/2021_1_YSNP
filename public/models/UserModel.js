@@ -367,6 +367,7 @@ export class UserModel {
         return await http.post(urls.logout, null)
             .then(({status, data}) => {
                 if (status === httpStatus.StatusOK) {
+                    this.__isAuth = false;
                     return {isLogout: true};
                 }
 
