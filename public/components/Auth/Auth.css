@@ -77,10 +77,9 @@
     padding-left: 1vh;
 
     font-size: 1.7vh;
-
-    border: 0.5px solid rgba(0, 0, 0, 0.2);
+    border: 1px solid rgba(0, 0, 0, 0.2);
     box-sizing: border-box;
-    border-radius: 1vh;
+    border-radius: 0.5vh;
 }
 
 .auth-content-form__country {

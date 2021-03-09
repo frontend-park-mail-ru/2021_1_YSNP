@@ -8,6 +8,17 @@
     padding-left: 10px;
 }
 
+.reg-panel__coutry-code {
+    margin: 0;
+    height: 2.5vw;
+}
+
+.reg-panel__tel {
+    margin: 0;
+    height: 2.5vw;
+    width: 12.8vw;
+}
+
 .reg-panel-title__product-name {
     font-size: 3vh;
     margin: 0;

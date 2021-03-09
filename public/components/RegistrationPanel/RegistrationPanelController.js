@@ -1,6 +1,6 @@
 import { Landing } from '../../pages/Landing.js';
-
 import { RegUserData } from '../../models/RegUserData.js';
+import {telMask, parseTelNumber} from '../../modules/telMask.js';
 
 /***
  * @author Ivan Gorshkov
@@ -54,7 +54,7 @@ export class RegistrationPanelController {
             .entries(ev.composedPath())
             .forEach(([, el]) => {
                 if (el.dataset !== undefined && 'action' in el.dataset) {
-                    actions[el.dataset.action].open(ev.target);
+                    actions[el.dataset.action].open(ev);
                 }
             });
     }
@@ -147,7 +147,7 @@ export class RegistrationPanelController {
     __getActions() {
         return {
             inputPhone: {
-                open: this._validatePhone.bind(this)
+                open: this.__validatePhone.bind(this)
             },
             changePwd: {
                 open: this.__validatePas.bind(this)
@@ -280,18 +280,19 @@ export class RegistrationPanelController {
      * @author Ivan Gorshkov
      *
      * action to validate input phone
-     * @param{Object} target
+     * @param{Event} ev
      * @return {boolean}
      * @private
      * @this {RegistrationPanelController}
      */
-    _validatePhone(target) {
-        const { error, message } = this.__model.validationTelephone(target.value);
+    __validatePhone(ev) {
+        telMask(ev);
+        const { error, message } = this.__model.validationTelephone(ev.target.value);
         if (!error) {
-            this.__addSuccesses(target, 'phoneError');
+            this.__addSuccesses(ev.target, 'phoneError');
             return true;
         }
-        this.__insertError(target, 'phoneError', this.__createMessageError(`
+        this.__insertError(ev.target, 'phoneError', this.__createMessageError(`
                   <ul class="list-errors">
                     <li>${message}</li>
                   </ul>
@@ -450,7 +451,7 @@ export class RegistrationPanelController {
                 surname: surname.value,
                 sex: 'мужской',
                 dateBirth: date.value,
-                telephone: phone.value,
+                telephone: parseTelNumber(phone.value),
                 email: mail.value,
                 password: password.value
             });
