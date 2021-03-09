@@ -125,21 +125,16 @@ export class Slider {
             images = carousel.getElementsByTagName('img'),
             numImages = images.length,
             imageWidth = this.__carousel.width;
-        let aspectRatio = images[0].width / images[0].height;
-        const imageHeight = imageWidth / aspectRatio,
-            padding = this.__carousel.padding,
-            rowHeight = this.__carousel.rowHeight = imageHeight + 2 * padding;
         carousel.style.width = `${imageWidth}px`;
         for (let i = 0; i < numImages; ++i) {
             const image = images[i],
                 frame = document.createElement('div');
             frame.className = 'picture-frame';
-            aspectRatio = image.offsetWidth / image.offsetHeight;
-            image.style.width = frame.style.width = `5vw`;
-            image.style.height = `4vw`;
-            image.style.paddingTop = `1vh`;
-            image.style.paddingBottom = `1vh`;
-            frame.style.height = `5vw`;
+            image.style.width = frame.style.width = '5vw';
+            image.style.height = '4vw';
+            image.style.paddingTop = '1vh';
+            image.style.paddingBottom = '1vh';
+            frame.style.height = '5vw';
             image.style.opacity = '0.3';
             carousel.insertBefore(frame, image);
             frame.appendChild(image);
@@ -152,8 +147,8 @@ export class Slider {
         const wrapper = this.__carousel.wrapper = document.createElement('div');
         wrapper.id = 'carousel-wrapper';
         wrapper.className = 'carousel-wrapper';
-        wrapper.style.width = `5vw`;
-        wrapper.style.height = `43vh`;
+        wrapper.style.width = '5vw';
+        wrapper.style.height = '43vh';
         carousel.parentNode.insertBefore(wrapper, carousel);
         wrapper.appendChild(carousel);
     }

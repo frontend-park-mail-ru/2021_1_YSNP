@@ -216,7 +216,8 @@ export class RegistrationPanelController {
      * @private
      */
     __read(input) {
-        if (input.files && input.files[0]) {
+        const firstIndex = 0;
+        if (input.files && input.files[firstIndex]) {
             const reader = new FileReader();
 
             reader.onload = function(e) {
@@ -224,7 +225,7 @@ export class RegistrationPanelController {
                 elem.src = e.target.result;
             };
 
-            reader.readAsDataURL(input.files[0]);
+            reader.readAsDataURL(input.files[firstIndex]);
         }
     }
 
@@ -319,9 +320,7 @@ export class RegistrationPanelController {
 
             this.__insertError(target, 'passwordError', this.__createMessageError(`
                         <ul class="list-errors">
-                        ${message.reduce((prev, cur)=> {
-                            return prev + `<li>${cur}</li>`
-                        },'')}
+                        ${message.reduce((prev, cur) => `${prev}<li>${cur}</li>`, '')}
                         </ul>
     `));
         return false;

@@ -32,7 +32,7 @@ export class Navigation {
      * @this {Navigation}
      * @private
      * @readonly
-     * @return  {string} return string with route
+     * @return {string} return string with route
      */
     __getRoute() {
         return this.__route.route.reduce(((previousValue, currentValue) => `${previousValue} • ${currentValue}`), '');
@@ -78,7 +78,7 @@ export class Navigation {
      *
      * Set new listeners
      * @this {Navigation}
-     * @param  {{toBack: {listener: *, type: string}}} val - Object of listeners
+     * @param  {Object} val - Object of listeners
      * @public
      */
     set listeners(val) {

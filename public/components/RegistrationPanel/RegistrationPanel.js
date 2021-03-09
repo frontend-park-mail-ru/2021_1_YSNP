@@ -72,7 +72,7 @@ export class RegistrationPanel {
                   
                    <div class="reg-picture">
                      <div class="circle" id="avatar" data-action="clickUpload">
-                       <img class="profile-pic" id="profile-pic" src="../../img/profile.png">
+                       <img class="profile-pic" id="profile-pic" src="../../img/profile.png" alt="">
                      </div>
                      <div class="p-image">
                        <i class="upload-button" >
