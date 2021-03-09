@@ -95,15 +95,15 @@ export class SettingsUserData extends PasswordUserModel {
                 }
 
                 if (status === httpStatus.StatusBadRequest) {
-                    throw Error('Bad request');
+                    throw Error('Попробуйте еще раз');
                 }
 
                 if (status === httpStatus.StatusUnauthorized) {
-                    throw Error('user unauthorized');
+                    throw Error('Пользователь не авторизован');
                 }
 
                 if (status === httpStatus.StatusInternalServerError) {
-                    throw Error('Internal server error');
+                    throw Error('Ошибка сервера');
                 }
 
                 return {isUpdate: true};
