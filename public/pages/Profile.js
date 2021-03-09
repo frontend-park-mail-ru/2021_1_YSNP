@@ -31,6 +31,7 @@ export class Profile {
             name: 'Сергей',
             surname: 'Алехин',
             patronymic: '',
+            sex: 'male',
             // eslint-disable-next-line no-magic-numbers
             birthday: '1999-11-11',
             telephone: '+79998761234',
@@ -70,13 +71,11 @@ export class Profile {
             </div>`);
         const profilePage = document.getElementById('profile');
 
-        const profile = new ProfileMenu(profilePage, this.__getUserData(), {page: 'settings'});
-        profile.render();
+        const profile = new ProfileMenu(profilePage, {page: 'settings'});
         this.__profileController = new ProfileMenuController(this.__removePageListeners.bind(this), this.__parent, profile);
         this.__profileController.control();
 
-        const settings = new Settings(profilePage, this.__getUserData());
-        settings.render();
+        const settings = new Settings(profilePage);
         this.__settingsController = new SettingsController(this.__removePageListeners.bind(this), this.__parent, settings);
         this.__settingsController.control();
     }

@@ -86,6 +86,10 @@ class Urls {
     get logout() {
         return `${this.__url}${this.__api}/logout`;
     }
+
+    get newPassword() {
+        return `${this.__url}${this.__api}/settings/password`;
+    }
 }
 
 export const urls = new Urls();
