@@ -1,5 +1,6 @@
-import { http } from '../modules/http.js';
-import { urls } from '../modules/urls.js';
+import {http} from '../modules/http.js';
+import {urls} from '../modules/urls.js';
+import {httpStatus} from '../modules/httpStatus.js';
 
 /***
  * Product model
@@ -222,6 +223,15 @@ export class ProductModel {
     }
 
     /***
+     * Get first image
+     * @returns {string}
+     */
+    __getFirstImage() {
+        const start = 0;
+        return this.__linkImages[start];
+    }
+
+    /***
      * Validate product name
      * @param {string} name - product name
      * @returns {{message: string, error: boolean}}
@@ -325,6 +335,10 @@ export class ProductModel {
         };
     }
 
+    /***
+     * Get model data to view
+     * @returns {{date: (Object.date|string|*), ownerStars: (Object.ownerStars|number|*), amount: (Object.amount|number|*), description: (Object.description|string|*), ownerId: (Object.ownerId|string|*), userLiked: (Object.userLiked|boolean|*), ownerName: (Object.ownerName|string|*), name: (Object.name|string|*), ownerSurname: (Object.ownerSurname|string|*), linkImages: Object.linkImages, id: (Object.id|string|*), views: (Object.views|number|*), likes: (Object.likes|number|*)}}
+     */
     getData() {
         return {
             id: this.__id,
@@ -344,22 +358,45 @@ export class ProductModel {
         };
     }
 
-
+    /***
+     * Get model data to view
+     * @returns {{date: (Object.date|string|*), amount: (Object.amount|number|*), linkImage: string, name: (Object.name|string|*), id: (Object.id|string|*), userLiked: (Object.userLiked|boolean|*)}}
+     */
+    getMainData() {
+        return {
+            id: this.__id,
+            name: this.__name,
+            date: this.__date,
+            amount: this.__amount,
+            userLiked: this.__userLiked,
+            linkImage: this.__getFirstImage()
+        };
+    }
 
     /***
      * Get product data from backend
-     * @returns {Promise<void>}
+     * @returns {Promise<{isUpdate: boolean}|void>}
      */
     async update() {
-        await http.get(urls.product + this.__id)
-            .then(({ status, data }) => {
-                if (status === 200) {
-                    console.log(data);
+        return await http.get(urls.product + this.__id)
+            .then(({status, data}) => {
+                if (status === httpStatus.StatusOK) {
                     this.fillProductModel(data);
+                    return {isUpdate: true};
                 }
+
+                if (status === httpStatus.StatusBadRequest) {
+                    throw data;
+                }
+
+                if (status === httpStatus.StatusInternalServerError) {
+                    throw data;
+                }
+
+                return {isUpdate: false};
             })
             .catch((err) => {
-                console.log(err.message);
+                console.log('ProductModel update', err.message);
             });
     }
 

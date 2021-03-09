@@ -13,9 +13,15 @@ class Http {
     __ajax(url, method, data) {
         const options = {
             method: method,
+            headers: {},
             mode: 'cors',
             credentials: 'include'
         };
+
+        // const csrf = sessionStorage.getItem('csrf');
+        // if (csrf) {
+        //     options['headers'] = {'X-CSRF-TOKEN': csrf};
+        // }
 
         if (data) {
             options['body'] = data;
@@ -31,6 +37,12 @@ class Http {
      */
     async get(url) {
         const response = await fetch(this.__ajax(url, 'GET', null));
+
+        // const csrf = response.headers.get('X-CSRF-TOKEN');
+        // if (csrf) {
+        //     sessionStorage.setItem('csrf', csrf);
+        // }
+
         const responseData = await response.json();
 
         return {
@@ -43,10 +55,17 @@ class Http {
      * Ajax post request
      * @param {string} url - post request url
      * @param {any} data - post request data
+     * @param {boolean} photo - isPhoto?
      * @returns {Promise<{data: any, status: number}>}
      */
     async post(url, data, photo = false) {
         const response = await fetch(this.__ajax(url, 'POST', photo ? data : JSON.stringify(data)));
+
+        // const csrf = response.headers.get('X-CSRF-TOKEN');
+        // if (csrf) {
+        //     sessionStorage.setItem('csrf', csrf);
+        // }
+
         const responseData = await response.json();
 
         return {

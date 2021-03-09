@@ -4,6 +4,8 @@ import {HeaderController} from '../components/Header/HeaderController.js';
 import {ProductList} from '../components/ProductList/ProductList.js';
 import {ProductListController} from '../components/ProductList/ProductListController.js';
 
+import {AdSwitch} from '../components/AdSwitch/AdSwitch.js';
+
 /***
  * First (main) page
  */
@@ -34,6 +36,9 @@ export class Landing {
         const header = new Header(this.__parent);
         this.__headerController = new HeaderController(this.__removePageListeners.bind(this), this.__parent, header);
         await this.__headerController.control();
+
+        const adSwitch = new AdSwitch(this.__parent);
+        adSwitch.render();
 
         const productList = new ProductList(this.__parent);
         this.__productListController = new ProductListController(this.__removePageListeners.bind(this), this.__parent, productList);

@@ -1,5 +1,6 @@
-import { http } from '../modules/http.js';
-import { urls } from '../modules/urls.js';
+import {http} from '../modules/http.js';
+import {urls} from '../modules/urls.js';
+import {httpStatus} from '../modules/httpStatus.js';
 
 /***
  * User model
@@ -27,6 +28,14 @@ export class UserModel {
      */
     set id(id) {
         this.__id = id;
+    }
+
+    /***
+     * Get user authorized
+     * @returns {boolean|*}
+     */
+    get isAuth() {
+        return this.__isAuth;
     }
 
     /***
@@ -139,6 +148,15 @@ export class UserModel {
      */
     set linkImage(linkImage) {
         this.__linkImage = linkImage;
+    }
+
+    /***
+     * Get first image
+     * @returns {string}
+     */
+    __getFirstImage() {
+        const start = 0;
+        return this.__linkImages[start];
     }
 
     /***
@@ -304,15 +322,20 @@ export class UserModel {
         };
     }
 
+    /***
+     * Get model data to view
+     * @returns {{linkImage: (string|null), surname: (Object.surname|string|*), sex: (Object.sex|string|*), name: (Object.name|string|*), telephone: (Object.telephone|string|*), dateBirth: (Object.dateBirth|string|*), email: (Object.email|string|*)}}
+     */
     getData() {
         return {
+            isAuth: this.__isAuth,
             name: this.__name,
             surname: this.__surname,
             sex: this.__sex,
             dateBirth: this.__dateBirth,
             email: this.__email,
             telephone: this.__telephone,
-            linkImage: this.__linkImages !== undefined ? this.__linkImages[0] : null
+            linkImage: this.__linkImages !== undefined ? this.__getFirstImage() : null
         };
     }
 
@@ -321,16 +344,58 @@ export class UserModel {
      * @returns {Promise<void>}
      */
     async update() {
-        await http.get(urls.me)
-            .then(({ status, data }) => {
-                if (status === 401) {
-                    throw Error('user unauthorized');
+        if (!this.__isAuth) {
+            return await http.get(urls.me)
+                .then(({status, data}) => {
+                    if (status === httpStatus.StatusOK) {
+                        this.fillUserData(data);
+                        this.__isAuth = true;
+                        return {isUpdate: true};
+                    }
+
+                    if (status === httpStatus.StatusUnauthorized) {
+                        throw data;
+                    }
+
+                    if (status === httpStatus.StatusInternalServerError) {
+                        throw data;
+                    }
+
+                    this.__isAuth = false;
+                    return {isUpdate: false};
+                })
+                .catch((err) => {
+                    console.log('UserModel update', err.message);
+                });
+        }
+
+        return Promise.resolve();
+    }
+
+    /***
+     * Logout user
+     * @returns {Promise<{isLogout: boolean} | void>}
+     */
+    async logout() {
+        return await http.post(urls.logout, null)
+            .then(({status, data}) => {
+                if (status === httpStatus.StatusOK) {
+                    this.__isAuth = false;
+                    return {isLogout: true};
                 }
 
-                this.fillUserData(data);
+                if (status === httpStatus.StatusUnauthorized) {
+                    throw data;
+                }
+
+                if (status === httpStatus.StatusInternalServerError) {
+                    throw data;
+                }
+
+                return {isLogout: false};
             })
             .catch((err) => {
-                console.log(err.message);
+                console.log('UserModel logout', err.message);
             });
     }
 

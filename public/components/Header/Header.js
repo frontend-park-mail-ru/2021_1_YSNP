@@ -54,7 +54,7 @@ export class Header {
             .getElementById('header')
             .addEventListener(this.__listeners.headerClick.type, this.__listeners.headerClick.listener);
 
-        if (this.__data.name !== undefined) {
+        if (this.__data.isAuth) {
             document
                 .getElementById('header-dropdown')
                 .addEventListener(this.__listeners.dropdownClick.type, this.__listeners.dropdownClick.listener);
@@ -73,7 +73,7 @@ export class Header {
             .getElementById('header')
             .removeEventListener(this.__listeners.headerClick.type, this.__listeners.headerClick.listener);
 
-        if (this.__data.name !== undefined) {
+        if (this.__data.isAuth) {
             document
                 .getElementById('header-dropdown')
                 .removeEventListener(this.__listeners.dropdownClick.type, this.__listeners.dropdownClick.listener);
@@ -140,7 +140,7 @@ export class Header {
                                 </clipPath>
                                 </defs>
                             </svg>
-                            <span>Профиль</span>
+                            <span>Настройки</span>
                         <a href="#" class="header-dropdown-content-item" data-action="myProductsClick">
                             <svg height="2vh" width="2vh" class="header-dropdown-content__logo" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
                                 <path d="M19.698 3.55594C19.5312 3.55594 19.3961 3.69113 19.3961 3.85789V17.8893C19.3961 18.7201 18.7202 19.3961 17.8893 19.3961H2.11066C1.27984 19.3961 0.603906 18.7202 0.603906 17.8893V2.11066C0.603906 1.27984 1.27984 0.603906 2.11066 0.603906H17.8893C18.7201 0.603906 19.3961 1.2798 19.3961 2.11066C19.3961 2.27742 19.5313 2.41262 19.698 2.41262C19.8648 2.41262 20 2.27742 20 2.11066C20 0.946836 19.0532 0 17.8893 0H2.11066C0.946836 0 0 0.946836 0 2.11066V17.8893C0 19.0532 0.946836 20 2.11066 20H17.8893C19.0532 20 20 19.0532 20 17.8893V3.85789C20 3.69113 19.8648 3.55594 19.698 3.55594Z" fill="black"/>
@@ -208,7 +208,7 @@ export class Header {
         const template = this.__getTemplate();
         this.__parent.insertAdjacentHTML('beforeend', template);
 
-        const accountTemplate = this.__data.name !== undefined ? this.__getAuthTemplate() : this.__getNotAuthTemplate();
+        const accountTemplate = this.__data.isAuth ? this.__getAuthTemplate() : this.__getNotAuthTemplate();
         document.getElementById('header-right').insertAdjacentHTML('beforeend', accountTemplate);
     }
 }
