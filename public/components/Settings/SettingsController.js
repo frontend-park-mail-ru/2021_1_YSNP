@@ -290,7 +290,8 @@ export class SettingsController {
      */
     __read(input) {
         console.log(input.files);
-        if (input.files && input.files[0]) {
+        const firstFile = 0;
+        if (input.files && input.files[firstFile]) {
             const reader = new FileReader();
 
             reader.onload = function(e) {
@@ -298,7 +299,7 @@ export class SettingsController {
                 elem.src = e.target.result;
             };
 
-            reader.readAsDataURL(input.files[0]);
+            reader.readAsDataURL(input.files[firstFile]);
         }
     }
 
@@ -616,7 +617,7 @@ export class SettingsController {
      * @private
      */
     __validateTelephone(target) {
-        const { error, message } = this.__model.validationTelephone(target.value);
+        const {error, message} = this.__model.validationTelephone(target.value);
         if (!error) {
             this.__addSuccesses(target, 'phoneError');
             return true;
@@ -686,7 +687,7 @@ export class SettingsController {
      * @private
      */
     __validateEmail(target) {
-        const { error, message } = this.__model.validationEmail(target.value);
+        const {error, message} = this.__model.validationEmail(target.value);
         if (!error) {
             this.__addSuccesses(target, 'MailError');
             return true;
