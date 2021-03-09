@@ -2,6 +2,8 @@ import {http} from '../modules/http.js';
 import {urls} from '../modules/urls.js';
 import {httpStatus} from '../modules/httpStatus.js';
 
+import {deleteSymbolsXSS} from '../modules/xss.js';
+
 /***
  * Product model
  */
@@ -303,20 +305,20 @@ export class ProductModel {
      * @param {Object} data - product data
      */
     fillProductModel(data) {
-        this.__id = data.id;
-        this.__name = data.name;
-        this.__date = data.date;
-        this.__amount = data.amount;
-        this.__description = data.description;
-        this.__views = data.views;
-        this.__likes = data.likes;
-        this.__userLiked = data.userLiked;
+        this.__id = deleteSymbolsXSS(data.id);
+        this.__name = deleteSymbolsXSS(data.name);
+        this.__date = deleteSymbolsXSS(data.date);
+        this.__amount = deleteSymbolsXSS(data.amount);
+        this.__description = deleteSymbolsXSS(data.description);
+        this.__views = deleteSymbolsXSS(data.views);
+        this.__likes = deleteSymbolsXSS(data.likes);
+        this.__userLiked = deleteSymbolsXSS(data.userLiked);
         this.__linkImages = data.linkImages;
-        this.__ownerId = data.ownerId;
-        this.__ownerName = data.ownerName;
-        this.__ownerSurname = data.ownerSurname;
-        this.__ownerStars = data.ownerStars;
-        this.__category = data.category;
+        this.__ownerId = deleteSymbolsXSS(data.ownerId);
+        this.__ownerName = deleteSymbolsXSS(data.ownerName);
+        this.__ownerSurname = deleteSymbolsXSS(data.ownerSurname);
+        this.__ownerStars = deleteSymbolsXSS(data.ownerStars);
+        this.__category = deleteSymbolsXSS(data.category);
 
     }
 
@@ -405,7 +407,7 @@ export class ProductModel {
      * @returns {Promise<void>}
      */
     async create(form) {
-        return http.post(urls.productUploadPhotos, new FormData(form), true).then(({ status, data }) => {
+        return http.post(urls.productUploadPhotos, new FormData(form), true).then(({status, data}) => {
             if (status === 200) {
                 console.log(data);
                 this.__linkImages = data.linkImages;

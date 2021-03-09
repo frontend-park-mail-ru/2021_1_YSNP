@@ -40,27 +40,28 @@ export class RegUserData extends PasswordUserModel {
      */
     async registration(form) {
         return await http.post(urls.upload, new FormData(form), true)
-        .then(({status, data}) => {
-            if (status === 200) {
-                console.log(data);
-                this.__linkImages.push(data.linkImages);
+            .then(({status, data}) => {
+                if (status === 200) {
+                    this.__linkImages.push(data.linkImages);
+                
+                    this.log();
 
-                http.post(urls.singUp, this.__jsonData());
-            }
+                    http.post(urls.singUp, this.__jsonData());
+                }
 
-            // if (status === 400) {
-            //     throw new Error('Слишком большой размер фото, пожалуйста, загрузите фото меньшего размера');
-            // }
+                // if (status === 400) {
+                //     throw new Error('Слишком большой размер фото, пожалуйста, загрузите фото меньшего размера');
+                // }
 
-            // if (status === 403) {
-            //     throw new Error('Пожалуйста, загрузите фото с вашим лицом');
-            // }
+                // if (status === 403) {
+                //     throw new Error('Пожалуйста, загрузите фото с вашим лицом');
+                // }
 
-            // if (status === 500) {
-            //     throw new Error('Неизвестная ошибка, пожалуйста, попробуйте позже');
-            // }
-        });
-       
+                // if (status === 500) {
+                //     throw new Error('Неизвестная ошибка, пожалуйста, попробуйте позже');
+                // }
+            });
+
     }
 
     /***

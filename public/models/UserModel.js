@@ -2,6 +2,8 @@ import {http} from '../modules/http.js';
 import {urls} from '../modules/urls.js';
 import {httpStatus} from '../modules/httpStatus.js';
 
+import {deleteSymbolsXSS} from '../modules/xss.js';
+
 /***
  * User model
  */
@@ -297,13 +299,13 @@ export class UserModel {
      * @param {Object} data - user data
      */
     fillUserData(data) {
-        this.__id = data.id;
-        this.__name = data.name;
-        this.__surname = data.surname;
-        this.__sex = data.sex;
-        this.__dateBirth = data.dateBirth;
-        this.__email = data.email;
-        this.__telephone = data.telephone;
+        this.__id = deleteSymbolsXSS(data.id);
+        this.__name = deleteSymbolsXSS(data.name);
+        this.__surname = deleteSymbolsXSS(data.surname);
+        this.__sex = deleteSymbolsXSS(data.sex);
+        this.__dateBirth = deleteSymbolsXSS(data.dateBirth);
+        this.__email = deleteSymbolsXSS(data.email);
+        this.__telephone = deleteSymbolsXSS(data.telephone);
         this.__linkImages = data.linkImages !== undefined ? data.linkImages : [];
     }
 
