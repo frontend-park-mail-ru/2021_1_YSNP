@@ -9,9 +9,6 @@ import {NavigationController} from '../components/Navigation/NavigationControlle
 import {Board} from '../components/Board/Board.js';
 import {BoardController} from '../components/Board/BoardController.js';
 
-import {ProductList} from '../components/ProductList/ProductList.js';
-import {ProductListController} from '../components/ProductList/ProductListController.js';
-
 /***
  * @author Ivan Gorshkov
  * Product class for product page
@@ -24,6 +21,7 @@ export class Product {
      *
      * init of class Product
      * @param {HTMLElement} parent - parent element
+     * @param {number} id - id of product
      * @constructor
      * @this {Product}
      * @public
@@ -45,55 +43,6 @@ export class Product {
         this.__headerController.removeControllerListeners();
         this.__navigationController.removeControllerListeners();
         this.__boardController.removeControllerListeners();
-    }
-
-    __getHeaderData() {
-        return {
-            isAuth: true,
-            user: 'Алехин Сергей',
-            avatar: '/img/test-avatar.jpg',
-            location: 'Москва'
-        };
-    }
-
-    __getProductListData() {
-        return [
-            {
-                id: '1',
-                img: '/img/test-productCart.jpg',
-                name: 'Land Rover новый',
-                date: '9 февраля 12:07',
-                amount: '2 000 &#8381'
-            },
-            {
-                id: '2',
-                img: '/img/test-productCart.jpg',
-                name: 'Игровой пк',
-                date: '9 февраля 12:07',
-                amount: '422 000 &#8381'
-            },
-            {
-                id: '3',
-                img: '/img/test-productCart.jpg',
-                name: 'Дом прикольный',
-                date: '9 февраля 12:07',
-                amount: '760 000 &#8381'
-            },
-            {
-                id: '4',
-                img: '/img/test-productCart.jpg',
-                name: 'Apple iphone x',
-                date: '9 февраля 12:07',
-                amount: '43 000 &#8381'
-            },
-            {
-                id: '5',
-                img: '/img/test-productCart.jpg',
-                name: 'Honda Shadow Classic 400',
-                date: '9 февраля 12:07',
-                amount: '434 000 &#8381'
-            }
-        ];
     }
 
 

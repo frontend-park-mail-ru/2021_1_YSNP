@@ -13,6 +13,7 @@ import {ProductCreateFormController} from '../components/ProductCreateForm/Produ
  * @class ProductCreate
  */
 export class ProductCreate {
+
     /***
      * @author Max Torzhkov
      * Class constructor
@@ -33,16 +34,14 @@ export class ProductCreate {
     __removePageListeners() {
     }
 
-    __getHeaderData() {
-        return {
-            isAuth: true,
-            user: 'Алехин Сергей',
-            avatar: '/img/test-avatar.jpg',
-            location: 'Москва'
-        };
-    }
 
-
+    /***
+     * @author Max Torzhkov
+     *
+     * array of categories
+     * @return {string[]}
+     * @private
+     */
     __getOptionsCategories() {
         return [
                 'Автомобиль',
@@ -54,32 +53,30 @@ export class ProductCreate {
                 'Животные',
                 'Услуги'
             ];
-}
-
-    __getOptionsSubcategories() {
-        return [
-            'Седан',
-            'Хетчбэк',
-            'Внедорожник',
-            'Универсал',
-            'Минивэн',
-            'Купе',
-            'Пикап',
-            'Кабриолет',
-            'Родстер',
-            'Лимузин',
-            'Тарга'
-        ];
     }
 
+
+    /***
+     * @author Max Torzhkov
+     *
+     * array of types
+     * @return {string[]}
+     * @private
+     */
     __getOptionsType() {
         return [
             'Новое',
             'Б/у'
-
         ];
     }
 
+    /***
+     * @author Max Torzhkov
+     *
+     * Object of input fields
+     * @return {Object} - fields of createForm
+     * @private
+     */
     __RegistrationForm() {
         return {
             name: {
