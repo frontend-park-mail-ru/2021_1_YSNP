@@ -7,6 +7,10 @@ import {urls} from '../modules/urls.js';
  * Settings user model
  */
 export class SettingsUserData extends PasswordUserModel {
+    fillUserData(data) {
+        super.fillUserData(data);
+    }
+
     /***
      * Get settings user model Json
      * @returns {{password: string, year: (Object.year|string|*), surname: (Object.surname|string|*), sex: (Object.sex|string|*), name: (Object.name|string|*), telephone: (Object.telephone|string|*), email: (Object.email|string|*)}}
