@@ -1,5 +1,6 @@
 import {http} from '../modules/http.js';
 import {urls} from '../modules/urls.js';
+import {httpStatus} from '../modules/httpStatus.js';
 
 /***
  * Product model
@@ -299,6 +300,10 @@ export class ProductModel {
         };
     }
 
+    /***
+     * Get model data to view
+     * @returns {{date: (Object.date|string|*), ownerStars: (Object.ownerStars|number|*), amount: (Object.amount|number|*), description: (Object.description|string|*), ownerId: (Object.ownerId|string|*), userLiked: (Object.userLiked|boolean|*), ownerName: (Object.ownerName|string|*), name: (Object.name|string|*), ownerSurname: (Object.ownerSurname|string|*), linkImages: Object.linkImages, id: (Object.id|string|*), views: (Object.views|number|*), likes: (Object.likes|number|*)}}
+     */
     getData() {
         return {
             id: this.__id,
@@ -314,25 +319,33 @@ export class ProductModel {
             ownerName: this.__ownerName,
             ownerSurname: this.__ownerSurname,
             ownerStars: this.__ownerStars
-        }
+        };
     }
-
-
 
     /***
      * Get product data from backend
-     * @returns {Promise<void>}
+     * @returns {Promise<{isUpdate: boolean}|void>}
      */
     async update() {
-        await http.get(urls.product + this.__id)
+        return await http.get(urls.product + this.__id)
             .then(({status, data}) => {
-                if (status === 200) {
-                    console.log(data);
+                if (status === httpStatus.StatusOK) {
                     this.fillProductModel(data);
+                    return {isUpdate: true};
                 }
+
+                if (status === httpStatus.StatusBadRequest) {
+                    throw new Error(data.message);
+                }
+
+                if (status === httpStatus.StatusInternalServerError) {
+                    throw new Error(data.message);
+                }
+
+                return {isUpdate: false};
             })
             .catch((err) => {
-                console.log(err.message);
+                console.log('ProductModel update', err);
             });
     }
 
