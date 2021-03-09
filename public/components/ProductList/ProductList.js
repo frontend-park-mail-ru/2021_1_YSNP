@@ -106,7 +106,7 @@ export class ProductList {
 
         const list = this.__parent.querySelector('[class=\'product-list-inner\']');
         this.__data.forEach((el) => {
-            const productCard = new ProductCard(list, el);
+            const productCard = new ProductCard(list, el.getMainData());
             productCard.render();
             this.__productList.set(el.id, productCard);
         });

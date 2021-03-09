@@ -103,10 +103,13 @@ export class AuthController {
             });
 
             this.__model.auth()
-                .then(({isAuth}) => {
+                .then(({isAuth, err}) => {
                     if (isAuth) {
+                        this.__pageRemoveListeners();
                         const landing = new Landing(this.__parent);
                         landing.render();
+                    } else {
+                        this.__auth.errorText(err);
                     }
                 });
         } else {

@@ -1,5 +1,6 @@
-// import {Profile} from '../../pages/Profile.js';
+import {Profile} from '../../pages/Profile.js';
 import {Landing} from '../../pages/Landing.js';
+import {ProductCreate} from '../../pages/ProductCreate.js';
 
 import {Auth} from '../Auth/Auth.js';
 import {AuthController} from '../Auth/AuthController.js';
@@ -144,10 +145,12 @@ export class HeaderController {
      * @private
      */
     __openCreateProduct() {
-        // TODO(Sergey) release __openCreateProduct
-
         if (this.__model.isAuth) {
             this.__pageRemoveListeners();
+
+            const productCreate = new ProductCreate(this.__parent);
+            productCreate.render();
+
             console.log('Open create product');
         } else {
             this.__openAuth();
@@ -181,8 +184,10 @@ export class HeaderController {
      * @private
      */
     __openProfile() {
-        // TODO(Sergey) release __openProfile
-        // this.__pageRemoveListeners();
+        this.__pageRemoveListeners();
+
+        const settings = new Profile(this.__parent);
+        settings.render();
 
         console.log('Open profile');
     }
