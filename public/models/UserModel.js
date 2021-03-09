@@ -331,28 +331,32 @@ export class UserModel {
      * @returns {Promise<void>}
      */
     async update() {
-        return await http.get(urls.me)
-            .then(({status, data}) => {
-                if (status === httpStatus.StatusOK) {
-                    this.fillUserData(data);
-                    this.__isAuth = true;
-                    return {isUpdate: true};
-                }
+        if (!this.__isAuth) {
+            return await http.get(urls.me)
+                .then(({status, data}) => {
+                    if (status === httpStatus.StatusOK) {
+                        this.fillUserData(data);
+                        this.__isAuth = true;
+                        return {isUpdate: true};
+                    }
 
-                if (status === httpStatus.StatusUnauthorized) {
-                    throw data;
-                }
+                    if (status === httpStatus.StatusUnauthorized) {
+                        throw data;
+                    }
 
-                if (status === httpStatus.StatusInternalServerError) {
-                    throw data;
-                }
+                    if (status === httpStatus.StatusInternalServerError) {
+                        throw data;
+                    }
 
-                this.__isAuth = false;
-                return {isUpdate: false};
-            })
-            .catch((err) => {
-                console.log('UserModel update', err.message);
-            });
+                    this.__isAuth = false;
+                    return {isUpdate: false};
+                })
+                .catch((err) => {
+                    console.log('UserModel update', err.message);
+                });
+        }
+
+        return Promise.resolve();
     }
 
     /***
