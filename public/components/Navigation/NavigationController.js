@@ -71,7 +71,7 @@ export class NavigationController {
      *
      * function witch return Object of listeners
      * @this {NavigationController}
-     * @return {{backButton: {listener: *, type: string}}}
+     * @return {Object}
      * @private
      */
     __createListeners() {

@@ -78,7 +78,7 @@ export class Navigation {
      *
      * Set new listeners
      * @this {Navigation}
-     * @param  {{toBack: {listener: *, type: string}}} val - Object of listeners
+     * @param  {Object} val - Object of listeners
      * @public
      */
     set listeners(val) {
