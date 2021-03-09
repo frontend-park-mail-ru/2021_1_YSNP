@@ -72,8 +72,8 @@ export class RegistrationPanel {
                 </div>
                 <div class="form-inner">
                     <select id="sex" class="settings-components__input">
-                        <option value=”Женский”>Женский</option>
-                        <option value=”Мужской”>Мужской</option>
+                        <option value=”female”>Женский</option>
+                        <option value=”male”>Мужской</option>
                     </select>
                 </div>
             </div>
