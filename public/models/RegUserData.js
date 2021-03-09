@@ -2,7 +2,7 @@ import {PasswordUserModel} from './PasswordUserModel.js';
 
 import {http} from '../modules/http.js';
 import {urls} from '../modules/urls.js';
-import { httpStatus } from '../modules/httpStatus.js';
+import {httpStatus} from '../modules/httpStatus.js';
 
 /***
  * Registration user model
@@ -42,12 +42,12 @@ export class RegUserData extends PasswordUserModel {
      */
     async registration(form) {
         return await http.post(urls.upload, new FormData(form), true)
-            .then(({ status, data }) => {
+            .then(({status, data}) => {
                 if (status === httpStatus.StatusOK) {
                     console.log(data);
                     this.__linkImages.push(data.linkImages);
 
-                    return http.post(urls.singUp, this.__jsonData()).then(({ status, data }) => {
+                    return http.post(urls.singUp, this.__jsonData()).then(({status, data}) => {
                         if (status === httpStatus.StatusOK) {
                             return {};
                         }
@@ -59,8 +59,6 @@ export class RegUserData extends PasswordUserModel {
                         throw err;
                     });
                 }
-            });
-                return {};
             }).catch((err) => Promise.reject(err));
     }
 

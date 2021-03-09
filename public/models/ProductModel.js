@@ -408,8 +408,6 @@ export class ProductModel {
      */
     async create(form) {
         return http.post(urls.productUploadPhotos, new FormData(form), true).then(({status, data}) => {
-            if (status === 200) {
-                console.log(data);
             if (status === httpStatus.StatusOK) {
                 this.__linkImages = data.linkImages;
                 const model = this.__jsonData();
