@@ -4,8 +4,6 @@
 @import "pages/styles/Profile.css";
 @import "pages/styles/Registration.css";
 
-@import "pages/styles/Test.css";
-
 @font-face {
     font-family: Roboto;
     src: url(/fonts/Roboto-Regular.ttf)
