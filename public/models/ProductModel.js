@@ -365,11 +365,14 @@ export class ProductModel {
      * @returns {{date: (Object.date|string|*), amount: (Object.amount|number|*), linkImage: string, name: (Object.name|string|*), id: (Object.id|string|*), userLiked: (Object.userLiked|boolean|*)}}
      */
     getMainData() {
+        const date = new Date(this.__date);
+        const day = date.toLocaleDateString('ru-RU', {weekday: 'short', day: 'numeric', month: 'short', year: 'numeric'});
+
         return {
             id: this.__id,
             name: this.__name,
-            date: this.__date,
-            amount: this.__amount,
+            date: day,
+            amount: `${this.__amount} ₽`,
             userLiked: this.__userLiked,
             linkImage: this.__getFirstImage()
         };
