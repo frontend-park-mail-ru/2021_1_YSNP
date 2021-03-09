@@ -353,7 +353,7 @@ export class ProductModel {
                 console.log(data);
                 this.__linkImages = data.linkImages;
                 const model = this.__jsonData();
-                http.post(urls.productCreate, model);
+                return http.post(urls.productCreate, model);
             }
         }).catch((err) => {
             console.log(err.message);

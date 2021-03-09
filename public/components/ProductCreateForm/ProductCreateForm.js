@@ -58,16 +58,16 @@ export class ProductCreateForm {
      */
     addListeners() {
         document
-            .getElementById('register')
+            .getElementById('submitProduct')
             .addEventListener(this.__listeners.submitClick.type, this.__listeners.submitClick.listener);
         document
-            .getElementById('registrationForm')
+            .getElementById('ProductForm')
             .addEventListener(this.listeners.showError.type, this.listeners.showError.listener);
         document
-            .getElementById('registrationForm')
+            .getElementById('ProductForm')
             .addEventListener(this.listeners.hideError.type, this.listeners.hideError.listener);
         document
-            .getElementById('registrationForm')
+            .getElementById('ProductForm')
             .addEventListener(this.listeners.validateInput.type, this.listeners.validateInput.listener);
         document
             .getElementById('productPhoto')
@@ -92,16 +92,16 @@ export class ProductCreateForm {
      */
     removeListeners() {
         document
-            .getElementById('register')
+            .getElementById('submitProduct')
             .removeEventListener(this.__listeners.submitClick.type, this.__listeners.submitClick.listener);
         document
-            .getElementById('registrationForm')
+            .getElementById('ProductForm')
             .removeEventListener(this.listeners.showError.type, this.listeners.showError.listener);
         document
-            .getElementById('registrationForm')
+            .getElementById('ProductForm')
             .removeEventListener(this.listeners.hideError.type, this.listeners.hideError.listener);
         document
-            .getElementById('registrationForm')
+            .getElementById('ProductForm')
             .removeEventListener(this.listeners.validateInput.type, this.listeners.validateInput.listener);
         document
             .getElementById('productPhoto')
@@ -196,7 +196,7 @@ export class ProductCreateForm {
                     <div id="files">
                         <input id="file-upload0" name="photos" data-id="0" data-action="readURL" class="file-upload" type="file" accept="image/*"/>
                     </div>
-                    <div id="registrationForm">
+                    <div id="ProductForm">
                         ${this.__drawForm()}
                     </div>
                     <div class="product-des form-spacing">
@@ -217,7 +217,7 @@ export class ProductCreateForm {
                     <div class="product-des">
                         <div class="product-des-topic"></div>
                         <div class="form-inner" id="submitBtn">
-                            <input class="header-right__create-button reg__button" data-action="submitClick" type="submit" id="register" value="Продолжить"/>
+                            <input class="header-right__create-button reg__button" data-action="submitClick" type="submit" id="submitProduct" value="Продолжить"/>
                         </div>
                     </div>
                 </form>

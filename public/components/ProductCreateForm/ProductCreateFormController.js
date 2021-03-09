@@ -96,7 +96,15 @@ export class ProductCreateFormController {
             });
 
             this.__model.log();
-            this.__model.create(document.getElementById('createProductForm'));
+            const button = document.getElementById('submitProduct');
+            button.value = 'Загрузка...';
+            button.disabled = true
+            this.__model.create(document.getElementById('createProductForm')).then(({ status }) => {
+                if (status === 200) {
+                    const landing = new Landing(this.__parent);
+                    landing.render();
+                }
+            });
         }
     }
 
