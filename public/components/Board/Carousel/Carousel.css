@@ -1,4 +1,4 @@
-.slider__button{
+.slider__button {
     display: flex;
     justify-content: center;
     align-items: center;
@@ -10,6 +10,7 @@
     position: relative;
     overflow: hidden;
 }
+
 .slider-carousel {
     position: absolute;
     visibility: hidden;
@@ -25,7 +26,7 @@
     padding-right: 2vw;
 }
 
-.slider-preview__picture{
+.slider-preview__picture {
     margin-top: 0;
     width: 49vw;
     height: 52vh;
@@ -37,12 +38,17 @@
     margin-top: 2vh;
 }
 
+.slider__button-prev {
+    width: 2vw;
+    height: 2vw;
+}
+
 .button_disabled {
     pointer-events: none;
     cursor: default;
 }
 
-.picture-frame img{
+.picture-frame img {
     user-select: none;
     object-fit: cover;
     cursor: pointer;
