@@ -1,12 +1,14 @@
-.product-inner  {
+.product-inner {
     margin-top: 3vw;
 }
 
 .product-des {
     display: flex;
 }
+
 .product-des-topic {
     min-width: 18%;
+    margin-top: 1vh;
 }
 
 .product-des-inner {
@@ -22,15 +24,13 @@
     color: #000000;
 }
 
-.product-des-topic__title{
+.product-des-topic__title {
     font-family: SF Pro Display, sans-serif;
     font-style: normal;
     font-weight: normal;
     font-size: 1.8vh;
     line-height: 1vh;
-
     color: #000000;
-
     opacity: 0.5;
 }
 

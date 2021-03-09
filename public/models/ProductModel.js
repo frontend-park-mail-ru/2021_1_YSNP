@@ -30,6 +30,22 @@ export class ProductModel {
     }
 
     /***
+     * Get product category
+     * @returns {string}
+     */
+    get category() {
+        return this.__category;
+    }
+
+    /***
+     * Set product category
+     * @param {string} category - product category
+     */
+    set category(category) {
+        this.__category = category;
+    }
+
+    /***
      * Get product name
      * @returns {string}
      */
@@ -290,6 +306,8 @@ export class ProductModel {
         this.__ownerName = data.ownerName;
         this.__ownerSurname = data.ownerSurname;
         this.__ownerStars = data.ownerStars;
+        this.__category = data.category;
+
     }
 
     /***
@@ -302,7 +320,8 @@ export class ProductModel {
             name: this.__name,
             description: this.__description,
             amount: this.__amount,
-            linkImages: this.__linkImages
+            linkImages: this.__linkImages,
+            category: this.__category
         };
     }
 
@@ -312,6 +331,7 @@ export class ProductModel {
             name: this.__name,
             date: this.__date,
             amount: this.__amount,
+            category: this.__category,
             description: this.__description,
             views: this.__views,
             likes: this.__likes,
@@ -377,7 +397,8 @@ export class ProductModel {
             ownerId: this.__ownerId,
             ownerName: this.__ownerName,
             ownerSurname: this.__ownerSurname,
-            ownerStars: this.__ownerStars
+            ownerStars: this.__ownerStars,
+            category: this.__category
         });
     }
 }

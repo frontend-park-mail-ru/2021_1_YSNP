@@ -88,11 +88,13 @@ export class ProductCreateFormController {
         const isValidPrice = this.__validatePriceInput(price);
         const isValidDescription = this.__validateTextArea(description);
         const isValidname = this.__validateEmptyInput(name);
+        const category = document.getElementById('categorySelect');
         if (isValidname && isValidDescription && isValidPrice && this.__count !== 0) {
             this.__model.fillProductModel({
                 name: name.value,
                 description: description.value,
-                amount: parseInt(price.value.toString().split(' ').join(''))
+                amount: parseInt(price.value.toString().split(' ').join('')),
+                category: category.options[category.selectedIndex].text
             });
 
             this.__model.log();
