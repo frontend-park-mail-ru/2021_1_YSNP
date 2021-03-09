@@ -2,6 +2,7 @@ import {PasswordUserModel} from './PasswordUserModel.js';
 
 import {http} from '../modules/http.js';
 import {urls} from '../modules/urls.js';
+import { httpStatus } from '../modules/httpStatus.js';
 
 /***
  * Registration user model
@@ -34,34 +35,33 @@ export class RegUserData extends PasswordUserModel {
         };
     }
 
+
     /***
      * Post registration user data to backend
-     * @returns {Promise<{data: *, status: number}>}
+     * @returns {Promise<{}|void>}
      */
     async registration(form) {
         return await http.post(urls.upload, new FormData(form), true)
-            .then(({status, data}) => {
-                if (status === 200) {
+            .then(({ status, data }) => {
+                if (status === httpStatus.StatusOK) {
+                    console.log(data);
                     this.__linkImages.push(data.linkImages);
-                
-                    this.log();
 
-                    http.post(urls.singUp, this.__jsonData());
+                    return http.post(urls.singUp, this.__jsonData()).then(({ status, data }) => {
+                        if (status === httpStatus.StatusOK) {
+                            return {};
+                        }
+
+                        if (status === httpStatus.StatusBadRequest) {
+                            throw new Error(data.message);
+                        }
+                    }).catch((err) => {
+                        throw err;
+                    });
                 }
-
-                // if (status === 400) {
-                //     throw new Error('Слишком большой размер фото, пожалуйста, загрузите фото меньшего размера');
-                // }
-
-                // if (status === 403) {
-                //     throw new Error('Пожалуйста, загрузите фото с вашим лицом');
-                // }
-
-                // if (status === 500) {
-                //     throw new Error('Неизвестная ошибка, пожалуйста, попробуйте позже');
-                // }
             });
-
+                return {};
+            }).catch((err) => Promise.reject(err));
     }
 
     /***

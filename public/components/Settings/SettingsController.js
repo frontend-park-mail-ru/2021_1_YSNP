@@ -1,3 +1,6 @@
+import {SettingsUserData} from '../../models/SettingsUserData.js';
+import {Profile} from '../../pages/Profile.js';
+
 /***
  * Settings controller
  */
@@ -13,12 +16,17 @@ export class SettingsController {
         this.__parent = parent;
         this.__settings = settings;
         this.__isOpen = false;
+        this.__model = new SettingsUserData();
     }
 
     /***
      * Add listeners
      */
-    control() {
+    async control() {
+        await this.__model.update();
+        this.__settings.data = this.__model.getData();
+
+        this.__settings.render();
         this.__settings.listeners = this.__createListeners();
         this.__settings.addListeners();
     }
@@ -36,13 +44,20 @@ export class SettingsController {
      * @private
      */
     __listenerSettingsClick(ev) {
-        ev.preventDefault();
+        document.getElementById('settings-password-error').classList.remove('settings-password-error_success');
+        document.getElementById('settings-password-error').classList.add('settings-password-error_hidden');
+        document.getElementById('settings-error').classList.remove('settings-error_visible');
+        document.getElementById('settings-error').classList.add('settings-error_hidden');
 
         const actions = this.__getActions();
         Object
             .entries(ev.composedPath())
             .forEach(([, el]) => {
+
                 if (el.dataset !== undefined && 'action' in el.dataset) {
+                    if (el.dataset.action === 'saveChangesClick') {
+                        ev.preventDefault();
+                    }
                     actions[el.dataset.action].open(ev.target);
                 }
             });
@@ -131,13 +146,13 @@ export class SettingsController {
                 open: this.__openSaveChanges.bind(this)
             },
             inputPhone: {
-                open: this.__validatePhone.bind(this)
+                open: this.__validateTelephone.bind(this)
             },
             inputMail: {
-                open: this.__validateMail.bind(this)
+                open: this.__validateEmail.bind(this)
             },
             inputEmpty: {
-                open: this.__validateEmpty.bind(this)
+                open: this.__validateString.bind(this)
             },
             mouseIn: {
                 open: this.mouseInInput.bind(this)
@@ -145,17 +160,17 @@ export class SettingsController {
             mouseOut: {
                 open: this.mouseOutInput.bind(this)
             },
+            checkPasswd: {
+                open: this.__enablePasswordChange.bind(this)
+            },
             clickUpload: {
                 open: this.__upload.bind(this)
             },
             readURL: {
                 open: this.__read.bind(this)
             },
-            checkPasswd: {
-                open: this.__checkPassword.bind(this)
-            },
             changePwd: {
-                open: this.__validatePas.bind(this)
+                open: this.__validatePassword.bind(this)
             },
             inputConfirmPwd: {
                 open: this.__validateConfirmPwd.bind(this)
@@ -170,17 +185,58 @@ export class SettingsController {
     }
 
     /***
+     * Enable changing password buttons
+     * @private
+     */
+    __enablePasswordChange(target) {
+        if (target.value !== '') {
+            document
+                .getElementById('settings-save-pass')
+                .style.visibility = 'visible';
+            document
+                .getElementById('settings-reset-pass')
+                .style.visibility = 'visible';
+        } else {
+            document
+                .getElementById('settings-save-pass')
+                .style.visibility = 'hidden';
+            document
+                .getElementById('settings-reset-pass')
+                .style.visibility = 'hidden';
+        }
+    }
+
+    /***
      * Save new password
      * @private
      */
     __savePasswordClick() {
+        const oldPassword = document.getElementById('settings-old-pass').value;
         const passwordConfirm = document.getElementById('settings-confirm-pass');
-        const password = document.getElementById('settings-new-pass');
+        const newPassword = document.getElementById('settings-new-pass');
         const isValidpwdConfirm = this.__validateConfirmPwd(passwordConfirm);
-        const isValidPwd = this.__validatePas(password);
-        if (isValidPwd && isValidpwdConfirm) {
-            //TODO set new password
-            this.__resetPasswordClick();
+        const isValidNewPwd = this.__validatePassword(newPassword);
+        if (isValidNewPwd && isValidpwdConfirm) {
+            this.__model.fillNewPassword({
+                oldPass: oldPassword,
+                newPass: newPassword.value
+            });
+
+            this.__model.log();
+            this.__model.newPassword()
+                .then(() => {
+                    this.__resetPasswordClick();
+                    const err = document.getElementById('settings-password-error');
+                    err.textContent = 'Пароль успешно изменен';
+                    err.classList.add('settings-password-error_success');
+                    err.classList.remove('settings-password-error_hidden');
+                })
+                .catch((error) => {
+                    const err = document.getElementById('settings-password-error');
+                    err.textContent = error.message;
+                    err.classList.add('settings-password-error_visible');
+                    err.classList.remove('settings-password-error_hidden');
+                });
         }
     }
 
@@ -190,136 +246,38 @@ export class SettingsController {
      */
     __resetPasswordClick() {
         console.log('reset pass');
-        const passwordConfirm = document.getElementById('settings-confirm-pass');
-        const password = document.getElementById('settings-new-pass');
         document
             .getElementById('settings-save-pass')
             .style.visibility = 'hidden';
         document
             .getElementById('settings-reset-pass')
             .style.visibility = 'hidden';
+        document.getElementById('settings-password-error').classList.remove('settings-password-error_visible');
+        document.getElementById('settings-password-error').classList.remove('settings-password-error_success');
+        document.getElementById('settings-password-error').classList.add('settings-password-error_hidden');
+        const passwordConfirm = document.getElementById('settings-confirm-pass');
+        const password = document.getElementById('settings-new-pass');
+        const oldPass = document.getElementById('settings-old-pass');
 
         password.value = '';
-        password.setAttribute('readonly', 'true');
         password.classList.remove('settings-components__input-success');
         password.classList.remove('settings-components__input-error');
         if (document.getElementById('settings-new-passError')) {
             password.parentNode.removeChild(password.nextSibling);
         }
 
+        oldPass.value = '';
+        oldPass.classList.remove('settings-components__input-success');
+        oldPass.classList.remove('settings-components__input-error');
+        if (document.getElementById('settings-old-passError')) {
+            password.parentNode.removeChild(password.nextSibling);
+        }
+
         passwordConfirm.value = '';
-        passwordConfirm.setAttribute('readonly', 'true');
         passwordConfirm.classList.remove('settings-components__input-success');
         passwordConfirm.classList.remove('settings-components__input-error');
         if (document.getElementById('settings-confirm-passError')) {
             passwordConfirm.parentNode.removeChild(passwordConfirm.nextSibling);
-        }
-
-        document
-            .getElementById('settings-old-pass')
-            .removeAttribute('readonly');
-    }
-
-    /***
-     * Check validation of password confirmation
-     * @param target
-     * @returns {boolean}
-     * @private
-     */
-    __validateConfirmPwd(target) {
-        if (document.getElementById('settings-save-pass').style.visibility === 'visible') {
-            const element = document.getElementById('settings-new-pass');
-            if (element.value === target.value && target.value !== '') {
-                this.__addSuccesses(target, 'settings-confirm-passError');
-                return true;
-            }
-
-            this.__insertError(target, 'settings-confirm-passError', this.__createMessageError(`
-                 <ul class="list-errors">
-                     <li>Пароли не совпадают</li>
-                 </ul>
-             `));
-            return false;
-        }
-        return false;
-    }
-
-    /***
-     * Check validation of new password
-     * @param target
-     * @returns {boolean}
-     * @private
-     */
-    __validatePas(target) {
-        if (document.getElementById('settings-save-pass').style.visibility === 'visible') {
-
-            if (this.__isValidPwd(target.value)) {
-                this.__addSuccesses(target, 'settings-new-passError');
-                const element = document.getElementById('settings-confirm-pass');
-                this.__validateConfirmPwd(element);
-                return true;
-            }
-
-            this.__insertError(target, 'settings-new-passError', this.__createMessageError(`
-                            <ul class="list-errors">
-                              <li>От шести или более символов</li>
-                              <li>Содержит хотя бы одну цифру</li>
-                              <li>Хотя бы один символ нижнего регистра</li>
-                              <li>Хотя бы один символ верхнего регистра</li>
-                              <li>Только латинские символы</li>
-                            </ul>
-        `));
-            return false;
-        }
-        return false;
-    }
-
-    /***
-     * Password mask validation
-     * @param inputtxt
-     * @returns {boolean}
-     * @private
-     */
-    __isValidPwd(inputtxt) {
-        const re = /(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,}/;
-        return re.test(inputtxt);
-    }
-
-    /***
-     * Check old password correct
-     * @private
-     */
-    __checkPassword() {
-        const password = document.getElementById('settings-old-pass');
-        //TODO check password
-        console.log(document.getElementById('settings-save-pass').style);
-        if (password.value === '1234') {
-            document
-                .getElementById('settings-save-pass')
-                .style.visibility = 'visible';
-            document
-                .getElementById('settings-reset-pass')
-                .style.visibility = 'visible';
-            document
-                .getElementById('settings-new-pass')
-                .removeAttribute('readonly');
-            document
-                .getElementById('settings-confirm-pass')
-                .removeAttribute('readonly');
-            password.value = '';
-            password.setAttribute('readonly', 'true');
-            password.classList.remove('settings-components__input-success');
-            password.classList.remove('settings-components__input-error');
-            if (document.getElementById('settings-old-passError')) {
-                password.parentNode.removeChild(password.nextSibling);
-            }
-        } else if (password.value !== '') {
-            console.log('check pass error');
-            this.__insertError(password, `${password.id}Error`, this.__createMessageError(`
-                  <ul class="list-errors">
-                    <li>Неверный пароль</li>
-                  </ul>
-                  `));
         }
     }
 
@@ -341,8 +299,8 @@ export class SettingsController {
      * @private
      */
     __read(input) {
-        console.log(input.files);
-        if (input.files && input.files[0]) {
+        const firstFile = 0;
+        if (input.files && input.files[firstFile]) {
             const reader = new FileReader();
 
             reader.onload = function(e) {
@@ -350,7 +308,7 @@ export class SettingsController {
                 elem.src = e.target.result;
             };
 
-            reader.readAsDataURL(input.files[0]);
+            reader.readAsDataURL(input.files[firstFile]);
         }
     }
 
@@ -384,8 +342,32 @@ export class SettingsController {
         // this.__pageRemoveListeners();
         if (this.__isOpen) {
             if (confirm('Вы уверены, что хотите выйти без сохранения?')) {
-                //TODO вернуть значения инпутов на дефолтные
-
+                document
+                    .getElementById('settings-name')
+                    .value = this.__model.name;
+                document
+                    .getElementById('settings-surname')
+                    .value = this.__model.surname;
+                // document
+                //     .getElementById('settings-patronymic')
+                //     .value = this.__model.patronymic;
+                document
+                    .getElementById('settings-gender')
+                    .value = this.__model.sex;
+                document
+                    .getElementById('settings-birthday')
+                    .value = this.__model.dateBirth;
+                document
+                    .getElementById('settings-telephone')
+                    .value = this.__model.telephone;
+                document
+                    .getElementById('settings-email')
+                    .value = this.__model.email;
+                // document
+                //     .getElementById('settings-location')
+                //     .value = this.__model.location;
+                const elem = document.getElementById('settings-profile-pic');
+                elem.src = this.__model.getFirstImage();
                 this.__disableEditing();
                 this.__isOpen = false;
             }
@@ -395,6 +377,26 @@ export class SettingsController {
         }
 
         console.log('Click edit page');
+    }
+
+    /***
+     * Draw popup
+     * @param message
+     * @returns {string}
+     * @private
+     */
+    __drawPopup(message) {
+        return `
+        <div class="popup">
+            <div class="popup-inner">
+                <div class="popup-message">${message}</div>
+                <div class="popup-buttons">
+                    <button id="popup-save" class="settings-title__save_button" data-action="savePasswordClick">Остаться</button>
+                    <button id="popup-cancel" class="settings-title__reset_button" data-action="resetPasswordClick">Отменить</button>
+                </div>
+            </div>
+        </div>
+        `;
     }
 
     /***
@@ -418,25 +420,59 @@ export class SettingsController {
     __validateSettings() {
         const surname = document.getElementById('settings-surname');
         const name = document.getElementById('settings-name');
-        const patronymic = document.getElementById('settings-patronymic');
+        // const patronymic = document.getElementById('settings-patronymic').value;
         const birthday = document.getElementById('settings-birthday');
         const phone = document.getElementById('settings-telephone');
-        const location = document.getElementById('settings-location');
+        // const location = document.getElementById('settings-location').value;
         const mail = document.getElementById('settings-email');
 
-        const isValidSurname = this.__validateEmpty(surname);
-        const isValidName = this.__validateEmpty(name);
-        const isValidPatronymic = this.__validateEmpty(patronymic);
-        const isValidBirthday = this.__validateEmpty(birthday);
-        const isValidPhone = this.__validatePhone(phone);
-        const isValidLocation = this.__validateEmpty(location);
-        const isValidMail = this.__validateMail(mail);
-        if (isValidSurname && isValidName && isValidPatronymic && isValidBirthday && isValidPhone && isValidLocation && isValidMail) {
-            //TODO Отправка формы
-            return true;
+        const isValidSurname = this.__validateString(surname);
+        const isValidName = this.__validateString(name);
+        // const isValidPatronymic = this.__model.validationString(patronymic);
+        const isValidBirthday = this.__validateString(birthday);
+        const isValidPhone = this.__validateTelephone(phone);
+        // const isValidLocation = this.__model.validationString(location);
+        const isValidMail = this.__validateEmail(mail);
+
+
+        const sexEl = document.getElementById('settings-gender');
+        const sex = sexEl.options[sexEl.selectedIndex].value;
+        const img = document.getElementById('settings-profile-pic').src;
+
+        if (isValidSurname && isValidName && isValidBirthday && isValidPhone && isValidMail) {
+            this.__model.fillUserData({
+                name: name.value,
+                surname: surname.value,
+                dateBirth: birthday.value,
+                sex: sex,
+                email: mail.value,
+                telephone: phone.value,
+                password: 'password',
+                linkImages: img
+            });
+            this.__model.settings()
+                .then(({isUpdate}) => {
+                    if (isUpdate) {
+                        const err = document.getElementById('settings-password-error');
+                        err.classList.add('settings-error_hidden');
+                        err.classList.remove('settings-error_visible');
+                        const profile = new Profile(this.__parent);
+                        profile.render();
+                    }
+                })
+                .catch((error) => {
+                    const err = document.getElementById('settings-error');
+                    err.textContent = error.message;
+                    err.classList.add('settings-error_visible');
+                    err.classList.remove('settings-error_hidden');
+                });
+        } else {
+            const err = document.getElementById('settings-error');
+            err.textContent = 'Проверьте правильность введенных данных';
+            err.classList.add('settings-error_visible');
+            err.classList.remove('settings-error_hidden');
         }
         return false;
-
     }
 
     /***
@@ -492,97 +528,6 @@ export class SettingsController {
     }
 
     /***
-     * Check validation of text input
-     * @param target
-     * @returns {boolean}
-     * @private
-     */
-    __validateEmpty(target) {
-        if (document.getElementById('settings-button-save').style.visibility === 'visible') {
-
-            if (target.value !== '') {
-                this.__addSuccesses(target, `${target.id}Error`);
-                return true;
-            }
-            this.__insertError(target, `${target.id}Error`, this.__createMessageError(`
-                      <ul class="list-errors">
-                             <li>Поле не должно быть пустым</li>
-                         </ul>
-        `));
-            return false;
-        }
-        return false;
-    }
-
-    /***
-     * Check validation of phone input
-     * @param target
-     * @returns {boolean}
-     * @private
-     */
-    __validatePhone(target) {
-        if (document.getElementById('settings-button-save').style.visibility === 'visible') {
-
-            if (this.__isValidPhone(target.value)) {
-                this.__addSuccesses(target, 'phoneError');
-                return true;
-            }
-            this.__insertError(target, 'phoneError', this.__createMessageError(`
-                      <ul class="list-errors">
-                        <li>Неверный формат телефона</li>
-                      </ul>
-        `));
-            return false;
-        }
-        return false;
-    }
-
-    /***
-     * Is phone number valid
-     * @param phoneNumber
-     * @returns {boolean}
-     * @private
-     */
-    __isValidPhone(phoneNumber) {
-        const validTel = /^(\+7|7|8)?[\s\-]?\(?[489][0-9]{2}\)?[\s\-]?[0-9]{3}[\s\-]?[0-9]{2}[\s\-]?[0-9]{2}$/;
-        return validTel.test(phoneNumber);
-    }
-
-    /***
-     * Check validation of e-mail input
-     * @param target
-     * @returns {boolean}
-     * @private
-     */
-    __validateMail(target) {
-        if (document.getElementById('settings-button-save').style.visibility === 'visible') {
-
-            if (this.__isValidEmail(target.value)) {
-                this.__addSuccesses(target, 'MailError');
-                return true;
-            }
-            this.__insertError(target, 'MailError', this.__createMessageError(`
-                      <ul class="list-errors">
-                         <li>Неправильный формат e-mail</li>
-                     </ul>
-        `));
-            return false;
-        }
-        return false;
-    }
-
-    /***
-     * Is e-mail valid
-     * @param email
-     * @returns {boolean}
-     * @private
-     */
-    __isValidEmail(email) {
-        const re = /\S+@\S+\.\S+/;
-        return re.test(email);
-    }
-
-    /***
      * Open form settings for editing
      * @private
      */
@@ -599,9 +544,9 @@ export class SettingsController {
         document
             .getElementById('settings-name')
             .removeAttribute('readonly');
-        document
-            .getElementById('settings-patronymic')
-            .removeAttribute('readonly');
+        // document
+        //     .getElementById('settings-patronymic')
+        //     .removeAttribute('readonly');
         document
             .getElementById('settings-gender')
             .removeAttribute('disabled');
@@ -611,9 +556,9 @@ export class SettingsController {
         document
             .getElementById('settings-telephone')
             .removeAttribute('readonly');
-        document
-            .getElementById('settings-location')
-            .removeAttribute('readonly');
+        // document
+        //     .getElementById('settings-location')
+        //     .removeAttribute('readonly');
         document
             .getElementById('settings-email')
             .removeAttribute('readonly');
@@ -645,13 +590,13 @@ export class SettingsController {
             const target = document.getElementById('settings-name');
             target.parentNode.removeChild(target.nextSibling);
         }
-        document
-            .getElementById('settings-patronymic')
-            .setAttribute('readonly', 'true');
-        if (document.getElementById('settings-patronymicError')) {
-            const target = document.getElementById('settings-patronymic');
-            target.parentNode.removeChild(target.nextSibling);
-        }
+        // document
+        //     .getElementById('settings-patronymic')
+        //     .setAttribute('readonly', 'true');
+        // if (document.getElementById('settings-patronymicError')) {
+        //     const target = document.getElementById('settings-patronymic');
+        //     target.parentNode.removeChild(target.nextSibling);
+        // }
         document
             .getElementById('settings-gender')
             .setAttribute('disabled', 'true');
@@ -669,13 +614,13 @@ export class SettingsController {
             const target = document.getElementById('settings-telephone');
             target.parentNode.removeChild(target.nextSibling);
         }
-        document
-            .getElementById('settings-location')
-            .setAttribute('readonly', 'true');
-        if (document.getElementById('settings-locationError')) {
-            const target = document.getElementById('settings-location');
-            target.parentNode.removeChild(target.nextSibling);
-        }
+        // document
+        //     .getElementById('settings-location')
+        //     .setAttribute('readonly', 'true');
+        // if (document.getElementById('settings-locationError')) {
+        //     const target = document.getElementById('settings-location');
+        //     target.parentNode.removeChild(target.nextSibling);
+        // }
         document
             .getElementById('settings-email')
             .setAttribute('readonly', 'true');
@@ -683,5 +628,115 @@ export class SettingsController {
             const target = document.getElementById('settings-email');
             target.parentNode.removeChild(target.nextSibling);
         }
+    }
+
+    /***
+     * Validate phone
+     * @param target
+     * @returns {boolean}
+     * @private
+     */
+    __validateTelephone(target) {
+        const {error, message} = this.__model.validationTelephone(target.value);
+        if (!error) {
+            this.__addSuccesses(target, 'phoneError');
+            return true;
+        }
+        this.__insertError(target, 'phoneError', this.__createMessageError(`
+                  <ul class="list-errors">
+                    <li>${message}</li>
+                  </ul>
+    `));
+        return false;
+    }
+
+
+    /***
+     * Validate password
+     * @param target
+     * @returns {boolean}
+     * @private
+     */
+    __validatePassword(target) {
+        if (target.value !== '') {
+            const {error, message} = this.__model.validationPassword(target.value);
+            if (!error) {
+                this.__addSuccesses(target, `${target.id}Error`);
+                const element = document.getElementById('settings-confirm-pass');
+                this.__validateConfirmPwd(element);
+                return true;
+            }
+
+            this.__insertError(target, `${target.id}Error`, this.__createMessageError(`
+                        <ul class="list-errors">
+                        ${message.reduce((prev, cur) => `${prev}<li>${cur}</li>`, '')}
+                        </ul>
+            `));
+        }
+        return false;
+    }
+
+    /***
+     * Validate confirmation password
+     * @param target
+     * @returns {boolean}
+     * @private
+     */
+    __validateConfirmPwd(target) {
+        const element = document.getElementById('settings-new-pass');
+        if (target.value !== '') {
+            const {error, message} = this.__model.validationConfirmPassword(element.value, target.value);
+            if (!error) {
+                this.__addSuccesses(target, `${target.id}Error`);
+                return true;
+            }
+
+            this.__insertError(target, `${target.id}Error`, this.__createMessageError(`
+                 <ul class="list-errors">
+                     <li>${message}</li>
+                 </ul>
+            `));
+        }
+        return false;
+    }
+
+    /***
+     * Validate email field
+     * @param target
+     * @returns {boolean}
+     * @private
+     */
+    __validateEmail(target) {
+        const {error, message} = this.__model.validationEmail(target.value);
+        if (!error) {
+            this.__addSuccesses(target, 'MailError');
+            return true;
+        }
+        this.__insertError(target, 'MailError', this.__createMessageError(`
+                  <ul class="list-errors">
+                     <li>${message}</li>
+                 </ul>
+    `));
+        return false;
+    }
+
+    /***
+     * Validate string fields
+     * @param target
+     * @returns {boolean}
+     * @private
+     */
+    __validateString(target) {
+        if (target.value !== '') {
+            this.__addSuccesses(target, `${target.id}Error`);
+            return true;
+        }
+
+        this.__insertError(target, `${target.id}Error`, this.__createMessageError(`
+                  <ul class="list-errors">
+                         <li>Поле не должно быть пустым</li>
+                     </ul>
+    `));
+        return false;
     }
 }

@@ -20,28 +20,6 @@ export class Profile {
     }
 
     /***
-     * Test header data
-     * @returns {{isAuth: boolean, location: string, avatar: string, user: string}}
-     * @private
-     */
-    __getUserData() {
-        return {
-            isAuth: true,
-            user: 'Алехин Сергей',
-            name: 'Сергей',
-            surname: 'Алехин',
-            patronymic: '',
-            // eslint-disable-next-line no-magic-numbers
-            birthday: '1999-11-11',
-            telephone: '+79998761234',
-            email: 'al.ser@ya.ru',
-            avatar: '/img/test-avatar.jpg',
-            location: 'Москва',
-            rate: '4.8'
-        };
-    }
-
-    /***
      * Remove page listeners
      * @private
      */
@@ -54,13 +32,12 @@ export class Profile {
     /***
      * Add component to parent
      */
-    render() {
+    async render() {
         this.__parent.innerHTML = '';
 
-        const header = new Header(this.__parent, this.__getUserData());
-        header.render();
+        const header = new Header(this.__parent);
         this.__headerController = new HeaderController(this.__removePageListeners.bind(this), this.__parent, header);
-        this.__headerController.control();
+        await this.__headerController.control();
 
         this.__parent.insertAdjacentHTML('beforeend',
             `<div class="profile">
@@ -70,14 +47,12 @@ export class Profile {
             </div>`);
         const profilePage = document.getElementById('profile');
 
-        const profile = new ProfileMenu(profilePage, this.__getUserData(), {page: 'settings'});
-        profile.render();
+        const profile = new ProfileMenu(profilePage, {page: 'settings'});
         this.__profileController = new ProfileMenuController(this.__removePageListeners.bind(this), this.__parent, profile);
-        this.__profileController.control();
+        await this.__profileController.control();
 
-        const settings = new Settings(profilePage, this.__getUserData());
-        settings.render();
+        const settings = new Settings(profilePage);
         this.__settingsController = new SettingsController(this.__removePageListeners.bind(this), this.__parent, settings);
-        this.__settingsController.control();
+        await this.__settingsController.control();
     }
 }

@@ -1,16 +1,15 @@
 /***
- *
+ * Settings box on profile page
  */
 export class Settings {
     /***
      * Class constructor
      * @param {HTMLElement} parent - element where the component will be inserted
-     * @param {Object} data - element data
      * @param {Object} listeners - component listeners
      */
-    constructor(parent, data, listeners = {}) {
+    constructor(parent, listeners = {}) {
         this.__parent = parent;
-        this.__data = data;
+        this.data = {};
         this.__listeners = listeners;
     }
 
@@ -44,9 +43,6 @@ export class Settings {
             .getElementById('settings-password')
             .addEventListener(this.listeners.validateInput.type, this.listeners.validateInput.listener);
         document
-            .getElementById('settings-avatar')
-            .addEventListener(this.listeners.settingsClick.type, this.listeners.settingsClick.listener);
-        document
             .getElementById('settings')
             .addEventListener(this.__listeners.settingsClick.type, this.__listeners.settingsClick.listener);
         document
@@ -72,9 +68,6 @@ export class Settings {
             .getElementById('settings-password')
             .removeEventListener(this.listeners.validateInput.type, this.listeners.validateInput.listener);
         document
-            .getElementById('settings-avatar')
-            .removeEventListener(this.listeners.settingsClick.type, this.listeners.settingsClick.listener);
-        document
             .getElementById('settings')
             .removeEventListener(this.__listeners.settingsClick.type, this.__listeners.settingsClick.listener);
         document
@@ -93,7 +86,7 @@ export class Settings {
     __getTemplate() {
         return `
         <div class="settings" id="settings">
-            <form class="settings-inner">
+            <form class="settings-inner" id="settings-form">
                 <div class="settings-title">
                     <span>Личные данные</span>
                     <span class="settings-title__edit" id="settings-edit" data-action="editClick">
@@ -102,46 +95,47 @@ export class Settings {
                         </svg>
                     </span>
                     <button id="settings-button-save" class="settings-title__save_button" data-action="saveChangesClick">Сохранить изменения</button>
-                </div>
+                </div>                
                 <div class="settings__separator"></div>
+                <span class="settings-error_hidden" id="settings-error"></span>
                 <div class="settings-components">
                     <div class="settings-left-components">
                         <span class="settings-components__title">Фамилия</span>
                         <span class="settings-components__title">Имя</span>
-                        <span class="settings-components__title">Отчество</span>
+<!--                        <span class="settings-components__title">Отчество</span>-->
                         <span class="settings-components__title">Пол</span>
                         <span class="settings-components__title">Дата рождения</span>
                         <span class="settings-components__title">Телефон</span>
-                        <span class="settings-components__title">Город</span>
+<!--                        <span class="settings-components__title">Город</span>-->
                         <span class="settings-components__title">E-mail</span>
                     </div>
                     <div class="settings-right-components" id="settings-components">
                         <div class="settings-input-inner">
-                            <input id="settings-surname" data-action="inputEmpty" required class="settings-components__input" type="text" value="${this.__data.surname}" data-move="mouseIn" data-moveout="mouseOut" readonly>
+                            <input id="settings-surname" data-action="inputEmpty" required class="settings-components__input" type="text" value="${this.data.surname}" data-move="mouseIn" data-moveout="mouseOut" readonly>
                         </div>
                         <div class="settings-input-inner">
-                            <input id="settings-name" data-action="inputEmpty" required class="settings-components__input" type="text" value="${this.__data.name}" data-move="mouseIn" data-moveout="mouseOut" readonly>
+                            <input id="settings-name" data-action="inputEmpty" required class="settings-components__input" type="text" value="${this.data.name}" data-move="mouseIn" data-moveout="mouseOut" readonly>
                         </div>
+<!--                         <div class="settings-input-inner">-->
+<!--                             <input id="settings-patronymic" data-action="inputEmpty" class="settings-components__input" type="text" value="${this.data.patronymic}" data-move="mouseIn" data-moveout="mouseOut" readonly>-->                             
+<!--                         </div> -->
                         <div class="settings-input-inner">
-                            <input id="settings-patronymic" data-action="inputEmpty" class="settings-components__input" type="text" value="${this.__data.patronymic}" data-move="mouseIn" data-moveout="mouseOut" readonly>                             
-                        </div> 
-                        <div class="settings-input-inner">
-                            <select id="settings-gender" class="settings-components__input" disabled>
-                                <option value=”woman”>Женский</option>
-                                <option value=”man”>Мужской</option>
+                            <select id="settings-gender" class="settings-components__input" disabled>                              
+                                <option value="female" name="female">Женский</option>
+                                <option value="male" name="male">Мужской</option>
                             </select>                               
                         </div>
                         <div class="settings-input-inner">
-                            <input id="settings-birthday" data-action="inputEmpty" class="settings-components__input" type="date" min="1900-01-01" max="2021-01-01" value="${this.__data.birthday}" data-move="mouseIn" data-moveout="mouseOut" readonly>                             
+                            <input id="settings-birthday" data-action="inputEmpty" class="settings-components__input" type="date" min="1900-01-01" max="2021-01-01" value="${this.data.dateBirth}" data-move="mouseIn" data-moveout="mouseOut" readonly>                             
                         </div>
                         <div class="settings-input-inner">
-                            <input id="settings-telephone" data-action="inputPhone" class="settings-components__input" type="tel" value="${this.__data.telephone}" data-move="mouseIn" data-moveout="mouseOut" readonly>                             
+                            <input id="settings-telephone" data-action="inputPhone" class="settings-components__input" type="tel" value="${this.data.telephone}" data-move="mouseIn" data-moveout="mouseOut" readonly>                             
                         </div>
+<!--                        <div class="settings-input-inner">-->
+<!--                            <input id="settings-location" data-action="inputEmpty" class="settings-components__input" type="text" value="${this.data.location}" data-move="mouseIn" data-moveout="mouseOut" readonly>-->                             
+<!--                        </div>-->
                         <div class="settings-input-inner">
-                            <input id="settings-location" data-action="inputEmpty" class="settings-components__input" type="text" value="${this.__data.location}" data-move="mouseIn" data-moveout="mouseOut" readonly>                             
-                        </div>
-                        <div class="settings-input-inner">
-                            <input id="settings-email" data-action="inputMail" required class="settings-components__input" type="email" value="${this.__data.email}" data-move="mouseIn" data-moveout="mouseOut" readonly>     
+                            <input id="settings-email" data-action="inputMail" required class="settings-components__input" type="email" value="${this.data.email}" data-move="mouseIn" data-moveout="mouseOut" readonly>     
                         </div>
                         
                     </div>
@@ -155,7 +149,7 @@ export class Settings {
                         <input id="settings-file-upload" data-action="readURL" class="file-upload" type="file" accept="image/*"/>
                         <div class="settings-avatar">
                              <div class="settings-avatar-inner" id="settings-avatar" data-action="clickUpload">
-                                 <img class="settings-avatar__pic" id="settings-profile-pic" src="${this.__data.avatar}" alt="img">                            
+                                 <img class="settings-avatar__pic" id="settings-profile-pic" src="${this.data.linkImage}" alt="img">                            
                                  <div class="settings-avatar-upload">
                                        <i class="settings-avatar-upload__button" id="settings-upload-button">
                                             <svg width="32" height="32" viewBox="0 0 32 32" fill="white" xmlns="http://www.w3.org/2000/svg">
@@ -205,6 +199,7 @@ export class Settings {
                         <button id="settings-save-pass" class="settings-title__save_button" data-action="savePasswordClick">Сохранить пароль</button>
                         <button id="settings-reset-pass" class="settings-title__reset_button" data-action="resetPasswordClick">Отменить изменения</button>
                     </div>
+                    
                     <div class="settings__separator"></div>
                     <div class="settings-passwords-inner">
                         <div class="settings-left-components">
@@ -215,12 +210,13 @@ export class Settings {
                         <div class="settings-right-components">
                             <div class="settings-input-inner" id="settings-password">
                                 <input id="settings-old-pass" data-action="checkPasswd" required class="settings-components__input" type="password" data-move="mouseIn" data-moveout="mouseOut">
+                                <span class="settings-password-error_hidden" id="settings-password-error"></span>
                             </div>
                             <div class="settings-input-inner">
-                                <input id="settings-new-pass" data-action="changePwd" required class="settings-components__input" type="password" data-move="mouseIn" data-moveout="mouseOut" readonly>
+                                <input id="settings-new-pass" data-action="changePwd" required class="settings-components__input" type="password" data-move="mouseIn" data-moveout="mouseOut">
                             </div>
                             <div class="settings-input-inner">
-                                <input id="settings-confirm-pass" data-action="inputConfirmPwd" required class="settings-components__input" type="password" data-move="mouseIn" data-moveout="mouseOut" readonly>
+                                <input id="settings-confirm-pass" data-action="inputConfirmPwd" required class="settings-components__input" type="password" data-move="mouseIn" data-moveout="mouseOut">
                             </div>
                         </div>
                     </div>
@@ -246,5 +242,8 @@ export class Settings {
     render() {
         const template = this.__getTemplate();
         this.__parent.insertAdjacentHTML('beforeend', template);
+        document
+            .getElementById('settings-gender').options[this.data.sex]
+            .setAttribute('selected', 'true');
     }
 }

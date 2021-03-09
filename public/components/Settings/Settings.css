@@ -5,7 +5,7 @@
 
 .settings {
     width: 85vh;
-    height: 110vh;
+    height: 103vh;
     margin-bottom: 10vh;
     display: flex;
     flex-direction: column;
@@ -80,7 +80,7 @@
 .settings-components{
     margin-bottom: 1vh;
     width: 100%;
-    height: 52vh;
+    height: 40vh;
     display: flex;
     flex-direction: row;
     font-style: normal;
@@ -88,14 +88,14 @@
 }
 
 .settings-left-components{
-    width: 30%;
+    width: 25%;
     height: 100%;
     display: flex;
     flex-direction: column;
     justify-content: left;
 }
 .settings-components__title{
-    height: 5.5vh;
+    height: 6vh;
     display: flex;
     align-items: center;
     font-size: 2vh;
@@ -104,7 +104,7 @@
     opacity: 0.5;
  }
 .settings-right-components{
-    width: 70%;
+    width: 75%;
     height: 100%;
     display: flex;
     flex-direction: column;
@@ -112,12 +112,12 @@
 
 .settings-input-inner{
     position: relative;
-    width: 60vh;
-    margin-top: 0.6vh;
-    margin-bottom: 2.1vh;
+    width: 61vh;
+    height: 6vh;
+    margin-top: 0.7vh;
     justify-content: left;
-    align-items: center;
     display: flex;
+    flex-direction: column;
 }
 
 .settings-components__input{
@@ -125,7 +125,7 @@
     height: 3.8vh;
     font-size: 2vh;
     color: black;
-
+    width: 43%;
     border: 1px solid rgba(0,0,0,0.2);
     box-sizing: border-box;
     border-radius: 0.5vh;
@@ -280,7 +280,19 @@ select:disabled{
     align-items: center;
     display: flex;
 }
-
+.settings-error_hidden, .settings-password-error_hidden{
+    visibility: hidden;
+}
+.settings-error_visible, .settings-password-error_visible{
+    visibility: visible;
+    color: #D31E1E;
+    font-size: 1.3vh;
+}
+.settings-password-error_success{
+    visibility: visible;
+    color: green;
+    font-size: 1.3vh;
+}
 /*.settings-add-account{*/
 /*    width: 44vw;*/
 /*    height: 6vh;*/

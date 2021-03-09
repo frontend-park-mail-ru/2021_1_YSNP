@@ -1,3 +1,5 @@
+import {SettingsUserData} from '../../models/SettingsUserData.js';
+
 /***
  * ProfileMenu controller
  */
@@ -6,18 +8,23 @@ export class ProfileMenuController {
      * Class constructor
      * @param {Function} pageRemoveListeners - remove page listeners
      * @param {HTMLElement} parent - element callback will work with
-     * @param {Profile} profile - profile
+     * @param {ProfileMenu} profile - profile
      */
     constructor(pageRemoveListeners, parent, profile) {
         this.__pageRemoveListeners = pageRemoveListeners;
         this.__parent = parent;
         this.__profile = profile;
+        this.__model = new SettingsUserData();
     }
 
     /***
      * Add listeners
      */
-    control() {
+    async control() {
+        await this.__model.update();
+        this.__profile.data = this.__model.getData();
+        this.__profile.render();
+
         this.__profile.listeners = this.__createListeners();
         this.__profile.addListeners();
     }

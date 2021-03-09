@@ -410,10 +410,13 @@ export class ProductModel {
         return http.post(urls.productUploadPhotos, new FormData(form), true).then(({status, data}) => {
             if (status === 200) {
                 console.log(data);
+            if (status === httpStatus.StatusOK) {
                 this.__linkImages = data.linkImages;
                 const model = this.__jsonData();
                 return http.post(urls.productCreate, model);
             }
+
+            return Promise.reject();
         }).catch((err) => {
             console.log(err.message);
         });

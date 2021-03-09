@@ -2,6 +2,7 @@
 
 import { ProductModel } from '../../models/ProductModel.js';
 import { Landing } from '../../pages/Landing.js';
+import { httpStatus } from '../../modules/httpStatus.js';
 
 /***
  * @author Max Torzhkov, Ivan Gorshkov
@@ -77,7 +78,6 @@ export class ProductCreateFormController {
     /***
      * @author Max Torzhkov, Ivan Gorshkov
      * listener for submit
-     * @param {Event} ev - event
      * @returns {{cost, name, photo, location, category, subcategory, info}}
      * @private
      */
@@ -89,7 +89,8 @@ export class ProductCreateFormController {
         const isValidDescription = this.__validateTextArea(description);
         const isValidname = this.__validateEmptyInput(name);
         const category = document.getElementById('categorySelect');
-        if (isValidname && isValidDescription && isValidPrice && this.__count !== 0) {
+        const emptyPhotoField = 0;
+        if (isValidname && isValidDescription && isValidPrice && this.__count !== emptyPhotoField) {
             this.__model.fillProductModel({
                 name: name.value,
                 description: description.value,
@@ -102,7 +103,8 @@ export class ProductCreateFormController {
             button.value = 'Загрузка...';
             button.disabled = true;
             this.__model.create(document.getElementById('createProductForm')).then(({ status }) => {
-                if (status === 200) {
+                if (status === httpStatus.StatusOK) {
+                    this.__pageRemoveListeners();
                     const landing = new Landing(this.__parent);
                     landing.render();
                 }
@@ -404,12 +406,13 @@ export class ProductCreateFormController {
      * @private
      */
     __read(input) {
-        if (input.files && input.files[0]) {
+        const firstIndex = 0;
+        if (input.files && input.files[firstIndex]) {
             const reader = new FileReader();
 
             reader.onload = this.__onReaderLoad.bind(this, input);
 
-            reader.readAsDataURL(input.files[0]);
+            reader.readAsDataURL(input.files[firstIndex]);
         }
 
     }
@@ -428,19 +431,20 @@ export class ProductCreateFormController {
         elem.classList.add('product__pic_fullsize');
         if (parseInt(input.dataset.id) === this.__count) {
             const idPhto = document.getElementById('productPhoto');
+            this.__count += 1;
             idPhto.insertAdjacentHTML('beforeend', `
-                <div class="form-row" id="_profile-pic${this.__count + 1}">    
-                  <label class="form-row__photolabel" data-action="clickUpload" data-move="showCross" data-moveout="hideCross" data-id="${this.__count + 1}"> 
-                     <img class="product__pic" id="product__pic${this.__count + 1}" data-id="${this.__count + 1}" src="../../img/photo.svg" alt="">
-                     <div class="cross error-hidden" id="delete${this.__count + 1}" data-id='${this.__count + 1}' data-action="delete" ></div>
+                <div class="form-row" id="_profile-pic${this.__count}">    
+                  <label class="form-row__photolabel" data-action="clickUpload" data-move="showCross" data-moveout="hideCross" data-id="${this.__count}"> 
+                     <img class="product__pic" id="product__pic${this.__count}" data-id="${this.__count}" src="../../img/photo.svg" alt="">
+                     <div class="cross error-hidden" id="delete${this.__count}" data-id='${this.__count}' data-action="delete" ></div>
                    </label>
                 </div>
                 `);
             const idfile = document.getElementById('files');
             idfile.insertAdjacentHTML('beforeend', `
-                <input name="photos" id="file-upload${this.__count + 1}" data-id="${this.__count + 1}" data-action="readURL" class="file-upload" type="file" accept="image/*"/>
+                <input name="photos" id="file-upload${this.__count}" data-id="${this.__count}" data-action="readURL" class="file-upload" type="file" accept="image/*"/>
             `);
-            this.__count += 1;
+
         }
 
     }
@@ -452,7 +456,8 @@ export class ProductCreateFormController {
      * @private
      */
     __upload(target) {
-        if (this.__count < 10) {
+        const maxPics = 10;
+        if (this.__count < maxPics) {
             const elem = document.getElementById(`file-upload${target.dataset.id}`);
             elem.click();
         }
@@ -469,16 +474,20 @@ export class ProductCreateFormController {
      */
     __validatePriceInput(target) {
         const { error, message } = this.__model.validationAmount(target.value.replace(/[^0-9]/g, '').toString());
-
+        const maxDigit = 15;
+        const firstIndex = 0;
+        const lastIndex = -1;
+        const groupNumber = 3;
+        const remainder = 0;
         this.__addSuccesses(target, `${target.id}Error`);
 
-        if (target.value.length > 15) {
-            target.value = target.value.slice(0, -1);
+        if (target.value.length > maxDigit) {
+            target.value = target.value.slice(firstIndex, lastIndex);
         }
 
         const tmpString = target.value.replace(/[^0-9]/g, '').toString();
         const newStr = tmpString.split('').reverse().reduce((previousValue, currentValue, currentIndex) => {
-            if (currentIndex % 3 === 0 && currentIndex !== 0) {
+            if (currentIndex % groupNumber === remainder && currentIndex !== firstIndex) {
                 return `${previousValue} ${currentValue}`;
             }
             return previousValue + currentValue.toString();

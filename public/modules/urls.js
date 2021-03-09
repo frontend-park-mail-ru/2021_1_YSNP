@@ -35,6 +35,10 @@ class Urls {
         return `${this.__url}${this.__api}/product/create`;
     }
 
+    /***
+     * Get product upload photo url
+     * @returns {string}
+     */
     get productUploadPhotos() {
         return `${this.__url}${this.__api}/product/upload`;
     }
@@ -85,6 +89,14 @@ class Urls {
      */
     get logout() {
         return `${this.__url}${this.__api}/logout`;
+    }
+
+    /***
+     * Get new password url
+     * @returns {string}
+     */
+    get newPassword() {
+        return `${this.__url}${this.__api}/settings/password`;
     }
 }
 

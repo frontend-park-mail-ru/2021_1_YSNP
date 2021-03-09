@@ -1,17 +1,16 @@
 /***
- *
+ * Profile menu
  */
 export class ProfileMenu {
     /***
      * Class constructor
      * @param {HTMLElement} parent - element where the component will be inserted
-     * @param {Object} data - element data
      * @param {Object} page - name of opened page
      * @param {Object} listeners - component listeners
      */
-    constructor(parent, data, page, listeners = {}) {
+    constructor(parent, page, listeners = {}) {
         this.__parent = parent;
-        this.__data = data;
+        this.data = {};
         this.__listeners = listeners;
         this.__page = page;
     }
@@ -61,12 +60,12 @@ export class ProfileMenu {
                 <div class="profile-menu-inner">
                     <div class="profile-menu-user">
                         <div class="profile-menu-user__avatar">
-                            <img class="profile-menu-user__avatar" src="${this.__data.avatar}" alt="avatar"/>                        
+                            <img class="profile-menu-user__avatar" src="${this.data.linkImage}" alt="avatar"/>                        
                         </div>
                         <div class="profile-menu-user-inner">
-                            <span class="profile-menu-user__name">${this.__data.user}</span>
+                            <span class="profile-menu-user__name">${this.data.name} ${this.data.surname}</span>
                             <span class="profile-menu-user__rating">
-                                ${this.__data.rate}
+                                4.8
                                 <svg width="2vh" height="2.1vh" viewBox="0 0 20 21" fill="none" xmlns="http://www.w3.org/2000/svg">
                                 <path d="M10 0.895203L12.7861 7.4256L19.5106 8.21427L14.508 13.0389L15.8779 20.0568L10 16.5082L4.12215 20.0568L5.49199 13.0389L0.489435 8.21427L7.2139 7.4256L10 0.895203Z" fill="#F3DD14"/>
                                 </svg>

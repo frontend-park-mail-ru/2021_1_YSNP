@@ -162,12 +162,12 @@ export class UserModel {
     }
 
     /***
-     * Validate user name
-     * @param {string} name - user name
+     * Validate user name/surname/patronymic/location
+     * @param {string} value - value of user field
      * @returns {{message: string, error: boolean}}
      */
-    validationName(name) {
-        if (name !== '') {
+    validationString(value) {
+        if (value !== '') {
             return {
                 message: '',
                 error: false
@@ -270,8 +270,9 @@ export class UserModel {
      * @private
      */
     __isValidPhone(phoneNumber) {
+        const f = -1;
         const found = phoneNumber.search(/^(\+{0,})(\d{0,})([(]{1}\d{1,3}[)]{0,}){0,}(\s?\d+|\+\d{2,3}\s{1}\d+|\d+){1}[\s|-]?\d+([\s|-]?\d+){1,2}(\s){0,}$/);
-        return found > -1;
+        return found > f;
     }
 
     /***

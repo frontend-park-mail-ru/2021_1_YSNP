@@ -31,55 +31,54 @@ export class ProductCreate {
      * @private
      */
     __removePageListeners() {
-    }
-
-    __getHeaderData() {
-        return {
-            isAuth: true,
-            user: 'Алехин Сергей',
-            avatar: '/img/test-avatar.jpg',
-            location: 'Москва'
-        };
+        // this.__headerController.removeControllerListeners();
+        // this.__navigationController.removeControllerListeners();
+        // this.__productCreateFormController.removeControllerListeners();
     }
 
 
+    /***
+     * @author Max Torzhkov
+     *
+     * array of categories
+     * @return {string[]}
+     * @private
+     */
     __getOptionsCategories() {
         return [
-                'Автомобиль',
-                'Электроника',
-                'Одежда',
-                'Хобби',
-                'Запчасти',
-                'Спорт',
-                'Животные',
-                'Услуги'
-            ];
-}
-
-    __getOptionsSubcategories() {
-        return [
-            'Седан',
-            'Хетчбэк',
-            'Внедорожник',
-            'Универсал',
-            'Минивэн',
-            'Купе',
-            'Пикап',
-            'Кабриолет',
-            'Родстер',
-            'Лимузин',
-            'Тарга'
+            'Автомобиль',
+            'Электроника',
+            'Одежда',
+            'Хобби',
+            'Запчасти',
+            'Спорт',
+            'Животные',
+            'Услуги'
         ];
     }
 
+
+    /***
+     * @author Max Torzhkov
+     *
+     * array of types
+     * @return {string[]}
+     * @private
+     */
     __getOptionsType() {
         return [
             'Новое',
             'Б/у'
-
         ];
     }
 
+    /***
+     * @author Max Torzhkov
+     *
+     * Object of input fields
+     * @return {Object} - fields of createForm
+     * @private
+     */
     __RegistrationForm() {
         return {
             name: {
@@ -149,17 +148,14 @@ export class ProductCreate {
         this.__headerController = new HeaderController(this.__removePageListeners.bind(this), this.__parent, this.__header);
         await this.__headerController.control();
 
-
         const navigation = new Navigation(this.__parent, 'Главная страница', {route: ['Создать объявление']});
         navigation.render();
         this.__navigationController = new NavigationController(this.__removePageListeners.bind(this), this.__parent, navigation);
         this.__navigationController.control();
-
 
         const productCreateForm = new ProductCreateForm(this.__parent, this.__RegistrationForm());
         productCreateForm.render();
         this.__productCreateFormController = new ProductCreateFormController(this.__removePageListeners.bind(this), this.__parent, productCreateForm);
         this.__productCreateFormController.control();
     }
-
 }
