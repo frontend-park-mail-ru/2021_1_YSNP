@@ -4,7 +4,6 @@ import {ProductCreate} from '../../pages/ProductCreate.js';
 
 import {Auth} from '../Auth/Auth.js';
 import {AuthController} from '../Auth/AuthController.js';
-import {ProductCreate} from '../../pages/ProductCreate.js';
 
 import {user} from '../../models/UserModel.js';
 
