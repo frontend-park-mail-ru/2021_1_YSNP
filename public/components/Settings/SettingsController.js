@@ -46,16 +46,20 @@ export class SettingsController {
      * @private
      */
     __listenerSettingsClick(ev) {
-        ev.preventDefault();
-
         document.getElementById('settings-password-error').classList.remove('settings-password-error_success');
         document.getElementById('settings-password-error').classList.add('settings-password-error_hidden');
+        document.getElementById('settings-error').classList.remove('settings-error_visible');
+        document.getElementById('settings-error').classList.add('settings-error_hidden');
 
         const actions = this.__getActions();
         Object
             .entries(ev.composedPath())
             .forEach(([, el]) => {
+
                 if (el.dataset !== undefined && 'action' in el.dataset) {
+                    if (el.dataset.action === 'saveChangesClick') {
+                        ev.preventDefault();
+                    }
                     actions[el.dataset.action].open(ev.target);
                 }
             });
@@ -186,13 +190,22 @@ export class SettingsController {
      * Enable changing password buttons
      * @private
      */
-    __enablePasswordChange() {
-        document
-            .getElementById('settings-save-pass')
-            .style.visibility = 'visible';
-        document
-            .getElementById('settings-reset-pass')
-            .style.visibility = 'visible';
+    __enablePasswordChange(target) {
+        if (target.value !== '') {
+            document
+                .getElementById('settings-save-pass')
+                .style.visibility = 'visible';
+            document
+                .getElementById('settings-reset-pass')
+                .style.visibility = 'visible';
+        } else {
+            document
+                .getElementById('settings-save-pass')
+                .style.visibility = 'hidden';
+            document
+                .getElementById('settings-reset-pass')
+                .style.visibility = 'hidden';
+        }
     }
 
     /***
@@ -221,7 +234,6 @@ export class SettingsController {
                     err.classList.remove('settings-password-error_hidden');
                 })
                 .catch((error) => {
-                    console.log(error.message);
                     const err = document.getElementById('settings-password-error');
                     err.textContent = error.message;
                     err.classList.add('settings-password-error_visible');
@@ -289,7 +301,6 @@ export class SettingsController {
      * @private
      */
     __read(input) {
-        console.log(input.files);
         const firstFile = 0;
         if (input.files && input.files[firstFile]) {
             const reader = new FileReader();
@@ -445,12 +456,23 @@ export class SettingsController {
             this.__model.settings()
                 .then(({isUpdate}) => {
                     console.log(isUpdate);
+                    const err = document.getElementById('settings-password-error');
+                    err.classList.add('settings-error_hidden');
+                    err.classList.remove('settings-error_visible');
                     const profile = new Profile(this.__parent);
                     profile.render();
                 })
-                .catch((err) => {
-                    console.log('Update settings error', err.message);
+                .catch((error) => {
+                    const err = document.getElementById('settings-error');
+                    err.textContent = error.message;
+                    err.classList.add('settings-error_visible');
+                    err.classList.remove('settings-error_hidden');
                 });
+        } else {
+            const err = document.getElementById('settings-error');
+            err.textContent = 'Проверьте правильность введенных данных';
+            err.classList.add('settings-error_visible');
+            err.classList.remove('settings-error_hidden');
         }
         return false;
     }

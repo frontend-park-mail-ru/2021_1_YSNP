@@ -1,5 +1,5 @@
 /***
- *
+ * Settings box on profile page
  */
 export class Settings {
     /***
@@ -43,9 +43,6 @@ export class Settings {
             .getElementById('settings-password')
             .addEventListener(this.listeners.validateInput.type, this.listeners.validateInput.listener);
         document
-            .getElementById('settings-avatar')
-            .addEventListener(this.listeners.settingsClick.type, this.listeners.settingsClick.listener);
-        document
             .getElementById('settings')
             .addEventListener(this.__listeners.settingsClick.type, this.__listeners.settingsClick.listener);
         document
@@ -70,9 +67,6 @@ export class Settings {
         document
             .getElementById('settings-password')
             .removeEventListener(this.listeners.validateInput.type, this.listeners.validateInput.listener);
-        document
-            .getElementById('settings-avatar')
-            .removeEventListener(this.listeners.settingsClick.type, this.listeners.settingsClick.listener);
         document
             .getElementById('settings')
             .removeEventListener(this.__listeners.settingsClick.type, this.__listeners.settingsClick.listener);
@@ -101,9 +95,9 @@ export class Settings {
                         </svg>
                     </span>
                     <button id="settings-button-save" class="settings-title__save_button" data-action="saveChangesClick">Сохранить изменения</button>
-                </div>
-                <span class="settings-error_hidden" id="settings-error"></span>
+                </div>                
                 <div class="settings__separator"></div>
+                <span class="settings-error_hidden" id="settings-error"></span>
                 <div class="settings-components">
                     <div class="settings-left-components">
                         <span class="settings-components__title">Фамилия</span>
