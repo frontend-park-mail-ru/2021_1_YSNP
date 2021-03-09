@@ -59,21 +59,9 @@ export class RegUserData extends PasswordUserModel {
                         throw err;
                     });
                 }
-
-                // if (status === 400) {
-                //     throw new Error('Слишком большой размер фото, пожалуйста, загрузите фото меньшего размера');
-                // }
-
-                // if (status === 403) {
-                //     throw new Error('Пожалуйста, загрузите фото с вашим лицом');
-                // }
-
-                // if (status === 500) {
-                //     throw new Error('Неизвестная ошибка, пожалуйста, попробуйте позже');
-                // }
+            });
                 return {};
             }).catch((err) => Promise.reject(err));
-
     }
 
     /***
