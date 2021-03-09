@@ -95,6 +95,7 @@ export class AuthController {
         const password = document.getElementById('auth-password').value;
 
         const isValidTelephone = this.__isValidTelephone(telephone);
+        alert(isValidTelephone);
         const isValidPassword = this.__isValidPassword(password);
 
         if (isValidTelephone && isValidPassword) {
