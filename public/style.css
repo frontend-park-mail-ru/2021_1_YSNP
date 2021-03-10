@@ -6,7 +6,8 @@
 
 @font-face {
     font-family: Roboto;
-    src: url(/fonts/Roboto-Regular.woff2)
+    src: url(/fonts/Roboto-Regular.woff2);
+    font-display: swap;
 }
 
 * {
