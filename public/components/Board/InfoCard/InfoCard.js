@@ -94,7 +94,8 @@ export class InfoCard {
      * @readonly
      */
     get __getDate() {
-        return this.__data.date;
+        const date = new Date(this.__data.date);
+        return date.toLocaleDateString('ru-RU', {weekday: 'short', day: 'numeric', month: 'short', year: 'numeric'});
     }
 
     /***
