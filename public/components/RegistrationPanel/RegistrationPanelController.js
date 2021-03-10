@@ -1,5 +1,5 @@
-import { Landing } from '../../pages/Landing.js';
-import { RegUserData } from '../../models/RegUserData.js';
+import {Landing} from '../../pages/Landing.js';
+import {RegUserData} from '../../models/RegUserData.js';
 import {telMask, parseTelNumber} from '../../modules/telMask.js';
 
 /***
@@ -304,7 +304,7 @@ export class RegistrationPanelController {
      */
     __validatePhone(target) {
 
-        const { error, message } = this.__model.validationTelephone(parseTelNumber(target.value));
+        const {error, message} = this.__model.validationTelephone(parseTelNumber(target.value));
         if (!error) {
             this.__addSuccesses(target, 'phoneError');
             return true;
@@ -340,7 +340,7 @@ export class RegistrationPanelController {
      * @private
      */
     __validatePas(target) {
-        const { error, message } = this.__model.validationPassword(target.value);
+        const {error, message} = this.__model.validationPassword(target.value);
         if (!error) {
             this.__addSuccesses(target, 'passwordError');
             const element = document.getElementById('passwordConfirm');
@@ -380,7 +380,7 @@ export class RegistrationPanelController {
      */
     __validateConfirmPwd(target) {
         const element = document.getElementById('password');
-        const { error, message } = this.__model.validationConfirmPassword(element.value, target.value);
+        const {error, message} = this.__model.validationConfirmPassword(element.value, target.value);
         if (!error) {
             this.__addSuccesses(target, 'passwordConfirmError');
             return true;
@@ -417,7 +417,7 @@ export class RegistrationPanelController {
      * @private
      */
     __validateMail(target) {
-        const { error, message } = this.__model.validationEmail(target.value);
+        const {error, message} = this.__model.validationEmail(target.value);
         if (!error) {
             this.__addSuccesses(target, 'MailError');
             return true;
@@ -489,6 +489,11 @@ export class RegistrationPanelController {
     `;
     }
 
+    /***
+     * Validate photo is selected
+     * @returns {boolean}
+     * @private
+     */
     __validatePhoto() {
         if (this.__isPicAdd === true) {
             document.getElementById('avatar').classList.remove('reg-panel__input-error');

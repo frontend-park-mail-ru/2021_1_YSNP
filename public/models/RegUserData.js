@@ -55,10 +55,14 @@ export class RegUserData extends PasswordUserModel {
                         if (status === httpStatus.StatusBadRequest) {
                             throw new Error(data.message);
                         }
+
+                        return {};
                     }).catch((err) => {
                         throw err;
                     });
                 }
+
+                return {};
             }).catch((err) => Promise.reject(err));
     }
 
