@@ -1,0 +1,18 @@
+.navigation {
+    font-family: Roboto, serif;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 2vh;
+    height: 3vh;
+    width: 80vw;
+    display: flex;
+    margin: 2vh auto;
+}
+
+.navigation-inner {
+    margin: auto 0;
+}
+
+.navigation-back {
+    cursor: pointer;
+}

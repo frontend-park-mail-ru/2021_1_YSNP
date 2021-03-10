@@ -1,0 +1,44 @@
+.board {
+    font-family: Roboto, serif;
+    font-style: normal;
+    font-weight: normal;
+    width: 76vw;
+    background: white;
+    border-radius: 1vh;
+    box-shadow: 0 0 1vw rgba(0, 0, 0, 0.2);
+    padding: 2vw 2vw 1vw 2vw;
+    margin: 1.5vw auto 0;
+}
+
+.same-product {
+    font-family: Roboto, serif;
+    font-style: normal;
+    font-weight: normal;
+    width: 76vw;
+    font-size: 2vw;
+    border-radius: 1vh;
+    margin: 1vw auto;
+}
+
+.board-inner {
+    display: flex;
+    width: 100%;
+}
+
+.board-left {
+    width: 75%;
+}
+
+.board-right {
+    width: 25%;
+}
+
+.board-title__product-id {
+    font-size: 2vh;
+    margin: 0;
+}
+
+.board-title__product-name {
+    font-size: 4vh;
+    margin: 0;
+}
