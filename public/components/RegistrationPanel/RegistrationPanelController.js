@@ -528,7 +528,7 @@ export class RegistrationPanelController {
             this.__model.fillUserData({
                 name: name.value,
                 surname: surname.value,
-                sex: sex.options[sex.selectedIndex].text,
+                sex: sex.options[sex.selectedIndex].value,
                 dateBirth: date.value,
                 telephone: parseTelNumber(phone.value),
                 email: mail.value,
