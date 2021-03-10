@@ -23,7 +23,6 @@ export class RegUserData extends PasswordUserModel {
      */
     __jsonData() {
         return {
-            id: 0,
             name: this.__name,
             surname: this.__surname,
             dateBirth: this.__dateBirth,
@@ -41,29 +40,68 @@ export class RegUserData extends PasswordUserModel {
      * @returns {Promise<{}|void>}
      */
     async registration(form) {
-        return await http.post(urls.upload, new FormData(form), true)
+        return await http.post(urls.singUp, this.__jsonData())
             .then(({status, data}) => {
                 if (status === httpStatus.StatusOK) {
-                    console.log(data);
-                    this.__linkImages.push(data.linkImages);
+                    return http.post(urls.upload, new FormData(form), true)
+                        .then(({status, data}) => {
+                            if (status === httpStatus.StatusOK) {
+                                return {};
+                            }
 
-                    return http.post(urls.singUp, this.__jsonData()).then(({status, data}) => {
-                        if (status === httpStatus.StatusOK) {
+                            if (status === httpStatus.StatusBadRequest) {
+                                throw new Error(data.message);
+                            }
+
+                            if (status === httpStatus.StatusUnauthorized) {
+                                throw new Error(data.message);
+                            }
+
+                            if (status === httpStatus.StatusInternalServerError) {
+                                throw new Error(data.message);
+                            }
+
                             return {};
-                        }
+                        })
+                        .catch((err) => {
+                            throw err;
+                        });
+                }
 
-                        if (status === httpStatus.StatusBadRequest) {
-                            throw new Error(data.message);
-                        }
+                if (status === httpStatus.StatusBadRequest) {
+                    throw new Error('Пользователь уже существует');
+                }
 
-                        return {};
-                    }).catch((err) => {
-                        throw err;
-                    });
+                if (status === httpStatus.StatusInternalServerError) {
+                    throw new Error(data.message);
                 }
 
                 return {};
             }).catch((err) => Promise.reject(err));
+
+        // return await http.post(urls.upload, new FormData(form), true)
+        //     .then(({status, data}) => {
+        //         if (status === httpStatus.StatusOK) {
+        //             console.log(data);
+        //             this.__linkImages.push(data.linkImages);
+        //
+        //             return http.post(urls.singUp, this.__jsonData()).then(({status, data}) => {
+        //                 if (status === httpStatus.StatusOK) {
+        //                     return {};
+        //                 }
+        //
+        //                 if (status === httpStatus.StatusBadRequest) {
+        //                     throw new Error(data.message);
+        //                 }
+        //
+        //                 return {};
+        //             }).catch((err) => {
+        //                 throw err;
+        //             });
+        //         }
+        //
+        //         return {};
+        //     }).catch((err) => Promise.reject(err));
     }
 
     /***
