@@ -1,8 +1,3 @@
-@font-face {
-    font-family: Roboto;
-    src: url(/fonts/Roboto-Regular.ttf)
-}
-
 .product-card {
     height: 37vh;
     width: 23vh;
@@ -60,7 +55,6 @@
     width: 100%;
 
     display: flex;
-    font-family: Roboto, serif;
 }
 
 .product-card-info-inner {

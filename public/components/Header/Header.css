@@ -1,8 +1,3 @@
-@font-face {
-    font-family: Roboto;
-    src: url(public/fonts/Roboto-Regular.ttf)
-}
-
 .header {
     height: 7vh;
     width: 100%;
@@ -56,8 +51,6 @@
 
 .header-left-location__name {
     font-size: 1.5vh;
-    font-family: Roboto, serif;
-
     color: rgb(71, 71, 71);
 }
 
@@ -78,8 +71,6 @@
 
     border: 0;
     border-radius: 3px;
-
-    font-family: Roboto, serif;
     color: rgb(255, 255, 255);
     background-color: rgb(211, 30, 30);
 }
@@ -164,7 +155,6 @@
     color: rgba(0, 0, 0, 0.8);
 
     font-size: 1.5vh;
-    font-family: Roboto, serif;
 }
 
 .header-dropdown-content-item:hover {
@@ -181,7 +171,6 @@
     color: rgba(0, 0, 0, 0.8);
 
     font-size: 1.7vh;
-    font-family: Roboto, serif;
 }
 
 .header-dropdown-content__separator {
