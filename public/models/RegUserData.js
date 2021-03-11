@@ -78,30 +78,6 @@ export class RegUserData extends PasswordUserModel {
 
                 return {};
             }).catch((err) => Promise.reject(err));
-
-        // return await http.post(urls.upload, new FormData(form), true)
-        //     .then(({status, data}) => {
-        //         if (status === httpStatus.StatusOK) {
-        //             console.log(data);
-        //             this.__linkImages.push(data.linkImages);
-        //
-        //             return http.post(urls.singUp, this.__jsonData()).then(({status, data}) => {
-        //                 if (status === httpStatus.StatusOK) {
-        //                     return {};
-        //                 }
-        //
-        //                 if (status === httpStatus.StatusBadRequest) {
-        //                     throw new Error(data.message);
-        //                 }
-        //
-        //                 return {};
-        //             }).catch((err) => {
-        //                 throw err;
-        //             });
-        //         }
-        //
-        //         return {};
-        //     }).catch((err) => Promise.reject(err));
     }
 
     /***
