@@ -87,8 +87,13 @@ export class RegistrationPanelController {
                 listener: this.__listenersMouseIn.bind(this)
 
             },
-            hideError: {
-                type: 'mouseout',
+            focusInput: {
+                type: 'focus',
+                listener: this.__listenersMouseIn.bind(this)
+
+            },
+            blurInput: {
+                type: 'blur',
                 listener: this.__listenersMouseOut.bind(this)
 
             }
@@ -105,7 +110,6 @@ export class RegistrationPanelController {
      */
     __listenersMouseIn(ev) {
         ev.preventDefault();
-
         const actions = this.__getActions();
         Object
             .entries(ev.composedPath())
@@ -290,7 +294,10 @@ export class RegistrationPanelController {
      */
     __validatePhoneListener(ev) {
         telMask(ev);
-        return this.__validatePhone(ev.target);
+
+        if (this.__validatePhone(ev.target) === false) {
+            document.getElementById('phoneError').classList.remove('error-hidden');
+        }
     }
 
     /***
@@ -327,7 +334,9 @@ export class RegistrationPanelController {
      * @param ev
      */
     __validatePasListener(ev) {
-        return this.__validatePas(ev.target);
+        if (this.__validatePas(ev.target) === false) {
+            document.getElementById('passwordError').classList.remove('error-hidden');
+        }
     }
 
     /***
@@ -366,7 +375,9 @@ export class RegistrationPanelController {
      * @param ev
      */
     __validateConfirmPwdListener(ev) {
-        return this.__validateConfirmPwd(ev.target);
+        if (this.__validateConfirmPwd(ev.target) === false) {
+            document.getElementById('passwordConfirmError').classList.remove('error-hidden');
+        }
     }
 
     /***
@@ -404,7 +415,9 @@ export class RegistrationPanelController {
      * @param ev
      */
     __validateMailListener(ev) {
-        return this.__validateMail(ev.target);
+        if (this.__validateMail(ev.target) === false) {
+            document.getElementById('MailError').classList.remove('error-hidden');
+        }
     }
 
     /***
@@ -440,7 +453,9 @@ export class RegistrationPanelController {
      * @param ev
      */
     __validateEmptyListener(ev) {
-        return this.__validateEmpty(ev.target);
+        if (this.__validateEmpty(ev.target) === false) {
+            document.getElementById(`${ev.target.id}Error`).classList.remove('error-hidden');
+        }
     }
 
     /***
@@ -453,14 +468,15 @@ export class RegistrationPanelController {
      * @private
      */
     __validateEmpty(target) {
-        if (target.value !== '') {
+        const {error, message} = this.__model.validationString(target.value);
+        if (!error) {
             this.__addSuccesses(target, `${target.id}Error`);
             return true;
         }
 
         this.__insertError(target, `${target.id}Error`, this.__createMessageError(`
                   <ul class="list-errors">
-                         <li>Поле не должно быть пустым</li>
+                         <li>${message}</li>
                      </ul>
     `));
         return false;

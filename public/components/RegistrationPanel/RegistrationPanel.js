@@ -185,12 +185,18 @@ export class RegistrationPanel {
         document
             .getElementById('avatar')
             .addEventListener(this.listeners.registrationClick.type, this.listeners.registrationClick.listener);
+       /* document
+            .getElementById('registrationForm')
+            .addEventListener(this.listeners.showError.type, this.listeners.showError.listener);*/
         document
             .getElementById('registrationForm')
-            .addEventListener(this.listeners.showError.type, this.listeners.showError.listener);
+            .addEventListener(this.listeners.focusInput.type, this.listeners.focusInput.listener, true);
         document
             .getElementById('registrationForm')
-            .addEventListener(this.listeners.hideError.type, this.listeners.hideError.listener);
+            .addEventListener(this.listeners.blurInput.type, this.listeners.blurInput.listener, true);
+      /*  document
+            .getElementById('registrationForm')
+            .addEventListener(this.listeners.hideError.type, this.listeners.hideError.listener);*/
 
     }
 
@@ -204,5 +210,7 @@ export class RegistrationPanel {
     render() {
         const template = this.__getTemplate();
         this.__parent.insertAdjacentHTML('beforeend', template);
+        document.getElementById('date').max = new Date(new Date().getTime() - new Date().getTimezoneOffset() * 60000).toISOString().split('T')[0];
+
     }
 }

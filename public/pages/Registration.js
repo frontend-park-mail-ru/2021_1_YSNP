@@ -90,7 +90,7 @@ export class Registration {
                 inputType: 'date',
                 id: 'date',
                 dataAction: 'inputEmpty',
-                params: 'min="1890-01-01" max="2040-12-31"'
+                params: 'min="1890-01-01" onkeydown="return false" '
             }
         };
     }

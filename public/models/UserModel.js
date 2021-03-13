@@ -167,16 +167,20 @@ export class UserModel {
      * @returns {{message: string, error: boolean}}
      */
     validationString(value) {
-        if (value !== '') {
+        const maxLength = 31;
+        if (value.length > 0 && value.length < maxLength) {
             return {
                 message: '',
                 error: false
             };
+        } else if (value.length === 0) {
+            return {
+                message: 'Поле не должно быть пустым',
+                error: true
+            };
         }
-
-
         return {
-            message: 'Поле не должно быть пустым',
+            message: 'Поле не должно привышать 30 знаков',
             error: true
         };
     }
