@@ -1,4 +1,6 @@
 import {ProductCard} from './ProductCard/ProductCard.js';
+
+import productListTemplate from './ProductList.hbs';
 import './ProductList.css';
 
 /***
@@ -85,25 +87,10 @@ export class ProductList {
     }
 
     /***
-     * Component HTML
-     * @returns {string}
-     * @private
-     */
-    __getTemplate() {
-        return `
-            <div class="product-list" id="product-list">
-                <div class="product-list-inner">
-                </div>
-            </div>
-        `;
-    }
-
-    /***
      * Add component to parent
      */
     render() {
-        const template = this.__getTemplate();
-        this.__parent.insertAdjacentHTML('beforeend', template);
+        this.__parent.insertAdjacentHTML('beforeend', productListTemplate());
 
         const list = this.__parent.querySelector('[class=\'product-list-inner\']');
         this.__data.forEach((el) => {
