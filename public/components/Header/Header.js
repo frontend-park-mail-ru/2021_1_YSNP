@@ -1,8 +1,7 @@
-import './Header.css';
-
 import headerTemplate from './Header.hbs';
 import authTemplate from './Auth.hbs';
 import notAuthTemplate from './NotAuth.hbs';
+import './Header.css';
 
 /***
  * Header component

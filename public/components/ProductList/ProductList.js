@@ -1,7 +1,7 @@
-import {ProductCard} from './ProductCard/ProductCard.js';
-
 import productListTemplate from './ProductList.hbs';
 import './ProductList.css';
+
+import {ProductCard} from './ProductCard/ProductCard.js';
 
 /***
  * Product List - table of components Product Card

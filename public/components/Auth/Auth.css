@@ -25,6 +25,13 @@
     z-index: 1;
 }
 
+.auth-content-inner {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
 .auth-content-inner__error {
     height: 2.5vh;
     width: 30vh;
@@ -36,13 +43,6 @@
     color: rgb(170, 0, 0);
 
     overflow: hidden;
-}
-
-.auth-content-inner {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
 }
 
 .auth-content-inner__close {

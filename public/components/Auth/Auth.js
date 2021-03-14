@@ -1,6 +1,5 @@
-import './Auth.css';
-
 import authTemplate from './Auth.hbs';
+import './Auth.css';
 
 /***
  * Auth component
