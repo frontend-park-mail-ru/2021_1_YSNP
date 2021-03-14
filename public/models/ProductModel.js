@@ -366,13 +366,18 @@ export class ProductModel {
      */
     getMainData() {
         const date = new Date(this.__date);
-        const day = date.toLocaleDateString('ru-RU', {weekday: 'short', day: 'numeric', month: 'short', year: 'numeric'});
+        const day = date.toLocaleDateString('ru-RU', {
+            weekday: 'short',
+            day: 'numeric',
+            month: 'short',
+            year: 'numeric'
+        });
 
         return {
             id: this.__id,
             name: this.__name,
             date: day,
-            amount: `${this.__amount} ₽`,
+            amount: `${this.__amount.toLocaleString()} ₽`,
             userLiked: this.__userLiked,
             linkImage: this.__getFirstImage()
         };
