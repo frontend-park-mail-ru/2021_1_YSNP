@@ -1,4 +1,4 @@
-import {SettingsUserData} from '../../models/SettingsUserData.js';
+import {user} from '../../models/SettingsUserData.js';
 import {Profile} from '../../pages/Profile.js';
 
 /***
@@ -16,7 +16,7 @@ export class SettingsController {
         this.__parent = parent;
         this.__settings = settings;
         this.__isOpen = false;
-        this.__model = new SettingsUserData();
+        this.__model = user;
     }
 
     /***

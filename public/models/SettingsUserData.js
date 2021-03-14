@@ -71,6 +71,7 @@ export class SettingsUserData extends PasswordUserModel {
      */
     getData() {
         return {
+            isAuth: this.__isAuth,
             name: this.__name,
             surname: this.__surname,
             dateBirth: this.__dateBirth,
@@ -86,11 +87,11 @@ export class SettingsUserData extends PasswordUserModel {
      * @returns {Promise<{isUpdate: boolean}>}
      */
     async settings() {
-        const data = this.__jsonData();
-        return await http.post(urls.settings, data)
+        return await http.post(urls.settings, this.__jsonData())
             .then(({status}) => {
                 if (status === httpStatus.StatusOK) {
                     // this.__linkImages.push(data.linkImages);
+                    this.__isAuth = false;
                     return {isUpdate: true};
                 }
 
@@ -124,6 +125,66 @@ export class SettingsUserData extends PasswordUserModel {
             });
     }
 
+    /***
+     * Get user data from backend
+     * @returns {Promise<void>}
+     */
+    async update() {
+        if (!this.__isAuth) {
+            return await http.get(urls.me)
+                .then(({status, data}) => {
+                    if (status === httpStatus.StatusOK) {
+                        this.fillUserData(data);
+                        this.__isAuth = true;
+                        return {isUpdate: true};
+                    }
+
+                    if (status === httpStatus.StatusUnauthorized) {
+                        throw data;
+                    }
+
+                    if (status === httpStatus.StatusInternalServerError) {
+                        throw data;
+                    }
+
+                    this.__isAuth = false;
+                    return {isUpdate: false};
+                })
+                .catch((err) => {
+                    console.log('UserModel update', err.message);
+                });
+        }
+
+        return Promise.resolve();
+    }
+
+    /***
+     * Logout user
+     * @returns {Promise<{isLogout: boolean} | void>}
+     */
+    async logout() {
+        return await http.post(urls.logout, null)
+            .then(({status, data}) => {
+                if (status === httpStatus.StatusOK) {
+                    this.__isAuth = false;
+                    return {isLogout: true};
+                }
+
+                if (status === httpStatus.StatusUnauthorized) {
+                    throw data;
+                }
+
+                if (status === httpStatus.StatusInternalServerError) {
+                    throw data;
+                }
+
+                return {isLogout: false};
+            })
+            .catch((err) => {
+                console.log('UserModel logout', err.message);
+            });
+    }
+
 
     /***
      * Log current data
@@ -142,3 +203,5 @@ export class SettingsUserData extends PasswordUserModel {
         });
     }
 }
+
+export const user = new SettingsUserData();
