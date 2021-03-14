@@ -142,8 +142,59 @@ export class ProductCreateFormController {
                 type: 'mouseout',
                 listener: this.__listenersMouseOut.bind(this)
 
+            },
+            focusInput: {
+                type: 'focus',
+                listener: this.__listenerFocus.bind(this)
+
+            },
+            blurInput: {
+                type: 'blur',
+                listener: this.__listenersBlur.bind(this)
+
             }
         };
+    }
+
+    /***
+     * @author Ivan Gorshkov
+     *
+     *  listener for Focus Event
+     * @private
+     * @this {ProductCreateFormController}
+     * @param{Event} ev - event
+     */
+    __listenerFocus(ev) {
+        ev.preventDefault();
+        const actions = this.__getActions();
+        Object
+            .entries(ev.composedPath())
+            .forEach(([, el]) => {
+                if (el.dataset !== undefined && 'move' in el.dataset) {
+                    actions[el.dataset.move].open(ev.target);
+                }
+            });
+    }
+
+    /***
+     * @author Ivan Gorshkov
+     *
+     *  listener for Blur Event
+     * @private
+     * @this {ProductCreateFormController}
+     * @param{Event} ev - event
+     */
+    __listenersBlur(ev) {
+        ev.preventDefault();
+
+        const actions = this.__getActions();
+        Object
+            .entries(ev.composedPath())
+            .forEach(([, el]) => {
+                if (el.dataset !== undefined && 'moveout' in el.dataset) {
+                    actions[el.dataset.moveout].open(ev.target);
+                }
+            });
     }
 
     /***
@@ -162,7 +213,10 @@ export class ProductCreateFormController {
             .entries(ev.composedPath())
             .forEach(([, el]) => {
                 if (el.dataset !== undefined && 'action' in el.dataset) {
-                    actions[el.dataset.action].open(ev.target);
+
+                    if (!actions[el.dataset.action].open(ev.target)) {
+                        document.getElementById(`${ev.target.id}Error`).classList.remove('error-hidden');
+                    }
                 }
             });
     }
@@ -251,10 +305,42 @@ export class ProductCreateFormController {
             },
             inputEmpty: {
                 open: this.__validateEmptyInput.bind(this)
+            },
+            showError: {
+                open: this.__showError.bind(this)
+            },
+            hideError: {
+                open: this.__hideError.bind(this)
             }
         };
     }
 
+
+    /****
+     * @author Ivan Gorshkov
+     *
+     * action for hide Error event
+     * @param{Object} target - input element
+     * @private
+     */
+    __hideError(target) {
+        if (target.nextSibling.className === '') {
+            target.nextElementSibling.classList.add('error-hidden');
+        }
+    }
+
+    /****
+     * @author Ivan Gorshkov
+     *
+     * action for show Error
+     * @param{Object} target - input element
+     * @private
+     */
+    __showError(target) {
+        if (target.nextSibling.className === 'error-hidden') {
+            target.nextElementSibling.classList.remove('error-hidden');
+        }
+    }
 
     /***
      * @author Ivan Gorshkov

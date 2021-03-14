@@ -82,19 +82,19 @@ export class RegistrationPanelController {
                 type: 'change',
                 listener: this.__listenersRegistrarion.bind(this)
             },
-            showError: {
-                type: 'mouseover',
-                listener: this.__listenersMouseIn.bind(this)
+            keydown: {
+                type: 'keydown',
+                listener: this.__keyDown.bind(this)
 
             },
             focusInput: {
                 type: 'focus',
-                listener: this.__listenersMouseIn.bind(this)
+                listener: this.__listenerFocus.bind(this)
 
             },
             blurInput: {
                 type: 'blur',
-                listener: this.__listenersMouseOut.bind(this)
+                listener: this.__listenersBlur.bind(this)
 
             }
         };
@@ -103,12 +103,25 @@ export class RegistrationPanelController {
     /***
      * @author Ivan Gorshkov
      *
-     *  listener for MouseIn Event
+     *  listener for keyDown Event
      * @private
      * @this {RegistrationPanelController}
      * @param{Event} ev - event
      */
-    __listenersMouseIn(ev) {
+    __keyDown(ev) {
+        ev.preventDefault();
+        return false;
+    }
+
+    /***
+     * @author Ivan Gorshkov
+     *
+     *  listener for Focus Event
+     * @private
+     * @this {RegistrationPanelController}
+     * @param{Event} ev - event
+     */
+    __listenerFocus(ev) {
         ev.preventDefault();
         const actions = this.__getActions();
         Object
@@ -123,12 +136,12 @@ export class RegistrationPanelController {
     /***
      * @author Ivan Gorshkov
      *
-     *  listener for MouseOut Event
+     *  listener for Blur Event
      * @private
      * @this {RegistrationPanelController}
      * @param{Event} ev - event
      */
-    __listenersMouseOut(ev) {
+    __listenersBlur(ev) {
         ev.preventDefault();
 
         const actions = this.__getActions();
@@ -175,11 +188,11 @@ export class RegistrationPanelController {
             readURL: {
                 open: this.__read.bind(this)
             },
-            mouseIn: {
-                open: this.mouseInInput.bind(this)
+            showError: {
+                open: this.__showError.bind(this)
             },
-            mouseOut: {
-                open: this.mouseOutInput.bind(this)
+            hideError: {
+                open: this.__hideError.bind(this)
             }
         };
     }
@@ -188,11 +201,11 @@ export class RegistrationPanelController {
     /****
      * @author Ivan Gorshkov
      *
-     * action with mouse out event
+     * action for hide Error event
      * @param{Object} target - input element
      * @private
      */
-    mouseOutInput(target) {
+    __hideError(target) {
         if (target.nextSibling.className === '') {
             target.nextElementSibling.classList.add('error-hidden');
         }
@@ -202,11 +215,11 @@ export class RegistrationPanelController {
     /****
      * @author Ivan Gorshkov
      *
-     * action with mouse in event
+     * action for show Error
      * @param{Object} target - input element
      * @private
      */
-    mouseInInput(target) {
+    __showError(target) {
         if (target.nextSibling.className === 'error-hidden') {
             target.nextElementSibling.classList.remove('error-hidden');
         }

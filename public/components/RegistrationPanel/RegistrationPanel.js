@@ -46,11 +46,11 @@ export class RegistrationPanel {
             if (element.inputType === 'tel') {
                 inputElement = ` 
                     <input class="auth-content-form__input auth-content-form__country reg-panel__coutry-code" readOnly required value="+7">
-                    <input class="auth-content-form__input auth-content-form__tel reg-panel__tel" data-action="${element.dataAction}" data-move="mouseIn" data-moveout="mouseOut"  id="${element.id}" type="${element.inputType}" placeholder="${element.placeholder}" name="${element.id}" required>
+                    <input class="auth-content-form__input auth-content-form__tel reg-panel__tel" data-action="${element.dataAction}" data-move="showError" data-moveout="hideError"  id="${element.id}" type="${element.inputType}" placeholder="${element.placeholder}" name="${element.id}" required>
                 `;
             } else {
                 inputElement = ` 
-                    <input ${element.params} class="reg-panel__textfield" data-action="${element.dataAction}" data-move="mouseIn" data-moveout="mouseOut"  id="${element.id}" type="${element.inputType}" placeholder="${element.placeholder}" name="${element.id}"/>
+                    <input ${element.params} class="reg-panel__textfield" data-action="${element.dataAction}" data-move="showError" data-moveout="hideError"  id="${element.id}" type="${element.inputType}" placeholder="${element.placeholder}" name="${element.id}"/>
                 `;
             }
 
@@ -185,18 +185,15 @@ export class RegistrationPanel {
         document
             .getElementById('avatar')
             .addEventListener(this.listeners.registrationClick.type, this.listeners.registrationClick.listener);
-       /* document
-            .getElementById('registrationForm')
-            .addEventListener(this.listeners.showError.type, this.listeners.showError.listener);*/
+        document
+            .getElementById('date')
+            .addEventListener(this.listeners.keydown.type, this.listeners.keydown.listener, true);
         document
             .getElementById('registrationForm')
             .addEventListener(this.listeners.focusInput.type, this.listeners.focusInput.listener, true);
         document
             .getElementById('registrationForm')
             .addEventListener(this.listeners.blurInput.type, this.listeners.blurInput.listener, true);
-      /*  document
-            .getElementById('registrationForm')
-            .addEventListener(this.listeners.hideError.type, this.listeners.hideError.listener);*/
 
     }
 
