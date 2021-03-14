@@ -3,6 +3,7 @@
 import { ProductModel } from '../../models/ProductModel.js';
 import { Landing } from '../../pages/Landing.js';
 import { httpStatus } from '../../modules/httpStatus.js';
+import {insertError, addSuccesses, createMessageError} from '../../modules/validationStates.js';
 
 /***
  * @author Max Torzhkov, Ivan Gorshkov
@@ -135,22 +136,22 @@ export class ProductCreateFormController {
             },
             showError: {
                 type: 'mouseover',
-                listener: this.__listenersMouseIn.bind(this)
+                listener: this.__listenerForErrorsAndCross.bind(this, 'move')
 
             },
             hideError: {
                 type: 'mouseout',
-                listener: this.__listenersMouseOut.bind(this)
+                listener: this.__listenerForErrorsAndCross.bind(this, 'moveout')
 
             },
             focusInput: {
                 type: 'focus',
-                listener: this.__listenerFocus.bind(this)
+                listener: this.__listenerForErrorsAndCross.bind(this, 'move')
 
             },
             blurInput: {
                 type: 'blur',
-                listener: this.__listenersBlur.bind(this)
+                listener: this.__listenerForErrorsAndCross.bind(this, 'moveout')
 
             }
         };
@@ -159,43 +160,24 @@ export class ProductCreateFormController {
     /***
      * @author Ivan Gorshkov
      *
-     *  listener for Focus Event
+     *  listener for Focus/Blur and cross Event
      * @private
      * @this {ProductCreateFormController}
+     * @param {string} dataType - type action
      * @param{Event} ev - event
      */
-    __listenerFocus(ev) {
+    __listenerForErrorsAndCross(dataType, ev) {
         ev.preventDefault();
         const actions = this.__getActions();
         Object
             .entries(ev.composedPath())
             .forEach(([, el]) => {
-                if (el.dataset !== undefined && 'move' in el.dataset) {
-                    actions[el.dataset.move].open(ev.target);
+                if (el.dataset !== undefined && dataType in el.dataset) {
+                    actions[el.dataset[dataType]].open(ev.target);
                 }
             });
     }
 
-    /***
-     * @author Ivan Gorshkov
-     *
-     *  listener for Blur Event
-     * @private
-     * @this {ProductCreateFormController}
-     * @param{Event} ev - event
-     */
-    __listenersBlur(ev) {
-        ev.preventDefault();
-
-        const actions = this.__getActions();
-        Object
-            .entries(ev.composedPath())
-            .forEach(([, el]) => {
-                if (el.dataset !== undefined && 'moveout' in el.dataset) {
-                    actions[el.dataset.moveout].open(ev.target);
-                }
-            });
-    }
 
     /***
      * @author Ivan Gorshkov
@@ -216,48 +198,6 @@ export class ProductCreateFormController {
                     if (!actions[el.dataset.action].open(ev.target)) {
                         document.getElementById(`${ev.target.id}Error`).classList.remove('error-hidden');
                     }
-                }
-            });
-    }
-
-    /***
-     * @author Ivan Gorshkov
-     *
-     * listener for MouseIn Event
-     * @private
-     * @this {ProductCreateFormController}
-     * @param{Event} ev - event
-     */
-    __listenersMouseIn(ev) {
-        ev.preventDefault();
-
-        const actions = this.__getActions();
-        Object
-            .entries(ev.composedPath())
-            .forEach(([, el]) => {
-                if (el.dataset !== undefined && 'move' in el.dataset) {
-                    actions[el.dataset.move].open(ev.target);
-                }
-            });
-    }
-
-    /***
-     * @author Ivan Gorshkov
-     *
-     *  listener for MouseOut Event
-     * @private
-     * @this {ProductCreateFormController}
-     * @param{Event} ev - event
-     */
-    __listenersMouseOut(ev) {
-        ev.preventDefault();
-
-        const actions = this.__getActions();
-        Object
-            .entries(ev.composedPath())
-            .forEach(([, el]) => {
-                if (el.dataset !== undefined && 'moveout' in el.dataset) {
-                    actions[el.dataset.moveout].open(ev.target);
                 }
             });
     }
@@ -353,11 +293,11 @@ export class ProductCreateFormController {
     __validateEmptyInput(target) {
         const { error, message } = this.__model.validationName(target.value.toString());
         if (!error) {
-            this.__addSuccesses(target, `${target.id}Error`);
+            addSuccesses(target, `${target.id}Error`);
             return true;
         }
 
-        this.__insertError(target, `${target.id}Error`, this.__createMessageError(`
+        insertError(target, `${target.id}Error`, createMessageError(`
         <ul class="list-errors">
             <li>${message}</li>
         </ul>
@@ -432,7 +372,6 @@ export class ProductCreateFormController {
         if (target.nextSibling.className === '') {
             target.nextElementSibling.classList.add('error-hidden');
         }
-
     }
 
     /****
@@ -445,41 +384,6 @@ export class ProductCreateFormController {
     __mouseInInput(target) {
         if (target.nextSibling.className === 'error-hidden') {
             target.nextElementSibling.classList.remove('error-hidden');
-        }
-    }
-
-    /***
-     * @author Ivan Gorshkov
-     *
-     * add to DOM error massage
-     * @param{Object} target
-     * @param{string} idError
-     * @param{string} textError
-     * @private
-     */
-    __insertError(target, idError, textError) {
-        target.classList.add('reg-panel__input-error');
-        if (document.getElementById(idError) === null) {
-            const el = document.createElement('div');
-            el.id = idError;
-            el.innerHTML = textError;
-            el.className = 'error-hidden';
-            target.parentNode.insertBefore(el, target.nextSibling);
-        }
-    }
-
-    /***
-     * @author Ivan Gorshkov
-     *
-     * change to success
-     * @param{Object} target
-     * @param{string} idError
-     * @private
-     */
-    __addSuccesses(target, idError) {
-        target.classList.remove('reg-panel__input-error');
-        if (document.getElementById(idError)) {
-            target.parentNode.removeChild(target.nextSibling);
         }
     }
 
@@ -564,7 +468,7 @@ export class ProductCreateFormController {
         const lastIndex = -1;
         const groupNumber = 3;
         const remainder = 0;
-        this.__addSuccesses(target, `${target.id}Error`);
+        addSuccesses(target, `${target.id}Error`);
 
         if (target.value.length > maxDigit) {
             target.value = target.value.slice(firstIndex, lastIndex);
@@ -581,7 +485,7 @@ export class ProductCreateFormController {
         target.value = newStr.split('').reverse().join('');
 
         if (error) {
-            this.__insertError(target, `${target.id}Error`, this.__createMessageError(`
+            insertError(target, `${target.id}Error`, createMessageError(`
         <ul class="list-errors">
             <li>${message}</li>
         </ul>
@@ -606,37 +510,14 @@ export class ProductCreateFormController {
         const { error, message } = this.__model.validationDescription(target.value.toString());
 
         if (!error) {
-            this.__addSuccesses(target, `${target.id}Error`);
+            addSuccesses(target, `${target.id}Error`);
             return true;
         }
-        this.__insertError(target, `${target.id}Error`, this.__createMessageError(`
+        insertError(target, `${target.id}Error`, createMessageError(`
         <ul class="list-errors">
             <li>${message}</li>
         </ul>
     `));
         return false;
-    }
-
-    /***
-     * @author Ivan Gorshkov
-     *
-     * create box massage with errors
-     * @param{string} errText
-     * @return {string}
-     * @private
-     * @this {ProductCreateFormController}
-     */
-    __createMessageError(errText) {
-        return `
-        <div class="message-container">
-            <div class="message__arrow">
-                <div class="message-outer"></div>
-                <div class="message-inner"></div>
-            </div>
-            <div class="message-body">
-                ${errText}
-            </div>
-        </div>
-    `;
     }
 }

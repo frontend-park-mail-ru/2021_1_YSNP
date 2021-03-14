@@ -1,6 +1,7 @@
 import {Landing} from '../../pages/Landing.js';
 import {RegUserData} from '../../models/RegUserData.js';
 import {telMask, parseTelNumber} from '../../modules/telMask.js';
+import {insertError, addSuccesses, createMessageError} from '../../modules/validationStates.js';
 
 /***
  * @author Ivan Gorshkov
@@ -89,12 +90,12 @@ export class RegistrationPanelController {
             },
             focusInput: {
                 type: 'focus',
-                listener: this.__listenerFocus.bind(this)
+                listener: this.__listenerErrors.bind(this, 'move')
 
             },
             blurInput: {
                 type: 'blur',
-                listener: this.__listenersBlur.bind(this)
+                listener: this.__listenerErrors.bind(this, 'moveout')
 
             }
         };
@@ -119,37 +120,17 @@ export class RegistrationPanelController {
      *  listener for Focus Event
      * @private
      * @this {RegistrationPanelController}
+     * @param {string } dataType - type action
      * @param{Event} ev - event
      */
-    __listenerFocus(ev) {
+    __listenerErrors(dataType, ev) {
         ev.preventDefault();
         const actions = this.__getActions();
         Object
             .entries(ev.composedPath())
             .forEach(([, el]) => {
-                if (el.dataset !== undefined && 'move' in el.dataset) {
-                    actions[el.dataset.move].open(ev.target);
-                }
-            });
-    }
-
-    /***
-     * @author Ivan Gorshkov
-     *
-     *  listener for Blur Event
-     * @private
-     * @this {RegistrationPanelController}
-     * @param{Event} ev - event
-     */
-    __listenersBlur(ev) {
-        ev.preventDefault();
-
-        const actions = this.__getActions();
-        Object
-            .entries(ev.composedPath())
-            .forEach(([, el]) => {
-                if (el.dataset !== undefined && 'moveout' in el.dataset) {
-                    actions[el.dataset.moveout].open(ev.target);
+                if (el.dataset !== undefined && dataType in el.dataset) {
+                    actions[el.dataset[dataType]].open(ev.target);
                 }
             });
     }
@@ -262,43 +243,6 @@ export class RegistrationPanelController {
     /***
      * @author Ivan Gorshkov
      *
-     * add to DOM error massage
-     * @param{Object} target
-     * @param{string} idError
-     * @param{string} textError
-     * @private
-     */
-    __insertError(target, idError, textError) {
-        target.classList.add('reg-panel__input-error');
-        if (document.getElementById(idError) === null) {
-            const el = document.createElement('div');
-            el.id = idError;
-            el.innerHTML = textError;
-            el.className = 'error-hidden';
-
-            target.parentNode.insertBefore(el, target.nextSibling);
-        }
-    }
-
-    /***
-     * @author Ivan Gorshkov
-     *
-     * add success massage
-     * @param{Object} target
-     * @param{string} idError
-     * @private
-     */
-    __addSuccesses(target, idError) {
-        target.classList.remove('reg-panel__input-error');
-        target.classList.add('reg-panel__input-susses');
-        if (document.getElementById(idError)) {
-            target.parentNode.removeChild(target.nextSibling);
-        }
-    }
-
-    /***
-     * @author Ivan Gorshkov
-     *
      * action to validate input phone
      * @param{Event} ev
      * @return {boolean}
@@ -323,13 +267,12 @@ export class RegistrationPanelController {
      * @private
      */
     __validatePhone(target) {
-
         const {error, message} = this.__model.validationTelephone(parseTelNumber(target.value));
         if (!error) {
-            this.__addSuccesses(target, 'phoneError');
+            addSuccesses(target, 'phoneError');
             return true;
         }
-        this.__insertError(target, 'phoneError', this.__createMessageError(`
+        insertError(target, 'phoneError', createMessageError(`
                   <ul class="list-errors">
                     <li>${message}</li>
                   </ul>
@@ -364,13 +307,13 @@ export class RegistrationPanelController {
     __validatePas(target) {
         const {error, message} = this.__model.validationPassword(target.value);
         if (!error) {
-            this.__addSuccesses(target, 'passwordError');
+            addSuccesses(target, 'passwordError');
             const element = document.getElementById('passwordConfirm');
             this.__validateConfirmPwd(element);
             return true;
         }
 
-        this.__insertError(target, 'passwordError', this.__createMessageError(`
+        insertError(target, 'passwordError', createMessageError(`
                         <ul class="list-errors">
                         ${message.reduce((prev, cur) => `${prev}<li>${cur}</li>`, '')}
                         </ul>
@@ -406,11 +349,10 @@ export class RegistrationPanelController {
         const element = document.getElementById('password');
         const {error, message} = this.__model.validationConfirmPassword(element.value, target.value);
         if (!error) {
-            this.__addSuccesses(target, 'passwordConfirmError');
+            addSuccesses(target, 'passwordConfirmError');
             return true;
         }
-
-        this.__insertError(target, 'passwordConfirmError', this.__createMessageError(`
+        insertError(target, 'passwordConfirmError', createMessageError(`
                  <ul class="list-errors">
                      <li>${message}</li>
                  </ul>
@@ -445,10 +387,10 @@ export class RegistrationPanelController {
     __validateMail(target) {
         const {error, message} = this.__model.validationEmail(target.value);
         if (!error) {
-            this.__addSuccesses(target, 'MailError');
+            addSuccesses(target, 'MailError');
             return true;
         }
-        this.__insertError(target, 'MailError', this.__createMessageError(`
+            insertError(target, 'MailError', createMessageError(`
                   <ul class="list-errors">
                      <li>${message}</li>
                  </ul>
@@ -483,39 +425,16 @@ export class RegistrationPanelController {
     __validateEmpty(target) {
         const {error, message} = this.__model.validationString(target.value);
         if (!error) {
-            this.__addSuccesses(target, `${target.id}Error`);
+            addSuccesses(target, `${target.id}Error`);
             return true;
         }
 
-        this.__insertError(target, `${target.id}Error`, this.__createMessageError(`
+        insertError(target, `${target.id}Error`, createMessageError(`
                   <ul class="list-errors">
                          <li>${message}</li>
                      </ul>
     `));
         return false;
-    }
-
-    /***
-     * @author Ivan Gorshkov
-     *
-     * create box massage with errors
-     * @param{string} errText
-     * @return {string}
-     * @private
-     * @this {RegistrationPanelController}
-     */
-    __createMessageError(errText) {
-        return `
-            <div class="message-container">
-              <div class="message__arrow">
-                <div class="message-outer"></div>
-                <div class="message-inner"></div>
-              </div>
-              <div class="message-body">
-                    ${errText}
-              </div>
-            </div>
-    `;
     }
 
     /***
