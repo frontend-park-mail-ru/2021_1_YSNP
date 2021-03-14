@@ -213,7 +213,6 @@ export class ProductCreateFormController {
             .entries(ev.composedPath())
             .forEach(([, el]) => {
                 if (el.dataset !== undefined && 'action' in el.dataset) {
-
                     if (!actions[el.dataset.action].open(ev.target)) {
                         document.getElementById(`${ev.target.id}Error`).classList.remove('error-hidden');
                     }

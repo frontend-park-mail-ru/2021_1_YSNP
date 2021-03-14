@@ -266,11 +266,11 @@ export class ProductModel {
      * @returns {{message: string, error: boolean}}
      */
     validationDescription(description) {
-        const maxSize = 1000;
+        const maxSize = 4000;
         const minSize = 10;
         if (description.length >= maxSize && description.length >= minSize) {
             return {
-                message: 'Слишком длинный текст. Текст не должен привышать 1000 символов',
+                message: 'Слишком длинный текст. Текст не должен привышать 4000 символов',
                 error: true
             };
         }
