@@ -1,4 +1,4 @@
-'use strict';
+import './Navigation.css';
 
 /***
  * @author Ivan Gorshkov

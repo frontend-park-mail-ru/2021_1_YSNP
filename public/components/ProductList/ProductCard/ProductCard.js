@@ -1,3 +1,5 @@
+import './ProductCard.css';
+
 /***
  * Product card component with img, name, date, amount and like
  */

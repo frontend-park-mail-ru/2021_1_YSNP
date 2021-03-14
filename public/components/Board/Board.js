@@ -1,4 +1,4 @@
-'use strict';
+import './Board.css';
 
 import { InfoCard } from './InfoCard/InfoCard.js';
 import { Slider } from './Carousel/Carousel.js';

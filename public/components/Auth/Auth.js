@@ -1,3 +1,5 @@
+import './Auth.css';
+
 /***
  * Auth component
  */
