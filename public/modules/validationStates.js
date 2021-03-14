@@ -6,8 +6,6 @@
  * create box massage with errors
  * @param{string} errText
  * @return {string}
- * @private
- * @this {RegistrationPanelController}
  */
 export function createMessageError(errText) {
     return `
@@ -30,7 +28,6 @@ export function createMessageError(errText) {
  * @param{Object} target
  * @param{string} idError
  * @param{string} textError
- * @private
  */
 export function insertError(target, idError, textError) {
     target.classList.add('reg-panel__input-error');
@@ -51,7 +48,6 @@ export function insertError(target, idError, textError) {
  * add success massage
  * @param{Object} target
  * @param{string} idError
- * @private
  */
 export function addSuccesses(target, idError) {
     target.classList.remove('reg-panel__input-error');

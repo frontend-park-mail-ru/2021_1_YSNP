@@ -43,59 +43,40 @@ export class RegistrationPanelController {
     /***
      * @author Ivan Gorshkov
      *
-     * main listener
-     * @private
-     * @this {RegistrationPanelController}
-     * @param{Event} ev - event
-     */
-    __listenersRegistrarion(ev) {
-        ev.preventDefault();
-
-        const actions = this.__getActions();
-        Object
-            .entries(ev.composedPath())
-            .forEach(([, el]) => {
-                if (el.dataset !== undefined && 'action' in el.dataset) {
-                    actions[el.dataset.action].open(ev);
-                }
-            });
-    }
-
-    /***
-     * @author Ivan Gorshkov
-     *
      * function witch return Object of listeners
      * @this {RegistrationPanelController}
-     * @return {{validateChange: {listener: *, type: string}, hideError: {listener: *, type: string}, validateInput: {listener: *, type: string}, showError: {listener: *, type: string}, registrationClick: {listener: *, type: string}}}
+     * @return {Object}
      * @private
      */
     __createListeners() {
         return {
             registrationClick: {
                 type: 'click',
-                listener: this.__listenersRegistrarion.bind(this)
+                listener: this.__listener.bind(this, 'action')
             },
             validateInput: {
                 type: 'input',
-                listener: this.__listenersRegistrarion.bind(this)
+                listener: this.__listener.bind(this, 'action')
             },
             validateChange: {
                 type: 'change',
-                listener: this.__listenersRegistrarion.bind(this)
+                listener: this.__listener.bind(this, 'action')
             },
             keydown: {
                 type: 'keydown',
-                listener: this.__keyDown.bind(this)
-
+                listener: (ev) => {
+                    ev.preventDefault();
+                    return false;
+                }
             },
             focusInput: {
                 type: 'focus',
-                listener: this.__listenerErrors.bind(this, 'move')
+                listener: this.__listener.bind(this, 'move')
 
             },
             blurInput: {
                 type: 'blur',
-                listener: this.__listenerErrors.bind(this, 'moveout')
+                listener: this.__listener.bind(this, 'moveout')
 
             }
         };
@@ -104,33 +85,20 @@ export class RegistrationPanelController {
     /***
      * @author Ivan Gorshkov
      *
-     *  listener for keyDown Event
-     * @private
-     * @this {RegistrationPanelController}
-     * @param{Event} ev - event
-     */
-    __keyDown(ev) {
-        ev.preventDefault();
-        return false;
-    }
-
-    /***
-     * @author Ivan Gorshkov
-     *
-     *  listener for Focus Event
+     *  listener for Page Events
      * @private
      * @this {RegistrationPanelController}
      * @param {string } dataType - type action
      * @param{Event} ev - event
      */
-    __listenerErrors(dataType, ev) {
+    __listener(dataType, ev) {
         ev.preventDefault();
         const actions = this.__getActions();
         Object
             .entries(ev.composedPath())
             .forEach(([, el]) => {
                 if (el.dataset !== undefined && dataType in el.dataset) {
-                    actions[el.dataset[dataType]].open(ev.target);
+                    actions[el.dataset[dataType]].open(ev);
                 }
             });
     }
@@ -183,28 +151,26 @@ export class RegistrationPanelController {
      * @author Ivan Gorshkov
      *
      * action for hide Error event
-     * @param{Object} target - input element
+     * @param{Event} ev - input element
      * @private
      */
-    __hideError(target) {
-        if (target.nextSibling.className === '') {
-            target.nextElementSibling.classList.add('error-hidden');
+    __hideError(ev) {
+        if (ev.target.nextSibling.className === '') {
+            ev.target.nextElementSibling.classList.add('error-hidden');
         }
-
     }
 
     /****
      * @author Ivan Gorshkov
      *
      * action for show Error
-     * @param{Object} target - input element
+     * @param{Event} ev - input element
      * @private
      */
-    __showError(target) {
-        if (target.nextSibling.className === 'error-hidden') {
-            target.nextElementSibling.classList.remove('error-hidden');
+    __showError(ev) {
+        if (ev.target.nextSibling.className === 'error-hidden') {
+            ev.target.nextElementSibling.classList.remove('error-hidden');
         }
-
     }
 
     /****
@@ -390,11 +356,11 @@ export class RegistrationPanelController {
             addSuccesses(target, 'MailError');
             return true;
         }
-            insertError(target, 'MailError', createMessageError(`
-                  <ul class="list-errors">
-                     <li>${message}</li>
-                 </ul>
-    `));
+        insertError(target, 'MailError', createMessageError(`
+              <ul class="list-errors">
+                 <li>${message}</li>
+             </ul>
+        `));
         return false;
     }
 
@@ -428,12 +394,11 @@ export class RegistrationPanelController {
             addSuccesses(target, `${target.id}Error`);
             return true;
         }
-
         insertError(target, `${target.id}Error`, createMessageError(`
                   <ul class="list-errors">
                          <li>${message}</li>
                      </ul>
-    `));
+        `));
         return false;
     }
 
@@ -487,8 +452,6 @@ export class RegistrationPanelController {
                 email: mail.value,
                 password: password.value
             });
-
-            this.__model.log();
 
             this.__model.registration(document.getElementById('registration-from'))
                 .then(() => {
