@@ -1,9 +1,3 @@
-@import "pages/styles/Landing.css";
-@import "pages/styles/Product.css";
-@import "pages/styles/ProductCreate.css";
-@import "pages/styles/Profile.css";
-@import "pages/styles/Registration.css";
-
 @font-face {
     font-family: Roboto;
     src: url(fonts/Roboto-Regular.ttf)
