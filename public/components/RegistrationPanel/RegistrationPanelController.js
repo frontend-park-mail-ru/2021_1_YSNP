@@ -1,7 +1,7 @@
 import {Landing} from '../../pages/Landing.js';
 import {RegUserData} from '../../models/RegUserData.js';
 import {telMask, parseTelNumber} from '../../modules/telMask.js';
-import {insertError, addSuccesses, createMessageError} from '../../modules/validationStates.js';
+import {insertError, addSuccesses, createMessageError, hideError, showError} from '../../modules/validationStates.js';
 
 /***
  * @author Ivan Gorshkov
@@ -138,40 +138,15 @@ export class RegistrationPanelController {
                 open: this.__read.bind(this)
             },
             showError: {
-                open: this.__showError.bind(this)
+                open: showError.bind(this)
             },
             hideError: {
-                open: this.__hideError.bind(this)
+                open: hideError.bind(this)
             }
         };
     }
 
 
-    /****
-     * @author Ivan Gorshkov
-     *
-     * action for hide Error event
-     * @param{Event} ev - input element
-     * @private
-     */
-    __hideError(ev) {
-        if (ev.target.nextSibling.className === '') {
-            ev.target.nextElementSibling.classList.add('error-hidden');
-        }
-    }
-
-    /****
-     * @author Ivan Gorshkov
-     *
-     * action for show Error
-     * @param{Event} ev - input element
-     * @private
-     */
-    __showError(ev) {
-        if (ev.target.nextSibling.className === 'error-hidden') {
-            ev.target.nextElementSibling.classList.remove('error-hidden');
-        }
-    }
 
     /****
      * @author Ivan Gorshkov
@@ -409,11 +384,11 @@ export class RegistrationPanelController {
      */
     __validatePhoto() {
         if (this.__isPicAdd === true) {
-            document.getElementById('avatar').classList.remove('reg-panel__input-error');
-            document.getElementById('avatar').classList.add('reg-panel__input-susses');
+            document.getElementById('circle-avatar').classList.remove('reg-panel__input-error');
+            document.getElementById('circle-avatar').classList.add('reg-panel__input-susses');
             return true;
         }
-        document.getElementById('avatar').classList.add('reg-panel__input-error');
+        document.getElementById('circle-avatar').classList.add('reg-panel__input-error');
         return false;
     }
 

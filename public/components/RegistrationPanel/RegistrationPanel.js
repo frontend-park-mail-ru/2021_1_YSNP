@@ -53,7 +53,6 @@ export class RegistrationPanel {
                     <input ${element.params} class="reg-panel__textfield" data-action="${element.dataAction}" data-move="showError" data-moveout="hideError"  id="${element.id}" type="${element.inputType}" placeholder="${element.placeholder}" name="${element.id}"/>
                 `;
             }
-
             fields += `<div class="product-des form-spacing">
                 <div class="product-des-topic">
                     <p class="product-des-topic__title">${element.title}</p>
@@ -64,7 +63,6 @@ export class RegistrationPanel {
                  
             </div>`;
         }
-
         fields += `
         <div class="product-des form-spacing">
                 <div class="product-des-topic">
@@ -111,7 +109,7 @@ export class RegistrationPanel {
                 <div class="form-inner">
                   
                    <div class="reg-picture" id="avatar" data-action="clickUpload">
-                     <div class="circle" >
+                     <div class="circle" id="circle-avatar">
                        <img class="profile-pic" id="profile-pic" src="../../img/profile.png" alt="">
                      </div>
                      <div class="p-image">
@@ -207,7 +205,6 @@ export class RegistrationPanel {
     render() {
         const template = this.__getTemplate();
         this.__parent.insertAdjacentHTML('beforeend', template);
-        document.getElementById('date').max = new Date(new Date().getTime() - new Date().getTimezoneOffset() * 60000).toISOString().split('T')[0];
-
+        document.getElementById('date').max = new Date().toISOString().split('T')[0];
     }
 }

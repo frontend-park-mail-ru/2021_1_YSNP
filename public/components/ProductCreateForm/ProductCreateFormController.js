@@ -3,7 +3,7 @@
 import { ProductModel } from '../../models/ProductModel.js';
 import { Landing } from '../../pages/Landing.js';
 import { httpStatus } from '../../modules/httpStatus.js';
-import {insertError, addSuccesses, createMessageError} from '../../modules/validationStates.js';
+import {insertError, addSuccesses, createMessageError, hideError, showError} from '../../modules/validationStates.js';
 
 /***
  * @author Max Torzhkov, Ivan Gorshkov
@@ -173,7 +173,7 @@ export class ProductCreateFormController {
             .entries(ev.composedPath())
             .forEach(([, el]) => {
                 if (el.dataset !== undefined && dataType in el.dataset) {
-                    actions[el.dataset[dataType]].open(ev.target);
+                    actions[el.dataset[dataType]].open(ev);
                 }
             });
     }
@@ -246,40 +246,15 @@ export class ProductCreateFormController {
                 open: this.__validateEmptyInput.bind(this)
             },
             showError: {
-                open: this.__showError.bind(this)
+                open: showError.bind(this)
             },
             hideError: {
-                open: this.__hideError.bind(this)
+                open: hideError.bind(this)
             }
         };
     }
 
 
-    /****
-     * @author Ivan Gorshkov
-     *
-     * action for hide Error event
-     * @param{Object} target - input element
-     * @private
-     */
-    __hideError(target) {
-        if (target.nextSibling.className === '') {
-            target.nextElementSibling.classList.add('error-hidden');
-        }
-    }
-
-    /****
-     * @author Ivan Gorshkov
-     *
-     * action for show Error
-     * @param{Object} target - input element
-     * @private
-     */
-    __showError(target) {
-        if (target.nextSibling.className === 'error-hidden') {
-            target.nextElementSibling.classList.remove('error-hidden');
-        }
-    }
 
     /***
      * @author Ivan Gorshkov
@@ -342,9 +317,9 @@ export class ProductCreateFormController {
      * @param{Object} target - photo frame
      * @private
      */
-    __showCross(target) {
-        if (parseInt(target.dataset.id) !== this.__count && (target.tagName === 'IMG' || target.tagName === 'DIV')) {
-            document.getElementById(`delete${target.dataset.id}`).classList.remove('error-hidden');
+    __showCross(ev) {
+        if (parseInt(ev.target.dataset.id) !== this.__count && (ev.target.tagName === 'IMG' || ev.target.tagName === 'DIV')) {
+            document.getElementById(`delete${ev.target.dataset.id}`).classList.remove('error-hidden');
         }
     }
 
@@ -355,9 +330,9 @@ export class ProductCreateFormController {
      * @param{Object} target - input element
      * @private
      */
-    __hideCross(target) {
-        if (parseInt(target.dataset.id) !== this.__count && (target.tagName === 'IMG' || target.tagName === 'DIV')) {
-            document.getElementById(`delete${target.dataset.id}`).classList.add('error-hidden');
+    __hideCross(ev) {
+        if (parseInt(ev.target.dataset.id) !== this.__count && (ev.target.tagName === 'IMG' || ev.target.tagName === 'DIV')) {
+            document.getElementById(`delete${ev.target.dataset.id}`).classList.add('error-hidden');
         }
     }
 
@@ -365,12 +340,12 @@ export class ProductCreateFormController {
      * @author Ivan Gorshkov
      *
      * action with mouse out event
-     * @param{Object} target - input element
+     * @param{Event} ev - input element
      * @private
      */
-    __mouseOutInput(target) {
-        if (target.nextSibling.className === '') {
-            target.nextElementSibling.classList.add('error-hidden');
+    __mouseOutInput(ev) {
+        if (ev.target.nextSibling.className === '') {
+            ev.target.nextElementSibling.classList.add('error-hidden');
         }
     }
 
@@ -378,12 +353,12 @@ export class ProductCreateFormController {
      * @author Ivan Gorshkov
      *
      * action with mouse in event
-     * @param{Object} target - input element
+     * @param{Event} ev - input element
      * @private
      */
-    __mouseInInput(target) {
-        if (target.nextSibling.className === 'error-hidden') {
-            target.nextElementSibling.classList.remove('error-hidden');
+    __mouseInInput(ev) {
+        if (ev.target.nextSibling.className === 'error-hidden') {
+            ev.target.nextElementSibling.classList.remove('error-hidden');
         }
     }
 

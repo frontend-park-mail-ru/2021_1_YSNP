@@ -56,3 +56,30 @@ export function addSuccesses(target, idError) {
         target.parentNode.removeChild(target.nextSibling);
     }
 }
+
+
+/****
+ * @author Ivan Gorshkov
+ *
+ * action for hide Error event
+ * @param{Event} ev - input event
+ * @private
+ */
+export function hideError(ev) {
+    if (ev.target.nextSibling.className === '') {
+        ev.target.nextElementSibling.classList.add('error-hidden');
+    }
+}
+
+/****
+ * @author Ivan Gorshkov
+ *
+ * action for show Error
+ * @param{Event} ev - input event
+ * @private
+ */
+export function showError(ev) {
+    if (ev.target.nextSibling.className === 'error-hidden') {
+        ev.target.nextElementSibling.classList.remove('error-hidden');
+    }
+}
