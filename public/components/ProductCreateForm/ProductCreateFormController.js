@@ -3,6 +3,7 @@
 import { ProductModel } from '../../models/ProductModel.js';
 import { Landing } from '../../pages/Landing.js';
 import { httpStatus } from '../../modules/httpStatus.js';
+import { amountMask } from '../../modules/amountMask.js';
 import {insertError, addSuccesses, createMessageError, hideError, showError} from '../../modules/validationStates.js';
 
 /***
@@ -224,12 +225,6 @@ export class ProductCreateFormController {
             priceInput: {
                 open: this.__validatePriceInput.bind(this)
             },
-            mouseIn: {
-                open: this.__mouseInInput.bind(this)
-            },
-            mouseOut: {
-                open: this.__mouseOutInput.bind(this)
-            },
             clickUpload: {
                 open: this.__upload.bind(this)
             },
@@ -253,8 +248,6 @@ export class ProductCreateFormController {
             }
         };
     }
-
-
 
     /***
      * @author Ivan Gorshkov
@@ -314,7 +307,7 @@ export class ProductCreateFormController {
      * @author Ivan Gorshkov
      *
      * action for cross showing
-     * @param{Object} target - photo frame
+     * @param{Event} ev - event for show cross
      * @private
      */
     __showCross(ev) {
@@ -327,38 +320,12 @@ export class ProductCreateFormController {
      * @author Ivan Gorshkov
      *
      * action for cross hide
-     * @param{Object} target - input element
+     * @param{Event} ev - event for hide cross
      * @private
      */
     __hideCross(ev) {
         if (parseInt(ev.target.dataset.id) !== this.__count && (ev.target.tagName === 'IMG' || ev.target.tagName === 'DIV')) {
             document.getElementById(`delete${ev.target.dataset.id}`).classList.add('error-hidden');
-        }
-    }
-
-    /***
-     * @author Ivan Gorshkov
-     *
-     * action with mouse out event
-     * @param{Event} ev - input element
-     * @private
-     */
-    __mouseOutInput(ev) {
-        if (ev.target.nextSibling.className === '') {
-            ev.target.nextElementSibling.classList.add('error-hidden');
-        }
-    }
-
-    /****
-     * @author Ivan Gorshkov
-     *
-     * action with mouse in event
-     * @param{Event} ev - input element
-     * @private
-     */
-    __mouseInInput(ev) {
-        if (ev.target.nextSibling.className === 'error-hidden') {
-            ev.target.nextElementSibling.classList.remove('error-hidden');
         }
     }
 
@@ -373,9 +340,7 @@ export class ProductCreateFormController {
         const firstIndex = 0;
         if (input.files && input.files[firstIndex]) {
             const reader = new FileReader();
-
             reader.onload = this.__onReaderLoad.bind(this, input);
-
             reader.readAsDataURL(input.files[firstIndex]);
         }
 
@@ -438,35 +403,16 @@ export class ProductCreateFormController {
      */
     __validatePriceInput(target) {
         const { error, message } = this.__model.validationAmount(target.value.replace(/[^0-9]/g, '').toString());
-        const maxDigit = 15;
-        const firstIndex = 0;
-        const lastIndex = -1;
-        const groupNumber = 3;
-        const remainder = 0;
-        addSuccesses(target, `${target.id}Error`);
-
-        if (target.value.length > maxDigit) {
-            target.value = target.value.slice(firstIndex, lastIndex);
-        }
-
-        const tmpString = target.value.replace(/[^0-9]/g, '').toString();
-        const newStr = tmpString.split('').reverse().reduce((previousValue, currentValue, currentIndex) => {
-            if (currentIndex % groupNumber === remainder && currentIndex !== firstIndex) {
-                return `${previousValue} ${currentValue}`;
-            }
-            return previousValue + currentValue.toString();
-        }, '');
-
-        target.value = newStr.split('').reverse().join('');
-
+        target.value = amountMask(target.value);
         if (error) {
             insertError(target, `${target.id}Error`, createMessageError(`
-        <ul class="list-errors">
-            <li>${message}</li>
-        </ul>
-    `));
+                <ul class="list-errors">
+                    <li>${message}</li>
+                </ul>
+            `));
             return false;
         }
+        addSuccesses(target, `${target.id}Error`);
         return true;
     }
 
@@ -492,7 +438,7 @@ export class ProductCreateFormController {
         <ul class="list-errors">
             <li>${message}</li>
         </ul>
-    `));
+        `));
         return false;
     }
 }
