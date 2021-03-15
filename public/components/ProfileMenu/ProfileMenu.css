@@ -1,15 +1,9 @@
-@font-face {
-    font-family: Roboto;
-    src: url(/fonts/Roboto-Regular.ttf)
-}
-
 .profile-menu {
     width: 34vh;
     height: 35vh;
     display: flex;
     flex-direction: row;
     margin-right: 1vh;
-    font-family: Roboto, serif;
 }
 
 .profile-menu-inner {

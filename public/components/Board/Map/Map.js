@@ -1,4 +1,4 @@
-'use strict';
+import './Map.css';
 
 /***
  * @author Ivan Gorshkov

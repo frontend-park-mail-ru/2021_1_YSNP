@@ -435,7 +435,7 @@ export class ProductCreateFormController {
             idPhto.insertAdjacentHTML('beforeend', `
                 <div class="form-row" id="_profile-pic${this.__count}">    
                   <label class="form-row__photolabel" data-action="clickUpload" data-move="showCross" data-moveout="hideCross" data-id="${this.__count}"> 
-                     <img class="product__pic" id="product__pic${this.__count}" data-id="${this.__count}" src="../../img/photo.svg" alt="">
+                     <img class="product__pic" id="product__pic${this.__count}" data-id="${this.__count}" src="../../img/svg/photo.svg" alt="">
                      <div class="cross error-hidden" id="delete${this.__count}" data-id='${this.__count}' data-action="delete" ></div>
                    </label>
                 </div>

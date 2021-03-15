@@ -1,4 +1,4 @@
-'use strict';
+import './Carousel.css';
 
 /* eslint-disable no-magic-numbers */
 

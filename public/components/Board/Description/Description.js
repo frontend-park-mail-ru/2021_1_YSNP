@@ -1,4 +1,4 @@
-'use strict';
+import './Description.css';
 
 /***
  * @author Ivan Gorshkov

@@ -1,3 +1,5 @@
+import './AdSwitch.css';
+
 /***
  * Ad switch component
  */
@@ -5,7 +7,6 @@ export class AdSwitch {
     /***
      * Class constructor
      * @param {HTMLElement} parent - element where the component will be inserted
-     * @param {Object} data - component data
      */
     constructor(parent) {
         this.__parent = parent;

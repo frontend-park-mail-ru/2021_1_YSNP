@@ -1,15 +1,9 @@
-@font-face {
-    font-family: Roboto;
-    src: url(/fonts/Roboto-Regular.ttf)
-}
-
 .settings {
     width: 85vh;
     height: 103vh;
     margin-bottom: 10vh;
     display: flex;
     flex-direction: column;
-    font-family: Roboto, serif;
 }
 
 .settings-inner{

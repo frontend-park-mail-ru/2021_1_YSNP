@@ -1,3 +1,5 @@
+import './Settings.css';
+
 /***
  * Settings box on profile page
  */

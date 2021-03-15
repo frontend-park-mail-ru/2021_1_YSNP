@@ -1,4 +1,5 @@
 import {ProductCard} from './ProductCard/ProductCard.js';
+import './ProductList.css';
 
 /***
  * Product List - table of components Product Card
