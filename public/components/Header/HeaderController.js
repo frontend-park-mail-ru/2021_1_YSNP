@@ -5,7 +5,7 @@ import {ProductCreate} from '../../pages/ProductCreate.js';
 import {Auth} from '../Auth/Auth.js';
 import {AuthController} from '../Auth/AuthController.js';
 
-import {UserModel} from '../../models/UserModel.js';
+import {user} from '../../models/SettingsUserData.js';
 
 /***
  * Header controller controller
@@ -21,7 +21,7 @@ export class HeaderController {
         this.__pageRemoveListeners = pageRemoveListeners;
         this.__parent = parent;
         this.__header = header;
-        this.__model = new UserModel();
+        this.__model = user;
     }
 
     /***
