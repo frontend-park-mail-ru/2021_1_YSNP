@@ -1,4 +1,4 @@
-import { ProductModel } from './ProductModel.js';
+import {ProductModel} from './ProductModel.js';
 
 
 import {http} from '../modules/http.js';
@@ -47,24 +47,22 @@ export class ProductListModel {
 
     /***
      * Get product list data from backend
-     * @returns {Promise<void>}
+     * @returns {Promise<{isUpdate: boolean}|{message: *, isUpdate: boolean}>}
      */
     async update() {
         return await http.get(urls.productList)
             .then(({status, data}) => {
-                if (status === httpStatus.StatusOK) {
-                    this.__parseData(data);
-                    return {isUpdate: true};
-                }
-
                 if (status === httpStatus.StatusInternalServerError) {
-                    throw data;
+                    throw new Error('Ошибка сервера');
+                    // throw new Error(data.message);
                 }
 
-                return {isUpdate: false};
+                this.__parseData(data);
+                return {isUpdate: true};
             })
             .catch((err) => {
                 console.log('ProductListModel update', err.message);
+                return {isUpdate: false, message: err.message};
             });
     }
 

@@ -390,23 +390,22 @@ export class ProductModel {
     async update() {
         return await http.get(urls.product + this.__id)
             .then(({status, data}) => {
-                if (status === httpStatus.StatusOK) {
-                    this.fillProductModel(data);
-                    return {isUpdate: true};
-                }
-
-                if (status === httpStatus.StatusBadRequest) {
-                    throw data;
+                if (status === httpStatus.StatusNotFound) {
+                    throw new Error('Нет такого товара');
+                    // throw new Error(data.message);
                 }
 
                 if (status === httpStatus.StatusInternalServerError) {
-                    throw data;
+                    throw new Error('Ошибка сервера');
+                    // throw new Error(data.message);
                 }
 
-                return {isUpdate: false};
+                this.fillProductModel(data);
+                return {isUpdate: true};
             })
             .catch((err) => {
                 console.log('ProductModel update', err.message);
+                return {isUpdate: false, message: err.message};
             });
     }
 
@@ -415,17 +414,30 @@ export class ProductModel {
      * @returns {Promise<void>}
      */
     async create(form) {
-        return http.post(urls.productUploadPhotos, new FormData(form), true).then(({status, data}) => {
-            if (status === httpStatus.StatusOK) {
+        return http.post(urls.productUploadPhotos, new FormData(form), true)
+            .then(({status, data}) => {
+                if (status === httpStatus.StatusUnauthorized) {
+                    throw new Error('Пользователь не авторизован');
+                    // throw new Error(data.message);
+                }
+
+                if (status === httpStatus.StatusBadRequest) {
+                    throw new Error('Неправильные данные');
+                    // throw new Error(data.message);
+                }
+
+                if (status === httpStatus.StatusInternalServerError) {
+                    throw new Error('Ошибка сервера');
+                    // throw new Error(data.message);
+                }
+
                 this.__linkImages = data.linkImages;
                 const model = this.__jsonData();
                 return http.post(urls.productCreate, model);
-            }
-
-            return Promise.reject();
-        }).catch((err) => {
-            console.log(err.message);
-        });
+                // TODO(Ivan) а проверка на ошибки?
+            }).catch((err) => {
+                console.log('ProductModel create', err.message);
+            });
     }
 
     /***

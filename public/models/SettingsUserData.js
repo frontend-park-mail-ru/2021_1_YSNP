@@ -89,73 +89,79 @@ export class SettingsUserData extends PasswordUserModel {
     async settings() {
         return await http.post(urls.settings, this.__jsonData())
             .then(({status}) => {
-                if (status === httpStatus.StatusOK) {
-                    // this.__linkImages.push(data.linkImages);
-                    this.__isAuth = false;
-                    return {isUpdate: true};
+                if (status === httpStatus.StatusUnauthorized) {
+                    throw new Error('Пользователь не авторизован');
+                    // throw new Error(data.message);
                 }
 
                 if (status === httpStatus.StatusBadRequest) {
-                    throw Error('Попробуйте еще раз');
-                }
-
-                if (status === httpStatus.StatusUnauthorized) {
-                    throw Error('Пользователь не авторизован');
+                    throw new Error('Попробуйте еще раз');
+                    // throw new Error(data.message);
                 }
 
                 if (status === httpStatus.StatusInternalServerError) {
-                    throw Error('Ошибка сервера');
+                    throw new Error('Ошибка сервера');
+                    // throw new Error(data.message);
                 }
 
+                this.__isAuth = false;
                 return {isUpdate: true};
+            })
+            .catch((err) => {
+                console.log('UserModel settings', err.message);
+                return {isUpdate: false, message: err.message};
             });
     }
 
     /***
      * Post new user password to backend
-     * @returns {Promise<void>}
+     * @returns {Promise<{isUpdate: boolean}|{message: *, isUpdate: boolean}>}
      */
     async newPassword() {
-        const data = this.__jsonPassword();
-        return await http.post(urls.newPassword, data)
+        return await http.post(urls.newPassword, this.__jsonPassword())
             .then(({status}) => {
                 if (status === httpStatus.StatusBadRequest) {
-                    throw Error('Неправильно введен пароль');
+                    throw new Error('Неправильно введен пароль');
+                    // throw new Error(data.message);
                 }
+
+                return {isUpdate: true};
+            })
+            .catch((err) => {
+                console.log('UserModel newPassword', err.message);
+                return {isUpdate: false, message: err.message};
             });
     }
 
     /***
      * Get user data from backend
-     * @returns {Promise<void>}
+     * @returns {Promise<{isUpdate: boolean}|{message: *, isUpdate: boolean}>}
      */
     async update() {
         if (!this.__isAuth) {
             return await http.get(urls.me)
                 .then(({status, data}) => {
-                    if (status === httpStatus.StatusOK) {
-                        this.fillUserData(data);
-                        this.__isAuth = true;
-                        return {isUpdate: true};
-                    }
-
                     if (status === httpStatus.StatusUnauthorized) {
-                        throw data;
+                        throw new Error('Пользователь не авторизован');
+                        // throw new Error(data.message);
                     }
 
                     if (status === httpStatus.StatusInternalServerError) {
-                        throw data;
+                        throw new Error('Ошибка сервера');
+                        // throw new Error(data.message);
                     }
 
-                    this.__isAuth = false;
-                    return {isUpdate: false};
+                    this.fillUserData(data);
+                    this.__isAuth = true;
+                    return {isUpdate: true};
                 })
                 .catch((err) => {
                     console.log('UserModel update', err.message);
+                    return {isUpdate: false, message: err.message};
                 });
         }
 
-        return Promise.resolve();
+        return {isUpdate: false};
     }
 
     /***
@@ -164,24 +170,23 @@ export class SettingsUserData extends PasswordUserModel {
      */
     async logout() {
         return await http.post(urls.logout, null)
-            .then(({status, data}) => {
-                if (status === httpStatus.StatusOK) {
-                    this.__isAuth = false;
-                    return {isLogout: true};
-                }
-
+            .then(({status}) => {
                 if (status === httpStatus.StatusUnauthorized) {
-                    throw data;
+                    throw new Error('Пользователь не авторизован');
+                    // throw new Error(data.message);
                 }
 
                 if (status === httpStatus.StatusInternalServerError) {
-                    throw data;
+                    throw new Error('Ошибка сервера');
+                    // throw new Error(data.message);
                 }
 
-                return {isLogout: false};
+                this.__isAuth = false;
+                return {isLogout: true};
             })
             .catch((err) => {
                 console.log('UserModel logout', err.message);
+                return {isLogout: false, message: err.message};
             });
     }
 
