@@ -1,5 +1,5 @@
 import './ProductCreateForm.css';
-
+import productCreateFormTemplate from './ProductCreateForm.hbs';
 /***
  * @author Max Torzhkov
  * ProductCreateForm class for product creation
@@ -226,12 +226,26 @@ export class ProductCreateForm {
     }
 
     /***
+     * @author Ivan Gorshkov
+     *
+     * context for template
+     * @return {{id: Number, title: String}}
+     * @private
+     */
+    __context() {
+        return {
+            fields: this.__data
+        };
+    }
+
+
+    /***
      * @author Max Torzhkov
      * Add component to parent
      * @this {ProductCreateForm}
      */
     render() {
         const template = this.__getTemplate();
-        this.__parent.insertAdjacentHTML('beforeend', template);
+        this.__parent.insertAdjacentHTML('beforeend', productCreateFormTemplate(this.__context()));
     }
 }
