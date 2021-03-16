@@ -106,9 +106,9 @@
 
 .settings-input-inner{
     position: relative;
-    width: 61vh;
+    width: 27vh;
     height: 6vh;
-    margin-top: 0.7vh;
+    margin-top: 0.6vh;
     justify-content: left;
     display: flex;
     flex-direction: column;
@@ -119,7 +119,6 @@
     height: 3.8vh;
     font-size: 2vh;
     color: black;
-    width: 43%;
     border: 1px solid rgba(0,0,0,0.2);
     box-sizing: border-box;
     border-radius: 0.5vh;
@@ -136,11 +135,11 @@
     display: flex;
     flex-direction: row;
     align-items: center;
-    justify-content: space-between;
 }
 
 .settings-avatar{
     position: relative;
+    margin-left: 15vh;
     transform: translate(5%, 0);
 }
 
@@ -200,10 +199,7 @@ select:disabled{
 }
 
 .settings-message-container {
-    clear: both;
-    position: absolute;
-    top: 0;
-    left: 27vh;
+    transform: translateX(0%);
 }
 
 .message__arrow {
@@ -249,42 +245,12 @@ select:disabled{
     border-radius: 5px;
 }
 
-.settings-change-password{
-    background: white;
-    border-radius: 3px;
-    box-shadow: 0px 4px 14px rgba(0, 0, 0, 0.1);
-
-    display: flex;
-    flex-direction: column;
-
-    width:85vh;
-    height: 30vh;
-
-    margin-top: 2vh;
-}
-.settings-change-password-inner{
-    padding: 1vh 2.5vh;
-}
-.settings-passwords-inner{
-    position: relative;
-    width: 100%;
-    margin-top: 0.6vh;
-    margin-bottom: 2.1vh;
-    justify-content: left;
-    align-items: center;
-    display: flex;
-}
-.settings-error_hidden, .settings-password-error_hidden{
+.backend-error_hidden{
     visibility: hidden;
 }
-.settings-error_visible, .settings-password-error_visible{
+.backend-error_visible{
     visibility: visible;
     color: #D31E1E;
-    font-size: 1.3vh;
-}
-.settings-password-error_success{
-    visibility: visible;
-    color: green;
     font-size: 1.3vh;
 }
 /*.settings-add-account{*/

@@ -1,5 +1,6 @@
 import {user} from '../../models/SettingsUserData.js';
 import {Profile} from '../../pages/Profile.js';
+import {insertError, addSuccesses, createMessageError, hideError, showError, hideBackendError, showBackendError, validateError} from '../../modules/validationStates.js';
 
 /***
  * Settings controller
@@ -41,92 +42,59 @@ export class SettingsController {
     /***
      * Settings click event
      * @param {Event} ev - event
+     * @param {string} type - type action
      * @private
      */
-    __listenerSettingsClick(ev) {
-        document.getElementById('settings-password-error').classList.remove('settings-password-error_success');
-        document.getElementById('settings-password-error').classList.add('settings-password-error_hidden');
-        document.getElementById('settings-error').classList.remove('settings-error_visible');
-        document.getElementById('settings-error').classList.add('settings-error_hidden');
-
+    __listenerSettingsClick(type, ev) {
+        hideBackendError('settings-password-error');
+        hideBackendError('settings-error');
         const actions = this.__getActions();
         Object
             .entries(ev.composedPath())
             .forEach(([, el]) => {
 
-                if (el.dataset !== undefined && 'action' in el.dataset) {
+                if (el.dataset !== undefined && type in el.dataset) {
                     if (el.dataset.action === 'saveChangesClick') {
                         ev.preventDefault();
                     }
-                    actions[el.dataset.action].open(ev.target);
-                }
-            });
-    }
+                    if ((type === 'move') || (type === 'moveout')) {
+                        actions[el.dataset[type]].open(ev);
+                    } else {
+                        actions[el.dataset[type]].open(ev.target);
+                    }
 
-    /***
-     * Mouse in event
-     * @param {Event} ev - mouse in event
-     * @private
-     */
-    __listenersMouseIn(ev) {
-        ev.preventDefault();
-
-        const actions = this.__getActions();
-        Object
-            .entries(ev.composedPath())
-            .forEach(([, el]) => {
-                if (el.dataset !== undefined && 'move' in el.dataset) {
-                    actions[el.dataset.move].open(ev.target);
-                }
-            });
-    }
-
-    /***
-     * Mouse out
-     * @param {Event} ev - mouse out event
-     * @private
-     */
-    __listenersMouseOut(ev) {
-        ev.preventDefault();
-
-        const actions = this.__getActions();
-        Object
-            .entries(ev.composedPath())
-            .forEach(([, el]) => {
-                if (el.dataset !== undefined && 'moveout' in el.dataset) {
-                    actions[el.dataset.moveout].open(ev.target);
                 }
             });
     }
 
     /***
      * Get settings listeners
-     * @returns {{validateChange: {listener: *, type: string}, hideError: {listener: *, type: string}, validateInput: {listener: *, type: string}, showError: {listener: *, type: string}, settingsClick: {listener: *, type: string}}}
+     * @returns {{focusInput: {listener: *, type: string}, validateChange: {listener: *, type: string}, validateInput: {listener: *, type: string}, blurInput: {listener: *, type: string}, settingsClick: {listener: *, type: string}}}
      * @private
      */
     __createListeners() {
         return {
             settingsClick: {
                 type: 'click',
-                listener: this.__listenerSettingsClick.bind(this)
+                listener: this.__listenerSettingsClick.bind(this, 'action')
             },
             validateInput: {
                 type: 'input',
-                listener: this.__listenerSettingsClick.bind(this)
+                listener: this.__listenerSettingsClick.bind(this, 'action')
             },
             validateChange: {
                 type: 'change',
-                listener: this.__listenerSettingsClick.bind(this)
+                listener: this.__listenerSettingsClick.bind(this, 'action')
 
             },
-            showError: {
-                type: 'mouseover',
-                listener: this.__listenersMouseIn.bind(this)
+            focusInput: {
+                type: 'focus',
+                listener: this.__listenerSettingsClick.bind(this, 'move')
 
             },
-            hideError: {
-                type: 'mouseout',
-                listener: this.__listenersMouseOut.bind(this)
+            blurInput: {
+                type: 'blur',
+                listener: this.__listenerSettingsClick.bind(this, 'moveout')
 
             }
         };
@@ -154,12 +122,6 @@ export class SettingsController {
             inputEmpty: {
                 open: this.__validateString.bind(this)
             },
-            mouseIn: {
-                open: this.mouseInInput.bind(this)
-            },
-            mouseOut: {
-                open: this.mouseOutInput.bind(this)
-            },
             checkPasswd: {
                 open: this.__enablePasswordChange.bind(this)
             },
@@ -180,6 +142,12 @@ export class SettingsController {
             },
             resetPasswordClick: {
                 open: this.__resetPasswordClick.bind(this)
+            },
+            showError: {
+                open: showError.bind(this)
+            },
+            hideError: {
+                open: hideError.bind(this)
             }
         };
     }
@@ -211,6 +179,7 @@ export class SettingsController {
      * @private
      */
     __savePasswordClick() {
+        console.log('smth');
         const oldPassword = document.getElementById('settings-old-pass').value;
         const passwordConfirm = document.getElementById('settings-confirm-pass');
         const newPassword = document.getElementById('settings-new-pass');
@@ -229,14 +198,13 @@ export class SettingsController {
                     const err = document.getElementById('settings-password-error');
                     err.textContent = 'Пароль успешно изменен';
                     err.classList.add('settings-password-error_success');
-                    err.classList.remove('settings-password-error_hidden');
+                    err.classList.remove('backend-error_hidden');
                 })
                 .catch((error) => {
-                    const err = document.getElementById('settings-password-error');
-                    err.textContent = error.message;
-                    err.classList.add('settings-password-error_visible');
-                    err.classList.remove('settings-password-error_hidden');
+                    showBackendError('settings-password-error', error.message);
                 });
+        } else {
+            showBackendError('settings-password-error', 'Проверьте, что все поля заполнены');
         }
     }
 
@@ -252,33 +220,20 @@ export class SettingsController {
         document
             .getElementById('settings-reset-pass')
             .style.visibility = 'hidden';
-        document.getElementById('settings-password-error').classList.remove('settings-password-error_visible');
-        document.getElementById('settings-password-error').classList.remove('settings-password-error_success');
-        document.getElementById('settings-password-error').classList.add('settings-password-error_hidden');
+        hideBackendError('settings-password-error');
         const passwordConfirm = document.getElementById('settings-confirm-pass');
         const password = document.getElementById('settings-new-pass');
         const oldPass = document.getElementById('settings-old-pass');
-
-        password.value = '';
-        password.classList.remove('settings-components__input-success');
-        password.classList.remove('settings-components__input-error');
-        if (document.getElementById('settings-new-passError')) {
-            password.parentNode.removeChild(password.nextSibling);
-        }
-
-        oldPass.value = '';
-        oldPass.classList.remove('settings-components__input-success');
-        oldPass.classList.remove('settings-components__input-error');
-        if (document.getElementById('settings-old-passError')) {
-            password.parentNode.removeChild(password.nextSibling);
-        }
-
         passwordConfirm.value = '';
-        passwordConfirm.classList.remove('settings-components__input-success');
-        passwordConfirm.classList.remove('settings-components__input-error');
-        if (document.getElementById('settings-confirm-passError')) {
-            passwordConfirm.parentNode.removeChild(passwordConfirm.nextSibling);
-        }
+        password.value = '';
+        oldPass.value = '';
+        addSuccesses(password, 'settings-new-passError');
+        addSuccesses(oldPass, 'settings-old-passError');
+        addSuccesses(passwordConfirm, 'settings-confirm-passError');
+
+        password.classList.remove('reg-panel__input-susses');
+        passwordConfirm.classList.remove('reg-panel__input-susses');
+        oldPass.classList.remove('reg-panel__input-susses');
     }
 
     /***
@@ -310,28 +265,6 @@ export class SettingsController {
 
             reader.readAsDataURL(input.files[firstFile]);
         }
-    }
-
-    /***
-     * Show error message if mouse in input
-     * @param target
-     */
-    mouseInInput(target) {
-        if (target.nextSibling.className === 'error-hidden') {
-            target.nextElementSibling.classList.remove('error-hidden');
-        }
-
-    }
-
-    /***
-     * Hide error message if mouse out input
-     * @param target
-     */
-    mouseOutInput(target) {
-        if (target.nextSibling.className === '') {
-            target.nextElementSibling.classList.add('error-hidden');
-        }
-
     }
 
     /***
@@ -453,78 +386,18 @@ export class SettingsController {
             this.__model.settings()
                 .then(({isUpdate}) => {
                     if (isUpdate) {
-                        const err = document.getElementById('settings-password-error');
-                        err.classList.add('settings-error_hidden');
-                        err.classList.remove('settings-error_visible');
+                        hideBackendError('settings-error');
                         const profile = new Profile(this.__parent);
                         profile.render();
                     }
                 })
                 .catch((error) => {
-                    const err = document.getElementById('settings-error');
-                    err.textContent = error.message;
-                    err.classList.add('settings-error_visible');
-                    err.classList.remove('settings-error_hidden');
+                    showBackendError('settings-error', error.message);
                 });
         } else {
-            const err = document.getElementById('settings-error');
-            err.textContent = 'Проверьте правильность введенных данных';
-            err.classList.add('settings-error_visible');
-            err.classList.remove('settings-error_hidden');
+            showBackendError('settings-error', 'Проверьте правильность введенных данных');
         }
         return false;
-    }
-
-    /***
-     * Change error-input to success-input
-     * @param target
-     * @param idError
-     * @private
-     */
-    __addSuccesses(target, idError) {
-        target.classList.remove('settings-components__input-error');
-        target.classList.add('settings-components__input-success');
-        if (document.getElementById(idError)) {
-            target.parentNode.removeChild(target.nextSibling);
-        }
-    }
-
-    /***
-     * Add error messages for incorrect input
-     * @param target
-     * @param idError
-     * @param textError
-     * @private
-     */
-    __insertError(target, idError, textError) {
-        target.classList.add('settings-components__input-error');
-        if (document.getElementById(idError) === null) {
-            const el = document.createElement('div');
-            el.id = idError;
-            el.innerHTML = textError;
-            el.className = 'error-hidden';
-            target.parentNode.insertBefore(el, target.nextSibling);
-        }
-    }
-
-    /***
-     * Create box with error's messages
-     * @param errText
-     * @returns {string}
-     * @private
-     */
-    __createMessageError(errText) {
-        return `
-            <div class="settings-message-container">
-              <div class="message__arrow">
-                <div class="message-outer"></div>
-                <div class="message-inner"></div>
-              </div>
-              <div class="message-body">
-                    ${errText}
-              </div>
-            </div>
-    `;
     }
 
     /***
@@ -638,16 +511,7 @@ export class SettingsController {
      */
     __validateTelephone(target) {
         const {error, message} = this.__model.validationTelephone(target.value);
-        if (!error) {
-            this.__addSuccesses(target, 'phoneError');
-            return true;
-        }
-        this.__insertError(target, 'phoneError', this.__createMessageError(`
-                  <ul class="list-errors">
-                    <li>${message}</li>
-                  </ul>
-    `));
-        return false;
+        return validateError(error, target, message);
     }
 
 
@@ -661,13 +525,13 @@ export class SettingsController {
         if (target.value !== '') {
             const {error, message} = this.__model.validationPassword(target.value);
             if (!error) {
-                this.__addSuccesses(target, `${target.id}Error`);
+                addSuccesses(target, `${target.id}Error`);
                 const element = document.getElementById('settings-confirm-pass');
                 this.__validateConfirmPwd(element);
                 return true;
             }
 
-            this.__insertError(target, `${target.id}Error`, this.__createMessageError(`
+            insertError(target, `${target.id}Error`, createMessageError(`
                         <ul class="list-errors">
                         ${message.reduce((prev, cur) => `${prev}<li>${cur}</li>`, '')}
                         </ul>
@@ -686,16 +550,7 @@ export class SettingsController {
         const element = document.getElementById('settings-new-pass');
         if (target.value !== '') {
             const {error, message} = this.__model.validationConfirmPassword(element.value, target.value);
-            if (!error) {
-                this.__addSuccesses(target, `${target.id}Error`);
-                return true;
-            }
-
-            this.__insertError(target, `${target.id}Error`, this.__createMessageError(`
-                 <ul class="list-errors">
-                     <li>${message}</li>
-                 </ul>
-            `));
+            return validateError(error, target, message);
         }
         return false;
     }
@@ -708,16 +563,7 @@ export class SettingsController {
      */
     __validateEmail(target) {
         const {error, message} = this.__model.validationEmail(target.value);
-        if (!error) {
-            this.__addSuccesses(target, 'MailError');
-            return true;
-        }
-        this.__insertError(target, 'MailError', this.__createMessageError(`
-                  <ul class="list-errors">
-                     <li>${message}</li>
-                 </ul>
-    `));
-        return false;
+        return validateError(error, target, message);
     }
 
     /***
@@ -727,16 +573,10 @@ export class SettingsController {
      * @private
      */
     __validateString(target) {
+        let error = true;
         if (target.value !== '') {
-            this.__addSuccesses(target, `${target.id}Error`);
-            return true;
+           error = false;
         }
-
-        this.__insertError(target, `${target.id}Error`, this.__createMessageError(`
-                  <ul class="list-errors">
-                         <li>Поле не должно быть пустым</li>
-                     </ul>
-    `));
-        return false;
+        return validateError(error, target, 'Поле не должно быть пустым');
     }
 }
