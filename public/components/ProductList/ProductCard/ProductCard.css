@@ -58,7 +58,8 @@
 }
 
 .product-card-info-inner {
-    width: 87%;
+    width: 100%;
+
     margin: 1.5vh;
 
     display: flex;
