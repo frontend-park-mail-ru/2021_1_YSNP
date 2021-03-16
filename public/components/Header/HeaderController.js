@@ -7,6 +7,9 @@ import {AuthController} from '../Auth/AuthController.js';
 
 import {user} from '../../models/SettingsUserData.js';
 
+import {Map} from '../Map/Map.js';
+import {MapController} from '../Map/MapController.js';
+
 /***
  * Header controller controller
  */
@@ -135,7 +138,10 @@ export class HeaderController {
      * @private
      */
     __openMap() {
-        // TODO(Sergey) release __openLanding
+        const map = new Map(this.__parent);
+        map.render();
+        this.__mapController = new MapController(this.__parent, map);
+        this.__mapController.control();
 
         console.log('Open map');
     }
