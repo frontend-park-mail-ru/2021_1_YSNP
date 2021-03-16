@@ -62,12 +62,6 @@ export class ProductCreateForm {
             .addEventListener(this.__listeners.submitClick.type, this.__listeners.submitClick.listener);
         document
             .getElementById('ProductForm')
-            .addEventListener(this.listeners.showError.type, this.listeners.showError.listener);
-        document
-            .getElementById('ProductForm')
-            .addEventListener(this.listeners.hideError.type, this.listeners.hideError.listener);
-        document
-            .getElementById('ProductForm')
             .addEventListener(this.listeners.validateInput.type, this.listeners.validateInput.listener);
         document
             .getElementById('productPhoto')
@@ -81,6 +75,12 @@ export class ProductCreateForm {
         document
             .getElementById('files')
             .addEventListener(this.listeners.validateChange.type, this.listeners.validateChange.listener);
+        document
+            .getElementById('ProductForm')
+            .addEventListener(this.listeners.focusInput.type, this.listeners.focusInput.listener, true);
+        document
+            .getElementById('ProductForm')
+            .addEventListener(this.listeners.blurInput.type, this.listeners.blurInput.listener, true);
     }
 
     /***
@@ -96,12 +96,6 @@ export class ProductCreateForm {
             .removeEventListener(this.__listeners.submitClick.type, this.__listeners.submitClick.listener);
         document
             .getElementById('ProductForm')
-            .removeEventListener(this.listeners.showError.type, this.listeners.showError.listener);
-        document
-            .getElementById('ProductForm')
-            .removeEventListener(this.listeners.hideError.type, this.listeners.hideError.listener);
-        document
-            .getElementById('ProductForm')
             .removeEventListener(this.listeners.validateInput.type, this.listeners.validateInput.listener);
         document
             .getElementById('productPhoto')
@@ -115,6 +109,12 @@ export class ProductCreateForm {
         document
             .getElementById('files')
             .removeEventListener(this.listeners.validateChange.type, this.listeners.validateChange.listener);
+        document
+            .getElementById('ProductForm')
+            .removeEventListener(this.listeners.focusInput.type, this.listeners.focusInput.listener, true);
+        document
+            .getElementById('ProductForm')
+            .removeEventListener(this.listeners.blurInput.type, this.listeners.blurInput.listener, true);
     }
 
     /***
@@ -138,13 +138,13 @@ export class ProductCreateForm {
 
         if (element.inputType === 'text') {
             text = `<input min="0" class="reg-panel__textfield" data-action="${element.dataAction}"
-                          data-move="mouseIn" data-moveout="mouseOut" id="${element.id}" type="${element.inputType}"
+                          data-move="showError" data-moveout="hideError" id="${element.id}" type="${element.inputType}"
                           placeholder="${element.placeholder}" name="${element.id}"/>`;
         }
 
         if (element.inputType === 'textarea') {
             text = `<textarea class="form-row__textarea" data-action="${element.dataAction}"
-                          data-move="mouseIn" data-moveout="mouseOut" id="${element.id}"
+                          data-move="showError" data-moveout="hideError" id="${element.id}"
                           placeholder="${element.placeholder}" name="${element.id}" maxlength="5000"/></textarea>`;
         }
 

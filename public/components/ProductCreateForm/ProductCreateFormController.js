@@ -3,6 +3,8 @@
 import { ProductModel } from '../../models/ProductModel.js';
 import { Landing } from '../../pages/Landing.js';
 import { httpStatus } from '../../modules/httpStatus.js';
+import { amountMask } from '../../modules/amountMask.js';
+import {insertError, addSuccesses, createMessageError, hideError, showError} from '../../modules/validationStates.js';
 
 /***
  * @author Max Torzhkov, Ivan Gorshkov
@@ -135,16 +137,48 @@ export class ProductCreateFormController {
             },
             showError: {
                 type: 'mouseover',
-                listener: this.__listenersMouseIn.bind(this)
+                listener: this.__listenerForErrorsAndCross.bind(this, 'move')
 
             },
             hideError: {
                 type: 'mouseout',
-                listener: this.__listenersMouseOut.bind(this)
+                listener: this.__listenerForErrorsAndCross.bind(this, 'moveout')
+
+            },
+            focusInput: {
+                type: 'focus',
+                listener: this.__listenerForErrorsAndCross.bind(this, 'move')
+
+            },
+            blurInput: {
+                type: 'blur',
+                listener: this.__listenerForErrorsAndCross.bind(this, 'moveout')
 
             }
         };
     }
+
+    /***
+     * @author Ivan Gorshkov
+     *
+     *  listener for Focus/Blur and cross Event
+     * @private
+     * @this {ProductCreateFormController}
+     * @param {string} dataType - type action
+     * @param{Event} ev - event
+     */
+    __listenerForErrorsAndCross(dataType, ev) {
+        ev.preventDefault();
+        const actions = this.__getActions();
+        Object
+            .entries(ev.composedPath())
+            .forEach(([, el]) => {
+                if (el.dataset !== undefined && dataType in el.dataset) {
+                    actions[el.dataset[dataType]].open(ev);
+                }
+            });
+    }
+
 
     /***
      * @author Ivan Gorshkov
@@ -162,49 +196,9 @@ export class ProductCreateFormController {
             .entries(ev.composedPath())
             .forEach(([, el]) => {
                 if (el.dataset !== undefined && 'action' in el.dataset) {
-                    actions[el.dataset.action].open(ev.target);
-                }
-            });
-    }
-
-    /***
-     * @author Ivan Gorshkov
-     *
-     * listener for MouseIn Event
-     * @private
-     * @this {ProductCreateFormController}
-     * @param{Event} ev - event
-     */
-    __listenersMouseIn(ev) {
-        ev.preventDefault();
-
-        const actions = this.__getActions();
-        Object
-            .entries(ev.composedPath())
-            .forEach(([, el]) => {
-                if (el.dataset !== undefined && 'move' in el.dataset) {
-                    actions[el.dataset.move].open(ev.target);
-                }
-            });
-    }
-
-    /***
-     * @author Ivan Gorshkov
-     *
-     *  listener for MouseOut Event
-     * @private
-     * @this {ProductCreateFormController}
-     * @param{Event} ev - event
-     */
-    __listenersMouseOut(ev) {
-        ev.preventDefault();
-
-        const actions = this.__getActions();
-        Object
-            .entries(ev.composedPath())
-            .forEach(([, el]) => {
-                if (el.dataset !== undefined && 'moveout' in el.dataset) {
-                    actions[el.dataset.moveout].open(ev.target);
+                    if (!actions[el.dataset.action].open(ev.target)) {
+                        document.getElementById(`${ev.target.id}Error`).classList.remove('error-hidden');
+                    }
                 }
             });
     }
@@ -231,12 +225,6 @@ export class ProductCreateFormController {
             priceInput: {
                 open: this.__validatePriceInput.bind(this)
             },
-            mouseIn: {
-                open: this.__mouseInInput.bind(this)
-            },
-            mouseOut: {
-                open: this.__mouseOutInput.bind(this)
-            },
             clickUpload: {
                 open: this.__upload.bind(this)
             },
@@ -251,10 +239,15 @@ export class ProductCreateFormController {
             },
             inputEmpty: {
                 open: this.__validateEmptyInput.bind(this)
+            },
+            showError: {
+                open: showError.bind(this)
+            },
+            hideError: {
+                open: hideError.bind(this)
             }
         };
     }
-
 
     /***
      * @author Ivan Gorshkov
@@ -268,11 +261,11 @@ export class ProductCreateFormController {
     __validateEmptyInput(target) {
         const { error, message } = this.__model.validationName(target.value.toString());
         if (!error) {
-            this.__addSuccesses(target, `${target.id}Error`);
+            addSuccesses(target, `${target.id}Error`);
             return true;
         }
 
-        this.__insertError(target, `${target.id}Error`, this.__createMessageError(`
+        insertError(target, `${target.id}Error`, createMessageError(`
         <ul class="list-errors">
             <li>${message}</li>
         </ul>
@@ -314,12 +307,12 @@ export class ProductCreateFormController {
      * @author Ivan Gorshkov
      *
      * action for cross showing
-     * @param{Object} target - photo frame
+     * @param{Event} ev - event for show cross
      * @private
      */
-    __showCross(target) {
-        if (parseInt(target.dataset.id) !== this.__count && (target.tagName === 'IMG' || target.tagName === 'DIV')) {
-            document.getElementById(`delete${target.dataset.id}`).classList.remove('error-hidden');
+    __showCross(ev) {
+        if (parseInt(ev.target.dataset.id) !== this.__count && (ev.target.tagName === 'IMG' || ev.target.tagName === 'DIV')) {
+            document.getElementById(`delete${ev.target.dataset.id}`).classList.remove('error-hidden');
         }
     }
 
@@ -327,74 +320,12 @@ export class ProductCreateFormController {
      * @author Ivan Gorshkov
      *
      * action for cross hide
-     * @param{Object} target - input element
+     * @param{Event} ev - event for hide cross
      * @private
      */
-    __hideCross(target) {
-        if (parseInt(target.dataset.id) !== this.__count && (target.tagName === 'IMG' || target.tagName === 'DIV')) {
-            document.getElementById(`delete${target.dataset.id}`).classList.add('error-hidden');
-        }
-    }
-
-    /***
-     * @author Ivan Gorshkov
-     *
-     * action with mouse out event
-     * @param{Object} target - input element
-     * @private
-     */
-    __mouseOutInput(target) {
-        if (target.nextSibling.className === '') {
-            target.nextElementSibling.classList.add('error-hidden');
-        }
-
-    }
-
-    /****
-     * @author Ivan Gorshkov
-     *
-     * action with mouse in event
-     * @param{Object} target - input element
-     * @private
-     */
-    __mouseInInput(target) {
-        if (target.nextSibling.className === 'error-hidden') {
-            target.nextElementSibling.classList.remove('error-hidden');
-        }
-    }
-
-    /***
-     * @author Ivan Gorshkov
-     *
-     * add to DOM error massage
-     * @param{Object} target
-     * @param{string} idError
-     * @param{string} textError
-     * @private
-     */
-    __insertError(target, idError, textError) {
-        target.classList.add('reg-panel__input-error');
-        if (document.getElementById(idError) === null) {
-            const el = document.createElement('div');
-            el.id = idError;
-            el.innerHTML = textError;
-            el.className = 'error-hidden';
-            target.parentNode.insertBefore(el, target.nextSibling);
-        }
-    }
-
-    /***
-     * @author Ivan Gorshkov
-     *
-     * change to success
-     * @param{Object} target
-     * @param{string} idError
-     * @private
-     */
-    __addSuccesses(target, idError) {
-        target.classList.remove('reg-panel__input-error');
-        if (document.getElementById(idError)) {
-            target.parentNode.removeChild(target.nextSibling);
+    __hideCross(ev) {
+        if (parseInt(ev.target.dataset.id) !== this.__count && (ev.target.tagName === 'IMG' || ev.target.tagName === 'DIV')) {
+            document.getElementById(`delete${ev.target.dataset.id}`).classList.add('error-hidden');
         }
     }
 
@@ -409,9 +340,7 @@ export class ProductCreateFormController {
         const firstIndex = 0;
         if (input.files && input.files[firstIndex]) {
             const reader = new FileReader();
-
             reader.onload = this.__onReaderLoad.bind(this, input);
-
             reader.readAsDataURL(input.files[firstIndex]);
         }
 
@@ -474,35 +403,16 @@ export class ProductCreateFormController {
      */
     __validatePriceInput(target) {
         const { error, message } = this.__model.validationAmount(target.value.replace(/[^0-9]/g, '').toString());
-        const maxDigit = 15;
-        const firstIndex = 0;
-        const lastIndex = -1;
-        const groupNumber = 3;
-        const remainder = 0;
-        this.__addSuccesses(target, `${target.id}Error`);
-
-        if (target.value.length > maxDigit) {
-            target.value = target.value.slice(firstIndex, lastIndex);
-        }
-
-        const tmpString = target.value.replace(/[^0-9]/g, '').toString();
-        const newStr = tmpString.split('').reverse().reduce((previousValue, currentValue, currentIndex) => {
-            if (currentIndex % groupNumber === remainder && currentIndex !== firstIndex) {
-                return `${previousValue} ${currentValue}`;
-            }
-            return previousValue + currentValue.toString();
-        }, '');
-
-        target.value = newStr.split('').reverse().join('');
-
+        target.value = amountMask(target.value);
         if (error) {
-            this.__insertError(target, `${target.id}Error`, this.__createMessageError(`
-        <ul class="list-errors">
-            <li>${message}</li>
-        </ul>
-    `));
+            insertError(target, `${target.id}Error`, createMessageError(`
+                <ul class="list-errors">
+                    <li>${message}</li>
+                </ul>
+            `));
             return false;
         }
+        addSuccesses(target, `${target.id}Error`);
         return true;
     }
 
@@ -521,37 +431,14 @@ export class ProductCreateFormController {
         const { error, message } = this.__model.validationDescription(target.value.toString());
 
         if (!error) {
-            this.__addSuccesses(target, `${target.id}Error`);
+            addSuccesses(target, `${target.id}Error`);
             return true;
         }
-        this.__insertError(target, `${target.id}Error`, this.__createMessageError(`
+        insertError(target, `${target.id}Error`, createMessageError(`
         <ul class="list-errors">
             <li>${message}</li>
         </ul>
-    `));
+        `));
         return false;
-    }
-
-    /***
-     * @author Ivan Gorshkov
-     *
-     * create box massage with errors
-     * @param{string} errText
-     * @return {string}
-     * @private
-     * @this {ProductCreateFormController}
-     */
-    __createMessageError(errText) {
-        return `
-        <div class="message-container">
-            <div class="message__arrow">
-                <div class="message-outer"></div>
-                <div class="message-inner"></div>
-            </div>
-            <div class="message-body">
-                ${errText}
-            </div>
-        </div>
-    `;
     }
 }
