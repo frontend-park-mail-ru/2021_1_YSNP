@@ -97,22 +97,6 @@ export class Registration {
 
     /***
      * @author Ivan Gorshkov
-     * TMP DATA
-     *
-     * @return {{isAuth: boolean, location: string, avatar: string, user: string}}
-     * @private
-     */
-    __getHeaderData() {
-        return {
-            isAuth: false,
-            user: 'Алехин Сергей',
-            avatar: '/img/test-avatar.jpg',
-            location: 'Москва'
-        };
-    }
-
-    /***
-     * @author Ivan Gorshkov
      *
      * remove listeners
      * @this {Product}

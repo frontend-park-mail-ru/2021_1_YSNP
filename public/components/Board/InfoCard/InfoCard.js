@@ -186,8 +186,7 @@ export class InfoCard {
             price: this.__getPrice,
             name: this.__getName,
             rating: this.__getRating,
-            starts:
-            this.__getStarts,
+            starts: this.__getStarts,
             date: this.__getDate,
             views: this.__getViews,
             likes: this.__getLikes
