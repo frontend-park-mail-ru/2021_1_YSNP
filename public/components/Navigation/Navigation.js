@@ -1,4 +1,5 @@
 import './Navigation.css';
+import navigationTemplate from './Navigation.hbs';
 
 /***
  * @author Ivan Gorshkov
@@ -111,6 +112,14 @@ export class Navigation {
             .removeEventListener(this.listeners.backButton.type, this.listeners.backButton.listener);
     }
 
+
+    __context() {
+        return {
+            title: this.__title,
+            route: this.__getRoute()
+        };
+    }
+
     /***
      * @author Ivan Gorshkov
      *
@@ -119,7 +128,7 @@ export class Navigation {
      * @public
      */
     render() {
-        const template = this.__getTemplate();
-        this.__parent.insertAdjacentHTML('beforeend', template);
+       // const template = this.__getTemplate();
+        this.__parent.insertAdjacentHTML('beforeend', navigationTemplate(this.__context()));
     }
 }
