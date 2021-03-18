@@ -47,7 +47,6 @@ export class Description {
      * @public
      */
     render() {
-        console.log(this.__data.description.map((value) => value.text.replaceAll('\n', '<br/>')));
         this.__parent.insertAdjacentHTML('beforeend', descriptionTemplate(this.__context()));
     }
 }
