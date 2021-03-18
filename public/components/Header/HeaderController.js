@@ -145,7 +145,7 @@ export class HeaderController {
      * @private
      */
     __openCreateProduct() {
-        if (this.__model.isAuth) {
+        if (this.__model.getData().isAuth) {
             this.__pageRemoveListeners();
 
             const productCreate = new ProductCreate(this.__parent);

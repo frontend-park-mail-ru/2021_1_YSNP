@@ -41,7 +41,10 @@ module.exports = {
             },
             {
                 test: /\.hbs/,
-                use: 'handlebars-loader'
+                loader: 'handlebars-loader',
+                options: {
+                    runtime: path.resolve(__dirname, 'server/handlebars.js')
+                }
             },
             {
                 test: /\.svg$/,
