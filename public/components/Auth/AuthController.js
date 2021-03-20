@@ -1,10 +1,9 @@
-
-import {Registration} from '../../pages/Registration.js';
-import {Landing} from '../../pages/Landing.js';
-
 import {AuthUserData} from '../../models/AuthUserData.js';
 
 import {telMask, parseTelNumber} from '../../modules/telMask.js';
+
+import {router} from '../../modules/router.js';
+import {pageUrls} from '../../modules/pageUrls.js';
 
 /***
  * Auth controller
@@ -48,6 +47,7 @@ export class AuthController {
      * @private
      */
     __listenerAuthClick(ev) {
+        ev.preventDefault();
         ev.stopPropagation();
 
         const actions = this.__getActions();
@@ -107,8 +107,8 @@ export class AuthController {
                 .then(({isAuth, message}) => {
                     if (isAuth) {
                         this.__pageRemoveListeners();
-                        const landing = new Landing(this.__parent);
-                        landing.render();
+
+                        router.redirect(pageUrls.main);
                     } else {
                         this.__auth.errorText(message);
                     }
@@ -197,8 +197,7 @@ export class AuthController {
     __openRegistration() {
         this.__pageRemoveListeners();
 
-        const registration = new Registration(this.__parent);
-        registration.render();
+        router.redirect(pageUrls.registration);
     }
 
     /***
