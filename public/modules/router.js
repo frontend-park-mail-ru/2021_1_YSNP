@@ -97,7 +97,8 @@ class Router {
      * @private
      */
     __getParamsFromRegExp(route) {
-        if (route.parameters.length === 0) {
+        const emptyLength = 0;
+        if (route.parameters.length === emptyLength) {
             return {};
         }
 
@@ -105,14 +106,13 @@ class Router {
         if (!routeMatched) {
             return {};
         }
+        routeMatched.shift();
 
-        const params = {};
-        routeMatched.forEach((r, i) => {
-            if (i !== 0) {
-                const key = route.parameters[i - 1].name;
-                params[key] = r;
-            }
-        });
+        const params = routeMatched.reduce((accum, param, i) => {
+            const key = route.parameters[i].name;
+            accum[key] = param;
+            return accum;
+        }, {});
 
         return {
             parameters: params
@@ -147,31 +147,31 @@ class Router {
 
     /***
      * Convert parameters to regular expression
-     * @param {string} url - route url
-     * @returns {[]}
+     * @param url
+     * @returns {*[]|*}
      * @private
      */
     __convertParamsToRegExp(url) {
-        const parameters = [];
-
         if (this.__hasParameters(url)) {
             const params = url.match(/\{\w+\}/g);
-            params.forEach((param) => {
+            return params.reduce((accum, param) => {
                 const paramName = param
                     .replace('{', '')
                     .replace('}', '');
 
-                parameters.push({
+                accum.push({
                     name: paramName,
                     value: {
                         regExp: '([^\\/]+)',
                         value: null
                     }
                 });
-            });
+
+                return accum;
+            }, []);
         }
 
-        return parameters;
+        return [];
     }
 
     /***
@@ -214,15 +214,15 @@ class Router {
      * @private
      */
     __addRouterListeners() {
-        if (!window.PopStateEvent && !('pushState' in history)) {
-            return;
-        }
+        // if (!window.PopStateEvent && !('pushState' in history)) {
+        //     return;
+        // }
 
-        window.addEventListener('click', (evt) => {
-            if (evt.target instanceof HTMLAnchorElement) {
-                evt.preventDefault();
+        window.addEventListener('click', (ev) => {
+            if (ev.target instanceof HTMLAnchorElement) {
+                ev.preventDefault();
 
-                this.redirect(evt.target.pathname);
+                this.redirect(ev.target.pathname);
             }
         });
 
