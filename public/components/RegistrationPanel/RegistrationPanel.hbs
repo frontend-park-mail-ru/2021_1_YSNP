@@ -1,9 +1,8 @@
-
-<div class="board">
+<div class="board shadow-block  ">
     <div class="board-title">
         <p class="reg-panel-title__product-name">Регистрация</p>
 
-        <div class="auth-content-inner__error reg-error" id="auth-error">
+        <div class="backend-error_hidden" id="auth-error">
             <span></span>
         </div>
     </div>
@@ -14,14 +13,14 @@
             {{#each fields}}
                 <div class="product-des form-spacing">
                     <div class="product-des-topic">
-                        <p class="product-des-topic__title"> {{this.title}} </p>
+                        <p class="label"> {{this.title}} </p>
                     </div>
                     <div class="form-inner">
                         {{#if_eq this.inputType 'tel'}}
-                            <input class="auth-content-form__input auth-content-form__country reg-panel__coutry-code" readOnly required value="+7">
-                            <input class="auth-content-form__input auth-content-form__tel reg-panel__tel" data-action="{{this.dataAction}}" data-move="showError" data-moveout="hideError"  id="{{this.id}}" type="{{this.inputType}}" placeholder="{{this.placeholder}}" name="{{this.id}}" required>
+                            <input class="reg-input auth-content-form__country" readOnly required value="+7">
+                            <input class="reg-input auth-content-form__tel" data-action="{{this.dataAction}}" data-move="showError" data-moveout="hideError"  id="{{this.id}}" type="{{this.inputType}}" placeholder="{{this.placeholder}}" name="{{this.id}}" required>
                         {{else}}
-                            <input {{this.params}} class="reg-panel__textfield" data-action="{{this.dataAction}}" data-move="showError" data-moveout="hideError"  id="{{this.id}}" type="{{this.inputType}}" placeholder="{{this.placeholder}}" name="{{this.id}}"/>
+                            <input {{this.params}} class="reg-input" data-action="{{this.dataAction}}" data-move="showError" data-moveout="hideError"  id="{{this.id}}" type="{{this.inputType}}" placeholder="{{this.placeholder}}" name="{{this.id}}"/>
                         {{/if_eq}}
                         </div>
                 </div>
@@ -29,10 +28,10 @@
 
             <div class="product-des form-spacing">
                 <div class="product-des-topic">
-                    <p class="product-des-topic__title">Пол</p>
+                    <p class="label">Пол</p>
                 </div>
                 <div class="form-inner">
-                    <select id="sex" class="settings-components__input reg__gender">
+                    <select id="sex" class="reg-input" style="width: 26vh">
                         <option value="female">Женский</option>
                         <option value="male">Мужской</option>
                     </select>
@@ -41,13 +40,13 @@
         </div>
         <div class="product-des form-spacing">
             <div class="product-des-topic">
-                <p class="product-des-topic__title">Фото</p>
+                <p class="label">Фото</p>
             </div>
             <div class="form-inner">
 
                 <div class="reg-picture" id="avatar" data-action="clickUpload">
-                    <div class="circle" id="circle-avatar">
-                        <img class="profile-pic" id="profile-pic" src="../../img/profile.png" alt="">
+                    <div class="image-circle" id="circle-avatar">
+                        <img class="profile-pic image-circle" id="profile-pic" src="../../img/profile.png" alt="">
                     </div>
                     <div class="p-image">
                         <i class="upload-button">
@@ -65,7 +64,7 @@
 
             </div>
             <div class="form-inner" id="submitBtn">
-                <input class="header-right__create-button reg__button" data-action="clickRegistration" type="submit" id="register" value="Зарегистрироваться"/>
+                <input class="header-right__create-button red-button" data-action="clickRegistration" type="submit" id="register" value="Зарегистрироваться"/>
             </div>
         </div>
 

@@ -2,17 +2,19 @@
 <div class="info-card">
     <p class="info-card__price">{{price}} ₽</p>
     <div class="info-card-profile">
-        <div class="info-card__image"></div>
+        <div class="info-card__image">
+            <img src="{{avatar}}" alt="" class="image-circle">
+        </div>
         <div class="info-card-container">
             <p class="info-card__name">{{name}}</p>
             <span class="info-card-rating">
                               <span class="info-card-rating__text">{{rating}}</span>
                                 {{{starts}}}
-                        </span>
+            </span>
         </div>
     </div>
     <div class="info-card-btn" id="info-card-btns">
-        <input class="info-card-btn__massage" type="button" value="Написать сообщение" data-action="massageClick"/>
+        <input class="red-button info-card-btn__massage" type="button" value="Написать сообщение" data-action="massageClick"/>
         <input class="info-card-btn__number" type="button" value="Показать номер" data-action="numberCLick"/>
     </div>
     <p class="info-card__time">{{date}}</p>

@@ -1,10 +1,10 @@
 <div class="header-dropdown" id="header-dropdown">
-    <img class="header-dropdown__button" data-action="dropdownClick" src="{{linkImage}}" alt="avatar"/>
+    <img class="image-circle" data-action="dropdownClick" src="{{linkImage}}" alt="avatar"/>
     <div class="header-dropdown-content header-dropdown-content_hidden" id="header-dropdown-content">
         <div class="header-dropdown-content-inner">
             <span class="header-dropdown-content__user">{{surname}} {{name}}</span>
-            <div class="header-dropdown-content__separator"></div>
-            <a class="header-dropdown-content-item" data-action="profileClick">
+            <div class="separator"></div>
+            <a class="menu-link header-dropdown-content-item" data-action="profileClick">
                 <svg height="2vh" width="2vh" class="header-dropdown-content__logo" viewBox="0 0 20 20" fill="none"
                      xmlns="http://www.w3.org/2000/svg">
                     <g clip-path="url(#clip0)">
@@ -20,7 +20,7 @@
                     </defs>
                 </svg>
                 <span>Настройки</span>
-                <a href="#" class="header-dropdown-content-item" data-action="myProductsClick">
+                <a href="#" class="menu-link header-dropdown-content-item" data-action="myProductsClick">
                     <svg height="2vh" width="2vh" class="header-dropdown-content__logo" viewBox="0 0 20 20" fill="none"
                          xmlns="http://www.w3.org/2000/svg">
                         <path d="M19.698 3.55594C19.5312 3.55594 19.3961 3.69113 19.3961 3.85789V17.8893C19.3961 18.7201 18.7202 19.3961 17.8893 19.3961H2.11066C1.27984 19.3961 0.603906 18.7202 0.603906 17.8893V2.11066C0.603906 1.27984 1.27984 0.603906 2.11066 0.603906H17.8893C18.7201 0.603906 19.3961 1.2798 19.3961 2.11066C19.3961 2.27742 19.5313 2.41262 19.698 2.41262C19.8648 2.41262 20 2.27742 20 2.11066C20 0.946836 19.0532 0 17.8893 0H2.11066C0.946836 0 0 0.946836 0 2.11066V17.8893C0 19.0532 0.946836 20 2.11066 20H17.8893C19.0532 20 20 19.0532 20 17.8893V3.85789C20 3.69113 19.8648 3.55594 19.698 3.55594Z"
@@ -40,7 +40,7 @@
                     </svg>
                     <span>Мои объявления</span>
                 </a>
-                <a class="header-dropdown-content-item" data-action="messagesClick">
+                <a class="menu-link header-dropdown-content-item" data-action="messagesClick">
                     <svg height="2vh" width="2vh" class="header-dropdown-content__logo" viewBox="0 0 20 20" fill="none"
                          xmlns="http://www.w3.org/2000/svg">
                         <path d="M0.81082 8.10811C0.754322 8.10812 0.699244 8.09042 0.653326 8.0575C0.607409 8.02458 0.572962 7.9781 0.554828 7.92459C0.536694 7.87109 0.535784 7.81324 0.552226 7.75919C0.568668 7.70514 0.601636 7.65759 0.646496 7.62325L3.88974 5.1419C3.94679 5.0999 4.01805 5.08199 4.08818 5.09201C4.15831 5.10204 4.2217 5.13919 4.26471 5.19549C4.30772 5.25178 4.32691 5.32271 4.31814 5.393C4.30938 5.4633 4.27336 5.52735 4.21785 5.57136L0.974604 8.05244C0.92769 8.08864 0.870077 8.10822 0.81082 8.10811Z"
@@ -68,7 +68,7 @@
                     </svg>
                     <span>Мои сообщения</span>
                 </a>
-                <a class="header-dropdown-content-item" data-action="favoritesClick">
+                <a class="menu-link header-dropdown-content-item" data-action="favoritesClick">
                     <svg height="2vh" width="2vh" class="header-dropdown-content__logo" viewBox="0 0 20 17" fill="none"
                          xmlns="http://www.w3.org/2000/svg">
                         <path d="M10.0285 16.9771C9.86093 16.9774 9.69492 16.9446 9.54003 16.8806C9.38514 16.8165 9.24443 16.7225 9.12598 16.604L1.54886 9.02676C1.04094 8.51887 0.641817 7.91282 0.37585 7.24559C0.109883 6.57836 -0.0173544 5.86394 0.00190031 5.14591C0.021155 4.42788 0.186498 3.7213 0.487842 3.06928C0.789186 2.41727 1.22021 1.83348 1.75462 1.35354C2.26777 0.895885 2.86801 0.546498 3.51939 0.326308C4.17076 0.106117 4.85988 0.0196526 5.54546 0.0720925C6.93086 0.163506 8.23568 0.755867 9.21642 1.73864L10.0285 2.55048L11.0303 1.54873C11.5382 1.04085 12.1442 0.641761 12.8115 0.375816C13.4787 0.109872 14.1931 -0.017354 14.9111 0.00190041C15.6291 0.0211548 16.3357 0.186485 16.9877 0.487807C17.6397 0.789128 18.2235 1.22012 18.7035 1.7545C19.1612 2.26764 19.5106 2.86787 19.7308 3.51925C19.951 4.17062 20.0375 4.85974 19.9851 5.54534C19.8937 6.93076 19.3013 8.2356 18.3186 9.21638L10.9311 16.604C10.8126 16.7225 10.6719 16.8165 10.5171 16.8805C10.3622 16.9446 10.1962 16.9774 10.0286 16.9771H10.0285ZM5.19529 1.161C4.19901 1.14894 3.23375 1.5073 2.4867 2.16658C2.06267 2.54717 1.72063 3.01018 1.48147 3.52734C1.24231 4.04451 1.11104 4.60498 1.09567 5.17456C1.08029 5.74414 1.18114 6.31088 1.39206 6.84019C1.60297 7.3695 1.91953 7.85028 2.32241 8.2532L9.89954 15.8304C9.9338 15.8645 9.98018 15.8837 10.0285 15.8837C10.0769 15.8837 10.1233 15.8645 10.1575 15.8304L17.545 8.44283C19.2014 6.78649 19.3564 4.11455 17.8906 2.48667C17.51 2.06262 17.0469 1.72057 16.5298 1.48141C16.0126 1.24224 15.4521 1.11096 14.8825 1.09558C14.3129 1.08021 13.7462 1.18106 13.2169 1.39199C12.6876 1.60291 12.2068 1.91948 11.8038 2.32238L10.4154 3.71086C10.3646 3.76167 10.3043 3.80196 10.2379 3.82946C10.1715 3.85695 10.1004 3.8711 10.0286 3.8711C9.95675 3.8711 9.88562 3.85695 9.81926 3.82946C9.75289 3.80196 9.69259 3.76167 9.64181 3.71086L8.44295 2.51201C7.58133 1.65039 6.4138 1.16467 5.19529 1.16091V1.161Z"
@@ -77,8 +77,8 @@
                     <span>Избранное</span>
                 </a>
             </a>
-            <div class="header-dropdown-content__separator"></div>
-            <a class="header-dropdown-content-item" data-action="logoutClick">
+            <div class="separator"></div>
+            <a class="menu-link header-dropdown-content-item" data-action="logoutClick">
                 <svg height="2vh" width="2vh" class="header-dropdown-content__logo" fill="none"
                      xmlns="http://www.w3.org/2000/svg">
                     <path d="M16.4298 0H3.57029C3.37395 0 3.21478 0.159166 3.21478 0.35551V19.6445C3.21478 19.8409 3.37387 20 3.57021 20H16.4297C16.6261 20 16.7852 19.8408 16.7852 19.6445V0.35551C16.7853 0.159166 16.6261 0 16.4298 0ZM3.92572 0.865393L9.64455 2.97322V17.0267L3.92572 19.1345V0.865393ZM16.0743 19.2891H5.56258L10.123 17.6082C10.2627 17.5567 10.3555 17.4235 10.3555 17.2747V2.7254C10.3555 2.57653 10.2627 2.44338 10.123 2.39182L5.56266 0.710942H16.0743V19.2891Z"

@@ -1,4 +1,4 @@
-<div class="board">
+<div class="board shadow-block">
     <div class="board-title">
         <p class="reg-panel-title__product-name">Создание объявления</p>
     </div>
@@ -11,11 +11,11 @@
     {{#each fields}}
             <div class="product-des form-spacing">
                 <div class="product-des-topic">
-                    <p class="product-des-topic__title">{{this.title}}</p>
+                    <p class="label">{{this.title}}</p>
                 </div>
                 <div class="form-inner">
                 {{#if_eq this.inputType 'select'}}
-                    <select id="{{this.id}}" class="reg-panel__textfield"  name="{{this.id}}" >
+                    <select id="{{this.id}}" class="reg-input" style="width: 27vh"  name="{{this.id}}" >
                         {{#each options}}
                             <option>{{this}}</option>
                         {{/each}}
@@ -23,7 +23,7 @@
                 {{/if_eq}}
 
                 {{#if_eq this.inputType 'text'}}
-                    <input min="0" class="reg-panel__textfield" data-action="{{this.dataAction}}"
+                    <input min="0" class="reg-input" data-action="{{this.dataAction}}"
                                    data-move="showError" data-moveout="hideError" id="${element.id}" type="{{this.id}}"
                                    placeholder="{{this.placeholder}}" name="{{this.id}}"/>
 
@@ -40,7 +40,7 @@
         </div>
         <div class="product-des form-spacing">
             <div class="product-des-topic ">
-                <p class="product-des-topic__title">Фото</p>
+                <p class="label">Фото</p>
             </div>
             <div class="form-inner">
                 <div class="photo-container" id="productPhoto">
@@ -56,7 +56,7 @@
         <div class="product-des">
             <div class="product-des-topic"></div>
             <div class="form-inner" id="submitBtn">
-                <input class="header-right__create-button reg__button" data-action="submitClick" type="submit" id="submitProduct" value="Продолжить"/>
+                <input class="red-button header-right__create-button" style="margin-left: 1vh" data-action="submitClick" type="submit" id="submitProduct" value="Продолжить"/>
             </div>
         </div>
     </form>

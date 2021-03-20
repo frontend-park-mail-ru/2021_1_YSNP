@@ -1,36 +1,11 @@
-.reg-panel__textfield {
-    border: 1px solid rgba(0, 0, 0, 0.2);
-    box-sizing: border-box;
-    border-radius: 0.5vh;
-    font-size: 1.8vh;
-    height: 2.5vw;
-    width: 15.5vw;
-    padding-left: 10px;
-}
-
 .reg-error{
     text-align: left;
-}
-
-.reg-panel__coutry-code {
-    margin: 0;
-    height: 2.5vw;
-}
-
-.reg-panel__tel {
-    margin: 0;
-    height: 2.5vw;
-    width: 12.8vw;
 }
 
 .reg-panel-title__product-name {
     font-size: 3vh;
     margin: 0;
     line-height: 5vh;
-}
-
-.reg-panel-title {
-    margin-bottom: 1vw;
 }
 
 .list-errors {
@@ -58,15 +33,6 @@
 
 .file-upload {
     display: none;
-}
-
-.circle {
-    cursor: pointer;
-    border-radius: 100%;
-    overflow: hidden;
-    width: 9vw;
-    height: 9vw;
-    border: 1px solid rgba(0, 0, 0, 0.1);
 }
 
 .p-image {
@@ -104,73 +70,4 @@
 .form-inner {
     position: relative;
     margin: auto 0;
-}
-
-.message-container {
-    clear: both;
-    position: absolute;
-    transform: translateX(100%);
-    display: flex;
-    right: 0;
-    top: 0;
-    z-index: 1000;
-}
-
-.message__arrow {
-    width: 12px;
-    height: 20px;
-    overflow: hidden;
-    position: relative;
-    float: left;
-    top: 6px;
-    right: -1px;
-}
-
-.message-outer {
-    width: 0;
-    height: 0;
-    border-right: 20px solid #000000;
-    border-top: 10px solid transparent;
-    border-bottom: 10px solid transparent;
-    position: absolute;
-    top: 0;
-    left: 0;
-    opacity: 0.1;
-}
-
-.message-inner {
-    width: 0;
-    height: 0;
-    border-right: 20px solid #ffffff;
-    border-top: 10px solid transparent;
-    border-bottom: 10px solid transparent;
-    position: absolute;
-    top: 0;
-    left: 2px;
-}
-
-.message-body {
-    float: left;
-    width: 300px;
-    height: auto;
-    background-color: #ffffff;
-    border: 1px solid rgba(0.0, 0.0, 0.0, 0.1);
-    padding: 6px 8px;
-    border-radius: 5px;
-}
-
-.error-hidden {
-    display: none;
-}
-
-.reg-panel__input-susses {
-    border: 1px solid green;
-}
-
-.reg-panel__input-error {
-    border: 1px solid red;
-}
-
-.reg__gender {
-    width: auto;
 }

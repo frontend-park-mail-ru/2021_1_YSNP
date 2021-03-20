@@ -1,5 +1,5 @@
 <div class="auth" id="auth">
-    <div class="auth-content" id="auth-content">
+    <div class="auth-content block" id="auth-content">
         <div class="auth-content-inner">
 
             <svg version="1.1" class="auth-content-inner__close" data-action="closeClick" height="2vh" width="2vh"
@@ -31,20 +31,20 @@
             <div class="auth-content-inner__title">
                 <span>Вход</span>
             </div>
-            <div class="auth-content-inner__error" id="auth-error">
+            <div class="backend-error_hidden auth-content-inner__error" id="auth-error">
                 <span></span>
             </div>
             <form class="auth-content-form" id="auth-form">
                 <div>
-                    <input class="auth-content-form__input auth-content-form__country" readonly required value="+7">
-                    <input class="auth-content-form__input auth-content-form__tel" id="auth-tel" type="tel"
+                    <input class="reg-input auth-content-form__country" readonly required value="+7">
+                    <input class="reg-input auth-content-form__tel" id="auth-tel" type="tel"
                            placeholder="(999) 999 99 99" required>
                 </div>
                 <div>
-                    <input class="auth-content-form__input auth-content-form__password" id="auth-password"
+                    <input class="reg-input auth-content-form__password" id="auth-password"
                            type="password" placeholder="Пароль" required>
                 </div>
-                <button class="auth-content-form__button" type="submit">Войти</button>
+                <button class="red-button" style="width: 14vh; margin-top: 1.5vh;" type="submit">Войти</button>
             </form>
             <div class="auth-content-form__registration">
                 <span>Еще не зарегистрировались?</span>

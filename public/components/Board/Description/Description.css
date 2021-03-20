@@ -25,24 +25,3 @@
     margin-top: 1vh;
     margin-bottom: 1vh;
 }
-
-.product-des-topic__title {
-    font-family: SF Pro Display, sans-serif;
-    font-style: normal;
-    font-weight: normal;
-    font-size: 1.8vh;
-    line-height: 1vh;
-    color: #000000;
-    opacity: 0.5;
-    margin-top: 1vh;
-    margin-bottom: 1vh;
-}
-
-.hr-des {
-    opacity: 0.2;
-    width: 90%;
-    margin-left: 0;
-    margin-top: 0;
-    margin-bottom: 0;
-    border-width: 0.1vh;
-}

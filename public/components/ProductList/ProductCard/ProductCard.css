@@ -6,12 +6,6 @@
 
     position: relative;
 
-    border: 0;
-    border-radius: 1vh;
-
-    background-color: rgb(255, 255, 255);
-    box-shadow: rgba(0, 0, 0, 0.04) 0 2px 4px 0;
-
     transition-duration: 0.5s;
     transition-property: box-shadow;
 }

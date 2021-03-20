@@ -1,3 +1,13 @@
+.profile {
+    margin-top: 2vh;
+}
+
+.profile-box{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+}
+
 .settings {
     width: 85vh;
     height: 103vh;
@@ -64,11 +74,6 @@
 .settings-title__save_button:hover{
     background-color: rgb(219, 34, 34);
     cursor: pointer;
-}
-
-.settings__separator{
-    margin-bottom: 1vh;
-    border-top: 1px solid rgb(227, 227, 227);
 }
 
 .settings-components{

@@ -13,3 +13,176 @@ body {
     overflow-x: hidden;
     background-color: rgb(245, 245, 245);
 }
+
+.red-button {
+    height: 4vh;
+
+    border: 0;
+    border-radius: 3px;
+
+    text-decoration: none;
+    font-size: 1.5vh;
+    text-align: center;
+
+    cursor: pointer;
+    color: rgb(255, 255, 255);
+    background-color: rgb(211, 30, 30);
+}
+
+.red-button:hover {
+    background-color: rgb(219, 34, 34);
+}
+
+.red-button:focus {
+    outline: none;
+}
+
+.menu-link {
+    text-decoration: none;
+    color: black;
+
+    cursor: pointer;
+    font-size: 1.6vh;
+}
+
+.menu-link:hover {
+    color: rgb(112, 146, 254);
+}
+
+.menu-link:focus {
+    color: rgb(112, 146, 254);
+}
+
+
+.reg-input{
+    background: none;
+    width: 100%;
+    height: 3.8vh;
+    font-size: 2vh;
+    color: black;
+    border: 1px solid rgba(0,0,0,0.2);
+    box-sizing: border-box;
+    border-radius: 0.5vh;
+
+    padding-left: 1vh;
+    padding-right: 1vh;
+}
+.reg-input:focus {
+    outline: none;
+
+    border-radius: 0.5vh;
+    box-shadow: 0 0 0 1px black;
+}
+
+.label{
+    display: flex;
+    font-size: 2vh;
+    color: #000000;
+    opacity: 0.5;
+}
+
+.block{
+    background-color: white;
+    border: 0;
+    border-radius: 3px;
+}
+.shadow-block {
+    background-color: white;
+
+    border: 0;
+    border-radius: 3px;
+    box-shadow: 0 0 1vw rgba(0, 0, 0, 0.2);
+}
+
+.image-circle{
+    object-fit: cover;
+    width: 100%;
+    height: 100%;
+    background: #C4C4C4;
+    border-radius: 50%;
+}
+
+.image-circle:hover, .image-circle:focus{
+    cursor: pointer;
+}
+
+.separator{
+    border-top: 1px solid rgb(227, 227, 227);
+    margin-bottom: 1vh;
+}
+
+.message-container {
+   clear: both;
+   position: absolute;
+   transform: translateX(100%);
+   display: flex;
+   right: 0;
+   top: 0;
+   z-index: 1000;
+}
+
+.message__arrow {
+    width: 12px;
+    height: 20px;
+    overflow: hidden;
+    position: relative;
+    float: left;
+    top: 6px;
+    right: -1px;
+}
+
+.message-outer {
+    width: 0;
+    height: 0;
+    border-right: 20px solid #000000;
+    border-top: 10px solid transparent;
+    border-bottom: 10px solid transparent;
+    position: absolute;
+    top: 0;
+    left: 0;
+    opacity: 0.1;
+}
+
+.message-inner {
+    width: 0;
+    height: 0;
+    border-right: 20px solid #ffffff;
+    border-top: 10px solid transparent;
+    border-bottom: 10px solid transparent;
+    position: absolute;
+    top: 0;
+    left: 2px;
+}
+
+.message-body {
+    float: left;
+    width: 300px;
+    height: auto;
+    background-color: #ffffff;
+    border: 1px solid rgba(0.0, 0.0, 0.0, 0.1);
+    padding: 6px 8px;
+    border-radius: 5px;
+}
+
+.error-hidden {
+    display: none;
+}
+
+.reg-panel__input-susses {
+    border: 1px solid green;
+}
+
+.reg-panel__input-error {
+    border: 1px solid red;
+}
+
+.backend-error_hidden {
+    font-style: italic;
+    color: rgb(170, 0, 0);
+    font-size: 1.3vh;
+    overflow: hidden;
+}
+
+.backend-error_visible {
+    overflow: visible;
+}
