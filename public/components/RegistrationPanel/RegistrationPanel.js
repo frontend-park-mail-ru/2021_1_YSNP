@@ -1,6 +1,7 @@
 import './RegistrationPanel.css';
 
 import registrationPanelTemplate from './RegistrationPanel.hbs';
+
 /***
  * @author Ivan Gorshkov
  * RegistrationPanel class for contain product
