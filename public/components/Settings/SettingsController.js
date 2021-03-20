@@ -1,5 +1,6 @@
 import {user} from '../../models/SettingsUserData.js';
-import {Profile} from '../../pages/Profile.js';
+import {router} from '../../modules/router.js';
+import {pageUrls} from '../../modules/pageUrls.js';
 
 /***
  * Settings controller
@@ -456,8 +457,8 @@ export class SettingsController {
                         const err = document.getElementById('settings-password-error');
                         err.classList.add('settings-error_hidden');
                         err.classList.remove('settings-error_visible');
-                        const profile = new Profile(this.__parent);
-                        profile.render();
+
+                        router.redirect(pageUrls.profile);
                     }
                 })
                 .catch((error) => {
