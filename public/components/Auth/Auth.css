@@ -138,8 +138,14 @@
     outline: none;
 }
 
-.auth-content-form__registration {
+.auth-content-form-registration {
     font-size: 1.7vh;
 
     margin-bottom: 1vh;
+}
+
+.auth-content-form-registration__link {
+    cursor: pointer;
+    text-decoration: underline;
+    color: blue;
 }
