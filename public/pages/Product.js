@@ -21,14 +21,12 @@ export class Product {
      *
      * init of class Product
      * @param {HTMLElement} parent - parent element
-     * @param {number} id - id of product
      * @constructor
      * @this {Product}
      * @public
      */
-    constructor(parent, id) {
+    constructor(parent) {
         this.__parent = parent;
-        this.__id = id;
     }
 
 
@@ -50,11 +48,13 @@ export class Product {
      * @author Ivan Gorshkov
      *
      * Add component to parent
+     * @param {number} id - product id
      * @this {Product}
      * @public
      */
-    async render() {
+    async render(id) {
         this.__parent.innerHTML = '';
+        this.__id = id;
 
         this.__header = new Header(this.__parent);
         this.__headerController = new HeaderController(this.productRemoveListeners.bind(this), this.__parent, this.__header);
