@@ -1,9 +1,9 @@
 import './Board.css';
 import boardTemplate from './Board.hbs';
-import { InfoCard } from './InfoCard/InfoCard.js';
-import { Slider } from './Carousel/Carousel.js';
-import { Description } from './Description/Description.js';
-import { Map } from './Map/Map.js';
+import {InfoCard} from './InfoCard/InfoCard.js';
+import {Slider} from './Carousel/Carousel.js';
+import {Description} from './Description/Description.js';
+import {Map} from './Map/Map.js';
 
 /***
  * @author Ivan Gorshkov
@@ -133,7 +133,7 @@ export class Board {
      * @public
      */
     render() {
-      //  const template = this.__getTemplate();
+        //  const template = this.__getTemplate();
         this.__parent.insertAdjacentHTML('beforeend', boardTemplate(this.__context()));
 
         const parentRightSide = document.getElementById('board-right-side');
@@ -148,9 +148,9 @@ export class Board {
 
         this.__description = new Description(parentLeftSide, {
             description: [{
-                    title: 'Описание',
-                    text: this.__data.description
-                },
+                title: 'Описание',
+                text: this.__data.description
+            },
                 {
                     title: 'Категория',
                     text: this.__data.category
