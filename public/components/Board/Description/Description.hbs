@@ -1,14 +1,13 @@
-
 <div class="product-inner">
     {{#each description}}
-    <div class="product-des">
-        <div class="product-des-topic">
-            <p class="product-des-topic__title">{{this.title}}</p>
+        <div class="product-des">
+            <div class="product-des-topic">
+                <p class="product-des-topic__title">{{this.title}}</p>
+            </div>
+            <div class="product-des-inner">
+                <p class="product-des__text"> {{{this.text}}}</p>
+            </div>
         </div>
-        <div class="product-des-inner">
-            <p class="product-des__text"> {{{this.text}}}</p>
-        </div>
-    </div>
-    <hr class="hr-des"/>
+        <hr class="hr-des"/>
     {{/each}}
 </div>

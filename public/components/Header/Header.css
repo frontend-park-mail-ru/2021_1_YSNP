@@ -27,6 +27,7 @@
 
 .header-left__brand {
     margin-right: 1vw;
+    cursor: pointer;
 }
 
 .header-left-location {

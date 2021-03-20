@@ -4,11 +4,12 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "build": "webpack",
     "lint": "eslint -c .eslintrc.js public",
+    "build": "webpack",
+    "buildDebug": "webpack --mode=development --watch",
     "start": "forever start server",
     "stop": "forever stop server",
-    "debug": "DEBUG=express:* node server",
+    "startDebug": "DEBUG=express:* node server",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {

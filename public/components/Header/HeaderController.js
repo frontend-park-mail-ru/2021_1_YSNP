@@ -1,11 +1,9 @@
-import {Profile} from '../../pages/Profile.js';
-import {Landing} from '../../pages/Landing.js';
-import {ProductCreate} from '../../pages/ProductCreate.js';
-
 import {Auth} from '../Auth/Auth.js';
 import {AuthController} from '../Auth/AuthController.js';
 
 import {user} from '../../models/SettingsUserData.js';
+import {router} from '../../modules/router.js';
+import {pageUrls} from '../../modules/pageUrls.js';
 
 /***
  * Header controller controller
@@ -126,8 +124,7 @@ export class HeaderController {
     __openLanding() {
         this.__pageRemoveListeners();
 
-        const landing = new Landing(this.__parent);
-        landing.render();
+        router.redirect(pageUrls.main);
     }
 
     /***
@@ -145,13 +142,10 @@ export class HeaderController {
      * @private
      */
     __openCreateProduct() {
-        if (this.__model.getData().isAuth) {
+        if (this.__model.isAuth) {
             this.__pageRemoveListeners();
 
-            const productCreate = new ProductCreate(this.__parent);
-            productCreate.render();
-
-            console.log('Open create product');
+            router.redirect(pageUrls.productCreate);
         } else {
             this.__openAuth();
         }
@@ -186,10 +180,7 @@ export class HeaderController {
     __openProfile() {
         this.__pageRemoveListeners();
 
-        const settings = new Profile(this.__parent);
-        settings.render();
-
-        console.log('Open profile');
+        router.redirect(pageUrls.profile);
     }
 
     /***
@@ -236,8 +227,8 @@ export class HeaderController {
             .then(({isLogout}) => {
                 if (isLogout) {
                     this.__pageRemoveListeners();
-                    const landing = new Landing(this.__parent);
-                    landing.render();
+
+                    router.redirect(pageUrls.main);
                 }
             });
     }

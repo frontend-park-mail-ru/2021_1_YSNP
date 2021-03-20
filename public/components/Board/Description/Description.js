@@ -33,9 +33,9 @@ export class Description {
     __context() {
         return {
             description: this.__data.description.map((value) => ({
-                    title: value.title,
-                    text: value.text.replaceAll('\n', '<br/>')
-                }))
+                title: value.title,
+                text: value.text.replaceAll('\n', '<br/>')
+            }))
         };
     }
 

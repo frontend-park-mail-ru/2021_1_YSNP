@@ -1,6 +1,6 @@
 'use strict';
 
-import { ProductModel } from '../../models/ProductModel.js';
+import {ProductModel} from '../../models/ProductModel.js';
 
 /***
  * @author Ivan Gorshkov
@@ -130,7 +130,7 @@ export class BoardController {
      * @this {BoardController}
      * @public
      */
-   async control() {
+    async control() {
         await this.__model.update();
         this.__board.data = this.__model.getData();
         this.__board.render();

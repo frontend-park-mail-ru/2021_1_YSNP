@@ -1,5 +1,6 @@
 import './Map.css';
 import mapTemplate from './Map.hbs';
+
 /***
  * @author Ivan Gorshkov
  * Map class for seller location
