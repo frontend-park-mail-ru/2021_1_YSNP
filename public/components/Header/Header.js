@@ -52,6 +52,28 @@ export class Header {
     }
 
     /***
+     * Open/Close dropdown menu
+     */
+    toggleDropdownMenu() {
+        document
+            .getElementById('header-dropdown-content')
+            .classList
+            .toggle('header-dropdown-content_hidden');
+    }
+
+    /***
+     * Remove dropdown menu
+     */
+    closeDropdownMenu() {
+        if (this.__data.isAuth) {
+            document
+                .getElementById('header-dropdown-content')
+                .classList
+                .add('header-dropdown-content_hidden');
+        }
+    }
+
+    /***
      * Add component listeners
      */
     addListeners() {

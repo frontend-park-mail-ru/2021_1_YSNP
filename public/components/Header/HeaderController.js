@@ -94,10 +94,7 @@ export class HeaderController {
      * @private
      */
     __listenerPageClick() {
-        document
-            .getElementById('header-dropdown-content')
-            .classList
-            .add('header-dropdown-content_hidden');
+        this.__header.closeDropdownMenu();
     }
 
     /***
@@ -138,12 +135,12 @@ export class HeaderController {
      * @private
      */
     __openMap() {
+        this.__header.closeDropdownMenu();
+
         const map = new Map(this.__parent);
         map.render();
         this.__mapController = new MapController(this.__parent, map);
         this.__mapController.control();
-
-        console.log('Open map');
     }
 
     /***
@@ -179,10 +176,7 @@ export class HeaderController {
      * @private
      */
     __openDropdownMenu() {
-        document
-            .getElementById('header-dropdown-content')
-            .classList
-            .toggle('header-dropdown-content_hidden');
+        this.__header.toggleDropdownMenu();
     }
 
     /***
