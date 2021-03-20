@@ -47,7 +47,6 @@ export class AuthController {
      * @private
      */
     __listenerAuthClick(ev) {
-        ev.preventDefault();
         ev.stopPropagation();
 
         const actions = this.__getActions();
