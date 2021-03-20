@@ -1,23 +1,23 @@
-.form-row{
+.form-row {
     display: flex;
     align-items: center;
     margin-bottom: 1vh;
     margin-top: 1vh;
 }
 
-.form-row__textarea{
+.form-row__textarea {
     box-sizing: border-box;
     border-radius: 5px;
     width: 30vw;
     height: 20vh;
     padding: 0.5vh 0.7vh;
     resize: none;
-    border: 1px solid rgba(0,0,0,0.2);
+    border: 1px solid rgba(0, 0, 0, 0.2);
     font-size: 1.8vh;
 }
 
-.form-row__photolabel{
-    border: 0.5px solid rgba(0,0,0,0.2);
+.form-row__photolabel {
+    border: 0.5px solid rgba(0, 0, 0, 0.2);
     box-sizing: border-box;
     border-radius: 5px;
     font-size: 1vh;
@@ -65,9 +65,9 @@
     position: absolute;
     right: -15px;
     top: -15px;
-    transform:rotate(45deg);
-    -ms-transform:rotate(45deg); /* IE 9 */
-    -webkit-transform:rotate(45deg); /* Safari and Chrome */
+    transform: rotate(45deg);
+    -ms-transform: rotate(45deg); /* IE 9 */
+    -webkit-transform: rotate(45deg); /* Safari and Chrome */
 }
 
 .cross:before, .cross:after {

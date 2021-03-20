@@ -1,5 +1,6 @@
 import './ProductCreateForm.css';
 import productCreateFormTemplate from './ProductCreateForm.hbs';
+
 /***
  * @author Max Torzhkov
  * ProductCreateForm class for product creation
