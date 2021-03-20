@@ -1,7 +1,9 @@
-import {Landing} from '../../pages/Landing.js';
 import {RegUserData} from '../../models/RegUserData.js';
 import {telMask, parseTelNumber} from '../../modules/telMask.js';
 import {insertError, addSuccesses, createMessageError, hideError, showError} from '../../modules/validationStates.js';
+
+import {router} from '../../modules/router.js';
+import {pageUrls} from '../../modules/pageUrls.js';
 
 /***
  * @author Ivan Gorshkov
@@ -145,7 +147,6 @@ export class RegistrationPanelController {
             }
         };
     }
-
 
 
     /****
@@ -430,8 +431,7 @@ export class RegistrationPanelController {
 
             this.__model.registration(document.getElementById('registration-from'))
                 .then(() => {
-                    const landing = new Landing(this.__parent);
-                    landing.render();
+                    router.redirect(pageUrls.main);
                 }).catch((data) => {
                 this.__registartion.errorText(data);
             });
