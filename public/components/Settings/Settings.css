@@ -1,3 +1,4 @@
+
 .settings {
     width: 85vh;
     height: 103vh;
@@ -9,7 +10,7 @@
 .settings-inner {
     background: white;
     border-radius: 3px;
-    box-shadow: 0px 4px 14px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.1);
     display: flex;
     flex-direction: column;
     padding: 1vh 2.5vh;
