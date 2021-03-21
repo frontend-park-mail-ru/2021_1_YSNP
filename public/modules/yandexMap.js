@@ -124,6 +124,10 @@ export class YandexMap {
         this.__myMap.balloon.close();
 
         this.__initZoomControl();
+
+        this.__myMap.events.add('balloonopen', () => {
+            this.__myMap.balloon.close();
+        });
     }
 
     /***
@@ -173,15 +177,6 @@ export class YandexMap {
     __addListeners() {
         this.__myMap.events.add('click', (e) => {
             const coords = e.get('coords');
-
-            this.__movePoint(this.__convertPosArrayToObject(coords));
-            this.__getAddress();
-        });
-
-        this.__myMap.events.add('balloonopen', () => {
-            this.__myMap.balloon.close();
-
-            const coords = this.__myMap.balloon.getPosition();
 
             this.__movePoint(this.__convertPosArrayToObject(coords));
             this.__getAddress();
