@@ -2,14 +2,14 @@ import './Map.css';
 
 /***
  * @author Ivan Gorshkov
- * Map class for seller location
+ * YandexMap class for seller location
  * @class Map
  */
 export class Map {
 
     /***
      * @author Ivan Gorshkov
-     * init of class Map
+     * init of class YandexMap
      * @param {HTMLElement} parent - parent element
      * @constructor
      * @this {Map}
@@ -28,7 +28,10 @@ export class Map {
      */
     __getTemplate() {
         return `  
-            <div id="map">
+            <div class="product-map" id="ya-map">
+                <span>
+                    Какие-то проблемы с картой
+                </span>
             </div>
         `;
     }
