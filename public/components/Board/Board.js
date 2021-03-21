@@ -1,9 +1,9 @@
-'use strict';
-
-import { InfoCard } from './InfoCard/InfoCard.js';
-import { Slider } from './Carousel/Carousel.js';
-import { Description } from './Description/Description.js';
-import { Map } from './Map/Map.js';
+import './Board.css';
+import boardTemplate from './Board.hbs';
+import {InfoCard} from './InfoCard/InfoCard.js';
+import {Slider} from './Carousel/Carousel.js';
+import {Description} from './Description/Description.js';
+import {Map} from './Map/Map.js';
 
 /***
  * @author Ivan Gorshkov
@@ -76,30 +76,6 @@ export class Board {
 
     /***
      * @author Ivan Gorshkov
-     * main template of component
-     * @return {String}
-     * @private
-     * @this {Board}
-     */
-    __getTemplate() {
-        return `           
-           <div class="board">
-               <div class="board-title">
-                   <p class="board-title__product-id">№ ${this.__getId}</p>
-                   <p class="board-title__product-name">${this.__getTitle}</p>
-               </div>
-               <div class="board-inner">
-                   <div class="board-left"  id="board-left-side"></div>
-                   <div class="board-right" id="board-right-side"></div>
-               </div>
-           </div>
-           
-           <!--  <div class="same-product">Похожие объявления</div>-->
-        `;
-    }
-
-    /***
-     * @author Ivan Gorshkov
      *
      * add listeners to components
      * @public
@@ -138,13 +114,27 @@ export class Board {
     /***
      * @author Ivan Gorshkov
      *
+     * context for template
+     * @return {{id: Number, title: String}}
+     * @private
+     */
+    __context() {
+        return {
+            id: this.__getId,
+            title: this.__getTitle
+        };
+    }
+
+    /***
+     * @author Ivan Gorshkov
+     *
      * Add component to parent
      * @this {Board}
      * @public
      */
     render() {
-        const template = this.__getTemplate();
-        this.__parent.insertAdjacentHTML('beforeend', template);
+        //  const template = this.__getTemplate();
+        this.__parent.insertAdjacentHTML('beforeend', boardTemplate(this.__context()));
 
         const parentRightSide = document.getElementById('board-right-side');
         const parentLeftSide = document.getElementById('board-left-side');
@@ -158,9 +148,9 @@ export class Board {
 
         this.__description = new Description(parentLeftSide, {
             description: [{
-                    title: 'Описание',
-                    text: this.__data.description
-                },
+                title: 'Описание',
+                text: this.__data.description
+            },
                 {
                     title: 'Категория',
                     text: this.__data.category

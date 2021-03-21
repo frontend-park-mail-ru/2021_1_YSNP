@@ -1,4 +1,4 @@
-import {SettingsUserData} from '../../models/SettingsUserData.js';
+import {user} from '../../models/SettingsUserData.js';
 
 /***
  * ProfileMenu controller
@@ -14,7 +14,7 @@ export class ProfileMenuController {
         this.__pageRemoveListeners = pageRemoveListeners;
         this.__parent = parent;
         this.__profile = profile;
-        this.__model = new SettingsUserData();
+        this.__model = user;
     }
 
     /***

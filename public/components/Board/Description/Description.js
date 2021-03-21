@@ -1,4 +1,5 @@
-'use strict';
+import './Description.css';
+import descriptionTemplate from './Description.hbs';
 
 /***
  * @author Ivan Gorshkov
@@ -25,45 +26,17 @@ export class Description {
     /***
      * @author Ivan Gorshkov
      *
-     * getter of html with descriptions blocks
-     * @return {string}
+     * context for template
+     * @return {{description: *}}
      * @private
-     * @this {Description}
-     * @readonly
      */
-    get __getDescription() {
-        const descriptions = this.__data.description;
-        let des = '';
-        descriptions.forEach((value) => {
-            des += `
-            <div class="product-des">
-                <div class="product-des-topic">
-                    <p class="product-des-topic__title">${value.title}</p>
-                </div>
-                <div class="product-des-inner">
-                    <p class="product-des__text"> ${value.text.replaceAll('\n', '<br/>')}</p>
-                </div>
-            </div>
-            <hr class="hr-des"/>
-            `;
-        });
-        return des;
-    }
-
-    /***
-     * @author Ivan Gorshkov
-     *
-     * main template of component
-     * @return {string}
-     * @private
-     * @this {Description}
-     */
-    __getTemplate() {
-        return `    
-             <div class="product-inner">
-                ${this.__getDescription}
-             </div>
-        `;
+    __context() {
+        return {
+            description: this.__data.description.map((value) => ({
+                title: value.title,
+                text: value.text.replaceAll('\n', '<br/>')
+            }))
+        };
     }
 
     /***
@@ -74,7 +47,6 @@ export class Description {
      * @public
      */
     render() {
-        const template = this.__getTemplate();
-        this.__parent.insertAdjacentHTML('beforeend', template);
+        this.__parent.insertAdjacentHTML('beforeend', descriptionTemplate(this.__context()));
     }
 }

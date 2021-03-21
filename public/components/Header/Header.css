@@ -1,9 +1,7 @@
 .header {
     height: 7vh;
     width: 100%;
-
     display: flex;
-
     box-shadow: 0 4px 13px rgba(0, 0, 0, 0.1);
 }
 
@@ -27,6 +25,7 @@
 
 .header-left__brand {
     margin-right: 1vw;
+    cursor: pointer;
 }
 
 .header-left-location {

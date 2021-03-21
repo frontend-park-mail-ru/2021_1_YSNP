@@ -13,7 +13,6 @@ class Http {
     __ajax(url, method, data) {
         const options = {
             method: method,
-            headers: {},
             mode: 'cors',
             credentials: 'include'
         };

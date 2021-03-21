@@ -34,30 +34,22 @@ export class AuthUserData extends PasswordUserModel {
      */
     async auth() {
         return await http.post(urls.login, this.__jsonData())
-            .then(({status, data}) => {
-                if (status === httpStatus.StatusOK) {
-                    return {isAuth: true, err: ''};
-                }
-
+            .then(({status}) => {
                 if (status === httpStatus.StatusBadRequest) {
                     throw new Error('Неправильный логин или пароль');
-                    // throw data;
-                }
-
-                if (status === httpStatus.StatusNotFound) {
-                    throw new Error('Неправильный логин или пароль');
-                    // throw data;
+                    // throw new Error(data.message);
                 }
 
                 if (status === httpStatus.StatusInternalServerError) {
-                    throw data;
+                    throw new Error('Ошибка сервера');
+                    // throw new Error(data.message);
                 }
 
-                return {isAuth: false, err: ''};
+                return {isAuth: true};
             })
             .catch((err) => {
                 console.log('AuthUserData auth', err.message);
-                return {isAuth: false, err: err.message};
+                return {isAuth: false, message: err.message};
             });
     }
 

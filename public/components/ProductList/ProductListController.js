@@ -1,6 +1,7 @@
-import {Product} from '../../pages/Product.js';
-
 import {ProductListModel} from '../../models/ProductListModel.js';
+
+import {router} from '../../modules/router.js';
+import {pageUrls} from '../../modules/pageUrls.js';
 
 /***
  * Product List controller
@@ -83,27 +84,27 @@ export class ProductListController {
 
     /***
      * Like card callback
-     * @param {number} id - product card id
+     * @param {string} id - product card id
      * @private
      */
     __likeCard(id) {
         // TODO(Sergey) release __likeCard
 
-        console.log('like click', id);
-        // this.__productList.like(id);
+        const numberId = parseInt(id, 10);
+        console.log('like click', numberId);
+        this.__productList.like(numberId);
     }
 
     /***
      * Open card callback
-     * @param {number} id - product card id
+     * @param {string} id - product card id
      * @private
      */
     __openCard(id) {
         this.__pageRemoveListeners();
-        console.log('open card', id);
 
-        const product = new Product(this.__parent, id);
-        product.render();
+        const numberId = parseInt(id, 10);
+        router.redirect(`${pageUrls.product}${numberId}`);
     }
 
     /***

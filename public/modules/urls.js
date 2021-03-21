@@ -16,7 +16,7 @@ class Urls {
      * @returns {string}
      */
     get productList() {
-        return `${this.__url}${this.__api}/`;
+        return `${this.__url}${this.__api}/product/list`;
     }
 
     /***

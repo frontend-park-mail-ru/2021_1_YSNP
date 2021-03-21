@@ -1,4 +1,5 @@
-'use strict';
+import './Carousel.css';
+import CarouselTemplate from './Carousel.hbs';
 
 /* eslint-disable no-magic-numbers */
 
@@ -156,61 +157,6 @@ export class Slider {
     /***
      * @author Ivan Gorshkov
      *
-     * getter for all photos
-     * @return {string}
-     * @private
-     * @this {Slider}
-     * @readonly
-     */
-    get __getPhotos() {
-        return this.__data.linkImages.reduce((prev, cur) => `${prev}<img src="${cur}" alt="" data-action="selectClick">`, '');
-    }
-
-    /***
-     * @author Ivan Gorshkov
-     *
-     * getter for first photo of product
-     * @return {string}
-     * @private
-     * @this {Slider}
-     * @readonly
-     */
-    get __getFirstPhotos() {
-        const { linkImages } = this.__data;
-        return `<img class="slider-preview__picture" id="pic" src="${linkImages[0]}" alt="">`;
-    }
-
-    /***
-     * @author Ivan Gorshkov
-     * main template of component
-     * @return {string}
-     * @private
-     * @this {Slider}
-     */
-    __getTemplate() {
-        return `   
-        <div class="slider">
-            <div class="slider-inner" id="sliderPanel">
-                <div class="slider__button" data-action="nextClick"> 
-                    <a class="slider__button-prev" id="prev"><svg width="2vw" height="2vw" viewBox="0 0 20 11" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M1 10.5L10 1.5L19 10.5" stroke="black"/></svg></a>
-                </div>
-                <div class="slider-carousel" id="carousel">
-                    ${this.__getPhotos}
-                </div>
-                <div class="slider__button" data-action="backClick">
-                    <a class="slider__button-next" id="next"><svg width="2vw" height="2vw"  viewBox="0 0 21 12" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M1 1L10.5 11L20 1" stroke="black"/></svg></a>
-                </div>
-            </div>
-            <div class="slider-preview">
-                ${this.__getFirstPhotos}
-            </div>
-        </div>
-        `;
-    }
-
-    /***
-     * @author Ivan Gorshkov
-     *
      * Add listeners from component
      * @public
      * @this {Slider}
@@ -237,13 +183,26 @@ export class Slider {
     /***
      * @author Ivan Gorshkov
      *
+     * context for template
+     * @return {{firstPhoto: *, photos: ([*]|*)}}
+     * @private
+     */
+    __context() {
+        return {
+            firstPhoto: this.__data.linkImages[0],
+            photos: this.__data.linkImages
+        };
+    }
+
+    /***
+     * @author Ivan Gorshkov
+     *
      * Add component to parent
      * @this {Slider}
      * @public
      */
     render() {
-        const template = this.__getTemplate();
-        this.__parent.insertAdjacentHTML('beforeend', template);
+        this.__parent.insertAdjacentHTML('beforeend', CarouselTemplate(this.__context()));
         this.createCarousel();
     }
 }

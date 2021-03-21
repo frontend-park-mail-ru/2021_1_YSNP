@@ -1,19 +1,13 @@
 'use strict';
 
 const express = require('express');
-// const body = require('body-parser');
-// const cookie = require('cookie-parser');
-// const morgan = require('morgan');
 const path = require('path');
 const app = express();
 
-// app.use(morgan('dev'));
-app.use('/', express.static(path.resolve(__dirname, '..', 'public')));
-// app.use(body.json());
-// app.use(cookie());
+app.use('/', express.static(path.resolve(__dirname, '..', 'dist')));
 
 app.all('*', (req, res) => {
-    res.sendFile(path.resolve(__dirname, '..', 'public/index.html'));
+    res.sendFile(path.resolve(__dirname, '..', 'dist/index.html'));
 });
 
 const port = 3000;

@@ -90,24 +90,8 @@ export class Registration {
                 inputType: 'date',
                 id: 'date',
                 dataAction: 'inputEmpty',
-                params: 'min="1890-01-01" max="2040-12-31"'
+                params: 'min="1890-01-01"'
             }
-        };
-    }
-
-    /***
-     * @author Ivan Gorshkov
-     * TMP DATA
-     *
-     * @return {{isAuth: boolean, location: string, avatar: string, user: string}}
-     * @private
-     */
-    __getHeaderData() {
-        return {
-            isAuth: false,
-            user: 'Алехин Сергей',
-            avatar: '/img/test-avatar.jpg',
-            location: 'Москва'
         };
     }
 

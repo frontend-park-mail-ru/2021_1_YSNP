@@ -1,4 +1,5 @@
-'use strict';
+import './Map.css';
+import mapTemplate from './Map.hbs';
 
 /***
  * @author Ivan Gorshkov
@@ -19,19 +20,6 @@ export class Map {
         this.__parent = parent;
     }
 
-    /***
-     * @author Ivan Gorshkov
-     * main template of component
-     * @return {string}
-     * @private
-     * @this {Map}
-     */
-    __getTemplate() {
-        return `  
-            <div id="map">
-            </div>
-        `;
-    }
 
     /***
      * @author Ivan Gorshkov
@@ -41,7 +29,6 @@ export class Map {
      * @public
      */
     render() {
-        const template = this.__getTemplate();
-        this.__parent.insertAdjacentHTML('beforeend', template);
+        this.__parent.insertAdjacentHTML('beforeend', mapTemplate());
     }
 }
