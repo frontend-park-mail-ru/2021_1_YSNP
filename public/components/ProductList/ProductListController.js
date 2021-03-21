@@ -1,6 +1,7 @@
-import {Product} from '../../pages/Product.js';
-
 import {ProductListModel} from '../../models/ProductListModel.js';
+
+import {router} from '../../modules/router.js';
+import {pageUrls} from '../../modules/pageUrls.js';
 
 /***
  * Product List controller
@@ -103,8 +104,7 @@ export class ProductListController {
         this.__pageRemoveListeners();
 
         const numberId = parseInt(id, 10);
-        const product = new Product(this.__parent, numberId);
-        product.render();
+        router.redirect(`${pageUrls.product}${numberId}`);
     }
 
     /***

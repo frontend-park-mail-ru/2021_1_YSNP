@@ -1,4 +1,5 @@
 import './Map.css';
+import mapTemplate from './Map.hbs';
 
 /***
  * @author Ivan Gorshkov
@@ -44,7 +45,6 @@ export class Map {
      * @public
      */
     render() {
-        const template = this.__getTemplate();
-        this.__parent.insertAdjacentHTML('beforeend', template);
+        this.__parent.insertAdjacentHTML('beforeend', mapTemplate());
     }
 }

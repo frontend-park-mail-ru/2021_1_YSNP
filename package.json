@@ -4,11 +4,12 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "build": "webpack",
     "lint": "eslint -c .eslintrc.js public",
+    "build": "webpack",
+    "buildDebug": "webpack --mode=development --watch",
     "start": "forever start server",
     "stop": "forever stop server",
-    "debug": "DEBUG=express:* node server",
+    "startDebug": "DEBUG=express:* node server",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
@@ -30,6 +31,7 @@
     "express": "^4.17.1",
     "file-loader": "^6.2.0",
     "forever": "^3.0.4",
+    "handlebars": "^4.7.7",
     "handlebars-loader": "^1.7.1",
     "html-webpack-plugin": "^5.3.1",
     "mini-css-extract-plugin": "^1.3.9",

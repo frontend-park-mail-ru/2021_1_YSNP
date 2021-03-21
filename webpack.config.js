@@ -7,7 +7,8 @@ module.exports = {
     entry: './public/main.js',
     output: {
         filename: 'bundle.js',
-        path: path.resolve(__dirname, 'dist')
+        path: path.resolve(__dirname, 'dist'),
+        publicPath: '/'
     },
     plugins: [
         new MiniCssExtractPlugin({
@@ -45,7 +46,10 @@ module.exports = {
             },
             {
                 test: /\.hbs/,
-                use: 'handlebars-loader'
+                loader: 'handlebars-loader',
+                options: {
+                    runtime: path.resolve(__dirname, 'server/handlebars.js')
+                }
             },
             {
                 test: /\.svg$/,
@@ -77,6 +81,5 @@ module.exports = {
             }
         ]
     },
-    mode: 'development',
-    watch: true
+    mode: 'production'
 };

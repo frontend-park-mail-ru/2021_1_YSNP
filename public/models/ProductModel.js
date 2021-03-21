@@ -239,17 +239,24 @@ export class ProductModel {
      * @returns {{message: string, error: boolean}}
      */
     validationName(name) {
-        if (name !== '') {
+        const maxSize = 100;
+        const minSize = 0;
+        if (name.length > maxSize) {
             return {
-                message: '',
-                error: false
+                message: 'Слишком длинное название. Название не должен привышать 100 символов',
+                error: true
             };
         }
 
-
+        if (name.length === minSize) {
+            return {
+                message: 'Название не должно быть пустым',
+                error: true
+            };
+        }
         return {
-            message: 'Поле не должно быть пустым',
-            error: true
+            message: '',
+            error: false
         };
     }
 
@@ -259,11 +266,11 @@ export class ProductModel {
      * @returns {{message: string, error: boolean}}
      */
     validationDescription(description) {
-        const maxSize = 1000;
+        const maxSize = 4000;
         const minSize = 10;
         if (description.length >= maxSize && description.length >= minSize) {
             return {
-                message: 'Слишком длинный текст. Текст не должен привышать 1000 символов',
+                message: 'Слишком длинный текст. Текст не должен привышать 4000 символов',
                 error: true
             };
         }

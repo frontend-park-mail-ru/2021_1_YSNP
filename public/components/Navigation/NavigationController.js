@@ -1,6 +1,7 @@
 'use strict';
 
-import {Landing} from '../../pages/Landing.js';
+import {router} from '../../modules/router.js';
+import {pageUrls} from '../../modules/pageUrls.js';
 
 /***
  * @author Ivan Gorshkov
@@ -92,8 +93,8 @@ export class NavigationController {
      */
     __openLanding() {
         this.__removingListeners();
-        const landing = new Landing(this.__parent);
-        landing.render();
+
+        router.redirect(pageUrls.main);
     }
 
     /***
