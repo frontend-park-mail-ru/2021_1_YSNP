@@ -34,24 +34,26 @@
             </div>
 
             <div class="map-middle" id="ya-map">
-                Карта
+                <span>
+                    Какие-то проблемы с картой
+                </span>
             </div>
 
             <div class="map-bottom">
                 <div class="map-bottom-radius">
-                    <span class="map-bottom-radius__text">Радиус</span>
+<!--                    <span class="map-bottom-radius__text">Радиус</span>-->
 
-                    <div class="map-bottom-group">
+                    <div class="map-bottom-group" data-action="groupClick">
                         {{#each radius}}
                             <div class="map-bottom-group__button">
-                                <input type="radio" id="{{id}}" name="radioGroup">
+                                <input type="radio" id="{{id}}" name="radioGroup" value="{{value}}">
                                 <label for="{{id}}">{{text}}</label>
                             </div>
                         {{/each}}
                     </div>
                 </div>
 
-                <button class="map-bottom__create">Закрепить</button>
+                <button class="map-bottom__create" data-action="createClick">Закрепить</button>
             </div>
 
         </div>

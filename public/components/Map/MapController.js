@@ -1,5 +1,7 @@
+import {YandexMap} from '../../modules/yandexMap.js';
+
 /***
- * Auth controller
+ * Map controller
  */
 export class MapController {
     /***
@@ -11,6 +13,12 @@ export class MapController {
         this.__parent = parent;
         this.__map = map;
         this.__isShown = false;
+        this.__yaMap = new YandexMap();
+        this.__yaMap.render({
+            searchControl: true,
+            geolocationControl: true,
+            listeners: true
+        });
     }
 
     /***
@@ -32,7 +40,7 @@ export class MapController {
     }
 
     /***
-     * Map popup click event
+     * YandexMap popup click event
      * @param {MouseEvent} ev - event
      * @private
      */
@@ -44,13 +52,17 @@ export class MapController {
             .entries(ev.composedPath())
             .forEach(([, el]) => {
                 if (el.dataset !== undefined && 'action' in el.dataset) {
-                    actions[el.dataset.action].open();
+                    if (el.dataset.action === 'groupClick') {
+                        actions[el.dataset.action].open(ev.target);
+                    } else {
+                        actions[el.dataset.action].open();
+                    }
                 }
             });
     }
 
     /***
-     * Map outside popup click event
+     * YandexMap outside popup click event
      * @param {Event} ev - event
      * @private
      */
@@ -61,7 +73,7 @@ export class MapController {
     }
 
     /***
-     * Map key esc pressed
+     * YandexMap key esc pressed
      * @param {KeyboardEvent} ev - event
      * @private
      */
@@ -103,6 +115,17 @@ export class MapController {
         this.__isShown = false;
     }
 
+    __groupClick(el) {
+        if (el instanceof HTMLInputElement) {
+            this.__yaMap.addCircle(this.__yaMap.getPointPos(), el.value * 1000);
+        }
+    }
+
+    __create() {
+        console.log(this.__yaMap.getPointPos());
+        console.log(this.__yaMap.getAddress());
+    }
+
     /***
      * Get auth actions
      * @returns {{closeClick: {open: *}}}
@@ -112,6 +135,12 @@ export class MapController {
         return {
             closeClick: {
                 open: this.__closeMap.bind(this)
+            },
+            groupClick: {
+                open: this.__groupClick.bind(this)
+            },
+            createClick: {
+                open: this.__create.bind(this)
             }
         };
     }

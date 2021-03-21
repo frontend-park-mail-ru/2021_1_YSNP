@@ -2,7 +2,7 @@ import mapTemplate from './Map.hbs';
 import './Map.css';
 
 /***
- * Map component
+ * YandexMap component
  */
 export class Map {
     /***
@@ -73,27 +73,33 @@ export class Map {
             radius: [
                 {
                     id: 'groupRadio1',
-                    text: '1 км'
+                    text: '1 км',
+                    value: 1
                 },
                 {
                     id: 'groupRadio2',
-                    text: '5 км'
+                    text: '5 км',
+                    value: 5
                 },
                 {
                     id: 'groupRadio3',
-                    text: '10 км'
+                    text: '10 км',
+                    value: 10
                 },
                 {
                     id: 'groupRadio4',
-                    text: '25 км'
+                    text: '25 км',
+                    value: 25
                 },
                 {
                     id: 'groupRadio5',
-                    text: '50 км'
+                    text: '50 км',
+                    value: 50
                 },
                 {
                     id: 'groupRadio6',
-                    text: 'более 50 км'
+                    text: 'более 50 км',
+                    value: 0
                 }
             ]
         };
