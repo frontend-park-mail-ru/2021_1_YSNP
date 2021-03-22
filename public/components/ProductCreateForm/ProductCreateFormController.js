@@ -1,10 +1,12 @@
 'use strict';
 
-import { ProductModel } from '../../models/ProductModel.js';
-import { Landing } from '../../pages/Landing.js';
-import { httpStatus } from '../../modules/httpStatus.js';
-import { amountMask } from '../../modules/amountMask.js';
+import {ProductModel} from '../../models/ProductModel.js';
+import {httpStatus} from '../../modules/httpStatus.js';
+import {amountMask} from '../../modules/amountMask.js';
 import {insertError, addSuccesses, createMessageError, hideError, showError} from '../../modules/validationStates.js';
+
+import {router} from '../../modules/router.js';
+import {pageUrls} from '../../modules/pageUrls.js';
 
 /***
  * @author Max Torzhkov, Ivan Gorshkov
@@ -104,11 +106,11 @@ export class ProductCreateFormController {
             const button = document.getElementById('submitProduct');
             button.value = 'Загрузка...';
             button.disabled = true;
-            this.__model.create(document.getElementById('createProductForm')).then(({ status }) => {
+            this.__model.create(document.getElementById('createProductForm')).then(({status}) => {
                 if (status === httpStatus.StatusOK) {
                     this.__pageRemoveListeners();
-                    const landing = new Landing(this.__parent);
-                    landing.render();
+
+                    router.redirect(pageUrls.main);
                 }
             });
         }
@@ -259,7 +261,7 @@ export class ProductCreateFormController {
      * @this {ProductCreateFormController}
      */
     __validateEmptyInput(target) {
-        const { error, message } = this.__model.validationName(target.value.toString());
+        const {error, message} = this.__model.validationName(target.value.toString());
         if (!error) {
             addSuccesses(target, `${target.id}Error`);
             return true;
@@ -402,7 +404,7 @@ export class ProductCreateFormController {
      * @this {ProductCreateFormController}
      */
     __validatePriceInput(target) {
-        const { error, message } = this.__model.validationAmount(target.value.replace(/[^0-9]/g, '').toString());
+        const {error, message} = this.__model.validationAmount(target.value.replace(/[^0-9]/g, '').toString());
         target.value = amountMask(target.value);
         if (error) {
             insertError(target, `${target.id}Error`, createMessageError(`
@@ -428,7 +430,7 @@ export class ProductCreateFormController {
      */
     __validateTextArea(target) {
 
-        const { error, message } = this.__model.validationDescription(target.value.toString());
+        const {error, message} = this.__model.validationDescription(target.value.toString());
 
         if (!error) {
             addSuccesses(target, `${target.id}Error`);

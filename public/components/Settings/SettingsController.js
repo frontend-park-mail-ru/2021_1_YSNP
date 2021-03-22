@@ -1,6 +1,9 @@
 import {user} from '../../models/SettingsUserData.js';
 import {Profile} from '../../pages/Profile.js';
 import {insertError, addSuccesses, createMessageError, hideError, showError, hideBackendError, showBackendError, validateError} from '../../modules/validationStates.js';
+import {router} from '../../modules/router.js';
+import {pageUrls} from '../../modules/pageUrls.js';
+
 
 /***
  * Settings controller

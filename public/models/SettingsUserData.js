@@ -28,6 +28,14 @@ export class SettingsUserData extends PasswordUserModel {
     }
 
     /***
+     * Is auth user
+     * @returns {boolean|*}
+     */
+    get isAuth() {
+        return this.__isAuth;
+    }
+
+    /***
      * Get passwords user model Json
      * @returns {{oldPassword, newPassword}}
      * @private
