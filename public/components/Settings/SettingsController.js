@@ -243,7 +243,7 @@ export class SettingsController {
     __upload() {
         if (this.__isOpen) {
             console.log('click upload');
-            const elem = document.getElementById('settings-file-upload');
+            const elem = document.getElementById('file-upload');
             elem.click();
         }
     }
@@ -334,6 +334,7 @@ export class SettingsController {
         // this.__pageRemoveListeners();
 
         if (this.__validateSettings()) {
+            console.log('lmao');
             this.__disableEditing();
         }
         console.log('Click save changes');
@@ -373,15 +374,18 @@ export class SettingsController {
                 password: 'password',
                 linkImages: img
             });
-            this.__model.settings()
-                .then(({isUpdate}) => {
+            this.__model.settings(document.getElementById('settings-form'))
+                .then(({isUpdate, message}) => {
                     if (isUpdate) {
                         hideBackendError('settings-error');
                         const profile = new Profile(this.__parent);
                         profile.render();
+                    } else {
+                        showBackendError('settings-error', message);
                     }
                 })
                 .catch((error) => {
+                    console.log('smth');
                     showBackendError('settings-error', error.message);
                 });
         } else {
@@ -461,13 +465,6 @@ export class SettingsController {
             const target = document.getElementById('settings-telephone');
             target.parentNode.removeChild(target.nextSibling);
         }
-        // document
-        //     .getElementById('settings-location')
-        //     .setAttribute('readonly', 'true');
-        // if (document.getElementById('settings-locationError')) {
-        //     const target = document.getElementById('settings-location');
-        //     target.parentNode.removeChild(target.nextSibling);
-        // }
         document
             .getElementById('settings-email')
             .setAttribute('readonly', 'true');

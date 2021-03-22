@@ -37,7 +37,7 @@ export class Settings {
      */
     addListeners() {
         document
-            .getElementById('settings-file-upload')
+            .getElementById('file-upload')
             .addEventListener(this.listeners.validateChange.type, this.listeners.validateChange.listener);
         document
             .getElementById('settings-components')
@@ -61,7 +61,7 @@ export class Settings {
      */
     removeListeners() {
         document
-            .getElementById('settings-file-upload')
+            .getElementById('file-upload')
             .removeEventListener(this.listeners.validateChange.type, this.listeners.validateChange.listener);
         document
             .getElementById('settings-components')
