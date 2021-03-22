@@ -179,7 +179,6 @@ export class SettingsController {
      * @private
      */
     __savePasswordClick() {
-        console.log('smth');
         const oldPassword = document.getElementById('settings-old-pass').value;
         const passwordConfirm = document.getElementById('settings-confirm-pass');
         const newPassword = document.getElementById('settings-new-pass');
@@ -334,7 +333,6 @@ export class SettingsController {
         // this.__pageRemoveListeners();
 
         if (this.__validateSettings()) {
-            console.log('lmao');
             this.__disableEditing();
         }
         console.log('Click save changes');
@@ -385,7 +383,6 @@ export class SettingsController {
                     }
                 })
                 .catch((error) => {
-                    console.log('smth');
                     showBackendError('settings-error', error.message);
                 });
         } else {
