@@ -94,9 +94,31 @@ export class SettingsUserData extends PasswordUserModel {
      * Post settings user data to backend
      * @returns {Promise<{isUpdate: boolean}>}
      */
-    async settings() {
+    async settings(form) {
         return await http.post(urls.settings, this.__jsonData())
             .then(({status}) => {
+                if (status === httpStatus.StatusOK) {
+                    return http.post(urls.upload, new FormData(form), true)
+                        .then(({status, data}) => {
+                            if (status === httpStatus.StatusBadRequest) {
+                                throw new Error(data.message);
+                            }
+
+                            if (status === httpStatus.StatusUnauthorized) {
+                                throw new Error(data.message);
+                            }
+
+                            if (status === httpStatus.StatusInternalServerError) {
+                                throw new Error(data.message);
+                            }
+                            this.__isAuth = false;
+                            return {isUpdate: true};
+                        })
+                        .catch((err) => {
+                            throw err;
+                        });
+                }
+
                 if (status === httpStatus.StatusUnauthorized) {
                     throw new Error('Пользователь не авторизован');
                     // throw new Error(data.message);
@@ -111,14 +133,11 @@ export class SettingsUserData extends PasswordUserModel {
                     throw new Error('Ошибка сервера');
                     // throw new Error(data.message);
                 }
-
                 this.__isAuth = false;
                 return {isUpdate: true};
             })
-            .catch((err) => {
-                console.log('UserModel settings', err.message);
-                return {isUpdate: false, message: err.message};
-            });
+            .catch((err) => Promise.reject(err));
+                // ({isUpdate: false, message: err.message}));
     }
 
     /***
