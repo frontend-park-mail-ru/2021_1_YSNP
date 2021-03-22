@@ -281,9 +281,6 @@ export class SettingsController {
                 document
                     .getElementById('settings-surname')
                     .value = this.__model.surname;
-                // document
-                //     .getElementById('settings-patronymic')
-                //     .value = this.__model.patronymic;
                 document
                     .getElementById('settings-gender')
                     .value = this.__model.sex;
@@ -296,9 +293,6 @@ export class SettingsController {
                 document
                     .getElementById('settings-email')
                     .value = this.__model.email;
-                // document
-                //     .getElementById('settings-location')
-                //     .value = this.__model.location;
                 const elem = document.getElementById('settings-profile-pic');
                 elem.src = this.__model.getFirstImage();
                 this.__disableEditing();
@@ -353,18 +347,14 @@ export class SettingsController {
     __validateSettings() {
         const surname = document.getElementById('settings-surname');
         const name = document.getElementById('settings-name');
-        // const patronymic = document.getElementById('settings-patronymic').value;
         const birthday = document.getElementById('settings-birthday');
         const phone = document.getElementById('settings-telephone');
-        // const location = document.getElementById('settings-location').value;
         const mail = document.getElementById('settings-email');
 
         const isValidSurname = this.__validateString(surname);
         const isValidName = this.__validateString(name);
-        // const isValidPatronymic = this.__model.validationString(patronymic);
         const isValidBirthday = this.__validateString(birthday);
         const isValidPhone = this.__validateTelephone(phone);
-        // const isValidLocation = this.__model.validationString(location);
         const isValidMail = this.__validateEmail(mail);
 
 
@@ -417,21 +407,12 @@ export class SettingsController {
         document
             .getElementById('settings-name')
             .removeAttribute('readonly');
-        // document
-        //     .getElementById('settings-patronymic')
-        //     .removeAttribute('readonly');
         document
             .getElementById('settings-gender')
             .removeAttribute('disabled');
         document
             .getElementById('settings-birthday')
             .removeAttribute('readonly');
-        // document
-        //     .getElementById('settings-telephone')
-        //     .removeAttribute('readonly');
-        // document
-        //     .getElementById('settings-location')
-        //     .removeAttribute('readonly');
         document
             .getElementById('settings-email')
             .removeAttribute('readonly');
@@ -463,13 +444,6 @@ export class SettingsController {
             const target = document.getElementById('settings-name');
             target.parentNode.removeChild(target.nextSibling);
         }
-        // document
-        //     .getElementById('settings-patronymic')
-        //     .setAttribute('readonly', 'true');
-        // if (document.getElementById('settings-patronymicError')) {
-        //     const target = document.getElementById('settings-patronymic');
-        //     target.parentNode.removeChild(target.nextSibling);
-        // }
         document
             .getElementById('settings-gender')
             .setAttribute('disabled', 'true');
