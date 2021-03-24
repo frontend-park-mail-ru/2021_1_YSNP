@@ -210,6 +210,24 @@ class Router {
     }
 
     /***
+     * Redirect event
+     * @param {MouseEvent} ev - mouse event
+     */
+    redirectEvent(ev) {
+        if (ev.target instanceof HTMLAnchorElement) {
+            ev.preventDefault();
+
+            this.redirect(ev.target.pathname);
+        }
+
+        if (ev.target.parentElement instanceof HTMLAnchorElement) {
+            ev.preventDefault();
+
+            this.redirect(ev.target.parentElement.pathname);
+        }
+    }
+
+    /***
      * Add route listeners
      * @private
      */
@@ -219,11 +237,7 @@ class Router {
         // }
 
         window.addEventListener('click', (ev) => {
-            if (ev.target instanceof HTMLAnchorElement) {
-                ev.preventDefault();
-
-                this.redirect(ev.target.pathname);
-            }
+            this.redirectEvent(ev);
         });
 
         window.addEventListener('popstate', () => {

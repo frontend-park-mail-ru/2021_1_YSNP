@@ -60,9 +60,13 @@ export class Header {
      * Add component to parent
      */
     render(context) {
-        this.__context = context;
+        try {
+            this.__context = context;
 
-        this.__parent.insertAdjacentHTML('beforeend', headerTemplate(this.__context.data));
-        this.__addListeners();
+            this.__parent.insertAdjacentHTML('beforeend', headerTemplate(this.__context.data));
+            this.__addListeners();
+        } catch (err) {
+            console.log();
+        }
     }
 }

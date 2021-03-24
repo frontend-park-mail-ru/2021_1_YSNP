@@ -11,6 +11,14 @@ import {deleteSymbolsXSS} from '../modules/xss.js';
  */
 export class SettingsUserData extends PasswordUserModel {
     /***
+     * Class constructor
+     */
+    constructor() {
+        super();
+        this.__isAuth = false;
+    }
+
+    /***
      * Fill user model data
      * @param {Object} data - user data
      */

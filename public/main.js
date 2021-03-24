@@ -2,63 +2,91 @@
 
 import './style.css';
 
-import {Landing} from './pages/Landing.js';
-import {Product} from './pages/Product.js';
-import {ProductCreate} from './pages/ProductCreate.js';
-import {Profile} from './pages/Profile.js';
-import {Registration} from './pages/Registration.js';
-
 import {router} from './modules/router.js';
 import {pageUrls} from './modules/pageUrls.js';
 
 const app = document.getElementById('app');
 
-const landing = new Landing(app);
-const product = new Product(app);
-const productCreate = new ProductCreate(app);
-const profile = new Profile(app);
-const registration = new Registration(app);
+import {FavoriteView} from './views/FavoriteView.js';
+import {MainView} from './views/MainView.js';
+import {MyAdsView} from './views/MyAdsView.js';
+import {ProductCreateView} from './views/ProductCreateView.js';
+import {ProductView} from './views/ProductView.js';
+import {ProfileView} from './views/ProfileView.js';
+import {RegistrationView} from './views/RegistrationView.js';
+import {SearchView} from './views/SearchView.js';
 
-/***
- * Open landing page
- */
-const doLanding = () => {
-    landing.render();
+const favoriteView = new FavoriteView(app);
+const mainView = new MainView(app);
+const myAdsView = new MyAdsView(app);
+const productCreateView = new ProductCreateView(app);
+const productView = new ProductView(app);
+const profileView = new ProfileView(app);
+const registrationView = new RegistrationView(app);
+const searchView = new SearchView(app);
+
+import {ProductListModel} from './models/ProductListModel.js';
+
+const productListModel = new ProductListModel();
+
+import {FavoritePresenter} from './presenters/FavoritePresenter.js';
+import {MainPresenter} from './presenters/MainPresenter.js';
+import {MyAdsPresenter} from './presenters/MyAdsPresenter.js';
+import {ProductCreatePresenter} from './presenters/ProductCreatePresenter.js';
+import {ProductPresenter} from './presenters/ProductPresenter.js';
+import {ProfilePresenter} from './presenters/ProfilePresenter.js';
+import {RegistrationPresenter} from './presenters/RegistrationPresenter.js';
+import {SearchPresenter} from './presenters/SearchPresenter.js';
+
+const favoritePresenter = new FavoritePresenter(favoriteView);
+const mainPresenter = new MainPresenter(mainView, productListModel);
+const myAdsPresenter = new MyAdsPresenter(myAdsView);
+const productCreatePresenter = new ProductCreatePresenter(productCreateView);
+const productPresenter = new ProductPresenter(productView);
+const profilePresenter = new ProfilePresenter(profileView);
+const registrationPresenter = new RegistrationPresenter(registrationView);
+const searchPresenter = new SearchPresenter(searchView);
+
+
+const doFavorite = () => {
+    favoritePresenter.control();
 };
 
-/***
- * Open product create page
- */
+const doMain = () => {
+    mainPresenter.control();
+};
+
+const doMyAds = () => {
+    myAdsPresenter.control();
+};
+
 const doProductCreate = () => {
-    productCreate.render();
+    productCreatePresenter.control();
 };
 
-/***
- * Open product page
- * @param {Object} reg - url parameters
- */
-const doProduct = (reg) => {
-    product.render(reg.parameters.id);
+const doProduct = () => {
+    productPresenter.control();
 };
 
-/***
- * Open profile page
- */
 const doProfile = () => {
-    profile.render();
+    profilePresenter.control();
 };
 
-/***
- * Open registration page
- */
 const doRegistration = () => {
-    registration.render();
+    registrationPresenter.control();
 };
 
-router.add(pageUrls.main, doLanding);
-router.add(pageUrls.productCreate, doProductCreate);
-router.add(`${pageUrls.product}{id}`, doProduct);
-router.add(pageUrls.profile, doProfile);
-router.add(pageUrls.registration, doRegistration);
+const doSearch = () => {
+    searchPresenter.control();
+};
+
+// router.add(pageUrls.favorite, doFavorite);
+router.add(pageUrls.main, doMain);
+// router.add(pageUrls.myAds, doMyAds);
+// router.add(pageUrls.productCreate, doProductCreate);
+// router.add(`${pageUrls.product}{id}`, doProduct);
+// router.add(pageUrls.profile, doProfile);
+// router.add(pageUrls.registration, doRegistration);
+// router.add(pageUrls.search, doSearch);
 
 router.start();

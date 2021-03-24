@@ -9,6 +9,30 @@ import {httpStatus} from '../modules/httpStatus.js';
  */
 export class AuthUserData extends PasswordUserModel {
     /***
+     * Validate user data
+     * @param {Object} data - user data
+     * @returns {{message: string, error: boolean}}
+     */
+    validateData(data) {
+        const telephoneValidate = this.validationTelephone(data.telephone);
+        const passwordValidate = this.validationPassword(data.telephone);
+
+        if (!telephoneValidate.error || !passwordValidate.error) {
+            this.fillUserData(data);
+
+            return {
+                message: '',
+                error: false
+            };
+        }
+
+        return {
+            message: 'Неправильный номер или пароль',
+            error: true
+        };
+    }
+
+    /***
      * Fill user model data
      * @param {Object} data - user data
      */
@@ -36,7 +60,7 @@ export class AuthUserData extends PasswordUserModel {
         return await http.post(urls.login, this.__jsonData())
             .then(({status}) => {
                 if (status === httpStatus.StatusBadRequest) {
-                    throw new Error('Неправильный логин или пароль');
+                    throw new Error('Неправильный номер или пароль');
                     // throw new Error(data.message);
                 }
 

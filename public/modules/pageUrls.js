@@ -41,6 +41,30 @@ class PageUrls {
     get registration() {
         return '/signup';
     }
+
+    /***
+     * Get search page
+     * @returns {string}
+     */
+    get search() {
+        return '/search';
+    }
+
+    /***
+     * Get favorite page
+     * @returns {string}
+     */
+    get favorite() {
+        return '/favorite';
+    }
+
+    /***
+     * Get my ads page
+     * @returns {string}
+     */
+    get myAds() {
+        return '/ads';
+    }
 }
 
 export const pageUrls = new PageUrls();

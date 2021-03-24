@@ -42,7 +42,19 @@ export class ProductListModel {
             const product = new ProductModel(productJson);
             this.__productList.push(product);
         });
+    }
 
+    /***
+     * Get product list data
+     * @returns {[]}
+     */
+    getData() {
+        const data = [];
+        this.__productList.forEach((el) => {
+            data.push(el.getMainData());
+        });
+
+        return data;
     }
 
     /***
