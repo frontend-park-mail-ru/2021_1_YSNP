@@ -1,10 +1,10 @@
-import adSwitchTemplate from './AdSwitch.hbs';
-import './AdSwitch.css';
+import adSwitchTemplate from './Switch.hbs';
+import './Switch.css';
 
 /***
  * Ad switch component
  */
-export class AdSwitch {
+export class Switch {
     /***
      * Class constructor
      * @param {HTMLElement} parent - element where the component will be inserted
@@ -16,7 +16,7 @@ export class AdSwitch {
     /***
      * Add component to parent
      */
-    render() {
-        this.__parent.insertAdjacentHTML('beforeend', adSwitchTemplate());
+    render(context) {
+        this.__parent.insertAdjacentHTML('beforeend', adSwitchTemplate(context.data));
     }
 }

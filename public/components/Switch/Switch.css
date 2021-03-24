@@ -1,12 +1,11 @@
 .ad-switch {
-    width: 100vw;
+    width: 100%;
 
     margin: 1vh 0;
 }
 
 .ad-switch-inner {
-    padding-left: 15vw;
-    padding-right: 15vw;
+
 }
 
 .ad-switch-inner__title {
