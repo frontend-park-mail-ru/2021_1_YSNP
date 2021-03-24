@@ -8,11 +8,9 @@ export class ProductCard {
     /***
      * Class constructor
      * @param {HTMLElement} parent - element where the component will be inserted
-     * @param {Object} data - component data
      */
-    constructor(parent, data) {
+    constructor(parent) {
         this.__parent = parent;
-        this.__data = data;
     }
 
     /***
@@ -20,7 +18,7 @@ export class ProductCard {
      */
     like() {
         document
-            .querySelector(`[data-card-id='${this.__data.id}']`)
+            .querySelector(`[data-card-id='${this.__context.id}']`)
             .querySelector('[data-action=\'likeClick\']')
             .classList.add('product-card__like_liked');
     }
@@ -30,7 +28,7 @@ export class ProductCard {
      */
     dislike() {
         document
-            .querySelector(`[data-card-id='${this.__data.id}']`)
+            .querySelector(`[data-card-id='${this.__context.id}']`)
             .querySelector('[data-action=\'likeClick\']')
             .classList.remove('product-card__like_liked');
     }
@@ -38,7 +36,8 @@ export class ProductCard {
     /***
      * Add component to parent
      */
-    render() {
-        this.__parent.insertAdjacentHTML('beforeend', productCardTemplate(this.__data));
+    render(context) {
+        this.__context = context;
+        this.__parent.insertAdjacentHTML('beforeend', productCardTemplate(this.__context));
     }
 }

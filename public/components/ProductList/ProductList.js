@@ -10,64 +10,19 @@ export class ProductList {
     /***
      * Class constructor
      * @param {HTMLElement} parent - element where the component will be inserted
-     * @param {Object} data - component data
-     * @param {Object} listeners - component listeners
      */
-    constructor(parent, data = {}, listeners = {}) {
+    constructor(parent) {
         this.__parent = parent;
-        this.__data = data;
-        this.__listeners = listeners;
         this.__productList = new Map();
-    }
-
-    /***
-     * Get data
-     * @returns {Object}
-     */
-    get data() {
-        return this.__data;
-    }
-
-    /***
-     * Set data
-     * @param {Object} data - component data
-     */
-    set data(data) {
-        this.__data = data;
-    }
-
-    /***
-     * Get listeners
-     * @returns {Object}
-     */
-    get listeners() {
-        return this.__listeners;
-    }
-
-    /***
-     * Set listeners
-     * @param {Object} val - component listeners
-     */
-    set listeners(val) {
-        this.__listeners = val;
     }
 
     /***
      * Add component listeners
      */
-    addListeners() {
+    __addListeners() {
         document
             .getElementById('product-list')
-            .addEventListener(this.__listeners.productCardClick.type, this.__listeners.productCardClick.listener);
-    }
-
-    /***
-     * Remove component listeners
-     */
-    removeListeners() {
-        document
-            .getElementById('product-list')
-            .removeEventListener(this.__listeners.productCardClick.type, this.__listeners.productCardClick.listener);
+            .addEventListener(this.__context.listeners.productCardClick.type, this.__context.listeners.productCardClick.listener);
     }
 
     /***
@@ -87,15 +42,27 @@ export class ProductList {
     }
 
     /***
+     * Get product card parent
+     * @returns {Element}
+     * @private
+     */
+    __getParent() {
+        return this.__parent.querySelector('[class=\'product-list-inner\']');
+    }
+
+    /***
      * Add component to parent
      */
-    render() {
-        this.__parent.insertAdjacentHTML('beforeend', productListTemplate());
+    render(context) {
+        this.__context = context;
 
-        const list = this.__parent.querySelector('[class=\'product-list-inner\']');
-        this.__data.forEach((el) => {
-            const productCard = new ProductCard(list, el.getMainData());
-            productCard.render();
+        this.__parent.insertAdjacentHTML('beforeend', productListTemplate());
+        this.__addListeners();
+
+        const list = this.__getParent();
+        this.__context.data.forEach((el) => {
+            const productCard = new ProductCard(list);
+            productCard.render(el);
             this.__productList.set(el.id, productCard);
         });
     }
