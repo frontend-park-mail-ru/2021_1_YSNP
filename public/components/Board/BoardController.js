@@ -2,6 +2,8 @@
 
 import {ProductModel} from '../../models/ProductModel.js';
 
+import {YandexMap} from '../../modules/yandexMap.js';
+
 /***
  * @author Ivan Gorshkov
  *
@@ -26,6 +28,8 @@ export class BoardController {
         this.__board = board;
         this.__id = id;
         this.__model = new ProductModel({id: this.__id});
+
+        this.__yaMap = new YandexMap();
     }
 
     /***
@@ -137,6 +141,16 @@ export class BoardController {
 
         this.__board.listeners(this.__createListeners());
         this.__board.addListeners();
+
+        this.__yaMap.render();
+        const pos = {
+            latitude: 55.753808,
+            longitude: 37.620017
+        };
+        const radius = 1 * 1000;
+
+        this.__yaMap.addCircle(pos, radius);
+        this.__yaMap.setCenter(pos, radius / 85);
     }
 
     /***

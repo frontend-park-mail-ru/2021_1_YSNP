@@ -3,14 +3,14 @@ import mapTemplate from './Map.hbs';
 
 /***
  * @author Ivan Gorshkov
- * Map class for seller location
+ * YandexMap class for seller location
  * @class Map
  */
 export class Map {
 
     /***
      * @author Ivan Gorshkov
-     * init of class Map
+     * init of class YandexMap
      * @param {HTMLElement} parent - parent element
      * @constructor
      * @this {Map}
@@ -20,6 +20,22 @@ export class Map {
         this.__parent = parent;
     }
 
+    /***
+     * @author Ivan Gorshkov
+     * main template of component
+     * @return {string}
+     * @private
+     * @this {Map}
+     */
+    __getTemplate() {
+        return `  
+            <div class="product-map" id="ya-map">
+                <span>
+                    Какие-то проблемы с картой
+                </span>
+            </div>
+        `;
+    }
 
     /***
      * @author Ivan Gorshkov

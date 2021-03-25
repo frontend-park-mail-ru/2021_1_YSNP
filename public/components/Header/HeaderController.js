@@ -5,6 +5,9 @@ import {user} from '../../models/SettingsUserData.js';
 import {router} from '../../modules/router.js';
 import {pageUrls} from '../../modules/pageUrls.js';
 
+import {Map} from '../Map/Map.js';
+import {MapController} from '../Map/MapController.js';
+
 /***
  * Header controller controller
  */
@@ -89,10 +92,7 @@ export class HeaderController {
      * @private
      */
     __listenerPageClick() {
-        document
-            .getElementById('header-dropdown-content')
-            .classList
-            .add('header-dropdown-content_hidden');
+        this.__header.closeDropdownMenu();
     }
 
     /***
@@ -132,9 +132,12 @@ export class HeaderController {
      * @private
      */
     __openMap() {
-        // TODO(Sergey) release __openLanding
+        this.__header.closeDropdownMenu();
 
-        console.log('Open map');
+        const map = new Map(this.__parent);
+        map.render();
+        this.__mapController = new MapController(this.__parent, map);
+        this.__mapController.control();
     }
 
     /***
@@ -167,10 +170,7 @@ export class HeaderController {
      * @private
      */
     __openDropdownMenu() {
-        document
-            .getElementById('header-dropdown-content')
-            .classList
-            .toggle('header-dropdown-content_hidden');
+        this.__header.toggleDropdownMenu();
     }
 
     /***

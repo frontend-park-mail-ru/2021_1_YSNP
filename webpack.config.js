@@ -21,6 +21,10 @@ module.exports = {
                     to: 'img/'
                 },
                 {
+                    from: 'public/all.js',
+                    to: ''
+                },
+                {
                     from: 'public/img/svg',
                     to: 'img/svg'
                 }

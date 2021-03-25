@@ -1,0 +1,61 @@
+<div class="map" id="map-popup">
+    <div class="map-content" id="map-content">
+        <div class="map-content-inner">
+
+            <div class="map-top">
+                <span class="map-top__title">Радиус поиска</span>
+
+                <svg version="1.1" class="map-top__close" data-action="closeClick" height="2vh" width="2vh"
+                     xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" viewBox="0 0 512.001 512.001"
+                     xml:space="preserve">
+                        <g><g>
+                        <path d="M284.286,256.002L506.143,34.144c7.811-7.811,7.811-20.475,0-28.285c-7.811-7.81-20.475-7.811-28.285,0L256,227.717
+                        L34.143,5.859c-7.811-7.811-20.475-7.811-28.285,0c-7.81,7.811-7.811,20.475,0,28.285l221.857,221.857L5.858,477.859
+                        c-7.811,7.811-7.811,20.475,0,28.285c3.905,3.905,9.024,5.857,14.143,5.857c5.119,0,10.237-1.952,14.143-5.857L256,284.287
+                        l221.857,221.857c3.905,3.905,9.024,5.857,14.143,5.857s10.237-1.952,14.143-5.857c7.811-7.811,7.811-20.475,0-28.285
+                        L284.286,256.002z"/>
+                        </g></g>
+                    <g></g>
+                    <g></g>
+                    <g></g>
+                    <g></g>
+                    <g></g>
+                    <g></g>
+                    <g></g>
+                    <g></g>
+                    <g></g>
+                    <g></g>
+                    <g></g>
+                    <g></g>
+                    <g></g>
+                    <g></g>
+                    <g></g>
+                    </svg>
+            </div>
+
+            <div class="map-middle" id="ya-map">
+                <span>
+                    Какие-то проблемы с картой
+                </span>
+            </div>
+
+            <div class="map-bottom">
+                <div class="map-bottom-radius">
+<!--                    <span class="map-bottom-radius__text">Радиус</span>-->
+
+                    <div class="map-bottom-group" data-action="groupClick">
+                        {{#each radius}}
+                            <div class="map-bottom-group__button">
+                                <input type="radio" id="{{id}}" name="radioGroup" value="{{value}}">
+                                <label for="{{id}}">{{text}}</label>
+                            </div>
+                        {{/each}}
+                    </div>
+                </div>
+
+                <button class="map-bottom__create" data-action="createClick">Закрепить</button>
+            </div>
+
+        </div>
+    </div>
+</div>
