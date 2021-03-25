@@ -2,7 +2,7 @@ import {ProductModel} from './ProductModel.js';
 
 
 import {http} from '../modules/http.js';
-import {urls} from '../modules/urls.js';
+import {backUrls} from '../modules/backUrls.js';
 import {httpStatus} from '../modules/httpStatus.js';
 
 /***
@@ -62,7 +62,7 @@ export class ProductListModel {
      * @returns {Promise<{isUpdate: boolean}|{message: *, isUpdate: boolean}>}
      */
     async update() {
-        return await http.get(urls.productList)
+        return await http.get(backUrls.productList)
             .then(({status, data}) => {
                 if (status === httpStatus.StatusInternalServerError) {
                     throw new Error('Ошибка сервера');

@@ -3,7 +3,7 @@ import {telMask, parseTelNumber} from '../../modules/telMask.js';
 import {insertError, addSuccesses, createMessageError, hideError, showError} from '../../modules/validationStates.js';
 
 import {router} from '../../modules/router.js';
-import {pageUrls} from '../../modules/pageUrls.js';
+import {frontUrls} from '../../modules/frontUrls.js';
 
 /***
  * @author Ivan Gorshkov
@@ -431,7 +431,7 @@ export class RegistrationPanelController {
 
             this.__model.registration(document.getElementById('registration-from'))
                 .then(() => {
-                    router.redirect(pageUrls.main);
+                    router.redirect(frontUrls.main);
                 }).catch((data) => {
                 this.__registartion.errorText(data);
             });

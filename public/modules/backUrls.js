@@ -1,7 +1,7 @@
 /***
  * Get backend urls
  */
-class Urls {
+class BackUrls {
     /***
      * Class constructor
      */
@@ -100,4 +100,4 @@ class Urls {
     }
 }
 
-export const urls = new Urls();
+export const backUrls = new BackUrls();

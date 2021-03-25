@@ -1,7 +1,7 @@
 'use strict';
 
 import {router} from '../../modules/router.js';
-import {pageUrls} from '../../modules/pageUrls.js';
+import {frontUrls} from '../../modules/frontUrls.js';
 
 /***
  * @author Ivan Gorshkov
@@ -94,7 +94,7 @@ export class NavigationController {
     __openLanding() {
         this.__removingListeners();
 
-        router.redirect(pageUrls.main);
+        router.redirect(frontUrls.main);
     }
 
     /***

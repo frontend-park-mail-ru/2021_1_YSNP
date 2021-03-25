@@ -1,7 +1,7 @@
 import {PasswordUserModel} from './PasswordUserModel.js';
 
 import {http} from '../modules/http.js';
-import {urls} from '../modules/urls.js';
+import {backUrls} from '../modules/backUrls.js';
 import {httpStatus} from '../modules/httpStatus.js';
 
 /***
@@ -57,7 +57,7 @@ export class AuthUserData extends PasswordUserModel {
      * @returns {Promise<{isAuth: boolean}|void>}
      */
     async auth() {
-        return await http.post(urls.login, this.__jsonData())
+        return await http.post(backUrls.login, this.__jsonData())
             .then(({status}) => {
                 if (status === httpStatus.StatusBadRequest) {
                     throw new Error('Неправильный номер или пароль');

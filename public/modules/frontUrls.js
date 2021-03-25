@@ -1,7 +1,7 @@
 /***
  * Page urls
  */
-class PageUrls {
+class FrontUrls {
     /***
      * Get main page
      * @returns {string}
@@ -13,9 +13,14 @@ class PageUrls {
     /***
      * Get product page
      * @returns {string}
+     * @param {number} id - product id
      */
-    get product() {
-        return '/product/';
+    product(id = undefined) {
+        if (id !== undefined) {
+            return `/product/${id}`;
+        }
+
+        return '/product/{id}';
     }
 
     /***
@@ -67,4 +72,4 @@ class PageUrls {
     }
 }
 
-export const pageUrls = new PageUrls();
+export const frontUrls = new FrontUrls();

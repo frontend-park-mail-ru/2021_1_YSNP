@@ -1,5 +1,5 @@
 import {router} from '../modules/router.js';
-import {pageUrls} from '../modules/pageUrls.js';
+import {frontUrls} from '../modules/frontUrls.js';
 import {eventHandler} from '../modules/eventHandler.js';
 import {parseTelNumber, telMask} from '../modules/telMask';
 
@@ -95,7 +95,7 @@ export class BasePresenter {
             this.__authModel.auth()
                 .then(({isAuth, message}) => {
                     if (isAuth) {
-                        router.redirect(pageUrls.main);
+                        router.redirect(frontUrls.main);
                     } else {
                         this.__view.authErrorText(message);
                     }
@@ -174,7 +174,7 @@ export class BasePresenter {
      */
     __openCreateProduct() {
         if (this.__userModel.isAuth) {
-            router.redirect(pageUrls.productCreate);
+            router.redirect(frontUrls.productCreate);
         } else {
             this.__openAuth();
         }
@@ -256,7 +256,7 @@ export class BasePresenter {
         this.__userModel.logout()
             .then(({isLogout}) => {
                 if (isLogout) {
-                    router.redirect(pageUrls.main);
+                    router.redirect(frontUrls.main);
                 }
             });
     }

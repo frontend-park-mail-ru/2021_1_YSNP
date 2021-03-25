@@ -1,5 +1,5 @@
 import {http} from '../modules/http.js';
-import {urls} from '../modules/urls.js';
+import {backUrls} from '../modules/backUrls.js';
 import {httpStatus} from '../modules/httpStatus.js';
 
 import {deleteSymbolsXSS} from '../modules/xss.js';
@@ -395,7 +395,7 @@ export class ProductModel {
      * @returns {Promise<{isUpdate: boolean}|void>}
      */
     async update() {
-        return await http.get(urls.product + this.__id)
+        return await http.get(backUrls.product + this.__id)
             .then(({status, data}) => {
                 if (status === httpStatus.StatusNotFound) {
                     throw new Error('Нет такого товара');
@@ -421,7 +421,7 @@ export class ProductModel {
      * @returns {Promise<void>}
      */
     async create(form) {
-        return http.post(urls.productUploadPhotos, new FormData(form), true)
+        return http.post(backUrls.productUploadPhotos, new FormData(form), true)
             .then(({status, data}) => {
                 if (status === httpStatus.StatusUnauthorized) {
                     throw new Error('Пользователь не авторизован');
@@ -440,7 +440,7 @@ export class ProductModel {
 
                 this.__linkImages = data.linkImages;
                 const model = this.__jsonData();
-                return http.post(urls.productCreate, model);
+                return http.post(backUrls.productCreate, model);
                 // TODO(Ivan) а проверка на ошибки?
             }).catch((err) => {
                 console.log('ProductModel create', err.message);

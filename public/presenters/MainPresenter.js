@@ -1,6 +1,6 @@
 import {BasePresenter} from './BasePresenter.js';
 import {router} from '../modules/router';
-import {pageUrls} from '../modules/pageUrls';
+import {frontUrls} from '../modules/frontUrls';
 
 /***
  * Main view
@@ -99,7 +99,7 @@ export class MainPresenter extends BasePresenter {
      */
     __openCard(id) {
         const numberId = parseInt(id, 10);
-        router.redirect(`${pageUrls.product}${numberId}`);
+        router.redirect(frontUrls.product(numberId));
     }
 
     /***

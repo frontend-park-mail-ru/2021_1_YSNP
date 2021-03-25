@@ -1,7 +1,7 @@
 import {PasswordUserModel} from './PasswordUserModel.js';
 
 import {http} from '../modules/http.js';
-import {urls} from '../modules/urls.js';
+import {backUrls} from '../modules/backUrls.js';
 import {httpStatus} from '../modules/httpStatus.js';
 
 import {deleteSymbolsXSS} from '../modules/xss.js';
@@ -103,7 +103,7 @@ export class SettingsUserData extends PasswordUserModel {
      * @returns {Promise<{isUpdate: boolean}>}
      */
     async settings() {
-        return await http.post(urls.settings, this.__jsonData())
+        return await http.post(backUrls.settings, this.__jsonData())
             .then(({status}) => {
                 if (status === httpStatus.StatusUnauthorized) {
                     throw new Error('Пользователь не авторизован');
@@ -134,7 +134,7 @@ export class SettingsUserData extends PasswordUserModel {
      * @returns {Promise<{isUpdate: boolean}|{message: *, isUpdate: boolean}>}
      */
     async newPassword() {
-        return await http.post(urls.newPassword, this.__jsonPassword())
+        return await http.post(backUrls.newPassword, this.__jsonPassword())
             .then(({status}) => {
                 if (status === httpStatus.StatusBadRequest) {
                     throw new Error('Неправильно введен пароль');
@@ -155,7 +155,7 @@ export class SettingsUserData extends PasswordUserModel {
      */
     async update() {
         if (!this.__isAuth) {
-            return await http.get(urls.me)
+            return await http.get(backUrls.me)
                 .then(({status, data}) => {
                     if (status === httpStatus.StatusUnauthorized) {
                         throw new Error('Пользователь не авторизован');
@@ -185,7 +185,7 @@ export class SettingsUserData extends PasswordUserModel {
      * @returns {Promise<{isLogout: boolean} | void>}
      */
     async logout() {
-        return await http.post(urls.logout, null)
+        return await http.post(backUrls.logout, null)
             .then(({status}) => {
                 if (status === httpStatus.StatusUnauthorized) {
                     throw new Error('Пользователь не авторизован');

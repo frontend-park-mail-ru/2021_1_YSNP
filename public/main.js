@@ -3,7 +3,7 @@
 import './style.css';
 
 import {router} from './modules/router.js';
-import {pageUrls} from './modules/pageUrls.js';
+import {frontUrls} from './modules/frontUrls.js';
 
 const app = document.getElementById('app');
 
@@ -81,10 +81,10 @@ const doSearch = () => {
 };
 
 // router.add(pageUrls.favorite, doFavorite);
-router.add(pageUrls.main, doMain);
+router.add(frontUrls.main, doMain);
 // router.add(pageUrls.myAds, doMyAds);
 // router.add(pageUrls.productCreate, doProductCreate);
-// router.add(`${pageUrls.product}{id}`, doProduct);
+router.add(frontUrls.product(), doProduct);
 // router.add(pageUrls.profile, doProfile);
 // router.add(pageUrls.registration, doRegistration);
 // router.add(pageUrls.search, doSearch);

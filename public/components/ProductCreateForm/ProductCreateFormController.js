@@ -6,7 +6,7 @@ import {amountMask} from '../../modules/amountMask.js';
 import {insertError, addSuccesses, createMessageError, hideError, showError} from '../../modules/validationStates.js';
 
 import {router} from '../../modules/router.js';
-import {pageUrls} from '../../modules/pageUrls.js';
+import {frontUrls} from '../../modules/frontUrls.js';
 
 /***
  * @author Max Torzhkov, Ivan Gorshkov
@@ -110,7 +110,7 @@ export class ProductCreateFormController {
                 if (status === httpStatus.StatusOK) {
                     this.__pageRemoveListeners();
 
-                    router.redirect(pageUrls.main);
+                    router.redirect(frontUrls.main);
                 }
             });
         }

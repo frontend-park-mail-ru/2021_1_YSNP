@@ -1,7 +1,7 @@
 import {PasswordUserModel} from './PasswordUserModel.js';
 
 import {http} from '../modules/http.js';
-import {urls} from '../modules/urls.js';
+import {backUrls} from '../modules/backUrls.js';
 import {httpStatus} from '../modules/httpStatus.js';
 
 /***
@@ -40,10 +40,10 @@ export class RegUserData extends PasswordUserModel {
      * @returns {Promise<{}|void>}
      */
     async registration(form) {
-        return await http.post(urls.singUp, this.__jsonData())
+        return await http.post(backUrls.singUp, this.__jsonData())
             .then(({status, data}) => {
                 if (status === httpStatus.StatusOK) {
-                    return http.post(urls.upload, new FormData(form), true)
+                    return http.post(backUrls.upload, new FormData(form), true)
                         .then(({status, data}) => {
                             if (status === httpStatus.StatusOK) {
                                 return {};

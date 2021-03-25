@@ -1,6 +1,6 @@
 import {user} from '../../models/SettingsUserData.js';
 import {router} from '../../modules/router.js';
-import {pageUrls} from '../../modules/pageUrls.js';
+import {frontUrls} from '../../modules/frontUrls.js';
 
 /***
  * Settings controller
@@ -458,7 +458,7 @@ export class SettingsController {
                         err.classList.add('settings-error_hidden');
                         err.classList.remove('settings-error_visible');
 
-                        router.redirect(pageUrls.profile);
+                        router.redirect(frontUrls.profile);
                     }
                 })
                 .catch((error) => {
