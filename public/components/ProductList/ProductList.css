@@ -1,17 +1,24 @@
 @import "ProductCard/ProductCard.css";
 
 .product-list {
-    width: 100vw;
+    width: 100%;
 
     display: flex;
     flex-direction: row;
 }
 
 .product-list-inner {
-    padding-left: 15vw;
-    padding-right: 15vw;
 
     display: flex;
     flex-wrap: wrap;
     /*justify-content: center;*/
+}
+
+.product-list-padding {
+    padding-left: 15%;
+    padding-right: 15%;
+}
+
+.product-list-search-padding {
+    padding-left: 0%;
 }

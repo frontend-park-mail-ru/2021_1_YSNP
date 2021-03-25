@@ -1,15 +1,15 @@
 import {Header} from '../components/Header/Header.js';
 import {HeaderController} from '../components/Header/HeaderController.js';
 
-import {ProductList} from '../components/ProductList/ProductList.js';
-import {ProductListController} from '../components/ProductList/ProductListController.js';
+import {Navigation} from '../components/Navigation/Navigation.js';
+import {NavigationController} from '../components/Navigation/NavigationController.js';
 
-import {AdSwitch} from '../components/AdSwitch/AdSwitch.js';
+import {SearchBar} from '../components/Search/SearchBar.js';
 
 /***
  * First (main) page
  */
-export class Landing {
+export class Search {
     /***
      * Class constructor
      * @param {HTMLElement} parent - element where the component will be inserted
@@ -24,7 +24,7 @@ export class Landing {
      */
     __removePageListeners() {
         this.__headerController.removeControllerListeners();
-        this.__productListController.removeControllerListeners();
+        this.__navigationController.removeControllerListeners();
     }
 
     /***
@@ -37,12 +37,14 @@ export class Landing {
         this.__headerController = new HeaderController(this.__removePageListeners.bind(this), this.__parent, header);
         await this.__headerController.control();
 
-        const adSwitch = new AdSwitch(this.__parent);
-        adSwitch.render();
+        this.__navigation = new Navigation(this.__parent, 'Главная страница', {route: ['Поиск']});
+        this.__navigation.render();
+        this.__navigationController = new NavigationController(this.__removePageListeners.bind(this), this.__parent, this.__navigation);
+        this.__navigationController.control();
 
-        const productList = new ProductList(this.__parent);
-        this.__productListController = new ProductListController(this.__removePageListeners.bind(this), this.__parent, productList);
-        await this.__productListController.control();
-        document.getElementById('product-list-inner').classList.add('product-list-padding');
+        const searchBar = new SearchBar(this.__parent);
+        await searchBar.render();
+        document.getElementById('product-list-inner').classList.add('product-list-search-padding');
+
     }
 }

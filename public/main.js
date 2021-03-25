@@ -7,6 +7,7 @@ import {Product} from './pages/Product.js';
 import {ProductCreate} from './pages/ProductCreate.js';
 import {Profile} from './pages/Profile.js';
 import {Registration} from './pages/Registration.js';
+import {Search} from './pages/Search.js';
 
 import {router} from './modules/router.js';
 import {pageUrls} from './modules/pageUrls.js';
@@ -18,6 +19,7 @@ const product = new Product(app);
 const productCreate = new ProductCreate(app);
 const profile = new Profile(app);
 const registration = new Registration(app);
+const search = new Search(app);
 
 /***
  * Open landing page
@@ -55,10 +57,18 @@ const doRegistration = () => {
     registration.render();
 };
 
+/***
+ * Open doSearch page
+ */
+const doSearch = () => {
+    search.render();
+};
+
 router.add(pageUrls.main, doLanding);
 router.add(pageUrls.productCreate, doProductCreate);
 router.add(`${pageUrls.product}{id}`, doProduct);
 router.add(pageUrls.profile, doProfile);
 router.add(pageUrls.registration, doRegistration);
+router.add(pageUrls.search, doSearch);
 
 router.start();

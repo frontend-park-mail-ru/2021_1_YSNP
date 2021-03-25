@@ -41,6 +41,14 @@ class PageUrls {
     get registration() {
         return '/signup';
     }
+
+    /***
+     * Get registration page
+     * @returns {string}
+     */
+    get search() {
+        return '/Search';
+    }
 }
 
 export const pageUrls = new PageUrls();
