@@ -93,8 +93,11 @@ export class NavigationController {
      */
     __openLanding() {
         this.__removingListeners();
-
-        router.redirect(pageUrls.main);
+        if (router.historyLength() === 2) {
+            router.redirect(pageUrls.main);
+            return;
+        }
+        router.goBack();
     }
 
     /***

@@ -55,6 +55,11 @@ class Router {
         window.history.back();
     }
 
+
+    historyLength() {
+        return window.history.length;
+    }
+
     /***
      * Go to next page
      */
