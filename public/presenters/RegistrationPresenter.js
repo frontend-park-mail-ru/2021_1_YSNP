@@ -7,6 +7,7 @@ import {frontUrls} from '../modules/frontUrls.js';
 import {RegUserData} from '../models/RegUserData.js';
 import {RegistrationPanel} from '../components/RegistrationPanel/RegistrationPanel.js';
 import {Navigation} from '../components/Navigation/Navigation';
+import {user} from '../models/SettingsUserData';
 
 export class RegistrationPresenter extends BasePresenter {
     constructor(view, registrationFields) {
@@ -15,6 +16,7 @@ export class RegistrationPresenter extends BasePresenter {
         this.__view = view;
         this.__isPicAdd = false;
         this.__registrationFields = registrationFields;
+        this.__userModel = user;
     }
 
     async update() {
@@ -23,6 +25,10 @@ export class RegistrationPresenter extends BasePresenter {
 
     async control() {
         await this.update();
+        if (this.__userModel.isAuth) {
+            router.redirect(frontUrls.main);
+            return;
+        }
         this.__view.insertSubview('reg-nav', new Navigation('Главная страница', {route: ['Регистрация профиля']}));
         this.__view.insertSubview('reg-panel', new RegistrationPanel());
         this.__view.render(this.__makeContext());
@@ -90,18 +96,17 @@ export class RegistrationPresenter extends BasePresenter {
         };
     }
 
-    __openLanding() {
+    __navBack() {
         this.closeAllComponents();
         this.__view.removingSubViews();
-
-        router.redirect(frontUrls.main);
+        router.navigateBack();
     }
 
     __getActions() {
         return {
             navigation: {
                 backClick: {
-                    open: this.__openLanding.bind(this)
+                    open: this.__navBack.bind(this)
                 }
             },
             registrationPanel: {
@@ -168,7 +173,7 @@ export class RegistrationPresenter extends BasePresenter {
         const firstIndex = 0;
         if (ev.target.files && ev.target.files[firstIndex]) {
             const reader = new FileReader();
-            reader.onload = this.__view.avatarOnLoad.bind(this.__view);
+            reader.onload = this.__view.avatarOnLoad.bind(this.__view, 'reg-panel');
             this.__isPicAdd = true;
             reader.readAsDataURL(ev.target.files[firstIndex]);
         }
@@ -181,7 +186,7 @@ export class RegistrationPresenter extends BasePresenter {
      * @private
      */
     __upload() {
-        this.__view.openFileSystem();
+        this.__view.openFileSystem('reg-panel');
     }
 
     /***
@@ -209,12 +214,7 @@ export class RegistrationPresenter extends BasePresenter {
      */
     __validatePhone(target) {
         const {error, message} = this.__model.validationTelephone(parseTelNumber(target.value));
-        if (!error) {
-            addSuccesses(target, this.__view.getErrorId(target));
-            return true;
-        }
-        insertError(target, this.__view.getErrorId(target), this.__view.addErrorForm(message));
-        return false;
+        return this.__handlingErrors(error, target, message);
     }
 
     /***
@@ -228,15 +228,10 @@ export class RegistrationPresenter extends BasePresenter {
      */
     __validatePas(target) {
         const {error, message} = this.__model.validationPassword(target.value);
-        if (!error) {
-            addSuccesses(target, this.__view.getErrorId(target));
-            const {passwordConfirm} = this.__view.getAllFields();
+        return this.__handlingErrors(error, target, message, () => {
+            const {passwordConfirm} = this.__view.getAllFields('reg-panel');
             this.__validateConfirmPwd(passwordConfirm);
-            return true;
-        }
-
-        insertError(target, this.__view.getErrorId(target), this.__view.addErrorForm(message));
-        return false;
+        });
     }
 
     /***
@@ -251,7 +246,7 @@ export class RegistrationPresenter extends BasePresenter {
      */
     __validateFields(validFunc, ev) {
         if (validFunc(ev.target) === false) {
-            this.__view.hideError(this.__view.getErrorId(ev.target));
+            this.__view.hideError(this.__view.getErrorId(ev.target, 'reg-panel'), 'reg-panel');
         }
     }
 
@@ -265,14 +260,9 @@ export class RegistrationPresenter extends BasePresenter {
      * @private
      */
     __validateConfirmPwd(target) {
-        const {password} = this.__view.getAllFields();
-        const {error, message} = this.__model.validationConfirmPassword(password.value, target.value);
-        if (!error) {
-            addSuccesses(target, this.__view.getErrorId(target));
-            return true;
-        }
-        insertError(target, this.__view.getErrorId(target), this.__view.addErrorForm(message));
-        return false;
+        const {password} = this.__view.getAllFields('reg-panel'),
+            {error, message} = this.__model.validationConfirmPassword(password.value, target.value);
+        return this.__handlingErrors(error, target, message);
     }
 
     /***
@@ -286,11 +276,16 @@ export class RegistrationPresenter extends BasePresenter {
      */
     __validateMail(target) {
         const {error, message} = this.__model.validationEmail(target.value);
+        return this.__handlingErrors(error, target, message);
+    }
+
+    __handlingErrors(error, target, message, supprotValidate = () => {}) {
         if (!error) {
-            addSuccesses(target, this.__view.getErrorId(target));
+            addSuccesses(target, this.__view.getErrorId(target, 'reg-panel'));
+            supprotValidate();
             return true;
         }
-        insertError(target, this.__view.getErrorId(target), this.__view.addErrorForm(message));
+        insertError(target, this.__view.getErrorId(target, 'reg-panel'), this.__view.addErrorForm(message, 'reg-panel'));
         return false;
     }
 
@@ -305,12 +300,7 @@ export class RegistrationPresenter extends BasePresenter {
      */
     __validateEmpty(target) {
         const {error, message} = this.__model.validationString(target.value);
-        if (!error) {
-            addSuccesses(target, this.__view.getErrorId(target));
-            return true;
-        }
-        insertError(target, this.__view.getErrorId(target), this.__view.addErrorForm(message));
-        return false;
+        return this.__handlingErrors(error, target, message);
     }
 
     /***
@@ -320,10 +310,10 @@ export class RegistrationPresenter extends BasePresenter {
      */
     __validatePhoto() {
         if (this.__isPicAdd === true) {
-            this.__view.removeErrorAvatar();
+            this.__view.removeErrorAvatar('reg-panel');
             return true;
         }
-        this.__view.addErrorAvatar();
+        this.__view.addErrorAvatar('reg-panel');
         return false;
     }
 
@@ -335,7 +325,7 @@ export class RegistrationPresenter extends BasePresenter {
      * @this {RegistrationPanelController}
      */
     __validateRegister() {
-        const {name, surname, mail, phone, password, passwordConfirm, date, sex} = this.__view.getAllFields();
+        const {name, surname, mail, phone, password, passwordConfirm, date, sex} = this.__view.getAllFields('reg-panel');
         const isValidpwdConfirm = this.__validateConfirmPwd(passwordConfirm);
         const isValidPhone = this.__validatePhone(phone);
         const isValidPwd = this.__validatePas(password);
@@ -356,11 +346,11 @@ export class RegistrationPresenter extends BasePresenter {
                 password: password.value
             });
 
-            this.__model.registration(this.__view.getForm())
+            this.__model.registration(this.__view.getForm('reg-panel'))
                 .then(() => {
                     router.redirect(frontUrls.main);
                 }).catch((data) => {
-                this.__view.errorText(data);
+                this.__view.errorText(data, 'reg-panel');
             });
         }
     }

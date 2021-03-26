@@ -22,8 +22,7 @@ export class RegistrationPanel {
      * @this {RegistrationPanel}
      * @public
      */
-    constructor() {
-    }
+    constructor() {}
 
     /***
      * Form text error
@@ -117,19 +116,6 @@ export class RegistrationPanel {
 
     }
 
-    /***
-     * @author Ivan Gorshkov
-     *
-     * context for template
-     * @return {{id: Number, title: String}}
-     * @private
-     */
-    __context() {
-        return {
-            fields: this.__data
-        };
-    }
-
     getErrorId(target) {
         return `${target.id}Error`;
     }
@@ -195,9 +181,8 @@ export class RegistrationPanel {
      * @public
      */
     render(parent, ctx) {
-        this.__data = ctx.registrationPanel.data;
         this.listeners = ctx.registrationPanel.listeners;
-        parent.insertAdjacentHTML('beforeend', registrationPanelTemplate(this.__context()));
+        parent.insertAdjacentHTML('beforeend', registrationPanelTemplate(ctx.registrationPanel));
         this.__addListeners();
         document.getElementById('date').max = new Date().toISOString().split('T')[0];
     }

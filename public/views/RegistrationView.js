@@ -22,44 +22,44 @@ export class RegistrationView extends BaseView {
         this.subviews[name] = view;
     }
 
-    getErrorId(target) {
-        return this.subviews['reg-panel'].getErrorId(target);
+    getErrorId(target, name) {
+        return this.subviews[name].getErrorId(target);
     }
 
-    addErrorForm(message) {
-        return this.subviews['reg-panel'].addErrorForm(message);
+    addErrorForm(message, name) {
+        return this.subviews[name].addErrorForm(message);
     }
 
-    hideError(target) {
-        this.subviews['reg-panel'].hideError(target);
+    hideError(target, name) {
+        this.subviews[name].hideError(target);
     }
 
-    openFileSystem() {
-        this.subviews['reg-panel'].openFileSystem();
+    openFileSystem(name) {
+        this.subviews[name].openFileSystem();
     }
 
-    getForm() {
-        return this.subviews['reg-panel'].getForm();
+    getForm(name) {
+        return this.subviews[name].getForm();
     }
 
-    getAllFields() {
-        return this.subviews['reg-panel'].getAllFields();
+    getAllFields(name) {
+        return this.subviews[name].getAllFields();
     }
 
-    avatarOnLoad(ev) {
-        this.subviews['reg-panel'].avatarOnLoad.call(this, ev);
+    avatarOnLoad(name, ev) {
+        this.subviews[name].avatarOnLoad.call(this, ev);
     }
 
-    addErrorAvatar() {
-        this.subviews['reg-panel'].addErrorAvatar();
+    addErrorAvatar(name) {
+        this.subviews[name].addErrorAvatar();
     }
 
-    removeErrorAvatar() {
-        this.subviews['reg-panel'].removeErrorAvatar();
+    removeErrorAvatar(name) {
+        this.subviews[name].removeErrorAvatar();
     }
 
-    errorText(val) {
-        this.subviews['reg-panel'].errorText(val);
+    errorText(val, name) {
+        this.subviews[name].errorText(val);
     }
 
     getLayoutParent() {
