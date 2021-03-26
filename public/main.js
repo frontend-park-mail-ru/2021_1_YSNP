@@ -22,7 +22,7 @@ const myAdsView = new MyAdsView(app);
 const productCreateView = new ProductCreateView(app);
 const productView = new ProductView(app);
 const profileView = new ProfileView(app);
-const registrationView = new RegistrationView(app);
+const registrationView = new RegistrationView(app, baseRegistration);
 const searchView = new SearchView(app);
 
 import {ProductListModel} from './models/ProductListModel.js';
@@ -45,7 +45,7 @@ const myAdsPresenter = new MyAdsPresenter(myAdsView);
 const productCreatePresenter = new ProductCreatePresenter(productCreateView);
 const productPresenter = new ProductPresenter(productView);
 const profilePresenter = new ProfilePresenter(profileView);
-const registrationPresenter = new RegistrationPresenter(registrationView, baseRegistration);
+const registrationPresenter = new RegistrationPresenter(registrationView);
 const searchPresenter = new SearchPresenter(searchView);
 
 

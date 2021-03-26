@@ -10,12 +10,11 @@ import {Navigation} from '../components/Navigation/Navigation';
 import {user} from '../models/SettingsUserData';
 
 export class RegistrationPresenter extends BasePresenter {
-    constructor(view, registrationFields) {
+    constructor(view) {
         super(view);
         this.__model = new RegUserData();
         this.__view = view;
         this.__isPicAdd = false;
-        this.__registrationFields = registrationFields;
         this.__userModel = user;
     }
 
@@ -156,7 +155,7 @@ export class RegistrationPresenter extends BasePresenter {
                 listeners: this.__createListeners().navigation
             },
             registrationPanel: {
-                data: this.__registrationFields,
+                data: null,
                 listeners: this.__createListeners().registrationPanel
             }
         };

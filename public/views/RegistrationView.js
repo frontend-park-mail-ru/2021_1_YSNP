@@ -3,10 +3,11 @@ import {Layout} from '../components/Layout/Layout';
 
 export class RegistrationView extends BaseView {
 
-    constructor(app) {
+    constructor(app, baseRegistration) {
         super(app);
         this.subviews = {};
         this.layout = new Layout(this.__app);
+        this.__baseRegistration = baseRegistration;
     }
 
     __makeContext(context) {
@@ -17,7 +18,8 @@ export class RegistrationView extends BaseView {
             },
             registrationPanel: {
                 data: context.registrationPanel.data,
-                listeners: context.registrationPanel.listeners
+                listeners: context.registrationPanel.listeners,
+                fields: this.__baseRegistration
             }
         };
     }
@@ -81,7 +83,7 @@ export class RegistrationView extends BaseView {
         this.layout.render();
         this.__makeContext(context);
         for (const key in this.subviews) {
-            this.subviews[key].render(this.getLayoutParent(), context);
+            this.subviews[key].render(this.getLayoutParent(), this.__context);
         }
     }
 }

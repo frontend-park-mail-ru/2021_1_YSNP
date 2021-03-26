@@ -163,7 +163,6 @@ export class RegistrationPanel {
         elem.src = ev.target.result;
     }
 
-
     addErrorAvatar() {
         document.getElementById('circle-avatar').classList.add('reg-panel__input-error');
     }
