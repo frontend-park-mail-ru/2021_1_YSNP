@@ -135,9 +135,10 @@ export class RegistrationPanel {
     }
 
     addErrorForm(message) {
+        const errorList = message.reduce((prev, cur) => `${prev}<li>${cur}</li>`, '');
         return createMessageError(`
                   <ul class="list-errors">
-                         <li>${message}</li>
+                         ${errorList}
                      </ul>
         `);
     }

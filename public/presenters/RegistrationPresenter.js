@@ -28,8 +28,6 @@ export class RegistrationPresenter extends BasePresenter {
         this.__view.render(this.__makeContext());
     }
 
-
-
     /***
      * Header click listener
      * @param {MouseEvent} ev - event
@@ -111,16 +109,16 @@ export class RegistrationPresenter extends BasePresenter {
                     open: this.__validatePhoneListener.bind(this)
                 },
                 changePwd: {
-                    open: this.__validatePasListener.bind(this)
+                    open: this.__validateFields.bind(this, this.__validatePas.bind(this))
                 },
                 inputConfirmPwd: {
-                    open: this.__validateConfirmPwdListener.bind(this)
+                    open: this.__validateFields.bind(this, this.__validateConfirmPwd.bind(this))
                 },
                 inputMail: {
-                    open: this.__validateMailListener.bind(this)
+                    open: this.__validateFields.bind(this, this.__validateMail.bind(this))
                 },
                 inputEmpty: {
-                    open: this.__validateEmptyListener.bind(this)
+                    open: this.__validateFields.bind(this, this.__validateEmpty.bind(this))
                 },
                 clickRegistration: {
                     open: this.__validateRegister.bind(this)
@@ -197,10 +195,7 @@ export class RegistrationPresenter extends BasePresenter {
      */
     __validatePhoneListener(ev) {
         telMask(ev);
-
-        if (this.__validatePhone(ev.target) === false) {
-            this.__view.hideError(this.__view.getErrorId(ev.target));
-        }
+        this.__validateFields(this.__validatePhone.bind(this), ev);
     }
 
     /***
@@ -225,21 +220,6 @@ export class RegistrationPresenter extends BasePresenter {
     /***
      * @author Ivan Gorshkov
      *
-     * action to validate input password
-     * @return {boolean}
-     * @private
-     * @this {RegistrationPanelController}
-     * @param ev
-     */
-    __validatePasListener(ev) {
-        if (this.__validatePas(ev.target) === false) {
-            this.__view.hideError(this.__view.getErrorId(ev.target));
-        }
-    }
-
-    /***
-     * @author Ivan Gorshkov
-     *
      * function witch validate target for password value
      * @param target
      * @return {boolean}
@@ -255,8 +235,7 @@ export class RegistrationPresenter extends BasePresenter {
             return true;
         }
 
-        insertError(target, this.__view.getErrorId(target), this.__view.addErrorForm(message.reduce((prev, cur) => `${prev}<li>${cur}</li>`, '')));
-
+        insertError(target, this.__view.getErrorId(target), this.__view.addErrorForm(message));
         return false;
     }
 
@@ -267,10 +246,11 @@ export class RegistrationPresenter extends BasePresenter {
      * @return {boolean}
      * @private
      * @this {RegistrationPanelController}
+     * @param validFunc
      * @param ev
      */
-    __validateConfirmPwdListener(ev) {
-        if (this.__validateConfirmPwd(ev.target) === false) {
+    __validateFields(validFunc, ev) {
+        if (validFunc(ev.target) === false) {
             this.__view.hideError(this.__view.getErrorId(ev.target));
         }
     }
@@ -298,21 +278,6 @@ export class RegistrationPresenter extends BasePresenter {
     /***
      * @author Ivan Gorshkov
      *
-     * action to validate input mail
-     * @return {boolean}
-     * @private
-     * @this {RegistrationPanelController}
-     * @param ev
-     */
-    __validateMailListener(ev) {
-        if (this.__validateMail(ev.target) === false) {
-            this.__view.hideError(this.__view.getErrorId(ev.target));
-        }
-    }
-
-    /***
-     * @author Ivan Gorshkov
-     *
      * function witch validate target for email value
      * @param target
      * @return {boolean}
@@ -327,21 +292,6 @@ export class RegistrationPresenter extends BasePresenter {
         }
         insertError(target, this.__view.getErrorId(target), this.__view.addErrorForm(message));
         return false;
-    }
-
-    /***
-     * @author Ivan Gorshkov
-     *
-     * action to validate input fields witch can not be empty
-     * @return {boolean}
-     * @private
-     * @this {RegistrationPanelController}
-     * @param ev
-     */
-    __validateEmptyListener(ev) {
-        if (this.__validateEmpty(ev.target) === false) {
-            this.__view.hideError(this.__view.getErrorId(ev.target));
-        }
     }
 
     /***
