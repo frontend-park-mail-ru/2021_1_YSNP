@@ -11,6 +11,10 @@ export class RegistrationView extends BaseView {
 
     __makeContext(context) {
         this.__context = {
+            navigation: {
+                data: context.navigation.data,
+                listeners: context.navigation.listeners
+            },
             registrationPanel: {
                 data: context.registrationPanel.data,
                 listeners: context.registrationPanel.listeners
@@ -74,10 +78,8 @@ export class RegistrationView extends BaseView {
 
     render(context) {
         super.render();
-        this.__makeContext(context);
-
         this.layout.render();
-
+        this.__makeContext(context);
         for (const key in this.subviews) {
             this.subviews[key].render(this.getLayoutParent(), context);
         }
