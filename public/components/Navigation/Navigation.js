@@ -112,7 +112,7 @@ export class Navigation {
      * @this {Navigation}
      * @public
      */
-    render() {
-        this.__parent.insertAdjacentHTML('beforeend', navigationTemplate(this.__context()));
+    render(parent) {
+        parent.insertAdjacentHTML('beforeend', navigationTemplate(this.__context()));
     }
 }

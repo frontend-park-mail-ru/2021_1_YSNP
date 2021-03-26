@@ -1,11 +1,12 @@
 import {BaseView} from './BaseView.js';
 import {Layout} from '../components/Layout/Layout';
-import {RegistrationPanel} from '../components/RegistrationPanel/RegistrationPanel';
-import {Navigation} from '../components/Navigation/Navigation';
 
 export class RegistrationView extends BaseView {
+
     constructor(app) {
         super(app);
+        this.subviews = {};
+        this.layout = new Layout(this.__app);
     }
 
     __makeContext(context) {
@@ -17,49 +18,62 @@ export class RegistrationView extends BaseView {
         };
     }
 
+    insertSubview(name, view) {
+        this.subviews[name] = view;
+    }
+
     getErrorId(target) {
-        return this.__registrationPanel.getErrorId(target);
+        return this.subviews['reg-panel'].getErrorId(target);
     }
 
     addErrorForm(message) {
-        return this.__registrationPanel.addErrorForm(message);
+        return this.subviews['reg-panel'].addErrorForm(message);
     }
 
     hideError(target) {
-        this.__registrationPanel.hideError(target);
+        this.subviews['reg-panel'].hideError(target);
     }
 
     openFileSystem() {
-        this.__registrationPanel.openFileSystem();
-    }
-
-    getPasswords() {
-        return this.__registrationPanel.getPasswords();
+        this.subviews['reg-panel'].openFileSystem();
     }
 
     getForm() {
-        return this.__registrationPanel.getForm();
+        return this.subviews['reg-panel'].getForm();
     }
 
     getAllFields() {
-        return this.__registrationPanel.getAllFields();
+        return this.subviews['reg-panel'].getAllFields();
     }
 
     avatarOnLoad(ev) {
-        this.__registrationPanel.avatarOnLoad.apply(ev);
+        this.subviews['reg-panel'].avatarOnLoad.call(this, ev);
+    }
+
+    addErrorAvatar() {
+        this.subviews['reg-panel'].addErrorAvatar();
+    }
+
+    removeErrorAvatar() {
+        this.subviews['reg-panel'].removeErrorAvatar();
+    }
+
+    errorText(val) {
+        this.subviews['reg-panel'].errorText(val);
+    }
+
+    getLayoutParent() {
+        return this.layout.parent;
     }
 
     render(context) {
         super.render();
         this.__makeContext(context);
 
-        const layout = new Layout(this.__app);
-        layout.render();
-        const parent = layout.parent;
-        this.__navigation = new Navigation(parent, 'Главная страница', {route: ['Регистрация профиля']});
-        this.__navigation.render();
+        this.layout.render();
 
-        this.__registrationPanel = new RegistrationPanel(parent, this.__context.registrationPanel);
-        this.__registrationPanel.render();
+        for (const key in this.subviews) {
+            this.subviews[key].render(this.getLayoutParent(), context.registrationPanel);
+        }
     }
 }

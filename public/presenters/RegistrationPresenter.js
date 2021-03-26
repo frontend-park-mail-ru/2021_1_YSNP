@@ -5,6 +5,8 @@ import {parseTelNumber, telMask} from '../modules/telMask.js';
 import {router} from '../modules/router.js';
 import {frontUrls} from '../modules/frontUrls.js';
 import {RegUserData} from '../models/RegUserData.js';
+import {RegistrationPanel} from '../components/RegistrationPanel/RegistrationPanel.js';
+import {Navigation} from '../components/Navigation/Navigation';
 
 export class RegistrationPresenter extends BasePresenter {
     constructor(view) {
@@ -20,9 +22,12 @@ export class RegistrationPresenter extends BasePresenter {
 
     async control() {
         await this.update();
-
+        this.__view.insertSubview('reg-nav', new Navigation(this.__view.getLayoutParent(), 'Главная страница', {route: ['Регистрация профиля']}));
+        this.__view.insertSubview('reg-panel', new RegistrationPanel(this.__view.getLayoutParent()));
         this.__view.render(this.__makeContext());
     }
+
+
 
     /***
      * Header click listener
@@ -209,7 +214,7 @@ export class RegistrationPresenter extends BasePresenter {
         const firstIndex = 0;
         if (ev.target.files && ev.target.files[firstIndex]) {
             const reader = new FileReader();
-            reader.onload = this.__view.avatarOnLoad.bind(this);
+            reader.onload = this.__view.avatarOnLoad.bind(this.__view);
             this.__isPicAdd = true;
             reader.readAsDataURL(ev.target.files[firstIndex]);
         }
@@ -289,8 +294,8 @@ export class RegistrationPresenter extends BasePresenter {
         const {error, message} = this.__model.validationPassword(target.value);
         if (!error) {
             addSuccesses(target, this.__view.getErrorId(target));
-            const {confirmPassword} = this._view.getPasswords();
-            this.__validateConfirmPwd(confirmPassword);
+            const {passwordConfirm} = this.__view.getAllFields();
+            this.__validateConfirmPwd(passwordConfirm);
             return true;
         }
 
@@ -324,7 +329,7 @@ export class RegistrationPresenter extends BasePresenter {
      * @private
      */
     __validateConfirmPwd(target) {
-        const {password} = this._view.getPasswords();
+        const {password} = this.__view.getAllFields();
         const {error, message} = this.__model.validationConfirmPassword(password.value, target.value);
         if (!error) {
             addSuccesses(target, this.__view.getErrorId(target));
@@ -409,11 +414,10 @@ export class RegistrationPresenter extends BasePresenter {
      */
     __validatePhoto() {
         if (this.__isPicAdd === true) {
-            document.getElementById('circle-avatar').classList.remove('reg-panel__input-error');
-            document.getElementById('circle-avatar').classList.add('reg-panel__input-susses');
+            this.__view.removeErrorAvatar();
             return true;
         }
-        document.getElementById('circle-avatar').classList.add('reg-panel__input-error');
+        this.__view.addErrorAvatar();
         return false;
     }
 
@@ -425,7 +429,7 @@ export class RegistrationPresenter extends BasePresenter {
      * @this {RegistrationPanelController}
      */
     __validateRegister() {
-        const {name, surname, mail, phone, password, passwordConfirm, date, sex} = this.view.getAllFields();
+        const {name, surname, mail, phone, password, passwordConfirm, date, sex} = this.__view.getAllFields();
         const isValidpwdConfirm = this.__validateConfirmPwd(passwordConfirm);
         const isValidPhone = this.__validatePhone(phone);
         const isValidPwd = this.__validatePas(password);

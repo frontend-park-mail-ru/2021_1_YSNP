@@ -22,10 +22,8 @@ export class RegistrationPanel {
      * @this {RegistrationPanel}
      * @public
      */
-    constructor(parent, ctx) {
+    constructor(parent) {
         this.__parent = parent;
-        this.__data = ctx.data;
-        this.listeners = ctx.listeners;
     }
 
     /***
@@ -130,12 +128,6 @@ export class RegistrationPanel {
         elem.click();
     }
 
-    getPasswords() {
-        return {
-            confirmPassword: document.getElementById('passwordConfirm'),
-            password: document.getElementById('password')
-        };
-    }
 
     getForm() {
         return document.getElementById('registration-from');
@@ -160,6 +152,16 @@ export class RegistrationPanel {
         elem.src = ev.target.result;
     }
 
+
+    addErrorAvatar() {
+        document.getElementById('circle-avatar').classList.add('reg-panel__input-error');
+    }
+
+    removeErrorAvatar() {
+        document.getElementById('circle-avatar').classList.remove('reg-panel__input-error');
+        document.getElementById('circle-avatar').classList.add('reg-panel__input-susses');
+    }
+
     /***
      * @author Ivan Gorshkov
      *
@@ -167,8 +169,10 @@ export class RegistrationPanel {
      * @this {RegistrationPanel}
      * @public
      */
-    render() {
-        this.__parent.insertAdjacentHTML('beforeend', registrationPanelTemplate(this.__context()));
+    render(parent, ctx) {
+        this.__data = ctx.data;
+        this.listeners = ctx.listeners;
+        parent.insertAdjacentHTML('beforeend', registrationPanelTemplate(this.__context()));
         this.__addListeners();
         document.getElementById('date').max = new Date().toISOString().split('T')[0];
     }
