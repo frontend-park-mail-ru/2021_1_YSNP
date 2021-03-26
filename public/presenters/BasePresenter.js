@@ -36,7 +36,7 @@ export class BasePresenter {
      * @private
      */
     __listenerPageClick() {
-        this.__closeAllComponents();
+        this.closeAllComponents();
     }
 
     /***
@@ -185,7 +185,7 @@ export class BasePresenter {
      * @private
      */
     __openMap() {
-        this.__closeAllComponents();
+        this.closeAllComponents();
         this.__isShownMap = true;
         this.__view.renderMap();
     }
@@ -206,7 +206,7 @@ export class BasePresenter {
      * @private
      */
     __openAuth() {
-        this.__closeAllComponents();
+        this.closeAllComponents();
         this.__isShownAuth = true;
         this.__view.renderAuth();
     }
@@ -240,9 +240,9 @@ export class BasePresenter {
 
     /***
      * Close all view components
-     * @private
+     * @public
      */
-    __closeAllComponents() {
+    closeAllComponents() {
         this.__closeMap();
         this.__closeAuth();
         this.__closeDropdownMenu();

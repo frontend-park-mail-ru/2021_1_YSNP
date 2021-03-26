@@ -66,6 +66,12 @@ export class RegistrationView extends BaseView {
         return this.layout.parent;
     }
 
+    removingSubViews() {
+        for (const key in this.subviews) {
+            this.subviews[key].removeListeners();
+        }
+    }
+
     render(context) {
         super.render();
         this.__makeContext(context);
@@ -73,7 +79,7 @@ export class RegistrationView extends BaseView {
         this.layout.render();
 
         for (const key in this.subviews) {
-            this.subviews[key].render(this.getLayoutParent(), context.registrationPanel);
+            this.subviews[key].render(this.getLayoutParent(), context);
         }
     }
 }

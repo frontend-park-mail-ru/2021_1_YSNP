@@ -9,11 +9,12 @@ import {RegistrationPanel} from '../components/RegistrationPanel/RegistrationPan
 import {Navigation} from '../components/Navigation/Navigation';
 
 export class RegistrationPresenter extends BasePresenter {
-    constructor(view) {
+    constructor(view, registrationFields) {
         super(view);
         this.__model = new RegUserData();
         this.__view = view;
         this.__isPicAdd = false;
+        this.__registrationFields = registrationFields;
     }
 
     async update() {
@@ -22,8 +23,8 @@ export class RegistrationPresenter extends BasePresenter {
 
     async control() {
         await this.update();
-        this.__view.insertSubview('reg-nav', new Navigation(this.__view.getLayoutParent(), 'Главная страница', {route: ['Регистрация профиля']}));
-        this.__view.insertSubview('reg-panel', new RegistrationPanel(this.__view.getLayoutParent()));
+        this.__view.insertSubview('reg-nav', new Navigation('Главная страница', {route: ['Регистрация профиля']}));
+        this.__view.insertSubview('reg-panel', new RegistrationPanel());
         this.__view.render(this.__makeContext());
     }
 
@@ -33,11 +34,12 @@ export class RegistrationPresenter extends BasePresenter {
      * Header click listener
      * @param {MouseEvent} ev - event
      * @param dataType
+     * @param actions
      * @private
      */
-    __listenerRegistrationPanel(dataType, ev) {
+    __listenerRegistrationPanel(dataType, actions, ev) {
         ev.preventDefault();
-        eventHandlerWithDataType(ev, dataType, this.__getActions().registrationPanel, true);
+        eventHandlerWithDataType(ev, dataType, actions, true);
     }
 
     /***
@@ -50,18 +52,24 @@ export class RegistrationPresenter extends BasePresenter {
      */
     __createListeners() {
         return {
+            navigation: {
+                backClick: {
+                    type: 'click',
+                    listener: this.__listenerRegistrationPanel.bind(this, 'action', this.__getActions().navigation)
+                }
+            },
             registrationPanel: {
                 registrationClick: {
                     type: 'click',
-                    listener: this.__listenerRegistrationPanel.bind(this, 'action')
+                    listener: this.__listenerRegistrationPanel.bind(this, 'action', this.__getActions().registrationPanel)
                 },
                 validateInput: {
                     type: 'input',
-                    listener: this.__listenerRegistrationPanel.bind(this, 'action')
+                    listener: this.__listenerRegistrationPanel.bind(this, 'action', this.__getActions().registrationPanel)
                 },
                 validateChange: {
                     type: 'change',
-                    listener: this.__listenerRegistrationPanel.bind(this, 'action')
+                    listener: this.__listenerRegistrationPanel.bind(this, 'action', this.__getActions().registrationPanel)
                 },
                 keydown: {
                     type: 'keydown',
@@ -72,20 +80,32 @@ export class RegistrationPresenter extends BasePresenter {
                 },
                 focusInput: {
                     type: 'focus',
-                    listener: this.__listenerRegistrationPanel.bind(this, 'move')
+                    listener: this.__listenerRegistrationPanel.bind(this, 'move', this.__getActions().registrationPanel)
 
                 },
                 blurInput: {
                     type: 'blur',
-                    listener: this.__listenerRegistrationPanel.bind(this, 'moveout')
+                    listener: this.__listenerRegistrationPanel.bind(this, 'moveout', this.__getActions().registrationPanel)
 
                 }
             }
         };
     }
 
+    __openLanding() {
+        this.closeAllComponents();
+        this.__view.removingSubViews();
+
+        router.redirect(frontUrls.main);
+    }
+
     __getActions() {
         return {
+            navigation: {
+                backClick: {
+                    open: this.__openLanding.bind(this)
+                }
+            },
             registrationPanel: {
                 inputPhone: {
                     open: this.__validatePhoneListener.bind(this)
@@ -122,82 +142,18 @@ export class RegistrationPresenter extends BasePresenter {
     }
 
     /***
-     * @author Ivan Gorshkov
-     * TMP DATA
-     *
-     * @return {{date: {dataAction: string, inputType: string, placeholder: null, id: string, title: string}, password: {dataAction: string, inputType: string, placeholder: string, id: string, title: string}, mail: {dataAction: string, inputType: string, placeholder: string, id: string, title: string}, phone: {dataAction: string, inputType: string, placeholder: string, id: string, title: string}, passwordConfirm: {dataAction: string, inputType: string, placeholder: string, id: string, title: string}, surname: {dataAction: string, inputType: string, placeholder: string, id: string, title: string}, name: {dataAction: string, inputType: string, placeholder: string, id: string, title: string}}}
-     * @private
-     */
-    __RegistrationForm() {
-        return {
-            name: {
-                title: 'Имя*',
-                placeholder: 'Имя',
-                inputType: 'text',
-                id: 'name',
-                dataAction: 'inputEmpty',
-                params: ''
-            },
-            surname: {
-                title: 'Фамилия*',
-                placeholder: 'Фамилия',
-                inputType: 'text',
-                id: 'surname',
-                dataAction: 'inputEmpty',
-                params: ''
-            },
-            phone: {
-                title: 'Телефон*',
-                placeholder: 'Телефон',
-                inputType: 'tel',
-                id: 'phone',
-                dataAction: 'inputPhone',
-                params: ''
-            },
-            mail: {
-                title: 'Почта*',
-                placeholder: 'Почта',
-                inputType: 'email',
-                id: 'mail',
-                dataAction: 'inputMail',
-                params: ''
-            },
-            password: {
-                title: 'Пароль*',
-                placeholder: 'Пароль',
-                inputType: 'password',
-                id: 'password',
-                dataAction: 'changePwd',
-                params: ''
-            },
-            passwordConfirm: {
-                title: 'Повторите пароль*',
-                placeholder: 'Пароль',
-                inputType: 'password',
-                id: 'passwordConfirm',
-                dataAction: 'inputConfirmPwd',
-                params: ''
-            },
-            date: {
-                title: 'Дата рождения*',
-                placeholder: 'дд-мм-гггг',
-                inputType: 'date',
-                id: 'date',
-                dataAction: 'inputEmpty',
-                params: 'min="1890-01-01"'
-            }
-        };
-    }
-
-    /***
      * Make view context
      * @returns {{productList: {data: *[], listeners: {productCardClick: {listener: *, type: string}}}}}
      * @private
      */
     __makeContext() {
         return {
+            navigation: {
+                data: null,
+                listeners: this.__createListeners().navigation
+            },
             registrationPanel: {
-                data: this.__RegistrationForm(),
+                data: this.__registrationFields,
                 listeners: this.__createListeners().registrationPanel
             }
         };

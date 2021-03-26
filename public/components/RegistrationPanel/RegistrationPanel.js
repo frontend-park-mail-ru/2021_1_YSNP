@@ -22,8 +22,7 @@ export class RegistrationPanel {
      * @this {RegistrationPanel}
      * @public
      */
-    constructor(parent) {
-        this.__parent = parent;
+    constructor() {
     }
 
     /***
@@ -90,6 +89,31 @@ export class RegistrationPanel {
         document
             .getElementById('registrationForm')
             .addEventListener(this.listeners.blurInput.type, this.listeners.blurInput.listener, true);
+
+    }
+
+    removeListeners() {
+        document
+            .getElementById('registrationForm')
+            .removeEventListener(this.listeners.validateInput.type, this.listeners.validateInput.listener);
+        document
+            .getElementById('file-upload')
+            .removeEventListener(this.listeners.validateChange.type, this.listeners.validateChange.listener);
+        document
+            .getElementById('submitBtn')
+            .removeEventListener(this.listeners.registrationClick.type, this.listeners.registrationClick.listener);
+        document
+            .getElementById('avatar')
+            .removeEventListener(this.listeners.registrationClick.type, this.listeners.registrationClick.listener);
+        document
+            .getElementById('date')
+            .removeEventListener(this.listeners.keydown.type, this.listeners.keydown.listener, true);
+        document
+            .getElementById('registrationForm')
+            .removeEventListener(this.listeners.focusInput.type, this.listeners.focusInput.listener, true);
+        document
+            .getElementById('registrationForm')
+            .removeEventListener(this.listeners.blurInput.type, this.listeners.blurInput.listener, true);
 
     }
 
@@ -170,8 +194,8 @@ export class RegistrationPanel {
      * @public
      */
     render(parent, ctx) {
-        this.__data = ctx.data;
-        this.listeners = ctx.listeners;
+        this.__data = ctx.registrationPanel.data;
+        this.listeners = ctx.registrationPanel.listeners;
         parent.insertAdjacentHTML('beforeend', registrationPanelTemplate(this.__context()));
         this.__addListeners();
         document.getElementById('date').max = new Date().toISOString().split('T')[0];
