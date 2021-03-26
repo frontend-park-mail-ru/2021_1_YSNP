@@ -1,6 +1,10 @@
+import '../Board/Board.css';
+import '../Board/Description/Description.css';
+import '../Settings/Settings.css';
 import './RegistrationPanel.css';
 
 import registrationPanelTemplate from './RegistrationPanel.hbs';
+import {createMessageError} from '../../modules/validationStates';
 
 /***
  * @author Ivan Gorshkov
@@ -18,9 +22,10 @@ export class RegistrationPanel {
      * @this {RegistrationPanel}
      * @public
      */
-    constructor(parent, data) {
+    constructor(parent, ctx) {
         this.__parent = parent;
-        this.__data = data;
+        this.__data = ctx.data;
+        this.listeners = ctx.listeners;
     }
 
     /***
@@ -65,7 +70,7 @@ export class RegistrationPanel {
      * @this {RegistrationPanel}
      * @public
      */
-    addListeners() {
+    __addListeners() {
         document
             .getElementById('registrationForm')
             .addEventListener(this.listeners.validateInput.type, this.listeners.validateInput.listener);
@@ -103,6 +108,57 @@ export class RegistrationPanel {
         };
     }
 
+    getErrorId(target) {
+        return `${target.id}Error`;
+    }
+
+    addErrorForm(message) {
+        return createMessageError(`
+                  <ul class="list-errors">
+                         <li>${message}</li>
+                     </ul>
+        `);
+    }
+
+    hideError(target) {
+        document.getElementById(target).classList.remove('error-hidden');
+    }
+
+
+    openFileSystem() {
+        const elem = document.getElementById('file-upload');
+        elem.click();
+    }
+
+    getPasswords() {
+        return {
+            confirmPassword: document.getElementById('passwordConfirm'),
+            password: document.getElementById('password')
+        };
+    }
+
+    getForm() {
+        return document.getElementById('registration-from');
+    }
+
+
+    getAllFields() {
+        return {
+            passwordConfirm: document.getElementById('passwordConfirm'),
+            phone: document.getElementById('phone'),
+            password: document.getElementById('password'),
+            mail: document.getElementById('mail'),
+            name: document.getElementById('name'),
+            surname: document.getElementById('surname'),
+            date: document.getElementById('date'),
+            sex: document.getElementById('sex')
+        };
+    }
+
+    avatarOnLoad(ev) {
+        const elem = document.getElementById('profile-pic');
+        elem.src = ev.target.result;
+    }
 
     /***
      * @author Ivan Gorshkov
@@ -113,6 +169,7 @@ export class RegistrationPanel {
      */
     render() {
         this.__parent.insertAdjacentHTML('beforeend', registrationPanelTemplate(this.__context()));
+        this.__addListeners();
         document.getElementById('date').max = new Date().toISOString().split('T')[0];
     }
 }
