@@ -5,9 +5,8 @@ import {parseTelNumber, telMask} from '../modules/telMask.js';
 import {router} from '../modules/router.js';
 import {frontUrls} from '../modules/frontUrls.js';
 import {RegUserData} from '../models/RegUserData.js';
-import {RegistrationPanel} from '../components/RegistrationPanel/RegistrationPanel.js';
-import {Navigation} from '../components/Navigation/Navigation';
-import {user} from '../models/SettingsUserData';
+import {user} from '../models/SettingsUserData.js';
+const noop = () => {};
 
 export class RegistrationPresenter extends BasePresenter {
     constructor(view) {
@@ -28,8 +27,6 @@ export class RegistrationPresenter extends BasePresenter {
             router.redirect(frontUrls.main);
             return;
         }
-        this.__view.insertSubview('reg-nav', new Navigation('Главная страница', {route: ['Регистрация профиля']}));
-        this.__view.insertSubview('reg-panel', new RegistrationPanel());
         this.__view.render(this.__makeContext());
     }
 
@@ -172,7 +169,7 @@ export class RegistrationPresenter extends BasePresenter {
         const firstIndex = 0;
         if (ev.target.files && ev.target.files[firstIndex]) {
             const reader = new FileReader();
-            reader.onload = this.__view.avatarOnLoad.bind(this.__view, 'reg-panel');
+            reader.onload = this.__view.avatarOnLoad.bind(this.__view);
             this.__isPicAdd = true;
             reader.readAsDataURL(ev.target.files[firstIndex]);
         }
@@ -185,7 +182,7 @@ export class RegistrationPresenter extends BasePresenter {
      * @private
      */
     __upload() {
-        this.__view.openFileSystem('reg-panel');
+        this.__view.openFileSystem();
     }
 
     /***
@@ -228,7 +225,7 @@ export class RegistrationPresenter extends BasePresenter {
     __validatePas(target) {
         const {error, message} = this.__model.validationPassword(target.value);
         return this.__handlingErrors(error, target, message, () => {
-            const {passwordConfirm} = this.__view.getAllFields('reg-panel');
+            const {passwordConfirm} = this.__view.getAllFields();
             this.__validateConfirmPwd(passwordConfirm);
         });
     }
@@ -244,8 +241,8 @@ export class RegistrationPresenter extends BasePresenter {
      * @param ev
      */
     __validateFields(validFunc, ev) {
-        if (validFunc(ev.target) === false) {
-            this.__view.hideError(this.__view.getErrorId(ev.target, 'reg-panel'), 'reg-panel');
+        if (!validFunc(ev.target)) {
+            this.__view.hideError(this.__view.getErrorId(ev.target));
         }
     }
 
@@ -259,7 +256,7 @@ export class RegistrationPresenter extends BasePresenter {
      * @private
      */
     __validateConfirmPwd(target) {
-        const {password} = this.__view.getAllFields('reg-panel'),
+        const {password} = this.__view.getAllFields(),
             {error, message} = this.__model.validationConfirmPassword(password.value, target.value);
         return this.__handlingErrors(error, target, message);
     }
@@ -278,13 +275,13 @@ export class RegistrationPresenter extends BasePresenter {
         return this.__handlingErrors(error, target, message);
     }
 
-    __handlingErrors(error, target, message, supprotValidate = () => {}) {
+    __handlingErrors(error, target, message, supprotValidate = noop) {
         if (!error) {
-            addSuccesses(target, this.__view.getErrorId(target, 'reg-panel'));
+            addSuccesses(target, this.__view.getErrorId(target));
             supprotValidate();
             return true;
         }
-        insertError(target, this.__view.getErrorId(target, 'reg-panel'), this.__view.addErrorForm(message, 'reg-panel'));
+        insertError(target, this.__view.getErrorId(target), this.__view.addErrorForm(message));
         return false;
     }
 
@@ -308,11 +305,11 @@ export class RegistrationPresenter extends BasePresenter {
      * @private
      */
     __validatePhoto() {
-        if (this.__isPicAdd === true) {
-            this.__view.removeErrorAvatar('reg-panel');
+        if (this.__isPicAdd) {
+            this.__view.removeErrorAvatar();
             return true;
         }
-        this.__view.addErrorAvatar('reg-panel');
+        this.__view.addErrorAvatar();
         return false;
     }
 
@@ -324,7 +321,7 @@ export class RegistrationPresenter extends BasePresenter {
      * @this {RegistrationPanelController}
      */
     __validateRegister() {
-        const {name, surname, mail, phone, password, passwordConfirm, date, sex} = this.__view.getAllFields('reg-panel');
+        const {name, surname, mail, phone, password, passwordConfirm, date, sex} = this.__view.getAllFields();
         const isValidpwdConfirm = this.__validateConfirmPwd(passwordConfirm);
         const isValidPhone = this.__validatePhone(phone);
         const isValidPwd = this.__validatePas(password);
@@ -345,11 +342,12 @@ export class RegistrationPresenter extends BasePresenter {
                 password: password.value
             });
 
-            this.__model.registration(this.__view.getForm('reg-panel'))
+            this.__model.registration(this.__view.getForm())
                 .then(() => {
                     router.redirect(frontUrls.main);
-                }).catch((data) => {
-                this.__view.errorText(data, 'reg-panel');
+                })
+                .catch((data) => {
+                    this.__view.errorText(data);
             });
         }
     }

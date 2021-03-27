@@ -1,11 +1,12 @@
 import {BaseView} from './BaseView.js';
-import {Layout} from '../components/Layout/Layout';
+import {Layout} from '../components/Layout/Layout.js';
+import {Navigation} from '../components/Navigation/Navigation.js';
+import {RegistrationPanel} from '../components/RegistrationPanel/RegistrationPanel.js';
 
 export class RegistrationView extends BaseView {
 
     constructor(app, baseRegistration) {
         super(app);
-        this.subviews = {};
         this.layout = new Layout(this.__app);
         this.__baseRegistration = baseRegistration;
     }
@@ -24,48 +25,44 @@ export class RegistrationView extends BaseView {
         };
     }
 
-    insertSubview(name, view) {
-        this.subviews[name] = view;
+    getErrorId(target) {
+        return this.__regSubView.getErrorId(target);
     }
 
-    getErrorId(target, name) {
-        return this.subviews[name].getErrorId(target);
+    addErrorForm(message) {
+        return this.__regSubView.addErrorForm(message);
     }
 
-    addErrorForm(message, name) {
-        return this.subviews[name].addErrorForm(message);
+    hideError(target) {
+        this.__regSubView.hideError(target);
     }
 
-    hideError(target, name) {
-        this.subviews[name].hideError(target);
+    openFileSystem() {
+        this.__regSubView.openFileSystem();
     }
 
-    openFileSystem(name) {
-        this.subviews[name].openFileSystem();
+    getForm() {
+        return this.__regSubView.getForm();
     }
 
-    getForm(name) {
-        return this.subviews[name].getForm();
+    getAllFields() {
+        return this.__regSubView.getAllFields();
     }
 
-    getAllFields(name) {
-        return this.subviews[name].getAllFields();
+    avatarOnLoad(ev) {
+        this.__regSubView.avatarOnLoad.call(this, ev);
     }
 
-    avatarOnLoad(name, ev) {
-        this.subviews[name].avatarOnLoad.call(this, ev);
+    addErrorAvatar() {
+        this.__regSubView.addErrorAvatar();
     }
 
-    addErrorAvatar(name) {
-        this.subviews[name].addErrorAvatar();
+    removeErrorAvatar() {
+        this.__regSubView.removeErrorAvatar();
     }
 
-    removeErrorAvatar(name) {
-        this.subviews[name].removeErrorAvatar();
-    }
-
-    errorText(val, name) {
-        this.subviews[name].errorText(val);
+    errorText(val) {
+        this.__regSubView.errorText(val);
     }
 
     getLayoutParent() {
@@ -73,17 +70,19 @@ export class RegistrationView extends BaseView {
     }
 
     removingSubViews() {
-        for (const key in this.subviews) {
-            this.subviews[key].removeListeners();
-        }
+        this.__navSubView.removeListeners();
+        this.__regSubView.removeListeners();
     }
 
     render(context) {
         super.render();
         this.layout.render();
         this.__makeContext(context);
-        for (const key in this.subviews) {
-            this.subviews[key].render(this.getLayoutParent(), this.__context);
-        }
+
+
+        this.__navSubView = new Navigation(this.getLayoutParent(), 'Главная страница', {route: ['Регистрация профиля']});
+        this.__regSubView = new RegistrationPanel(this.getLayoutParent());
+        this.__navSubView.render(this.__context);
+        this.__regSubView.render(this.__context);
     }
 }

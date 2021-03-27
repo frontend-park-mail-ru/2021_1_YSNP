@@ -22,7 +22,9 @@ export class RegistrationPanel {
      * @this {RegistrationPanel}
      * @public
      */
-    constructor() {}
+    constructor(parent) {
+        this.__parent = parent;
+    }
 
     /***
      * Form text error
@@ -179,9 +181,9 @@ export class RegistrationPanel {
      * @this {RegistrationPanel}
      * @public
      */
-    render(parent, ctx) {
+    render(ctx) {
         this.listeners = ctx.registrationPanel.listeners;
-        parent.insertAdjacentHTML('beforeend', registrationPanelTemplate(ctx.registrationPanel));
+        this.__parent.insertAdjacentHTML('beforeend', registrationPanelTemplate(ctx.registrationPanel));
         this.__addListeners();
         document.getElementById('date').max = new Date().toISOString().split('T')[0];
     }

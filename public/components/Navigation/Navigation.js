@@ -20,7 +20,8 @@ export class Navigation {
      * @this {Navigation}
      * @public
      */
-    constructor(title, route) {
+    constructor(parent, title, route) {
+        this.__parent = parent;
         this.__title = title;
         this.__route = route;
     }
@@ -111,9 +112,9 @@ export class Navigation {
      * @this {Navigation}
      * @public
      */
-    render(parent, ctx) {
+    render(ctx) {
         this.listeners = ctx.navigation.listeners;
-        parent.insertAdjacentHTML('beforeend', navigationTemplate(this.__context()));
+        this.__parent.insertAdjacentHTML('beforeend', navigationTemplate(this.__context()));
         this.addListeners();
     }
 }
