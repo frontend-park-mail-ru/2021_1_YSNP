@@ -19,7 +19,7 @@ import {SearchView} from './views/SearchView.js';
 const favoriteView = new FavoriteView(app);
 const mainView = new MainView(app);
 const myAdsView = new MyAdsView(app);
-const productCreateView = new ProductCreateView(app);
+const productCreateView = new ProductCreateView(app, baseCreateProduct);
 const productView = new ProductView(app);
 const profileView = new ProfileView(app);
 const registrationView = new RegistrationView(app, baseRegistration);
@@ -37,7 +37,7 @@ import {ProductPresenter} from './presenters/ProductPresenter.js';
 import {ProfilePresenter} from './presenters/ProfilePresenter.js';
 import {RegistrationPresenter} from './presenters/RegistrationPresenter.js';
 import {SearchPresenter} from './presenters/SearchPresenter.js';
-import {baseRegistration} from './modules/registrationFields.js';
+import {baseCreateProduct, baseRegistration} from './modules/registrationFields.js';
 
 const favoritePresenter = new FavoritePresenter(favoriteView);
 const mainPresenter = new MainPresenter(mainView, productListModel);
@@ -84,7 +84,7 @@ const doSearch = () => {
 // router.add(pageUrls.favorite, doFavorite);
 router.add(frontUrls.main, doMain);
 // router.add(pageUrls.myAds, doMyAds);
-// router.add(pageUrls.productCreate, doProductCreate);
+router.add(frontUrls.productCreate, doProductCreate);
 router.add(frontUrls.product(), doProduct);
 // router.add(pageUrls.profile, doProfile);
 router.add(frontUrls.registration, doRegistration);

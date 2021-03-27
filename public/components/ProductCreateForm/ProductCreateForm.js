@@ -18,10 +18,9 @@ export class ProductCreateForm {
      * @this {ProductCreateForm}
      * @public
      */
-    constructor(parent, data) {
+    constructor(parent) {
         this.__parent = parent;
         this.__listeners = {};
-        this.__data = data;
     }
 
 
@@ -60,7 +59,7 @@ export class ProductCreateForm {
     addListeners() {
         document
             .getElementById('submitProduct')
-            .addEventListener(this.__listeners.submitClick.type, this.__listeners.submitClick.listener);
+            .addEventListener(this.listeners.submitClick.type, this.listeners.submitClick.listener);
         document
             .getElementById('ProductForm')
             .addEventListener(this.listeners.validateInput.type, this.listeners.validateInput.listener);
@@ -94,7 +93,7 @@ export class ProductCreateForm {
     removeListeners() {
         document
             .getElementById('submitProduct')
-            .removeEventListener(this.__listeners.submitClick.type, this.__listeners.submitClick.listener);
+            .removeEventListener(this.listeners.submitClick.type, this.listeners.submitClick.listener);
         document
             .getElementById('ProductForm')
             .removeEventListener(this.listeners.validateInput.type, this.listeners.validateInput.listener);
@@ -119,25 +118,13 @@ export class ProductCreateForm {
     }
 
     /***
-     * @author Ivan Gorshkov
-     *
-     * context for template
-     * @return {{id: Number, title: String}}
-     * @private
-     */
-    __context() {
-        return {
-            fields: this.__data
-        };
-    }
-
-
-    /***
      * @author Max Torzhkov
      * Add component to parent
      * @this {ProductCreateForm}
      */
-    render() {
-        this.__parent.insertAdjacentHTML('beforeend', productCreateFormTemplate(this.__context()));
+    render(ctx) {
+        this.listeners = ctx.productCreate.listeners;
+        this.__parent.insertAdjacentHTML('beforeend', productCreateFormTemplate(ctx.productCreate));
+        this.addListeners();
     }
 }
