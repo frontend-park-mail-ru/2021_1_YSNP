@@ -29,8 +29,10 @@ export class PromotionPresenter extends BasePresenter {
      */
     async control() {
         await this.update();
-        // super.control();
-
+        if (!this.__userModel.isAuth) {
+            router.redirect(frontUrls.registration);
+            return;
+        }
         this.__view.render(this.__makeContext());
     }
 
@@ -315,7 +317,7 @@ export class PromotionPresenter extends BasePresenter {
         return {
             promotion: {
                 data: this.fillTariffData(),
-                idProduct: 1,
+                idProduct: router.getState().id,
                 listeners: this.__createListeners()
             }
         };
