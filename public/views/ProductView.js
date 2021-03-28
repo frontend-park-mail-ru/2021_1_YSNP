@@ -23,11 +23,19 @@ export class ProductView extends BaseView {
     }
 
     removingSubViews() {
-
+        this.__boardSubView.removeListeners();
     }
 
     getLayoutParent() {
         return this.layout.parent;
+    }
+
+    rotateForward() {
+        this.__boardSubView.rotateForward();
+    }
+
+    rotateBackward() {
+        this.__boardSubView.rotateBackward();
     }
 
     render(context) {

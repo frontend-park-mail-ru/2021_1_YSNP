@@ -2,13 +2,13 @@ import {BasePresenter} from './BasePresenter.js';
 import {router} from '../modules/router.js';
 import {eventHandlerWithDataType} from '../modules/eventHandler.js';
 import {ProductModel} from '../models/ProductModel.js';
-import {frontUrls} from '../modules/frontUrls';
 
 export class ProductPresenter extends BasePresenter {
     constructor(view, id) {
         super(view);
         this.__id = id;
         this.__model = new ProductModel({id: this.__id});
+        this.__view = view;
     }
 
     async update() {
@@ -46,6 +46,7 @@ export class ProductPresenter extends BasePresenter {
 
     __navBack() {
         this.closeAllComponents();
+        this.__view.removingSubViews();
         router.navigateBack();
     }
 
@@ -76,43 +77,13 @@ export class ProductPresenter extends BasePresenter {
         };
     }
 
-
-    /***
-     * @author Ivan Gorshkov
-     * listener for tern next picture
-     * @this {BoardController}
-     * @private
-     */
     __listenerToNext() {
-        this.__view.__board.__carousel.rotateForward();
-        const scrollingPanel = document.getElementById('sliderPanel');
-        scrollingPanel.classList.add('button_disabled');
-        const carousel = document.getElementById('carousel');
-
-        // eslint-disable-next-line no-magic-numbers
-        this.__view.__board.__carousel.animate(-this.__board.__carousel.__carousel.rowHeight, 0, () => {
-            carousel.style.top = '0';
-            scrollingPanel.classList.remove('button_disabled');
-        });
+        this.__view.rotateForward();
     }
 
-    /***
-     * @author Ivan Gorshkov
-     * listener for tern previous picture
-     * @this {BoardController}
-     * @private
-     */
-    __listenerToBack() {
-        const scrollingPanel = document.getElementById('sliderPanel');
-        scrollingPanel.classList.add('button_disabled');
-        const carousel = document.getElementById('carousel');
 
-        // eslint-disable-next-line no-magic-numbers
-        this.__view.__board.__carousel.animate(0, -this.__board.__carousel.__carousel.rowHeight, () => {
-            this.__view.__board.__carousel.rotateBackward();
-            carousel.style.top = '0';
-            scrollingPanel.classList.remove('button_disabled');
-        });
+    __listenerToBack() {
+        this.__view.rotateBackward();
     }
 
     /***

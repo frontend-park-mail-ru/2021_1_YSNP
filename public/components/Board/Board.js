@@ -1,7 +1,7 @@
 import './Board.css';
 import boardTemplate from './Board.hbs';
 import {InfoCard} from './InfoCard/InfoCard.js';
-import {Slider} from './Carousel/Carousel.js';
+import {Slider} from './Carousel/Slider.js';
 import {Description} from './Description/Description.js';
 import {Map} from './Map/Map.js';
 
@@ -46,10 +46,10 @@ export class Board {
      * @this {Board}
      */
     removeListeners() {
-        this.__carousel.removeListeners();
-        this.__infoCard.removeListeners();
+        document
+            .getElementById('board')
+            .removeEventListener(this.listeners.product.type, this.listeners.product.listener);
     }
-
 
     get listeners() {
         return this.__listeners;
@@ -67,7 +67,29 @@ export class Board {
         this.__listeners = val;
     }
 
+    rotateForward() {
+        this.__carousel.rotateForward();
+        const scrollingPanel = document.getElementById('sliderPanel');
+        scrollingPanel.classList.add('button_disabled');
+        const carousel = document.getElementById('carousel');
+        this.__carousel.animate(-this.__carousel.__carousel.rowHeight, 0, () => {
+            carousel.style.top = '0';
+            scrollingPanel.classList.remove('button_disabled');
+        });
 
+    }
+
+    rotateBackward() {
+        this.__carousel.rotateBackward();
+        const scrollingPanel = document.getElementById('sliderPanel');
+        scrollingPanel.classList.add('button_disabled');
+        const carousel = document.getElementById('carousel');
+        this.__carousel.animate(0, -this.__carousel.__carousel.rowHeight, () => {
+            this.__carousel.rotateBackward();
+            carousel.style.top = '0';
+            scrollingPanel.classList.remove('button_disabled');
+        });
+    }
 
     /***
      * @author Ivan Gorshkov
@@ -77,45 +99,19 @@ export class Board {
      * @public
      */
     render(ctx) {
-        //  const template = this.__getTemplate();
         this.__context = ctx.product;
         this.listeners = ctx.product.listeners;
         this.__parent.insertAdjacentHTML('beforeend', boardTemplate(this.__context.data));
-
         const parentRightSide = document.getElementById('board-right-side');
         const parentLeftSide = document.getElementById('board-left-side');
         this.__carousel = new Slider(parentLeftSide, this.__context.data);
         this.__carousel.render();
-
-
-        this.__description = new Description(parentLeftSide, {
-            description: [{
-                title: 'Описание',
-                text: this.__context.data.__description
-            },
-                {
-                    title: 'Категория',
-                    text: this.__context.data.__category
-                },
-                {
-                    title: 'Подкатегория',
-                    text: 'С пробегом'
-                },
-                {
-                    title: 'Адрес',
-                    text: 'Москва, Профсоюзная улица, 132к2, Коньково'
-                }]
-        });
+        this.__description = new Description(parentLeftSide, this.__context.data);
         this.__description.render();
-
         this.__infoCard = new InfoCard(parentRightSide, this.__context.data);
         this.__infoCard.render();
-
-
-
         this.__map = new Map(parentLeftSide);
         this.__map.render();
-
         this.addListeners();
     }
 }
