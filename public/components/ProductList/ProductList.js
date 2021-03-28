@@ -54,16 +54,20 @@ export class ProductList {
      * Add component to parent
      */
     render(context) {
-        this.__context = context;
+        try {
+            this.__context = context;
 
-        this.__parent.insertAdjacentHTML('beforeend', productListTemplate());
-        this.__addListeners();
+            this.__parent.insertAdjacentHTML('beforeend', productListTemplate());
+            this.__addListeners();
 
-        const list = this.__getParent();
-        this.__context.data.forEach((el) => {
-            const productCard = new ProductCard(list);
-            productCard.render(el);
-            this.__productList.set(el.id, productCard);
-        });
+            const list = this.__getParent();
+            this.__context.data.forEach((el) => {
+                const productCard = new ProductCard(list);
+                productCard.render(el);
+                this.__productList.set(el.id, productCard);
+            });
+        } catch (err) {
+            console.log(err.message);
+        }
     }
 }
