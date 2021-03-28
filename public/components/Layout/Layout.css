@@ -8,18 +8,17 @@
     margin-right: 15vw;
 }
 
-.layout-left {
+.layout-columns{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    margin-top: 3vh;
+}
+
+.layout-column-left{
 
 }
 
-.layout-left-inner {
-
-}
-
-.layout-right {
-
-}
-
-.layout-right-inner {
+.layout-column-right{
 
 }

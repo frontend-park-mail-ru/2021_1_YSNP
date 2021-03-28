@@ -1,17 +1,18 @@
-<div class="layout">
-    <div class="layout-inner" id="layout-parent">
-        {{#if two}}
-            <div class="layout-left">
-                <div class="layout-left-inner" id="layout-left-parent">
+<div class="layout" id="layout-main-parent">
+    {{#if two}}
+        <div class="layout-columns">
+            <div class="layout-column-left" id="layout-left-parent">
 
-                </div>
             </div>
+            <div class="layout-column-right" id="layout-right-parent">
 
-            <div class="layout-right">
-                <div class="layout-right-inner" id="layout-right-parent">
+            </div>
+        </div>
+    {{else}}
+        {{#if inner}}
+            <div class="layout-inner" id="layout-parent">
 
-                </div>
             </div>
         {{/if}}
-    </div>
+    {{/if}}
 </div>

@@ -15,6 +15,7 @@ import {ProductView} from './views/ProductView.js';
 import {ProfileView} from './views/ProfileView.js';
 import {RegistrationView} from './views/RegistrationView.js';
 import {SearchView} from './views/SearchView.js';
+import {PromotionView} from './views/PromotionView.js';
 
 const favoriteView = new FavoriteView(app);
 const mainView = new MainView(app);
@@ -24,6 +25,7 @@ const productView = new ProductView(app);
 const profileView = new ProfileView(app);
 const registrationView = new RegistrationView(app);
 const searchView = new SearchView(app);
+const promotionView = new PromotionView(app);
 
 import {ProductListModel} from './models/ProductListModel.js';
 
@@ -37,6 +39,7 @@ import {ProductPresenter} from './presenters/ProductPresenter.js';
 import {ProfilePresenter} from './presenters/ProfilePresenter.js';
 import {RegistrationPresenter} from './presenters/RegistrationPresenter.js';
 import {SearchPresenter} from './presenters/SearchPresenter.js';
+import {PromotionPresenter} from './presenters/PromotionPresenter.js';
 
 const favoritePresenter = new FavoritePresenter(favoriteView);
 const mainPresenter = new MainPresenter(mainView, productListModel);
@@ -46,6 +49,7 @@ const productPresenter = new ProductPresenter(productView);
 const profilePresenter = new ProfilePresenter(profileView);
 const registrationPresenter = new RegistrationPresenter(registrationView);
 const searchPresenter = new SearchPresenter(searchView);
+const promotionPresenter = new PromotionPresenter(promotionView);
 
 
 const doFavorite = () => {
@@ -80,11 +84,16 @@ const doSearch = () => {
     searchPresenter.control();
 };
 
+const doPromotion = () => {
+    promotionPresenter.control();
+};
+
 // router.add(pageUrls.favorite, doFavorite);
 router.add(frontUrls.main, doMain);
 // router.add(pageUrls.myAds, doMyAds);
 // router.add(pageUrls.productCreate, doProductCreate);
 router.add(frontUrls.product(), doProduct);
+router.add(frontUrls.promotion, doPromotion);
 // router.add(pageUrls.profile, doProfile);
 // router.add(pageUrls.registration, doRegistration);
 // router.add(pageUrls.search, doSearch);
