@@ -53,11 +53,21 @@ export class Layout {
         }
     }
 
+    /***
+     * Set layout width
+     * @param {number} left - left width
+     * @param {number} right - right width
+     * @private
+     */
     __setWidth(left, right) {
         this.__context.leftWidth = left;
         this.__context.rightWidth = right;
     }
 
+    /***
+     * Get layout
+     * @private
+     */
     __getWidth() {
         if (this.__context.layoutCount === 'one') {
             return;
