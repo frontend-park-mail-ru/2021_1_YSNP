@@ -27,7 +27,7 @@ export class Description {
     /***
      * @author Ivan Gorshkov
      *
-     * context for template
+     * context for template after reformatting
      * @return {{description: *}}
      * @private
      */
@@ -41,7 +41,13 @@ export class Description {
         return this.__data;
     }
 
-
+    /***
+     * @author Ivan Gorshkov
+     *
+     * context before reformat \n tp <br>
+     * @this {Description}
+     * @private
+     */
     __context() {
         this.__data = {
             description: [{

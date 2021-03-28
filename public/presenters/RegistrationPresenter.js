@@ -5,9 +5,20 @@ import {parseTelNumber, telMask} from '../modules/telMask.js';
 import {router} from '../modules/router.js';
 import {frontUrls} from '../modules/frontUrls.js';
 import {RegUserData} from '../models/RegUserData.js';
+
+/***
+ *  noop function
+ */
 const noop = () => {};
 
+/***
+ *  RegistrationPresenter class
+ */
 export class RegistrationPresenter extends BasePresenter {
+    /***
+     * Class constructor
+     * @param {RegistrationView} view - view
+     */
     constructor(view) {
         super(view);
         this.__model = new RegUserData();
@@ -15,10 +26,24 @@ export class RegistrationPresenter extends BasePresenter {
         this.__isPicAdd = false;
     }
 
+    /***
+     * @author Ivan Gorshkov
+     *
+     * Update view data
+     * @returns {Promise<void>}
+     * @this {RegistrationPresenter}
+     */
     async update() {
         await super.update();
     }
 
+    /***
+     * @author Ivan Gorshkov
+     *
+     * Control view
+     * @returns {Promise<void>}
+     * @this {RegistrationPresenter}
+     */
     async control() {
         await this.update();
         if (this.__userModel.isAuth) {
@@ -29,11 +54,14 @@ export class RegistrationPresenter extends BasePresenter {
     }
 
     /***
+     * @author Ivan Gorshkov
+     *
      * Header click listener
      * @param {MouseEvent} ev - event
-     * @param dataType
-     * @param actions
+     * @param {string} dataType
+     * @param {Object} actions
      * @private
+     * @this {RegistrationPresenter}
      */
     __listenerRegistrationPanel(dataType, actions, ev) {
         ev.preventDefault();
@@ -44,7 +72,7 @@ export class RegistrationPresenter extends BasePresenter {
      * @author Ivan Gorshkov
      *
      * function witch return Object of listeners
-     * @this {RegistrationPanelController}
+     * @this {RegistrationPresenter}
      * @return {Object}
      * @private
      */
@@ -90,12 +118,27 @@ export class RegistrationPresenter extends BasePresenter {
         };
     }
 
+    /***
+     * @author Ivan Gorshkov
+     *
+     * action for navigation to back
+     * @this {RegistrationPresenter}
+     * @private
+     */
     __navBack() {
         this.closeAllComponents();
         this.__view.removingSubViews();
         router.navigateBack();
     }
 
+    /***
+     * @author Ivan Gorshkov
+     *
+     * Get registration actions
+     * @this {RegistrationPresenter}
+     * @returns {Object}
+     * @private
+     */
     __getActions() {
         return {
             navigation: {
@@ -139,9 +182,12 @@ export class RegistrationPresenter extends BasePresenter {
     }
 
     /***
+     * @author Ivan Gorshkov
+     *
      * Make view context
      * @returns {{productList: {data: *[], listeners: {productCardClick: {listener: *, type: string}}}}}
      * @private
+     * @this {RegistrationPresenter}
      */
     __makeContext() {
         return {
@@ -161,7 +207,8 @@ export class RegistrationPresenter extends BasePresenter {
      *
      * update profile picture action
      * @private
-     * @param ev
+     * @param {Event} ev
+     * @this {RegistrationPresenter}
      */
     __read(ev) {
         const firstIndex = 0;
@@ -178,6 +225,7 @@ export class RegistrationPresenter extends BasePresenter {
      *
      * open file system menu action
      * @private
+     * @this {RegistrationPresenter}
      */
     __upload() {
         this.__view.openFileSystem();
@@ -190,7 +238,7 @@ export class RegistrationPresenter extends BasePresenter {
      * @param{Event} ev
      * @return {boolean}
      * @private
-     * @this {RegistrationPanelController}
+     * @this {RegistrationPresenter}
      */
     __validatePhoneListener(ev) {
         telMask(ev);
@@ -203,7 +251,7 @@ export class RegistrationPresenter extends BasePresenter {
      * function witch validate target for phone value
      * @param target
      * @return {boolean}
-     * @this {RegistrationPanelController}
+     * @this {RegistrationPresenter}
      * @private
      */
     __validatePhone(target) {
@@ -217,7 +265,7 @@ export class RegistrationPresenter extends BasePresenter {
      * function witch validate target for password value
      * @param target
      * @return {boolean}
-     * @this {RegistrationPanelController}
+     * @this {RegistrationPresenter}
      * @private
      */
     __validatePas(target) {
@@ -234,9 +282,9 @@ export class RegistrationPresenter extends BasePresenter {
      * action to validate input confirmpassword
      * @return {boolean}
      * @private
-     * @this {RegistrationPanelController}
-     * @param validFunc
-     * @param ev
+     * @this {RegistrationPresenter}
+     * @param {Function} validFunc
+     * @param {Event} ev
      */
     __validateFields(validFunc, ev) {
         if (!validFunc(ev.target)) {
@@ -250,7 +298,7 @@ export class RegistrationPresenter extends BasePresenter {
      * function witch validate target for ConfirmPwd value
      * @param target
      * @return {boolean}
-     * @this {RegistrationPanelController}
+     * @this {RegistrationPresenter}
      * @private
      */
     __validateConfirmPwd(target) {
@@ -265,7 +313,7 @@ export class RegistrationPresenter extends BasePresenter {
      * function witch validate target for email value
      * @param target
      * @return {boolean}
-     * @this {RegistrationPanelController}
+     * @this {RegistrationPresenter}
      * @private
      */
     __validateMail(target) {
@@ -273,6 +321,18 @@ export class RegistrationPresenter extends BasePresenter {
         return this.__handlingErrors(error, target, message);
     }
 
+    /***
+     * @author Ivan Gorshkov
+     *
+     * handlingErrors
+     * @param {boolean} error
+     * @param {HTMLElement} target
+     * @param {[string]} message
+     * @param {Function} supprotValidate
+     * @return {boolean}
+     * @this {RegistrationPresenter}
+     * @private
+     */
     __handlingErrors(error, target, message, supprotValidate = noop) {
         if (!error) {
             addSuccesses(target, this.__view.getErrorId(target));
@@ -287,9 +347,9 @@ export class RegistrationPresenter extends BasePresenter {
      * @author Ivan Gorshkov
      *
      * function witch validate target for empty value
-     * @param target
+     * @param {HTMLElement} target
      * @return {boolean}
-     * @this {RegistrationPanelController}
+     * @this {RegistrationPresenter}
      * @private
      */
     __validateEmpty(target) {
@@ -298,6 +358,8 @@ export class RegistrationPresenter extends BasePresenter {
     }
 
     /***
+     * @author Ivan Gorshkov
+     *
      * Validate photo is selected
      * @returns {boolean}
      * @private
@@ -316,7 +378,7 @@ export class RegistrationPresenter extends BasePresenter {
      *
      * action witch validate all fields (registration button)
      * @private
-     * @this {RegistrationPanelController}
+     * @this {RegistrationPresenter}
      */
     __validateRegister() {
         const {name, surname, mail, phone, password, passwordConfirm, date, sex} = this.__view.getAllFields();

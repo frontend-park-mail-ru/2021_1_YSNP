@@ -7,6 +7,7 @@ import {Map} from './Map/Map.js';
 
 /***
  * @author Ivan Gorshkov
+ *
  * Board class for contain product
  * @class Board
  */
@@ -14,6 +15,7 @@ export class Board {
 
     /***
      * @author Ivan Gorshkov
+     *
      * init of class Board
      * @param {HTMLElement} parent - parent element
      * @param {Object} data - JSON Object
@@ -51,6 +53,13 @@ export class Board {
             .removeEventListener(this.listeners.product.type, this.listeners.product.listener);
     }
 
+    /***
+     * @author Ivan Gorshkov
+     *
+     * getter listeners
+     * @public
+     * @this {Board}
+     */
     get listeners() {
         return this.__listeners;
     }
@@ -67,6 +76,13 @@ export class Board {
         this.__listeners = val;
     }
 
+    /***
+     * @author Ivan Gorshkov
+     *
+     * rotateForward carousel
+     * @public
+     * @this {Board}
+     */
     rotateForward() {
         this.__carousel.rotateForward();
         const scrollingPanel = document.getElementById('sliderPanel');
@@ -79,6 +95,14 @@ export class Board {
 
     }
 
+
+    /***
+     * @author Ivan Gorshkov
+     *
+     * rotateBackward carousel
+     * @public
+     * @this {Board}
+     */
     rotateBackward() {
         this.__carousel.rotateBackward();
         const scrollingPanel = document.getElementById('sliderPanel');

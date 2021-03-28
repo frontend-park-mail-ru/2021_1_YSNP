@@ -5,6 +5,13 @@ import fieldAvatarTemplate from '../components/RegistrationPanel/Fields/FieldAva
 import fieldTextAreaTemplate from '../components/RegistrationPanel/Fields/FieldTextArea.hbs';
 import fieldMultiPhotoTemplate from '../components/RegistrationPanel/Fields/FieldMultiPhoto.hbs';
 
+
+/***
+ * @author Max Torzhkov, Ivan Gorshkov
+ *
+ * Object of input fields
+ * @return {Object} - fields of registration
+ */
 export const baseRegistration = {
         name: {
             title: 'Имя*',
@@ -87,6 +94,12 @@ export const baseRegistration = {
     };
 
 
+/***
+ * @author Ivan Gorshkov
+ *
+ * array of categories
+ * @type {({title: string}|{title: string}|{title: string}|{title: string}|{title: string})[]}
+ */
 const getOptionsCategories = [
     {title: 'Автомобиль'},
     {title: 'Электроника'},
@@ -98,6 +111,12 @@ const getOptionsCategories = [
     {title: 'Услуги'}
 ];
 
+/***
+ * @author Ivan Gorshkov
+ *
+ * arrat of types product
+ * @type {({title: string}|{title: string})[]}
+ */
 const getOptionsType = [
     {title: 'Новое'},
     {title: 'Б/у'}
@@ -105,11 +124,10 @@ const getOptionsType = [
 
 
 /***
- * @author Max Torzhkov
+ * @author Max Torzhkov, Ivan Gorshkov
  *
  * Object of input fields
  * @return {Object} - fields of createForm
- * @private
  */
 export const baseCreateProduct = {
         name: {
