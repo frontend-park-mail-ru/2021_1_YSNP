@@ -83,3 +83,45 @@ export function showError(ev) {
         ev.target.nextElementSibling.classList.remove('error-hidden');
     }
 }
+
+
+/***
+ * Show error when sending to backend
+ * @param {string} id - id of error
+ * @param {string} text - error message
+ */
+export function showBackendError(id, text) {
+    const err = document.getElementById(id);
+    err.textContent = text;
+    err.classList.add('backend-error_visible');
+    err.classList.remove('backend-error_hidden');
+}
+
+/***
+ * Hide backend error
+ * @param {string} id - id of error
+ */
+export function hideBackendError(id) {
+    document.getElementById(id).classList.remove('backend-error_visible');
+    document.getElementById(id).classList.add('backend-error_hidden');
+    document.getElementById(id).classList.remove('settings-password-error_success');
+}
+
+/***
+ * Analyze validate error
+ * @param {boolean} error - error message
+ * @param target - target that is validated
+ * @param {string} message - message to show
+ */
+export function validateError(error, target, message) {
+    if (!error) {
+        addSuccesses(target, `${target.id}Error`);
+        return true;
+    }
+    insertError(target, `${target.id}Error`, createMessageError(`
+                  <ul class="list-errors">
+                     <li>${message}</li>
+                 </ul>
+    `));
+    return false;
+}

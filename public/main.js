@@ -85,7 +85,7 @@ router.add(frontUrls.main, doMain);
 // router.add(pageUrls.myAds, doMyAds);
 // router.add(pageUrls.productCreate, doProductCreate);
 router.add(frontUrls.product(), doProduct);
-// router.add(pageUrls.profile, doProfile);
+router.add(frontUrls.profile, doProfile);
 // router.add(pageUrls.registration, doRegistration);
 // router.add(pageUrls.search, doSearch);
 
