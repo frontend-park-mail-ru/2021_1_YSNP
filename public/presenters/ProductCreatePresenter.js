@@ -267,10 +267,15 @@ export class ProductCreatePresenter extends BasePresenter {
         const firstIndex = 0;
         if (ev.target.files && ev.target.files[firstIndex]) {
             const reader = new FileReader();
-            reader.onload = this.__view.onReaderLoad.bind(this.__view, ev.target, this.__count);
-            this.__count += 1;
+            reader.onload = this.__view.onReaderLoad.bind(this.__view, ev.target, this.__count, this.__incCount.bind(this));
+
             reader.readAsDataURL(ev.target.files[firstIndex]);
         }
+    }
+
+    __incCount() {
+        this.__count += 1;
+        console.log(this.__count);
     }
 
     /***

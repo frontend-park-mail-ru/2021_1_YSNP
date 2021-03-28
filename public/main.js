@@ -37,7 +37,7 @@ import {ProductPresenter} from './presenters/ProductPresenter.js';
 import {ProfilePresenter} from './presenters/ProfilePresenter.js';
 import {RegistrationPresenter} from './presenters/RegistrationPresenter.js';
 import {SearchPresenter} from './presenters/SearchPresenter.js';
-import {baseCreateProduct, baseRegistration} from './modules/registrationFields.js';
+import {baseCreateProduct, baseRegistration} from './modules/fields.js';
 
 const favoritePresenter = new FavoritePresenter(favoriteView);
 const mainPresenter = new MainPresenter(mainView, productListModel);

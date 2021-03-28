@@ -140,13 +140,14 @@ export class ProductCreateForm {
         return handler;
     }
 
-    onReaderLoad(input, e, count) {
+    onReaderLoad(input, e, count, incFunc) {
         const elem = document.getElementById(`product__pic${input.dataset.id}`);
         elem.src = e.target.result;
         elem.classList.add('product__pic_fullsize');
         if (parseInt(input.dataset.id) === count) {
             const idPhoto = document.getElementById('productPhoto');
             const incCount = count + 1;
+            incFunc();
             idPhoto.insertAdjacentHTML('beforeend', `
                 <div class="form-row" id="_profile-pic${incCount}">    
                   <label class="form-row__photolabel" data-action="clickUpload" data-move="showCross" data-moveout="hideCross" data-id="${incCount}"> 

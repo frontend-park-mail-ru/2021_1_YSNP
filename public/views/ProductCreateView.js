@@ -70,8 +70,8 @@ export class ProductCreateView extends BaseView {
         return this.__productCreate.deletePicture(target, handler);
     }
 
-    onReaderLoad(input, count, e) {
-        this.__productCreate.onReaderLoad.call(this, input, e, count);
+    onReaderLoad(input, count, incFunc, e) {
+        this.__productCreate.onReaderLoad.call(this, input, e, count, incFunc);
     }
 
 
