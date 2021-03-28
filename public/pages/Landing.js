@@ -1,9 +1,7 @@
 import {Header} from '../components/Header/Header.js';
 import {HeaderController} from '../components/Header/HeaderController.js';
-
 import {ProductList} from '../components/ProductList/ProductList.js';
 import {ProductListController} from '../components/ProductList/ProductListController.js';
-
 import {Switch} from '../components/Switch/Switch.js';
 
 /***
