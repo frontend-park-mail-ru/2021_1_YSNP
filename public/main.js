@@ -5,8 +5,6 @@ import './style.css';
 import {router} from './modules/router.js';
 import {frontUrls} from './modules/frontUrls.js';
 
-const app = document.getElementById('app');
-
 import {FavoriteView} from './views/FavoriteView.js';
 import {MainView} from './views/MainView.js';
 import {MyAdsView} from './views/MyAdsView.js';
@@ -15,6 +13,19 @@ import {ProductView} from './views/ProductView.js';
 import {ProfileView} from './views/ProfileView.js';
 import {RegistrationView} from './views/RegistrationView.js';
 import {SearchView} from './views/SearchView.js';
+
+import {ProductListModel} from './models/ProductListModel.js';
+
+import {FavoritePresenter} from './presenters/FavoritePresenter.js';
+import {MainPresenter} from './presenters/MainPresenter.js';
+import {MyAdsPresenter} from './presenters/MyAdsPresenter.js';
+import {ProductCreatePresenter} from './presenters/ProductCreatePresenter.js';
+import {ProductPresenter} from './presenters/ProductPresenter.js';
+import {ProfilePresenter} from './presenters/ProfilePresenter.js';
+import {RegistrationPresenter} from './presenters/RegistrationPresenter.js';
+import {SearchPresenter} from './presenters/SearchPresenter.js';
+
+const app = document.getElementById('app');
 
 const favoriteView = new FavoriteView(app);
 const mainView = new MainView(app);
@@ -25,18 +36,7 @@ const profileView = new ProfileView(app);
 const registrationView = new RegistrationView(app);
 const searchView = new SearchView(app);
 
-import {ProductListModel} from './models/ProductListModel.js';
-
 const productListModel = new ProductListModel();
-
-import {FavoritePresenter} from './presenters/FavoritePresenter.js';
-import {MainPresenter} from './presenters/MainPresenter.js';
-import {MyAdsPresenter} from './presenters/MyAdsPresenter.js';
-import {ProductCreatePresenter} from './presenters/ProductCreatePresenter.js';
-import {ProductPresenter} from './presenters/ProductPresenter.js';
-import {ProfilePresenter} from './presenters/ProfilePresenter.js';
-import {RegistrationPresenter} from './presenters/RegistrationPresenter.js';
-import {SearchPresenter} from './presenters/SearchPresenter.js';
 
 const favoritePresenter = new FavoritePresenter(favoriteView);
 const mainPresenter = new MainPresenter(mainView, productListModel);
