@@ -49,20 +49,18 @@ export class ProductListModel {
      * @returns {[]}
      */
     getData() {
-        const data = [];
-        this.__productList.forEach((el) => {
+        return this.__productList.reduce((data, el) => {
             data.push(el.getMainData());
-        });
-
-        return data;
+            return data;
+        }, []);
     }
 
     /***
      * Get product list data from backend
-     * @returns {Promise<{isUpdate: boolean}|{message: *, isUpdate: boolean}>}
+     * @returns {Promise<void>}
      */
     async update() {
-        return await http.get(backUrls.productList)
+        return http.get(backUrls.productList)
             .then(({status, data}) => {
                 if (status === httpStatus.StatusInternalServerError) {
                     throw new Error('Ошибка сервера');
@@ -70,20 +68,10 @@ export class ProductListModel {
                 }
 
                 this.__parseData(data);
-                return {isUpdate: true};
             })
             .catch((err) => {
-                console.log('ProductListModel update', err.message);
-                return {isUpdate: false, message: err.message};
+                console.log(err.message);
+                throw err;
             });
-    }
-
-    /***
-     * Log current data
-     */
-    log() {
-        this.__productList.forEach((el) => {
-            el.log();
-        });
     }
 }

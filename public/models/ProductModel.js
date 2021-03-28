@@ -2,8 +2,6 @@ import {http} from '../modules/http.js';
 import {backUrls} from '../modules/backUrls.js';
 import {httpStatus} from '../modules/httpStatus.js';
 
-import {deleteSymbolsXSS} from '../modules/xss.js';
-
 /***
  * Product model
  */
@@ -312,20 +310,20 @@ export class ProductModel {
      * @param {Object} data - product data
      */
     fillProductModel(data) {
-        this.__id = deleteSymbolsXSS(data.id);
-        this.__name = deleteSymbolsXSS(data.name);
-        this.__date = deleteSymbolsXSS(data.date);
-        this.__amount = deleteSymbolsXSS(data.amount);
-        this.__description = deleteSymbolsXSS(data.description);
-        this.__views = deleteSymbolsXSS(data.views);
-        this.__likes = deleteSymbolsXSS(data.likes);
-        this.__userLiked = deleteSymbolsXSS(data.userLiked);
+        this.__id = data.id;
+        this.__name = data.name;
+        this.__date = data.date;
+        this.__amount = data.amount;
+        this.__description = data.description;
+        this.__views = data.views;
+        this.__likes = data.likes;
+        this.__userLiked = data.userLiked;
         this.__linkImages = data.linkImages;
-        this.__ownerId = deleteSymbolsXSS(data.ownerId);
-        this.__ownerName = deleteSymbolsXSS(data.ownerName);
-        this.__ownerSurname = deleteSymbolsXSS(data.ownerSurname);
-        this.__ownerStars = deleteSymbolsXSS(data.ownerStars);
-        this.__category = deleteSymbolsXSS(data.category);
+        this.__ownerId = data.ownerId;
+        this.__ownerName = data.ownerName;
+        this.__ownerSurname = data.ownerSurname;
+        this.__ownerStars = data.ownerStars;
+        this.__category = data.category;
 
     }
 
@@ -386,7 +384,8 @@ export class ProductModel {
             date: day,
             amount: `${this.__amount.toLocaleString()} ₽`,
             userLiked: this.__userLiked,
-            linkImage: this.__getFirstImage()
+            linkImage: this.__getFirstImage(),
+            status: 0
         };
     }
 
@@ -411,7 +410,7 @@ export class ProductModel {
                 return {isUpdate: true};
             })
             .catch((err) => {
-                console.log('ProductModel update', err.message);
+                console.log(err.message);
                 return {isUpdate: false, message: err.message};
             });
     }
@@ -443,29 +442,7 @@ export class ProductModel {
                 return http.post(backUrls.productCreate, model);
                 // TODO(Ivan) а проверка на ошибки?
             }).catch((err) => {
-                console.log('ProductModel create', err.message);
+                console.log(err.message);
             });
-    }
-
-    /***
-     * Log current data
-     */
-    log() {
-        console.dir({
-            id: this.__id,
-            name: this.__name,
-            date: this.__date,
-            amount: this.__amount,
-            description: this.__description,
-            views: this.__views,
-            likes: this.__likes,
-            userLiked: this.__userLiked,
-            linkImage: this.__linkImages,
-            ownerId: this.__ownerId,
-            ownerName: this.__ownerName,
-            ownerSurname: this.__ownerSurname,
-            ownerStars: this.__ownerStars,
-            category: this.__category
-        });
     }
 }
