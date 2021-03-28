@@ -8,18 +8,15 @@
     margin-right: 15vw;
 }
 
-.layout-left {
-
+.layout-block {
+    display: flex;
+    flex-direction: row;
 }
 
-.layout-left-inner {
-
+.layout-left {
+    height: 100%;
 }
 
 .layout-right {
-
-}
-
-.layout-right-inner {
-
+    height: 100%;
 }
