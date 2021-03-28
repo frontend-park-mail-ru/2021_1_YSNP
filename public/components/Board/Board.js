@@ -21,57 +21,8 @@ export class Board {
      * @this {Board}
      * @public
      */
-    constructor(parent, data) {
+    constructor(parent) {
         this.__parent = parent;
-        this.__data = data;
-    }
-
-    /***
-     * @author Ivan Gorshkov
-     *
-     * getter for data product
-     * @return {Object}
-     * @private
-     * @readonly
-     * @this {Board}
-     */
-    get data() {
-        return this.__data;
-    }
-
-    /***
-     * @author Ivan Gorshkov
-     *
-     * setter for data product
-     * @param {Object} data - data of product
-     * @this {Board}
-     */
-    set data(data) {
-        this.__data = data;
-    }
-
-    /***
-     * @author Ivan Gorshkov
-     * getter for id product
-     * @return {Number}
-     * @private
-     * @readonly
-     * @this {Board}
-     */
-    get __getId() {
-        return this.__data.id;
-    }
-
-    /***
-     * @author Ivan Gorshkov
-     * getter for title of product
-     * @return {String}
-     * @private
-     * @readonly
-     * @this {Board}
-     */
-    get __getTitle() {
-        return this.__data.name;
     }
 
     /***
@@ -82,8 +33,9 @@ export class Board {
      * @this {Board}
      */
     addListeners() {
-        this.__carousel.addListeners();
-        this.__infoCard.addListeners();
+        document
+            .getElementById('board')
+            .addEventListener(this.listeners.product.type, this.listeners.product.listener);
     }
 
     /***
@@ -98,6 +50,11 @@ export class Board {
         this.__infoCard.removeListeners();
     }
 
+
+    get listeners() {
+        return this.__listeners;
+    }
+
     /***
      * @author Ivan Gorshkov
      *
@@ -106,24 +63,11 @@ export class Board {
      * @this {Board}
      * @param {Object} val Object of listeners
      */
-    listeners(val) {
-        this.__carousel.listeners = val;
-        this.__infoCard.listeners = val;
+    set listeners(val) {
+        this.__listeners = val;
     }
 
-    /***
-     * @author Ivan Gorshkov
-     *
-     * context for template
-     * @return {{id: Number, title: String}}
-     * @private
-     */
-    __context() {
-        return {
-            id: this.__getId,
-            title: this.__getTitle
-        };
-    }
+
 
     /***
      * @author Ivan Gorshkov
@@ -132,28 +76,26 @@ export class Board {
      * @this {Board}
      * @public
      */
-    render() {
+    render(ctx) {
         //  const template = this.__getTemplate();
-        this.__parent.insertAdjacentHTML('beforeend', boardTemplate(this.__context()));
+        this.__context = ctx.product;
+        this.listeners = ctx.product.listeners;
+        this.__parent.insertAdjacentHTML('beforeend', boardTemplate(this.__context.data));
 
         const parentRightSide = document.getElementById('board-right-side');
         const parentLeftSide = document.getElementById('board-left-side');
-
-        this.__infoCard = new InfoCard(parentRightSide, this.__data);
-        this.__infoCard.render();
-
-
-        this.__carousel = new Slider(parentLeftSide, this.__data);
+        this.__carousel = new Slider(parentLeftSide, this.__context.data);
         this.__carousel.render();
+
 
         this.__description = new Description(parentLeftSide, {
             description: [{
                 title: 'Описание',
-                text: this.__data.description
+                text: this.__context.data.__description
             },
                 {
                     title: 'Категория',
-                    text: this.__data.category
+                    text: this.__context.data.__category
                 },
                 {
                     title: 'Подкатегория',
@@ -166,7 +108,14 @@ export class Board {
         });
         this.__description.render();
 
+        this.__infoCard = new InfoCard(parentRightSide, this.__context.data);
+        this.__infoCard.render();
+
+
+
         this.__map = new Map(parentLeftSide);
         this.__map.render();
+
+        this.addListeners();
     }
 }

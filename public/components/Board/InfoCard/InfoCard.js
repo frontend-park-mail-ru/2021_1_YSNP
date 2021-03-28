@@ -21,6 +21,7 @@ export class InfoCard {
     constructor(parent, data) {
         this.__parent = parent;
         this.__data = data;
+        console.log(this.__data);
     }
 
     /***
@@ -32,7 +33,7 @@ export class InfoCard {
      * @readonly
      */
     get __getPrice() {
-        const num = this.__data.amount;
+        const num = this.__data.__amount;
         return num.toLocaleString();
     }
 
@@ -45,7 +46,7 @@ export class InfoCard {
      * @readonly
      */
     get __getName() {
-        return this.__data.ownerName;
+        return this.__data.__ownerName;
     }
 
     /***
@@ -71,7 +72,7 @@ export class InfoCard {
      * @readonly
      */
     get __getViews() {
-        return this.__data.views;
+        return this.__data.__views;
     }
 
     /***
@@ -83,7 +84,7 @@ export class InfoCard {
      * @readonly
      */
     get __getLikes() {
-        return this.__data.likes;
+        return this.__data.__likes;
     }
 
     /***
@@ -95,7 +96,7 @@ export class InfoCard {
      * @readonly
      */
     get __getDate() {
-        const date = new Date(this.__data.date);
+        const date = new Date(this.__data.__date);
         return date.toLocaleDateString('ru-RU', {weekday: 'short', day: 'numeric', month: 'short', year: 'numeric'});
     }
 

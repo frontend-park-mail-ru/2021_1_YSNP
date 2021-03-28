@@ -43,7 +43,6 @@ const favoritePresenter = new FavoritePresenter(favoriteView);
 const mainPresenter = new MainPresenter(mainView, productListModel);
 const myAdsPresenter = new MyAdsPresenter(myAdsView);
 const productCreatePresenter = new ProductCreatePresenter(productCreateView);
-const productPresenter = new ProductPresenter(productView);
 const profilePresenter = new ProfilePresenter(profileView);
 const registrationPresenter = new RegistrationPresenter(registrationView);
 const searchPresenter = new SearchPresenter(searchView);
@@ -65,11 +64,14 @@ const doProductCreate = () => {
     productCreatePresenter.control();
 };
 
-const doProduct = () => {
+const doProduct = (id) => {
+    console.log(id.parameters.id);
+    const productPresenter = new ProductPresenter(productView, id.parameters.id);
     productPresenter.control();
 };
 
 const doProfile = () => {
+
     profilePresenter.control();
 };
 

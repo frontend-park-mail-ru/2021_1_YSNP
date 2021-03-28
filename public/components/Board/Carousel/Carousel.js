@@ -189,8 +189,8 @@ export class Slider {
      */
     __context() {
         return {
-            firstPhoto: this.__data.linkImages[0],
-            photos: this.__data.linkImages
+            firstPhoto: this.__data.__linkImages[0],
+            photos: this.__data.__linkImages
         };
     }
 
