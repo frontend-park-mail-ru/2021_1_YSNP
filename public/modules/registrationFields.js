@@ -2,6 +2,8 @@ import fieldTemplate from '../components/RegistrationPanel/Fields/Field.hbs';
 import fieldPhoneTemplate from '../components/RegistrationPanel/Fields/FieldPhone.hbs';
 import fieldSelectTemplate from '../components/RegistrationPanel/Fields/FieldSelect.hbs';
 import fieldAvatarTemplate from '../components/RegistrationPanel/Fields/FieldAvatar.hbs';
+import fieldTextAreaTemplate from '../components/RegistrationPanel/Fields/FieldTextArea.hbs';
+import fieldMultiPhotoTemplate from '../components/RegistrationPanel/Fields/FieldMultiPhoto.hbs';
 
 export const baseRegistration = {
         name: {
@@ -86,19 +88,19 @@ export const baseRegistration = {
 
 
 const getOptionsCategories = [
-    'Автомобиль',
-    'Электроника',
-    'Одежда',
-    'Хобби',
-    'Запчасти',
-    'Спорт',
-    'Животные',
-    'Услуги'
+    {title: 'Автомобиль'},
+    {title: 'Электроника'},
+    {title: 'Одежда'},
+    {title: 'Хобби'},
+    {title: 'Запчасти'},
+    {title: 'Спорт'},
+    {title: 'Животные'},
+    {title: 'Услуги'}
 ];
 
 const getOptionsType = [
-        'Новое',
-        'Б/у'
+    {title: 'Новое'},
+    {title: 'Б/у'}
     ];
 
 
@@ -115,7 +117,8 @@ export const baseCreateProduct = {
             placeholder: 'Название товара',
             inputType: 'text',
             id: 'nameInput',
-            dataAction: 'inputEmpty'
+            dataAction: 'inputEmpty',
+            template: fieldTemplate.bind()
         },
         categories: {
             title: 'Категория*',
@@ -123,6 +126,7 @@ export const baseCreateProduct = {
             inputType: 'select',
             id: 'categorySelect',
             dataAction: 'inputEmpty',
+            template: fieldSelectTemplate.bind(),
             options: getOptionsCategories
         }, /*
             subCategories: {
@@ -139,6 +143,7 @@ export const baseCreateProduct = {
             inputType: 'select',
             id: 'typeSelect',
             dataAction: 'inputEmpty',
+            template: fieldSelectTemplate.bind(),
             options: getOptionsType
         },
         price: {
@@ -146,20 +151,25 @@ export const baseCreateProduct = {
             placeholder: 'Цена (₽)',
             inputType: 'text',
             id: 'priceInput',
-            dataAction: 'priceInput'
+            dataAction: 'priceInput',
+            template: fieldTemplate.bind()
         },
         description: {
             title: 'Описание*',
             placeholder: 'Описание',
             inputType: 'textarea',
             id: 'textareaInput',
-            dataAction: 'textareaInputEmpty'
-        }/*,
-            place: {
+            dataAction: 'textareaInputEmpty',
+            template: fieldTextAreaTemplate.bind()
+        }, /*,            place: {
                 title: 'Местоположение*',
                 placeholder: 'Местоположение',
                 inputType: 'text',
                 id: 'placeInput',
                 dataAction: 'inputEmpty'
             }*/
+        avatar: {
+            title: 'Фото',
+            template: fieldMultiPhotoTemplate.bind()
+        }
     };

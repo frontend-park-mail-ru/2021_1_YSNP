@@ -42,7 +42,6 @@ import {baseCreateProduct, baseRegistration} from './modules/registrationFields.
 const favoritePresenter = new FavoritePresenter(favoriteView);
 const mainPresenter = new MainPresenter(mainView, productListModel);
 const myAdsPresenter = new MyAdsPresenter(myAdsView);
-const productCreatePresenter = new ProductCreatePresenter(productCreateView);
 const profilePresenter = new ProfilePresenter(profileView);
 const registrationPresenter = new RegistrationPresenter(registrationView);
 const searchPresenter = new SearchPresenter(searchView);
@@ -61,6 +60,7 @@ const doMyAds = () => {
 };
 
 const doProductCreate = () => {
+    const productCreatePresenter = new ProductCreatePresenter(productCreateView);
     productCreatePresenter.control();
 };
 

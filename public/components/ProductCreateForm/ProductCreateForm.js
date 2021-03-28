@@ -1,6 +1,7 @@
 import './ProductCreateForm.css';
 import productCreateFormTemplate from './ProductCreateForm.hbs';
 import {createMessageError} from '../../modules/validationStates.js';
+import {Field} from '../RegistrationPanel/Fields/Field';
 
 /***
  * @author Max Torzhkov
@@ -221,6 +222,12 @@ export class ProductCreateForm {
     render(ctx) {
         this.listeners = ctx.productCreate.listeners;
         this.__parent.insertAdjacentHTML('beforeend', productCreateFormTemplate(ctx.productCreate));
+
+        for (const fields in ctx.productCreate.fields) {
+            const field = new Field(document.getElementById('ProductForm'), ctx.productCreate.fields[fields]);
+            field.render();
+        }
+
         this.addListeners();
     }
 }
