@@ -3,8 +3,8 @@ import {frontUrls} from '../modules/frontUrls.js';
 import {eventHandler} from '../modules/eventHandler.js';
 import {parseTelNumber, telMask} from '../modules/telMask';
 
-import {user} from '../models/SettingsUserData.js';
-import {AuthUserData} from '../models/AuthUserData.js';
+import {user} from '../models/ProfileUserModel.js';
+import {AuthUserModel} from '../models/AuthUserModel.js';
 
 /***
  * Base presenter
@@ -17,7 +17,7 @@ export class BasePresenter {
     constructor(view) {
         this.__view = view;
         this.__userModel = user;
-        this.__authModel = new AuthUserData();
+        this.__authModel = new AuthUserModel();
         this.__isShownMap = false;
         this.__isShownAuth = false;
     }
@@ -27,8 +27,13 @@ export class BasePresenter {
      * @returns {Promise<void>}
      */
     async update() {
-        await this.__userModel.update();
-        this.__view.baseContext = this.__makeBaseContext();
+        try {
+            await this.__userModel.update();
+            this.__view.baseContext = this.__makeBaseContext();
+        } catch (err) {
+            //TODO(Sergey) нормальная обработка ошибок
+            console.log(err.message);
+        }
     }
 
     /***
@@ -79,7 +84,7 @@ export class BasePresenter {
      * @param {MouseEvent} ev - event
      * @private
      */
-    __listenerSubmitForm(ev) {
+    async __listenerSubmitForm(ev) {
         ev.preventDefault();
         ev.stopPropagation();
 
@@ -91,20 +96,17 @@ export class BasePresenter {
             password: password
         });
 
-        if (!error) {
-            this.__authModel.auth()
-                .then(({isAuth, message}) => {
-                    if (isAuth) {
-                        router.redirect(frontUrls.main);
-                    } else {
-                        this.__view.authErrorText(message);
-                    }
-                });
-
+        if (error) {
+            this.__view.authErrorText(message);
             return;
         }
 
-        this.__view.authErrorText(message);
+        try {
+            await this.__authModel.auth();
+            router.redirect(frontUrls.main);
+        } catch (err) {
+            this.__view.authErrorText(err.message);
+        }
     }
 
     /***
@@ -252,13 +254,14 @@ export class BasePresenter {
      * Logout user
      * @private
      */
-    __logout() {
-        this.__userModel.logout()
-            .then(({isLogout}) => {
-                if (isLogout) {
-                    router.redirect(frontUrls.main);
-                }
-            });
+    async __logout() {
+        try {
+            await this.__userModel.logout();
+            router.redirect(frontUrls.main);
+        } catch (err) {
+            //TODO(Sergey) нормальная обработка ошибок
+            console.log(err.message);
+        }
     }
 
     /***

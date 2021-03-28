@@ -21,8 +21,13 @@ export class MainPresenter extends BasePresenter {
      * @returns {Promise<void>}
      */
     async update() {
-        await super.update();
-        await this.__productListModel.update();
+        try {
+            await super.update();
+            await this.__productListModel.update();
+        } catch (err) {
+            //TODO(Sergey) нормальная обработка ошибок
+            console.log(err.message);
+        }
     }
 
     /***

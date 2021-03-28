@@ -32,6 +32,11 @@ export class MainView extends BaseView {
         this.__productList.dislike(id);
     }
 
+    /***
+     * Get view context
+     * @param {Object} context - presenter context
+     * @private
+     */
     __makeContext(context) {
         this.__context = {
             productList: {
