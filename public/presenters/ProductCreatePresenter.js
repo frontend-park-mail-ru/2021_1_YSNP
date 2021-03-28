@@ -47,6 +47,10 @@ export class ProductCreatePresenter extends BasePresenter {
 
     async control() {
         await this.update();
+        if (!this.__userModel.isAuth) {
+            router.redirect(frontUrls.registration);
+            return;
+        }
         this.__view.render(this.__makeContext());
     }
 

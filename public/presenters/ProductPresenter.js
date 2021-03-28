@@ -11,8 +11,6 @@ export class ProductPresenter extends BasePresenter {
 
     async control() {
         await this.update();
-        super.control();
-
         this.__view.render();
     }
 

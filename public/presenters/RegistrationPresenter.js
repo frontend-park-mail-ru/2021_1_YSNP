@@ -5,7 +5,6 @@ import {parseTelNumber, telMask} from '../modules/telMask.js';
 import {router} from '../modules/router.js';
 import {frontUrls} from '../modules/frontUrls.js';
 import {RegUserData} from '../models/RegUserData.js';
-import {user} from '../models/SettingsUserData.js';
 const noop = () => {};
 
 export class RegistrationPresenter extends BasePresenter {
@@ -14,7 +13,6 @@ export class RegistrationPresenter extends BasePresenter {
         this.__model = new RegUserData();
         this.__view = view;
         this.__isPicAdd = false;
-        this.__userModel = user;
     }
 
     async update() {
