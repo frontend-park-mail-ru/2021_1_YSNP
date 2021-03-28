@@ -4,7 +4,8 @@ import '../Settings/Settings.css';
 import './RegistrationPanel.css';
 
 import registrationPanelTemplate from './RegistrationPanel.hbs';
-import {createMessageError} from '../../modules/validationStates';
+import {createMessageError} from '../../modules/validationStates.js';
+import {Field} from './Fields/Field.js';
 
 /***
  * @author Ivan Gorshkov
@@ -184,6 +185,12 @@ export class RegistrationPanel {
     render(ctx) {
         this.listeners = ctx.registrationPanel.listeners;
         this.__parent.insertAdjacentHTML('beforeend', registrationPanelTemplate(ctx.registrationPanel));
+
+        for (const fields in ctx.registrationPanel.fields) {
+            const field = new Field(document.getElementById('registrationForm'), ctx.registrationPanel.fields[fields]);
+            field.render();
+        }
+
         this.__addListeners();
         document.getElementById('date').max = new Date().toISOString().split('T')[0];
     }

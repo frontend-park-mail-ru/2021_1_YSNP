@@ -1,3 +1,7 @@
+import fieldTemplate from '../components/RegistrationPanel/Fields/Field.hbs';
+import fieldPhoneTemplate from '../components/RegistrationPanel/Fields/FieldPhone.hbs';
+import fieldSelectTemplate from '../components/RegistrationPanel/Fields/FieldSelect.hbs';
+import fieldAvatarTemplate from '../components/RegistrationPanel/Fields/FieldAvatar.hbs';
 
 export const baseRegistration = {
         name: {
@@ -6,7 +10,8 @@ export const baseRegistration = {
             inputType: 'text',
             id: 'name',
             dataAction: 'inputEmpty',
-            params: ''
+            params: '',
+            template: fieldTemplate.bind()
         },
         surname: {
             title: 'Фамилия*',
@@ -14,7 +19,8 @@ export const baseRegistration = {
             inputType: 'text',
             id: 'surname',
             dataAction: 'inputEmpty',
-            params: ''
+            params: '',
+            template: fieldTemplate.bind()
         },
         phone: {
             title: 'Телефон*',
@@ -22,7 +28,8 @@ export const baseRegistration = {
             inputType: 'tel',
             id: 'phone',
             dataAction: 'inputPhone',
-            params: ''
+            params: '',
+            template: fieldPhoneTemplate.bind()
         },
         mail: {
             title: 'Почта*',
@@ -30,7 +37,8 @@ export const baseRegistration = {
             inputType: 'email',
             id: 'mail',
             dataAction: 'inputMail',
-            params: ''
+            params: '',
+            template: fieldTemplate.bind()
         },
         password: {
             title: 'Пароль*',
@@ -38,7 +46,8 @@ export const baseRegistration = {
             inputType: 'password',
             id: 'password',
             dataAction: 'changePwd',
-            params: ''
+            params: '',
+            template: fieldTemplate.bind()
         },
         passwordConfirm: {
             title: 'Повторите пароль*',
@@ -46,7 +55,8 @@ export const baseRegistration = {
             inputType: 'password',
             id: 'passwordConfirm',
             dataAction: 'inputConfirmPwd',
-            params: ''
+            params: '',
+            template: fieldTemplate.bind()
         },
         date: {
             title: 'Дата рождения*',
@@ -54,7 +64,23 @@ export const baseRegistration = {
             inputType: 'date',
             id: 'date',
             dataAction: 'inputEmpty',
-            params: 'min="1890-01-01"'
+            params: 'min="1890-01-01"',
+            template: fieldTemplate.bind()
+        },
+        sex: {
+            title: 'Пол',
+            template: fieldSelectTemplate.bind(),
+            options: [{
+                    value: 'female',
+                    title: 'Женский'
+                }, {
+                    value: 'male',
+                    title: 'Мужской'
+                }]
+        },
+        avatar: {
+            title: 'Фото',
+            template: fieldAvatarTemplate.bind()
         }
     };
 
