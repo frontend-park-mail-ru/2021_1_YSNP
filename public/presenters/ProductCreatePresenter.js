@@ -1,16 +1,18 @@
 import {BasePresenter} from './BasePresenter.js';
-import {addSuccesses, createMessageError, hideError, insertError, showError} from '../modules/validationStates.js';
+import {addSuccesses, hideError, insertError, showError} from '../modules/validationStates.js';
 import {amountMask} from '../modules/amountMask.js';
 import {httpStatus} from '../modules/httpStatus.js';
 import {router} from '../modules/router.js';
 import {frontUrls} from '../modules/frontUrls.js';
 import {ProductModel} from '../models/ProductModel.js';
 import {eventHandlerWithDataType} from '../modules/eventHandler';
+const noop = () => {};
 
 export class ProductCreatePresenter extends BasePresenter {
 
     constructor(view) {
         super(view);
+        this.__view = view;
         this.__countPhoto = 0;
         this.__model = new ProductModel();
     }
@@ -59,52 +61,6 @@ export class ProductCreatePresenter extends BasePresenter {
     __listenerCreateProduct(dataType, actions, ev) {
         ev.preventDefault();
         eventHandlerWithDataType(ev, dataType, actions, true);
-    }
-
-
-    /***
-     * @author Ivan Gorshkov
-     *
-     *  listener for Focus/Blur and cross Event
-     * @private
-     * @this {ProductCreateFormController}
-     * @param {string} dataType - type action
-     * @param{Event} ev - event
-     */
-    __listenerForErrorsAndCross(dataType, ev) {
-        ev.preventDefault();
-        const actions = this.__getActions();
-        Object
-            .entries(ev.composedPath())
-            .forEach(([, el]) => {
-                if (el.dataset !== undefined && dataType in el.dataset) {
-                    actions[el.dataset[dataType]].open(ev);
-                }
-            });
-    }
-
-
-    /***
-     * @author Ivan Gorshkov
-     *
-     * main listener
-     * @private
-     * @this {ProductCreateFormController}
-     * @param{Event} ev - event
-     */
-    __listenersClicks(ev) {
-        ev.preventDefault();
-        ev.stopPropagation();
-        const actions = this.__getActions();
-        Object
-            .entries(ev.composedPath())
-            .forEach(([, el]) => {
-                if (el.dataset !== undefined && 'action' in el.dataset) {
-                    if (!actions[el.dataset.action].open(ev.target)) {
-                        document.getElementById(`${ev.target.id}Error`).classList.remove('error-hidden');
-                    }
-                }
-            });
     }
 
     __createListeners() {
@@ -173,10 +129,10 @@ export class ProductCreatePresenter extends BasePresenter {
                     open: this.__deletePicture.bind(this)
                 },
                 textareaInputEmpty: {
-                    open: this.__validateTextArea.bind(this)
+                    open: this.__validateFields.bind(this, this.__validateTextArea.bind(this))
                 },
                 priceInput: {
-                    open: this.__validatePriceInput.bind(this)
+                    open: this.__validateFields.bind(this, this.__validatePriceInput.bind(this))
                 },
                 clickUpload: {
                     open: this.__upload.bind(this)
@@ -191,7 +147,7 @@ export class ProductCreatePresenter extends BasePresenter {
                     open: this.__hideCross.bind(this)
                 },
                 inputEmpty: {
-                    open: this.__validateEmptyInput.bind(this)
+                    open: this.__validateFields.bind(this, this.__validateEmptyInput.bind(this))
                 },
                 showError: {
                     open: showError.bind(this)
@@ -203,14 +159,17 @@ export class ProductCreatePresenter extends BasePresenter {
         };
     }
 
+    __validateFields(validFunc, ev) {
+        if (!validFunc(ev.target)) {
+            this.__view.hideError(this.__view.getErrorId(ev.target));
+        }
+    }
+
     __listenerSubmitClick() {
-        const price = document.getElementById('priceInput');
-        const description = document.getElementById('textareaInput');
-        const name = document.getElementById('nameInput');
+        const {price, description, name, category} = this.__view.getAllFields();
         const isValidPrice = this.__validatePriceInput(price);
         const isValidDescription = this.__validateTextArea(description);
         const isValidname = this.__validateEmptyInput(name);
-        const category = document.getElementById('categorySelect');
         const emptyPhotoField = 0;
         if (isValidname && isValidDescription && isValidPrice && this.__count !== emptyPhotoField) {
             this.__model.fillProductModel({
@@ -219,15 +178,11 @@ export class ProductCreatePresenter extends BasePresenter {
                 amount: parseInt(price.value.toString().split(' ').join('')),
                 category: category.options[category.selectedIndex].text
             });
-
-            this.__model.log();
-            const button = document.getElementById('submitProduct');
-            button.value = 'Загрузка...';
-            button.disabled = true;
-            this.__model.create(document.getElementById('createProductForm')).then(({status}) => {
+            this.__view.changeDisableButton();
+            this.__model.create(this.__view.getForm()).then(({status}) => {
                 if (status === httpStatus.StatusOK) {
-                    this.__pageRemoveListeners();
-
+                    this.closeAllComponents();
+                    this.__view.removingSubViews();
                     router.redirect(frontUrls.main);
                 }
             });
@@ -243,18 +198,18 @@ export class ProductCreatePresenter extends BasePresenter {
      * @private
      * @this {ProductCreateFormController}
      */
-    __validateEmptyInput(ev) {
-        const {error, message} = this.__model.validationName(ev.target.value.toString());
+    __validateEmptyInput(target) {
+        const {error, message} = this.__model.validationName(target.value.toString());
+        return this.__handlingErrors(error, target, message);
+    }
+
+    __handlingErrors(error, target, message, supprotValidate = noop) {
         if (!error) {
-            addSuccesses(ev.target, `${ev.target.id}Error`);
+            addSuccesses(target, this.__view.getErrorId(target));
+            supprotValidate();
             return true;
         }
-
-        insertError(ev.target, `${ev.target.id}Error`, createMessageError(`
-        <ul class="list-errors">
-            <li>${message}</li>
-        </ul>
-    `));
+        insertError(target, this.__view.getErrorId(target), this.__view.addErrorForm(message));
         return false;
     }
 
@@ -267,24 +222,7 @@ export class ProductCreatePresenter extends BasePresenter {
      * @private
      */
     __deletePicture(ev) {
-        document.getElementById(`_profile-pic${ev.target.dataset.id}`).remove();
-        document.getElementById(`file-upload${ev.target.dataset.id}`).remove();
-        const crosses = document.getElementsByClassName('cross');
-        const pictures = document.getElementsByClassName('product__pic');
-        const pictureFrames = document.getElementsByClassName('form-row');
-        const filesInput = document.getElementsByClassName('file-upload');
-        const labelPhoto = document.getElementsByClassName('form-row__photolabel');
-        this.__count -= 1;
-        for (let i = 0; i <= this.__count; i++) {
-            crosses[i].id = `delete${i}`;
-            crosses[i].dataset.id = i.toString();
-            pictures[i].id = `product__pic${i}`;
-            pictures[i].dataset.id = i.toString();
-            pictureFrames[i].id = `_profile-pic${i}`;
-            filesInput[i].dataset.id = i.toString();
-            filesInput[i].id = `file-upload${i}`;
-            labelPhoto[i].dataset.id = i.toString();
-        }
+        this.__count = this.__view.deletePicture(ev.target, this.__count -= 1);
         document.event.stopImmediatePropagation();
     }
 
@@ -297,7 +235,7 @@ export class ProductCreatePresenter extends BasePresenter {
      */
     __showCross(ev) {
         if (parseInt(ev.target.dataset.id) !== this.__count && (ev.target.tagName === 'IMG' || ev.target.tagName === 'DIV')) {
-            document.getElementById(`delete${ev.target.dataset.id}`).classList.remove('error-hidden');
+            this.__view.showCross(ev.target);
         }
     }
 
@@ -310,7 +248,7 @@ export class ProductCreatePresenter extends BasePresenter {
      */
     __hideCross(ev) {
         if (parseInt(ev.target.dataset.id) !== this.__count && (ev.target.tagName === 'IMG' || ev.target.tagName === 'DIV')) {
-            document.getElementById(`delete${ev.target.dataset.id}`).classList.add('error-hidden');
+            this.__view.hideCross(ev.target);
         }
     }
 
@@ -325,42 +263,10 @@ export class ProductCreatePresenter extends BasePresenter {
         const firstIndex = 0;
         if (ev.target.files && ev.target.files[firstIndex]) {
             const reader = new FileReader();
-            reader.onload = this.__onReaderLoad.bind(this, ev.target);
+            reader.onload = this.__view.onReaderLoad.bind(this.__view, ev.target, this.__count);
+            this.__count += 1;
             reader.readAsDataURL(ev.target.files[firstIndex]);
         }
-
-    }
-
-    /***
-     * @author Ivan Gorshkov
-     *
-     * function when picture loaded
-     * @param{Object} input - file input
-     * @param{Event} e - event from file input
-     * @private
-     */
-    __onReaderLoad(input, e) {
-        const elem = document.getElementById(`product__pic${input.dataset.id}`);
-        elem.src = e.target.result;
-        elem.classList.add('product__pic_fullsize');
-        if (parseInt(input.dataset.id) === this.__count) {
-            const idPhto = document.getElementById('productPhoto');
-            this.__count += 1;
-            idPhto.insertAdjacentHTML('beforeend', `
-                <div class="form-row" id="_profile-pic${this.__count}">    
-                  <label class="form-row__photolabel" data-action="clickUpload" data-move="showCross" data-moveout="hideCross" data-id="${this.__count}"> 
-                     <img class="product__pic" id="product__pic${this.__count}" data-id="${this.__count}" src="../../img/svg/photo.svg" alt="">
-                     <div class="cross error-hidden" id="delete${this.__count}" data-id='${this.__count}' data-action="delete" ></div>
-                   </label>
-                </div>
-                `);
-            const idfile = document.getElementById('files');
-            idfile.insertAdjacentHTML('beforeend', `
-                <input name="photos" id="file-upload${this.__count}" data-id="${this.__count}" data-action="readURL" class="file-upload" type="file" accept="image/*"/>
-            `);
-
-        }
-
     }
 
     /***
@@ -372,8 +278,7 @@ export class ProductCreatePresenter extends BasePresenter {
     __upload(ev) {
         const maxPics = 10;
         if (this.__count < maxPics) {
-            const elem = document.getElementById(`file-upload${ev.target.dataset.id}`);
-            elem.click();
+            this.__view.openFileSystem(ev.target);
         }
     }
 
@@ -386,19 +291,10 @@ export class ProductCreatePresenter extends BasePresenter {
      * @private
      * @this {ProductCreateFormController}
      */
-    __validatePriceInput(ev) {
-        const {error, message} = this.__model.validationAmount(ev.target.value.replace(/[^0-9]/g, '').toString());
-        ev.target.value = amountMask(ev.target.value);
-        if (error) {
-            insertError(ev.target, `${ev.target.id}Error`, createMessageError(`
-                <ul class="list-errors">
-                    <li>${message}</li>
-                </ul>
-            `));
-            return false;
-        }
-        addSuccesses(ev.target, `${ev.target.id}Error`);
-        return true;
+    __validatePriceInput(target) {
+        const {error, message} = this.__model.validationAmount(target.value.replace(/[^0-9]/g, '').toString());
+        target.value = amountMask(target.value);
+        return this.__handlingErrors(error, target, message);
     }
 
 
@@ -411,20 +307,9 @@ export class ProductCreatePresenter extends BasePresenter {
      * @private
      * @this {ProductCreateFormController}
      */
-    __validateTextArea(ev) {
-
-        const {error, message} = this.__model.validationDescription(ev.target.value.toString());
-
-        if (!error) {
-            addSuccesses(ev.target, `${ev.target.id}Error`);
-            return true;
-        }
-        insertError(ev.target, `${ev.target.id}Error`, createMessageError(`
-        <ul class="list-errors">
-            <li>${message}</li>
-        </ul>
-        `));
-        return false;
+    __validateTextArea(target) {
+        const {error, message} = this.__model.validationDescription(target.value.toString());
+        return this.__handlingErrors(error, target, message);
     }
 
     __makeContext() {

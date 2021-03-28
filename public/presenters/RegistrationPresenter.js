@@ -344,6 +344,8 @@ export class RegistrationPresenter extends BasePresenter {
 
             this.__model.registration(this.__view.getForm())
                 .then(() => {
+                    this.closeAllComponents();
+                    this.__view.removingSubViews();
                     router.redirect(frontUrls.main);
                 })
                 .catch((data) => {
