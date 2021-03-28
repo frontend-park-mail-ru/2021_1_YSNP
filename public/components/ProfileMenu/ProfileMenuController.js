@@ -1,4 +1,4 @@
-import {user} from '../../models/SettingsUserData.js';
+import {user} from '../../models/ProfileUserModel.js';
 
 /***
  * ProfileMenu controller
