@@ -35,31 +35,6 @@ export class Slider {
     /***
      * @author Ivan Gorshkov
      *
-     * get Slider listeners
-     * @this {Slider}
-     * @private
-     * @readonly
-     * @return  {Object} array of listeners
-     */
-    get listeners() {
-        return this.__listeners;
-    }
-
-    /***
-     * @author Ivan Gorshkov
-     *
-     * Set new listeners
-     * @this {Slider}
-     * @param  {Object} val - Object of listeners
-     * @public
-     */
-    set listeners(val) {
-        this.__listeners = val;
-    }
-
-    /***
-     * @author Ivan Gorshkov
-     *
      * insert forward img in carousel
      * @public
      * @this {Slider}
@@ -152,32 +127,6 @@ export class Slider {
         wrapper.style.height = '43vh';
         carousel.parentNode.insertBefore(wrapper, carousel);
         wrapper.appendChild(carousel);
-    }
-
-    /***
-     * @author Ivan Gorshkov
-     *
-     * Add listeners from component
-     * @public
-     * @this {Slider}
-     */
-    addListeners() {
-        document
-            .getElementById('sliderPanel')
-            .addEventListener(this.listeners.board.type, this.listeners.board.listener);
-    }
-
-    /***
-     * @author Ivan Gorshkov
-     *
-     * Remove listeners from component
-     * @public
-     * @this {Slider}
-     */
-    removeListeners() {
-        document
-            .getElementById('sliderPanel')
-            .removeEventListener(this.listeners.board.type, this.listeners.board.listener);
     }
 
     /***

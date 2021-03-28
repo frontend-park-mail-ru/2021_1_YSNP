@@ -65,7 +65,6 @@ const doProductCreate = () => {
 };
 
 const doProduct = (id) => {
-    console.log(id.parameters.id);
     const productPresenter = new ProductPresenter(productView, id.parameters.id);
     productPresenter.control();
 };

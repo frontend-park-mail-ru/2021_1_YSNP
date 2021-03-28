@@ -21,7 +21,6 @@ export class InfoCard {
     constructor(parent, data) {
         this.__parent = parent;
         this.__data = data;
-        console.log(this.__data);
     }
 
     /***
@@ -123,58 +122,6 @@ export class InfoCard {
         return stars;
     }
 
-
-    /***
-     * @author Ivan Gorshkov
-     *
-     * get InfoCard listeners
-     * @this {InfoCard}
-     * @private
-     * @readonly
-     * @return  {Object} array of listeners
-     */
-    get listeners() {
-        return this.__listeners;
-    }
-
-    /***
-     * @author Ivan Gorshkov
-     *
-     * Set new listeners
-     * @this {InfoCard}
-     * @param  {Object} val - Object of listeners
-     * @public
-     */
-    set listeners(val) {
-        this.__listeners = val;
-    }
-
-    /***
-     * @author Ivan Gorshkov
-     *
-     * Add listeners from component
-     * @public
-     * @this {InfoCard}
-     */
-    addListeners() {
-        document
-            .getElementById('info-card-btns')
-            .addEventListener(this.listeners.board.type, this.listeners.board.listener);
-    }
-
-    /***
-     * @author Ivan Gorshkov
-     *
-     * Remove listeners from component
-     * @public
-     * @this {InfoCard}
-     */
-    removeListeners() {
-        document
-            .getElementById('info-card-btns')
-            .removeEventListener(this.listeners.board.type, this.listeners.board.listener);
-    }
-
     /***
      * @author Ivan Gorshkov
      *
@@ -202,7 +149,6 @@ export class InfoCard {
      * @public
      */
     render() {
-
         this.__parent.insertAdjacentHTML('beforeend', infoCardTemplate(this.__context()));
     }
 }
