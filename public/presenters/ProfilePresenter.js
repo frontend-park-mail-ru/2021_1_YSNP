@@ -32,7 +32,10 @@ export class ProfilePresenter extends BasePresenter {
     async control() {
         await this.update();
         // super.control();
-
+        if (!this.__userModel.isAuth) {
+            router.redirect(frontUrls.registration);
+            return;
+        }
         this.__view.render(this.__makeContext());
     }
 
