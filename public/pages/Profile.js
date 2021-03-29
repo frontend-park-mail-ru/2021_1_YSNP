@@ -2,8 +2,10 @@ import {Header} from '../components/Header/Header.js';
 import {HeaderController} from '../components/Header/HeaderController.js';
 
 import {ProfileMenu} from '../components/ProfileMenu/ProfileMenu.js';
+import {ProfileMenuController} from '../components/ProfileMenu/ProfileMenuController.js';
 
 import {Settings} from '../components/Settings/Settings.js';
+import {SettingsController} from '../components/Settings/SettingsController.js';
 
 /***
  * ProfileMenu page
@@ -45,12 +47,12 @@ export class Profile {
             </div>`);
         const profilePage = document.getElementById('profile');
 
-        // const profile = new ProfileMenu(profilePage, {page: 'settings'});
-        // this.__profileController = new ProfileMenuController(this.__removePageListeners.bind(this), this.__parent, profile);
-        // await this.__profileController.control();
+        const profile = new ProfileMenu(profilePage, {page: 'settings'});
+        this.__profileController = new ProfileMenuController(this.__removePageListeners.bind(this), this.__parent, profile);
+        await this.__profileController.control();
 
-        // const settings = new Settings(profilePage);
-        // this.__settingsController = new SettingsController(this.__removePageListeners.bind(this), this.__parent, settings);
-        // await this.__settingsController.control();
+        const settings = new Settings(profilePage);
+        this.__settingsController = new SettingsController(this.__removePageListeners.bind(this), this.__parent, settings);
+        await this.__settingsController.control();
     }
 }
