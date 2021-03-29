@@ -4,8 +4,6 @@ import {Switch} from '../components/Switch/Switch.js';
 import {Layout} from '../components/Layout/Layout';
 import {ProductTable} from '../components/ProductTable/ProductTable';
 
-// import {PageUp} from '../components/PageUp/PageUp.js';
-
 /***
  * Main view
  */
