@@ -61,14 +61,33 @@ export class ProductView extends BaseView {
         return this.layout.parent;
     }
 
+    /***
+     * @author Ivan Gorshkov
+     *
+     * function for rotate Forward Slider
+     * @this {ProductView}
+     */
     rotateForward() {
         this.__boardSubView.rotateForward();
     }
 
+    /***
+     * @author Ivan Gorshkov
+     *
+     * function for rotate Backward Slider
+     * @this {ProductView}
+     */
     rotateBackward() {
         this.__boardSubView.rotateBackward();
     }
 
+    /***
+     * @author Ivan Gorshkov
+     *
+     * function for add new pic to img tag
+     * @param{HTMLElement} target
+     * @this {ProductView}
+     */
     selectPicture(target) {
         this.__boardSubView.selectImage(target);
     }
