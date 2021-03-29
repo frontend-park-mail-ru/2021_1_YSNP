@@ -7,7 +7,7 @@ import {httpStatus} from '../modules/httpStatus.js';
 /***
  * Auth user model
  */
-export class AuthUserData extends PasswordUserModel {
+export class AuthUserModel extends PasswordUserModel {
     /***
      * Validate user data
      * @param {Object} data - user data
@@ -54,10 +54,10 @@ export class AuthUserData extends PasswordUserModel {
 
     /***
      * Post auth user data to backend
-     * @returns {Promise<{isAuth: boolean}|void>}
+     * @returns {Promise<void>}
      */
     async auth() {
-        return await http.post(backUrls.login, this.__jsonData())
+        return http.post(backUrls.login, this.__jsonData())
             .then(({status}) => {
                 if (status === httpStatus.StatusBadRequest) {
                     throw new Error('Неправильный номер или пароль');
@@ -68,22 +68,10 @@ export class AuthUserData extends PasswordUserModel {
                     throw new Error('Ошибка сервера');
                     // throw new Error(data.message);
                 }
-
-                return {isAuth: true};
             })
             .catch((err) => {
-                console.log('AuthUserData auth', err.message);
-                return {isAuth: false, message: err.message};
+                console.log(err.message);
+                throw err;
             });
-    }
-
-    /***
-     * Log current data
-     */
-    log() {
-        console.dir({
-            telephone: this.__telephone,
-            password: this.__password
-        });
     }
 }
