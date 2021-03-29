@@ -65,47 +65,130 @@ export class ProductCreateView extends BaseView {
         return this.layout.parent;
     }
 
+    /***
+     * @author Ivan Gorshkov
+     *
+     * hide error
+     * @param {string} target
+     * @this {ProductCreateView}
+     */
     hideError(target) {
         this.__productCreate.hideError(target);
     }
 
+    /***
+     * @author Ivan Gorshkov
+     *
+     * get HTMLElement of form in view
+     * @return {HTMLElement}
+     * @this {ProductCreateView}
+     */
     getForm() {
         return this.__productCreate.getForm();
     }
 
+    /***
+     * @author Ivan Gorshkov
+     *
+     * get all fields
+     * @return {Object}
+     * @this {ProductCreateView}
+     */
     getAllFields() {
         return this.__productCreate.getAllFields();
     }
 
+    /***
+     * @author Ivan Gorshkov
+     *
+     * get id from target
+     * @param {HTMLElement} target
+     * @return {string}
+     * @this {ProductCreateView}
+     */
     getErrorId(target) {
         return this.__productCreate.getErrorId(target);
     }
 
+    /***
+     * @author Ivan Gorshkov
+     *
+     * add Error to Field
+     * @param {[string]} message
+     * @return {string}
+     * @this {ProductCreateView}
+     */
     addErrorForm(message) {
         return this.__productCreate.addErrorForm(message);
     }
 
+    /***
+     * @author Ivan Gorshkov
+     *
+     * open file system
+     * @param {HTMLElement} target
+     * @this {ProductCreateView}
+     */
     openFileSystem(target) {
         this.__productCreate.openFileSystem(target);
     }
 
+    /***
+     * @author Ivan Gorshkov
+     *
+     * show cross when move in
+     * @param {HTMLElement} target
+     * @this {ProductCreateView}
+     */
     showCross(target) {
         this.__productCreate.showCross(target);
     }
 
+    /***
+     * @author Ivan Gorshkov
+     *
+     * hide cross when move out
+     * @param {HTMLElement} target
+     * @this {ProductCreateView}
+     */
     hideCross(target) {
         this.__productCreate.hideCross(target);
     }
 
+    /***
+     * @author Ivan Gorshkov
+     *
+     * delete selected picture
+     * @param {HTMLElement} target
+     * @param {Function} handler
+     * @return {Function}
+     * @this {ProductCreateView}
+     */
     deletePicture(target, handler) {
         return this.__productCreate.deletePicture(target, handler);
     }
 
+    /***
+     * @author Ivan Gorshkov
+     *
+     * callback after photo has been loaded
+     * @param {HTMLElement} input
+     * @param {number} count
+     * @param {Function} incFunc
+     * @param {Event} e
+     * @this {ProductCreateView}
+     */
     onReaderLoad(input, count, incFunc, e) {
         this.__productCreate.onReaderLoad.call(this, input, e, count, incFunc);
     }
 
-
+    /***
+     * @author Ivan Gorshkov
+     *
+     * change title of button and disable
+     * @param {string} title
+     * @this {ProductCreateView}
+     */
     changeDisableButton(title = 'Загрузка...') {
         this.__productCreate.changeDisableButton(title);
     }
