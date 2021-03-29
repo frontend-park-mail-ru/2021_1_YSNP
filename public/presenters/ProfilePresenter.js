@@ -4,7 +4,6 @@ import {router} from '../modules/router';
 import {frontUrls} from '../modules/frontUrls';
 import {user} from '../models/ProfileUserModel.js';
 
-
 /***
  * Profile settings presenter
  */
@@ -69,13 +68,8 @@ export class ProfilePresenter extends BasePresenter {
     }
 
     /***
-<<<<<<< HEAD:public/presenters/ProfilePresenter.js
      * Get profile listeners
      * @returns {{profileSettings: {validateChange: {listener: *, type: string}, hideError: {listener: *, type: string}, validateInput: {listener: *, type: string}, showError: {listener: *, type: string}, settingsClick: {listener: *, type: string}}}}
-=======
-     * Get settings listeners
-     * @returns {{focusInput: {listener: *, type: string}, validateChange: {listener: *, type: string}, validateInput: {listener: *, type: string}, blurInput: {listener: *, type: string}, settingsClick: {listener: *, type: string}}}
->>>>>>> origin/dev:public/components/Settings/SettingsController.js
      * @private
      */
     __createListeners() {
@@ -198,7 +192,6 @@ export class ProfilePresenter extends BasePresenter {
 
             this.__model.log();
             this.__model.newPassword()
-<<<<<<< HEAD:public/presenters/ProfilePresenter.js
                 .then((data) => {
                     if (data.isUpdate === false) {
                         showBackendError('settings-password-error', data.message);
@@ -209,14 +202,6 @@ export class ProfilePresenter extends BasePresenter {
                         err.classList.add('settings-password-error_success');
                         err.classList.remove('backend-error_hidden');
                     }
-=======
-                .then(() => {
-                    this.__resetPasswordClick();
-                    const err = document.getElementById('settings-password-error');
-                    err.textContent = 'Пароль успешно изменен';
-                    err.classList.add('settings-password-error_success');
-                    err.classList.remove('backend-error_hidden');
->>>>>>> origin/dev:public/components/Settings/SettingsController.js
                 })
                 .catch((error) => {
                     showBackendError('settings-password-error', error.message);
@@ -395,12 +380,7 @@ export class ProfilePresenter extends BasePresenter {
                 .then(({isUpdate, message}) => {
                     if (isUpdate) {
                         hideBackendError('settings-error');
-<<<<<<< HEAD:public/presenters/ProfilePresenter.js
                         router.redirect(frontUrls.profile);
-=======
-                        const profile = new Profile(this.__parent);
-                        profile.render();
->>>>>>> origin/dev:public/components/Settings/SettingsController.js
                     } else {
                         showBackendError('settings-error', message);
                     }
@@ -566,7 +546,6 @@ export class ProfilePresenter extends BasePresenter {
     __validateString(target) {
         let error = true;
         if (target.value !== '') {
-<<<<<<< HEAD:public/presenters/ProfilePresenter.js
             error = false;
         }
         return validateError(error, target, 'Поле не должно быть пустым');
@@ -584,10 +563,5 @@ export class ProfilePresenter extends BasePresenter {
                 listeners: this.__createListeners()
             }
         };
-=======
-           error = false;
-        }
-        return validateError(error, target, 'Поле не должно быть пустым');
->>>>>>> origin/dev:public/components/Settings/SettingsController.js
     }
 }
