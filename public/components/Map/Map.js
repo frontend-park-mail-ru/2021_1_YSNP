@@ -8,59 +8,33 @@ export class Map {
     /***
      * Class constructor
      * @param {HTMLElement} parent - element where the component will be inserted
-     * @param {Object} listeners - component listeners
      */
-    constructor(parent, listeners = {}) {
+    constructor(parent) {
         this.__parent = parent;
-        this.__listeners = listeners;
-    }
-
-    /***
-     * Get listeners
-     * @returns {Object}
-     */
-    get listeners() {
-        return this.__listeners;
-    }
-
-    /***
-     * Set listeners
-     * @param {Object} val - component listeners
-     */
-    set listeners(val) {
-        this.__listeners = val;
     }
 
     /***
      * Add component listeners
      */
-    addListeners() {
+    __addListeners() {
         document
             .getElementById('map-content')
-            .addEventListener(this.__listeners.mapClick.type, this.__listeners.mapClick.listener);
-
-        document
-            .getElementById('app')
-            .addEventListener(this.__listeners.pageClick.type, this.__listeners.pageClick.listener);
+            .addEventListener(this.__context.listeners.mapClick.type, this.__context.listeners.mapClick.listener);
 
         window
-            .addEventListener(this.__listeners.keyClick.type, this.__listeners.keyClick.listener);
+            .addEventListener(this.__context.listeners.keyClick.type, this.__context.listeners.keyClick.listener);
     }
 
     /***
      * Remove component listeners
      */
-    removeListeners() {
+    __removeListeners() {
         document
             .getElementById('map-content')
-            .removeEventListener(this.__listeners.mapClick.type, this.__listeners.mapClick.listener);
-
-        document
-            .getElementById('app')
-            .removeEventListener(this.__listeners.pageClick.type, this.__listeners.pageClick.listener);
+            .removeEventListener(this.__context.listeners.mapClick.type, this.__context.listeners.mapClick.listener);
 
         window
-            .removeEventListener(this.__listeners.keyClick.type, this.__listeners.keyClick.listener);
+            .removeEventListener(this.__context.listeners.keyClick.type, this.__context.listeners.keyClick.listener);
     }
 
     /***
@@ -108,14 +82,26 @@ export class Map {
     /***
      * Add component to parent
      */
-    render() {
-        this.__parent.insertAdjacentHTML('beforeend', mapTemplate(this.__getRadius()));
+    render(context) {
+        try {
+            this.__context = context;
+
+            this.__parent.insertAdjacentHTML('beforeend', mapTemplate(this.__getRadius()));
+            this.__addListeners();
+        } catch (err) {
+            console.log(err.message);
+        }
     }
 
     /***
      * Remove component
      */
     remove() {
-        document.getElementById('map-popup').remove();
+        try {
+            this.__removeListeners();
+            document.getElementById('map-popup').remove();
+        } catch (err) {
+            console.log(err.message);
+        }
     }
 }

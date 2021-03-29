@@ -1,5 +1,6 @@
 import {Header} from '../components/Header/Header.js';
 import {Auth} from '../components/Auth/Auth.js';
+import {Map} from '../components/Map/Map.js';
 
 /***
  * Application base view
@@ -72,18 +73,15 @@ export class BaseView {
      * Open map component
      */
     renderMap() {
-        //TODO (Sergey) release renderMap
-
-        console.log('Open map');
+        this.__map = new Map(this.__app);
+        this.__map.render(this.__baseContext.map);
     }
 
     /***
      * Remove map component
      */
     removeMap() {
-        //TODO (Sergey) release removeMap
-
-        console.log('remove map');
+        this.__map.remove();
     }
 
     /***

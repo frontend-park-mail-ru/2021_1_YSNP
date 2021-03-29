@@ -5,6 +5,7 @@ import {parseTelNumber, telMask} from '../modules/telMask';
 
 import {user} from '../models/ProfileUserModel.js';
 import {AuthUserModel} from '../models/AuthUserModel.js';
+import {YandexMap} from '../modules/yandexMap';
 
 /***
  * Base presenter
@@ -20,6 +21,7 @@ export class BasePresenter {
         this.__authModel = new AuthUserModel();
         this.__isShownMap = false;
         this.__isShownAuth = false;
+        this.__yaMap = new YandexMap();
     }
 
     /***
@@ -119,7 +121,30 @@ export class BasePresenter {
     __listenerKeyClick(ev) {
         if (ev.key === 'Escape') {
             this.__closeAuth();
+            this.__closeMap();
         }
+    }
+
+    /***
+     * YandexMap popup click event
+     * @param {MouseEvent} ev - event
+     * @private
+     */
+    __listenerMapClick(ev) {
+        ev.stopPropagation();
+
+        const actions = this.__getBaseActions().map;
+        Object
+            .entries(ev.composedPath())
+            .forEach(([, el]) => {
+                if (el.dataset !== undefined && 'action' in el.dataset) {
+                    if (el.dataset.action === 'groupClick') {
+                        actions[el.dataset.action].open(ev.target);
+                    } else {
+                        actions[el.dataset.action].open();
+                    }
+                }
+            });
     }
 
     /***
@@ -168,6 +193,16 @@ export class BasePresenter {
                     type: 'blur',
                     listener: telMask
                 }
+            },
+            map: {
+                mapClick: {
+                    type: 'click',
+                    listener: this.__listenerMapClick.bind(this)
+                },
+                keyClick: {
+                    type: 'keydown',
+                    listener: this.__listenerKeyClick.bind(this)
+                }
             }
         };
     }
@@ -192,6 +227,11 @@ export class BasePresenter {
         this.closeAllComponents();
         this.__isShownMap = true;
         this.__view.renderMap();
+        this.__yaMap.render({
+            searchControl: true,
+            geolocationControl: true,
+            listeners: true
+        });
     }
 
     /***
@@ -267,6 +307,17 @@ export class BasePresenter {
             });
     }
 
+    __groupClick(el) {
+        if (el instanceof HTMLInputElement) {
+            this.__yaMap.addCircle(this.__yaMap.getPointPos(), el.value * 1000);
+        }
+    }
+
+    __createUserAddress() {
+        console.log(this.__yaMap.getPointPos());
+        console.log(this.__yaMap.getAddress());
+    }
+
     /***
      * Get listeners actions
      * @returns {{auth: {closeClick: {open: *}}, header: {logoutClick: {open: *}, createProductClick: {open: *}, authClick: {open: *}, dropdownClick: {open: *}, locationClick: {open: *}}}}
@@ -295,6 +346,17 @@ export class BasePresenter {
                 closeClick: {
                     open: this.__closeAuth.bind(this)
                 }
+            },
+            map: {
+                closeClick: {
+                    open: this.__closeMap.bind(this)
+                },
+                groupClick: {
+                    open: this.__groupClick.bind(this)
+                },
+                createClick: {
+                    open: this.__createUserAddress.bind(this)
+                }
             }
         };
     }
@@ -317,6 +379,9 @@ export class BasePresenter {
             },
             auth: {
                 listeners: this.__createBaseListeners().auth
+            },
+            map: {
+                listeners: this.__createBaseListeners().map
             }
         };
     }
