@@ -1,8 +1,11 @@
 import {BasePresenter} from './BasePresenter.js';
+import {ProductListModel} from '../models/ProductListModel.js';
+
 import {router} from '../modules/router';
 import {frontUrls} from '../modules/frontUrls';
 
 import {EndlessScroll} from '../modules/endlessScroll.js';
+import {PageUpHandler} from '../modules/pageUpHandler.js';
 
 /***
  * Main view
@@ -11,12 +14,11 @@ export class MainPresenter extends BasePresenter {
     /***
      * Class constructor
      * @param {MainView} view - view
-     * @param {ProductListModel} productListModel - model
      */
-    constructor(view, productListModel) {
+    constructor(view) {
         super(view);
         this.__view = view;
-        this.__productListModel = productListModel;
+        this.__productListModel = new ProductListModel();
         (new EndlessScroll(this.__createListeners().scroll)).start();
     }
 
@@ -25,10 +27,8 @@ export class MainPresenter extends BasePresenter {
      * @returns {Promise<void>}
      */
     async update() {
-        super.update()
-            .then(() => {
-                this.__productListModel.update();
-            })
+        return super.update()
+            .then(() => this.__productListModel.update())
             .catch((err) => {
                 //TODO(Sergey) нормальная обработка ошибок
                 console.log(err.message);
@@ -43,6 +43,7 @@ export class MainPresenter extends BasePresenter {
         await this.update();
 
         this.__view.render(this.__makeContext());
+        (new PageUpHandler()).start();
     }
 
     /***

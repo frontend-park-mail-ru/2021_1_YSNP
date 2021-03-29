@@ -4,18 +4,12 @@ import {Switch} from '../components/Switch/Switch.js';
 import {Layout} from '../components/Layout/Layout';
 import {ProductTable} from '../components/ProductTable/ProductTable';
 
+// import {PageUp} from '../components/PageUp/PageUp.js';
+
 /***
  * Main view
  */
 export class MainView extends BaseView {
-    /***
-     * Class constructor
-     * @param {HTMLElement} app - parent element
-     */
-    constructor(app) {
-        super(app);
-    }
-
     /***
      * Like product
      * @param {number} id - product id
@@ -66,7 +60,7 @@ export class MainView extends BaseView {
         super.render();
         this.__makeContext(context);
 
-        const layout = new Layout(this.__app);
+        const layout = new Layout(this.__app, true);
         layout.render();
         const parent = layout.parent;
 
