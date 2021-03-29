@@ -1,8 +1,8 @@
+import {frontUrls} from './frontUrls';
+
 /***
  * Application router
  */
-import {frontUrls} from './frontUrls';
-
 class Router {
     /***
      * Class constructor
@@ -58,14 +58,15 @@ class Router {
     }
 
     /***
-     * go back from navigation bar
+     * Go back from navigation bar
      */
     navigateBack() {
-        if (router.historyLength() === 2) {
-            router.redirect(frontUrls.main);
+        if (this.historyLength() === 2) {
+            this.redirect(frontUrls.main);
             return;
         }
-        router.goBack();
+
+        this.goBack();
     }
 
     /***

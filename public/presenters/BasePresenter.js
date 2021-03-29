@@ -307,12 +307,21 @@ export class BasePresenter {
             });
     }
 
+    /***
+     * Group button click
+     * @param {HTMLElement} el - element click
+     * @private
+     */
     __groupClick(el) {
         if (el instanceof HTMLInputElement) {
             this.__yaMap.addCircle(this.__yaMap.getPointPos(), el.value * 1000);
         }
     }
 
+    /***
+     * Create user address
+     * @private
+     */
     __createUserAddress() {
         console.log(this.__yaMap.getPointPos());
         console.log(this.__yaMap.getAddress());
