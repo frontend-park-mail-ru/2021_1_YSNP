@@ -76,7 +76,7 @@ export class BasePresenter {
         ev.stopPropagation();
 
         router.redirectEvent(ev);
-        eventHandler(ev, this.__getBaseActions().header);
+        eventHandler(ev, this.__getBaseActions().auth);
     }
 
     /***
