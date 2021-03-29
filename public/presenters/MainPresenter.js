@@ -1,6 +1,11 @@
 import {BasePresenter} from './BasePresenter.js';
+import {ProductListModel} from '../models/ProductListModel.js';
+
 import {router} from '../modules/router';
 import {frontUrls} from '../modules/frontUrls';
+
+import {EndlessScroll} from '../modules/endlessScroll.js';
+import {PageUpHandler} from '../modules/pageUpHandler.js';
 
 /***
  * Main view
@@ -9,11 +14,12 @@ export class MainPresenter extends BasePresenter {
     /***
      * Class constructor
      * @param {MainView} view - view
-     * @param {ProductListModel} productListModel - model
      */
-    constructor(view, productListModel) {
+    constructor(view) {
         super(view);
-        this.__productListModel = productListModel;
+        this.__view = view;
+        this.__productListModel = new ProductListModel();
+        (new EndlessScroll(this.__createListeners().scroll)).start();
     }
 
     /***
@@ -21,8 +27,12 @@ export class MainPresenter extends BasePresenter {
      * @returns {Promise<void>}
      */
     async update() {
-        await super.update();
-        await this.__productListModel.update();
+        return super.update()
+            .then(() => this.__productListModel.update())
+            .catch((err) => {
+                //TODO(Sergey) нормальная обработка ошибок
+                console.log(err.message);
+            });
     }
 
     /***
@@ -33,6 +43,7 @@ export class MainPresenter extends BasePresenter {
         await this.update();
 
         this.__view.render(this.__makeContext());
+        (new PageUpHandler()).start();
     }
 
     /***
@@ -65,6 +76,22 @@ export class MainPresenter extends BasePresenter {
     }
 
     /***
+     * Listener on scroll end
+     * @returns {Promise<void>}
+     * @private
+     */
+    async __scrollEnd() {
+        this.__productListModel.updateNewData()
+            .then(() => {
+                this.__view.addNewCards(this.__productListModel.newData);
+            })
+            .catch((err) => {
+                //TODO(Sergey) нормальная обработка ошибок
+                console.log(err.message);
+            });
+    }
+
+    /***
      * Get view listeners
      * @returns {{productList: {productCardClick: {listener: *, type: string}}}}
      * @private
@@ -76,6 +103,9 @@ export class MainPresenter extends BasePresenter {
                     type: 'click',
                     listener: this.__listenerProductListClick.bind(this)
                 }
+            },
+            scroll: {
+                scrollEnd: this.__scrollEnd.bind(this)
             }
         };
     }

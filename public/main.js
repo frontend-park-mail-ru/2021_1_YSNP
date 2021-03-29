@@ -5,8 +5,6 @@ import './style.css';
 import {router} from './modules/router.js';
 import {frontUrls} from './modules/frontUrls.js';
 
-const app = document.getElementById('app');
-
 import {FavoriteView} from './views/FavoriteView.js';
 import {MainView} from './views/MainView.js';
 import {MyAdsView} from './views/MyAdsView.js';
@@ -15,19 +13,6 @@ import {ProductView} from './views/ProductView.js';
 import {ProfileView} from './views/ProfileView.js';
 import {RegistrationView} from './views/RegistrationView.js';
 import {SearchView} from './views/SearchView.js';
-
-const favoriteView = new FavoriteView(app);
-const mainView = new MainView(app);
-const myAdsView = new MyAdsView(app);
-const productCreateView = new ProductCreateView(app);
-const productView = new ProductView(app);
-const profileView = new ProfileView(app);
-const registrationView = new RegistrationView(app);
-const searchView = new SearchView(app);
-
-import {ProductListModel} from './models/ProductListModel.js';
-
-const productListModel = new ProductListModel();
 
 import {FavoritePresenter} from './presenters/FavoritePresenter.js';
 import {MainPresenter} from './presenters/MainPresenter.js';
@@ -38,8 +23,19 @@ import {ProfilePresenter} from './presenters/ProfilePresenter.js';
 import {RegistrationPresenter} from './presenters/RegistrationPresenter.js';
 import {SearchPresenter} from './presenters/SearchPresenter.js';
 
+const app = document.getElementById('app');
+
+const favoriteView = new FavoriteView(app);
+const mainView = new MainView(app);
+const myAdsView = new MyAdsView(app);
+const productCreateView = new ProductCreateView(app);
+const productView = new ProductView(app);
+const profileView = new ProfileView(app);
+const registrationView = new RegistrationView(app);
+const searchView = new SearchView(app);
+
 const favoritePresenter = new FavoritePresenter(favoriteView);
-const mainPresenter = new MainPresenter(mainView, productListModel);
+const mainPresenter = new MainPresenter(mainView);
 const myAdsPresenter = new MyAdsPresenter(myAdsView);
 const productCreatePresenter = new ProductCreatePresenter(productCreateView);
 const productPresenter = new ProductPresenter(productView);
@@ -48,45 +44,70 @@ const registrationPresenter = new RegistrationPresenter(registrationView);
 const searchPresenter = new SearchPresenter(searchView);
 
 
+/***
+ * Open user favorite page
+ */
 const doFavorite = () => {
     favoritePresenter.control();
 };
 
+/***
+ * Open main page
+ */
 const doMain = () => {
     mainPresenter.control();
 };
 
+/***
+ * Open user ads page
+ */
 const doMyAds = () => {
     myAdsPresenter.control();
 };
 
+/***
+ * Open product create page
+ */
 const doProductCreate = () => {
     productCreatePresenter.control();
 };
 
-const doProduct = () => {
-    productPresenter.control();
+/***
+ * Open product page
+ * @param {number} reg - page params
+ */
+const doProduct = (reg) => {
+    productPresenter.control(reg.parameters.id);
 };
 
+/***
+ * Open user profile page
+ */
 const doProfile = () => {
     profilePresenter.control();
 };
 
+/***
+ * Open registration page
+ */
 const doRegistration = () => {
     registrationPresenter.control();
 };
 
+/***
+ * Open search page
+ */
 const doSearch = () => {
     searchPresenter.control();
 };
 
-// router.add(pageUrls.favorite, doFavorite);
+router.add(frontUrls.favorite, doFavorite);
 router.add(frontUrls.main, doMain);
-// router.add(pageUrls.myAds, doMyAds);
-// router.add(pageUrls.productCreate, doProductCreate);
+router.add(frontUrls.myAds, doMyAds);
+router.add(frontUrls.productCreate, doProductCreate);
 router.add(frontUrls.product(), doProduct);
-// router.add(pageUrls.profile, doProfile);
-// router.add(pageUrls.registration, doRegistration);
-// router.add(pageUrls.search, doSearch);
+router.add(frontUrls.profile, doProfile);
+router.add(frontUrls.registration, doRegistration);
+router.add(frontUrls.search, doSearch);
 
 router.start();

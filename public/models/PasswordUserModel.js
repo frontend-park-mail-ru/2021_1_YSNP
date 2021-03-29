@@ -1,7 +1,5 @@
 import {UserModel} from './UserModel.js';
 
-import {deleteSymbolsXSS} from '../modules/xss.js';
-
 /***
  * Password user model
  */
@@ -15,28 +13,12 @@ export class PasswordUserModel extends UserModel {
     }
 
     /***
-     * Get user password
-     * @returns {string}
-     */
-    get password() {
-        return this.__password;
-    }
-
-    /***
-     * Set user password
-     * @param {string} password - user password
-     */
-    set password(password) {
-        this.__password = password;
-    }
-
-    /***
      * Fill user model data
      * @param {Object} data - user data
      */
     fillUserData(data) {
         super.fillUserData(data);
-        this.__password = deleteSymbolsXSS(data.password);
+        this.__password = data.password;
     }
 
     /***

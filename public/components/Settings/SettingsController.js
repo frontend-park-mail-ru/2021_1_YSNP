@@ -1,4 +1,4 @@
-import {user} from '../../models/SettingsUserData.js';
+import {user} from '../../models/ProfileUserModel.js';
 import {router} from '../../modules/router.js';
 import {frontUrls} from '../../modules/frontUrls.js';
 

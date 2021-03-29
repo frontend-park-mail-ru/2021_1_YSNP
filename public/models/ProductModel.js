@@ -2,8 +2,6 @@ import {http} from '../modules/http.js';
 import {backUrls} from '../modules/backUrls.js';
 import {httpStatus} from '../modules/httpStatus.js';
 
-import {deleteSymbolsXSS} from '../modules/xss.js';
-
 /***
  * Product model
  */
@@ -14,214 +12,6 @@ export class ProductModel {
      */
     constructor(data = {}) {
         this.fillProductModel(data);
-    }
-
-    /***
-     * Get product id
-     * @returns {string}
-     */
-    get id() {
-        return this.__id;
-    }
-
-    /***
-     * Set product id
-     * @param {string} id - product id
-     */
-    set id(id) {
-        this.__id = id;
-    }
-
-    /***
-     * Get product category
-     * @returns {string}
-     */
-    get category() {
-        return this.__category;
-    }
-
-    /***
-     * Set product category
-     * @param {string} category - product category
-     */
-    set category(category) {
-        this.__category = category;
-    }
-
-    /***
-     * Get product name
-     * @returns {string}
-     */
-    get name() {
-        return this.__name;
-    }
-
-    /***
-     * Set product name
-     * @param {string} name - product name
-     */
-    set name(name) {
-        this.__name = name;
-    }
-
-    /***
-     * Get product create date
-     * @returns {string}
-     */
-    get date() {
-        return this.__date;
-    }
-
-    /***
-     * Set product create date
-     * @param {string} date - product create date
-     */
-    set date(date) {
-        this.__date = date;
-    }
-
-    /***
-     * Get product amount
-     * @returns {number}
-     */
-    get amount() {
-        return this.__amount;
-    }
-
-    /***
-     * Set product amount
-     * @param {number} amount - product amount
-     */
-    set amount(amount) {
-        this.__amount = amount;
-    }
-
-    /***
-     * Get product description
-     * @returns {string}
-     */
-    get description() {
-        return this.__description;
-    }
-
-    /***
-     * Set product description
-     * @param {string} description - product description
-     */
-    set description(description) {
-        this.__description = description;
-    }
-
-    /***
-     * Get product views
-     * @returns {number}
-     */
-    get views() {
-        return this.__views;
-    }
-
-    /***
-     * Set product views
-     * @param {number} views - product views
-     */
-    set views(views) {
-        this.__views = views;
-    }
-
-    /***
-     * Get product likes
-     * @returns {number}
-     */
-    get likes() {
-        return this.__likes;
-    }
-
-    /***
-     * Set product likes
-     * @param {number} likes - product likes
-     */
-    set likes(likes) {
-        this.__likes = likes;
-    }
-
-    /***
-     * Get user like this product
-     * @returns {boolean}
-     */
-    get userLiked() {
-        return this.__userLiked;
-    }
-
-    /***
-     * Set user like this product
-     * @param {boolean} userLiked - user liked
-     */
-    set userLiked(userLiked) {
-        this.__userLiked = userLiked;
-    }
-
-    /***
-     * Get owner id
-     * @returns {string}
-     */
-    get ownerId() {
-        return this.__ownerId;
-    }
-
-    /***
-     * Set owner id
-     * @param {string} ownerId - owner id
-     */
-    set ownerId(ownerId) {
-        this.__ownerId = ownerId;
-    }
-
-    /***
-     * Get owner name
-     * @returns {string}
-     */
-    get ownerName() {
-        return this.__ownerName;
-    }
-
-    /***
-     * Set owner name
-     * @param {string} ownerName - owner name
-     */
-    set ownerName(ownerName) {
-        this.__ownerName = ownerName;
-    }
-
-    /***
-     * Get owner surname
-     * @returns {string}
-     */
-    get ownerSurname() {
-        return this.__ownerSurname;
-    }
-
-    /***
-     * Set owner surname
-     * @param {string} ownerSurname - owner surname
-     */
-    set ownerSurname(ownerSurname) {
-        this.__ownerSurname = ownerSurname;
-    }
-
-    /***
-     * Get owner stars
-     * @returns {number}
-     */
-    get ownerStars() {
-        return this.__ownerStars;
-    }
-
-    /***
-     * Set owner stars
-     * @param {number} ownerStars - owner stars
-     */
-    set ownerStars(ownerStars) {
-        this.__ownerStars = ownerStars;
     }
 
     /***
@@ -312,20 +102,20 @@ export class ProductModel {
      * @param {Object} data - product data
      */
     fillProductModel(data) {
-        this.__id = deleteSymbolsXSS(data.id);
-        this.__name = deleteSymbolsXSS(data.name);
-        this.__date = deleteSymbolsXSS(data.date);
-        this.__amount = deleteSymbolsXSS(data.amount);
-        this.__description = deleteSymbolsXSS(data.description);
-        this.__views = deleteSymbolsXSS(data.views);
-        this.__likes = deleteSymbolsXSS(data.likes);
-        this.__userLiked = deleteSymbolsXSS(data.userLiked);
+        this.__id = data.id;
+        this.__name = data.name;
+        this.__date = data.date;
+        this.__amount = data.amount;
+        this.__description = data.description;
+        this.__views = data.views;
+        this.__likes = data.likes;
+        this.__userLiked = data.userLiked;
         this.__linkImages = data.linkImages;
-        this.__ownerId = deleteSymbolsXSS(data.ownerId);
-        this.__ownerName = deleteSymbolsXSS(data.ownerName);
-        this.__ownerSurname = deleteSymbolsXSS(data.ownerSurname);
-        this.__ownerStars = deleteSymbolsXSS(data.ownerStars);
-        this.__category = deleteSymbolsXSS(data.category);
+        this.__ownerId = data.ownerId;
+        this.__ownerName = data.ownerName;
+        this.__ownerSurname = data.ownerSurname;
+        this.__ownerStars = data.ownerStars;
+        this.__category = data.category;
 
     }
 
@@ -386,7 +176,8 @@ export class ProductModel {
             date: day,
             amount: `${this.__amount.toLocaleString()} ₽`,
             userLiked: this.__userLiked,
-            linkImage: this.__getFirstImage()
+            linkImage: this.__getFirstImage(),
+            status: 0
         };
     }
 
@@ -395,7 +186,7 @@ export class ProductModel {
      * @returns {Promise<{isUpdate: boolean}|void>}
      */
     async update() {
-        return await http.get(backUrls.product + this.__id)
+        return http.get(backUrls.product + this.__id)
             .then(({status, data}) => {
                 if (status === httpStatus.StatusNotFound) {
                     throw new Error('Нет такого товара');
@@ -411,7 +202,7 @@ export class ProductModel {
                 return {isUpdate: true};
             })
             .catch((err) => {
-                console.log('ProductModel update', err.message);
+                console.log(err.message);
                 return {isUpdate: false, message: err.message};
             });
     }
@@ -443,29 +234,7 @@ export class ProductModel {
                 return http.post(backUrls.productCreate, model);
                 // TODO(Ivan) а проверка на ошибки?
             }).catch((err) => {
-                console.log('ProductModel create', err.message);
+                console.log(err.message);
             });
-    }
-
-    /***
-     * Log current data
-     */
-    log() {
-        console.dir({
-            id: this.__id,
-            name: this.__name,
-            date: this.__date,
-            amount: this.__amount,
-            description: this.__description,
-            views: this.__views,
-            likes: this.__likes,
-            userLiked: this.__userLiked,
-            linkImage: this.__linkImages,
-            ownerId: this.__ownerId,
-            ownerName: this.__ownerName,
-            ownerSurname: this.__ownerSurname,
-            ownerStars: this.__ownerStars,
-            category: this.__category
-        });
     }
 }
