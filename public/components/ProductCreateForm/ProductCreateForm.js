@@ -1,5 +1,7 @@
 import './ProductCreateForm.css';
 import productCreateFormTemplate from './ProductCreateForm.hbs';
+import productPhotoTemplate from './ProductPhoto.hbs';
+import productFileTemplate from './ProductFile.hbs';
 import {createMessageError} from '../../modules/validationStates.js';
 import {Field} from '../RegistrationPanel/Fields/Field';
 
@@ -119,6 +121,15 @@ export class ProductCreateForm {
             .removeEventListener(this.listeners.blurInput.type, this.listeners.blurInput.listener, true);
     }
 
+    /***
+     * @author Ivan Gorshkov
+     *
+     * delete selected picture
+     * @param {HTMLElement} target
+     * @param {Function} handler
+     * @return {Function}
+     * @this {ProductCreateForm}
+     */
     deletePicture(target, handler) {
         document.getElementById(`_profile-pic${target.dataset.id}`).remove();
         document.getElementById(`file-upload${target.dataset.id}`).remove();
@@ -140,6 +151,16 @@ export class ProductCreateForm {
         return handler;
     }
 
+    /***
+     * @author Ivan Gorshkov
+     *
+     * callback after photo has been loaded
+     * @param {HTMLElement} input
+     * @param {number} count
+     * @param {Function} incFunc
+     * @param {Event} e
+     * @this {ProductCreateForm}
+     */
     onReaderLoad(input, e, count, incFunc) {
         const elem = document.getElementById(`product__pic${input.dataset.id}`);
         elem.src = e.target.result;
@@ -148,42 +169,77 @@ export class ProductCreateForm {
             const idPhoto = document.getElementById('productPhoto');
             const incCount = count + 1;
             incFunc();
-            idPhoto.insertAdjacentHTML('beforeend', `
-                <div class="form-row" id="_profile-pic${incCount}">    
-                  <label class="form-row__photolabel" data-action="clickUpload" data-move="showCross" data-moveout="hideCross" data-id="${incCount}"> 
-                     <img class="product__pic" id="product__pic${incCount}" data-id="${incCount}" src="../../img/svg/photo.svg" alt="">
-                     <div class="cross error-hidden" id="delete${incCount}" data-id='${incCount}' data-action="delete" ></div>
-                   </label>
-                </div>
-                `);
+            idPhoto.insertAdjacentHTML('beforeend', productPhotoTemplate(incCount));
             const idfile = document.getElementById('files');
-            idfile.insertAdjacentHTML('beforeend', `
-                <input name="photos" id="file-upload${incCount}" data-id="${incCount}" data-action="readURL" class="file-upload" type="file" accept="image/*"/>
-            `);
+            idfile.insertAdjacentHTML('beforeend', productFileTemplate(incCount));
         }
     }
 
+    /***
+     * @author Ivan Gorshkov
+     *
+     * hide error
+     * @param {string} target
+     * @this {ProductCreateForm}
+     */
     hideError(target) {
         document.getElementById(target).classList.remove('error-hidden');
     }
 
+    /***
+     * @author Ivan Gorshkov
+     *
+     * open file system
+     * @param {HTMLElement} target
+     * @this {ProductCreateForm}
+     */
     openFileSystem(target) {
         const elem = document.getElementById(`file-upload${target.dataset.id}`);
         elem.click();
     }
 
+    /***
+     * @author Ivan Gorshkov
+     *
+     * get id from target
+     * @param {HTMLElement} target
+     * @return {string}
+     * @this {ProductCreateForm}
+     */
     getErrorId(target) {
         return `${target.id}Error`;
     }
 
+    /***
+     * @author Ivan Gorshkov
+     *
+     * show cross when move in
+     * @param {HTMLElement} target
+     * @this {ProductCreateForm}
+     */
     showCross(target) {
         document.getElementById(`delete${target.dataset.id}`).classList.remove('error-hidden');
     }
 
+    /***
+     * @author Ivan Gorshkov
+     *
+     * hide cross when move out
+     * @param {HTMLElement} target
+     * @this {ProductCreateForm}
+     */
     hideCross(target) {
         document.getElementById(`delete${target.dataset.id}`).classList.add('error-hidden');
     }
 
+    /***
+     * @author Ivan Gorshkov
+     *
+     * add Error to Field
+     * @param {[string]} message
+     * @return {string}
+     * @this {ProductCreateForm}
+     */
     addErrorForm(message) {
         const errorList = message.reduce((prev, cur) => `${prev}<li>${cur}</li>`, '');
         return createMessageError(`
@@ -193,12 +249,24 @@ export class ProductCreateForm {
         `);
     }
 
-
+    /***
+     * @author Ivan Gorshkov
+     *
+     * get HTMLElement of form in view
+     * @return {HTMLElement}
+     * @this {ProductCreateForm}
+     */
     getForm() {
         return document.getElementById('createProductForm');
     }
 
-
+    /***
+     * @author Ivan Gorshkov
+     *
+     * get all fields
+     * @return {Object}
+     * @this {ProductCreateForm}
+     */
     getAllFields() {
         return {
             price: document.getElementById('priceInput'),
@@ -208,6 +276,13 @@ export class ProductCreateForm {
         };
     }
 
+    /***
+     * @author Ivan Gorshkov
+     *
+     * change title of button and disable
+     * @param {string} title
+     * @this {ProductCreateForm}
+     */
     changeDisableButton(title) {
         const button = document.getElementById('submitProduct');
         button.value = title;
