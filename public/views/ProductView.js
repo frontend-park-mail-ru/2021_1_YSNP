@@ -50,6 +50,13 @@ export class ProductView extends BaseView {
         this.__boardSubView.removeListeners();
     }
 
+    /***
+     * @author Ivan Gorshkov
+     *
+     * get HTMLElement of layout
+     * @return {HTMLElement}
+     * @this {ProductView}
+     */
     getLayoutParent() {
         return this.layout.parent;
     }

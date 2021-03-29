@@ -43,46 +43,122 @@ export class RegistrationView extends BaseView {
         };
     }
 
+    /***
+     * @author Ivan Gorshkov
+     *
+     * get id from target
+     * @param{HTMLElement} target
+     * @return {string}
+     * @this {RegistrationView}
+     */
     getErrorId(target) {
         return this.__regSubView.getErrorId(target);
     }
 
+    /***
+     * @author Ivan Gorshkov
+     *
+     * create Error for field in form
+     * @param {[string]} message
+     * @this {RegistrationView}
+     * @return {string}
+     */
     addErrorForm(message) {
         return this.__regSubView.addErrorForm(message);
     }
 
+    /***
+     * @author Ivan Gorshkov
+     *
+     * @param {HTMLElement} target
+     * @this {RegistrationView}
+     */
     hideError(target) {
         this.__regSubView.hideError(target);
     }
 
+    /***
+     * @author Ivan Gorshkov
+     *
+     * open file system
+     * @this {RegistrationView}
+     */
     openFileSystem() {
         this.__regSubView.openFileSystem();
     }
 
+    /***
+     * @author Ivan Gorshkov
+     *
+     * get HTMLElement of from
+     * @return {HTMLElement}
+     * @this {RegistrationView}
+     */
     getForm() {
         return this.__regSubView.getForm();
     }
 
+    /***
+     * @author Ivan Gorshkov
+     *
+     * get all fields HTMLElement
+     * @return {Object}
+     * @this {RegistrationView}
+     * */
     getAllFields() {
         return this.__regSubView.getAllFields();
     }
 
+    /***
+     * @author Ivan Gorshkov
+     *
+     * call back when photo loaded
+     * @param{Event} ev
+     * @this {RegistrationView}
+     */
     avatarOnLoad(ev) {
         this.__regSubView.avatarOnLoad.call(this, ev);
     }
 
+    /***
+     * @author Ivan Gorshkov
+     *
+     * add error class to avatar
+     * @this {RegistrationView}
+     */
     addErrorAvatar() {
         this.__regSubView.addErrorAvatar();
     }
 
+    /***
+     * @author Ivan Gorshkov
+     *
+     * remove error class to avatar
+     * @this {RegistrationView}
+     */
     removeErrorAvatar() {
         this.__regSubView.removeErrorAvatar();
     }
 
+    /***
+     * @author Ivan Gorshkov
+     *
+     * get error text to registration subView
+     * @param{string} val
+     * @this {RegistrationView}
+     */
     errorText(val) {
         this.__regSubView.errorText(val);
     }
 
+
+    /***
+     * @author Ivan Gorshkov
+     *
+     * get HTMLElement of layout
+     * @return {HTMLElement}
+     * @this {RegistrationView}
+     */
     getLayoutParent() {
         return this.layout.parent;
     }

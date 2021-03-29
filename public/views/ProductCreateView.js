@@ -54,7 +54,13 @@ export class ProductCreateView extends BaseView {
         };
     }
 
-
+    /***
+     * @author Ivan Gorshkov
+     *
+     * get HTMLElement of layout
+     * @return {HTMLElement}
+     * @this {ProductCreateView}
+     */
     getLayoutParent() {
         return this.layout.parent;
     }
