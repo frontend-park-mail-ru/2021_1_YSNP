@@ -103,7 +103,7 @@ export class ProductView extends BaseView {
         super.render();
         this.layout.render();
         this.__makeContext(context);
-        this.__navSubView = new Navigation(this.getLayoutParent(), 'Главная страница', {route: [this.__context.product.data.category, this.__context.product.data.name]});
+        this.__navSubView = new Navigation(this.getLayoutParent(), 'Главная страница', {route: [this.__context.product.data.__category, this.__context.product.data.__name]});
         this.__navSubView.render(this.__context);
         this.__boardSubView = new Board(this.getLayoutParent());
         this.__boardSubView.render(this.__context);

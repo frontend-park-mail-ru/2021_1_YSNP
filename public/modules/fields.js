@@ -78,6 +78,7 @@ export const baseRegistration = {
         },
         sex: {
             title: 'Пол',
+            id: 'sex',
             template: fieldSelectTemplate.bind(),
             options: [{
                     value: 'female',
