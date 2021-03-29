@@ -1,0 +1,71 @@
+<div class="settings" id="settings">
+    <form class="settings-inner" id="settings-form">
+        <div class="settings-title">
+            <span>Личные данные</span>
+            <span class="settings-title__edit" id="settings-edit" data-action="editClick">
+                        <svg width="2vh" height="2vh" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path opacity="0.3" d="M5.52719 16.7477L14.5274 7.74753L10.2525 3.4726L1.25226 12.4728C1.12836 12.5969 1.04034 12.7522 0.997548 12.9222L0 18L5.07684 17.0025C5.2473 16.9598 5.40322 16.8717 5.52719 16.7477ZM17.4329 4.84205C17.796 4.47881 18 3.98622 18 3.4726C18 2.95898 17.796 2.46639 17.4329 2.10315L15.8968 0.567123C15.5336 0.203995 15.041 0 14.5274 0C14.0138 0 13.5212 0.203995 13.1579 0.567123L11.6219 2.10315L15.8968 6.37808L17.4329 4.84205Z" fill="black"/>
+                        </svg>
+                    </span>
+            <button id="settings-button-save" class="settings-title__save_button" data-action="saveChangesClick">Сохранить изменения</button>
+        </div>
+        <div class="settings__separator"></div>
+        <span class="settings-error_hidden" id="settings-error"></span>
+        <div class="settings-components">
+            <div class="settings-left-components">
+                <span class="settings-components__title">Фамилия</span>
+                <span class="settings-components__title">Имя</span>
+                <span class="settings-components__title">Пол</span>
+                <span class="settings-components__title">Дата рождения</span>
+                <span class="settings-components__title">Телефон</span>
+                <span class="settings-components__title">E-mail</span>
+            </div>
+            <div class="settings-right-components" id="settings-components">
+                <div class="settings-input-inner">
+                    <input id="settings-surname" data-action="inputEmpty" required class="settings-components__input" type="text" value="{{surname}}" data-move="showError" data-moveout="hideError" readonly>
+                </div>
+                <div class="settings-input-inner">
+                    <input id="settings-name" data-action="inputEmpty" required class="settings-components__input" type="text" value="{{name}}" data-move="showError" data-moveout="hideError" readonly>
+                </div>
+                <div class="settings-input-inner">
+                    <select id="settings-gender" class="settings-components__input" disabled>
+                        <option value="female" name="female">Женский</option>
+                        <option value="male" name="male">Мужской</option>
+                    </select>
+                </div>
+                <div class="settings-input-inner">
+                    <input id="settings-birthday" data-action="inputEmpty" class="settings-components__input" type="date" min="1900-01-01" max="2021-01-01" value="{{dateBirth}}" data-move="showError" data-moveout="hideError" readonly>
+                </div>
+                <div class="settings-input-inner">
+                    <input id="settings-telephone" data-action="inputPhone" class="settings-components__input" type="tel" value="{{telephone}}" data-move="showError" data-moveout="hideError" readonly>
+                </div>
+                <div class="settings-input-inner">
+                    <input id="settings-email" data-action="inputMail" required class="settings-components__input" type="email" value="{{email}}" data-move="showError" data-moveout="hideError" readonly>
+                </div>
+
+            </div>
+        </div>
+
+
+        <div class="settings__separator"></div>
+        <div class="settings-photo-inner">
+            <span class="settings-components__title">Фото</span>
+            <div class="settings-input-inner">
+                <input id="file-upload" name="file-upload" data-action="readURL" class="file-upload" type="file" accept="image/*"/>
+                <div class="settings-avatar">
+                    <div class="settings-avatar-inner" id="settings-avatar" data-action="clickUpload">
+                        <img class="settings-avatar__pic" id="settings-profile-pic" src="{{linkImage}}" alt="img">
+                        <div class="settings-avatar-upload">
+                            <i class="settings-avatar-upload__button" id="settings-upload-button">
+                                <svg width="32" height="32" viewBox="0 0 32 32" fill="white" xmlns="http://www.w3.org/2000/svg">
+                                    <path opacity="1" d="M21.3333 10.6667H19.5556C18.5778 10.6667 17.7778 9.86667 17.7778 8.88889V0H3.55556C1.6 0 0 1.6 0 3.55556V28.4444C0 30.4 1.6 32 3.55556 32H28.4444C30.4 32 32 30.4 32 28.4444V14.2222H23.1111C22.1333 14.2222 21.3333 13.4222 21.3333 12.4444V10.6667ZM24.8889 24.8889H7.11111C6.94603 24.8889 6.78422 24.8429 6.64379 24.7561C6.50337 24.6693 6.38989 24.5452 6.31606 24.3975C6.24224 24.2499 6.21099 24.0846 6.22581 23.9202C6.24064 23.7558 6.30095 23.5987 6.4 23.4667L9.95556 18.72C10.3111 18.24 11.0222 18.24 11.3778 18.72L14.6667 23.1111L19.2889 16.9422C19.6444 16.4622 20.3556 16.4622 20.7111 16.9422L25.6 23.4667C25.699 23.5987 25.7594 23.7558 25.7742 23.9202C25.789 24.0846 25.7578 24.2499 25.6839 24.3975C25.6101 24.5452 25.4966 24.6693 25.3562 24.7561C25.2158 24.8429 25.054 24.8889 24.8889 24.8889Z" fill="gray"/>
+                                    <path opacity="1" d="M28.3333 3.66667V1.83333C28.3333 0.825 27.5083 0 26.5 0C25.4917 0 24.6667 0.825 24.6667 1.83333V3.66667H22.8333C21.825 3.66667 21 4.49167 21 5.5C21 6.50833 21.825 7.33333 22.8333 7.33333H24.6667V9.16667C24.6667 10.175 25.4917 11 26.5 11C27.5083 11 28.3333 10.175 28.3333 9.16667V7.33333H30.1667C31.175 7.33333 32 6.50833 32 5.5C32 4.49167 31.175 3.66667 30.1667 3.66667H28.3333Z" fill="gray"/>
+                                </svg>
+                            </i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
