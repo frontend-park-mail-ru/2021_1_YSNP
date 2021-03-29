@@ -75,7 +75,7 @@ export class Navigation {
     addListeners() {
         document
             .getElementById('navigate-back')
-            .addEventListener(this.listeners.backButton.type, this.listeners.backButton.listener);
+            .addEventListener(this.listeners.backClick.type, this.listeners.backClick.listener);
     }
 
     /***
@@ -88,7 +88,7 @@ export class Navigation {
     removeListeners() {
         document
             .getElementById('navigate-back')
-            .removeEventListener(this.listeners.backButton.type, this.listeners.backButton.listener);
+            .removeEventListener(this.listeners.backClick.type, this.listeners.backClick.listener);
     }
 
     /***
@@ -112,7 +112,9 @@ export class Navigation {
      * @this {Navigation}
      * @public
      */
-    render() {
+    render(ctx) {
+        this.listeners = ctx.navigation.listeners;
         this.__parent.insertAdjacentHTML('beforeend', navigationTemplate(this.__context()));
+        this.addListeners();
     }
 }

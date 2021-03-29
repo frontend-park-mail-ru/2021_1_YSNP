@@ -20,24 +20,55 @@ export class Description {
      */
     constructor(parent, data) {
         this.__parent = parent;
-        this.__data = data;
+        this.__ctx = data;
+        this.__context();
     }
 
     /***
      * @author Ivan Gorshkov
      *
-     * context for template
+     * context for template after reformatting
      * @return {{description: *}}
      * @private
      */
-    __context() {
-        return {
+    __reformatContext() {
+        this.__data = {
             description: this.__data.description.map((value) => ({
                 title: value.title,
                 text: value.text.replaceAll('\n', '<br/>')
             }))
         };
+        return this.__data;
     }
+
+    /***
+     * @author Ivan Gorshkov
+     *
+     * context before reformat \n tp <br>
+     * @this {Description}
+     * @private
+     */
+    __context() {
+        this.__data = {
+            description: [{
+                title: 'Описание',
+                text: this.__ctx.__description
+            },
+            {
+                title: 'Категория',
+                text: this.__ctx.__category
+            },
+            {
+                title: 'Подкатегория',
+                text: 'С пробегом'
+            },
+            {
+                title: 'Адрес',
+                text: 'Москва, Профсоюзная улица, 132к2, Коньково'
+            }]
+        };
+    }
+
 
     /***
      * @author Ivan Gorshkov
@@ -47,6 +78,6 @@ export class Description {
      * @public
      */
     render() {
-        this.__parent.insertAdjacentHTML('beforeend', descriptionTemplate(this.__context()));
+        this.__parent.insertAdjacentHTML('beforeend', descriptionTemplate(this.__reformatContext()));
     }
 }

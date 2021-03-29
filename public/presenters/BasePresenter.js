@@ -3,8 +3,9 @@ import {frontUrls} from '../modules/frontUrls.js';
 import {eventHandler} from '../modules/eventHandler.js';
 import {parseTelNumber, telMask} from '../modules/telMask';
 
-import {user} from '../models/SettingsUserData.js';
-import {AuthUserData} from '../models/AuthUserData.js';
+import {user} from '../models/ProfileUserModel.js';
+import {AuthUserModel} from '../models/AuthUserModel.js';
+import {YandexMap} from '../modules/yandexMap';
 
 /***
  * Base presenter
@@ -17,9 +18,10 @@ export class BasePresenter {
     constructor(view) {
         this.__view = view;
         this.__userModel = user;
-        this.__authModel = new AuthUserData();
+        this.__authModel = new AuthUserModel();
         this.__isShownMap = false;
         this.__isShownAuth = false;
+        this.__yaMap = new YandexMap();
     }
 
     /***
@@ -27,8 +29,14 @@ export class BasePresenter {
      * @returns {Promise<void>}
      */
     async update() {
-        await this.__userModel.update();
-        this.__view.baseContext = this.__makeBaseContext();
+        return this.__userModel.update()
+            .then(() => {
+                this.__view.baseContext = this.__makeBaseContext();
+            })
+            .catch((err) => {
+                //TODO(Sergey) нормальная обработка ошибок
+                console.log(err.message);
+            });
     }
 
     /***
@@ -36,7 +44,7 @@ export class BasePresenter {
      * @private
      */
     __listenerPageClick() {
-        this.__closeAllComponents();
+        this.closeAllComponents();
     }
 
     /***
@@ -71,7 +79,7 @@ export class BasePresenter {
         ev.stopPropagation();
 
         router.redirectEvent(ev);
-        eventHandler(ev, this.__getBaseActions().header);
+        eventHandler(ev, this.__getBaseActions().auth);
     }
 
     /***
@@ -79,7 +87,7 @@ export class BasePresenter {
      * @param {MouseEvent} ev - event
      * @private
      */
-    __listenerSubmitForm(ev) {
+    async __listenerSubmitForm(ev) {
         ev.preventDefault();
         ev.stopPropagation();
 
@@ -91,20 +99,18 @@ export class BasePresenter {
             password: password
         });
 
-        if (!error) {
-            this.__authModel.auth()
-                .then(({isAuth, message}) => {
-                    if (isAuth) {
-                        router.redirect(frontUrls.main);
-                    } else {
-                        this.__view.authErrorText(message);
-                    }
-                });
-
+        if (error) {
+            this.__view.authErrorText(message);
             return;
         }
 
-        this.__view.authErrorText(message);
+        this.__authModel.auth()
+            .then(() => {
+                router.redirect(frontUrls.main);
+            })
+            .catch((err) => {
+                this.__view.authErrorText(err.message);
+            });
     }
 
     /***
@@ -115,7 +121,30 @@ export class BasePresenter {
     __listenerKeyClick(ev) {
         if (ev.key === 'Escape') {
             this.__closeAuth();
+            this.__closeMap();
         }
+    }
+
+    /***
+     * YandexMap popup click event
+     * @param {MouseEvent} ev - event
+     * @private
+     */
+    __listenerMapClick(ev) {
+        ev.stopPropagation();
+
+        const actions = this.__getBaseActions().map;
+        Object
+            .entries(ev.composedPath())
+            .forEach(([, el]) => {
+                if (el.dataset !== undefined && 'action' in el.dataset) {
+                    if (el.dataset.action === 'groupClick') {
+                        actions[el.dataset.action].open(ev.target);
+                    } else {
+                        actions[el.dataset.action].open();
+                    }
+                }
+            });
     }
 
     /***
@@ -164,6 +193,16 @@ export class BasePresenter {
                     type: 'blur',
                     listener: telMask
                 }
+            },
+            map: {
+                mapClick: {
+                    type: 'click',
+                    listener: this.__listenerMapClick.bind(this)
+                },
+                keyClick: {
+                    type: 'keydown',
+                    listener: this.__listenerKeyClick.bind(this)
+                }
             }
         };
     }
@@ -185,9 +224,14 @@ export class BasePresenter {
      * @private
      */
     __openMap() {
-        this.__closeAllComponents();
+        this.closeAllComponents();
         this.__isShownMap = true;
         this.__view.renderMap();
+        this.__yaMap.render({
+            searchControl: true,
+            geolocationControl: true,
+            listeners: true
+        });
     }
 
     /***
@@ -206,7 +250,7 @@ export class BasePresenter {
      * @private
      */
     __openAuth() {
-        this.__closeAllComponents();
+        this.closeAllComponents();
         this.__isShownAuth = true;
         this.__view.renderAuth();
     }
@@ -240,9 +284,9 @@ export class BasePresenter {
 
     /***
      * Close all view components
-     * @private
+     * @public
      */
-    __closeAllComponents() {
+    closeAllComponents() {
         this.__closeMap();
         this.__closeAuth();
         this.__closeDropdownMenu();
@@ -252,13 +296,35 @@ export class BasePresenter {
      * Logout user
      * @private
      */
-    __logout() {
+    async __logout() {
         this.__userModel.logout()
-            .then(({isLogout}) => {
-                if (isLogout) {
-                    router.redirect(frontUrls.main);
-                }
+            .then(() => {
+                router.redirect(frontUrls.main);
+            })
+            .catch((err) => {
+                //TODO(Sergey) нормальная обработка ошибок
+                console.log(err.message);
             });
+    }
+
+    /***
+     * Group button click
+     * @param {HTMLElement} el - element click
+     * @private
+     */
+    __groupClick(el) {
+        if (el instanceof HTMLInputElement) {
+            this.__yaMap.addCircle(this.__yaMap.getPointPos(), el.value * 1000);
+        }
+    }
+
+    /***
+     * Create user address
+     * @private
+     */
+    __createUserAddress() {
+        console.log(this.__yaMap.getPointPos());
+        console.log(this.__yaMap.getAddress());
     }
 
     /***
@@ -289,6 +355,17 @@ export class BasePresenter {
                 closeClick: {
                     open: this.__closeAuth.bind(this)
                 }
+            },
+            map: {
+                closeClick: {
+                    open: this.__closeMap.bind(this)
+                },
+                groupClick: {
+                    open: this.__groupClick.bind(this)
+                },
+                createClick: {
+                    open: this.__createUserAddress.bind(this)
+                }
             }
         };
     }
@@ -311,6 +388,9 @@ export class BasePresenter {
             },
             auth: {
                 listeners: this.__createBaseListeners().auth
+            },
+            map: {
+                listeners: this.__createBaseListeners().map
             }
         };
     }

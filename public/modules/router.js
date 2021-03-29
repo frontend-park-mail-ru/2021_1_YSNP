@@ -1,3 +1,5 @@
+import {frontUrls} from './frontUrls';
+
 /***
  * Application router
  */
@@ -53,6 +55,26 @@ class Router {
      */
     goBack() {
         window.history.back();
+    }
+
+    /***
+     * Go back from navigation bar
+     */
+    navigateBack() {
+        if (this.historyLength() === 2) {
+            this.redirect(frontUrls.main);
+            return;
+        }
+
+        this.goBack();
+    }
+
+    /***
+     * count of history stack
+     * @return {number}
+     */
+    historyLength() {
+        return window.history.length;
     }
 
     /***

@@ -40,7 +40,7 @@ export class RegUserData extends PasswordUserModel {
      * @returns {Promise<{}|void>}
      */
     async registration(form) {
-        return await http.post(backUrls.singUp, this.__jsonData())
+        return http.post(backUrls.singUp, this.__jsonData())
             .then(({status, data}) => {
                 if (status === httpStatus.StatusOK) {
                     return http.post(backUrls.upload, new FormData(form), true)
@@ -78,22 +78,5 @@ export class RegUserData extends PasswordUserModel {
 
                 return {};
             }).catch((err) => Promise.reject(err));
-    }
-
-    /***
-     * Log current data
-     */
-    log() {
-        console.dir({
-            id: this.__id,
-            name: this.__name,
-            surname: this.__surname,
-            sex: this.__sex,
-            dateBirth: this.__dateBirth,
-            email: this.__email,
-            telephone: this.__telephone,
-            linkImages: this.__linkImages,
-            password: this.__password
-        });
     }
 }

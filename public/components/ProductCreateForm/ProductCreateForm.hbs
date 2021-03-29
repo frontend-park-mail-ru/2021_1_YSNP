@@ -9,52 +9,6 @@
         </div>
         <div id="ProductForm">
 
-            {{#each fields}}
-                <div class="product-des form-spacing">
-                    <div class="product-des-topic">
-                        <p class="product-des-topic__title">{{this.title}}</p>
-                    </div>
-                    <div class="form-inner">
-                        {{#if_eq this.inputType 'select'}}
-                            <select id="{{this.id}}" class="reg-panel__textfield" name="{{this.id}}">
-                                {{#each options}}
-                                    <option>{{this}}</option>
-                                {{/each}}
-                            </select>
-                        {{/if_eq}}
-
-                        {{#if_eq this.inputType 'text'}}
-                            <input min="0" class="reg-panel__textfield" data-action="{{this.dataAction}}"
-                                   data-move="showError" data-moveout="hideError" id="${element.id}" type="{{this.id}}"
-                                   placeholder="{{this.placeholder}}" name="{{this.id}}"/>
-
-                        {{/if_eq}}
-                        {{#if_eq this.inputType 'textarea'}}
-                            <textarea class="form-row__textarea" data-action="{{this.dataAction}}"
-                                      data-move="showError" data-moveout="hideError" id="{{this.id}}"
-                                      placeholder="{{this.placeholder}}" name="{{this.id}}" maxlength="5000"></textarea>
-                        {{/if_eq}}
-                    </div>
-                </div>
-            {{/each}}
-
-        </div>
-        <div class="product-des form-spacing">
-            <div class="product-des-topic ">
-                <p class="product-des-topic__title">Фото</p>
-            </div>
-            <div class="form-inner">
-                <div class="photo-container" id="productPhoto">
-                    <div class="form-row" id="_profile-pic0">
-                        <label class="form-row__photolabel" data-action="clickUpload" data-move="showCross"
-                               data-moveout="hideCross" data-id="0">
-                            <img class="product__pic" data-id='0' id="product__pic0" src="../../img/svg/photo.svg"
-                                 alt="">
-                            <div class="cross error-hidden" id="delete0" data-id='0' data-action="delete"></div>
-                        </label>
-                    </div>
-                </div>
-            </div>
         </div>
         <div class="product-des">
             <div class="product-des-topic"></div>
