@@ -1,8 +1,8 @@
 import {BaseView} from './BaseView.js';
 
 import {Switch} from '../components/Switch/Switch.js';
-import {Layout} from '../components/Layout/Layout';
-import {ProductTable} from '../components/ProductTable/ProductTable';
+import {Layout} from '../components/Layout/Layout.js';
+import {ProductTable} from '../components/ProductTable/ProductTable.js';
 
 /***
  * Main view

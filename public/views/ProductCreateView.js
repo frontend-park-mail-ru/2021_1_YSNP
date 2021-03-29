@@ -18,7 +18,7 @@ export class ProductCreateView extends BaseView {
      */
     constructor(app, baseProductCreate) {
         super(app);
-        this.layout = new Layout(this.__app);
+        this.layout = new Layout(this.__app, true);
         this.__baseProductCreate = baseProductCreate;
     }
 
@@ -204,6 +204,7 @@ export class ProductCreateView extends BaseView {
         super.render();
         this.layout.render();
         this.__makeContext(context);
+
         this.__navSubView = new Navigation(this.getLayoutParent(), 'Главная страница', {route: ['Регистрация профиля']});
         this.__navSubView.render(this.__context);
         this.__productCreate = new ProductCreateForm(this.getLayoutParent());

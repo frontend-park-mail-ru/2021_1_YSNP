@@ -17,7 +17,7 @@ export class ProductView extends BaseView {
      */
     constructor(app) {
         super(app);
-        this.layout = new Layout(this.__app);
+        this.layout = new Layout(this.__app, true);
     }
 
     /***

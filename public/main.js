@@ -69,7 +69,7 @@ const doProductCreate = () => {
 
 /***
  * Open product page
- * @param {number} reg - page params
+ * @param {number} id - page params
  */
 const doProduct = (id) => {
     const productPresenter = new ProductPresenter(productView, id.parameters.id);

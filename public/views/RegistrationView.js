@@ -18,7 +18,7 @@ export class RegistrationView extends BaseView {
      */
     constructor(app, baseRegistration) {
         super(app);
-        this.layout = new Layout(this.__app);
+        this.layout = new Layout(this.__app, true);
         this.__baseRegistration = baseRegistration;
     }
 
