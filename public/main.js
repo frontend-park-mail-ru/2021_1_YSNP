@@ -104,7 +104,7 @@ const doSearch = () => {
 };
 
 const doPromotion = () => {
-    const favoritePresenter = new FavoritePresenter(favoriteView);
+    const promotionPresenter = new PromotionView(promotionView);
     promotionPresenter.control();
 };
 
