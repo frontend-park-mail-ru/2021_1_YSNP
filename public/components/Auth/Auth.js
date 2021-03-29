@@ -25,7 +25,7 @@ export class Auth {
 
     /***
      * Get user telephone
-     * @returns {*}
+     * @returns {string}
      */
     getTelephone() {
         return document.getElementById('auth-tel').value;
@@ -33,7 +33,7 @@ export class Auth {
 
     /***
      * Get user password
-     * @returns {*}
+     * @returns {string}
      */
     getPassword() {
         return document.getElementById('auth-password').value;
@@ -99,17 +99,25 @@ export class Auth {
      * Add component to parent
      */
     render(context) {
-        this.__context = context;
+        try {
+            this.__context = context;
 
-        this.__parent.insertAdjacentHTML('beforeend', authTemplate());
-        this.__addListeners();
+            this.__parent.insertAdjacentHTML('beforeend', authTemplate());
+            this.__addListeners();
+        } catch (err) {
+            console.log(err.message);
+        }
     }
 
     /***
      * Remove component
      */
     remove() {
-        this.__removeListeners();
-        document.getElementById('auth').remove();
+        try {
+            this.__removeListeners();
+            document.getElementById('auth').remove();
+        } catch (err) {
+            console.log(err.message);
+        }
     }
 }

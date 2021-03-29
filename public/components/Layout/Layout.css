@@ -3,22 +3,24 @@
     width: 100%;
 }
 
+.layout__main {
+    margin-top: 9vh;
+}
+
 .layout-inner {
     margin-left: 15vw;
     margin-right: 15vw;
 }
 
-.layout-columns{
+.layout-block {
     display: flex;
     flex-direction: row;
-    justify-content: center;
-    margin-top: 3vh;
 }
 
-.layout-column-left{
-
+.layout-left {
+    height: 100%;
 }
 
-.layout-column-right{
-
+.layout-right {
+    height: 100%;
 }

@@ -1,16 +1,15 @@
-<div class="layout">
-    {{#if two}}
-        <div class="layout-columns">
-            <div class="layout-column-left" id="layout-left-parent">
+<div class="layout" id="layout">
+    <div class="layout-inner">
 
+        {{#if_eq layoutCount 'two'}}
+
+            <div class="layout-block">
+                <div class="layout-left" style="width: {{leftWidth}}%"></div>
+
+                <div class="layout-right" style="width: {{rightWidth}}%"></div>
             </div>
-            <div class="layout-column-right" id="layout-right-parent">
 
-            </div>
-        </div>
-    {{else}}
-        <div class="layout-inner" id="layout-parent">
+        {{/if_eq}}
 
-        </div>
-    {{/if}}
+    </div>
 </div>

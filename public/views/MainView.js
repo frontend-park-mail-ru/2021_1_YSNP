@@ -1,21 +1,13 @@
 import {BaseView} from './BaseView.js';
 
 import {Switch} from '../components/Switch/Switch.js';
-import {Layout} from '../components/Layout/Layout';
-import {ProductList} from '../components/ProductList/ProductList';
+import {Layout} from '../components/Layout/Layout.js';
+import {ProductTable} from '../components/ProductTable/ProductTable.js';
 
 /***
  * Main view
  */
 export class MainView extends BaseView {
-    /***
-     * Class constructor
-     * @param {HTMLElement} app - parent element
-     */
-    constructor(app) {
-        super(app);
-    }
-
     /***
      * Like product
      * @param {number} id - product id
@@ -32,6 +24,19 @@ export class MainView extends BaseView {
         this.__productList.dislike(id);
     }
 
+    /***
+     * Add new cards to view
+     * @param {Object[]} context - new cards
+     */
+    addNewCards(context) {
+        this.__productList.addNewCards(context);
+    }
+
+    /***
+     * Get view context
+     * @param {Object} context - presenter context
+     * @private
+     */
     __makeContext(context) {
         this.__context = {
             productList: {
@@ -53,14 +58,14 @@ export class MainView extends BaseView {
         super.render();
         this.__makeContext(context);
 
-        const layout = new Layout(this.__app);
+        const layout = new Layout(this.__app, true);
         layout.render();
         const parent = layout.parent;
 
         const adSwitch = new Switch(parent);
         adSwitch.render(this.__context.switch);
 
-        this.__productList = new ProductList(parent);
+        this.__productList = new ProductTable(parent);
         this.__productList.render(this.__context.productList);
     }
 }

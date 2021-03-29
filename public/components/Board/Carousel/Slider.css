@@ -28,8 +28,8 @@
 
 .slider-preview__picture {
     margin-top: 0;
-    width: 49vw;
-    height: 52vh;
+    width: 41vw;
+    height: 50vh;
     object-fit: cover;
     user-select: none;
 }

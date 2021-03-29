@@ -1,10 +1,11 @@
 .product-card {
-    height: 37vh;
-    width: 23vh;
+    height: 19vw;
+    width: 12vw;
 
-    margin: 1vh 1vh 4vh;
+    margin: 0.5vw 0.5vw 1vw;
 
     position: relative;
+    overflow: hidden;
 
     border: 0;
     border-radius: 1vh;
@@ -16,7 +17,14 @@
     transition-property: box-shadow;
 }
 
+.product-card_vip {
+    border: 2px solid rgb(211, 30, 30);
+}
+
 .product-card-inner {
+    height: 100%;
+    width: 100%;
+
     display: flex;
     flex-direction: column;
 }
@@ -27,10 +35,30 @@
     box-shadow: rgba(0, 0, 0, 0.5) 0 0 10px;
 }
 
+.product-card__label {
+    position: absolute;
+    top: 0.5vw;
+    left: 0.5vw;
+
+    font-size: 1vw;
+    padding: 0.2vw 0.7vw;
+
+    border-radius: 0.7vh;
+    background-color: rgb(211, 30, 30);
+
+    display: none;
+
+    color: white;
+}
+
+.product-card__label_vip {
+    display: block;
+}
+
 .product-card__like {
     position: absolute;
-    top: 1vh;
-    right: 1vh;
+    top: 0.5vw;
+    right: 0.5vw;
 }
 
 .product-card__like:hover {
@@ -42,52 +70,60 @@
 }
 
 .product-card__img {
-    height: 21vh;
-    width: 100%;
-
-    border-radius: 5px 5px 0 0;
+    height: 11vw;
 
     object-fit: cover;
 }
 
 .product-card-info {
-    height: 16vh;
+    height: 8vw;
     width: 100%;
 
     display: flex;
 }
 
 .product-card-info-inner {
-    width: 87%;
-    margin: 1.5vh;
+    width: 90%;
+    margin: 1vw;
 
     display: flex;
     flex-direction: column;
 }
 
 .product-card-info__name {
-    max-height: 5vh;
+    max-height: 2.3vw;
     width: 100%;
-    margin-bottom: 0.7vh;
+    margin-bottom: 0.4vw;
 
-    font-size: 2vh;
+    font-size: 1vw;
 
     overflow: hidden;
     text-overflow: ellipsis;
 }
 
 .product-card-info__date {
-    font-size: 1.5vh;
+    font-size: 0.7vw;
     color: rgb(142, 142, 142);
 }
 
 .product-card-info__amount {
     width: 100%;
-    font-size: 2.5vh;
+    font-size: 1.4vw;
 
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
 
     margin-top: auto;
+}
+
+.product-card-info__amount_vip {
+    width: fit-content;
+
+    padding: 0.2vw 0.5vw;
+
+    border-radius: 0.7vh;
+    background-color: rgb(211, 30, 30);
+
+    color: white;
 }
