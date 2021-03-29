@@ -88,6 +88,7 @@ export class Switch {
 
     /***
      * Add component to parent
+     * @param {Object} context - component context
      */
     render(context) {
         try {
