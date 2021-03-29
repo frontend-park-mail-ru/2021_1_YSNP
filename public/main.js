@@ -13,7 +13,6 @@ import {ProductView} from './views/ProductView.js';
 import {ProfileView} from './views/ProfileView.js';
 import {RegistrationView} from './views/RegistrationView.js';
 import {SearchView} from './views/SearchView.js';
-import {PromotionView} from './views/PromotionView.js';
 
 import {FavoritePresenter} from './presenters/FavoritePresenter.js';
 import {MainPresenter} from './presenters/MainPresenter.js';
@@ -23,7 +22,6 @@ import {ProductPresenter} from './presenters/ProductPresenter.js';
 import {ProfilePresenter} from './presenters/ProfilePresenter.js';
 import {RegistrationPresenter} from './presenters/RegistrationPresenter.js';
 import {SearchPresenter} from './presenters/SearchPresenter.js';
-import {PromotionPresenter} from './presenters/PromotionPresenter.js';
 import {baseCreateProduct, baseRegistration} from './modules/fields.js';
 
 const app = document.getElementById('app');
@@ -36,7 +34,6 @@ const productView = new ProductView(app);
 const profileView = new ProfileView(app);
 const registrationView = new RegistrationView(app, baseRegistration);
 const searchView = new SearchView(app);
-const promotionView = new PromotionView(app);
 
 /***
  * Open user favorite page
@@ -103,17 +100,11 @@ const doSearch = () => {
     searchPresenter.control();
 };
 
-const doPromotion = () => {
-    const favoritePresenter = new FavoritePresenter(favoriteView);
-    promotionPresenter.control();
-};
-
 router.add(frontUrls.favorite, doFavorite);
 router.add(frontUrls.main, doMain);
 router.add(frontUrls.myAds, doMyAds);
 router.add(frontUrls.productCreate, doProductCreate);
 router.add(frontUrls.product(), doProduct);
-router.add(frontUrls.promotion, doPromotion);
 router.add(frontUrls.profile, doProfile);
 router.add(frontUrls.registration, doRegistration);
 router.add(frontUrls.search, doSearch);

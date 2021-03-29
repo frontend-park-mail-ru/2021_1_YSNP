@@ -55,10 +55,6 @@ export class Layout {
         }
     }
 
-    get mainParent() {
-        return document.getElementById('layout-main-parent');
-    }
-
     /***
      * Render component
      * @param context
