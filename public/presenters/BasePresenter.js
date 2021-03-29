@@ -27,7 +27,7 @@ export class BasePresenter {
      * @returns {Promise<void>}
      */
     async update() {
-        this.__userModel.update()
+        return this.__userModel.update()
             .then(() => {
                 this.__view.baseContext = this.__makeBaseContext();
             })

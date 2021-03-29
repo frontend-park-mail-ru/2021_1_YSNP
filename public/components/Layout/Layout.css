@@ -3,6 +3,10 @@
     width: 100%;
 }
 
+.layout__main {
+    margin-top: 9vh;
+}
+
 .layout-inner {
     margin-left: 15vw;
     margin-right: 15vw;
