@@ -123,7 +123,7 @@
     height: 3.8vh;
     font-size: 2vh;
     color: black;
-    border: 1px solid rgba(0,0,0,0.2);
+    border: 1px solid rgba(0, 0, 0, 0.2);
     box-sizing: border-box;
     border-radius: 0.5vh;
 
@@ -268,10 +268,11 @@ select:disabled {
     border-radius: 5px;
 }
 
-.backend-error_hidden{
+.backend-error_hidden {
     visibility: hidden;
 }
-.backend-error_visible{
+
+.backend-error_visible {
     visibility: visible;
     color: #D31E1E;
     font-size: 1.3vh;

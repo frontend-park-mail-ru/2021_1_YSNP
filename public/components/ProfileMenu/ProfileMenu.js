@@ -1,5 +1,6 @@
 import './ProfileMenu.css';
 import profileMenuTemplate from './ProfileMenu.hbs';
+
 /***
  * Profile menu
  */

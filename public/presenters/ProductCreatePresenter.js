@@ -7,10 +7,13 @@ import {frontUrls} from '../modules/frontUrls.js';
 import {ProductModel} from '../models/ProductModel.js';
 import {eventHandlerWithDataType} from '../modules/eventHandler';
 
+import {checkAuth} from '../modules/checkAuth.js';
+
 /***
  *  noop function
  */
-const noop = () => {};
+const noop = () => {
+};
 
 /***
  *  ProductCreatePresenter class, extends from BasePresenter
@@ -71,11 +74,9 @@ export class ProductCreatePresenter extends BasePresenter {
      * @this {ProductCreatePresenter}
      */
     async control() {
+        checkAuth();
+
         await this.update();
-        if (!this.__userModel.isAuth) {
-            router.redirect(frontUrls.registration);
-            return;
-        }
         this.__view.render(this.__makeContext());
     }
 

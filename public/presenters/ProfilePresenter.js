@@ -2,7 +2,7 @@ import {BasePresenter} from './BasePresenter.js';
 import {insertError, addSuccesses, createMessageError, hideBackendError, showBackendError, showError, hideError, validateError} from '../modules/validationStates.js';
 import {router} from '../modules/router';
 import {frontUrls} from '../modules/frontUrls';
-import {user} from '../models/SettingsUserData.js';
+import {user} from '../models/ProfileUserModel.js';
 
 /***
  * Profile settings presenter

@@ -5,11 +5,13 @@ import {parseTelNumber, telMask} from '../modules/telMask.js';
 import {router} from '../modules/router.js';
 import {frontUrls} from '../modules/frontUrls.js';
 import {RegUserData} from '../models/RegUserData.js';
+import {checkAuth} from '../modules/checkAuth';
 
 /***
  *  noop function
  */
-const noop = () => {};
+const noop = () => {
+};
 
 /***
  *  RegistrationPresenter class
@@ -52,6 +54,7 @@ export class RegistrationPresenter extends BasePresenter {
             router.redirect(frontUrls.main);
             return;
         }
+
         this.__view.render(this.__makeContext());
     }
 
@@ -411,7 +414,7 @@ export class RegistrationPresenter extends BasePresenter {
                 })
                 .catch((data) => {
                     this.__view.errorText(data);
-            });
+                });
         }
     }
 }
