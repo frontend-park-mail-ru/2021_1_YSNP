@@ -103,6 +103,28 @@ export class ProfileUserModel extends PasswordUserModel {
     async settings() {
         return http.post(backUrls.settings, this.__jsonData())
             .then(({status}) => {
+                if (status === httpStatus.StatusOK) {
+                    return http.post(urls.upload, new FormData(form), true)
+                        .then(({status, data}) => {
+                            if (status === httpStatus.StatusBadRequest) {
+                                throw new Error(data.message);
+                            }
+
+                            if (status === httpStatus.StatusUnauthorized) {
+                                throw new Error(data.message);
+                            }
+
+                            if (status === httpStatus.StatusInternalServerError) {
+                                throw new Error(data.message);
+                            }
+                            this.__isAuth = false;
+                            return {isUpdate: true};
+                        })
+                        .catch((err) => {
+                            throw err;
+                        });
+                }
+
                 if (status === httpStatus.StatusUnauthorized) {
                     throw new Error('Пользователь не авторизован');
                     // throw new Error(data.message);
@@ -117,7 +139,6 @@ export class ProfileUserModel extends PasswordUserModel {
                     throw new Error('Ошибка сервера');
                     // throw new Error(data.message);
                 }
-
                 this.__isAuth = false;
                 return {isUpdate: true};
             })

@@ -1,3 +1,13 @@
+.profile {
+    margin-top: 2vh;
+}
+
+.profile-box{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+}
+
 .profile-menu {
     width: 34vh;
     height: 35vh;
