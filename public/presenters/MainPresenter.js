@@ -25,13 +25,14 @@ export class MainPresenter extends BasePresenter {
      * @returns {Promise<void>}
      */
     async update() {
-        try {
-            await super.update();
-            await this.__productListModel.update();
-        } catch (err) {
-            //TODO(Sergey) нормальная обработка ошибок
-            console.log(err.message);
-        }
+        super.update()
+            .then(() => {
+                this.__productListModel.update();
+            })
+            .catch((err) => {
+                //TODO(Sergey) нормальная обработка ошибок
+                console.log(err.message);
+            });
     }
 
     /***
@@ -79,13 +80,14 @@ export class MainPresenter extends BasePresenter {
      * @private
      */
     async __scrollEnd() {
-        try {
-            await this.__productListModel.updateNewData();
-            this.__view.addNewCards(this.__productListModel.newData);
-        } catch (err) {
-            //TODO(Sergey) нормальная обработка ошибок
-            console.log(err.message);
-        }
+        this.__productListModel.updateNewData()
+            .then(() => {
+                this.__view.addNewCards(this.__productListModel.newData);
+            })
+            .catch((err) => {
+                //TODO(Sergey) нормальная обработка ошибок
+                console.log(err.message);
+            });
     }
 
     /***
