@@ -2,7 +2,7 @@ import {BaseView} from './BaseView.js';
 
 import {Switch} from '../components/Switch/Switch.js';
 import {Layout} from '../components/Layout/Layout';
-import {ProductList} from '../components/ProductList/ProductList';
+import {ProductTable} from '../components/ProductTable/ProductTable';
 
 /***
  * Main view
@@ -30,6 +30,14 @@ export class MainView extends BaseView {
      */
     dislikeProduct(id) {
         this.__productList.dislike(id);
+    }
+
+    /***
+     * Add new cards to view
+     * @param {Object[]} context - new cards
+     */
+    addNewCards(context) {
+        this.__productList.addNewCards(context);
     }
 
     /***
@@ -65,7 +73,7 @@ export class MainView extends BaseView {
         const adSwitch = new Switch(parent);
         adSwitch.render(this.__context.switch);
 
-        this.__productList = new ProductList(parent);
+        this.__productList = new ProductTable(parent);
         this.__productList.render(this.__context.productList);
     }
 }

@@ -2,6 +2,8 @@ import {BasePresenter} from './BasePresenter.js';
 import {router} from '../modules/router';
 import {frontUrls} from '../modules/frontUrls';
 
+import {EndlessScroll} from '../modules/endlessScroll.js';
+
 /***
  * Main view
  */
@@ -13,7 +15,9 @@ export class MainPresenter extends BasePresenter {
      */
     constructor(view, productListModel) {
         super(view);
+        this.__view = view;
         this.__productListModel = productListModel;
+        (new EndlessScroll(this.__createListeners().scroll)).start();
     }
 
     /***
@@ -21,13 +25,14 @@ export class MainPresenter extends BasePresenter {
      * @returns {Promise<void>}
      */
     async update() {
-        try {
-            await super.update();
-            await this.__productListModel.update();
-        } catch (err) {
-            //TODO(Sergey) нормальная обработка ошибок
-            console.log(err.message);
-        }
+        super.update()
+            .then(() => {
+                this.__productListModel.update();
+            })
+            .catch((err) => {
+                //TODO(Sergey) нормальная обработка ошибок
+                console.log(err.message);
+            });
     }
 
     /***
@@ -70,6 +75,22 @@ export class MainPresenter extends BasePresenter {
     }
 
     /***
+     * Listener on scroll end
+     * @returns {Promise<void>}
+     * @private
+     */
+    async __scrollEnd() {
+        this.__productListModel.updateNewData()
+            .then(() => {
+                this.__view.addNewCards(this.__productListModel.newData);
+            })
+            .catch((err) => {
+                //TODO(Sergey) нормальная обработка ошибок
+                console.log(err.message);
+            });
+    }
+
+    /***
      * Get view listeners
      * @returns {{productList: {productCardClick: {listener: *, type: string}}}}
      * @private
@@ -81,6 +102,9 @@ export class MainPresenter extends BasePresenter {
                     type: 'click',
                     listener: this.__listenerProductListClick.bind(this)
                 }
+            },
+            scroll: {
+                scrollEnd: this.__scrollEnd.bind(this)
             }
         };
     }

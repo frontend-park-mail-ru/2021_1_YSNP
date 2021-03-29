@@ -1,19 +1,19 @@
-import productListTemplate from './ProductList.hbs';
-import './ProductList.css';
+import productTableTemplate from './ProductTable.hbs';
+import './ProductTable.css';
 
 import {ProductCard} from './ProductCard/ProductCard.js';
 
 /***
  * Product List - table of components Product Card
  */
-export class ProductList {
+export class ProductTable {
     /***
      * Class constructor
      * @param {HTMLElement} parent - element where the component will be inserted
      */
     constructor(parent) {
         this.__parent = parent;
-        this.__productList = new Map();
+        this.__productTable = new Map();
     }
 
     /***
@@ -21,7 +21,7 @@ export class ProductList {
      */
     __addListeners() {
         document
-            .getElementById('product-list')
+            .getElementById('product-table')
             .addEventListener(this.__context.listeners.productCardClick.type, this.__context.listeners.productCardClick.listener);
     }
 
@@ -30,7 +30,7 @@ export class ProductList {
      * @param {number} id - product card id
      */
     like(id) {
-        this.__productList.get(id).like();
+        this.__productTable.get(id).like();
     }
 
     /***
@@ -38,7 +38,29 @@ export class ProductList {
      * @param {number} id - product card id
      */
     dislike(id) {
-        this.__productList.get(id).dislike();
+        this.__productTable.get(id).dislike();
+    }
+
+    /***
+     * Add cards to table
+     * @param {Object[]} data - cards
+     * @private
+     */
+    __addCards(data) {
+        const table = this.__getParent();
+        data.forEach((el) => {
+            const productCard = new ProductCard(table);
+            productCard.render(el);
+            this.__productTable.set(el.id, productCard);
+        });
+    }
+
+    /***
+     * Add new cards to list
+     * @param {Object[]} data - new cards
+     */
+    addNewCards(data) {
+        this.__addCards(data);
     }
 
     /***
@@ -47,7 +69,7 @@ export class ProductList {
      * @private
      */
     __getParent() {
-        return this.__parent.querySelector('[class=\'product-list-inner\']');
+        return this.__parent.querySelector('[class="product-table-inner"]');
     }
 
     /***
@@ -57,15 +79,9 @@ export class ProductList {
         try {
             this.__context = context;
 
-            this.__parent.insertAdjacentHTML('beforeend', productListTemplate());
+            this.__parent.insertAdjacentHTML('beforeend', productTableTemplate());
+            this.__addCards(this.__context.data);
             this.__addListeners();
-
-            const list = this.__getParent();
-            this.__context.data.forEach((el) => {
-                const productCard = new ProductCard(list);
-                productCard.render(el);
-                this.__productList.set(el.id, productCard);
-            });
         } catch (err) {
             console.log(err.message);
         }

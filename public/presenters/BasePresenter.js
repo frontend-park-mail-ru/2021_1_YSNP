@@ -27,13 +27,14 @@ export class BasePresenter {
      * @returns {Promise<void>}
      */
     async update() {
-        try {
-            await this.__userModel.update();
-            this.__view.baseContext = this.__makeBaseContext();
-        } catch (err) {
-            //TODO(Sergey) нормальная обработка ошибок
-            console.log(err.message);
-        }
+        this.__userModel.update()
+            .then(() => {
+                this.__view.baseContext = this.__makeBaseContext();
+            })
+            .catch((err) => {
+                //TODO(Sergey) нормальная обработка ошибок
+                console.log(err.message);
+            });
     }
 
     /***
@@ -76,7 +77,7 @@ export class BasePresenter {
         ev.stopPropagation();
 
         router.redirectEvent(ev);
-        eventHandler(ev, this.__getBaseActions().header);
+        eventHandler(ev, this.__getBaseActions().auth);
     }
 
     /***
@@ -101,12 +102,13 @@ export class BasePresenter {
             return;
         }
 
-        try {
-            await this.__authModel.auth();
-            router.redirect(frontUrls.main);
-        } catch (err) {
-            this.__view.authErrorText(err.message);
-        }
+        this.__authModel.auth()
+            .then(() => {
+                router.redirect(frontUrls.main);
+            })
+            .catch((err) => {
+                this.__view.authErrorText(err.message);
+            });
     }
 
     /***
@@ -255,13 +257,14 @@ export class BasePresenter {
      * @private
      */
     async __logout() {
-        try {
-            await this.__userModel.logout();
-            router.redirect(frontUrls.main);
-        } catch (err) {
-            //TODO(Sergey) нормальная обработка ошибок
-            console.log(err.message);
-        }
+        this.__userModel.logout()
+            .then(() => {
+                router.redirect(frontUrls.main);
+            })
+            .catch((err) => {
+                //TODO(Sergey) нормальная обработка ошибок
+                console.log(err.message);
+            });
     }
 
     /***
