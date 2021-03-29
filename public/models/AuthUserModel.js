@@ -57,7 +57,7 @@ export class AuthUserModel extends PasswordUserModel {
      * @returns {Promise<void>}
      */
     async auth() {
-        return http.post(backUrls.login, this.__jsonData())
+        return await http.post(backUrls.login, this.__jsonData())
             .then(({status}) => {
                 if (status === httpStatus.StatusBadRequest) {
                     throw new Error('Неправильный номер или пароль');

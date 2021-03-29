@@ -420,7 +420,7 @@ export class ProductModel {
      * @returns {Promise<void>}
      */
     async create(form) {
-        return http.post(backUrls.productUploadPhotos, new FormData(form), true)
+        return await http.post(backUrls.productUploadPhotos, new FormData(form), true)
             .then(({status, data}) => {
                 if (status === httpStatus.StatusUnauthorized) {
                     throw new Error('Пользователь не авторизован');
