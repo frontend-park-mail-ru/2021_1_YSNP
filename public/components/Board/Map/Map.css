@@ -1,9 +1,5 @@
-.product-map {
-    height: 30vw;
+#map {
+    background: darkgoldenrod;
+    height: 20vw;
     width: 96%;
-
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
 }

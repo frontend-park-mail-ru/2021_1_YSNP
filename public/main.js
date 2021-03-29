@@ -2,63 +2,111 @@
 
 import './style.css';
 
-import {Landing} from './pages/Landing.js';
-import {Product} from './pages/Product.js';
-import {ProductCreate} from './pages/ProductCreate.js';
-import {Profile} from './pages/Profile.js';
-import {Registration} from './pages/Registration.js';
-
 import {router} from './modules/router.js';
-import {pageUrls} from './modules/pageUrls.js';
+import {frontUrls} from './modules/frontUrls.js';
+
+import {FavoriteView} from './views/FavoriteView.js';
+import {MainView} from './views/MainView.js';
+import {MyAdsView} from './views/MyAdsView.js';
+import {ProductCreateView} from './views/ProductCreateView.js';
+import {ProductView} from './views/ProductView.js';
+import {ProfileView} from './views/ProfileView.js';
+import {RegistrationView} from './views/RegistrationView.js';
+import {SearchView} from './views/SearchView.js';
+
+import {FavoritePresenter} from './presenters/FavoritePresenter.js';
+import {MainPresenter} from './presenters/MainPresenter.js';
+import {MyAdsPresenter} from './presenters/MyAdsPresenter.js';
+import {ProductCreatePresenter} from './presenters/ProductCreatePresenter.js';
+import {ProductPresenter} from './presenters/ProductPresenter.js';
+import {ProfilePresenter} from './presenters/ProfilePresenter.js';
+import {RegistrationPresenter} from './presenters/RegistrationPresenter.js';
+import {SearchPresenter} from './presenters/SearchPresenter.js';
+import {baseCreateProduct, baseRegistration} from './modules/fields.js';
 
 const app = document.getElementById('app');
 
-const landing = new Landing(app);
-const product = new Product(app);
-const productCreate = new ProductCreate(app);
-const profile = new Profile(app);
-const registration = new Registration(app);
+const favoriteView = new FavoriteView(app);
+const mainView = new MainView(app);
+const myAdsView = new MyAdsView(app);
+const productCreateView = new ProductCreateView(app, baseCreateProduct);
+const productView = new ProductView(app);
+const profileView = new ProfileView(app);
+const registrationView = new RegistrationView(app, baseRegistration);
+const searchView = new SearchView(app);
 
 /***
- * Open landing page
+ * Open user favorite page
  */
-const doLanding = () => {
-    landing.render();
+const doFavorite = () => {
+    const favoritePresenter = new FavoritePresenter(favoriteView);
+    favoritePresenter.control();
+};
+
+/***
+ * Open main page
+ */
+const doMain = () => {
+    const mainPresenter = new MainPresenter(mainView);
+    mainPresenter.control();
+};
+
+/***
+ * Open user ads page
+ */
+const doMyAds = () => {
+    const myAdsPresenter = new MyAdsPresenter(myAdsView);
+    myAdsPresenter.control();
 };
 
 /***
  * Open product create page
  */
 const doProductCreate = () => {
-    productCreate.render();
+    const productCreatePresenter = new ProductCreatePresenter(productCreateView);
+    productCreatePresenter.control();
 };
 
 /***
  * Open product page
- * @param {Object} reg - url parameters
+ * @param {number} id - page params
  */
-const doProduct = (reg) => {
-    product.render(reg.parameters.id);
+const doProduct = (id) => {
+    const productPresenter = new ProductPresenter(productView, id.parameters.id);
+    productPresenter.control();
 };
 
 /***
- * Open profile page
+ * Open user profile page
  */
 const doProfile = () => {
-    profile.render();
+    const profilePresenter = new ProfilePresenter(profileView);
+    profilePresenter.control();
 };
 
 /***
  * Open registration page
  */
 const doRegistration = () => {
-    registration.render();
+    const registrationPresenter = new RegistrationPresenter(registrationView);
+    registrationPresenter.control();
 };
 
-router.add(pageUrls.main, doLanding);
-router.add(pageUrls.productCreate, doProductCreate);
-router.add(`${pageUrls.product}{id}`, doProduct);
-router.add(pageUrls.profile, doProfile);
-router.add(pageUrls.registration, doRegistration);
+/***
+ * Open search page
+ */
+const doSearch = () => {
+    const searchPresenter = new SearchPresenter(searchView);
+    searchPresenter.control();
+};
+
+router.add(frontUrls.favorite, doFavorite);
+router.add(frontUrls.main, doMain);
+router.add(frontUrls.myAds, doMyAds);
+router.add(frontUrls.productCreate, doProductCreate);
+router.add(frontUrls.product(), doProduct);
+router.add(frontUrls.profile, doProfile);
+router.add(frontUrls.registration, doRegistration);
+router.add(frontUrls.search, doSearch);
 
 router.start();

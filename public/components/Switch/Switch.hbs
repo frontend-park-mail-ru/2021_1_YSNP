@@ -1,0 +1,24 @@
+<div class="switch">
+    <div class="switch-inner">
+        <span class="switch-inner__title">{{title}}</span>
+
+        {{#if hasButtons}}
+
+            <div class="switch-buttons" id="switch-buttons">
+                <div class="switch-buttons-inner">
+
+                    {{#each buttons}}
+                        <button class="switch-buttons__button" data-action="{{action}}" name="{{name}}">
+                            {{title}}
+                        </button>
+                    {{/each}}
+
+                </div>
+            </div>
+
+            <div class="switch-separator"></div>
+
+        {{/if}}
+
+    </div>
+</div>

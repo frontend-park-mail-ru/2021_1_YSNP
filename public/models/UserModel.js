@@ -1,5 +1,3 @@
-import {deleteSymbolsXSS} from '../modules/xss.js';
-
 /***
  * User model
  */
@@ -10,134 +8,6 @@ export class UserModel {
      */
     constructor(data = {}) {
         this.fillUserData(data);
-    }
-
-    /***
-     * Get user id
-     * @returns {string}
-     */
-    get id() {
-        return this.__id;
-    }
-
-    /***
-     * Set user id
-     * @param {string} id - user id
-     */
-    set id(id) {
-        this.__id = id;
-    }
-
-    /***
-     * Get user name
-     * @returns {string}
-     */
-    get name() {
-        return this.__name;
-    }
-
-    /***
-     * Set user name
-     * @param {string} name - user name
-     */
-    set name(name) {
-        this.__name = name;
-    }
-
-    /***
-     * Get user surname
-     * @returns {string}
-     */
-    get surname() {
-        return this.__surname;
-    }
-
-    /***
-     * Set user surname
-     * @param {string} surname - user surname
-     */
-    set surname(surname) {
-        this.__surname = surname;
-    }
-
-    /***
-     * Get user sex
-     * @returns {string}
-     */
-    get sex() {
-        return this.__sex;
-    }
-
-    /***
-     * Set user sex
-     * @param {string} sex - user sex
-     */
-    set sex(sex) {
-        this.__sex = sex;
-    }
-
-    /***
-     * Get user year
-     * @returns {string}
-     */
-    get dateBirth() {
-        return this.__dateBirth;
-    }
-
-    /***
-     * Set user year
-     * @param {string} year - user year
-     */
-    set dateBirth(year) {
-        this.__dateBirth = year;
-    }
-
-    /***
-     * Get user email
-     * @returns {string}
-     */
-    get email() {
-        return this.__email;
-    }
-
-    /***
-     * Set user email
-     * @param {string} email - user email
-     */
-    set email(email) {
-        this.__email = email;
-    }
-
-    /***
-     * Get user telephone
-     * @returns {string}
-     */
-    get telephone() {
-        return this.__telephone;
-    }
-
-    /***
-     * Set user telephone
-     * @param {string} telephone - user telephone
-     */
-    set telephone(telephone) {
-        this.__telephone = telephone;
-    }
-
-    /***
-     * Get user avatar
-     * @returns {string}
-     */
-    get linkImage() {
-        return this.__linkImage;
-    }
-
-    /***
-     * Set user avatar
-     * @param {string} linkImage - user avatar link
-     */
-    set linkImage(linkImage) {
-        this.__linkImage = linkImage;
     }
 
     /***
@@ -163,12 +33,12 @@ export class UserModel {
             };
         } else if (value.length === 0) {
             return {
-                message: 'Поле не должно быть пустым',
+                message: ['Поле не должно быть пустым'],
                 error: true
             };
         }
         return {
-            message: 'Поле не должно привышать 30 знаков',
+            message: ['Поле не должно привышать 30 знаков'],
             error: true
         };
     }
@@ -188,7 +58,7 @@ export class UserModel {
 
 
         return {
-            message: 'Поле не должно быть пустым',
+            message: ['Поле не должно быть пустым'],
             error: true
         };
     }
@@ -208,7 +78,7 @@ export class UserModel {
 
 
         return {
-            message: 'Поле не должно быть пустым',
+            message: ['Поле не должно быть пустым'],
             error: true
         };
     }
@@ -228,7 +98,7 @@ export class UserModel {
 
 
         return {
-            message: 'Поле не должно быть пустым',
+            message: ['Поле не должно быть пустым'],
             error: true
         };
     }
@@ -248,7 +118,7 @@ export class UserModel {
         }
 
         return {
-            message: 'Неправильный формат почты',
+            message: ['Неправильный формат почты'],
             error: true
         };
     }
@@ -282,7 +152,7 @@ export class UserModel {
         }
 
         return {
-            message: 'Неверный формат телефона',
+            message: ['Неверный формат телефона'],
             error: true
         };
     }
@@ -292,29 +162,13 @@ export class UserModel {
      * @param {Object} data - user data
      */
     fillUserData(data) {
-        this.__id = deleteSymbolsXSS(data.id);
-        this.__name = deleteSymbolsXSS(data.name);
-        this.__surname = deleteSymbolsXSS(data.surname);
-        this.__sex = deleteSymbolsXSS(data.sex);
-        this.__dateBirth = deleteSymbolsXSS(data.dateBirth);
-        this.__email = deleteSymbolsXSS(data.email);
-        this.__telephone = deleteSymbolsXSS(data.telephone);
+        this.__id = data.id;
+        this.__name = data.name;
+        this.__surname = data.surname;
+        this.__sex = data.sex;
+        this.__dateBirth = data.dateBirth;
+        this.__email = data.email;
+        this.__telephone = data.telephone;
         this.__linkImages = data.linkImages !== undefined ? data.linkImages : [];
-    }
-
-    /***
-     * Log current data
-     */
-    log() {
-        console.dir({
-            id: this.__id,
-            name: this.__name,
-            surname: this.__surname,
-            sex: this.__sex,
-            dateBirth: this.__dateBirth,
-            email: this.__email,
-            telephone: this.__telephone,
-            linkImages: this.__linkImages
-        });
     }
 }

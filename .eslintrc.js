@@ -143,9 +143,9 @@ module.exports = {
         'no-loop-func': [
             'warn'
         ],
-        'no-magic-numbers': [
-            'warn'
-        ],
+        // 'no-magic-numbers': [
+        //     'warn'
+        // ],
         'no-multi-spaces': [
             'error'
         ],

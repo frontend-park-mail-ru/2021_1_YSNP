@@ -1,6 +1,4 @@
 import headerTemplate from './Header.hbs';
-import authTemplate from './Auth.hbs';
-import notAuthTemplate from './NotAuth.hbs';
 import './Header.css';
 
 /***
@@ -10,45 +8,33 @@ export class Header {
     /***
      * Class constructor
      * @param {HTMLElement} parent - element where the component will be inserted
-     * @param {Object} data - element data
-     * @param {Object} listeners - component listeners
      */
-    constructor(parent, data = {}, listeners = {}) {
+    constructor(parent) {
         this.__parent = parent;
-        this.__data = data;
-        this.__listeners = listeners;
     }
 
     /***
-     * Get data
-     * @returns {Object}
+     * Open / Close dropdown menu
      */
-    get data() {
-        return this.__data;
+    toggleDropdown() {
+        if (this.__context.data.isAuth) {
+            document
+                .getElementById('header-dropdown-content')
+                .classList
+                .toggle('header-dropdown-content_hidden');
+        }
     }
 
     /***
-     * Set data
-     * @param {Object} data - component data
+     * Close dropdown menu
      */
-    set data(data) {
-        this.__data = data;
-    }
-
-    /***
-     * Get listeners
-     * @returns {Object}
-     */
-    get listeners() {
-        return this.__listeners;
-    }
-
-    /***
-     * Set listeners
-     * @param {Object} val - component listeners
-     */
-    set listeners(val) {
-        this.__listeners = val;
+    removeDropdown() {
+        if (this.__context.data.isAuth) {
+            document
+                .getElementById('header-dropdown-content')
+                .classList
+                .add('header-dropdown-content_hidden');
+        }
     }
 
     /***
@@ -76,48 +62,33 @@ export class Header {
     /***
      * Add component listeners
      */
-    addListeners() {
+    __addListeners() {
         document
             .getElementById('header')
-            .addEventListener(this.__listeners.headerClick.type, this.__listeners.headerClick.listener);
+            .addEventListener(this.__context.listeners.headerClick.type, this.__context.listeners.headerClick.listener);
 
-        if (this.__data.isAuth) {
-            document
-                .getElementById('header-dropdown')
-                .addEventListener(this.__listeners.dropdownClick.type, this.__listeners.dropdownClick.listener);
-
-            document
-                .getElementById('app')
-                .addEventListener(this.__listeners.pageClick.type, this.__listeners.pageClick.listener);
-        }
-    }
-
-    /***
-     * Remove component listeners
-     */
-    removeListeners() {
         document
-            .getElementById('header')
-            .removeEventListener(this.__listeners.headerClick.type, this.__listeners.headerClick.listener);
+            .getElementById('app')
+            .addEventListener(this.__context.listeners.pageClick.type, this.__context.listeners.pageClick.listener);
 
-        if (this.__data.isAuth) {
+        if (this.__context.data.isAuth) {
             document
                 .getElementById('header-dropdown')
-                .removeEventListener(this.__listeners.dropdownClick.type, this.__listeners.dropdownClick.listener);
-
-            document
-                .getElementById('app')
-                .removeEventListener(this.__listeners.pageClick.type, this.__listeners.pageClick.listener);
+                .addEventListener(this.__context.listeners.dropdownClick.type, this.__context.listeners.dropdownClick.listener);
         }
     }
 
     /***
      * Add component to parent
      */
-    render() {
-        this.__parent.insertAdjacentHTML('beforeend', headerTemplate());
+    render(context) {
+        try {
+            this.__context = context;
 
-        const accountTemplate = this.__data.isAuth ? authTemplate(this.__data) : notAuthTemplate();
-        document.getElementById('header-right').insertAdjacentHTML('beforeend', accountTemplate);
+            this.__parent.insertAdjacentHTML('beforeend', headerTemplate(this.__context.data));
+            this.__addListeners();
+        } catch (err) {
+            console.log();
+        }
     }
 }

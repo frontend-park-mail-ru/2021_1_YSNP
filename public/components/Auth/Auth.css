@@ -10,6 +10,8 @@
     align-items: center;
     justify-content: center;
     background-color: rgba(0, 0, 0, 0.5);
+
+    z-index: 1;
 }
 
 .auth-content {
@@ -21,7 +23,7 @@
     /*border: 2px solid rgb(227, 227, 227);*/
     border-radius: 1vh;
 
-    z-index: 1;
+    z-index: 2;
 }
 
 .auth-content-inner {

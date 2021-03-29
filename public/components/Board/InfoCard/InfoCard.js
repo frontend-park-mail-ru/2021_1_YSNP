@@ -32,7 +32,7 @@ export class InfoCard {
      * @readonly
      */
     get __getPrice() {
-        const num = this.__data.amount;
+        const num = this.__data.__amount;
         return num.toLocaleString();
     }
 
@@ -45,7 +45,7 @@ export class InfoCard {
      * @readonly
      */
     get __getName() {
-        return this.__data.ownerName;
+        return this.__data.__ownerName;
     }
 
     /***
@@ -71,7 +71,7 @@ export class InfoCard {
      * @readonly
      */
     get __getViews() {
-        return this.__data.views;
+        return this.__data.__views;
     }
 
     /***
@@ -83,7 +83,7 @@ export class InfoCard {
      * @readonly
      */
     get __getLikes() {
-        return this.__data.likes;
+        return this.__data.__likes;
     }
 
     /***
@@ -95,7 +95,7 @@ export class InfoCard {
      * @readonly
      */
     get __getDate() {
-        const date = new Date(this.__data.date);
+        const date = new Date(this.__data.__date);
         return date.toLocaleDateString('ru-RU', {weekday: 'short', day: 'numeric', month: 'short', year: 'numeric'});
     }
 
@@ -120,58 +120,6 @@ export class InfoCard {
             stars += '<svg width="3vh" height="3vh" viewBox="0 0 20 21" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M10 0.895218L12.7861 7.42562L19.5106 8.21429L14.508 13.039L15.8779 20.0568L10 16.5082L4.12215 20.0568L5.49199 13.039L0.489435 8.21429L7.2139 7.42562L10 0.895218Z" fill="#F3DD14"/></svg>';
         });
         return stars;
-    }
-
-
-    /***
-     * @author Ivan Gorshkov
-     *
-     * get InfoCard listeners
-     * @this {InfoCard}
-     * @private
-     * @readonly
-     * @return  {Object} array of listeners
-     */
-    get listeners() {
-        return this.__listeners;
-    }
-
-    /***
-     * @author Ivan Gorshkov
-     *
-     * Set new listeners
-     * @this {InfoCard}
-     * @param  {Object} val - Object of listeners
-     * @public
-     */
-    set listeners(val) {
-        this.__listeners = val;
-    }
-
-    /***
-     * @author Ivan Gorshkov
-     *
-     * Add listeners from component
-     * @public
-     * @this {InfoCard}
-     */
-    addListeners() {
-        document
-            .getElementById('info-card-btns')
-            .addEventListener(this.listeners.board.type, this.listeners.board.listener);
-    }
-
-    /***
-     * @author Ivan Gorshkov
-     *
-     * Remove listeners from component
-     * @public
-     * @this {InfoCard}
-     */
-    removeListeners() {
-        document
-            .getElementById('info-card-btns')
-            .removeEventListener(this.listeners.board.type, this.listeners.board.listener);
     }
 
     /***
@@ -201,7 +149,6 @@ export class InfoCard {
      * @public
      */
     render() {
-
         this.__parent.insertAdjacentHTML('beforeend', infoCardTemplate(this.__context()));
     }
 }

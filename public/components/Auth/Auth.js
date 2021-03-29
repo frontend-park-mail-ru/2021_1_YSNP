@@ -8,11 +8,9 @@ export class Auth {
     /***
      * Class constructor
      * @param {HTMLElement} parent - element where the component will be inserted
-     * @param {Object} listeners - component listeners
      */
-    constructor(parent, listeners = {}) {
+    constructor(parent) {
         this.__parent = parent;
-        this.__listeners = listeners;
     }
 
     /***
@@ -26,92 +24,100 @@ export class Auth {
     }
 
     /***
-     * Get listeners
-     * @returns {Object}
+     * Get user telephone
+     * @returns {string}
      */
-    get listeners() {
-        return this.__listeners;
+    getTelephone() {
+        return document.getElementById('auth-tel').value;
     }
 
     /***
-     * Set listeners
-     * @param {Object} val - component listeners
+     * Get user password
+     * @returns {string}
      */
-    set listeners(val) {
-        this.__listeners = val;
+    getPassword() {
+        return document.getElementById('auth-password').value;
     }
 
     /***
      * Add component listeners
      */
-    addListeners() {
+    __addListeners() {
         document
             .getElementById('auth-content')
-            .addEventListener(this.__listeners.authClick.type, this.__listeners.authClick.listener);
-
-        document
-            .getElementById('app')
-            .addEventListener(this.__listeners.pageClick.type, this.__listeners.pageClick.listener);
+            .addEventListener(this.__context.listeners.authClick.type, this.__context.listeners.authClick.listener);
 
         window
-            .addEventListener(this.__listeners.keyClick.type, this.__listeners.keyClick.listener);
+            .addEventListener(this.__context.listeners.keyClick.type, this.__context.listeners.keyClick.listener);
 
         document
             .getElementById('auth-form')
-            .addEventListener(this.__listeners.submitForm.type, this.__listeners.submitForm.listener);
+            .addEventListener(this.__context.listeners.submitForm.type, this.__context.listeners.submitForm.listener);
 
         document
             .getElementById('auth-tel')
-            .addEventListener(this.__listeners.telFocus.type, this.__listeners.telFocus.listener);
+            .addEventListener(this.__context.listeners.telFocus.type, this.__context.listeners.telFocus.listener);
 
         document
             .getElementById('auth-tel')
-            .addEventListener(this.__listeners.telInput.type, this.__listeners.telInput.listener);
+            .addEventListener(this.__context.listeners.telInput.type, this.__context.listeners.telInput.listener);
 
         document
             .getElementById('auth-tel')
-            .addEventListener(this.__listeners.telBlur.type, this.__listeners.telBlur.listener);
+            .addEventListener(this.__context.listeners.telBlur.type, this.__context.listeners.telBlur.listener);
     }
 
     /***
      * Remove component listeners
      */
-    removeListeners() {
+    __removeListeners() {
         document
             .getElementById('auth-content')
-            .removeEventListener(this.__listeners.authClick.type, this.__listeners.authClick.listener);
-
-        document
-            .getElementById('app')
-            .removeEventListener(this.__listeners.pageClick.type, this.__listeners.pageClick.listener);
+            .removeEventListener(this.__context.listeners.authClick.type, this.__context.listeners.authClick.listener);
 
         window
-            .removeEventListener(this.__listeners.keyClick.type, this.__listeners.keyClick.listener);
+            .removeEventListener(this.__context.listeners.keyClick.type, this.__context.listeners.keyClick.listener);
+
+        document
+            .getElementById('auth-form')
+            .removeEventListener(this.__context.listeners.submitForm.type, this.__context.listeners.submitForm.listener);
 
         document
             .getElementById('auth-tel')
-            .removeEventListener(this.__listeners.telFocus.type, this.__listeners.telFocus.listener);
+            .removeEventListener(this.__context.listeners.telFocus.type, this.__context.listeners.telFocus.listener);
 
         document
             .getElementById('auth-tel')
-            .removeEventListener(this.__listeners.telInput.type, this.__listeners.telInput.listener);
+            .removeEventListener(this.__context.listeners.telInput.type, this.__context.listeners.telInput.listener);
 
         document
             .getElementById('auth-tel')
-            .removeEventListener(this.__listeners.telBlur.type, this.__listeners.telBlur.listener);
+            .removeEventListener(this.__context.listeners.telBlur.type, this.__context.listeners.telBlur.listener);
     }
 
     /***
      * Add component to parent
      */
-    render() {
-        this.__parent.insertAdjacentHTML('beforeend', authTemplate());
+    render(context) {
+        try {
+            this.__context = context;
+
+            this.__parent.insertAdjacentHTML('beforeend', authTemplate());
+            this.__addListeners();
+        } catch (err) {
+            console.log(err.message);
+        }
     }
 
     /***
      * Remove component
      */
     remove() {
-        document.getElementById('auth').remove();
+        try {
+            this.__removeListeners();
+            document.getElementById('auth').remove();
+        } catch (err) {
+            console.log(err.message);
+        }
     }
 }

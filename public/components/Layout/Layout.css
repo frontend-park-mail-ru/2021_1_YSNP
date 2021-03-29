@@ -1,0 +1,28 @@
+.layout {
+    height: 100%;
+    width: 100%;
+}
+
+.layout__main {
+    margin-top: 9vh;
+}
+
+.layout-inner {
+    margin-left: 15vw;
+    margin-right: 15vw;
+}
+
+.layout-block {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    margin-top: 3vh;
+}
+
+.layout-left {
+    height: 100%;
+}
+
+.layout-right {
+    height: 100%;
+}

@@ -1,6 +1,10 @@
+import '../Board/Board.css';
+import '../Board/Description/Description.css';
+import '../Settings/Settings.css';
 import './RegistrationPanel.css';
-
 import registrationPanelTemplate from './RegistrationPanel.hbs';
+import {createMessageError} from '../../modules/validationStates.js';
+import {Field} from './Fields/Field.js';
 
 /***
  * @author Ivan Gorshkov
@@ -11,21 +15,21 @@ export class RegistrationPanel {
 
     /***
      * @author Ivan Gorshkov
+     *
      * init of class RegistrationPanel
      * @param {HTMLElement} parent - parent element
-     * @param {Object} data - JSON Object
      * @constructor
      * @this {RegistrationPanel}
      * @public
      */
-    constructor(parent, data) {
+    constructor(parent) {
         this.__parent = parent;
-        this.__data = data;
     }
 
     /***
      * Form text error
      * @param {string} val - error text
+     * @this {RegistrationPanel}
      */
     errorText(val) {
         document
@@ -65,7 +69,7 @@ export class RegistrationPanel {
      * @this {RegistrationPanel}
      * @public
      */
-    addListeners() {
+    __addListeners() {
         document
             .getElementById('registrationForm')
             .addEventListener(this.listeners.validateInput.type, this.listeners.validateInput.listener);
@@ -93,16 +97,158 @@ export class RegistrationPanel {
     /***
      * @author Ivan Gorshkov
      *
-     * context for template
-     * @return {{id: Number, title: String}}
-     * @private
+     * remove listeners
+     * @this {RegistrationPanel}
+     * @public
      */
-    __context() {
+    removeListeners() {
+        document
+            .getElementById('registrationForm')
+            .removeEventListener(this.listeners.validateInput.type, this.listeners.validateInput.listener);
+        document
+            .getElementById('file-upload')
+            .removeEventListener(this.listeners.validateChange.type, this.listeners.validateChange.listener);
+        document
+            .getElementById('submitBtn')
+            .removeEventListener(this.listeners.registrationClick.type, this.listeners.registrationClick.listener);
+        document
+            .getElementById('avatar')
+            .removeEventListener(this.listeners.registrationClick.type, this.listeners.registrationClick.listener);
+        document
+            .getElementById('date')
+            .removeEventListener(this.listeners.keydown.type, this.listeners.keydown.listener, true);
+        document
+            .getElementById('registrationForm')
+            .removeEventListener(this.listeners.focusInput.type, this.listeners.focusInput.listener, true);
+        document
+            .getElementById('registrationForm')
+            .removeEventListener(this.listeners.blurInput.type, this.listeners.blurInput.listener, true);
+
+    }
+
+    /***
+     * @author Ivan Gorshkov
+     *
+     * get id of target HTML
+     * @this {RegistrationPanel}
+     * @param {HTMLElement} target
+     * @return {string}
+     * @public
+     */
+    getErrorId(target) {
+        return `${target.id}Error`;
+    }
+
+    /***
+     * @author Ivan Gorshkov
+     *
+     * add error of field
+     * @param {[string]} message - errors of field
+     * @return {string}
+     * @this {RegistrationPanel}
+     * @public
+     */
+    addErrorForm(message) {
+        const errorList = message.reduce((prev, cur) => `${prev}<li>${cur}</li>`, '');
+        return createMessageError(`
+                  <ul class="list-errors">
+                         ${errorList}
+                  </ul>
+        `);
+    }
+
+    /***
+     * @author Ivan Gorshkov
+     *
+     * remove class from hide error class
+     * @param {HTMLElement} target
+     * @this {RegistrationPanel}
+     * @public
+     */
+    hideError(target) {
+        document.getElementById(target).classList.remove('error-hidden');
+    }
+
+    /***
+     * @author Ivan Gorshkov
+     *
+     * open file system to choose file
+     * @public
+     * @this {RegistrationPanel}
+     */
+    openFileSystem() {
+        const elem = document.getElementById('file-upload');
+        elem.click();
+    }
+
+    /***
+     * @author Ivan Gorshkov
+     *
+     * get HTMLELement of form
+     * @public
+     * @return {HTMLElement} form
+     * @this {RegistrationPanel}
+     */
+    getForm() {
+        return document.getElementById('registration-from');
+    }
+
+    /***
+     * @author Ivan Gorshkov
+     *
+     * all HTMLElement of form
+     * @public
+     * @return {{date: HTMLElement, password: HTMLElement, mail: HTMLElement, passwordConfirm: HTMLElement, phone: HTMLElement, surname: HTMLElement, sex: HTMLElement, name: HTMLElement}}
+     * @this {RegistrationPanel}
+     */
+    getAllFields() {
         return {
-            fields: this.__data
+            passwordConfirm: document.getElementById('passwordConfirm'),
+            phone: document.getElementById('phone'),
+            password: document.getElementById('password'),
+            mail: document.getElementById('mail'),
+            name: document.getElementById('name'),
+            surname: document.getElementById('surname'),
+            date: document.getElementById('date'),
+            sex: document.getElementById('sex')
         };
     }
 
+    /***
+     * @author Ivan Gorshkov
+     *
+     * add src to picture
+     * @public
+     * @param {Event} ev - event
+     * @this {RegistrationPanel}
+     */
+    avatarOnLoad(ev) {
+        const elem = document.getElementById('profile-pic');
+        elem.src = ev.target.result;
+    }
+
+    /***
+     * @author Ivan Gorshkov
+     *
+     * add error class to avatar
+     * @public
+     * @this {RegistrationPanel}
+     */
+    addErrorAvatar() {
+        document.getElementById('circle-avatar').classList.add('reg-panel__input-error');
+    }
+
+    /***
+     * @author Ivan Gorshkov
+     *
+     * remove error class to avatar
+     * @public
+     * @this {RegistrationPanel}
+     */
+    removeErrorAvatar() {
+        document.getElementById('circle-avatar').classList.remove('reg-panel__input-error');
+        document.getElementById('circle-avatar').classList.add('reg-panel__input-susses');
+    }
 
     /***
      * @author Ivan Gorshkov
@@ -111,8 +257,16 @@ export class RegistrationPanel {
      * @this {RegistrationPanel}
      * @public
      */
-    render() {
-        this.__parent.insertAdjacentHTML('beforeend', registrationPanelTemplate(this.__context()));
+    render(ctx) {
+        this.listeners = ctx.registrationPanel.listeners;
+        this.__parent.insertAdjacentHTML('beforeend', registrationPanelTemplate(ctx.registrationPanel));
+
+        for (const fields in ctx.registrationPanel.fields) {
+            const field = new Field(document.getElementById('registrationForm'), ctx.registrationPanel.fields[fields]);
+            field.render();
+        }
+
+        this.__addListeners();
         document.getElementById('date').max = new Date().toISOString().split('T')[0];
     }
 }

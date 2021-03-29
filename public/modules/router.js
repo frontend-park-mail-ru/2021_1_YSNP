@@ -1,6 +1,8 @@
 /***
  * Application router
  */
+import {frontUrls} from './frontUrls';
+
 class Router {
     /***
      * Class constructor
@@ -53,6 +55,25 @@ class Router {
      */
     goBack() {
         window.history.back();
+    }
+
+    /***
+     * go back from navigation bar
+     */
+    navigateBack() {
+        if (router.historyLength() === 2) {
+            router.redirect(frontUrls.main);
+            return;
+        }
+        router.goBack();
+    }
+
+    /***
+     * count of history stack
+     * @return {number}
+     */
+    historyLength() {
+        return window.history.length;
     }
 
     /***
@@ -210,6 +231,24 @@ class Router {
     }
 
     /***
+     * Redirect event
+     * @param {MouseEvent} ev - mouse event
+     */
+    redirectEvent(ev) {
+        if (ev.target instanceof HTMLAnchorElement) {
+            ev.preventDefault();
+
+            this.redirect(ev.target.pathname);
+        }
+
+        if (ev.target.parentElement instanceof HTMLAnchorElement) {
+            ev.preventDefault();
+
+            this.redirect(ev.target.parentElement.pathname);
+        }
+    }
+
+    /***
      * Add route listeners
      * @private
      */
@@ -219,11 +258,7 @@ class Router {
         // }
 
         window.addEventListener('click', (ev) => {
-            if (ev.target instanceof HTMLAnchorElement) {
-                ev.preventDefault();
-
-                this.redirect(ev.target.pathname);
-            }
+            this.redirectEvent(ev);
         });
 
         window.addEventListener('popstate', () => {
