@@ -16,9 +16,9 @@ export class ProductPresenter extends BasePresenter {
      */
     constructor(view, id) {
         super(view);
+        this.__view = view;
         this.__id = id;
         this.__model = new ProductModel({id: this.__id});
-        this.__view = view;
     }
 
     /***

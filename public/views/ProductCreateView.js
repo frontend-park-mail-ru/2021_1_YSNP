@@ -3,18 +3,43 @@ import {Navigation} from '../components/Navigation/Navigation.js';
 import {Layout} from '../components/Layout/Layout.js';
 import {ProductCreateForm} from '../components/ProductCreateForm/ProductCreateForm.js';
 
+/***
+ * class ProductCreateView extends BaseView
+ */
 export class ProductCreateView extends BaseView {
+
+    /***
+     * @author Ivan Gorshkov
+     *
+     * Class constructor
+     * @param {HTMLElement} app - parent element
+     * @param {Object} baseProductCreate - list of fields
+     * @this {ProductCreateView}
+     */
     constructor(app, baseProductCreate) {
         super(app);
         this.layout = new Layout(this.__app);
         this.__baseProductCreate = baseProductCreate;
     }
 
+    /***
+     * @author Ivan Gorshkov
+     *
+     * remove listeners from components
+     * @this {ProductCreateView}
+     */
     removingSubViews() {
         this.__navSubView.removeListeners();
         this.__productCreate.removeListeners();
     }
 
+    /***
+     * @author Ivan Gorshkov
+     *
+     * make new context from context presenter and view
+     * @param{Object} context - context from Presenter
+     * @private
+     */
     __makeContext(context) {
         this.__context = {
             navigation: {
@@ -79,6 +104,13 @@ export class ProductCreateView extends BaseView {
         this.__productCreate.changeDisableButton(title);
     }
 
+    /***
+     * @author Ivan Gorshkov
+     *
+     * render with context
+     * @param{Object} context
+     * @this {ProductCreateView}
+     */
     render(context) {
         super.render();
         this.layout.render();

@@ -3,14 +3,32 @@ import {Layout} from '../components/Layout/Layout.js';
 import {Navigation} from '../components/Navigation/Navigation.js';
 import {RegistrationPanel} from '../components/RegistrationPanel/RegistrationPanel.js';
 
+/***
+ * class RegistrationView extends BaseView
+ */
 export class RegistrationView extends BaseView {
 
+    /***
+     * @author Ivan Gorshkov
+     *
+     * Class constructor
+     * @param {HTMLElement} app - parent element
+     * @param {Object} baseRegistration - list of fields
+     * @this {RegistrationView}
+     */
     constructor(app, baseRegistration) {
         super(app);
         this.layout = new Layout(this.__app);
         this.__baseRegistration = baseRegistration;
     }
 
+    /***
+     * @author Ivan Gorshkov
+     *
+     * make new context from context presenter and view
+     * @param{Object} context - context from Presenter
+     * @private
+     */
     __makeContext(context) {
         this.__context = {
             navigation: {
@@ -69,11 +87,24 @@ export class RegistrationView extends BaseView {
         return this.layout.parent;
     }
 
+    /***
+     * @author Ivan Gorshkov
+     *
+     * remove listeners from components
+     * @this {RegistrationView}
+     */
     removingSubViews() {
         this.__navSubView.removeListeners();
         this.__regSubView.removeListeners();
     }
 
+    /***
+     * @author Ivan Gorshkov
+     *
+     * render with context
+     * @param{Object} context
+     * @this {RegistrationView}
+     */
     render(context) {
         super.render();
         this.layout.render();
