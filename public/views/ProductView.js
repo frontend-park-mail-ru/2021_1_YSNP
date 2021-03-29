@@ -38,6 +38,10 @@ export class ProductView extends BaseView {
         this.__boardSubView.rotateBackward();
     }
 
+    selectPicture(target) {
+        this.__boardSubView.selectImage(target);
+    }
+
     render(context) {
         super.render();
         this.layout.render();

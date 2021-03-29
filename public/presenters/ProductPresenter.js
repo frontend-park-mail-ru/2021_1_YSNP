@@ -3,7 +3,17 @@ import {router} from '../modules/router.js';
 import {eventHandlerWithDataType} from '../modules/eventHandler.js';
 import {ProductModel} from '../models/ProductModel.js';
 
+/***
+ *  ProductPresenter class, extends from BasePresenter
+ */
 export class ProductPresenter extends BasePresenter {
+
+    /***
+     * Class constructor
+     * @param {ProductView} view - view
+     * @param {number} id - id of product
+     * @this {ProductPresenter}
+     */
     constructor(view, id) {
         super(view);
         this.__id = id;
@@ -11,21 +21,53 @@ export class ProductPresenter extends BasePresenter {
         this.__view = view;
     }
 
+    /***
+     * @author Ivan Gorshkov
+     *
+     * Update view data
+     * @returns {Promise<void>}
+     * @this {ProductPresenter}
+     */
     async update() {
         await super.update();
         await this.__model.update();
     }
 
+    /***
+     * @author Ivan Gorshkov
+     *
+     * Control view
+     * @returns {Promise<void>}
+     * @this {ProductPresenter}
+     */
     async control() {
         await this.update();
         this.__view.render(this.__makeContext());
     }
 
+    /***
+     * @author Ivan Gorshkov
+     *
+     * Header click listener
+     * @param {MouseEvent} ev - event
+     * @param {string} dataType
+     * @param {Object} actions
+     * @private
+     * @this {ProductPresenter}
+     */
     __listenerProduct(dataType, actions, ev) {
         ev.preventDefault();
         eventHandlerWithDataType(ev, dataType, actions, true);
     }
 
+    /***
+     * @author Ivan Gorshkov
+     *
+     * function witch return Object of listeners
+     * @this {ProductPresenter}
+     * @return {Object}
+     * @private
+     */
     __createListeners() {
         return {
             navigation: {
@@ -43,12 +85,27 @@ export class ProductPresenter extends BasePresenter {
         };
     }
 
+    /***
+     * @author Ivan Gorshkov
+     *
+     * action for navigation to back
+     * @this {ProductPresenter}
+     * @private
+     */
     __navBack() {
         this.closeAllComponents();
         this.__view.removingSubViews();
         router.navigateBack();
     }
 
+    /***
+     * @author Ivan Gorshkov
+     *
+     * Get product actions
+     * @this {ProductPresenter}
+     * @returns {Object}
+     * @private
+     */
     __getActions() {
         return {
             navigation: {
@@ -76,11 +133,24 @@ export class ProductPresenter extends BasePresenter {
         };
     }
 
+    /***
+     * @author Ivan Gorshkov
+     *
+     * action to tern next pic in slider
+     * @this {ProductPresenter}
+     * @private
+     */
     __listenerToNext() {
         this.__view.rotateForward();
     }
 
-
+    /***
+     * @author Ivan Gorshkov
+     *
+     * action to tern back pic in slider
+     * @this {ProductPresenter}
+     * @private
+     */
     __listenerToBack() {
         this.__view.rotateBackward();
     }
@@ -90,22 +160,19 @@ export class ProductPresenter extends BasePresenter {
      *
      * listener for select photo
      * @private
-     * @this {BoardController}
+     * @this {ProductPresenter}
      * @param {MouseEvent} ev - event
      */
     __listenerSelectImage(ev) {
-        ev.preventDefault();
-        const elem = document.getElementById('pic');
-        elem.src = ev.target.src;
-        const carousel = document.getElementById('carousel'),
-            images = carousel.getElementsByTagName('img');
-        for (let i = 0; i < images.length; ++i) {
-            images[i].style.opacity = '0.3';
-        }
-        ev.target.style.opacity = '1.0';
+        this.__view.selectPicture(ev.target);
     }
 
-
+    /***
+     * @author Ivan Gorshkov
+     * listener for show number
+     * @this {ProductPresenter}
+     * @private
+     */
     __listenerShowNumber() {
         // TODO(Ivan) release __listenerShowNumber
         if (this.__userModel.isAuth) {
@@ -118,7 +185,7 @@ export class ProductPresenter extends BasePresenter {
     /***
      * @author Ivan Gorshkov
      * listener for write massage
-     * @this {BoardController}
+     * @this {ProductPresenter}
      * @private
      */
     __listenerWriteMassage() {
@@ -130,7 +197,14 @@ export class ProductPresenter extends BasePresenter {
         }
     }
 
-
+    /***
+     * @author Ivan Gorshkov
+     *
+     * Make view context
+     * @returns {Object}
+     * @private
+     * @this {ProductPresenter}
+     */
     __makeContext() {
         return {
             navigation: {

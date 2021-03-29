@@ -15,9 +15,11 @@ const noop = () => {};
  *  RegistrationPresenter class
  */
 export class RegistrationPresenter extends BasePresenter {
+
     /***
      * Class constructor
      * @param {RegistrationView} view - view
+     * @this {RegistrationPresenter}
      */
     constructor(view) {
         super(view);
@@ -280,7 +282,6 @@ export class RegistrationPresenter extends BasePresenter {
      * @author Ivan Gorshkov
      *
      * action to validate input confirmpassword
-     * @return {boolean}
      * @private
      * @this {RegistrationPresenter}
      * @param {Function} validFunc

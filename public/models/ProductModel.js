@@ -236,7 +236,7 @@ export class ProductModel {
     /***
      * Validate product name
      * @param {string} name - product name
-     * @returns {{message: string, error: boolean}}
+     * @returns {{message: [string], error: boolean}}
      */
     validationName(name) {
         const maxSize = 100;
@@ -263,7 +263,7 @@ export class ProductModel {
     /***
      * Validate description
      * @param {string} description - product description
-     * @returns {{message: string, error: boolean}}
+     * @returns {{message: [string], error: boolean}}
      */
     validationDescription(description) {
         const maxSize = 4000;
@@ -290,7 +290,7 @@ export class ProductModel {
     /***
      * Validate product amount
      * @param {string} amount - product amount
-     * @returns {{message: string, error: boolean}}
+     * @returns {{message: [string], error: boolean}}
      */
     validationAmount(amount) {
         if (amount !== '') {

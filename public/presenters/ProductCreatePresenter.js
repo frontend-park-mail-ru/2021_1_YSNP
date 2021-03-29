@@ -12,8 +12,15 @@ import {eventHandlerWithDataType} from '../modules/eventHandler';
  */
 const noop = () => {};
 
+/***
+ *  ProductCreatePresenter class, extends from BasePresenter
+ */
 export class ProductCreatePresenter extends BasePresenter {
 
+    /***
+     * Class constructor
+     * @param {ProductCreateView} view - view
+     */
     constructor(view) {
         super(view);
         this.__view = view;
@@ -26,7 +33,7 @@ export class ProductCreatePresenter extends BasePresenter {
      *
      * getter for picture count
      * @return {number}
-     * @this {ProductCreateFormController}
+     * @this {ProductCreatePresenter}
      * @private
      */
     get __count() {
@@ -37,7 +44,7 @@ export class ProductCreatePresenter extends BasePresenter {
      * @author Ivan Gorshkov
      *
      * setter for picture count
-     * @this {ProductCreateFormController}
+     * @this {ProductCreatePresenter}
      * @private
      * @param {number} value - new value
      */
@@ -45,10 +52,24 @@ export class ProductCreatePresenter extends BasePresenter {
         this.__countPhoto = value;
     }
 
+    /***
+     * @author Ivan Gorshkov
+     *
+     * Update view data
+     * @returns {Promise<void>}
+     * @this {ProductCreatePresenter}
+     */
     async update() {
         await super.update();
     }
 
+    /***
+     * @author Ivan Gorshkov
+     *
+     * Control view
+     * @returns {Promise<void>}
+     * @this {ProductCreatePresenter}
+     */
     async control() {
         await this.update();
         if (!this.__userModel.isAuth) {
@@ -60,17 +81,28 @@ export class ProductCreatePresenter extends BasePresenter {
 
 
     /***
+     * @author Ivan Gorshkov
+     *
      * Header click listener
      * @param {MouseEvent} ev - event
-     * @param dataType
-     * @param actions
+     * @param {string} dataType
+     * @param {Object} actions
      * @private
+     * @this {ProductCreatePresenter}
      */
     __listenerCreateProduct(dataType, actions, ev) {
         ev.preventDefault();
         eventHandlerWithDataType(ev, dataType, actions, true);
     }
 
+    /***
+     * @author Ivan Gorshkov
+     *
+     * function witch return Object of listeners
+     * @this {ProductCreatePresenter}
+     * @return {Object}
+     * @private
+     */
     __createListeners() {
         return {
             navigation: {
@@ -116,12 +148,27 @@ export class ProductCreatePresenter extends BasePresenter {
         };
     }
 
+    /***
+     * @author Ivan Gorshkov
+     *
+     * action for navigation to back
+     * @this {ProductCreatePresenter}
+     * @private
+     */
     __navBack() {
         this.closeAllComponents();
         this.__view.removingSubViews();
         router.navigateBack();
     }
 
+    /***
+     * @author Ivan Gorshkov
+     *
+     * Get productCreate actions
+     * @this {ProductCreatePresenter}
+     * @returns {Object}
+     * @private
+     */
     __getActions() {
         return {
             navigation: {
@@ -167,19 +214,35 @@ export class ProductCreatePresenter extends BasePresenter {
         };
     }
 
+    /***
+     * @author Ivan Gorshkov
+     *
+     * action to validate input confirmpassword
+     * @private
+     * @this {ProductCreatePresenter}
+     * @param {Function} validFunc
+     * @param {Event} ev
+     */
     __validateFields(validFunc, ev) {
         if (!validFunc(ev.target)) {
             this.__view.hideError(this.__view.getErrorId(ev.target));
         }
     }
 
+    /***
+     * @author Ivan Gorshkov
+     *
+     * action when submit form
+     * @private
+     * @this {ProductCreatePresenter}
+     */
     __listenerSubmitClick() {
         const {price, description, name, category} = this.__view.getAllFields();
         const isValidPrice = this.__validatePriceInput(price);
         const isValidDescription = this.__validateTextArea(description);
-        const isValidname = this.__validateEmptyInput(name);
+        const isValidName = this.__validateEmptyInput(name);
         const emptyPhotoField = 0;
-        if (isValidname && isValidDescription && isValidPrice && this.__count !== emptyPhotoField) {
+        if (isValidName && isValidDescription && isValidPrice && this.__count !== emptyPhotoField) {
             this.__model.fillProductModel({
                 name: name.value,
                 description: description.value,
@@ -200,17 +263,29 @@ export class ProductCreatePresenter extends BasePresenter {
     /***
      * @author Ivan Gorshkov
      *
-     * action to validate name
-     * @param{Object} target
+     * validate name
+     * @param{HTMLElement} target
      * @return {boolean}
      * @private
-     * @this {ProductCreateFormController}
+     * this {ProductCreatePresenter}
      */
     __validateEmptyInput(target) {
         const {error, message} = this.__model.validationName(target.value.toString());
         return this.__handlingErrors(error, target, message);
     }
 
+    /***
+     * @author Ivan Gorshkov
+     *
+     * handlingErrors
+     * @param {boolean} error
+     * @param {HTMLElement} target
+     * @param {[string]} message
+     * @param {Function} supprotValidate
+     * @return {boolean}
+     * @this {ProductCreatePresenter}
+     * @private
+     */
     __handlingErrors(error, target, message, supprotValidate = noop) {
         if (!error) {
             addSuccesses(target, this.__view.getErrorId(target));
@@ -226,7 +301,7 @@ export class ProductCreatePresenter extends BasePresenter {
      *
      * Action for deleting pictures
      * @return {Object}
-     * @this {ProductCreateFormController}
+     * this {ProductCreatePresenter}
      * @private
      */
     __deletePicture(ev) {
@@ -240,6 +315,7 @@ export class ProductCreatePresenter extends BasePresenter {
      * action for cross showing
      * @param{Event} ev - event for show cross
      * @private
+     * this {ProductCreatePresenter}
      */
     __showCross(ev) {
         if (parseInt(ev.target.dataset.id) !== this.__count && (ev.target.tagName === 'IMG' || ev.target.tagName === 'DIV')) {
@@ -253,6 +329,7 @@ export class ProductCreatePresenter extends BasePresenter {
      * action for cross hide
      * @param{Event} ev - event for hide cross
      * @private
+     * this {ProductCreatePresenter}
      */
     __hideCross(ev) {
         if (parseInt(ev.target.dataset.id) !== this.__count && (ev.target.tagName === 'IMG' || ev.target.tagName === 'DIV')) {
@@ -263,9 +340,10 @@ export class ProductCreatePresenter extends BasePresenter {
     /****
      * @author Ivan Gorshkov
      *
-     * update profile picture action
-     * @param input
+     * update picture from fileSystem
+     * @param {Event} ev
      * @private
+     * this {ProductCreatePresenter}
      */
     __read(ev) {
         const firstIndex = 0;
@@ -277,9 +355,15 @@ export class ProductCreatePresenter extends BasePresenter {
         }
     }
 
+    /***
+     * @author Ivan Gorshkov
+     *
+     * inc number of pictures
+     * @private
+     * this {ProductCreatePresenter}
+     */
     __incCount() {
         this.__count += 1;
-        console.log(this.__count);
     }
 
     /***
@@ -287,6 +371,7 @@ export class ProductCreatePresenter extends BasePresenter {
      *
      * open file system menu action
      * @private
+     * this {ProductCreatePresenter}
      */
     __upload(ev) {
         const maxPics = 10;
@@ -298,11 +383,11 @@ export class ProductCreatePresenter extends BasePresenter {
     /***
      * @author Ivan Gorshkov
      *
-     * action to validate price
+     * validate price
      * @param{Object} target
      * @return {boolean}
      * @private
-     * @this {ProductCreateFormController}
+     * @this {ProductCreatePresenter}
      */
     __validatePriceInput(target) {
         const {error, message} = this.__model.validationAmount(target.value.replace(/[^0-9]/g, '').toString());
@@ -314,17 +399,25 @@ export class ProductCreatePresenter extends BasePresenter {
     /***
      * @author Ivan Gorshkov
      *
-     * action to validate textArea
+     *  validate textArea
      * @param{Object} target
      * @return {boolean}
      * @private
-     * @this {ProductCreateFormController}
+     * @this {ProductCreatePresenter}
      */
     __validateTextArea(target) {
         const {error, message} = this.__model.validationDescription(target.value.toString());
         return this.__handlingErrors(error, target, message);
     }
 
+    /***
+     * @author Ivan Gorshkov
+     *
+     * Make view context
+     * @returns {{productList: {data: *[], listeners: {productCardClick: {listener: *, type: string}}}}}
+     * @private
+     * @this {ProductCreatePresenter}
+     */
     __makeContext() {
         return {
             navigation: {

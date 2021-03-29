@@ -115,6 +115,26 @@ export class Board {
         });
     }
 
+
+    /***
+     * @author Ivan Gorshkov
+     *
+     * selection picture in slider
+     * @public
+     * @this {Board}
+     * @param {HTMLElement} target - picture
+     */
+    selectImage(target) {
+        const elem = document.getElementById('pic');
+        elem.src = target.src;
+        const carousel = document.getElementById('carousel'),
+            images = carousel.getElementsByTagName('img');
+        for (let i = 0; i < images.length; ++i) {
+            images[i].style.opacity = '0.3';
+        }
+        target.style.opacity = '1.0';
+    }
+
     /***
      * @author Ivan Gorshkov
      *
