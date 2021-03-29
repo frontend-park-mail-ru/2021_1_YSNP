@@ -6,7 +6,7 @@ import {frontUrls} from './frontUrls.js';
 /***
  * Check user auth, redirect if user is not auth
  */
-function checkAuth() {
+export function checkAuth() {
     if (user.isAuth) {
         return;
     }
