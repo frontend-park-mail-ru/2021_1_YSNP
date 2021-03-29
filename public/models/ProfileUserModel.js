@@ -153,7 +153,7 @@ export class ProfileUserModel extends PasswordUserModel {
      */
     async update() {
         if (this.__isAuth) {
-            return;
+            return Promise.resolve();
         }
 
         return await http.get(backUrls.me)

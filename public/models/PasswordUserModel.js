@@ -13,22 +13,6 @@ export class PasswordUserModel extends UserModel {
     }
 
     /***
-     * Get user password
-     * @returns {string}
-     */
-    get password() {
-        return this.__password;
-    }
-
-    /***
-     * Set user password
-     * @param {string} password - user password
-     */
-    set password(password) {
-        this.__password = password;
-    }
-
-    /***
      * Fill user model data
      * @param {Object} data - user data
      */
