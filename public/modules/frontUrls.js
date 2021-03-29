@@ -64,6 +64,14 @@ class FrontUrls {
     }
 
     /***
+     * Get promotion page
+     * @returns {string}
+     */
+    get promotion() {
+        return '/promotion';
+    }
+
+    /***
      * Get my ads page
      * @returns {string}
      */
