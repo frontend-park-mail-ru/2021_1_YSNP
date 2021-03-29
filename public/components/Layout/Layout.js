@@ -8,9 +8,11 @@ export class Layout {
     /***
      * Class constructor
      * @param {HTMLElement} parent - parent element
+     * @param {boolean} isMain - is main layout
      */
-    constructor(parent) {
+    constructor(parent, isMain = false) {
         this.__parent = parent;
+        this.__isMain = isMain;
     }
 
 
@@ -39,6 +41,19 @@ export class Layout {
     get rightParent() {
         return document
             .querySelector('[class="layout-right"]');
+    }
+
+    /***
+     * Check is main layout
+     * @private
+     */
+    __checkIsMain() {
+        if (this.__isMain) {
+            document
+                .getElementById('layout')
+                .classList
+                .add('layout__main');
+        }
     }
 
     /***
@@ -117,6 +132,7 @@ export class Layout {
             this.__getWidth();
 
             this.__parent.insertAdjacentHTML('beforeend', layoutTemplate(context));
+            this.__checkIsMain();
         } catch (err) {
             console.log(err.message);
         }
