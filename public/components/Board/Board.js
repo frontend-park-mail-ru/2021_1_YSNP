@@ -1,12 +1,13 @@
 import './Board.css';
 import boardTemplate from './Board.hbs';
 import {InfoCard} from './InfoCard/InfoCard.js';
-import {Slider} from './Carousel/Carousel.js';
+import {Slider} from './Carousel/Slider.js';
 import {Description} from './Description/Description.js';
 import {Map} from './Map/Map.js';
 
 /***
  * @author Ivan Gorshkov
+ *
  * Board class for contain product
  * @class Board
  */
@@ -14,6 +15,7 @@ export class Board {
 
     /***
      * @author Ivan Gorshkov
+     *
      * init of class Board
      * @param {HTMLElement} parent - parent element
      * @param {Object} data - JSON Object
@@ -21,57 +23,8 @@ export class Board {
      * @this {Board}
      * @public
      */
-    constructor(parent, data) {
+    constructor(parent) {
         this.__parent = parent;
-        this.__data = data;
-    }
-
-    /***
-     * @author Ivan Gorshkov
-     *
-     * getter for data product
-     * @return {Object}
-     * @private
-     * @readonly
-     * @this {Board}
-     */
-    get data() {
-        return this.__data;
-    }
-
-    /***
-     * @author Ivan Gorshkov
-     *
-     * setter for data product
-     * @param {Object} data - data of product
-     * @this {Board}
-     */
-    set data(data) {
-        this.__data = data;
-    }
-
-    /***
-     * @author Ivan Gorshkov
-     * getter for id product
-     * @return {Number}
-     * @private
-     * @readonly
-     * @this {Board}
-     */
-    get __getId() {
-        return this.__data.id;
-    }
-
-    /***
-     * @author Ivan Gorshkov
-     * getter for title of product
-     * @return {String}
-     * @private
-     * @readonly
-     * @this {Board}
-     */
-    get __getTitle() {
-        return this.__data.name;
     }
 
     /***
@@ -82,8 +35,9 @@ export class Board {
      * @this {Board}
      */
     addListeners() {
-        this.__carousel.addListeners();
-        this.__infoCard.addListeners();
+        document
+            .getElementById('board')
+            .addEventListener(this.listeners.product.type, this.listeners.product.listener);
     }
 
     /***
@@ -94,8 +48,20 @@ export class Board {
      * @this {Board}
      */
     removeListeners() {
-        this.__carousel.removeListeners();
-        this.__infoCard.removeListeners();
+        document
+            .getElementById('board')
+            .removeEventListener(this.listeners.product.type, this.listeners.product.listener);
+    }
+
+    /***
+     * @author Ivan Gorshkov
+     *
+     * getter listeners
+     * @public
+     * @this {Board}
+     */
+    get listeners() {
+        return this.__listeners;
     }
 
     /***
@@ -106,23 +72,67 @@ export class Board {
      * @this {Board}
      * @param {Object} val Object of listeners
      */
-    listeners(val) {
-        this.__carousel.listeners = val;
-        this.__infoCard.listeners = val;
+    set listeners(val) {
+        this.__listeners = val;
     }
 
     /***
      * @author Ivan Gorshkov
      *
-     * context for template
-     * @return {{id: Number, title: String}}
-     * @private
+     * rotateForward carousel
+     * @public
+     * @this {Board}
      */
-    __context() {
-        return {
-            id: this.__getId,
-            title: this.__getTitle
-        };
+    rotateForward() {
+        this.__carousel.rotateForward();
+        const scrollingPanel = document.getElementById('sliderPanel');
+        scrollingPanel.classList.add('button_disabled');
+        const carousel = document.getElementById('carousel');
+        this.__carousel.animate(-this.__carousel.__carousel.rowHeight, 0, () => {
+            carousel.style.top = '0';
+            scrollingPanel.classList.remove('button_disabled');
+        });
+
+    }
+
+
+    /***
+     * @author Ivan Gorshkov
+     *
+     * rotateBackward carousel
+     * @public
+     * @this {Board}
+     */
+    rotateBackward() {
+        this.__carousel.rotateBackward();
+        const scrollingPanel = document.getElementById('sliderPanel');
+        scrollingPanel.classList.add('button_disabled');
+        const carousel = document.getElementById('carousel');
+        this.__carousel.animate(0, -this.__carousel.__carousel.rowHeight, () => {
+            this.__carousel.rotateBackward();
+            carousel.style.top = '0';
+            scrollingPanel.classList.remove('button_disabled');
+        });
+    }
+
+
+    /***
+     * @author Ivan Gorshkov
+     *
+     * selection picture in slider
+     * @public
+     * @this {Board}
+     * @param {HTMLElement} target - picture
+     */
+    selectImage(target) {
+        const elem = document.getElementById('pic');
+        elem.src = target.src;
+        const carousel = document.getElementById('carousel'),
+            images = carousel.getElementsByTagName('img');
+        for (let i = 0; i < images.length; ++i) {
+            images[i].style.opacity = '0.3';
+        }
+        target.style.opacity = '1.0';
     }
 
     /***
@@ -132,41 +142,20 @@ export class Board {
      * @this {Board}
      * @public
      */
-    render() {
-        //  const template = this.__getTemplate();
-        this.__parent.insertAdjacentHTML('beforeend', boardTemplate(this.__context()));
-
+    render(ctx) {
+        this.__context = ctx.product;
+        this.listeners = ctx.product.listeners;
+        this.__parent.insertAdjacentHTML('beforeend', boardTemplate(this.__context.data));
         const parentRightSide = document.getElementById('board-right-side');
         const parentLeftSide = document.getElementById('board-left-side');
-
-        this.__infoCard = new InfoCard(parentRightSide, this.__data);
-        this.__infoCard.render();
-
-
-        this.__carousel = new Slider(parentLeftSide, this.__data);
+        this.__carousel = new Slider(parentLeftSide, this.__context.data);
         this.__carousel.render();
-
-        this.__description = new Description(parentLeftSide, {
-            description: [{
-                title: 'Описание',
-                text: this.__data.description
-            },
-                {
-                    title: 'Категория',
-                    text: this.__data.category
-                },
-                {
-                    title: 'Подкатегория',
-                    text: 'С пробегом'
-                },
-                {
-                    title: 'Адрес',
-                    text: 'Москва, Профсоюзная улица, 132к2, Коньково'
-                }]
-        });
+        this.__description = new Description(parentLeftSide, this.__context.data);
         this.__description.render();
-
+        this.__infoCard = new InfoCard(parentRightSide, this.__context.data);
+        this.__infoCard.render();
         this.__map = new Map(parentLeftSide);
         this.__map.render();
+        this.addListeners();
     }
 }

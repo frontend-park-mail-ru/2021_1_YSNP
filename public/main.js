@@ -22,32 +22,24 @@ import {ProductPresenter} from './presenters/ProductPresenter.js';
 import {ProfilePresenter} from './presenters/ProfilePresenter.js';
 import {RegistrationPresenter} from './presenters/RegistrationPresenter.js';
 import {SearchPresenter} from './presenters/SearchPresenter.js';
+import {baseCreateProduct, baseRegistration} from './modules/fields.js';
 
 const app = document.getElementById('app');
 
 const favoriteView = new FavoriteView(app);
 const mainView = new MainView(app);
 const myAdsView = new MyAdsView(app);
-const productCreateView = new ProductCreateView(app);
+const productCreateView = new ProductCreateView(app, baseCreateProduct);
 const productView = new ProductView(app);
 const profileView = new ProfileView(app);
-const registrationView = new RegistrationView(app);
+const registrationView = new RegistrationView(app, baseRegistration);
 const searchView = new SearchView(app);
-
-const favoritePresenter = new FavoritePresenter(favoriteView);
-const mainPresenter = new MainPresenter(mainView);
-const myAdsPresenter = new MyAdsPresenter(myAdsView);
-const productCreatePresenter = new ProductCreatePresenter(productCreateView);
-const productPresenter = new ProductPresenter(productView);
-const profilePresenter = new ProfilePresenter(profileView);
-const registrationPresenter = new RegistrationPresenter(registrationView);
-const searchPresenter = new SearchPresenter(searchView);
-
 
 /***
  * Open user favorite page
  */
 const doFavorite = () => {
+    const favoritePresenter = new FavoritePresenter(favoriteView);
     favoritePresenter.control();
 };
 
@@ -55,6 +47,7 @@ const doFavorite = () => {
  * Open main page
  */
 const doMain = () => {
+    const mainPresenter = new MainPresenter(mainView);
     mainPresenter.control();
 };
 
@@ -62,6 +55,7 @@ const doMain = () => {
  * Open user ads page
  */
 const doMyAds = () => {
+    const myAdsPresenter = new MyAdsPresenter(myAdsView);
     myAdsPresenter.control();
 };
 
@@ -69,6 +63,7 @@ const doMyAds = () => {
  * Open product create page
  */
 const doProductCreate = () => {
+    const productCreatePresenter = new ProductCreatePresenter(productCreateView);
     productCreatePresenter.control();
 };
 
@@ -76,14 +71,16 @@ const doProductCreate = () => {
  * Open product page
  * @param {number} reg - page params
  */
-const doProduct = (reg) => {
-    productPresenter.control(reg.parameters.id);
+const doProduct = (id) => {
+    const productPresenter = new ProductPresenter(productView, id.parameters.id);
+    productPresenter.control();
 };
 
 /***
  * Open user profile page
  */
 const doProfile = () => {
+    const profilePresenter = new ProfilePresenter(profileView);
     profilePresenter.control();
 };
 
@@ -91,6 +88,7 @@ const doProfile = () => {
  * Open registration page
  */
 const doRegistration = () => {
+    const registrationPresenter = new RegistrationPresenter(registrationView);
     registrationPresenter.control();
 };
 
@@ -98,6 +96,7 @@ const doRegistration = () => {
  * Open search page
  */
 const doSearch = () => {
+    const searchPresenter = new SearchPresenter(searchView);
     searchPresenter.control();
 };
 

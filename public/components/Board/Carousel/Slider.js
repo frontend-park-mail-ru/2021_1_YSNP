@@ -1,5 +1,5 @@
-import './Carousel.css';
-import CarouselTemplate from './Carousel.hbs';
+import './Slider.css';
+import CarouselTemplate from './Slider.hbs';
 
 /* eslint-disable no-magic-numbers */
 
@@ -30,31 +30,6 @@ export class Slider {
         };
         this.__data = data;
 
-    }
-
-    /***
-     * @author Ivan Gorshkov
-     *
-     * get Slider listeners
-     * @this {Slider}
-     * @private
-     * @readonly
-     * @return  {Object} array of listeners
-     */
-    get listeners() {
-        return this.__listeners;
-    }
-
-    /***
-     * @author Ivan Gorshkov
-     *
-     * Set new listeners
-     * @this {Slider}
-     * @param  {Object} val - Object of listeners
-     * @public
-     */
-    set listeners(val) {
-        this.__listeners = val;
     }
 
     /***
@@ -157,40 +132,14 @@ export class Slider {
     /***
      * @author Ivan Gorshkov
      *
-     * Add listeners from component
-     * @public
-     * @this {Slider}
-     */
-    addListeners() {
-        document
-            .getElementById('sliderPanel')
-            .addEventListener(this.listeners.board.type, this.listeners.board.listener);
-    }
-
-    /***
-     * @author Ivan Gorshkov
-     *
-     * Remove listeners from component
-     * @public
-     * @this {Slider}
-     */
-    removeListeners() {
-        document
-            .getElementById('sliderPanel')
-            .removeEventListener(this.listeners.board.type, this.listeners.board.listener);
-    }
-
-    /***
-     * @author Ivan Gorshkov
-     *
      * context for template
      * @return {{firstPhoto: *, photos: ([*]|*)}}
      * @private
      */
     __context() {
         return {
-            firstPhoto: this.__data.linkImages[0],
-            photos: this.__data.linkImages
+            firstPhoto: this.__data.__linkImages[0],
+            photos: this.__data.__linkImages
         };
     }
 

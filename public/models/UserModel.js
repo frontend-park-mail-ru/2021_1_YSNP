@@ -33,12 +33,12 @@ export class UserModel {
             };
         } else if (value.length === 0) {
             return {
-                message: 'Поле не должно быть пустым',
+                message: ['Поле не должно быть пустым'],
                 error: true
             };
         }
         return {
-            message: 'Поле не должно привышать 30 знаков',
+            message: ['Поле не должно привышать 30 знаков'],
             error: true
         };
     }
@@ -58,7 +58,7 @@ export class UserModel {
 
 
         return {
-            message: 'Поле не должно быть пустым',
+            message: ['Поле не должно быть пустым'],
             error: true
         };
     }
@@ -78,7 +78,7 @@ export class UserModel {
 
 
         return {
-            message: 'Поле не должно быть пустым',
+            message: ['Поле не должно быть пустым'],
             error: true
         };
     }
@@ -98,7 +98,7 @@ export class UserModel {
 
 
         return {
-            message: 'Поле не должно быть пустым',
+            message: ['Поле не должно быть пустым'],
             error: true
         };
     }
@@ -118,7 +118,7 @@ export class UserModel {
         }
 
         return {
-            message: 'Неправильный формат почты',
+            message: ['Неправильный формат почты'],
             error: true
         };
     }
@@ -152,7 +152,7 @@ export class UserModel {
         }
 
         return {
-            message: 'Неверный формат телефона',
+            message: ['Неверный формат телефона'],
             error: true
         };
     }

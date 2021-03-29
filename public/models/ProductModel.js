@@ -26,21 +26,21 @@ export class ProductModel {
     /***
      * Validate product name
      * @param {string} name - product name
-     * @returns {{message: string, error: boolean}}
+     * @returns {{message: [string], error: boolean}}
      */
     validationName(name) {
         const maxSize = 100;
         const minSize = 0;
         if (name.length > maxSize) {
             return {
-                message: 'Слишком длинное название. Название не должен привышать 100 символов',
+                message: ['Слишком длинное название. Название не должен привышать 100 символов'],
                 error: true
             };
         }
 
         if (name.length === minSize) {
             return {
-                message: 'Название не должно быть пустым',
+                message: ['Название не должно быть пустым'],
                 error: true
             };
         }
@@ -53,21 +53,21 @@ export class ProductModel {
     /***
      * Validate description
      * @param {string} description - product description
-     * @returns {{message: string, error: boolean}}
+     * @returns {{message: [string], error: boolean}}
      */
     validationDescription(description) {
         const maxSize = 4000;
         const minSize = 10;
         if (description.length >= maxSize && description.length >= minSize) {
             return {
-                message: 'Слишком длинный текст. Текст не должен привышать 4000 символов',
+                message: ['Слишком длинный текст. Текст не должен привышать 4000 символов'],
                 error: true
             };
         }
 
         if (description.length < minSize) {
             return {
-                message: 'Слишком короткое описание (минимум 10 знаков)',
+                message: ['Слишком короткое описание (минимум 10 знаков)'],
                 error: true
             };
         }
@@ -80,7 +80,7 @@ export class ProductModel {
     /***
      * Validate product amount
      * @param {string} amount - product amount
-     * @returns {{message: string, error: boolean}}
+     * @returns {{message: [string], error: boolean}}
      */
     validationAmount(amount) {
         if (amount !== '') {
@@ -92,7 +92,7 @@ export class ProductModel {
 
 
         return {
-            message: 'Поле не должно быть пустым',
+            message: ['Поле не должно быть пустым'],
             error: true
         };
     }
