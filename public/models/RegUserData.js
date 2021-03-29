@@ -40,7 +40,7 @@ export class RegUserData extends PasswordUserModel {
      * @returns {Promise<{}|void>}
      */
     async registration(form) {
-        return await http.post(backUrls.singUp, this.__jsonData())
+        return http.post(backUrls.singUp, this.__jsonData())
             .then(({status, data}) => {
                 if (status === httpStatus.StatusOK) {
                     return http.post(backUrls.upload, new FormData(form), true)

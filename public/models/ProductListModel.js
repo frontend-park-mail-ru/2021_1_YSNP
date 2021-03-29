@@ -88,7 +88,7 @@ export class ProductListModel {
      * @private
      */
     async __updateNewDataPage() {
-        return await http.get(backUrls.productList)
+        return http.get(backUrls.productList)
             .then(({status, data}) => {
                 if (status === httpStatus.StatusInternalServerError) {
                     throw new Error('Ошибка сервера');

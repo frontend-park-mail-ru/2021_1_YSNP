@@ -186,7 +186,7 @@ export class ProductModel {
      * @returns {Promise<{isUpdate: boolean}|void>}
      */
     async update() {
-        return await http.get(backUrls.product + this.__id)
+        return http.get(backUrls.product + this.__id)
             .then(({status, data}) => {
                 if (status === httpStatus.StatusNotFound) {
                     throw new Error('Нет такого товара');
@@ -212,7 +212,7 @@ export class ProductModel {
      * @returns {Promise<void>}
      */
     async create(form) {
-        return await http.post(backUrls.productUploadPhotos, new FormData(form), true)
+        return http.post(backUrls.productUploadPhotos, new FormData(form), true)
             .then(({status, data}) => {
                 if (status === httpStatus.StatusUnauthorized) {
                     throw new Error('Пользователь не авторизован');

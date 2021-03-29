@@ -101,7 +101,7 @@ export class ProfileUserModel extends PasswordUserModel {
      * @returns {Promise<{isUpdate: boolean}>}
      */
     async settings() {
-        return await http.post(backUrls.settings, this.__jsonData())
+        return http.post(backUrls.settings, this.__jsonData())
             .then(({status}) => {
                 if (status === httpStatus.StatusUnauthorized) {
                     throw new Error('Пользователь не авторизован');
@@ -132,7 +132,7 @@ export class ProfileUserModel extends PasswordUserModel {
      * @returns {Promise<{isUpdate: boolean}|{message: *, isUpdate: boolean}>}
      */
     async newPassword() {
-        return await http.post(backUrls.newPassword, this.__jsonPassword())
+        return http.post(backUrls.newPassword, this.__jsonPassword())
             .then(({status}) => {
                 if (status === httpStatus.StatusBadRequest) {
                     throw new Error('Неправильно введен пароль');
@@ -156,7 +156,7 @@ export class ProfileUserModel extends PasswordUserModel {
             return Promise.resolve();
         }
 
-        return await http.get(backUrls.me)
+        return http.get(backUrls.me)
             .then(({status, data}) => {
                 if (status === httpStatus.StatusUnauthorized) {
                     throw new Error('Пользователь не авторизован');
@@ -182,7 +182,7 @@ export class ProfileUserModel extends PasswordUserModel {
      * @returns {Promise<void>}
      */
     async logout() {
-        return await http.post(backUrls.logout, null)
+        return http.post(backUrls.logout, null)
             .then(({status}) => {
                 if (status === httpStatus.StatusUnauthorized) {
                     throw new Error('Пользователь не авторизован');
