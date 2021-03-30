@@ -26,6 +26,7 @@ export class ProductCreateForm {
     constructor(parent) {
         this.__parent = parent;
         this.__listeners = {};
+        this.__yaMap = new YandexMap();
     }
 
 
@@ -86,9 +87,6 @@ export class ProductCreateForm {
         document
             .getElementById('ProductForm')
             .addEventListener(this.listeners.blurInput.type, this.listeners.blurInput.listener, true);
-        document
-            .getElementById('ya-map')
-            .addEventListener(this.listeners.mapClick.type, this.listeners.mapClick.listener);
     }
 
     /***
@@ -276,7 +274,8 @@ export class ProductCreateForm {
             price: document.getElementById('priceInput'),
             description: document.getElementById('textareaInput'),
             name: document.getElementById('nameInput'),
-            category: document.getElementById('categorySelect')
+            category: document.getElementById('categorySelect'),
+            address: document.getElementById('addressInput')
         };
     }
 
@@ -294,8 +293,12 @@ export class ProductCreateForm {
     }
 
     getAddress() {
-        this.__yaMap.__getAddress();
-        return this.__yaMap.getAddress();
+        return this.__yaMap.city;
+    }
+
+
+    getPos() {
+        return this.__yaMap.getPointPos();
     }
 
     /***
@@ -313,11 +316,11 @@ export class ProductCreateForm {
             field.render();
         }
 
-        this.__yaMap = new YandexMap();
         this.__yaMap.render({
             searchControl: false,
             geolocationControl: true,
-            listeners: true
+            listeners: true,
+            id: 'ya-map-create-product'
         });
         this.__yaMap.addSearch('addressInput');
         this.addListeners();

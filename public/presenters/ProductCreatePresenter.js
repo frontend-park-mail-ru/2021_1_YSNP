@@ -142,10 +142,6 @@ export class ProductCreatePresenter extends BasePresenter {
                 blurInput: {
                     type: 'blur',
                     listener: this.__listenerCreateProduct.bind(this, 'moveout', this.__getActions().productCreate)
-                },
-                mapClick: {
-                    type: 'click',
-                    listener: this.__listenerCreateProduct.bind(this, 'action', this.__getActions().productCreate)
                 }
             }
         };
@@ -214,14 +210,14 @@ export class ProductCreatePresenter extends BasePresenter {
                     open: hideError.bind(this)
                 },
                 tapMap: {
-                    open: this.tapMap.bind(this)
+                    open: this.__validateFields.bind(this, this.__validateAddressInput.bind(this))
                 }
             }
         };
     }
 
     tapMap() {
-       // document.getElementById('addressInput').value = this.__view.getAddress();
+        alert('sdf');
     }
 
     /***
@@ -233,10 +229,26 @@ export class ProductCreatePresenter extends BasePresenter {
      * @param {Function} validFunc
      * @param {Event} ev
      */
-    __validateFields(validFunc, ev) {
-        if (!validFunc(ev.target)) {
+    async __validateFields(validFunc, ev) {
+        if (!await validFunc(ev.target)) {
             this.__view.hideError(this.__view.getErrorId(ev.target));
         }
+    }
+
+    /***
+     * @author Ivan Gorshkov
+     *
+     * validate name
+     * @param{HTMLElement} target
+     * @return {boolean}
+     * @private
+     * this {ProductCreatePresenter}
+     */
+    async __validateAddressInput(target) {
+        return await this.__model.validationPos(target.value.toString()).then(({
+                                                                                   error,
+                                                                                   message
+                                                                               }) => this.__handlingErrors(error, target, message));
     }
 
     /***
@@ -246,18 +258,23 @@ export class ProductCreatePresenter extends BasePresenter {
      * @private
      * @this {ProductCreatePresenter}
      */
-    __listenerSubmitClick() {
-        const {price, description, name, category} = this.__view.getAllFields();
+    async __listenerSubmitClick() {
+        const {price, description, name, category, address} = this.__view.getAllFields();
         const isValidPrice = this.__validatePriceInput(price);
         const isValidDescription = this.__validateTextArea(description);
         const isValidName = this.__validateEmptyInput(name);
+        const isValidAddress = await this.__validateAddressInput(address);
         const emptyPhotoField = 0;
-        if (isValidName && isValidDescription && isValidPrice && this.__count !== emptyPhotoField) {
+        console.log(isValidAddress);
+        if (isValidName && isValidDescription && isValidPrice && isValidAddress && this.__count !== emptyPhotoField) {
             this.__model.fillProductModel({
                 name: name.value,
                 description: description.value,
                 amount: parseInt(price.value.toString().split(' ').join('')),
-                category: category.options[category.selectedIndex].text
+                category: category.options[category.selectedIndex].text,
+                latitude: this.__view.getPos().latitude,
+                longitude: this.__view.getPos().longitude,
+                address: this.__view.getAddress()
             });
             this.__view.changeDisableButton();
             this.__model.create(this.__view.getForm()).then(({status}) => {

@@ -190,7 +190,7 @@ export const baseCreateProduct = {
             placeholder: 'Укажите на карте адрес',
             inputType: 'text',
             id: 'addressInput',
-            dataAction: 'addressInput',
+            dataAction: 'tapMap',
             template: fieldTemplate.bind(),
             params: ''
         }
