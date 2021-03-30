@@ -180,15 +180,18 @@ export const baseCreateProduct = {
             id: 'textareaInput',
             dataAction: 'textareaInputEmpty',
             template: fieldTextAreaTemplate.bind()
-        }, /*,            place: {
-                title: 'Местоположение*',
-                placeholder: 'Местоположение',
-                inputType: 'text',
-                id: 'placeInput',
-                dataAction: 'inputEmpty'
-            }*/
+        },
         avatar: {
             title: 'Фото',
             template: fieldMultiPhotoTemplate.bind()
+        },
+        address: {
+            title: 'Адрес',
+            placeholder: 'Укажите на карте адрес',
+            inputType: 'text',
+            id: 'addressInput',
+            dataAction: 'addressInput',
+            template: fieldTemplate.bind(),
+            params: ''
         }
     };

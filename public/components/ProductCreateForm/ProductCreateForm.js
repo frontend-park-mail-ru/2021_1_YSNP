@@ -4,6 +4,7 @@ import productPhotoTemplate from './ProductPhoto.hbs';
 import productFileTemplate from './ProductFile.hbs';
 import {createMessageError} from '../../modules/validationStates.js';
 import {Field} from '../RegistrationPanel/Fields/Field';
+import {YandexMap} from '../../modules/yandexMap';
 
 /***
  * @author Max Torzhkov
@@ -85,6 +86,9 @@ export class ProductCreateForm {
         document
             .getElementById('ProductForm')
             .addEventListener(this.listeners.blurInput.type, this.listeners.blurInput.listener, true);
+        document
+            .getElementById('ya-map')
+            .addEventListener(this.listeners.mapClick.type, this.listeners.mapClick.listener);
     }
 
     /***
@@ -289,6 +293,10 @@ export class ProductCreateForm {
         button.disabled = true;
     }
 
+    getAddress() {
+        this.__yaMap.__getAddress();
+        return this.__yaMap.getAddress();
+    }
 
     /***
      * @author Max Torzhkov
@@ -297,6 +305,7 @@ export class ProductCreateForm {
      */
     render(ctx) {
         this.listeners = ctx.productCreate.listeners;
+        console.log(this.listeners);
         this.__parent.insertAdjacentHTML('beforeend', productCreateFormTemplate(ctx.productCreate));
 
         for (const fields in ctx.productCreate.fields) {
@@ -304,6 +313,13 @@ export class ProductCreateForm {
             field.render();
         }
 
+        this.__yaMap = new YandexMap();
+        this.__yaMap.render({
+            searchControl: false,
+            geolocationControl: true,
+            listeners: true
+        });
+        this.__yaMap.addSearch('addressInput');
         this.addListeners();
     }
 }

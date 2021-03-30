@@ -193,6 +193,12 @@ export class ProductCreateView extends BaseView {
         this.__productCreate.changeDisableButton(title);
     }
 
+
+
+    getAddress() {
+        return this.__productCreate.getAddress();
+    }
+
     /***
      * @author Ivan Gorshkov
      *

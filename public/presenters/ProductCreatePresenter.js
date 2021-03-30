@@ -144,6 +144,10 @@ export class ProductCreatePresenter extends BasePresenter {
                 blurInput: {
                     type: 'blur',
                     listener: this.__listenerCreateProduct.bind(this, 'moveout', this.__getActions().productCreate)
+                },
+                mapClick: {
+                    type: 'click',
+                    listener: this.__listenerCreateProduct.bind(this, 'action', this.__getActions().productCreate)
                 }
             }
         };
@@ -210,9 +214,16 @@ export class ProductCreatePresenter extends BasePresenter {
                 },
                 hideError: {
                     open: hideError.bind(this)
+                },
+                tapMap: {
+                    open: this.tapMap.bind(this)
                 }
             }
         };
+    }
+
+    tapMap() {
+       // document.getElementById('addressInput').value = this.__view.getAddress();
     }
 
     /***
