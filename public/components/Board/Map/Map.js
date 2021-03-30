@@ -48,7 +48,6 @@ export class Map {
     render(context) {
         this.__parent.insertAdjacentHTML('beforeend', mapTemplate());
         this.__yaMap = new YandexMap();
-        console.log(context);
         this.__yaMap.render({
             searchControl: false,
             geolocationControl: true,

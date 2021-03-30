@@ -101,6 +101,7 @@
     align-items: center;
     justify-content: center;
     margin-bottom: 1vw;
+    margin-top: 1vw;
     border-radius: 5px;
     border: 1px solid rgba(0, 0, 0, 0.2);
 }

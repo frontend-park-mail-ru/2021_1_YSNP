@@ -272,7 +272,7 @@ export class YandexMap {
     __getAddress() {
         ymaps.geocode([this.__pos.latitude, this.__pos.longitude])
             .then((res) => {
-                this.__text = res.geoObjects.get(0).properties.get('text');
+                this.__text = res.geoObjects.get(0).properties.getAll();
                 document.getElementById('addressInput').value =  this.__text;
             });
     }
@@ -297,8 +297,8 @@ export class YandexMap {
         var myGeocoder = ymaps.geocode(text);
         myGeocoder.then(
             function (res) {
-                self.__movePoint(self.__convertPosArrayToObject(res.geoObjects.get(0).geometry.getCoordinates()));
                 self.setCenter(self.__convertPosArrayToObject(res.geoObjects.get(0).geometry.getCoordinates(), 1));
+                self.addCircle(self.__convertPosArrayToObject(res.geoObjects.get(0).geometry.getCoordinates()), 1000);
             },
             function (err) {
                 console.log('Ошибка');
