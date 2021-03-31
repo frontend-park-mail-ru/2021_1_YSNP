@@ -17,21 +17,10 @@ export class YandexMap {
 
     /***
      * Render map
-     * @param {boolean} searchControl - render searchControl
-     * @param {boolean} geolocationControl - render geolocationControl
-     * @param {boolean} userLocation - get user location on start
-     * @param {boolean} listeners - add listeners to map
-     * @param id
+     * @param config
      * @param callback
-     * @param func
      */
-    render(config = {
-               searchControl = false,
-               geolocationControl = false,
-               userLocation = false,
-               listeners = false,
-               id = 'ya-map'
-           } = {},  callback = () => {}) {
+    render(config,  callback = () => {}) {
 
         ymaps.ready(this.__init.bind(this, callback, config));
     }
@@ -305,15 +294,19 @@ export class YandexMap {
      * @private
      */
     movePointByName(text) {
+
         const self = this;
-        const myGeocoder = ymaps.geocode(text);
-        myGeocoder.then(
-            function (res) {
-                self.setCenter(self.__convertPosArrayToObject(res.geoObjects.get(0).geometry.getCoordinates(), 3));
-                self.addCircle(self.__convertPosArrayToObject(res.geoObjects.get(0).geometry.getCoordinates()), 1000, 0.001);
-            },
-            function (err) {
-                console.log('Ошибка');
+        ymaps.ready( () => {
+            const myGeocoder = ymaps.geocode(text);
+            myGeocoder.then(
+                function (res) {
+                    self.setCenter(self.__convertPosArrayToObject(res.geoObjects.get(0).geometry.getCoordinates(), 3));
+                    self.addCircle(self.__convertPosArrayToObject(res.geoObjects.get(0).geometry.getCoordinates()), 1000, 0.004);
+                },
+                function (err) {
+                    console.log('Ошибка');
+                }
+            );
             }
         );
     }

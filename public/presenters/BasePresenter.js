@@ -230,7 +230,8 @@ export class BasePresenter {
         this.__yaMap.render({
             searchControl: true,
             geolocationControl: true,
-            listeners: true
+            listeners: true,
+            id: 'ya-map'
         });
     }
 
