@@ -120,7 +120,7 @@ export class YandexMap {
         const self = this;
         suggestView.events.add('select', function (e) {
             console.log(e)
-            var myGeocoder = ymaps.geocode(e.originalEvent.item.value);
+            const myGeocoder = ymaps.geocode(e.originalEvent.item.value);
             myGeocoder.then(
                 function (res) {
                     self.__movePoint(self.__convertPosArrayToObject(res.geoObjects.get(0).geometry.getCoordinates()));
@@ -318,7 +318,7 @@ export class YandexMap {
 
 
     static async isAdressCorrect(adress) {
-        var myGeocoder = ymaps.geocode(adress);
+        const myGeocoder = ymaps.geocode(adress);
         return await  myGeocoder.then(
             function (res) {
                 return res.geoObjects.get(0) !== undefined;
