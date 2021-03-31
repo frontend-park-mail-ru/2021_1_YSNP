@@ -26,7 +26,6 @@ export class ProductCreateForm {
     constructor(parent) {
         this.__parent = parent;
         this.__listeners = {};
-        this.__yaMap = new YandexMap();
     }
 
 
@@ -317,8 +316,9 @@ export class ProductCreateForm {
         }
 
 
-        await new Promise((resolve) => setTimeout(resolve, 500));
+      //  await new Promise((resolve) => setTimeout(resolve, 500));
 
+        this.__yaMap = new YandexMap();
         this.__yaMap.render({
             searchControl: false,
             geolocationControl: true,

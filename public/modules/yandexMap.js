@@ -22,32 +22,18 @@ export class YandexMap {
      * @param {boolean} userLocation - get user location on start
      * @param {boolean} listeners - add listeners to map
      * @param id
+     * @param callback
      * @param func
      */
-    render({
+    render(config = {
                searchControl = false,
                geolocationControl = false,
                userLocation = false,
                listeners = false,
                id = 'ya-map'
            } = {},  callback = () => {}) {
-        this.__init(id, callback);
 
-        if (searchControl) {
-            this.__initSearch();
-        }
-
-        if (geolocationControl) {
-            this.__initGeolocationControl();
-        }
-
-        if (userLocation) {
-            this.__getUserLocation();
-        }
-
-        if (listeners) {
-            this.__addListeners();
-        }
+        ymaps.ready(this.__init.bind(this, callback, config));
     }
 
     /***
@@ -137,10 +123,10 @@ export class YandexMap {
      * Init map
      * @private
      */
-    __init(id, callback = () => {}) {
-        document.getElementById(id).innerHTML = '';
+    __init(callback = () => {}, config) {
         this.callback = callback;
-        this.__myMap = new ymaps.Map(id, {
+        document.getElementById(config.id).innerHTML = '';
+        this.__myMap = new ymaps.Map(config.id, {
             center: [this.__initPos.latitude, this.__initPos.longitude],
             zoom: 10,
             openBalloonOnClick: false,
@@ -154,6 +140,22 @@ export class YandexMap {
         this.__myMap.events.add('balloonopen', () => {
             this.__myMap.balloon.close();
         });
+
+        if (config.searchControl) {
+            this.__initSearch();
+        }
+
+        if (config.geolocationControl) {
+            this.__initGeolocationControl();
+        }
+
+        if (config.userLocation) {
+            this.__getUserLocation();
+        }
+
+        if (config.listeners) {
+            this.__addListeners();
+        }
     }
 
     /***
