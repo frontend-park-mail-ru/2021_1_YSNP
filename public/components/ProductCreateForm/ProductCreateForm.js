@@ -306,7 +306,7 @@ export class ProductCreateForm {
      * Add component to parent
      * @this {ProductCreateForm}
      */
-    render(ctx) {
+    async render(ctx) {
         this.listeners = ctx.productCreate.listeners;
         console.log(this.listeners);
         this.__parent.insertAdjacentHTML('beforeend', productCreateFormTemplate(ctx.productCreate));
@@ -316,11 +316,16 @@ export class ProductCreateForm {
             field.render();
         }
 
+
+        await new Promise((resolve) => setTimeout(resolve, 500));
+
         this.__yaMap.render({
             searchControl: false,
             geolocationControl: true,
             listeners: true,
             id: 'ya-map-create-product'
+        }, (address) => {
+            document.getElementById('addressInput').value = address;
         });
         this.__yaMap.addSearch('addressInput');
         this.addListeners();

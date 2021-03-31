@@ -45,8 +45,9 @@ export class Map {
      * @this {Map}
      * @public
      */
-    render(context) {
+   async render(context) {
         this.__parent.insertAdjacentHTML('beforeend', mapTemplate());
+        await new Promise((resolve) => setTimeout(resolve, 500));
         this.__yaMap = new YandexMap();
         this.__yaMap.render({
             searchControl: false,

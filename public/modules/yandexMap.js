@@ -12,6 +12,7 @@ export class YandexMap {
             latitude: 55.753808,
             longitude: 37.620017
         };
+
     }
 
     /***
@@ -21,6 +22,7 @@ export class YandexMap {
      * @param {boolean} userLocation - get user location on start
      * @param {boolean} listeners - add listeners to map
      * @param id
+     * @param func
      */
     render({
                searchControl = false,
@@ -28,8 +30,8 @@ export class YandexMap {
                userLocation = false,
                listeners = false,
                id = 'ya-map'
-           } = {}) {
-        this.__init(id);
+           } = {},  callback = () => {}) {
+        this.__init(id, callback);
 
         if (searchControl) {
             this.__initSearch();
@@ -85,6 +87,7 @@ export class YandexMap {
         }
     }
 
+
     /***
      * Add circle to point on map
      * @param {{latitude: number, longitude: number}} pos - circle center
@@ -95,10 +98,8 @@ export class YandexMap {
         this.__radius = radius;
         if (pos !== undefined) {
             this.__deleteCircle(this.__circle);
-            console.log(pos)
             pos.latitude += this.randomInRange(0.00001, measurementError);
             pos.longitude += this.randomInRange(0.00001, measurementError);
-            console.log(pos.latitude, pos.longitude)
             this.__circle = this.__createCircle(pos, radius);
         }
     }
@@ -112,7 +113,7 @@ export class YandexMap {
      * @param {number} id - input id
      */
     addSearch(id) {
-        var suggestView = new ymaps.SuggestView(id, {
+        const suggestView = new ymaps.SuggestView(id, {
             offset: [10, 10]
         });
 
@@ -126,7 +127,7 @@ export class YandexMap {
                     self.setCenter(self.__convertPosArrayToObject(res.geoObjects.get(0).geometry.getCoordinates(), 1));
                 },
                 function (err) {
-                    console.log('Ошибка');
+                    console.log('Ошибка', err);
                 }
             );
         });
@@ -136,9 +137,9 @@ export class YandexMap {
      * Init map
      * @private
      */
-    __init(id) {
+    __init(id, callback = () => {}) {
         document.getElementById(id).innerHTML = '';
-
+        this.callback = callback;
         this.__myMap = new ymaps.Map(id, {
             center: [this.__initPos.latitude, this.__initPos.longitude],
             zoom: 10,
@@ -226,7 +227,6 @@ export class YandexMap {
             this.__searchControl.events.add('resultselect', (e) => {
                 const index = e.get('index');
                 const coords = this.__searchControl.getResultsArray()[index].geometry.getCoordinates();
-
                 this.__movePoint(this.__convertPosArrayToObject(coords));
                 this.__text = this.__searchControl.getResultsArray()[index].properties.get('text');
             }, this);
@@ -280,7 +280,7 @@ export class YandexMap {
             .then((res) => {
                 this.__text = res.geoObjects.get(0).properties.get('text');
                 this.__city = res.geoObjects.get(0).properties.getAll().metaDataProperty.GeocoderMetaData.AddressDetails.Country.AdministrativeArea.AdministrativeAreaName;
-                document.getElementById('addressInput').value =  this.__text;
+                this.callback(this.__text);
             });
     }
 
@@ -304,7 +304,7 @@ export class YandexMap {
      */
     movePointByName(text) {
         const self = this;
-        var myGeocoder = ymaps.geocode(text);
+        const myGeocoder = ymaps.geocode(text);
         myGeocoder.then(
             function (res) {
                 self.setCenter(self.__convertPosArrayToObject(res.geoObjects.get(0).geometry.getCoordinates(), 3));
@@ -335,7 +335,6 @@ export class YandexMap {
     __createPoint(pos) {
         const point = new ymaps.Placemark([pos.latitude, pos.longitude]);
         this.__myMap.geoObjects.add(point);
-
         return point;
     }
 
