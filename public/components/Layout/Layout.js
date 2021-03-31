@@ -56,7 +56,8 @@ export class Layout {
     }
 
     get mainParent() {
-        return document.getElementById('layout-main-parent');
+        this.__checkIsMain();
+        return document.getElementById('layout');
     }
 
     /***

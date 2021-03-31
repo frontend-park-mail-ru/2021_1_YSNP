@@ -139,3 +139,8 @@
     line-height: 5vh;
     color: #000000;
 }
+
+.promotion-no-tariff-label{
+    opacity: 0.7;
+    margin-left: 1vw;
+}

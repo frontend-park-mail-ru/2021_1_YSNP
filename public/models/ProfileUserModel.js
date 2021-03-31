@@ -100,29 +100,34 @@ export class ProfileUserModel extends PasswordUserModel {
      * Post settings user data to backend
      * @returns {Promise<{isUpdate: boolean}>}
      */
-    async settings() {
-        return http.post(backUrls.settings, this.__jsonData())
+    async settings(form, changeImg) {
+        return await http.post(backUrls.settings, this.__jsonData())
             .then(({status}) => {
                 if (status === httpStatus.StatusOK) {
-                    return http.post(urls.upload, new FormData(form), true)
-                        .then(({status, data}) => {
-                            if (status === httpStatus.StatusBadRequest) {
-                                throw new Error(data.message);
-                            }
+                    if (changeImg) {
+                        return http.post(backUrls.upload, new FormData(form), true)
+                            .then(({status, data}) => {
+                                if (status === httpStatus.StatusBadRequest) {
+                                    throw new Error(data.message);
+                                }
 
-                            if (status === httpStatus.StatusUnauthorized) {
-                                throw new Error(data.message);
-                            }
+                                if (status === httpStatus.StatusUnauthorized) {
+                                    throw new Error(data.message);
+                                }
 
-                            if (status === httpStatus.StatusInternalServerError) {
-                                throw new Error(data.message);
-                            }
-                            this.__isAuth = false;
-                            return {isUpdate: true};
-                        })
-                        .catch((err) => {
-                            throw err;
-                        });
+                                if (status === httpStatus.StatusInternalServerError) {
+                                    throw new Error(data.message);
+                                }
+                                this.__isAuth = false;
+                                return {isUpdate: true};
+                            })
+                            .catch((err) => {
+                                throw err;
+                            });
+                    }
+
+                    this.__isAuth = false;
+                    return {isUpdate: true};
                 }
 
                 if (status === httpStatus.StatusUnauthorized) {

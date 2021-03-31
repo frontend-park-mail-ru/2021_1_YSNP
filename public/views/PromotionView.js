@@ -21,11 +21,60 @@ export class PromotionView extends BaseView {
     __makeContext(context) {
         this.__context = {
             promotion: {
-                data: context.promotion.data,
                 idProduct: context.promotion.idProduct,
                 listeners: context.promotion.listeners
             }
         };
+    }
+
+    /***
+     * Set base tariff
+     */
+    setBase() {
+        this.__promotion.setBase();
+    }
+
+    /***
+     * Set improved tariff
+     */
+    setImproved() {
+        this.__promotion.setImproved();
+    }
+
+    /***
+     * Set advanced tariff
+     */
+    setAdvanced() {
+        this.__promotion.setAdvanced();
+    }
+
+    /***
+     * Set nothing
+     */
+    setNothing() {
+        this.__promotion.setNothing();
+    }
+
+    /***
+     * Return status of sending selected item
+     * @returns {{status: string}|{status: string}|{status: string}|{status: string}|{status: string}}
+     */
+    getSelected() {
+        return this.__promotion.getSelected();
+    }
+
+    /***
+     * Remove promotion listeners
+     */
+    removeListeners() {
+        this.__promotion.removeListeners();
+    }
+
+    /***
+     * Remove error message
+     */
+    removeError() {
+        this.__promotion.removeError();
     }
 
     /***
@@ -35,7 +84,7 @@ export class PromotionView extends BaseView {
         super.render();
         this.__makeContext(context);
 
-        const layout = new Layout(this.__app);
+        const layout = new Layout(this.__app, true);
         layout.render();
         const mainParent = layout.mainParent;
 

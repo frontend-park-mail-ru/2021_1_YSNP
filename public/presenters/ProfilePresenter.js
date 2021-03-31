@@ -1,8 +1,19 @@
 import {BasePresenter} from './BasePresenter.js';
-import {insertError, addSuccesses, createMessageError, hideBackendError, showBackendError, showError, hideError, validateError} from '../modules/validationStates.js';
+import {
+    insertError,
+    addSuccesses,
+    createMessageError,
+    hideBackendError,
+    showBackendError,
+    showError,
+    hideError,
+    validateError,
+    showSuccessMessage
+} from '../modules/validationStates.js';
 import {router} from '../modules/router';
 import {frontUrls} from '../modules/frontUrls';
 import {user} from '../models/ProfileUserModel.js';
+import {checkAuth} from '../modules/checkAuth';
 
 /***
  * Profile settings presenter
@@ -15,6 +26,8 @@ export class ProfilePresenter extends BasePresenter {
     constructor(view) {
         super(view);
         this.__model = user;
+        this.__view = view;
+        this.__changeImg = false;
     }
 
     /***
@@ -31,11 +44,7 @@ export class ProfilePresenter extends BasePresenter {
      */
     async control() {
         await this.update();
-        // super.control();
-        if (!this.__userModel.isAuth) {
-            router.redirect(frontUrls.registration);
-            return;
-        }
+        checkAuth();
         this.__view.render(this.__makeContext());
     }
 
@@ -46,8 +55,9 @@ export class ProfilePresenter extends BasePresenter {
      * @private
      */
     __listenerSettingsClick(type, ev) {
-        hideBackendError('settings-password-error');
-        hideBackendError('settings-error');
+        const {errorSettingsID, errorPasswordID} = this.__view.getErrorID();
+        hideBackendError(errorPasswordID);
+        hideBackendError(errorSettingsID);
         const actions = this.__getActions();
         Object
             .entries(ev.composedPath())
@@ -69,7 +79,7 @@ export class ProfilePresenter extends BasePresenter {
 
     /***
      * Get profile listeners
-     * @returns {{profileSettings: {validateChange: {listener: *, type: string}, hideError: {listener: *, type: string}, validateInput: {listener: *, type: string}, showError: {listener: *, type: string}, settingsClick: {listener: *, type: string}}}}
+     * @returns {{focusInput: {listener: *, type: string}, validateChange: {listener: *, type: string}, validateInput: {listener: *, type: string}, blurInput: {listener: *, type: string}, settingsClick: {listener: *, type: string}}}
      * @private
      */
     __createListeners() {
@@ -102,7 +112,7 @@ export class ProfilePresenter extends BasePresenter {
 
     /***
      * Get profile actions
-     * @returns {{profileSettings: {checkPasswd: {open: *}, savePasswordClick: {open: *}, saveChangesClick: {open: *}, editClick: {open: *}, inputPhone: {open: any}, changePwd: {open: any}, inputConfirmPwd: {open: any}, resetPasswordClick: {open: *}, inputEmpty: {open: any}, mouseOut: {open: *}, inputMail: {open: any}, readURL: {open: *}, mouseIn: {open: *}, clickUpload: {open: *}}}}
+     * @returns {{checkPasswd: {open: *}, savePasswordClick: {open: *}, saveChangesClick: {open: *}, editClick: {open: *}, inputPhone: {open: any}, changePwd: {open: any}, inputConfirmPwd: {open: any}, resetPasswordClick: {open: *}, hideError: {open: *}, showError: {open: *}, inputEmpty: {open: any}, inputMail: {open: any}, readURL: {open: *}, clickUpload: {open: *}}}
      * @private
      */
     __getActions() {
@@ -153,25 +163,12 @@ export class ProfilePresenter extends BasePresenter {
     }
 
     /***
-     * Enable changing password buttons
+     * Enable password change
+     * @param target
      * @private
      */
     __enablePasswordChange(target) {
-        if (target.value !== '') {
-            document
-                .getElementById('settings-save-pass')
-                .style.visibility = 'visible';
-            document
-                .getElementById('settings-reset-pass')
-                .style.visibility = 'visible';
-        } else {
-            document
-                .getElementById('settings-save-pass')
-                .style.visibility = 'hidden';
-            document
-                .getElementById('settings-reset-pass')
-                .style.visibility = 'hidden';
-        }
+        this.__view.enablePasswordChange(target);
     }
 
     /***
@@ -179,14 +176,13 @@ export class ProfilePresenter extends BasePresenter {
      * @private
      */
     __savePasswordClick() {
-        const oldPassword = document.getElementById('settings-old-pass').value;
-        const passwordConfirm = document.getElementById('settings-confirm-pass');
-        const newPassword = document.getElementById('settings-new-pass');
+        const {oldPassword, passwordConfirm, newPassword} = this.__view.getPasswordsInfo();
+        const { errorPasswordID } = this.__view.getErrorID();
         const isValidpwdConfirm = this.__validateConfirmPwd(passwordConfirm);
         const isValidNewPwd = this.__validatePassword(newPassword);
         if (isValidNewPwd && isValidpwdConfirm) {
             this.__model.fillNewPassword({
-                oldPass: oldPassword,
+                oldPass: oldPassword.value,
                 newPass: newPassword.value
             });
 
@@ -194,20 +190,17 @@ export class ProfilePresenter extends BasePresenter {
             this.__model.newPassword()
                 .then((data) => {
                     if (data.isUpdate === false) {
-                        showBackendError('settings-password-error', data.message);
+                        showBackendError(errorPasswordID, data.message);
                     } else {
                         this.__resetPasswordClick();
-                        const err = document.getElementById('settings-password-error');
-                        err.textContent = 'Пароль успешно изменен';
-                        err.classList.add('settings-password-error_success');
-                        err.classList.remove('backend-error_hidden');
+                        showSuccessMessage(errorPasswordID, 'Пароль успешно изменен');
                     }
                 })
                 .catch((error) => {
-                    showBackendError('settings-password-error', error.message);
+                    showBackendError(errorPasswordID, error.message);
                 });
         } else {
-            showBackendError('settings-password-error', 'Проверьте, что все поля заполнены');
+            showBackendError(errorPasswordID, 'Проверьте, что все поля заполнены');
         }
     }
 
@@ -216,27 +209,16 @@ export class ProfilePresenter extends BasePresenter {
      * @private
      */
     __resetPasswordClick() {
-        console.log('reset pass');
-        document
-            .getElementById('settings-save-pass')
-            .style.visibility = 'hidden';
-        document
-            .getElementById('settings-reset-pass')
-            .style.visibility = 'hidden';
-        hideBackendError('settings-password-error');
-        const passwordConfirm = document.getElementById('settings-confirm-pass');
-        const password = document.getElementById('settings-new-pass');
-        const oldPass = document.getElementById('settings-old-pass');
+        const { errorPasswordID } = this.__view.getErrorID();
+        hideBackendError(errorPasswordID);
+        const {oldPassword, passwordConfirm, newPassword} = this.__view.getPasswordsInfo();
         passwordConfirm.value = '';
-        password.value = '';
-        oldPass.value = '';
-        addSuccesses(password, 'settings-new-passError');
-        addSuccesses(oldPass, 'settings-old-passError');
-        addSuccesses(passwordConfirm, 'settings-confirm-passError');
-
-        password.classList.remove('reg-panel__input-susses');
-        passwordConfirm.classList.remove('reg-panel__input-susses');
-        oldPass.classList.remove('reg-panel__input-susses');
+        newPassword.value = '';
+        oldPassword.value = '';
+        addSuccesses(newPassword, this.__view.getInputErrorID(newPassword));
+        addSuccesses(oldPassword, this.__view.getInputErrorID(oldPassword));
+        addSuccesses(passwordConfirm, this.__view.getInputErrorID(passwordConfirm));
+        this.__view.removePasswordStyle();
     }
 
     /***
@@ -245,9 +227,7 @@ export class ProfilePresenter extends BasePresenter {
      */
     __upload() {
         if (this.__isOpen) {
-            console.log('click upload');
-            const elem = document.getElementById('file-upload');
-            elem.click();
+            this.__view.openFileSystem();
         }
     }
 
@@ -261,12 +241,10 @@ export class ProfilePresenter extends BasePresenter {
         if (input.files && input.files[firstFile]) {
             const reader = new FileReader();
 
-            reader.onload = function(e) {
-                const elem = document.getElementById('settings-profile-pic');
-                elem.src = e.target.result;
-            };
+            reader.onload = this.__view.avatarOnLoad.bind(this.__view);
 
             reader.readAsDataURL(input.files[firstFile]);
+            this.__changeImg = true;
         }
     }
 
@@ -275,58 +253,26 @@ export class ProfilePresenter extends BasePresenter {
      * @private
      */
     __openEdit() {
-        // this.__pageRemoveListeners();
         if (this.__isOpen) {
             if (confirm('Вы уверены, что хотите выйти без сохранения?')) {
-                document
-                    .getElementById('settings-name')
-                    .value = this.__model.name;
-                document
-                    .getElementById('settings-surname')
-                    .value = this.__model.surname;
-                document
-                    .getElementById('settings-gender')
-                    .value = this.__model.sex;
-                document
-                    .getElementById('settings-birthday')
-                    .value = this.__model.dateBirth;
-                document
-                    .getElementById('settings-telephone')
-                    .value = this.__model.telephone;
-                document
-                    .getElementById('settings-email')
-                    .value = this.__model.email;
-                const elem = document.getElementById('settings-profile-pic');
-                elem.src = this.__model.getFirstImage();
-                this.__disableEditing();
+                const data = {
+                    name: this.__model.name,
+                    surname: this.__model.surname,
+                    sex: this.__model.sex,
+                    dateBirth: this.__model.dateBirth,
+                    telephone: this.__model.telephone,
+                    email: this.__model.email,
+                    imageSrc: this.__model.getFirstImage()
+                };
+                this.__view.resetSettingsChanges(data);
                 this.__isOpen = false;
+                this.__changeImg = false;
             }
         } else {
-            this.__enableEditing();
+            this.__view.enableEditing();
             this.__isOpen = true;
+            this.__changeImg = false;
         }
-
-        console.log('Click edit page');
-    }
-
-    /***
-     * Draw popup
-     * @param message
-     * @returns {string}
-     * @private
-     */
-    __drawPopup(message) {
-        return `
-        <div class="popup">
-            <div class="popup-inner">
-                <div class="popup-message">${message}</div>
-                <div class="popup-buttons">
-                    <button id="popup-save" class="settings-title__save_button" data-action="savePasswordClick">Остаться</button>
-                    <button id="popup-cancel" class="settings-title__reset_button" data-action="resetPasswordClick">Отменить</button>
-                </div>
-            </div>
-        </div>
-        `;
     }
 
     /***
@@ -334,10 +280,9 @@ export class ProfilePresenter extends BasePresenter {
      * @private
      */
     __openSaveChanges() {
-        // this.__pageRemoveListeners();
-
         if (this.__validateSettings()) {
-            this.__disableEditing();
+            this.disableEditing();
+            this.__changeImg = false;
         }
         console.log('Click save changes');
     }
@@ -348,130 +293,43 @@ export class ProfilePresenter extends BasePresenter {
      * @private
      */
     __validateSettings() {
-        const surname = document.getElementById('settings-surname');
-        const name = document.getElementById('settings-name');
-        const birthday = document.getElementById('settings-birthday');
-        const phone = document.getElementById('settings-telephone');
-        const mail = document.getElementById('settings-email');
+        const {surname, name, birthday, phone, mail, sexEl, img } = this.__view.getSettingsInputs();
+        const { errorSettingsID } = this.__view.getErrorID();
 
         const isValidSurname = this.__validateString(surname);
         const isValidName = this.__validateString(name);
         const isValidBirthday = this.__validateString(birthday);
         const isValidPhone = this.__validateTelephone(phone);
         const isValidMail = this.__validateEmail(mail);
-
-
-        const sexEl = document.getElementById('settings-gender');
-        const sex = sexEl.options[sexEl.selectedIndex].value;
-        const img = document.getElementById('settings-profile-pic').src;
+        const sex = sexEl.options[sexEl.selectedIndex];
 
         if (isValidSurname && isValidName && isValidBirthday && isValidPhone && isValidMail) {
             this.__model.fillUserData({
                 name: name.value,
                 surname: surname.value,
                 dateBirth: birthday.value,
-                sex: sex,
+                sex: sex.value,
                 email: mail.value,
                 telephone: phone.value,
                 password: 'password',
-                linkImages: img
+                linkImages: img.src
             });
-            this.__model.settings(document.getElementById('settings-form'))
+            this.__model.settings(this.__view.getForm(), this.__changeImg)
                 .then(({isUpdate, message}) => {
                     if (isUpdate) {
-                        hideBackendError('settings-error');
+                        hideBackendError(errorSettingsID);
                         router.redirect(frontUrls.profile);
                     } else {
-                        showBackendError('settings-error', message);
+                        showBackendError(errorSettingsID, message);
                     }
                 })
                 .catch((error) => {
-                    showBackendError('settings-error', error.message);
+                    showBackendError(errorSettingsID, error.message);
                 });
         } else {
-            showBackendError('settings-error', 'Проверьте правильность введенных данных');
+            showBackendError(errorSettingsID, 'Проверьте правильность введенных данных');
         }
         return false;
-    }
-
-    /***
-     * Open form settings for editing
-     * @private
-     */
-    __enableEditing() {
-        document
-            .getElementById('settings-button-save')
-            .style.visibility = 'visible';
-        document
-            .getElementById('settings-upload-button')
-            .style.visibility = 'visible';
-        document
-            .getElementById('settings-surname')
-            .removeAttribute('readonly');
-        document
-            .getElementById('settings-name')
-            .removeAttribute('readonly');
-        document
-            .getElementById('settings-gender')
-            .removeAttribute('disabled');
-        document
-            .getElementById('settings-birthday')
-            .removeAttribute('readonly');
-        document
-            .getElementById('settings-email')
-            .removeAttribute('readonly');
-
-    }
-
-    /***
-     * Close form settings for editing
-     * @private
-     */
-    __disableEditing() {
-        document
-            .getElementById('settings-button-save')
-            .style.visibility = 'hidden';
-        document
-            .getElementById('settings-upload-button')
-            .style.visibility = 'hidden';
-        document
-            .getElementById('settings-surname')
-            .setAttribute('readonly', 'true');
-        if (document.getElementById('settings-surnameError')) {
-            const target = document.getElementById('settings-surname');
-            target.parentNode.removeChild(target.nextSibling);
-        }
-        document
-            .getElementById('settings-name')
-            .setAttribute('readonly', 'true');
-        if (document.getElementById('settings-nameError')) {
-            const target = document.getElementById('settings-name');
-            target.parentNode.removeChild(target.nextSibling);
-        }
-        document
-            .getElementById('settings-gender')
-            .setAttribute('disabled', 'true');
-        document
-            .getElementById('settings-birthday')
-            .setAttribute('readonly', 'true');
-        if (document.getElementById('settings-birthdayError')) {
-            const target = document.getElementById('settings-birthday');
-            target.parentNode.removeChild(target.nextSibling);
-        }
-        document
-            .getElementById('settings-telephone')
-            .setAttribute('readonly', 'true');
-        if (document.getElementById('settings-telephoneError')) {
-            const target = document.getElementById('settings-telephone');
-            target.parentNode.removeChild(target.nextSibling);
-        }
-        document
-            .getElementById('settings-email')
-            .setAttribute('readonly', 'true');
-        if (document.getElementById('settings-emailError')) {
-            const target = document.getElementById('settings-email');
-            target.parentNode.removeChild(target.nextSibling);
-        }
     }
 
     /***
@@ -493,12 +351,12 @@ export class ProfilePresenter extends BasePresenter {
      * @private
      */
     __validatePassword(target) {
+        const { passwordConfirm } = this.__view.getPasswordsInfo();
         if (target.value !== '') {
             const {error, message} = this.__model.validationPassword(target.value);
             if (!error) {
                 addSuccesses(target, `${target.id}Error`);
-                const element = document.getElementById('settings-confirm-pass');
-                this.__validateConfirmPwd(element);
+                this.__validateConfirmPwd(passwordConfirm);
                 return true;
             }
 
@@ -518,9 +376,9 @@ export class ProfilePresenter extends BasePresenter {
      * @private
      */
     __validateConfirmPwd(target) {
-        const element = document.getElementById('settings-new-pass');
+        const {newPassword} = this.__view.getPasswordsInfo();
         if (target.value !== '') {
-            const {error, message} = this.__model.validationConfirmPassword(element.value, target.value);
+            const {error, message} = this.__model.validationConfirmPassword(newPassword.value, target.value);
             return validateError(error, target, message);
         }
         return false;
@@ -553,7 +411,7 @@ export class ProfilePresenter extends BasePresenter {
 
     /***
      * Make view context
-     * @returns {{profileSettings: {data: *[], listeners: {validateChange: {listener: *, type: string}, hideError: {listener: *, type: string}, validateInput: {listener: *, type: string}, showError: {listener: *, type: string}, settingsClick: {listener: *, type: string}}}}}
+     * @returns {{profileSettings: {data: {linkImage: (*|null), surname: (Object.surname|string|*), sex: (Object.sex|string|*), name: (Object.name|string|*), telephone: (Object.telephone|string|*), dateBirth: (Object.dateBirth|string|*), email: (Object.email|string|*)}, listeners: {focusInput: {listener: *, type: string}, validateChange: {listener: *, type: string}, validateInput: {listener: *, type: string}, blurInput: {listener: *, type: string}, settingsClick: {listener: *, type: string}}}}}
      * @private
      */
     __makeContext() {

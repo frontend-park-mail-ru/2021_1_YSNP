@@ -5,6 +5,9 @@
 
 .layout__main {
     margin-top: 9vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
 }
 
 .layout-inner {
@@ -17,7 +20,7 @@
     flex-direction: row;
     justify-content: center;
     margin-top: 3vh;
-
+}
 .layout-left {
     height: 100%;
 }

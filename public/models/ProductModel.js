@@ -231,7 +231,8 @@ export class ProductModel {
 
                 this.__linkImages = data.linkImages;
                 const model = this.__jsonData();
-                return http.post(backUrls.productCreate, model);
+                return http.post(backUrls.productCreate, model)
+                    .then((idProduct) => ({id: idProduct.data.id, status: idProduct.status}));
                 // TODO(Ivan) а проверка на ошибки?
             }).catch((err) => {
                 console.log(err.message);
