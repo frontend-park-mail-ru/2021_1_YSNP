@@ -4,6 +4,7 @@ import {router} from '../modules/router';
 import {ProductListModel} from '../models/ProductListModel';
 import {frontUrls} from '../modules/frontUrls';
 import {SearchModel} from '../models/SearchModel.js';
+import {amountMask} from '../modules/amountMask';
 
 export class SearchPresenter extends BasePresenter {
     constructor(view) {
@@ -66,6 +67,10 @@ export class SearchPresenter extends BasePresenter {
                 },
                 submitFilter: {
                     type: 'click',
+                    listener: this.__listenerRegistrationPanel.bind(this, 'action', this.__getActions().search)
+                },
+                validateInput: {
+                    type: 'input',
                     listener: this.__listenerRegistrationPanel.bind(this, 'action', this.__getActions().search)
                 }
             },
@@ -188,6 +193,9 @@ export class SearchPresenter extends BasePresenter {
                 },
                 submitSearch: {
                     open: this.__submitFilter.bind(this)
+                },
+                priceInput: {
+                    open: this.__validateFields.bind(this)
                 }
             },
             productList: {
@@ -199,6 +207,10 @@ export class SearchPresenter extends BasePresenter {
                 }
             }
         };
+    }
+
+     __validateFields(ev) {
+        ev.target.value = amountMask(ev.target.value);
     }
 
     /***

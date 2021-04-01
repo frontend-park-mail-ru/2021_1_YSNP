@@ -77,6 +77,11 @@ export class SearchBar {
         document
             .getElementById('search-submit')
             .addEventListener(this.listeners.submitFilter.type, this.listeners.submitFilter.listener);
+        document
+            .getElementById('amount')
+            .addEventListener(this.listeners.validateInput.type, this.listeners.validateInput.listener);
+
+
     }
 
     removeListeners() {
