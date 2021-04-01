@@ -22,9 +22,8 @@ export class ProductListModel {
     /***
      * Parse object to model
      * @param {Object} data - product list data
-     * @private
      */
-    __parseData(data) {
+    parseData(data) {
         this.__newData = data.product_list.reduce((accum, el) => {
             const product = new ProductModel(el);
             accum.push(product);
@@ -95,7 +94,7 @@ export class ProductListModel {
                     // throw new Error(data.message);
                 }
 
-                this.__parseData(data);
+                this.parseData(data);
             })
             .catch((err) => {
                 console.log(err.message);

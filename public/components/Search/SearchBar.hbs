@@ -1,0 +1,58 @@
+<div class="search-block">
+    <div class="search-filter-container">
+        <h3>Фильтр</h3>
+        <div class="search-filter-elem">
+            <select id="category" class="reg-panel__textfield filter-bg" name="{{this.id}}">
+                <option value="" disabled selected hidden>Все категории</option>
+                <option {{#if_eq optionCategory 'Автомобиль'}} selected {{/if_eq}}> Автомобиль </option>
+                <option {{#if_eq optionCategory 'Электроника'}} selected {{/if_eq}}> Электроника </option>
+                <option {{#if_eq optionCategory 'Одежда'}} selected {{/if_eq}}> Одежда </option>
+                <option {{#if_eq optionCategory 'Хобби'}} selected {{/if_eq}}> Хобби </option>
+                <option {{#if_eq optionCategory 'Запчасти'}} selected {{/if_eq}}> Запчасти </option>
+                <option {{#if_eq optionCategory 'Спорт'}} selected {{/if_eq}}> Спорт </option>
+                <option {{#if_eq optionCategory 'Животные'}} selected {{/if_eq}}> Животные </option>
+                <option {{#if_eq optionCategory 'Услуги'}} selected {{/if_eq}}> Услуги </option>
+            </select>
+        </div>
+        <div class="search-filter-elem">
+            <div class="search-filter__amount">
+                <input class="search-filter__from-input filter-bg" id="fromAmount"type="number" placeholder="Цена от, ₽"/>
+                <input class="search-filter__to-input filter-bg"   id="toAmount"type="number" placeholder="до"/>
+            </div>
+        </div>
+        <div class="search-filter-elem">
+            <select id="date" class="reg-panel__textfield filter-bg" name="{{this.id}}">
+                <option value="" disabled selected hidden>Срок размещения</option>
+                <option {{#if_eq optionDate 'За 24 часа'}} selected {{/if_eq}}>За 24 часа</option>
+                <option {{#if_eq optionDate 'За 7 дней'}} selected {{/if_eq}}>За 7 дней</option>
+                <option {{#if_eq optionDate 'За все время'}} selected {{/if_eq}}>За все время</option>
+            </select>
+        </div>
+        <div class="search-filter-elem">
+            <input class="header-right__create-button reg__button remove-margin"
+                   id="submitFilter"
+                   data-action="submitFilter"
+                   type="submit"
+                   value="Применить"/>
+        </div>
+    </div>
+    <div class="search-items-container">
+        <div class="search-items-inner" id="search-panel">
+            <div class="search-bar">
+                <input type="text" id="search-field" class="search-block__search-field" placeholder="Введите товар для поиска..."/>
+                <input class="header-right__create-button small-btn" type="submit"
+                       id="search-submit" value="Поиск"
+                       data-action="submitSearch"/>
+            </div>
+            <select id="sorting" data-action="changeSort" class="search__sort" name="{{this.id}}" >
+                <option value="" disabled selected hidden>Сортировать по</option>
+                <option {{#if_eq optionSort 'Тест_1'}} selected {{/if_eq}}>Тест_1</option>
+                <option {{#if_eq optionSort 'Тест_2'}} selected {{/if_eq}}>Тест_2</option>
+                <option {{#if_eq optionSort 'Тест_3'}} selected {{/if_eq}}>Тест_3</option>
+                <option {{#if_eq optionSort 'Тест_4'}} selected {{/if_eq}}>Тест_4</option>
+            </select>
+            <hr class="hr-srch"/>
+        </div>
+        <div id="product-content"></div>
+    </div>
+</div>

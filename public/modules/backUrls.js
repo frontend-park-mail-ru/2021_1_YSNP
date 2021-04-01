@@ -98,6 +98,14 @@ class BackUrls {
     get newPassword() {
         return `${this.__url}${this.__api}/settings/password`;
     }
+
+    /***
+     * Get find products url
+     * @returns {string}
+     */
+    get search() {
+        return `${this.__url}${this.__api}/search`;
+    }
 }
 
 export const backUrls = new BackUrls();
