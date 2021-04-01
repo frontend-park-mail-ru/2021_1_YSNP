@@ -6,6 +6,7 @@ import {parseTelNumber, telMask} from '../modules/telMask';
 import {user} from '../models/ProfileUserModel.js';
 import {AuthUserModel} from '../models/AuthUserModel.js';
 import {YandexMap} from '../modules/yandexMap';
+import {PageUpHandler} from '../modules/pageUpHandler';
 
 /***
  * Base presenter
@@ -37,6 +38,29 @@ export class BasePresenter {
                 //TODO(Sergey) нормальная обработка ошибок
                 console.log(err.message);
             });
+    }
+
+    /***
+     * Control view
+     * @returns {Promise<void>}
+     */
+    async control() {
+        throw new Error('virtual method not initialized!');
+    }
+
+    /***
+     * Remove page listeners
+     */
+    removePageListeners() {
+        if (this.__isShownAuth) {
+            this.__view.removeAuth();
+        }
+
+        if (this.__isShownMap) {
+            this.__view.removeMap();
+        }
+
+        this.__view.removeHeaderListeners();
     }
 
     /***
@@ -325,6 +349,8 @@ export class BasePresenter {
     __createUserAddress() {
         console.log(this.__yaMap.getPointPos());
         console.log(this.__yaMap.getAddress());
+
+        this.__closeMap();
     }
 
     /***

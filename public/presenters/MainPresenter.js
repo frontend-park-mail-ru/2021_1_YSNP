@@ -19,7 +19,8 @@ export class MainPresenter extends BasePresenter {
         super(view);
         this.__view = view;
         this.__productListModel = new ProductListModel();
-        (new EndlessScroll(this.__createListeners().scroll)).start();
+        this.__endlessScroll = new EndlessScroll(this.__createListeners().scroll);
+        this.__pageUp = new PageUpHandler();
     }
 
     /***
@@ -43,7 +44,20 @@ export class MainPresenter extends BasePresenter {
         await this.update();
 
         this.__view.render(this.__makeContext());
-        (new PageUpHandler()).start();
+        this.__endlessScroll.start();
+        this.__pageUp.start();
+    }
+
+    /***
+     * Remove page listeners
+     */
+    removePageListeners() {
+        super.removePageListeners();
+
+        this.__view.removeProductListListeners();
+
+        this.__endlessScroll.remove();
+        this.__pageUp.remove();
     }
 
     /***
