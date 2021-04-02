@@ -6,10 +6,10 @@
     border-radius: 1vh;
     box-shadow: 0 0 1vw rgb(0 0 0 / 20%);
     padding: 2vw;
-    margin: 1.5vw auto 0;
+    margin: 1.5vw auto;
 }
 
-.promotion-title {
+.promotion__title {
     width: 100%;
     margin-bottom: 1vh;
 
@@ -33,6 +33,7 @@
     color: #000000;
     font-size: 1.5vh;
 }
+
 .promotion-no-tariff-inner {
     width: 21vw;
     display: flex;
@@ -75,10 +76,11 @@
     font-size: 1.3vh;
 }
 
-[id^=no-tariff]{
+[id^=no-tariff] {
     display: none;
 }
-[id^=no-tariff] + label{
+
+[id^=no-tariff] + label {
     display: block;
     width: 2vh;
     height: 2vh;
@@ -87,7 +89,8 @@
     text-align: center;
     position: relative;
 }
-[id^=no-tariff] + label:before{
+
+[id^=no-tariff] + label:before {
     content: '\2713';
     width: 1.9vh;
     height: 1.8vh;
@@ -100,17 +103,15 @@
     font-weight: bold;
     border: 2px solid #d31e1e;
     border-radius: 3px;
-    -webkit-transform: scale(0);
     transform: scale(0);
-    -webkit-transition: 0.3s;
     transition: 0.3s;
 }
-[id^=no-tariff]:checked + label:before{
-    -webkit-transform: scale(1);
+
+[id^=no-tariff]:checked + label:before {
     transform: scale(1);
 }
 
-.promotion-product{
+.promotion-product {
     width: 82vw;
     background: white;
     border-radius: 1vh;
@@ -119,13 +120,13 @@
     margin: 1.5vw auto 0;
 }
 
-.promotion-product-success{
+.promotion-product-success {
     display: flex;
     flex-direction: row;
     align-items: center;
 }
 
-.success-circle{
+.success-circle {
     border-radius: 100%;
     overflow: hidden;
     width: 3vw;
@@ -133,14 +134,15 @@
     margin-right: 1vw;
 
 }
-.promotion-product-text{
+
+.promotion-product__text {
     width: 100%;
     font-size: 1.8vh;
     line-height: 5vh;
     color: #000000;
 }
 
-.promotion-no-tariff-label{
+.promotion-no-tariff__label {
     opacity: 0.7;
     margin-left: 1vw;
 }

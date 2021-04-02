@@ -71,20 +71,13 @@ export class Settings {
      * @this {Settings}
      */
     enablePasswordChange(target) {
+        const {buttonSavePass, buttonResetPass} = this.getPasswordInfo();
         if (target.value !== '') {
-            document
-                .getElementById('settings-save-pass')
-                .style.visibility = 'visible';
-            document
-                .getElementById('settings-reset-pass')
-                .style.visibility = 'visible';
+            buttonSavePass.style.visibility = 'visible';
+            buttonResetPass.style.visibility = 'visible';
         } else {
-            document
-                .getElementById('settings-save-pass')
-                .style.visibility = 'hidden';
-            document
-                .getElementById('settings-reset-pass')
-                .style.visibility = 'hidden';
+            buttonSavePass.style.visibility = 'hidden';
+            buttonResetPass.style.visibility = 'hidden';
         }
     }
 
@@ -107,7 +100,9 @@ export class Settings {
         return {
             oldPassword: document.getElementById('settings-old-pass'),
             passwordConfirm: document.getElementById('settings-confirm-pass'),
-            newPassword: document.getElementById('settings-new-pass')
+            newPassword: document.getElementById('settings-new-pass'),
+            buttonSavePass: document.getElementById('settings-save-pass'),
+            buttonResetPass: document.getElementById('settings-reset-pass')
         };
     }
 
@@ -125,13 +120,9 @@ export class Settings {
      * @this {Settings}
      */
     removePasswordStyles() {
-        document
-            .getElementById('settings-save-pass')
-            .style.visibility = 'hidden';
-        document
-            .getElementById('settings-reset-pass')
-            .style.visibility = 'hidden';
-        const {oldPassword, passwordConfirm, newPassword} = this.getPasswordInfo();
+        const {oldPassword, passwordConfirm, newPassword, buttonSavePass, buttonResetPass} = this.getPasswordInfo();
+        buttonSavePass.style.visibility = 'hidden';
+        buttonResetPass.style.visibility = 'hidden';
         newPassword.classList.remove('reg-panel__input-susses');
         passwordConfirm.classList.remove('reg-panel__input-susses');
         oldPassword.classList.remove('reg-panel__input-susses');
@@ -141,17 +132,18 @@ export class Settings {
      * Open file system for photo
      */
     openFileSystem() {
-        const elem = document.getElementById('file-upload');
-        elem.click();
+        const {imgUpload} = this.getSettingsFields();
+        imgUpload.click();
     }
 
     /***
      * Add src to picture
      * @param {Event} ev - event
+     * @this {Settings}
      */
     avatarOnLoad(ev) {
-        const elem = document.getElementById('settings-profile-pic');
-        elem.src = ev.target.result;
+        const img = document.getElementById('settings-profile-pic');
+        img.src = ev.target.result;
     }
 
     /***
@@ -159,26 +151,14 @@ export class Settings {
      * @param {Object} data - user data
      */
     resetSettingsChanges(data) {
-        document
-            .getElementById('settings-name')
-            .value = data.name;
-        document
-            .getElementById('settings-surname')
-            .value = data.surname;
-        document
-            .getElementById('settings-gender')
-            .value = data.sex;
-        document
-            .getElementById('settings-birthday')
-            .value = data.dateBirth;
-        document
-            .getElementById('settings-telephone')
-            .value = data.telephone;
-        document
-            .getElementById('settings-email')
-            .value = data.email;
-        const elem = document.getElementById('settings-profile-pic');
-        elem.src = data.imageSrc;
+        const {name, surname, gender, birthday, phone, mail, img} = this.getSettingsFields();
+        name.value = data.name;
+        surname.value = data.surname;
+        gender.value = data.sex;
+        birthday.value = data.dateBirth;
+        phone.value = data.telephone;
+        mail.value = data.email;
+        img.src = data.imageSrc;
         this.disableEditing();
     }
 
@@ -186,83 +166,49 @@ export class Settings {
      * Open form settings for editing
      */
     enableEditing() {
-        document
-            .getElementById('settings-button-save')
-            .style.visibility = 'visible';
-        document
-            .getElementById('settings-upload-button')
-            .style.visibility = 'visible';
-        document
-            .getElementById('settings-surname')
-            .removeAttribute('readonly');
-        document
-            .getElementById('settings-name')
-            .removeAttribute('readonly');
-        document
-            .getElementById('settings-gender')
-            .removeAttribute('disabled');
-        document
-            .getElementById('settings-birthday')
-            .removeAttribute('readonly');
-        document
-            .getElementById('settings-email')
-            .removeAttribute('readonly');
-
+        const {name, surname, gender, birthday, mail, buttonSaveProfile, buttonUploadImg} = this.getSettingsFields();
+        buttonSaveProfile.style.visibility = 'visible';
+        buttonUploadImg.style.visibility = 'visible';
+        surname.removeAttribute('readonly');
+        name.removeAttribute('readonly');
+        gender.removeAttribute('disabled');
+        birthday.removeAttribute('readonly');
+        mail.removeAttribute('readonly');
     }
 
     /***
      * Close form settings for editing
      */
     disableEditing() {
-        document
-            .getElementById('settings-button-save')
-            .style.visibility = 'hidden';
-        document
-            .getElementById('settings-upload-button')
-            .style.visibility = 'hidden';
-        document
-            .getElementById('settings-surname')
-            .setAttribute('readonly', 'true');
-        if (document.getElementById('settings-surnameError')) {
-            const target = document.getElementById('settings-surname');
-            target.parentNode.removeChild(target.nextSibling);
+        const {name, surname, gender, birthday, phone, mail, buttonSaveProfile, buttonUploadImg} = this.getSettingsFields();
+        buttonSaveProfile.style.visibility = 'hidden';
+        buttonUploadImg.style.visibility = 'hidden';
+        surname.setAttribute('readonly', 'true');
+        if (document.getElementById(this.getInputErrorId(surname))) {
+            surname.parentNode.removeChild(surname.nextSibling);
         }
-        document
-            .getElementById('settings-name')
-            .setAttribute('readonly', 'true');
-        if (document.getElementById('settings-nameError')) {
-            const target = document.getElementById('settings-name');
-            target.parentNode.removeChild(target.nextSibling);
+        name.setAttribute('readonly', 'true');
+        if (document.getElementById(this.getInputErrorId(name))) {
+            name.parentNode.removeChild(name.nextSibling);
         }
-        document
-            .getElementById('settings-gender')
-            .setAttribute('disabled', 'true');
-        document
-            .getElementById('settings-birthday')
-            .setAttribute('readonly', 'true');
-        if (document.getElementById('settings-birthdayError')) {
-            const target = document.getElementById('settings-birthday');
-            target.parentNode.removeChild(target.nextSibling);
+        gender.setAttribute('disabled', 'true');
+        birthday.setAttribute('readonly', 'true');
+        if (document.getElementById(this.getInputErrorId(birthday))) {
+            birthday.parentNode.removeChild(birthday.nextSibling);
         }
-        document
-            .getElementById('settings-telephone')
-            .setAttribute('readonly', 'true');
-        if (document.getElementById('settings-telephoneError')) {
-            const target = document.getElementById('settings-telephone');
-            target.parentNode.removeChild(target.nextSibling);
+        phone.setAttribute('readonly', 'true');
+        if (document.getElementById(this.getInputErrorId(phone))) {
+            phone.parentNode.removeChild(phone.nextSibling);
         }
-        document
-            .getElementById('settings-email')
-            .setAttribute('readonly', 'true');
-        if (document.getElementById('settings-emailError')) {
-            const target = document.getElementById('settings-email');
-            target.parentNode.removeChild(target.nextSibling);
+        mail.setAttribute('readonly', 'true');
+        if (document.getElementById(this.getInputErrorId(mail))) {
+            mail.parentNode.removeChild(mail.nextSibling);
         }
     }
 
     /***
      * All HTMLElement of settings form
-     * @returns {{birthday: HTMLElement, mail: HTMLElement, phone: HTMLElement, surname: HTMLElement, name: HTMLElement}}
+     * @returns {{birthday: HTMLElement, img: HTMLElement, mail: HTMLElement, gender: HTMLElement, phone: HTMLElement, surname: HTMLElement, name: HTMLElement, imgUpload: HTMLElement, buttonSaveProfile: HTMLElement, buttonUploadImg: HTMLElement}}
      */
     getSettingsFields() {
         return {
@@ -271,8 +217,11 @@ export class Settings {
             birthday: document.getElementById('settings-birthday'),
             phone: document.getElementById('settings-telephone'),
             mail: document.getElementById('settings-email'),
-            sexEl: document.getElementById('settings-gender'),
-            img: document.getElementById('settings-profile-pic')
+            gender: document.getElementById('settings-gender'),
+            img: document.getElementById('settings-profile-pic'),
+            imgUpload: document.getElementById('file-upload'),
+            buttonSaveProfile: document.getElementById('settings-button-save'),
+            buttonUploadImg: document.getElementById('settings-upload-button')
         };
     }
 

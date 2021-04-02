@@ -255,13 +255,14 @@ export class ProfilePresenter extends BasePresenter {
     __openEdit() {
         if (this.__isOpen) {
             if (confirm('Вы уверены, что хотите выйти без сохранения?')) {
+                const modelData = this.__model.getData();
                 const data = {
-                    name: this.__model.name,
-                    surname: this.__model.surname,
-                    sex: this.__model.sex,
-                    dateBirth: this.__model.dateBirth,
-                    telephone: this.__model.telephone,
-                    email: this.__model.email,
+                    name: modelData.name,
+                    surname: modelData.surname,
+                    sex: modelData.sex,
+                    dateBirth: modelData.dateBirth,
+                    telephone: modelData.telephone,
+                    email: modelData.email,
                     imageSrc: this.__model.getFirstImage()
                 };
                 this.__view.resetSettingsChanges(data);
@@ -293,7 +294,7 @@ export class ProfilePresenter extends BasePresenter {
      * @private
      */
     __validateSettings() {
-        const {surname, name, birthday, phone, mail, sexEl, img } = this.__view.getSettingsInputs();
+        const {surname, name, birthday, phone, mail, gender, img } = this.__view.getSettingsInputs();
         const { errorSettingsID } = this.__view.getErrorID();
 
         const isValidSurname = this.__validateString(surname);
@@ -301,7 +302,7 @@ export class ProfilePresenter extends BasePresenter {
         const isValidBirthday = this.__validateString(birthday);
         const isValidPhone = this.__validateTelephone(phone);
         const isValidMail = this.__validateEmail(mail);
-        const sex = sexEl.options[sexEl.selectedIndex];
+        const sex = gender.options[gender.selectedIndex];
 
         if (isValidSurname && isValidName && isValidBirthday && isValidPhone && isValidMail) {
             this.__model.fillUserData({

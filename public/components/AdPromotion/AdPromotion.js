@@ -38,21 +38,24 @@ export class AdPromotion {
      * Set base tariff style
      */
     setBase() {
-        this.__setChecked('block-base-tariff', 'base-tariff');
+        const {base, baseBlock} = this.__getTariffDOM();
+        this.__setChecked(baseBlock, base);
     }
 
     /***
      * Set improved tariff style
      */
     setImproved() {
-        this.__setChecked('block-improved-tariff', 'improved-tariff');
+        const {improved, improvedBlock} = this.__getTariffDOM();
+        this.__setChecked(improvedBlock, improved);
     }
 
     /***
      * Set advanced tariff style
      */
     setAdvanced() {
-        this.__setChecked('block-advanced-tariff', 'advanced-tariff');
+        const { advanced, advancedBlock } = this.__getTariffDOM();
+        this.__setChecked(advancedBlock, advanced);
     }
 
     /***
@@ -60,9 +63,8 @@ export class AdPromotion {
      */
     setNothing() {
         this.__resetChecked();
-        document
-            .getElementById('no-tariff')
-            .setAttribute('checked', 'true');
+        const { noTariff } = this.__getTariffDOM();
+        noTariff.setAttribute('checked', 'true');
     }
 
     /***
@@ -70,24 +72,28 @@ export class AdPromotion {
      * @returns {{status: string}}
      */
     getSelected() {
-        const baseCheck = document.getElementById('base-tariff').textContent;
-        const improvedCheck = document.getElementById('improved-tariff').textContent;
-        const advancedCheck = document.getElementById('advanced-tariff').textContent;
-        const noTariff = document.getElementById('no-tariff').hasAttribute('checked');
+        const {base, improved, advanced, noTariff} = this.__getTariffDOM();
+        const baseCheck = base.textContent;
+        const improvedCheck = improved.textContent;
+        const advancedCheck = advanced.textContent;
+        const noTariffCheck = noTariff.hasAttribute('checked');
 
         if (baseCheck === 'Выбрано') {
-            const price = document.getElementById('base-price').value;
-            this.__sendForm('Базовый', parseInt(price));
+            const { basePrice } = this.__getTariffDOM();
+            this.__sendForm('Базовый', parseInt(basePrice.value));
             return {status: 'send'};
-        } else if (improvedCheck === 'Выбрано') {
-            const price = document.getElementById('improved-price').value;
-            this.__sendForm('Улучшенный', parseInt(price));
+        }
+        if (improvedCheck === 'Выбрано') {
+            const { improvedPrice } = this.__getTariffDOM();
+            this.__sendForm('Улучшенный', parseInt(improvedPrice.value));
             return {status: 'send'};
-        } else if (advancedCheck === 'Выбрано') {
-            const price = document.getElementById('advanced-price').value;
-            this.__sendForm('Продвинутый', parseInt(price));
+        }
+        if (advancedCheck === 'Выбрано') {
+            const { advancedPrice } = this.__getTariffDOM();
+            this.__sendForm('Продвинутый', parseInt(advancedPrice.value));
             return {status: 'send'};
-        } else if (noTariff) {
+        }
+        if (noTariffCheck) {
             return {status: 'nothing'};
         }
         this.__showError('promotion-error', 'Выберите какой-нибудь тариф');
@@ -114,21 +120,15 @@ export class AdPromotion {
 
     /***
      * Set block selected
-     * @param {string} blockId - id of block to set selected
-     * @param {string} buttonId - id of button in block
+     * @param {HTMLElement} block - id of block to set selected
+     * @param {HTMLElement} button - id of button in block
      * @private
      */
-    __setChecked(blockId, buttonId) {
+    __setChecked(block, button) {
         this.__resetChecked();
-        document
-            .getElementById(blockId)
-            .classList.add('tariffs-block_checked');
-        document
-            .getElementById(buttonId)
-            .classList.add('tariffs__button_checked');
-        document
-            .getElementById(buttonId)
-            .textContent = 'Выбрано';
+        block.classList.add('tariffs-block_checked');
+        button.classList.add('tariffs__button_checked');
+        button.textContent = 'Выбрано';
     }
 
     /***
@@ -136,37 +136,19 @@ export class AdPromotion {
      * @private
      */
     __resetChecked() {
-        document
-            .getElementById('base-tariff')
-            .classList.remove('tariffs__button_checked');
-        document
-            .getElementById('improved-tariff')
-            .classList.remove('tariffs__button_checked');
-        document
-            .getElementById('advanced-tariff')
-            .classList.remove('tariffs__button_checked');
-        document
-            .getElementById('no-tariff')
-            .removeAttribute('checked');
-        document
-            .getElementById('base-tariff')
-            .textContent = 'Выбрать';
-        document
-            .getElementById('improved-tariff')
-            .textContent = 'Выбрать';
-        document
-            .getElementById('advanced-tariff')
-            .textContent = 'Выбрать';
+        const {base, improved, advanced, noTariff, baseBlock, improvedBlock, advancedBlock} = this.__getTariffDOM();
+        base.classList.remove('tariffs__button_checked');
+        improved.classList.remove('tariffs__button_checked');
+        advanced.classList.remove('tariffs__button_checked');
+        noTariff.removeAttribute('checked');
 
-        document
-            .getElementById('block-advanced-tariff')
-            .classList.remove('tariffs-block_checked');
-        document
-            .getElementById('block-improved-tariff')
-            .classList.remove('tariffs-block_checked');
-        document
-            .getElementById('block-base-tariff')
-            .classList.remove('tariffs-block_checked');
+        base.textContent = 'Выбрать';
+        improved.textContent = 'Выбрать';
+        advanced.textContent = 'Выбрать';
+
+        advancedBlock.classList.remove('tariffs-block_checked');
+        improvedBlock.classList.remove('tariffs-block_checked');
+        baseBlock.classList.remove('tariffs-block_checked');
     }
 
     /***
@@ -184,12 +166,32 @@ export class AdPromotion {
     }
 
     /***
+     * Returns HTML elements of tariffs
+     * @returns {{improved: HTMLElement, baseBlock: HTMLElement, advanced: HTMLElement, improvedBlock: HTMLElement, advancedBlock: HTMLElement, noTariff: HTMLElement, base: HTMLElement}}
+     * @private
+     */
+    __getTariffDOM() {
+        return {
+            base: document.getElementById('base-tariff'),
+            improved: document.getElementById('improved-tariff'),
+            advanced: document.getElementById('advanced-tariff'),
+            noTariff: document.getElementById('no-tariff'),
+            baseBlock: document.getElementById('block-base-tariff'),
+            improvedBlock: document.getElementById('block-improved-tariff'),
+            advancedBlock: document.getElementById('block-advanced-tariff'),
+            basePrice: document.getElementById('base-price'),
+            improvedPrice: document.getElementById('improved-price'),
+            advancedPrice: document.getElementById('advanced-price')
+        };
+    }
+
+    /***
      * Returns tariff templates
-     * @returns {{tariffs: [tariffTemplate, tariffTemplate, tariffTemplate]}}
+     * @returns {tariffTemplate[]}
      * @private
      */
     __fillTariffData() {
-        const tariff1 = {
+       const tariff1 = {
             name: 'Базовый',
             price: '2',
             description: [
@@ -225,12 +227,25 @@ export class AdPromotion {
             action: 'advancedClick',
             idPrice: 'advanced-price'
         };
-        return {
-            tariffs: [
-                tariffTemplate(tariff1),
-                tariffTemplate(tariff2),
-                tariffTemplate(tariff3)
-            ]
+        return [
+            tariffTemplate(tariff1),
+            tariffTemplate(tariff2),
+            tariffTemplate(tariff3)
+        ];
+    }
+
+    /***
+     * Make promotion context
+     * @param context
+     * @private
+     */
+    __makeContext(context) {
+        this.__context = {
+            data: {
+                id: context.idProduct,
+                tariffs: this.__fillTariffData()
+            },
+            listeners: context.listeners
         };
     }
 
@@ -238,11 +253,9 @@ export class AdPromotion {
      * Add component to parent
      */
     render(context) {
-        this.__context = context;
-        const tariffs = this.__fillTariffData();
-        tariffs.id = this.__context.idProduct;
-        console.log(tariffs.id);
-        this.__parent.insertAdjacentHTML('beforeend', adPromotionTemplate(tariffs));
+        this.__makeContext(context);
+        console.log(this.__context.data.id);
+        this.__parent.insertAdjacentHTML('beforeend', adPromotionTemplate(this.__context.data));
         this.__addListeners();
     }
 }

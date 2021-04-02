@@ -98,13 +98,15 @@ export class ProfileUserModel extends PasswordUserModel {
 
     /***
      * Post settings user data to backend
-     * @returns {Promise<{isUpdate: boolean}>}
+     * @param {HTMLElement} form - settings form
+     * @param {boolean} isChangeImg - is image been changed
+     * @returns {Promise<{isUpdate: boolean}|void|{message: string, isUpdate: boolean}>}
      */
-    async settings(form, changeImg) {
+    async settings(form, isChangeImg) {
         return await http.post(backUrls.settings, this.__jsonData())
             .then(({status}) => {
                 if (status === httpStatus.StatusOK) {
-                    if (changeImg) {
+                    if (isChangeImg) {
                         return http.post(backUrls.upload, new FormData(form), true)
                             .then(({status, data}) => {
                                 if (status === httpStatus.StatusBadRequest) {
