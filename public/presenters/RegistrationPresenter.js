@@ -5,13 +5,8 @@ import {parseTelNumber, telMask} from '../modules/telMask.js';
 import {router} from '../modules/router.js';
 import {frontUrls} from '../modules/frontUrls.js';
 import {RegUserData} from '../models/RegUserData.js';
-import {checkAuth} from '../modules/checkAuth';
+import {noop} from '../models/Noop.js';
 
-/***
- *  noop function
- */
-const noop = () => {
-};
 
 /***
  *  RegistrationPresenter class

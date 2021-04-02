@@ -151,6 +151,7 @@ export class SearchPresenter extends BasePresenter {
 
     __sort(ev) {
         sessionStorage.setItem('sort', ev.target.value);
+        this.__submitFilter();
     }
 
     async __submitFilter() {

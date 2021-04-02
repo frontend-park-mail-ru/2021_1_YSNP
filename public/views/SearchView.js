@@ -50,7 +50,8 @@ export class SearchView extends BaseView {
     }
 
     removingSubViews() {
-
+        this.__searchBar.removeListeners();
+        this.__navSubView.removeListeners();
     }
 
 

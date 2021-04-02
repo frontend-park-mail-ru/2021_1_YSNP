@@ -6,13 +6,8 @@ import {router} from '../modules/router.js';
 import {frontUrls} from '../modules/frontUrls.js';
 import {ProductModel} from '../models/ProductModel.js';
 import {eventHandlerWithDataType} from '../modules/eventHandler';
-
+import {noop} from '../models/Noop.js';
 import {checkAuth} from '../modules/checkAuth.js';
-
-/***
- *  noop function
- */
-const noop = () => {};
 
 /***
  *  ProductCreatePresenter class, extends from BasePresenter
