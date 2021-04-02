@@ -1,20 +1,10 @@
 .search-block {
-    margin: 0 auto;
-    width: 80vw;
     display: flex;
 }
 
-.search-filter-container {
-    width: 18vw;
-}
-
-.search-items-container {
-    width: 72vw;
-}
 
 .search-filter-elem {
     margin-top: 1vw;
-
 }
 
 .search-filter__amount {
@@ -84,4 +74,7 @@
     width: 90%;
     margin-left: 0;
     border-width: 0.1vh;
+}
+.product-content {
+    margin-left: 2vw;
 }

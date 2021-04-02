@@ -46,22 +46,14 @@ export class SearchBar {
 
     getAllFields() {
         return {
-            sort: document
-                .getElementById('sorting'),
-            search: document
-                .getElementById('search-field'),
-            fromAmount: document
-                .getElementById('fromAmount'),
-            toAmount: document
-                .getElementById('toAmount'),
-            date: document
-                .getElementById('date'),
-            category: document
-                .getElementById('category'),
-            submitFilter: document
-                .getElementById('submitFilter'),
-            searchSubmit: document
-                .getElementById('search-submit')
+            sort: document.getElementById('sorting'),
+            search: document.getElementById('search-field'),
+            fromAmount: document.getElementById('fromAmount'),
+            toAmount: document.getElementById('toAmount'),
+            date: document.getElementById('date'),
+            category: document.getElementById('category'),
+            submitFilter: document.getElementById('submitFilter'),
+            searchSubmit: document.getElementById('search-submit')
         };
     }
 
@@ -100,8 +92,7 @@ export class SearchBar {
      * Add component to parent
      */
     render(context) {
-        this.__parent.insertAdjacentHTML('beforeend', searchBarTemplate({optionSort: sessionStorage.getItem('sort'), optionCategory: sessionStorage.getItem('category'), optionDate: sessionStorage.getItem('date')}));
-        console.log(context);
+        this.__parent.insertAdjacentHTML('beforeend', searchBarTemplate(context.filter));
         this.listeners = context.search.listeners;
         this.__productList = new ProductTable(document.getElementById('product-content'));
         this.__productList.render(context.productList);

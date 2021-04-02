@@ -41,6 +41,11 @@ export class SearchView extends BaseView {
                 data: context.search.data,
                 listeners: context.search.listeners
             },
+            filter: {
+                optionSort: sessionStorage.getItem('sort'),
+                optionCategory: sessionStorage.getItem('category'),
+                optionDate: sessionStorage.getItem('date')
+            },
             switch: {
                 data: {
                     title: 'Все категории'

@@ -64,10 +64,6 @@ export class SearchModel {
                     // throw new Error(data.message);
                 }
                 return {isUpdate: true, data: data};
-            })
-            .catch((err) => {
-                console.log(err.message);
-                throw new Error('Ошибка сервера');
             });
     }
 }

@@ -1,14 +1,21 @@
 import {BasePresenter} from './BasePresenter.js';
-import {eventHandlerWithDataType} from '../modules/eventHandler';
-import {router} from '../modules/router';
-import {ProductListModel} from '../models/ProductListModel';
-import {frontUrls} from '../modules/frontUrls';
+import {eventHandlerWithDataType} from '../modules/eventHandler.js';
+import {router} from '../modules/router.js';
+import {ProductListModel} from '../models/ProductListModel.js';
+import {frontUrls} from '../modules/frontUrls.js';
 import {SearchModel} from '../models/SearchModel.js';
-import {amountMask} from '../modules/amountMask';
+import {amountMask} from '../modules/amountMask.js';
+import {PageUpHandler} from '../modules/pageUpHandler.js';
 
 export class SearchPresenter extends BasePresenter {
+
+    /***
+     *
+     * @param{SearchView} view
+     */
     constructor(view) {
         super(view);
+        this.__view = view;
         this.__productListModel = new ProductListModel();
         this.__model = new SearchModel();
 
@@ -26,7 +33,7 @@ export class SearchPresenter extends BasePresenter {
     async control() {
         await this.update();
         this.__view.render(this.__makeContext());
-        this.searchText = this.__view.getAllFields().search;
+        (new PageUpHandler()).start();
     }
 
     /***
@@ -140,7 +147,7 @@ export class SearchPresenter extends BasePresenter {
      * @author Ivan Gorshkov
      *
      * action for navigation to back
-     * @this {RegistrationPresenter}
+     * @this {SearchPresenter}
      * @private
      */
     __navBack() {
@@ -149,14 +156,31 @@ export class SearchPresenter extends BasePresenter {
         router.navigateBack();
     }
 
+    /***
+     * @author Ivan Gorshkov
+     *
+     * @this {SearchPresenter}
+     * @private
+     */
     __sort(ev) {
         sessionStorage.setItem('sort', ev.target.value);
-        this.__submitFilter();
+        this.__search();
     }
 
-    async __submitFilter() {
+    /***
+     * @author Ivan Gorshkov
+     *
+     * @this {SearchPresenter}
+     * @private
+     */
+     __submitFilter() {
         sessionStorage.setItem('category', document.getElementById('category').value);
         sessionStorage.setItem('date', document.getElementById('date').value);
+        this.__search();
+    }
+
+
+    async __search() {
         const {fromAmount, toAmount, search} = this.__view.getAllFields();
         this.__model.fillProductModel({
             category: sessionStorage.getItem('category'),
@@ -169,7 +193,7 @@ export class SearchPresenter extends BasePresenter {
         });
 
         await this.__model.update().then(({isUpdate, data}) => {
-            if (isUpdate === true) {
+            if (isUpdate) {
                 this.__productListModel.parseData(data);
                 this.__view.rerenderProductList(this.__makeContext());
             }
@@ -178,6 +202,12 @@ export class SearchPresenter extends BasePresenter {
         });
     }
 
+    /***
+     * @author Ivan Gorshkov
+     *
+     * @this {SearchPresenter}
+     * @private
+     */
     __getActions() {
         return {
             navigation: {
@@ -193,7 +223,7 @@ export class SearchPresenter extends BasePresenter {
                     open: this.__submitFilter.bind(this)
                 },
                 submitSearch: {
-                    open: this.__submitFilter.bind(this)
+                    open: this.__search.bind(this)
                 },
                 priceInput: {
                     open: this.__validateFields.bind(this)
@@ -210,6 +240,12 @@ export class SearchPresenter extends BasePresenter {
         };
     }
 
+    /***
+     * @author Ivan Gorshkov
+     *
+     * @this {SearchPresenter}
+     * @private
+     */
      __validateFields(ev) {
         ev.target.value = amountMask(ev.target.value);
     }
@@ -220,7 +256,7 @@ export class SearchPresenter extends BasePresenter {
      * Make view context
      * @returns {{productList: {data: *[], listeners: {productCardClick: {listener: *, type: string}}}}}
      * @private
-     * @this {RegistrationPresenter}
+     * @this {SearchPresenter}
      */
     __makeContext() {
         return {
