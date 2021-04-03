@@ -67,7 +67,7 @@ export class ProfileUserModel extends PasswordUserModel {
             email: this.__email,
             telephone: this.__telephone,
             password: this.__password,
-            linkImages: [this.__linkImages]
+            linkImages: this.__linkImages
         };
     }
 
@@ -92,7 +92,7 @@ export class ProfileUserModel extends PasswordUserModel {
             sex: this.__sex,
             email: this.__email,
             telephone: this.__telephone,
-            linkImage: this.__linkImages !== undefined ? this.getFirstImage() : []
+            linkImage: this.__linkImages
         };
     }
 
@@ -104,7 +104,7 @@ export class ProfileUserModel extends PasswordUserModel {
         return http.post(backUrls.settings, this.__jsonData())
             .then(({status}) => {
                 if (status === httpStatus.StatusOK) {
-                    return http.post(urls.upload, new FormData(form), true)
+                    return http.post(backUrls.upload, new FormData(form), true)
                         .then(({status, data}) => {
                             if (status === httpStatus.StatusBadRequest) {
                                 throw new Error(data.message);

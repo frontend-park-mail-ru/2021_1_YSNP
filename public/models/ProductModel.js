@@ -212,7 +212,7 @@ export class ProductModel {
      * @returns {Promise<void>}
      */
     async create(form) {
-        return http.post(backUrls.productUploadPhotos, new FormData(form), true)
+        return http.post(backUrls.productCreate, this.__jsonData())
             .then(({status, data}) => {
                 if (status === httpStatus.StatusUnauthorized) {
                     throw new Error('Пользователь не авторизован');
@@ -229,12 +229,28 @@ export class ProductModel {
                     // throw new Error(data.message);
                 }
 
-                this.__linkImages = data.linkImages;
-                const model = this.__jsonData();
-                return http.post(backUrls.productCreate, model);
-                // TODO(Ivan) а проверка на ошибки?
-            }).catch((err) => {
+                this.__id = data.id;
+                return http.post(backUrls.productUploadPhotos + this.__id, new FormData(form), true)
+                    .then(({status}) => {
+                        if (status === httpStatus.StatusUnauthorized) {
+                            throw new Error('Пользователь не авторизован');
+                            // throw new Error(data.message);
+                        }
+
+                        if (status === httpStatus.StatusBadRequest) {
+                            throw new Error('Неправильные данные');
+                            // throw new Error(data.message);
+                        }
+
+                        if (status === httpStatus.StatusInternalServerError) {
+                            throw new Error('Ошибка сервера');
+                            // throw new Error(data.message);
+                        }
+                    });
+            })
+            .catch((err) => {
                 console.log(err.message);
+                // throw err;
             });
     }
 }

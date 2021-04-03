@@ -40,7 +40,7 @@ class BackUrls {
      * @returns {string}
      */
     get productUploadPhotos() {
-        return `${this.__url}${this.__api}/product/upload`;
+        return `${this.__url}${this.__api}/product/upload/`;
     }
 
     /***
