@@ -24,7 +24,7 @@ export class ProductListModel {
      * @param {Object} data - product list data
      */
     parseData(data) {
-        this.__newData = data.product_list.reduce((accum, el) => {
+        this.__newData = data.reduce((accum, el) => {
             const product = new ProductModel(el);
             accum.push(product);
 

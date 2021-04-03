@@ -15,8 +15,7 @@ export class UserModel {
      * @returns {string}
      */
     __getFirstImage() {
-        const start = 0;
-        return this.__linkImages[start];
+        return this.__linkImages;
     }
 
     /***
@@ -169,6 +168,6 @@ export class UserModel {
         this.__dateBirth = data.dateBirth;
         this.__email = data.email;
         this.__telephone = data.telephone;
-        this.__linkImages = data.linkImages !== undefined ? data.linkImages : [];
+        this.__linkImages = data.linkImages !== undefined ? data.linkImages : '';
     }
 }

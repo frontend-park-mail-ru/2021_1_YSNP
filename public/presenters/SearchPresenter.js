@@ -184,8 +184,8 @@ export class SearchPresenter extends BasePresenter {
         const {fromAmount, toAmount, search} = this.__view.getAllFields();
         this.__model.fillProductModel({
             category: sessionStorage.getItem('category'),
-            fromAmount: fromAmount.value,
-            toAmount: toAmount.value,
+            fromAmount: parseInt(fromAmount.value.replace(/[^0-9]/g, '')),
+            toAmount: parseInt(toAmount.value.replace(/[^0-9]/g, '')),
             date: sessionStorage.getItem('date'),
             radius: 5,
             sorting: sessionStorage.getItem('sort'),
@@ -194,6 +194,7 @@ export class SearchPresenter extends BasePresenter {
 
         await this.__model.update().then(({isUpdate, data}) => {
             if (isUpdate) {
+                this.__productListModel = new ProductListModel();
                 this.__productListModel.parseData(data);
                 this.__view.rerenderProductList(this.__makeContext());
             }

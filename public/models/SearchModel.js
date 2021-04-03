@@ -54,6 +54,7 @@ export class SearchModel {
     async update() {
         return http.post(backUrls.search, this.__jsonData())
             .then(({status, data}) => {
+
                 if (status === httpStatus.StatusNotFound) {
                     throw new Error('Нет такого товара');
                     // throw new Error(data.message);
