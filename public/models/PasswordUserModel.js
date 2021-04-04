@@ -10,6 +10,8 @@ export class PasswordUserModel extends UserModel {
     constructor() {
         super();
         this.__password = '';
+        this.__password1 = '';
+        this.__password2 = '';
     }
 
     /***
@@ -19,18 +21,20 @@ export class PasswordUserModel extends UserModel {
     fillUserData(data) {
         super.fillUserData(data);
         this.__password = data.password;
+        this.__password1 = data.password1;
+        this.__password2 = data.password2;
     }
 
     /***
      * Validate user password
      * @param {string} password - user password
-     * @returns {{message: [string, string, string, string, string], error: boolean}|{message: string, error: boolean}}
+     * @returns {{message: [], error: boolean}}
      */
     validationPassword(password) {
         const re = /(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,}/;
         if (re.test(password)) {
             return {
-                message: '',
+                message: [''],
                 error: false
             };
         }
@@ -51,12 +55,12 @@ export class PasswordUserModel extends UserModel {
      * Validate user password1 and password2
      * @param {string} password1 - user password1
      * @param {string} password2 - user password2
-     * @returns {{message: string, error: boolean}|{message: [string], error: boolean}}
+     * @returns {{message: [string], error: boolean}}
      */
     validationConfirmPassword(password1, password2) {
         if (password1 === password2 && password1 !== '' && password2 !== '') {
             return {
-                message: '',
+                message: [''],
                 error: false
             };
         }

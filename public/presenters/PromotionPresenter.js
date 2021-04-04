@@ -8,14 +8,6 @@ import tariffTemplate from '../components/AdPromotion/Tariff/Tariff.hbs';
  */
 export class PromotionPresenter extends BasePresenter {
     /***
-     * Class constructor
-     * @param {PromotionView} view - view
-     */
-    constructor(view) {
-        super(view);
-    }
-
-    /***
      * Update view data
      * @returns {Promise<void>}
      */

@@ -15,7 +15,7 @@ export class ProductListModel {
      */
     constructor(pageCount = 30) {
         this.__productList = [];
-        this.__page = 1;
+        this.__page = 0;
         this.__pageCount = pageCount;
     }
 
@@ -25,7 +25,7 @@ export class ProductListModel {
      * @private
      */
     __parseData(data) {
-        this.__newData = data.product_list.reduce((accum, el) => {
+        this.__newData = data.reduce((accum, el) => {
             const product = new ProductModel(el);
             accum.push(product);
 
@@ -88,7 +88,12 @@ export class ProductListModel {
      * @private
      */
     async __updateNewDataPage() {
-        return http.get(backUrls.productList)
+        return http.post(backUrls.productList, {
+            content: {
+                from: this.__page,
+                count: this.__pageCount
+            }
+        })
             .then(({status, data}) => {
                 if (status === httpStatus.StatusInternalServerError) {
                     throw new Error('Ошибка сервера');

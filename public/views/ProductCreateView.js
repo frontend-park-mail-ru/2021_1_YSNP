@@ -58,7 +58,7 @@ export class ProductCreateView extends BaseView {
      * @author Ivan Gorshkov
      *
      * get HTMLElement of layout
-     * @return {HTMLElement}
+     * @return {Element}
      * @this {ProductCreateView}
      */
     getLayoutParent() {
@@ -102,7 +102,7 @@ export class ProductCreateView extends BaseView {
      * @author Ivan Gorshkov
      *
      * get id from target
-     * @param {HTMLElement} target
+     * @param {Object} target
      * @return {string}
      * @this {ProductCreateView}
      */
@@ -137,7 +137,7 @@ export class ProductCreateView extends BaseView {
      * @author Ivan Gorshkov
      *
      * show cross when move in
-     * @param {HTMLElement} target
+     * @param {EventTarget} target
      * @this {ProductCreateView}
      */
     showCross(target) {
@@ -148,7 +148,7 @@ export class ProductCreateView extends BaseView {
      * @author Ivan Gorshkov
      *
      * hide cross when move out
-     * @param {HTMLElement} target
+     * @param {EventTarget} target
      * @this {ProductCreateView}
      */
     hideCross(target) {
@@ -160,7 +160,7 @@ export class ProductCreateView extends BaseView {
      *
      * delete selected picture
      * @param {HTMLElement} target
-     * @param {Function} handler
+     * @param {number} handler
      * @return {Function}
      * @this {ProductCreateView}
      */

@@ -1,5 +1,14 @@
 import {BasePresenter} from './BasePresenter.js';
-import {insertError, addSuccesses, createMessageError, hideBackendError, showBackendError, showError, hideError, validateError} from '../modules/validationStates.js';
+import {
+    insertError,
+    addSuccesses,
+    createMessageError,
+    hideBackendError,
+    showBackendError,
+    showError,
+    hideError,
+    validateError
+} from '../modules/validationStates.js';
 import {router} from '../modules/router';
 import {frontUrls} from '../modules/frontUrls';
 import {user} from '../models/ProfileUserModel.js';
@@ -69,7 +78,7 @@ export class ProfilePresenter extends BasePresenter {
 
     /***
      * Get profile listeners
-     * @returns {{profileSettings: {validateChange: {listener: *, type: string}, hideError: {listener: *, type: string}, validateInput: {listener: *, type: string}, showError: {listener: *, type: string}, settingsClick: {listener: *, type: string}}}}
+     * @returns {{focusInput: {listener: *, type: string}, validateChange: {listener: *, type: string}, validateInput: {listener: *, type: string}, blurInput: {listener: *, type: string}, settingsClick: {listener: *, type: string}}}
      * @private
      */
     __createListeners() {
@@ -102,7 +111,7 @@ export class ProfilePresenter extends BasePresenter {
 
     /***
      * Get profile actions
-     * @returns {{profileSettings: {checkPasswd: {open: *}, savePasswordClick: {open: *}, saveChangesClick: {open: *}, editClick: {open: *}, inputPhone: {open: any}, changePwd: {open: any}, inputConfirmPwd: {open: any}, resetPasswordClick: {open: *}, inputEmpty: {open: any}, mouseOut: {open: *}, inputMail: {open: any}, readURL: {open: *}, mouseIn: {open: *}, clickUpload: {open: *}}}}
+     * @returns {{checkPasswd: {open: *}, savePasswordClick: {open: *}, saveChangesClick: {open: *}, editClick: {open: *}, inputPhone: {open: any}, changePwd: {open: any}, inputConfirmPwd: {open: any}, resetPasswordClick: {open: *}, hideError: {open: *}, showError: {open: *}, inputEmpty: {open: any}, inputMail: {open: any}, readURL: {open: *}, clickUpload: {open: *}}}
      * @private
      */
     __getActions() {
@@ -261,7 +270,7 @@ export class ProfilePresenter extends BasePresenter {
         if (input.files && input.files[firstFile]) {
             const reader = new FileReader();
 
-            reader.onload = function(e) {
+            reader.onload = (e) => {
                 const elem = document.getElementById('settings-profile-pic');
                 elem.src = e.target.result;
             };
@@ -553,7 +562,7 @@ export class ProfilePresenter extends BasePresenter {
 
     /***
      * Make view context
-     * @returns {{profileSettings: {data: *[], listeners: {validateChange: {listener: *, type: string}, hideError: {listener: *, type: string}, validateInput: {listener: *, type: string}, showError: {listener: *, type: string}, settingsClick: {listener: *, type: string}}}}}
+     * @returns {{profileSettings: {data: {linkImage: (*|null), surname: (Object.surname|string|*), sex: (Object.sex|string|*), name: (Object.name|string|*), telephone: (Object.telephone|string|*), dateBirth: (Object.dateBirth|string|*), email: (Object.email|string|*)}, listeners: {focusInput: {listener: *, type: string}, validateChange: {listener: *, type: string}, validateInput: {listener: *, type: string}, blurInput: {listener: *, type: string}, settingsClick: {listener: *, type: string}}}}}
      * @private
      */
     __makeContext() {
