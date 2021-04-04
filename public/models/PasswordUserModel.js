@@ -31,8 +31,9 @@ export class PasswordUserModel extends UserModel {
      * @returns {{message: [], error: boolean}}
      */
     validationPassword(password) {
+        const maxSize = 30;
         const re = /(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,}/;
-        if (re.test(password)) {
+        if (re.test(password) && password.length < maxSize) {
             return {
                 message: [''],
                 error: false

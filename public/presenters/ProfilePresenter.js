@@ -199,7 +199,6 @@ export class ProfilePresenter extends BasePresenter {
                 newPass: newPassword.value
             });
 
-            this.__model.log();
             this.__model.newPassword()
                 .then((data) => {
                     if (data.isUpdate === false) {
