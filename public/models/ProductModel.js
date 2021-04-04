@@ -44,8 +44,9 @@ export class ProductModel {
                 error: true
             };
         }
+
         return {
-            message: '',
+            message: [''],
             error: false
         };
     }
@@ -71,8 +72,9 @@ export class ProductModel {
                 error: true
             };
         }
+
         return {
-            message: '',
+            message: [''],
             error: false
         };
     }
@@ -85,7 +87,7 @@ export class ProductModel {
     validationAmount(amount) {
         if (amount !== '') {
             return {
-                message: '',
+                message: [''],
                 error: false
             };
         }
@@ -93,6 +95,35 @@ export class ProductModel {
 
         return {
             message: ['Поле не должно быть пустым'],
+            error: true
+        };
+    }
+
+    /***
+     * Validate images size
+     * @param {HTMLElement} form - page form
+     * @returns {{message: string, error: boolean}}
+     */
+    validationImages(form) {
+        const maxSize = 10 * 1024 * 1024;
+        const photos = (new FormData(form)).getAll('photos');
+
+        let size = 0;
+        photos.forEach((file) => {
+            if (file.name !== '') {
+                size += file.size;
+            }
+        });
+
+        if (size < maxSize) {
+            return {
+                message: '',
+                error: false
+            };
+        }
+
+        return {
+            message: 'Слишком большой размер фото',
             error: true
         };
     }
@@ -250,7 +281,7 @@ export class ProductModel {
             })
             .catch((err) => {
                 console.log(err.message);
-                // throw err;
+                throw err;
             });
     }
 }

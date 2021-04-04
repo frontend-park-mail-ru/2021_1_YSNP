@@ -100,7 +100,7 @@ export class ProfileUserModel extends PasswordUserModel {
      * Post settings user data to backend
      * @returns {Promise<{isUpdate: boolean}>}
      */
-    async settings() {
+    async settings(elementById) {
         return http.post(backUrls.settings, this.__jsonData())
             .then(({status}) => {
                 if (status === httpStatus.StatusOK) {
