@@ -44,6 +44,8 @@ const promotionView = new PromotionView(app);
 const doFavorite = () => {
     const favoritePresenter = new FavoritePresenter(favoriteView);
     favoritePresenter.control();
+
+    // return favoritePresenter.removePageListeners.bind(favoritePresenter);
 };
 
 /***
@@ -52,6 +54,8 @@ const doFavorite = () => {
 const doMain = () => {
     const mainPresenter = new MainPresenter(mainView);
     mainPresenter.control();
+
+    return mainPresenter.removePageListeners.bind(mainPresenter);
 };
 
 /***
@@ -60,6 +64,8 @@ const doMain = () => {
 const doMyAds = () => {
     const myAdsPresenter = new MyAdsPresenter(myAdsView);
     myAdsPresenter.control();
+
+    // return myAdsPresenter.removePageListeners.bind(myAdsPresenter);
 };
 
 /***
@@ -68,6 +74,8 @@ const doMyAds = () => {
 const doProductCreate = () => {
     const productCreatePresenter = new ProductCreatePresenter(productCreateView);
     productCreatePresenter.control();
+
+    // return productCreatePresenter.removePageListeners.bind(productCreatePresenter);
 };
 
 /***
@@ -77,6 +85,8 @@ const doProductCreate = () => {
 const doProduct = (id) => {
     const productPresenter = new ProductPresenter(productView, id.parameters.id);
     productPresenter.control();
+
+    // return productPresenter.removePageListeners.bind(productPresenter);
 };
 
 /***
@@ -85,6 +95,8 @@ const doProduct = (id) => {
 const doProfile = () => {
     const profilePresenter = new ProfilePresenter(profileView);
     profilePresenter.control();
+
+    // return profilePresenter.removePageListeners.bind(profilePresenter);
 };
 
 /***
@@ -93,6 +105,8 @@ const doProfile = () => {
 const doRegistration = () => {
     const registrationPresenter = new RegistrationPresenter(registrationView);
     registrationPresenter.control();
+
+    // return registrationPresenter.removePageListeners.bind(registrationPresenter);
 };
 
 /***
@@ -101,11 +115,18 @@ const doRegistration = () => {
 const doSearch = () => {
     const searchPresenter = new SearchPresenter(searchView);
     searchPresenter.control();
+
+    // return searchPresenter.removePageListeners.bind(searchPresenter);
 };
 
+/***
+ * Open promotion page
+ */
 const doPromotion = () => {
     const promotionPresenter = new PromotionPresenter(promotionView);
     promotionPresenter.control();
+
+    // return promotionPresenter.removePageListeners.bind(promotionPresenter);
 };
 
 router.add(frontUrls.favorite, doFavorite);
