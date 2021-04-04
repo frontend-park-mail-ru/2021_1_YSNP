@@ -177,7 +177,7 @@ export class ProfilePresenter extends BasePresenter {
      */
     __savePasswordClick() {
         const {oldPassword, passwordConfirm, newPassword} = this.__view.getPasswordsInfo();
-        const { errorPasswordID } = this.__view.getErrorID();
+        const {errorPasswordID} = this.__view.getErrorID();
         const isValidpwdConfirm = this.__validateConfirmPwd(passwordConfirm);
         const isValidNewPwd = this.__validatePassword(newPassword);
         if (isValidNewPwd && isValidpwdConfirm) {
@@ -209,7 +209,7 @@ export class ProfilePresenter extends BasePresenter {
      * @private
      */
     __resetPasswordClick() {
-        const { errorPasswordID } = this.__view.getErrorID();
+        const {errorPasswordID} = this.__view.getErrorID();
         hideBackendError(errorPasswordID);
         const {oldPassword, passwordConfirm, newPassword} = this.__view.getPasswordsInfo();
         passwordConfirm.value = '';
@@ -294,8 +294,8 @@ export class ProfilePresenter extends BasePresenter {
      * @private
      */
     __validateSettings() {
-        const {surname, name, birthday, phone, mail, gender, img } = this.__view.getSettingsInputs();
-        const { errorSettingsID } = this.__view.getErrorID();
+        const {surname, name, birthday, phone, mail, gender, img} = this.__view.getSettingsInputs();
+        const {errorSettingsID} = this.__view.getErrorID();
 
         const isValidSurname = this.__validateString(surname);
         const isValidName = this.__validateString(name);
@@ -352,7 +352,7 @@ export class ProfilePresenter extends BasePresenter {
      * @private
      */
     __validatePassword(target) {
-        const { passwordConfirm } = this.__view.getPasswordsInfo();
+        const {passwordConfirm} = this.__view.getPasswordsInfo();
         if (target.value !== '') {
             const {error, message} = this.__model.validationPassword(target.value);
             if (!error) {

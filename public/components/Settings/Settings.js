@@ -180,7 +180,16 @@ export class Settings {
      * Close form settings for editing
      */
     disableEditing() {
-        const {name, surname, gender, birthday, phone, mail, buttonSaveProfile, buttonUploadImg} = this.getSettingsFields();
+        const {
+            name,
+            surname,
+            gender,
+            birthday,
+            phone,
+            mail,
+            buttonSaveProfile,
+            buttonUploadImg
+        } = this.getSettingsFields();
         buttonSaveProfile.style.visibility = 'hidden';
         buttonUploadImg.style.visibility = 'hidden';
         surname.setAttribute('readonly', 'true');

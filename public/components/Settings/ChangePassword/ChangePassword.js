@@ -8,13 +8,14 @@ export class ChangePassword {
     /***
      * Class constructor
      * @param {HTMLElement} parent - element where the component will be inserted
-     * @param {Object} listeners - component listeners
      */
-    constructor(parent, listeners = {}) {
+    constructor(parent) {
         this.__parent = parent;
-        this.__listeners = listeners;
     }
 
+    /***
+     * Add component to parent
+     */
     render() {
         this.__parent.insertAdjacentHTML('beforeend', changePasswordTemplate());
     }

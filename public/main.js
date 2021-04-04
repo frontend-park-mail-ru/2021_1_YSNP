@@ -103,6 +103,9 @@ const doSearch = () => {
     searchPresenter.control();
 };
 
+/***
+ * Open promotion page
+ */
 const doPromotion = () => {
     const promotionPresenter = new PromotionPresenter(promotionView);
     promotionPresenter.control();
