@@ -21,6 +21,9 @@ export class EndlessScroll {
         this.__addListeners();
     }
 
+    /***
+     * Remove endless scroll
+     */
     remove() {
         this.__removeListeners();
     }

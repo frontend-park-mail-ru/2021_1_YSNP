@@ -193,23 +193,41 @@ export class ProductModel {
      * @returns {{date: (Object.date|string|*), amount: (Object.amount|number|*), linkImage: string, name: (Object.name|string|*), id: (Object.id|string|*), userLiked: (Object.userLiked|boolean|*)}}
      */
     getMainData() {
+
+
+        return {
+            id: this.__id,
+            name: this.__name,
+            date: this.__getDate(),
+            amount: this.__getAmount(),
+            userLiked: this.__userLiked,
+            linkImage: this.__getFirstImage(),
+            status: 0
+        };
+    }
+
+    /***
+     * Get locale date
+     * @returns {string}
+     * @private
+     */
+    __getDate() {
         const date = new Date(this.__date);
-        const day = date.toLocaleDateString('ru-RU', {
+        return date.toLocaleDateString('ru-RU', {
             weekday: 'short',
             day: 'numeric',
             month: 'short',
             year: 'numeric'
         });
+    }
 
-        return {
-            id: this.__id,
-            name: this.__name,
-            date: day,
-            amount: `${this.__amount.toLocaleString()} ₽`,
-            userLiked: this.__userLiked,
-            linkImage: this.__getFirstImage(),
-            status: 0
-        };
+    /***
+     * Get locale amount
+     * @returns {string}
+     * @private
+     */
+    __getAmount() {
+        return `${this.__amount.toLocaleString()} ₽`;
     }
 
     /***
@@ -277,8 +295,8 @@ export class ProductModel {
                             throw new Error('Ошибка сервера');
                             // throw new Error(data.message);
                         }
-                  
-                      return {id: this.__id};
+
+                        return {id: this.__id};
                     });
             })
             .catch((err) => {

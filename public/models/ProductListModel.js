@@ -1,10 +1,5 @@
 import {ProductModel} from './ProductModel.js';
 
-
-import {http} from '../modules/http.js';
-import {backUrls} from '../modules/backUrls.js';
-import {httpStatus} from '../modules/httpStatus.js';
-
 /***
  * Product list model
  */
@@ -22,9 +17,8 @@ export class ProductListModel {
     /***
      * Parse object to model
      * @param {Object} data - product list data
-     * @private
      */
-    __parseData(data) {
+    parseData(data) {
         this.__newData = data.reduce((accum, el) => {
             const product = new ProductModel(el);
             accum.push(product);
@@ -69,7 +63,6 @@ export class ProductListModel {
      * @returns {Promise<void>}
      */
     async update() {
-        this.__productList = [];
         return this.__updateNewDataPage();
     }
 
@@ -88,23 +81,6 @@ export class ProductListModel {
      * @private
      */
     async __updateNewDataPage() {
-        return http.post(backUrls.productList, {
-            content: {
-                from: this.__page,
-                count: this.__pageCount
-            }
-        })
-            .then(({status, data}) => {
-                if (status === httpStatus.StatusInternalServerError) {
-                    throw new Error('Ошибка сервера');
-                    // throw new Error(data.message);
-                }
-
-                this.__parseData(data);
-            })
-            .catch((err) => {
-                console.log(err.message);
-                throw err;
-            });
+        throw new Error('virtual method not initialized!');
     }
 }

@@ -1,19 +1,20 @@
 import {BaseView} from './BaseView.js';
 
-import {Switch} from '../components/Switch/Switch.js';
 import {Layout} from '../components/Layout/Layout.js';
+import {Switch} from '../components/Switch/Switch.js';
 import {ProductTable} from '../components/ProductTable/ProductTable.js';
+import {ProfileMenu} from '../components/ProfileMenu/ProfileMenu.js';
 
 /***
- * Main view
+ * Favorite view
  */
-export class MainView extends BaseView {
+export class UserFavoriteView extends BaseView {
     /***
      * Like product
      * @param {number} id - product id
      */
     likeProduct(id) {
-        this.__mainList.like(id);
+        this.__favoriteList.like(id);
     }
 
     /***
@@ -21,7 +22,7 @@ export class MainView extends BaseView {
      * @param {number} id - product id
      */
     dislikeProduct(id) {
-        this.__mainList.dislike(id);
+        this.__favoriteList.dislike(id);
     }
 
     /***
@@ -29,14 +30,14 @@ export class MainView extends BaseView {
      * @param {Object[]} context - new cards
      */
     addNewCards(context) {
-        this.__mainList.addNewCards(context);
+        this.__favoriteList.addNewCards(context);
     }
 
     /***
      * Remove product list listeners
      */
     removeProductListListeners() {
-        this.__mainList.removeListeners();
+        this.__favoriteList.removeListeners();
     }
 
     /***
@@ -46,13 +47,16 @@ export class MainView extends BaseView {
      */
     __makeContext(context) {
         this.__context = {
-            mainList: {
-                data: context.mainList.data,
-                listeners: context.mainList.listeners
+            favoriteList: {
+                data: context.favoriteList.data,
+                listeners: context.favoriteList.listeners
+            },
+            profileSettings: {
+                data: context.profileSettings.data
             },
             switch: {
                 data: {
-                    title: 'Все объявления'
+                    title: 'Избранное'
                 }
             }
         };
@@ -60,19 +64,24 @@ export class MainView extends BaseView {
 
     /***
      * Render view
+     * @param {Object} context - view context
      */
     render(context) {
         super.render();
         this.__makeContext(context);
 
         const layout = new Layout(this.__app, true);
-        layout.render();
-        const parent = layout.parent;
+        layout.render({layoutCount: 'two'});
+        const left = layout.leftParent;
+        const right = layout.rightParent;
 
-        const adSwitch = new Switch(parent);
+        const profileMenu = new ProfileMenu(left, {page: 'favorites'});
+        profileMenu.render(this.__context.profileSettings);
+
+        const adSwitch = new Switch(right);
         adSwitch.render(this.__context.switch);
 
-        this.__mainList = new ProductTable(parent);
-        this.__mainList.render(this.__context.mainList);
+        this.__favoriteList = new ProductTable(right);
+        this.__favoriteList.render(this.__context.favoriteList);
     }
 }
