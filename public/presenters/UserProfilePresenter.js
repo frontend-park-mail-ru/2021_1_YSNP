@@ -18,10 +18,10 @@ import {checkAuth} from '../modules/checkAuth';
 /***
  * Profile settings presenter
  */
-export class ProfilePresenter extends BasePresenter {
+export class UserProfilePresenter extends BasePresenter {
     /***
      * Class constructor
-     * @param {ProfileView} view - view
+     * @param {UserProfileView} view - view
      */
     constructor(view) {
         super(view);

@@ -1,14 +1,16 @@
 import {BasePresenter} from './BasePresenter.js';
-import {ProductListModel} from '../models/ProductListModel.js';
+import {MainListModel} from '../models/MainListModel.js';
 
 import {router} from '../modules/router';
 import {frontUrls} from '../modules/frontUrls';
+
+import {eventProductListHandler} from '../modules/eventHandler.js';
 
 import {EndlessScroll} from '../modules/endlessScroll.js';
 import {PageUpHandler} from '../modules/pageUpHandler.js';
 
 /***
- * Main view
+ * Main presenter
  */
 export class MainPresenter extends BasePresenter {
     /***
@@ -18,7 +20,7 @@ export class MainPresenter extends BasePresenter {
     constructor(view) {
         super(view);
         this.__view = view;
-        this.__productListModel = new ProductListModel();
+        this.__mainListModel = new MainListModel();
         this.__endlessScroll = new EndlessScroll(this.__createListeners().scroll);
         this.__pageUp = new PageUpHandler();
     }
@@ -29,7 +31,7 @@ export class MainPresenter extends BasePresenter {
      */
     async update() {
         return super.update()
-            .then(() => this.__productListModel.update())
+            .then(() => this.__mainListModel.update())
             .catch((err) => {
                 //TODO(Sergey) нормальная обработка ошибок
                 console.log(err.message);
@@ -64,29 +66,8 @@ export class MainPresenter extends BasePresenter {
      * Product List click event
      * @param {MouseEvent} ev - event
      */
-    __listenerProductListClick(ev) {
-        ev.preventDefault();
-
-        let id = undefined;
-        let action = undefined;
-        Object
-            .entries(ev.composedPath())
-            .forEach(([, el]) => {
-                if (el.dataset !== undefined) {
-                    if ('action' in el.dataset && action === undefined) {
-                        action = el.dataset.action;
-                    }
-
-                    if ('cardId' in el.dataset) {
-                        id = el.dataset.cardId;
-                    }
-                }
-            });
-
-        if (action !== undefined) {
-            const actions = this.__getActions().productList;
-            actions[action].open(id);
-        }
+    __listenerMainListClick(ev) {
+        eventProductListHandler(ev, this.__getActions().mainList);
     }
 
     /***
@@ -94,10 +75,10 @@ export class MainPresenter extends BasePresenter {
      * @returns {Promise<void>}
      * @private
      */
-    async __scrollEnd() {
-        this.__productListModel.updateNewData()
+    __scrollEnd() {
+        this.__mainListModel.updateNewData()
             .then(() => {
-                this.__view.addNewCards(this.__productListModel.newData);
+                this.__view.addNewCards(this.__mainListModel.newData);
             })
             .catch((err) => {
                 //TODO(Sergey) нормальная обработка ошибок
@@ -107,15 +88,15 @@ export class MainPresenter extends BasePresenter {
 
     /***
      * Get view listeners
-     * @returns {{productList: {productCardClick: {listener: *, type: string}}}}
+     * @returns {{scroll: {scrollEnd: any}, mainList: {productCardClick: {listener: *, type: string}}}}
      * @private
      */
     __createListeners() {
         return {
-            productList: {
+            mainList: {
                 productCardClick: {
                     type: 'click',
-                    listener: this.__listenerProductListClick.bind(this)
+                    listener: this.__listenerMainListClick.bind(this)
                 }
             },
             scroll: {
@@ -148,12 +129,12 @@ export class MainPresenter extends BasePresenter {
 
     /***
      * Get product list actions
-     * @returns {{productList: {likeClick: {open: *}, cardClick: {open: *}}}}
+     * @returns {{mainList: {likeClick: {open: *}, cardClick: {open: *}}}}
      * @private
      */
     __getActions() {
         return {
-            productList: {
+            mainList: {
                 cardClick: {
                     open: this.__openCard.bind(this)
                 },
@@ -166,14 +147,14 @@ export class MainPresenter extends BasePresenter {
 
     /***
      * Make view context
-     * @returns {{productList: {data: *[], listeners: {productCardClick: {listener: *, type: string}}}}}
+     * @returns {{mainList: {data: Object[], listeners: {productCardClick: {listener: *, type: string}}}}}
      * @private
      */
     __makeContext() {
         return {
-            productList: {
-                data: this.__productListModel.getData(),
-                listeners: this.__createListeners().productList
+            mainList: {
+                data: this.__mainListModel.getData(),
+                listeners: this.__createListeners().mainList
             }
         };
     }

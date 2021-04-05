@@ -1,7 +1,7 @@
 import {BasePresenter} from './BasePresenter.js';
 import {addSuccesses, hideError, insertError, showError} from '../modules/validationStates.js';
 import {eventHandlerWithDataType} from '../modules/eventHandler.js';
-import {parseTelNumber, telMask} from '../modules/telMask.js';
+import {parseTelNumber, telMask} from '../modules/mask.js';
 import {router} from '../modules/router.js';
 import {frontUrls} from '../modules/frontUrls.js';
 import {RegUserData} from '../models/RegUserData.js';

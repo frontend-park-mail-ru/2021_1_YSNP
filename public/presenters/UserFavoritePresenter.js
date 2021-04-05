@@ -12,7 +12,7 @@ import {eventProductListHandler} from '../modules/eventHandler.js';
 /***
  * favorite presenter
  */
-export class FavoritePresenter extends BasePresenter {
+export class UserFavoritePresenter extends BasePresenter {
     /***
      * Class constructor
      * @param view
