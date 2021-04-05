@@ -318,7 +318,7 @@ export class ProfilePresenter extends BasePresenter {
                 .then(({isUpdate, message}) => {
                     if (isUpdate) {
                         hideBackendError(errorSettingsID);
-                        router.redirect(frontUrls.profile);
+                        router.redirect(frontUrls.userProfile);
                     } else {
                         showBackendError(errorSettingsID, message);
                     }

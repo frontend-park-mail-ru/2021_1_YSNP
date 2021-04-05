@@ -1,6 +1,6 @@
 import {BasePresenter} from './BasePresenter.js';
 
-export class FavoritePresenter extends BasePresenter {
+export class AdPresenter extends BasePresenter {
     constructor(view) {
         super(view);
     }

@@ -145,8 +145,7 @@ export class ProfileView extends BaseView {
 
         const layout = new Layout(this.__app, true);
         layout.render({
-            layoutCount: 'two',
-            layoutWidth: '30/70'
+            layoutCount: 'two'
         });
         const leftParent = layout.leftParent;
         const rightParent = layout.rightParent;

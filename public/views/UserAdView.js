@@ -1,6 +1,6 @@
 import {BaseView} from './BaseView.js';
 
-export class FavoriteView extends BaseView {
+export class AdView extends BaseView {
     constructor(app) {
         super(app);
     }
