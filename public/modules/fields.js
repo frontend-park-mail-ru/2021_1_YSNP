@@ -102,9 +102,8 @@ export const baseRegistration = {
 async function getCategories() {
     return http.get(backUrls.categories);
 }
-
-
-
+// eslint-disable-next-line init-declarations
+export let categories;
 /***
  * @author Ivan Gorshkov
  *
@@ -182,5 +181,6 @@ export const baseCreateProduct = {
     };
 
 getCategories().then(({data}) => {
-    baseCreateProduct.categories.options = data;
+    categories = data;
+    baseCreateProduct.categories.options = categories;
 });
