@@ -1,18 +1,11 @@
 import {BaseView} from './BaseView.js';
 import {Layout} from '../components/Layout/Layout';
 import {AdPromotion} from '../components/AdPromotion/AdPromotion';
+
 /***
  * Profile view
  */
 export class PromotionView extends BaseView {
-    /***
-     * Class constructor
-     * @param {HTMLElement} app - parent element
-     */
-    constructor(app) {
-        super(app);
-    }
-
     /***
      * Make view context
      * @param context
@@ -86,9 +79,9 @@ export class PromotionView extends BaseView {
 
         const layout = new Layout(this.__app, true);
         layout.render();
-        const mainParent = layout.mainParent;
+        const parent = layout.parent;
 
-        this.__promotion = new AdPromotion(mainParent);
+        this.__promotion = new AdPromotion(parent);
         this.__promotion.render(this.__context.promotion);
     }
 }

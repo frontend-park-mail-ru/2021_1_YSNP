@@ -18,7 +18,7 @@ export class RegUserData extends PasswordUserModel {
 
     /***
      * Get registration user model Json
-     * @returns {{password: string, year: (Object.year|string|*), surname: (Object.surname|string|*), sex: (Object.sex|string|*), name: (Object.name|string|*), telephone: (Object.telephone|string|*), email: (Object.email|string|*)}}
+     * @returns {{surname: Object.surname, sex: Object.sex, name: Object.name, telephone: Object.telephone, password2: string, linkImages: Object.linkImages, password1: string, dateBirth: Object.dateBirth, email: Object.email}}
      * @private
      */
     __jsonData() {
@@ -29,7 +29,8 @@ export class RegUserData extends PasswordUserModel {
             sex: this.__sex,
             email: this.__email,
             telephone: this.__telephone,
-            password: this.__password,
+            password1: this.__password1,
+            password2: this.__password2,
             linkImages: this.__linkImages
         };
     }

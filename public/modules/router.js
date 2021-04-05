@@ -9,7 +9,6 @@ class Router {
      */
     constructor() {
         this.__routes = [];
-
         this.__addRouterListeners();
     }
 
@@ -18,8 +17,7 @@ class Router {
      */
     start() {
         const route = this.__getCurrentRoute();
-
-        route.callback.call(this, this.__getParamsFromRegExp(route));
+        this.__removeListeners = route.callback.call(this, this.__getParamsFromRegExp(route));
     }
 
     /***
@@ -58,6 +56,13 @@ class Router {
     }
 
     /***
+     * Go to next page
+     */
+    goForward() {
+        window.history.forward();
+    }
+
+    /***
      * Go back from navigation bar
      */
     navigateBack() {
@@ -78,19 +83,14 @@ class Router {
     }
 
     /***
-     * Go to next page
-     */
-    goForward() {
-        window.history.forward();
-    }
-
-    /***
      * Redirect to url
      * @param {string} url - redirect url
      * @param {string} title - redirect title
      * @param {Object} state - redirect state
      */
     redirect(url, title = '', state = {}) {
+        this.__removePageListeners();
+
         window.history.pushState(state, title, url);
         return this.start();
     }
@@ -110,6 +110,16 @@ class Router {
      */
     getState() {
         return window.history.state;
+    }
+
+    /***
+     * Remove page listeners
+     * @private
+     */
+    __removePageListeners() {
+        if (this.__removeListeners) {
+            this.__removeListeners();
+        }
     }
 
     /***

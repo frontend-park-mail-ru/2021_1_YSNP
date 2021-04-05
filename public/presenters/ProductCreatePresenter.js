@@ -1,7 +1,6 @@
 import {BasePresenter} from './BasePresenter.js';
 import {addSuccesses, hideError, insertError, showError} from '../modules/validationStates.js';
 import {amountMask} from '../modules/amountMask.js';
-import {httpStatus} from '../modules/httpStatus.js';
 import {router} from '../modules/router.js';
 import {frontUrls} from '../modules/frontUrls.js';
 import {ProductModel} from '../models/ProductModel.js';
@@ -242,8 +241,10 @@ export class ProductCreatePresenter extends BasePresenter {
         const isValidPrice = this.__validatePriceInput(price);
         const isValidDescription = this.__validateTextArea(description);
         const isValidName = this.__validateEmptyInput(name);
+        const isValidImages = this.__validateImageSize(this.__view.getForm());
         const emptyPhotoField = 0;
-        if (isValidName && isValidDescription && isValidPrice && this.__count !== emptyPhotoField) {
+
+        if (isValidName && isValidDescription && isValidPrice && isValidImages && this.__count !== emptyPhotoField) {
             this.__model.fillProductModel({
                 name: name.value,
                 description: description.value,
@@ -251,12 +252,15 @@ export class ProductCreatePresenter extends BasePresenter {
                 category: category.options[category.selectedIndex].text
             });
             this.__view.changeDisableButton();
-            this.__model.create(this.__view.getForm()).then(({id, status}) => {
-                if (status === httpStatus.StatusOK) {
+
+            this.__model.create(this.__view.getForm())
+                .then(({id}) => {
                     this.closeAllComponents();
                     this.__view.removingSubViews();
                     router.redirect(frontUrls.promotion, '', {id: parseInt(id, 10)});
-                }
+                }).catch((err) => {
+                //TODO(Sergey) нормальная обработка ошибок
+                console.log(err.message);
             });
         }
     }
@@ -265,10 +269,10 @@ export class ProductCreatePresenter extends BasePresenter {
      * @author Ivan Gorshkov
      *
      * validate name
-     * @param{HTMLElement} target
+     * @param {HTMLElement} target
      * @return {boolean}
      * @private
-     * this {ProductCreatePresenter}
+     * @this {ProductCreatePresenter}
      */
     __validateEmptyInput(target) {
         const {error, message} = this.__model.validationName(target.value.toString());
@@ -276,11 +280,29 @@ export class ProductCreatePresenter extends BasePresenter {
     }
 
     /***
+     * Validate view photo
+     * @param {HTMLElement} form - view form
+     * @returns {boolean}
+     * @private
+     */
+    __validateImageSize(form) {
+        const {error, message} = this.__model.validationImages(form);
+
+        if (error) {
+            // TODO(Ivan) обработка ошибок
+            console.log(message);
+            return false;
+        }
+
+        return true;
+    }
+
+    /***
      * @author Ivan Gorshkov
      *
      * handlingErrors
      * @param {boolean} error
-     * @param {HTMLElement} target
+     * @param {Object} target
      * @param {[string]} message
      * @param {Function} supprotValidate
      * @return {boolean}
@@ -293,6 +315,7 @@ export class ProductCreatePresenter extends BasePresenter {
             supprotValidate();
             return true;
         }
+
         insertError(target, this.__view.getErrorId(target), this.__view.addErrorForm(message));
         return false;
     }
@@ -385,7 +408,7 @@ export class ProductCreatePresenter extends BasePresenter {
      * @author Ivan Gorshkov
      *
      * validate price
-     * @param{Object} target
+     * @param {Object} target
      * @return {boolean}
      * @private
      * @this {ProductCreatePresenter}
@@ -415,7 +438,7 @@ export class ProductCreatePresenter extends BasePresenter {
      * @author Ivan Gorshkov
      *
      * Make view context
-     * @returns {{productList: {data: *[], listeners: {productCardClick: {listener: *, type: string}}}}}
+     * @returns {{navigation: {data: null, listeners: {backClick: {listener: *, type: string}}}, productCreate: {data: null, listeners: {focusInput: {listener: *, type: string}, validateChange: {listener: *, type: string}, submitClick: {listener: *, type: string}, hideError: {listener: *, type: string}, validateInput: {listener: *, type: string}, showError: {listener: *, type: string}, blurInput: {listener: *, type: string}}}}}
      * @private
      * @this {ProductCreatePresenter}
      */

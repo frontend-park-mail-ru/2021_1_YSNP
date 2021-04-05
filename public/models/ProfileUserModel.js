@@ -25,15 +25,6 @@ export class ProfileUserModel extends PasswordUserModel {
     }
 
     /***
-     * Fill user new password
-     * @param data
-     */
-    fillNewPassword(data) {
-        this.__oldPassword = data.oldPass;
-        this.__newPassword = data.newPass;
-    }
-
-    /***
      * Is auth user
      * @returns {boolean|*}
      */
@@ -48,8 +39,9 @@ export class ProfileUserModel extends PasswordUserModel {
      */
     __jsonPassword() {
         return {
-            oldPassword: this.__oldPassword,
-            newPassword: this.__newPassword
+            oldPassword: this.__password,
+            newPassword1: this.__password1,
+            newPassword2: this.__password2
         };
     }
 
@@ -67,7 +59,7 @@ export class ProfileUserModel extends PasswordUserModel {
             email: this.__email,
             telephone: this.__telephone,
             password: this.__password,
-            linkImages: [this.__linkImages]
+            linkImages: this.__linkImages
         };
     }
 
@@ -92,7 +84,7 @@ export class ProfileUserModel extends PasswordUserModel {
             sex: this.__sex,
             email: this.__email,
             telephone: this.__telephone,
-            linkImage: this.__linkImages !== undefined ? this.getFirstImage() : []
+            linkImage: this.__linkImages
         };
     }
 
@@ -103,7 +95,7 @@ export class ProfileUserModel extends PasswordUserModel {
      * @returns {Promise<{isUpdate: boolean}|void|{message: string, isUpdate: boolean}>}
      */
     async settings(form, isChangeImg) {
-        return await http.post(backUrls.settings, this.__jsonData())
+        return http.post(backUrls.settings, this.__jsonData())
             .then(({status}) => {
                 if (status === httpStatus.StatusOK) {
                     if (isChangeImg) {
@@ -127,9 +119,6 @@ export class ProfileUserModel extends PasswordUserModel {
                                 throw err;
                             });
                     }
-
-                    this.__isAuth = false;
-                    return {isUpdate: true};
                 }
 
                 if (status === httpStatus.StatusUnauthorized) {

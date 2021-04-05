@@ -5,7 +5,7 @@
 * [Торжков Максим](https://github.com/dantedoyl) - full-stack developer;
 * [Забелина Варвара](https://github.com/VVaria) - full-stack developer;
 
-## Сервис объявлений [YSNP.KOYA](http://89.208.199.170:3000)
+## Сервис объявлений [YSNP.KOYA](https://ykoya.ru/)
 
 _Если вы захотите что-то продать или купить приходите к нам и у вас все получится_
 

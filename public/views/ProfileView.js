@@ -8,14 +8,6 @@ import {Settings} from '../components/Settings/Settings';
  */
 export class ProfileView extends BaseView {
     /***
-     * Class constructor
-     * @param {HTMLElement} app - parent element
-     */
-    constructor(app) {
-        super(app);
-    }
-
-    /***
      * Make view context
      * @param context
      * @private
