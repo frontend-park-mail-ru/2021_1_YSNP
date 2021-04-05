@@ -6,10 +6,10 @@
 }
 
 .form-row__textarea {
-    box-sizing: border-box;
     border-radius: 5px;
     width: 30vw;
     height: 20vh;
+    min-width: 30vw;
     padding: 0.5vh 0.7vh;
     resize: none;
     border: 1px solid rgba(0, 0, 0, 0.2);

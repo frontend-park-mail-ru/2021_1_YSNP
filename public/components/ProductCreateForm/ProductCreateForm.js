@@ -307,7 +307,6 @@ export class ProductCreateForm {
      */
     async render(ctx) {
         this.listeners = ctx.productCreate.listeners;
-        console.log(this.listeners);
         this.__parent.insertAdjacentHTML('beforeend', productCreateFormTemplate(ctx.productCreate));
 
         for (const fields in ctx.productCreate.fields) {
@@ -324,7 +323,7 @@ export class ProductCreateForm {
         }, (address) => {
             document.getElementById('addressInput').value = address;
         });
-        this.__yaMap.addSearch('addressInput');
+        ymaps.ready(this.__yaMap.addSearch.bind(this.__yaMap, 'addressInput'));
         this.addListeners();
     }
 }

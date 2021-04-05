@@ -4,7 +4,16 @@ import {Navigation} from '../components/Navigation/Navigation';
 import {Switch} from '../components/Switch/Switch';
 import {SearchBar} from '../components/Search/SearchBar.js';
 
+/***
+ *  SearchView
+ */
 export class SearchView extends BaseView {
+    /***
+     * @author Ivan Gorshkov
+     *
+     * @param {HTMLElement} app - parent element
+     * @this {SearchView}
+     */
     constructor(app) {
         super(app);
     }
@@ -54,28 +63,55 @@ export class SearchView extends BaseView {
         };
     }
 
+    /***
+     * @author Ivan Gorshkov
+     *
+     * removing subviews
+     * @this {SearchView}
+     */
     removingSubViews() {
         this.__searchBar.removeListeners();
         this.__navSubView.removeListeners();
     }
 
 
+    /***
+     * @author Ivan Gorshkov
+     *
+     * rerender only product list with context
+     * @param ctx
+     * @this {SearchView}
+     */
     rerenderProductList(ctx) {
         this.__makeContext(ctx);
         this.__searchBar.rerenderProductList(this.__context);
     }
 
+    /***
+     * @author Ivan Gorshkov
+     *
+     * get all fields of search
+     * @return {Object}
+     * @this {SearchView}
+     */
     getAllFields() {
         return this.__searchBar.getAllFields();
     }
 
+    /***
+     * @author Ivan Gorshkov
+     *
+     * render with context
+     * @param{Object} context
+     * @this {SearchView}
+     */
     render(context) {
         super.render();
         this.layout = new Layout(this.__app, true);
         this.layout.render();
         this.__makeContext(context);
 
-        this.__navSubView = new Navigation(this.getLayoutParent(), 'Главная страница', {route: ['Регистрация профиля']});
+        this.__navSubView = new Navigation(this.getLayoutParent(), 'Главная страница', {route: ['поиск объявлений']});
         this.__navSubView.render(context);
 
         const adSwitch = new Switch(this.getLayoutParent());
@@ -83,6 +119,5 @@ export class SearchView extends BaseView {
 
         this.__searchBar = new SearchBar(this.getLayoutParent());
         this.__searchBar.render(this.__context);
-
     }
 }

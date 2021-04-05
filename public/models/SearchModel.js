@@ -1,4 +1,3 @@
-import {YandexMap} from '../modules/yandexMap';
 import {http} from '../modules/http';
 import {backUrls} from '../modules/backUrls';
 import {httpStatus} from '../modules/httpStatus';

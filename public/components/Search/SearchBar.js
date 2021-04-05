@@ -22,7 +22,7 @@ export class SearchBar {
      * @this {RegistrationPanel}
      * @private
      * @readonly
-     * @return  {{validateChange: {listener: *, type: string}, hideError: {listener: *, type: string}, validateInput: {listener: *, type: string}, showError: {listener: *, type: string}, registrationClick: {listener: *, type: string}}} array of listeners
+     * @return  {Object} array of listeners
      */
     get listeners() {
         return this.__listeners;
@@ -33,17 +33,25 @@ export class SearchBar {
      *
      * Set new listeners
      * @this {RegistrationPanel}
-     * @param  {{validateChange: {listener: *, type: string}, hideError: {listener: *, type: string}, validateInput: {listener: *, type: string}, showError: {listener: *, type: string}, registrationClick: {listener: *, type: string}}} val - Object of listeners
+     * @param  {Object} val - Object of listeners
      * @public
      */
     set listeners(val) {
         this.__listeners = val;
     }
 
+    /***
+     * rerender product list
+     * @param{Object} ctx
+     */
     rerenderProductList(ctx) {
         this.__productList.render(ctx.productList);
     }
 
+    /***
+     * return object of HTMLElement fields
+     * @return {Object}
+     */
     getAllFields() {
         return {
             sort: document.getElementById('sorting'),
@@ -57,8 +65,10 @@ export class SearchBar {
         };
     }
 
-
-
+    /***
+     * add new listeners
+     * @private
+     */
     __addListeners() {
         document
             .getElementById('sorting')
@@ -76,6 +86,9 @@ export class SearchBar {
 
     }
 
+    /***
+     * remove listeners
+     */
     removeListeners() {
         document
             .getElementById('sorting')

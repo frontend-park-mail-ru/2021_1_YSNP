@@ -6,21 +6,32 @@ import {frontUrls} from '../modules/frontUrls.js';
 import {SearchModel} from '../models/SearchModel.js';
 import {amountMask} from '../modules/amountMask.js';
 import {PageUpHandler} from '../modules/pageUpHandler.js';
-
+import {noop} from '../models/Noop';
+/***
+ *  class SearchPresenter extends BasePresenter
+ */
 export class SearchPresenter extends BasePresenter {
 
     /***
+     * @author Ivan Gorshkov
      *
-     * @param{SearchView} view
+     * Class constructor
+     * @param{SearchView} view - view
+     * @this {SearchPresenter}
      */
     constructor(view) {
         super(view);
         this.__view = view;
         this.__productListModel = new ProductListModel();
         this.__model = new SearchModel();
-
     }
 
+    /***
+     * @author Ivan Gorshkov
+     *
+     * update super Presenter. update productListModel and userModel
+     * @return {Promise<void>}
+     */
     async update() {
         return super.update()
             .then(() => this.__productListModel.update())
@@ -30,6 +41,12 @@ export class SearchPresenter extends BasePresenter {
             });
     }
 
+    /***
+     * @author Ivan Gorshkov
+     *
+     * Search Presenter control. render view and PageUP
+     * @return {Promise<void>}
+     */
     async control() {
         await this.update();
         this.__view.render(this.__makeContext());
@@ -164,7 +181,7 @@ export class SearchPresenter extends BasePresenter {
      */
     __sort(ev) {
         sessionStorage.setItem('sort', ev.target.value);
-        this.__search();
+        this.__search().then(() => noop());
     }
 
     /***
@@ -176,10 +193,16 @@ export class SearchPresenter extends BasePresenter {
      __submitFilter() {
         sessionStorage.setItem('category', document.getElementById('category').value);
         sessionStorage.setItem('date', document.getElementById('date').value);
-        this.__search();
+        this.__search().then(() => noop());
     }
 
-
+    /***
+     * @author Ivan Gorshkov
+     *
+     * async function for search with filer and sorung
+     * @return {Promise<void>}
+     * @private
+     */
     async __search() {
         const {fromAmount, toAmount, search} = this.__view.getAllFields();
         this.__model.fillProductModel({
@@ -195,7 +218,7 @@ export class SearchPresenter extends BasePresenter {
         await this.__model.update().then(({isUpdate, data}) => {
             if (isUpdate) {
                 this.__productListModel = new ProductListModel();
-                this.__productListModel.parseData(data);
+                this.__productListModel.setNewData(data);
                 this.__view.rerenderProductList(this.__makeContext());
             }
         }).catch(() => {
