@@ -4,7 +4,7 @@
     border-radius: 0.5vh;
     font-size: 1.8vh;
     height: 5vh;
-    min-width: 15.5vw;
+    width: 27vh;
     padding-left: 10px;
     font-family: Roboto, sans-serif;
 }
@@ -22,7 +22,7 @@
 .reg-panel__tel {
     margin: 0;
     height: 5vh;
-    min-width: 13vw;
+    min-width: 22vh;
 }
 
 .reg-panel-title__product-name {
