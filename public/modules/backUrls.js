@@ -106,6 +106,14 @@ class BackUrls {
     get search() {
         return `${this.__url}${this.__api}/search`;
     }
+
+    /***
+     *
+     * @return {string}
+     */
+    get categories() {
+        return `${this.__url}${this.__api}/categories`;
+    }
 }
 
 export const backUrls = new BackUrls();

@@ -4,6 +4,8 @@ import fieldSelectTemplate from '../components/RegistrationPanel/Fields/FieldSel
 import fieldAvatarTemplate from '../components/RegistrationPanel/Fields/FieldAvatar.hbs';
 import fieldTextAreaTemplate from '../components/RegistrationPanel/Fields/FieldTextArea.hbs';
 import fieldMultiPhotoTemplate from '../components/RegistrationPanel/Fields/FieldMultiPhoto.hbs';
+import {http} from './http.js';
+import {backUrls} from './backUrls.js';
 
 
 /***
@@ -94,23 +96,14 @@ export const baseRegistration = {
         }
     };
 
-
 /***
- * @author Ivan Gorshkov
  *
- * array of categories
- * @type {({title: string}|{title: string}|{title: string}|{title: string}|{title: string})[]}
  */
-const getOptionsCategories = [
-    {title: 'Автомобиль'},
-    {title: 'Электроника'},
-    {title: 'Одежда'},
-    {title: 'Хобби'},
-    {title: 'Запчасти'},
-    {title: 'Спорт'},
-    {title: 'Животные'},
-    {title: 'Услуги'}
-];
+async function getCategories() {
+    return http.get(backUrls.categories);
+}
+
+
 
 /***
  * @author Ivan Gorshkov
@@ -146,16 +139,8 @@ export const baseCreateProduct = {
             id: 'categorySelect',
             dataAction: 'inputEmpty',
             template: fieldSelectTemplate.bind(),
-            options: getOptionsCategories
-        }, /*
-            subCategories: {
-                title: 'Подкатегория*',
-                placeholder: 'Подкатегория',
-                inputType: 'select',
-                id: 'subcategorySelect',
-                dataAction: 'inputEmpty',
-                options: this.__getOptionsSubcategories()
-            },*/
+            options: []
+        },
         type: {
             title: 'Тип*',
             placeholder: 'Тип',
@@ -195,3 +180,7 @@ export const baseCreateProduct = {
             params: ''
         }
     };
+
+getCategories().then(({data}) => {
+    baseCreateProduct.categories.options = data;
+});
