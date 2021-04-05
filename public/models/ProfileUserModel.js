@@ -25,15 +25,6 @@ export class ProfileUserModel extends PasswordUserModel {
     }
 
     /***
-     * Fill user new password
-     * @param data
-     */
-    fillNewPassword(data) {
-        this.__oldPassword = data.oldPass;
-        this.__newPassword = data.newPass;
-    }
-
-    /***
      * Is auth user
      * @returns {boolean|*}
      */
@@ -48,8 +39,9 @@ export class ProfileUserModel extends PasswordUserModel {
      */
     __jsonPassword() {
         return {
-            oldPassword: this.__oldPassword,
-            newPassword: this.__newPassword
+            oldPassword: this.__password,
+            newPassword1: this.__password1,
+            newPassword2: this.__password2
         };
     }
 
