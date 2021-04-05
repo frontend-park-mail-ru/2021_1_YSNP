@@ -185,6 +185,7 @@ export class ProfilePresenter extends BasePresenter {
                 password: oldPassword,
                 password1: newPassword.value,
                 password2: passwordConfirm.value
+            });
 
             this.__model.newPassword()
                 .then((data) => {
@@ -284,7 +285,6 @@ export class ProfilePresenter extends BasePresenter {
             this.disableEditing();
             this.__changeImg = false;
         }
-        console.log('Click save changes');
     }
 
     /***

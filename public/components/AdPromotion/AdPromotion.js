@@ -254,7 +254,6 @@ export class AdPromotion {
      */
     render(context) {
         this.__makeContext(context);
-        console.log(this.__context.data.id);
         this.__parent.insertAdjacentHTML('beforeend', adPromotionTemplate(this.__context.data));
         this.__addListeners();
     }

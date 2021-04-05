@@ -79,7 +79,7 @@ export class PromotionView extends BaseView {
 
         const layout = new Layout(this.__app, true);
         layout.render();
-        const parent = layout.parent;
+        const parent = layout.mainParent;
 
         this.__promotion = new AdPromotion(parent);
         this.__promotion.render(this.__context.promotion);
