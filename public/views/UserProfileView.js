@@ -6,12 +6,12 @@ import {Settings} from '../components/Settings/Settings';
 /***
  * Profile view
  */
-export class ProfileView extends BaseView {
+export class UserProfileView extends BaseView {
     /***
      * Make view context
      * @param context
      * @private
-     * @this {ProfileView}
+     * @this {UserProfileView}
      */
     __makeContext(context) {
         this.__context = {
@@ -25,7 +25,7 @@ export class ProfileView extends BaseView {
     /***
      * Enable password change
      * @param target
-     * @this {ProfileView}
+     * @this {UserProfileView}
      */
     enablePasswordChange(target) {
         this.__settings.enablePasswordChange(target);
@@ -33,7 +33,7 @@ export class ProfileView extends BaseView {
 
     /***
      * Get passwords elements
-     * @this {ProfileView}
+     * @this {UserProfileView}
      * @returns {{passwordConfirm: HTMLElement, oldPassword: HTMLElement, newPassword: HTMLElement}}
      */
     getPasswordsInfo() {
@@ -42,7 +42,7 @@ export class ProfileView extends BaseView {
 
     /***
      * Returns id errors
-     * @this {ProfileView}
+     * @this {UserProfileView}
      * @returns {{errorSettingsID: string, errorPasswordID: string}}
      */
     getErrorID() {
@@ -52,7 +52,7 @@ export class ProfileView extends BaseView {
     /***
      * Returns input id errors
      * @param target
-     * @this {ProfileView}
+     * @this {UserProfileView}
      * @returns {string}
      */
     getInputErrorID(target) {
@@ -61,7 +61,7 @@ export class ProfileView extends BaseView {
 
     /***
      * Remove password input style
-     * @this {ProfileView}
+     * @this {UserProfileView}
      */
     removePasswordStyle() {
         this.__settings.removePasswordStyles();
@@ -69,7 +69,7 @@ export class ProfileView extends BaseView {
 
     /***
      * Open file system
-     * @this {ProfileView}
+     * @this {UserProfileView}
      */
     openFileSystem() {
         this.__settings.openFileSystem();
@@ -78,7 +78,7 @@ export class ProfileView extends BaseView {
     /***
      * Callback when photo loaded
      * @param {Event} ev - event
-     * @this {ProfileView}
+     * @this {UserProfileView}
      */
     avatarOnLoad(ev) {
         this.__settings.avatarOnLoad.call(this, ev);
@@ -87,7 +87,7 @@ export class ProfileView extends BaseView {
     /***
      * Set default user data
      * @param {Object} data - user data
-     * @this {ProfileView}
+     * @this {UserProfileView}
      */
     resetSettingsChanges(data) {
         this.__settings.resetSettingsChanges(data);
@@ -95,7 +95,7 @@ export class ProfileView extends BaseView {
 
     /***
      * Open form settings for editing
-     * @this {ProfileView}
+     * @this {UserProfileView}
      */
     enableEditing() {
         this.__settings.enableEditing();
@@ -103,7 +103,7 @@ export class ProfileView extends BaseView {
 
     /***
      * Close form settings for editing
-     * @this {ProfileView}
+     * @this {UserProfileView}
      */
     disableEditing() {
         this.__settings.disableEditing();
@@ -112,7 +112,7 @@ export class ProfileView extends BaseView {
     /***
      * Get all settings fields
      * @returns {{birthday: HTMLElement, mail: HTMLElement, phone: HTMLElement, surname: HTMLElement, name: HTMLElement}}
-     * @this {ProfileView}
+     * @this {UserProfileView}
      */
     getSettingsInputs() {
         return this.__settings.getSettingsFields();
@@ -121,7 +121,7 @@ export class ProfileView extends BaseView {
     /***
      * Get settings form
      * @returns {HTMLElement}
-     * @this {ProfileView}
+     * @this {UserProfileView}
      */
     getForm() {
         return this.__settings.getForm();
@@ -129,7 +129,7 @@ export class ProfileView extends BaseView {
 
     /***
      * Remove component listeners
-     * @this {ProfileView}
+     * @this {UserProfileView}
      */
     removeListeners() {
         this.__settings.removeListeners();
@@ -137,7 +137,7 @@ export class ProfileView extends BaseView {
 
     /***
      * Render view
-     * @this {ProfileView}
+     * @this {UserProfileView}
      */
     render(context) {
         super.render();

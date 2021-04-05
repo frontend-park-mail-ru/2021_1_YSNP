@@ -8,7 +8,7 @@ import {ProfileMenu} from '../components/ProfileMenu/ProfileMenu.js';
 /***
  * Favorite view
  */
-export class FavoriteView extends BaseView {
+export class UserFavoriteView extends BaseView {
     /***
      * Like product
      * @param {number} id - product id
@@ -64,7 +64,7 @@ export class FavoriteView extends BaseView {
 
     /***
      * Render view
-     * @param context
+     * @param {Object} context - view context
      */
     render(context) {
         super.render();
