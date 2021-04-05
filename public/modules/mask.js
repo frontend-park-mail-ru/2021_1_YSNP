@@ -24,7 +24,7 @@ function setCursorPosition(elem, pos) {
  * Tel mask replace all prohibited symbols
  * @param {Event} ev - event
  */
-export function mask(ev) {
+export function telMask(ev) {
     const mask = '(___) ___ __ __';
     const val = ev.target.value.replace(/\D/g, '');
     let i = 0;
