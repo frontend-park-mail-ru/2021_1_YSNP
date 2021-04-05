@@ -85,7 +85,7 @@ export class Header {
             this.__parent.insertAdjacentHTML('beforeend', headerTemplate(this.__context.data));
             this.__addListeners();
         } catch (err) {
-            console.log();
+            console.log(err.message);
         }
     }
 }

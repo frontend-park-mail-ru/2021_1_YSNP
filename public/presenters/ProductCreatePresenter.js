@@ -252,11 +252,12 @@ export class ProductCreatePresenter extends BasePresenter {
                 category: category.options[category.selectedIndex].text
             });
             this.__view.changeDisableButton();
+
             this.__model.create(this.__view.getForm())
-                .then(() => {
+                .then(({id}) => {
                     this.closeAllComponents();
                     this.__view.removingSubViews();
-                    router.redirect(frontUrls.main);
+                    router.redirect(frontUrls.promotion, '', {id: parseInt(id, 10)});
                 }).catch((err) => {
                 //TODO(Sergey) нормальная обработка ошибок
                 console.log(err.message);

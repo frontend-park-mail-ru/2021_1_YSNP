@@ -1,13 +1,13 @@
 <div class="promotion-product">
     <div class="promotion-product-success">
-        <img src="../../img/checked.png" alt="" class="success-circle">
-        <div class="promotion-product-text">
+        <img src="/img/svg/checked.svg" alt="" class="success-circle">
+        <div class="promotion-product__text">
             <span>Ваше объявление успешно опубликовано. Вы можете купить продвижение объявления.</span>
         </div>
     </div>
 </div>
 <div class="promotion" id="promotion">
-    <div class="promotion-title">
+    <div class="promotion__title">
         <span>Продвижение</span>
     </div>
     <span class="promotion-error_hidden" id="promotion-error"></span>
@@ -20,7 +20,7 @@
         <div class="promotion-no-tariff-inner" id="block-no-tariff" data-action="nothingClick">
             <input type="checkbox" id="no-tariff">
             <label for="no-tariff"></label>
-            <label style="opacity: 0.7; margin-left: 1vw">Не продвигать объявление</label>
+            <label class="promotion-no-tariff__label">Не продвигать объявление</label>
         </div>
     </div>
     <div class="promotion-button">
@@ -32,7 +32,7 @@
             <input type="hidden" name="quickpay-form" value="small">
             <input type="hidden" name="targets" id="promotion-description" value="">
             <input type="hidden" name="sum" id="promotion-sum" value="0" data-type="number">
-            <input type="hidden" name="comment"  value="">
+            <input type="hidden" name="comment" value="">
             <input type="hidden" name="need-fio" value="false">
             <input type="hidden" name="need-email" value="false">
             <input type="hidden" name="need-phone" value="false">

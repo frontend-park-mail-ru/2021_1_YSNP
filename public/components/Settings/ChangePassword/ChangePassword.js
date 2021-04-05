@@ -14,7 +14,7 @@ export class ChangePassword {
     }
 
     /***
-     * Render component
+     * Add component to parent
      */
     render() {
         this.__parent.insertAdjacentHTML('beforeend', changePasswordTemplate());

@@ -56,6 +56,15 @@ export class Layout {
     }
 
     /***
+     * Get main parent
+     * @returns {HTMLElement}
+     */
+    get mainParent() {
+        this.__checkIsMain();
+        return document.getElementById('layout');
+    }
+
+    /***
      * Render component
      * @param context
      */

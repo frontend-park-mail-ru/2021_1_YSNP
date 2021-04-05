@@ -277,6 +277,8 @@ export class ProductModel {
                             throw new Error('Ошибка сервера');
                             // throw new Error(data.message);
                         }
+                  
+                      return {id: this.__id};
                     });
             })
             .catch((err) => {

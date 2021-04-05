@@ -97,6 +97,18 @@ export function showBackendError(id, text) {
 }
 
 /***
+ * Show error when sending to backend
+ * @param {string} id - id of error
+ * @param {string} text - error message
+ */
+export function showSuccessMessage(id, text) {
+    const err = document.getElementById(id);
+    err.textContent = text;
+    err.classList.add('settings-password-error_success');
+    err.classList.remove('backend-error_hidden');
+}
+
+/***
  * Hide backend error
  * @param {string} id - id of error
  */
@@ -123,4 +135,23 @@ export function validateError(error, target, message) {
                  </ul>
     `));
     return false;
+}
+
+/***
+ * Draw popup
+ * @param message
+ * @returns {string}
+ */
+export function drawPopup(message) {
+    return `
+        <div class="popup">
+            <div class="popup-inner">
+                <div class="popup-message">${message}</div>
+                <div class="popup-buttons">
+                    <button id="popup-save" class="settings-title__save_button" data-action="savePasswordClick">Остаться</button>
+                    <button id="popup-cancel" class="settings-title__reset_button" data-action="resetPasswordClick">Отменить</button>
+                </div>
+            </div>
+        </div>
+        `;
 }

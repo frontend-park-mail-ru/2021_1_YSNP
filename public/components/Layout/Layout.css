@@ -5,6 +5,9 @@
 
 .layout__main {
     margin-top: 9vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
 }
 
 .layout-inner {
