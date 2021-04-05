@@ -1,0 +1,100 @@
+@import "../../../scss/main.scss";
+
+.info-card {
+    @include border-block;
+    display: block;
+    position: sticky;
+    top: 20px;
+    margin: 2vw 0 0 0.3vw;
+    padding-bottom: 1vw;
+    font-style: normal;
+    font-weight: normal;
+}
+
+.info-card__price {
+    font-size: 2vw;
+    text-align: center;
+    margin-top: 2vh;
+    margin-bottom: 1vh;
+}
+
+.info-card-profile {
+    display: flex;
+    margin: 0 0 0 3vh;
+}
+
+.info-card__image {
+    @include circle;
+    @include set-size(4vw, 4vw);
+}
+
+.info-card-container {
+    display: block;
+}
+
+.info-card__name {
+    font-size: 3vh;
+    line-height: 2vh;
+    margin: 0 0 0 1vh;
+}
+
+.info-card-rating {
+    line-height: 3vh;
+    margin: 1vh 0 0 1vh;
+    display: flex;
+    align-items: center;
+}
+
+.info-card-rating__text {
+    font-size: 2vh;
+    margin-right: 1vh;
+}
+
+.info-card-btn {
+    text-align: center;
+    font-size: 1vw;
+    line-height: 2vh;
+}
+
+.info-card-btn__massage {
+    @include red-button(80%, 3vw);
+    margin-top: 2vh;
+}
+
+.info-card-btn__number {
+    @include white-button(80%, 3vw);
+    margin-top: 1vh;
+    box-shadow: 0 0 1vh rgba(0, 0, 0, 0.1);
+}
+
+.info-card__time {
+    text-align: center;
+    margin-top: 4vw;
+    font-size: 2vh;
+    margin-bottom: 1vh;
+}
+
+.info-card-statistic {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    &-views {
+        display: flex;
+        align-items: center;
+        &__text {
+            margin-left: 1vh;
+            font-size: 1.5vh;
+        }
+    }
+
+    &-likes {
+        display: flex;
+        align-items: center;
+        margin-left: 1vh;
+        &__text {
+            margin-left: 1vh;
+            font-size: 1.5vh;
+        }
+    }
+}

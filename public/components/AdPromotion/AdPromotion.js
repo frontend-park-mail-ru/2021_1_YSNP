@@ -1,5 +1,5 @@
-import './AdPromotion.css';
-import './Tariff/Tariff.css';
+import './AdPromotion.scss';
+import './Tariff/Tariff.scss';
 import adPromotionTemplate from './AdPromotion.hbs';
 import tariffTemplate from './Tariff/Tariff.hbs';
 
@@ -108,14 +108,16 @@ export class AdPromotion {
      */
     __showError(errorId, message) {
         document.getElementById(errorId).textContent = message;
-        document.getElementById(errorId).classList.add('promotion-error_visible');
+        document.getElementById(errorId).classList.add('error-visible');
+        document.getElementById(errorId).classList.remove('error-hidden');
     }
 
     /***
      * Remove error message
      */
     removeError() {
-        document.getElementById('promotion-error').classList.remove('promotion-error_visible');
+        document.getElementById('promotion-error').classList.remove('error-visible');
+        document.getElementById('promotion-error').classList.add('error-hidden');
     }
 
     /***

@@ -1,5 +1,5 @@
 import productCardTemplate from './ProductCard.hbs';
-import './ProductCard.css';
+import './ProductCard.scss';
 
 /***
  * Product card component with img, name, date, amount and like

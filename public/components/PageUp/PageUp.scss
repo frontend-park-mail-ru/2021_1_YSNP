@@ -1,3 +1,5 @@
+@import "../../scss/main.scss";
+
 .page-up {
     height: 100vh;
     width: 12vh;
@@ -10,7 +12,7 @@
 }
 
 .page-up:hover {
-    color: rgb(112, 146, 254);
+    color: $linkColor;
     background-color: #ECECEC;
 }
 

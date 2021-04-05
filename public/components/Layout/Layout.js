@@ -1,5 +1,5 @@
 import layoutTemplate from './Layout.hbs';
-import './Layout.css';
+import './Layout.scss';
 
 /***
  * Layout component

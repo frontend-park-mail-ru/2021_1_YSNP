@@ -1,6 +1,7 @@
+@import "../../scss/main.scss";
+
 .switch {
     margin: 1vh 0;
-
     width: 100%;
 }
 
@@ -36,19 +37,18 @@
 
     border: none;
     background: none;
-
     cursor: pointer;
-}
 
-.switch-buttons__button:focus {
-    outline: none;
-}
+    &:focus {
+        outline: none;
+    }
 
-.switch-buttons__button_selected {
-    color: black;
-    border-bottom: 2px solid rgb(112, 146, 254);
+    &_selected {
+        color: black;
+        border-bottom: 2px solid $linkColor;
+    }
 }
 
 .switch-separator {
-    border-top: 1px solid rgb(227, 227, 227);
+    @include separator;
 }

@@ -45,6 +45,14 @@ module.exports = {
                 use: [MiniCssExtractPlugin.loader, 'css-loader']
             },
             {
+                test: /.(s*)css$/,
+                use: [
+                    MiniCssExtractPlugin.loader,
+                    'css-loader?url=false',
+                    'sass-loader'
+                ]
+            },
+            {
                 test: /\.hbs/,
                 loader: 'handlebars-loader',
                 options: {

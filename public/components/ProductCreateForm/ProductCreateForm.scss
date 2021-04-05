@@ -1,0 +1,91 @@
+@import "../../scss/main.scss";
+
+.form-row {
+  display: flex;
+  align-items: center;
+  margin-bottom: 1vh;
+  margin-top: 1vh;
+}
+
+.form-row__textarea {
+  @include border-block;
+  width: 30vw;
+  height: 20vh;
+  padding: 0.5vh 0.7vh;
+  resize: none;
+  font-size: 1.8vh;
+  font-family: Roboto, sans-serif;
+}
+
+.form-row__photolabel {
+  @include border-block;
+  font-size: 1vh;
+  min-height: 15vh;
+  max-height: 15vh;
+  min-width: 15vh;
+  max-width: 15vh;
+  margin-right: 1vh;
+  position: relative;
+}
+
+.photo-container {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.product__pic {
+  position: absolute;
+  width: 50%;
+  height: 50%;
+  transform: translate(50%, 50%);
+  object-fit: contain;
+  transition: all .3s cubic-bezier(.175, .885, .32, 1.275);
+  opacity: 0.6;
+
+  &:hover {
+    opacity: 1;
+  }
+}
+
+.product__pic_fullsize {
+  width: 100%;
+  height: 100%;
+  transform: translate(0%, 0%);
+  opacity: 1;
+
+  &:hover {
+    opacity: 0.9;
+  }
+}
+
+.cross {
+  width: 40px;
+  height: 40px;
+  position: absolute;
+  right: -15px;
+  top: -15px;
+  transform: rotate(45deg);
+  -ms-transform: rotate(45deg); /* IE 9 */
+  -webkit-transform: rotate(45deg); /* Safari and Chrome */
+  &:before, &:after {
+    content: "";
+    position: absolute;
+    z-index: -1;
+    background: #d00;
+    border-radius: 20px;
+  }
+
+  &:before {
+    left: 50%;
+    width: 20%;
+    margin-left: -10%;
+    height: 100%;
+  }
+
+  &:after {
+    top: 50%;
+    height: 20%;
+    margin-top: -10%;
+    width: 100%;
+  }
+}
