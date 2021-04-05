@@ -29,8 +29,8 @@ export class RegUserData extends PasswordUserModel {
             sex: this.__sex,
             email: this.__email,
             telephone: this.__telephone,
-            password1: this.__password,
-            password2: this.__password,
+            password1: this.__password1,
+            password2: this.__password2,
             linkImages: this.__linkImages
         };
     }

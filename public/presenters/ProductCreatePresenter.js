@@ -211,10 +211,6 @@ export class ProductCreatePresenter extends BasePresenter {
         };
     }
 
-    tapMap() {
-        alert('sdf');
-    }
-
     /***
      * @author Ivan Gorshkov
      *

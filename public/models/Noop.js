@@ -1,5 +1,8 @@
+
+
+
 /***
  *  noop function
  */
-export const noop = () => {
-};
+// eslint-disable-next-line no-empty-function
+export const noop = () => {};

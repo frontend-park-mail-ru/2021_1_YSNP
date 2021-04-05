@@ -46,6 +46,7 @@ export class Map {
      * @public
      */
    async render(context) {
+       console.log(context);
         this.__parent.insertAdjacentHTML('beforeend', mapTemplate());
         this.__yaMap = new YandexMap();
         this.__yaMap.render({

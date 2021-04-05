@@ -398,7 +398,8 @@ export class RegistrationPresenter extends BasePresenter {
                 dateBirth: date.value,
                 telephone: parseTelNumber(phone.value),
                 email: mail.value,
-                password: password.value
+                password1: password.value,
+                password2: passwordConfirm.value
             });
 
             this.__model.registration(this.__view.getForm())

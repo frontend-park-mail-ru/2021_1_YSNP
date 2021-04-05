@@ -51,6 +51,11 @@ export class ProductModel {
         };
     }
 
+    /***
+     * validation address, validator watching address in ymap
+     * @param{string} address
+     * @return {Promise<{message: [string], error: boolean}|{message: string, error: boolean}|{message: [string], error: boolean}>}
+     */
     async validationPos(address) {
         const minSize = 0;
 
@@ -75,7 +80,7 @@ export class ProductModel {
                     };
                 
             }
-);
+        );
     }
 
     /***

@@ -291,11 +291,20 @@ export class ProductCreateForm {
         button.disabled = true;
     }
 
+    /***
+     *
+     * get city from map
+     * @return {string}
+     */
     getAddress() {
         return this.__yaMap.city;
     }
 
 
+    /***
+     * get position from map
+     * @return {{latitude: number, longitude: number}}
+     */
     getPos() {
         return this.__yaMap.getPointPos();
     }
