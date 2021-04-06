@@ -1,26 +1,26 @@
 import {BasePresenter} from './BasePresenter.js';
-import {MainListModel} from '../models/MainListModel.js';
+import {FavoriteListModel} from '../models/FavoriteListModel.js';
+
+import {EndlessScroll} from '../modules/endlessScroll.js';
+import {PageUpHandler} from '../modules/pageUpHandler.js';
 
 import {router} from '../modules/router';
 import {frontUrls} from '../modules/frontUrls';
 
 import {eventProductListHandler} from '../modules/eventHandler.js';
 
-import {EndlessScroll} from '../modules/endlessScroll.js';
-import {PageUpHandler} from '../modules/pageUpHandler.js';
-
 /***
- * Main presenter
+ * favorite presenter
  */
-export class MainPresenter extends BasePresenter {
+export class UserFavoritePresenter extends BasePresenter {
     /***
      * Class constructor
-     * @param {MainView} view - view
+     * @param view
      */
     constructor(view) {
         super(view);
         this.__view = view;
-        this.__mainListModel = new MainListModel();
+        this.__favoriteListModel = new FavoriteListModel();
         this.__endlessScroll = new EndlessScroll(this.__createListeners().scroll);
         this.__pageUp = new PageUpHandler();
     }
@@ -31,7 +31,7 @@ export class MainPresenter extends BasePresenter {
      */
     async update() {
         return super.update()
-            .then(() => this.__mainListModel.update())
+            .then(() => this.__favoriteListModel.update())
             .catch((err) => {
                 //TODO(Sergey) нормальная обработка ошибок
                 console.log(err.message);
@@ -64,10 +64,11 @@ export class MainPresenter extends BasePresenter {
 
     /***
      * Product List click event
-     * @param {MouseEvent} ev - event
+     * @param {MouseEvent} ev
+     * @private
      */
-    __listenerMainListClick(ev) {
-        eventProductListHandler(ev, this.__getActions().mainList);
+    __listenerFavoriteListClick(ev) {
+        eventProductListHandler(ev, this.__getActions().favoriteList);
     }
 
     /***
@@ -76,9 +77,9 @@ export class MainPresenter extends BasePresenter {
      * @private
      */
     __scrollEnd() {
-        this.__mainListModel.updateNewData()
+        this.__favoriteListModel.updateNewData()
             .then(() => {
-                this.__view.addNewCards(this.__mainListModel.newData);
+                this.__view.addNewCards(this.__favoriteListModel.newData);
             })
             .catch((err) => {
                 //TODO(Sergey) нормальная обработка ошибок
@@ -88,15 +89,15 @@ export class MainPresenter extends BasePresenter {
 
     /***
      * Get view listeners
-     * @returns {{scroll: {scrollEnd: any}, mainList: {productCardClick: {listener: *, type: string}}}}
+     * @returns {{favoriteList: {productCardClick: {listener: *, type: string}}, scroll: {scrollEnd: any}}}
      * @private
      */
     __createListeners() {
         return {
-            mainList: {
+            favoriteList: {
                 productCardClick: {
                     type: 'click',
-                    listener: this.__listenerMainListClick.bind(this)
+                    listener: this.__listenerFavoriteListClick.bind(this)
                 }
             },
             scroll: {
@@ -106,8 +107,8 @@ export class MainPresenter extends BasePresenter {
     }
 
     /***
-     * Like card callback
-     * @param {string} id - product card id
+     *  Like card callback
+     * @param {string} id - card id
      * @private
      */
     __likeCard(id) {
@@ -119,7 +120,7 @@ export class MainPresenter extends BasePresenter {
 
     /***
      * Open card callback
-     * @param {string} id - product card id
+     * @param {string} id - card id
      * @private
      */
     __openCard(id) {
@@ -128,13 +129,13 @@ export class MainPresenter extends BasePresenter {
     }
 
     /***
-     * Get product list actions
-     * @returns {{mainList: {likeClick: {open: *}, cardClick: {open: *}}}}
+     * Get presenter actions
+     * @returns {{favoriteList: {likeClick: {open: *}, cardClick: {open: *}}}}
      * @private
      */
     __getActions() {
         return {
-            mainList: {
+            favoriteList: {
                 cardClick: {
                     open: this.__openCard.bind(this)
                 },
@@ -146,15 +147,18 @@ export class MainPresenter extends BasePresenter {
     }
 
     /***
-     * Make view context
-     * @returns {{mainList: {data: Object[], listeners: {productCardClick: {listener: *, type: string}}}}}
+     * Get view context
+     * @returns {{profileSettings: {data: {linkImage: (*|null), surname: (Object.surname|string|*), sex: (Object.sex|string|*), name: (Object.name|string|*), telephone: (Object.telephone|string|*), dateBirth: (Object.dateBirth|string|*), email: (Object.email|string|*)}}, favoriteList: {data: Object[], listeners: {productCardClick: {listener: *, type: string}}}}}
      * @private
      */
     __makeContext() {
         return {
-            mainList: {
-                data: this.__mainListModel.getData(),
-                listeners: this.__createListeners().mainList
+            favoriteList: {
+                data: this.__favoriteListModel.getData(),
+                listeners: this.__createListeners().favoriteList
+            },
+            profileSettings: {
+                data: this.__userModel.getData()
             }
         };
     }

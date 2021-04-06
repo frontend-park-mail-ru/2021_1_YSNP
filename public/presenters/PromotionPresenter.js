@@ -1,8 +1,7 @@
 import {BasePresenter} from './BasePresenter.js';
 import {router} from '../modules/router';
 import {frontUrls} from '../modules/frontUrls';
-import tariffTemplate from '../components/AdPromotion/Tariff/Tariff.hbs';
-
+import {checkIsAuth} from '../modules/checkAuth.js';
 /***
  * Profile settings presenter
  */
@@ -13,6 +12,7 @@ export class PromotionPresenter extends BasePresenter {
      */
     constructor(view) {
         super(view);
+        this.__view = view;
     }
 
     /***
@@ -29,10 +29,9 @@ export class PromotionPresenter extends BasePresenter {
      */
     async control() {
         await this.update();
-        if (!this.__userModel.isAuth) {
-            router.redirect(frontUrls.registration);
-            return;
-        }
+
+        checkIsAuth();
+
         this.__view.render(this.__makeContext());
     }
 
@@ -42,7 +41,7 @@ export class PromotionPresenter extends BasePresenter {
      * @private
      */
     __listenerPromotionClick(ev) {
-        document.getElementById('promotion-error').classList.remove('promotion-error_visible');
+        this.__view.removeError();
 
         const actions = this.__getActions();
         Object
@@ -103,9 +102,7 @@ export class PromotionPresenter extends BasePresenter {
      * @private
      */
     __setBase() {
-        // this.__pageRemoveListeners();
-        console.log('Click base tariff');
-        this.__setChecked('block-base-tariff', 'base-tariff');
+       this.__view.setBase();
     }
 
     /***
@@ -113,9 +110,7 @@ export class PromotionPresenter extends BasePresenter {
      * @private
      */
     __setImproved() {
-        // this.__pageRemoveListeners();
-        console.log('Click improved tariff');
-        this.__setChecked('block-improved-tariff', 'improved-tariff');
+        this.__view.setImproved();
     }
 
     /***
@@ -123,9 +118,7 @@ export class PromotionPresenter extends BasePresenter {
      * @private
      */
     __setAdvanced() {
-        // this.__pageRemoveListeners();
-        console.log('Click advanced tariff');
-        this.__setChecked('block-advanced-tariff', 'advanced-tariff');
+        this.__view.setAdvanced();
     }
 
     /***
@@ -133,12 +126,7 @@ export class PromotionPresenter extends BasePresenter {
      * @private
      */
     __setNothing() {
-        // this.__pageRemoveListeners();
-        console.log('Click nothing tariff');
-        this.__resetChecked();
-        document
-            .getElementById('no-tariff')
-            .setAttribute('checked', 'true');
+       this.__view.setNothing();
     }
 
     /***
@@ -147,177 +135,33 @@ export class PromotionPresenter extends BasePresenter {
      * @private
      */
     __publishAd(ev) {
-        // this.__pageRemoveListeners();
-        console.log('Click publish');
-        const baseCheck = document.getElementById('base-tariff').textContent;
-        const improvedCheck = document.getElementById('improved-tariff').textContent;
-        const advancedCheck = document.getElementById('advanced-tariff').textContent;
-        const noTariff = document.getElementById('no-tariff').hasAttribute('checked');
-
-        if (baseCheck === 'Выбрано') {
-            console.log('Set base');
-            const price = document.getElementById('base-price').value;
-            this.__sendForm('Базовый', parseInt(price));
-        } else if (improvedCheck === 'Выбрано') {
-            console.log('Set improved');
-            const price = document.getElementById('improved-price').value;
-            this.__sendForm('Улучшенный', parseInt(price));
-        } else if (advancedCheck === 'Выбрано') {
-            console.log('Set advanced');
-            const price = document.getElementById('advanced-price').value;
-            this.__sendForm('Продвинутый', parseInt(price));
-        } else if (noTariff) {
+        const s = this.__view.getSelected();
+        if (s.status === 'nothing') {
+            this.__view.removeListeners();
             ev.preventDefault();
             router.redirect(frontUrls.main);
+        } else if (s.status === 'send') {
+            this.__view.removeListeners();
         } else {
-            this.__showError('promotion-error', 'Выберите какой-нибудь тариф');
+            ev.preventDefault();
         }
-
-    }
-
-    /***
-     * Set pay form fields
-     * @param {string} type - type of tariff
-     * @param {int} sum - price of tariff
-     * @private
-     */
-    __sendForm(type, sum) {
-        document.getElementById('promotion-title').value = `KOYA: покупка продвижения объявления по тарифу ${type}`;
-        document.getElementById('promotion-type').value = `KOYA: покупка продвижения объявления по тарифу ${type}`;
-        document.getElementById('promotion-sum').value = sum;
-        document.getElementById('promotion-label').value += `, ${type}`;
-        document.getElementById('promotion-description').value = `KOYA: Покупка продвижения объявления по тарифу ${type}`;
-        console.log('wtf');
-    }
-
-    /***
-     * Show error
-     * @param errorId
-     * @param message
-     * @private
-     */
-    __showError(errorId, message) {
-        document.getElementById(errorId).textContent = message;
-        document.getElementById(errorId).classList.add('promotion-error_visible');
-    }
-
-    /***
-     * Reset checked blocks
-     * @private
-     */
-    __resetChecked() {
-        document
-            .getElementById('base-tariff')
-            .classList.remove('tariffs__button_checked');
-        document
-            .getElementById('improved-tariff')
-            .classList.remove('tariffs__button_checked');
-        document
-            .getElementById('advanced-tariff')
-            .classList.remove('tariffs__button_checked');
-        document
-            .getElementById('no-tariff')
-            .removeAttribute('checked');
-        document
-            .getElementById('base-tariff')
-            .textContent = 'Выбрать';
-        document
-            .getElementById('improved-tariff')
-            .textContent = 'Выбрать';
-        document
-            .getElementById('advanced-tariff')
-            .textContent = 'Выбрать';
-
-        document
-            .getElementById('block-advanced-tariff')
-            .classList.remove('tariffs-block_checked');
-        document
-            .getElementById('block-improved-tariff')
-            .classList.remove('tariffs-block_checked');
-        document
-            .getElementById('block-base-tariff')
-            .classList.remove('tariffs-block_checked');
-    }
-
-    /***
-     * Set block selected
-     * @param {string} blockId - id of block to set selected
-     * @param {string} buttonId - id of button in block
-     * @private
-     */
-    __setChecked(blockId, buttonId) {
-        this.__resetChecked();
-        document
-            .getElementById(blockId)
-            .classList.add('tariffs-block_checked');
-        document
-            .getElementById(buttonId)
-            .classList.add('tariffs__button_checked');
-        document
-            .getElementById(buttonId)
-            .textContent = 'Выбрано';
-    }
-
-    /***
-     * Returns tariff templates
-     * @returns {{tariffs: [tariffTemplate, tariffTemplate, tariffTemplate]}}
-     */
-    fillTariffData() {
-        const tariff1 = {
-            name: 'Базовый',
-            price: '2',
-            description: [
-                'Объявление показывается в ленте в 10 раз чаще'
-            ],
-            idBlock: 'block-base-tariff',
-            idButton: 'base-tariff',
-            action: 'baseClick',
-            idPrice: 'base-price'
-        };
-        const tariff2 = {
-            name: 'Улучшенный',
-            price: '199',
-            description: [
-                'Объявление показывается в ленте в 10 раз чаще',
-                'Объявление выделяется красным цветом'
-            ],
-            idBlock: 'block-improved-tariff',
-            idButton: 'improved-tariff',
-            action: 'improvedClick',
-            idPrice: 'improved-price'
-        };
-        const tariff3 = {
-            name: 'Продвинутый',
-            price: '399',
-            description: [
-                'Объявление показывается в ленте в 10 раз чаще',
-                'Объявление выделяется красным цветом',
-                'Публикация в приложении “Вконтакте”'
-            ],
-            idBlock: 'block-advanced-tariff',
-            idButton: 'advanced-tariff',
-            action: 'advancedClick',
-            idPrice: 'advanced-price'
-        };
-        return {
-            tariffs: [
-                tariffTemplate(tariff1),
-                tariffTemplate(tariff2),
-                tariffTemplate(tariff3)
-            ]
-        };
     }
 
     /***
      * Make view context
-     * @returns {{promotion: {data: {tariffs: tariffTemplate[]}, listeners: {promotionClick: {listener: *, type: string}}}}}
+     * @returns {{promotion: {listeners: {promotionClick: {listener: *, type: string}}, idProduct}}}
      * @private
      */
     __makeContext() {
+        let id = '';
+        try {
+            id = router.getState().id;
+        } catch (e) {
+            router.redirect(frontUrls.productCreate);
+        }
         return {
             promotion: {
-                data: this.fillTariffData(),
-                idProduct: router.getState().id,
+                idProduct: id,
                 listeners: this.__createListeners()
             }
         };

@@ -32,14 +32,6 @@ class FrontUrls {
     }
 
     /***
-     * Get profile page
-     * @returns {string}
-     */
-    get profile() {
-        return '/profile';
-    }
-
-    /***
      * Get registration page
      * @returns {string}
      */
@@ -56,14 +48,6 @@ class FrontUrls {
     }
 
     /***
-     * Get favorite page
-     * @returns {string}
-     */
-    get favorite() {
-        return '/favorite';
-    }
-
-    /***
      * Get promotion page
      * @returns {string}
      */
@@ -72,11 +56,35 @@ class FrontUrls {
     }
 
     /***
-     * Get my ads page
+     * Get profile page
      * @returns {string}
      */
-    get myAds() {
-        return '/ads';
+    get userProfile() {
+        return '/user/profile';
+    }
+
+    /***
+     * Get ads page
+     * @returns {string}
+     */
+    get userAd() {
+        return '/user/ad';
+    }
+
+    /***
+     * Get chat page
+     * @returns {string}
+     */
+    get userChats() {
+        return '/user/chats';
+    }
+
+    /***
+     * Get favorite page
+     * @returns {string}
+     */
+    get userFavorite() {
+        return '/user/favorite';
     }
 }
 

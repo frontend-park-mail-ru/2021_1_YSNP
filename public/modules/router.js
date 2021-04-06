@@ -9,7 +9,6 @@ class Router {
      */
     constructor() {
         this.__routes = [];
-
         this.__addRouterListeners();
     }
 
@@ -18,8 +17,7 @@ class Router {
      */
     start() {
         const route = this.__getCurrentRoute();
-
-        route.callback.call(this, this.__getParamsFromRegExp(route));
+        this.__removeListeners = route.callback.call(this, this.__getParamsFromRegExp(route));
     }
 
     /***
@@ -51,10 +49,25 @@ class Router {
     }
 
     /***
+     * Add not found callback
+     * @param {Function} callback - not found callback
+     */
+    addNotFound(callback) {
+        this.__notFoundCallback = callback;
+    }
+
+    /***
      * Go to previous page
      */
     goBack() {
         window.history.back();
+    }
+
+    /***
+     * Go to next page
+     */
+    goForward() {
+        window.history.forward();
     }
 
     /***
@@ -78,22 +91,25 @@ class Router {
     }
 
     /***
-     * Go to next page
-     */
-    goForward() {
-        window.history.forward();
-    }
-
-    /***
      * Redirect to url
      * @param {string} url - redirect url
      * @param {string} title - redirect title
      * @param {Object} state - redirect state
      */
     redirect(url, title = '', state = {}) {
+        this.__removePageListeners();
+
         window.history.pushState(state, title, url);
         return this.start();
     }
+
+    /***
+     * Redirect not found
+     */
+    redirectNotFound() {
+        this.__notFoundCallback();
+    }
+
 
     /***
      * Set page state
@@ -110,6 +126,16 @@ class Router {
      */
     getState() {
         return window.history.state;
+    }
+
+    /***
+     * Remove page listeners
+     * @private
+     */
+    __removePageListeners() {
+        if (this.__removeListeners) {
+            this.__removeListeners();
+        }
     }
 
     /***
@@ -222,10 +248,10 @@ class Router {
      * @private
      */
     __getCurrentRoute() {
-        let route = this.__routes.find((route) => this.__getCurrentPath().match(route.regExp), this);
+        const route = this.__routes.find((route) => this.__getCurrentPath().match(route.regExp), this);
 
         if (route === undefined) {
-            route = this.__routes.find((router) => router.url === '/', this);
+            this.redirectNotFound();
         }
 
         return route;

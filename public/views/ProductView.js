@@ -54,7 +54,7 @@ export class ProductView extends BaseView {
      * @author Ivan Gorshkov
      *
      * get HTMLElement of layout
-     * @return {HTMLElement}
+     * @return {Element}
      * @this {ProductView}
      */
     getLayoutParent() {

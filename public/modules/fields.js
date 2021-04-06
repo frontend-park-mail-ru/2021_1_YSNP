@@ -15,86 +15,86 @@ import {backUrls} from './backUrls.js';
  * @return {Object} - fields of registration
  */
 export const baseRegistration = {
-        name: {
-            title: 'Имя*',
-            placeholder: 'Имя',
-            inputType: 'text',
-            id: 'name',
-            dataAction: 'inputEmpty',
-            params: '',
-            template: fieldTemplate.bind()
-        },
-        surname: {
-            title: 'Фамилия*',
-            placeholder: 'Фамилия',
-            inputType: 'text',
-            id: 'surname',
-            dataAction: 'inputEmpty',
-            params: '',
-            template: fieldTemplate.bind()
-        },
-        phone: {
-            title: 'Телефон*',
-            placeholder: 'Телефон',
-            inputType: 'tel',
-            id: 'phone',
-            dataAction: 'inputPhone',
-            params: '',
-            template: fieldPhoneTemplate.bind()
-        },
-        mail: {
-            title: 'Почта*',
-            placeholder: 'Почта',
-            inputType: 'email',
-            id: 'mail',
-            dataAction: 'inputMail',
-            params: '',
-            template: fieldTemplate.bind()
-        },
-        password: {
-            title: 'Пароль*',
-            placeholder: 'Пароль',
-            inputType: 'password',
-            id: 'password',
-            dataAction: 'changePwd',
-            params: '',
-            template: fieldTemplate.bind()
-        },
-        passwordConfirm: {
-            title: 'Повторите пароль*',
-            placeholder: 'Пароль',
-            inputType: 'password',
-            id: 'passwordConfirm',
-            dataAction: 'inputConfirmPwd',
-            params: '',
-            template: fieldTemplate.bind()
-        },
-        date: {
-            title: 'Дата рождения*',
-            placeholder: 'дд-мм-гггг',
-            inputType: 'date',
-            id: 'date',
-            dataAction: 'inputEmpty',
-            params: 'min="1890-01-01"',
-            template: fieldTemplate.bind()
-        },
-        sex: {
-            title: 'Пол',
-            id: 'sex',
-            template: fieldSelectTemplate.bind(),
-            options: [{
-                    value: 'female',
-                    title: 'Женский'
-                }, {
-                    value: 'male',
-                    title: 'Мужской'
-                }]
-        },
-        avatar: {
-            title: 'Фото',
-            template: fieldAvatarTemplate.bind()
-        }
-    };
+    name: {
+        title: 'Имя*',
+        placeholder: 'Имя',
+        inputType: 'text',
+        id: 'name',
+        dataAction: 'inputEmpty',
+        params: '',
+        template: fieldTemplate.bind()
+    },
+    surname: {
+        title: 'Фамилия*',
+        placeholder: 'Фамилия',
+        inputType: 'text',
+        id: 'surname',
+        dataAction: 'inputEmpty',
+        params: '',
+        template: fieldTemplate.bind()
+    },
+    phone: {
+        title: 'Телефон*',
+        placeholder: 'Телефон',
+        inputType: 'tel',
+        id: 'phone',
+        dataAction: 'inputPhone',
+        params: '',
+        template: fieldPhoneTemplate.bind()
+    },
+    mail: {
+        title: 'Почта*',
+        placeholder: 'Почта',
+        inputType: 'email',
+        id: 'mail',
+        dataAction: 'inputMail',
+        params: '',
+        template: fieldTemplate.bind()
+    },
+    password: {
+        title: 'Пароль*',
+        placeholder: 'Пароль',
+        inputType: 'password',
+        id: 'password',
+        dataAction: 'changePwd',
+        params: '',
+        template: fieldTemplate.bind()
+    },
+    passwordConfirm: {
+        title: 'Повторите пароль*',
+        placeholder: 'Пароль',
+        inputType: 'password',
+        id: 'passwordConfirm',
+        dataAction: 'inputConfirmPwd',
+        params: '',
+        template: fieldTemplate.bind()
+    },
+    date: {
+        title: 'Дата рождения*',
+        placeholder: 'дд-мм-гггг',
+        inputType: 'date',
+        id: 'date',
+        dataAction: 'inputEmpty',
+        params: 'min="1890-01-01"',
+        template: fieldTemplate.bind()
+    },
+    sex: {
+        title: 'Пол',
+        id: 'sex',
+        template: fieldSelectTemplate.bind(),
+        options: [{
+            value: 'female',
+            title: 'Женский'
+        }, {
+            value: 'male',
+            title: 'Мужской'
+        }]
+    },
+    avatar: {
+        title: 'Фото',
+        template: fieldAvatarTemplate.bind()
+    }
+};
 
 /***
  *
@@ -113,7 +113,7 @@ export let categories;
 const getOptionsType = [
     {title: 'Новое'},
     {title: 'Б/у'}
-    ];
+];
 
 
 /***

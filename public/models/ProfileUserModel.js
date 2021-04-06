@@ -25,15 +25,6 @@ export class ProfileUserModel extends PasswordUserModel {
     }
 
     /***
-     * Fill user new password
-     * @param data
-     */
-    fillNewPassword(data) {
-        this.__oldPassword = data.oldPass;
-        this.__newPassword = data.newPass;
-    }
-
-    /***
      * Is auth user
      * @returns {boolean|*}
      */
@@ -48,8 +39,9 @@ export class ProfileUserModel extends PasswordUserModel {
      */
     __jsonPassword() {
         return {
-            oldPassword: this.__oldPassword,
-            newPassword: this.__newPassword
+            oldPassword: this.__password,
+            newPassword1: this.__password1,
+            newPassword2: this.__password2
         };
     }
 
@@ -67,7 +59,7 @@ export class ProfileUserModel extends PasswordUserModel {
             email: this.__email,
             telephone: this.__telephone,
             password: this.__password,
-            linkImages: [this.__linkImages]
+            linkImages: this.__linkImages
         };
     }
 
@@ -92,37 +84,41 @@ export class ProfileUserModel extends PasswordUserModel {
             sex: this.__sex,
             email: this.__email,
             telephone: this.__telephone,
-            linkImage: this.__linkImages !== undefined ? this.getFirstImage() : []
+            linkImage: this.__linkImages
         };
     }
 
     /***
      * Post settings user data to backend
-     * @returns {Promise<{isUpdate: boolean}>}
+     * @param {HTMLElement} form - settings form
+     * @param {boolean} isChangeImg - is image been changed
+     * @returns {Promise<{isUpdate: boolean}|void|{message: string, isUpdate: boolean}>}
      */
-    async settings() {
+    async settings(form, isChangeImg) {
         return http.post(backUrls.settings, this.__jsonData())
             .then(({status}) => {
                 if (status === httpStatus.StatusOK) {
-                    return http.post(urls.upload, new FormData(form), true)
-                        .then(({status, data}) => {
-                            if (status === httpStatus.StatusBadRequest) {
-                                throw new Error(data.message);
-                            }
+                    if (isChangeImg) {
+                        return http.post(backUrls.upload, new FormData(form), true)
+                            .then(({status, data}) => {
+                                if (status === httpStatus.StatusBadRequest) {
+                                    throw new Error(data.message);
+                                }
 
-                            if (status === httpStatus.StatusUnauthorized) {
-                                throw new Error(data.message);
-                            }
+                                if (status === httpStatus.StatusUnauthorized) {
+                                    throw new Error(data.message);
+                                }
 
-                            if (status === httpStatus.StatusInternalServerError) {
-                                throw new Error(data.message);
-                            }
-                            this.__isAuth = false;
-                            return {isUpdate: true};
-                        })
-                        .catch((err) => {
-                            throw err;
-                        });
+                                if (status === httpStatus.StatusInternalServerError) {
+                                    throw new Error(data.message);
+                                }
+                                this.__isAuth = false;
+                                return {isUpdate: true};
+                            })
+                            .catch((err) => {
+                                throw err;
+                            });
+                    }
                 }
 
                 if (status === httpStatus.StatusUnauthorized) {

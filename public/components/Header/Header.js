@@ -38,28 +38,6 @@ export class Header {
     }
 
     /***
-     * Open/Close dropdown menu
-     */
-    toggleDropdownMenu() {
-        document
-            .getElementById('header-dropdown-content')
-            .classList
-            .toggle('header-dropdown-content_hidden');
-    }
-
-    /***
-     * Remove dropdown menu
-     */
-    closeDropdownMenu() {
-        if (this.__data.isAuth) {
-            document
-                .getElementById('header-dropdown-content')
-                .classList
-                .add('header-dropdown-content_hidden');
-        }
-    }
-
-    /***
      * Add component listeners
      */
     __addListeners() {
@@ -79,6 +57,25 @@ export class Header {
     }
 
     /***
+     * Remove component listeners
+     */
+    removeListeners() {
+        document
+            .getElementById('header')
+            .removeEventListener(this.__context.listeners.headerClick.type, this.__context.listeners.headerClick.listener);
+
+        document
+            .getElementById('app')
+            .removeEventListener(this.__context.listeners.pageClick.type, this.__context.listeners.pageClick.listener);
+
+        if (this.__context.data.isAuth) {
+            document
+                .getElementById('header-dropdown')
+                .removeEventListener(this.__context.listeners.dropdownClick.type, this.__context.listeners.dropdownClick.listener);
+        }
+    }
+
+    /***
      * Add component to parent
      */
     render(context) {
@@ -88,7 +85,7 @@ export class Header {
             this.__parent.insertAdjacentHTML('beforeend', headerTemplate(this.__context.data));
             this.__addListeners();
         } catch (err) {
-            console.log();
+            console.log(err.message);
         }
     }
 }

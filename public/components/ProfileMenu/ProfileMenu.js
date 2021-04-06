@@ -7,7 +7,7 @@ import profileMenuTemplate from './ProfileMenu.hbs';
 export class ProfileMenu {
     /***
      * Class constructor
-     * @param {HTMLElement} parent - element where the component will be inserted
+     * @param {Element} parent - element where the component will be inserted
      * @param {Object} page - name of opened page
      */
     constructor(parent, page) {

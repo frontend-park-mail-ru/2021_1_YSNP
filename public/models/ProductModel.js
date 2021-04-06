@@ -45,8 +45,9 @@ export class ProductModel {
                 error: true
             };
         }
+
         return {
-            message: '',
+            message: [''],
             error: false
         };
     }
@@ -104,8 +105,9 @@ export class ProductModel {
                 error: true
             };
         }
+
         return {
-            message: '',
+            message: [''],
             error: false
         };
     }
@@ -118,7 +120,7 @@ export class ProductModel {
     validationAmount(amount) {
         if (amount !== '') {
             return {
-                message: '',
+                message: [''],
                 error: false
             };
         }
@@ -126,6 +128,35 @@ export class ProductModel {
 
         return {
             message: ['Поле не должно быть пустым'],
+            error: true
+        };
+    }
+
+    /***
+     * Validate images size
+     * @param {HTMLElement} form - page form
+     * @returns {{message: string, error: boolean}}
+     */
+    validationImages(form) {
+        const maxSize = 10 * 1024 * 1024;
+        const photos = (new FormData(form)).getAll('photos');
+
+        let size = 0;
+        photos.forEach((file) => {
+            if (file.name !== '') {
+                size += file.size;
+            }
+        });
+
+        if (size < maxSize) {
+            return {
+                message: '',
+                error: false
+            };
+        }
+
+        return {
+            message: 'Слишком большой размер фото',
             error: true
         };
     }
@@ -205,23 +236,41 @@ export class ProductModel {
      * @returns {{date: (Object.date|string|*), amount: (Object.amount|number|*), linkImage: string, name: (Object.name|string|*), id: (Object.id|string|*), userLiked: (Object.userLiked|boolean|*)}}
      */
     getMainData() {
+
+
+        return {
+            id: this.__id,
+            name: this.__name,
+            date: this.__getDate(),
+            amount: this.__getAmount(),
+            userLiked: this.__userLiked,
+            linkImage: this.__getFirstImage(),
+            status: 0
+        };
+    }
+
+    /***
+     * Get locale date
+     * @returns {string}
+     * @private
+     */
+    __getDate() {
         const date = new Date(this.__date);
-        const day = date.toLocaleDateString('ru-RU', {
+        return date.toLocaleDateString('ru-RU', {
             weekday: 'short',
             day: 'numeric',
             month: 'short',
             year: 'numeric'
         });
+    }
 
-        return {
-            id: this.__id,
-            name: this.__name,
-            date: day,
-            amount: `${this.__amount.toLocaleString()} ₽`,
-            userLiked: this.__userLiked,
-            linkImage: this.__getFirstImage(),
-            status: 0
-        };
+    /***
+     * Get locale amount
+     * @returns {string}
+     * @private
+     */
+    __getAmount() {
+        return `${this.__amount.toLocaleString()} ₽`;
     }
 
     /***
@@ -255,7 +304,7 @@ export class ProductModel {
      * @returns {Promise<void>}
      */
     async create(form) {
-        return http.post(backUrls.productUploadPhotos, new FormData(form), true)
+        return http.post(backUrls.productCreate, this.__jsonData())
             .then(({status, data}) => {
                 if (status === httpStatus.StatusUnauthorized) {
                     throw new Error('Пользователь не авторизован');
@@ -272,12 +321,30 @@ export class ProductModel {
                     // throw new Error(data.message);
                 }
 
-                this.__linkImages = data.linkImages;
-                const model = this.__jsonData();
-                return http.post(backUrls.productCreate, model);
-                // TODO(Ivan) а проверка на ошибки?
-            }).catch((err) => {
+                this.__id = data.id;
+                return http.post(backUrls.productUploadPhotos + this.__id, new FormData(form), true)
+                    .then(({status}) => {
+                        if (status === httpStatus.StatusUnauthorized) {
+                            throw new Error('Пользователь не авторизован');
+                            // throw new Error(data.message);
+                        }
+
+                        if (status === httpStatus.StatusBadRequest) {
+                            throw new Error('Неправильные данные');
+                            // throw new Error(data.message);
+                        }
+
+                        if (status === httpStatus.StatusInternalServerError) {
+                            throw new Error('Ошибка сервера');
+                            // throw new Error(data.message);
+                        }
+
+                        return {id: this.__id};
+                    });
+            })
+            .catch((err) => {
                 console.log(err.message);
+                throw err;
             });
     }
 }

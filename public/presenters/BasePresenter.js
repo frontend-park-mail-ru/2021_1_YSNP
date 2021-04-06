@@ -1,7 +1,7 @@
 import {router} from '../modules/router.js';
 import {frontUrls} from '../modules/frontUrls.js';
 import {eventHandler} from '../modules/eventHandler.js';
-import {parseTelNumber, telMask} from '../modules/telMask';
+import {parseTelNumber, telMask} from '../modules/mask.js';
 
 import {user} from '../models/ProfileUserModel.js';
 import {AuthUserModel} from '../models/AuthUserModel.js';
@@ -37,6 +37,29 @@ export class BasePresenter {
                 //TODO(Sergey) нормальная обработка ошибок
                 console.log(err.message);
             });
+    }
+
+    /***
+     * Control view
+     * @returns {Promise<void>}
+     */
+    async control() {
+        throw new Error('virtual method not initialized!');
+    }
+
+    /***
+     * Remove page listeners
+     */
+    removePageListeners() {
+        if (this.__isShownAuth) {
+            this.__view.removeAuth();
+        }
+
+        if (this.__isShownMap) {
+            this.__view.removeMap();
+        }
+
+        this.__view.removeHeaderListeners();
     }
 
     /***
@@ -149,7 +172,7 @@ export class BasePresenter {
 
     /***
      * Create view listeners
-     * @returns {{auth: {submitForm: {listener: any, type: string}, authClick: {listener: *, type: string}, keyClick: {listener: *, type: string}, telFocus: {listener: telMask, type: string}, telInput: {listener: telMask, type: string}, telBlur: {listener: telMask, type: string}}, header: {dropdownClick: {listener: *, type: string}, pageClick: {listener: *, type: string}, headerClick: {listener: *, type: string}}}}
+     * @returns {{auth: {submitForm: {listener: any, type: string}, authClick: {listener: *, type: string}, keyClick: {listener: *, type: string}, telFocus: {listener: mask, type: string}, telInput: {listener: mask, type: string}, telBlur: {listener: mask, type: string}}, header: {dropdownClick: {listener: *, type: string}, pageClick: {listener: *, type: string}, headerClick: {listener: *, type: string}}}}
      * @private
      */
     __createBaseListeners() {
@@ -326,6 +349,8 @@ export class BasePresenter {
     __createUserAddress() {
         console.log(this.__yaMap.getPointPos());
         console.log(this.__yaMap.getAddress());
+
+        this.__closeMap();
     }
 
     /***
@@ -373,7 +398,7 @@ export class BasePresenter {
 
     /***
      * Make view context
-     * @returns {{auth: {listeners: {submitForm: {listener: *, type: string}, authClick: {listener: *, type: string}, keyClick: {listener: *, type: string}, telFocus: {listener: telMask, type: string}, telInput: {listener: telMask, type: string}, telBlur: {listener: telMask, type: string}}}, header: {data: {isAuth: (boolean|*), linkImage: (*|null), surname: (Object.surname|string|*), name: (Object.name|string|*)}, listeners: {dropdownClick: {listener: *, type: string}, pageClick: {listener: *, type: string}, headerClick: {listener: *, type: string}}}}}
+     * @returns {{auth: {listeners: {submitForm: {listener: *, type: string}, authClick: {listener: *, type: string}, keyClick: {listener: *, type: string}, telFocus: {listener: mask, type: string}, telInput: {listener: mask, type: string}, telBlur: {listener: mask, type: string}}}, header: {data: {isAuth: (boolean|*), linkImage: (*|null), surname: (Object.surname|string|*), name: (Object.name|string|*)}, listeners: {dropdownClick: {listener: *, type: string}, pageClick: {listener: *, type: string}, headerClick: {listener: *, type: string}}}}}
      * @private
      */
     __makeBaseContext() {

@@ -55,8 +55,13 @@ export class Layout {
         }
     }
 
+    /***
+     * Get main parent
+     * @returns {HTMLElement}
+     */
     get mainParent() {
-        return document.getElementById('layout-main-parent');
+        this.__checkIsMain();
+        return document.getElementById('layout');
     }
 
     /***

@@ -99,6 +99,13 @@ export class BaseView {
     }
 
     /***
+     * Remove header listeners
+     */
+    removeHeaderListeners() {
+        this.__header.removeListeners();
+    }
+
+    /***
      * Render view
      */
     render() {

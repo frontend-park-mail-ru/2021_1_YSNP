@@ -55,37 +55,6 @@ export class Switch {
         }
     }
 
-    // __listener(ev) {
-    //     console.log(ev);
-    // }
-    //
-    // __makeContext() {
-    //     return {
-    //         data: {
-    //             title: 'Все объявления',
-    //             hasButtons: true,
-    //             buttons: [
-    //                 {
-    //                     name: 'button1',
-    //                     title: 'Кнопка 1',
-    //                     action: 'button1Click'
-    //                 },
-    //                 {
-    //                     name: 'button2',
-    //                     title: 'Кнопка 2',
-    //                     action: 'button2Click'
-    //                 }
-    //             ]
-    //         },
-    //         listeners: {
-    //             buttonsClick: {
-    //                 type: 'click',
-    //                 listener: this.__listener.bind(this)
-    //             }
-    //         }
-    //     };
-    // }
-
     /***
      * Add component to parent
      * @param {Object} context - component context
