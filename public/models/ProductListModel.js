@@ -30,6 +30,22 @@ export class ProductListModel {
     }
 
     /***
+     * Parse object to model
+     * @param {Object} data - product list data
+     * @public
+     */
+    setNewData(data) {
+        this.__newData = data.reduce((accum, el) => {
+            const product = new ProductModel(el);
+            accum.push(product);
+
+            return accum;
+        }, []);
+
+        this.__productList = this.__productList.concat(this.__newData);
+    }
+
+    /***
      * Get product list data
      * @returns {Object[]}
      */

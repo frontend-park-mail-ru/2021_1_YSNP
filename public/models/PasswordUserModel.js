@@ -20,6 +20,7 @@ export class PasswordUserModel extends UserModel {
      */
     fillUserData(data) {
         super.fillUserData(data);
+        console.log(data);
         this.__password = data.password;
         this.__password1 = data.password1;
         this.__password2 = data.password2;

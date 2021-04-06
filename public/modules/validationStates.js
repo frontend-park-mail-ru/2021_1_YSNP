@@ -35,7 +35,7 @@ export function insertError(target, idError, textError) {
         const el = document.createElement('div');
         el.id = idError;
         el.innerHTML = textError;
-        // el.className = 'error-hidden';
+        el.className = 'error-hidden';
 
         target.parentNode.insertBefore(el, target.nextSibling);
     }

@@ -6,10 +6,10 @@
 }
 
 .form-row__textarea {
-    box-sizing: border-box;
     border-radius: 5px;
     width: 30vw;
     height: 20vh;
+    min-width: 30vw;
     padding: 0.5vh 0.7vh;
     resize: none;
     border: 1px solid rgba(0, 0, 0, 0.2);
@@ -93,3 +93,15 @@
     width: 100%;
 }
 
+.map-product {
+    height: 50vh;
+    margin-left: 1vw;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 1vw;
+    margin-top: 1vw;
+    border-radius: 5px;
+    border: 1px solid rgba(0, 0, 0, 0.2);
+}

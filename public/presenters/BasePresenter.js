@@ -119,7 +119,7 @@ export class BasePresenter {
 
         const {error, message} = this.__authModel.validateData({
             telephone: telephone,
-            password: password
+            password1: password
         });
 
         if (error) {
@@ -253,7 +253,8 @@ export class BasePresenter {
         this.__yaMap.render({
             searchControl: true,
             geolocationControl: true,
-            listeners: true
+            listeners: true,
+            id: 'ya-map'
         });
     }
 
