@@ -49,6 +49,14 @@ class Router {
     }
 
     /***
+     * Add not found callback
+     * @param {Function} callback - not found callback
+     */
+    addNotFound(callback) {
+        this.__notFoundCallback = callback;
+    }
+
+    /***
      * Go to previous page
      */
     goBack() {
@@ -94,6 +102,14 @@ class Router {
         window.history.pushState(state, title, url);
         return this.start();
     }
+
+    /***
+     * Redirect not found
+     */
+    redirectNotFound() {
+        this.__notFoundCallback();
+    }
+
 
     /***
      * Set page state
@@ -232,10 +248,10 @@ class Router {
      * @private
      */
     __getCurrentRoute() {
-        let route = this.__routes.find((route) => this.__getCurrentPath().match(route.regExp), this);
+        const route = this.__routes.find((route) => this.__getCurrentPath().match(route.regExp), this);
 
         if (route === undefined) {
-            route = this.__routes.find((router) => router.url === '/', this);
+            this.redirectNotFound();
         }
 
         return route;
