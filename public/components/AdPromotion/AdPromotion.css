@@ -1,7 +1,7 @@
 .promotion {
     font-style: normal;
     font-weight: normal;
-    width: 80vw;
+    /*width: 100%;*/
     background: white;
     border-radius: 1vh;
     box-shadow: 0 0 1vw rgb(0 0 0 / 20%);
@@ -112,7 +112,7 @@
 }
 
 .promotion-product {
-    width: 82vw;
+    /*width: 100%;*/
     background: white;
     border-radius: 1vh;
     box-shadow: 0 0 1vw rgb(0 0 0 / 20%);
