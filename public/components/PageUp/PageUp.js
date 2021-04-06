@@ -84,6 +84,14 @@ export class PageUp {
     }
 
     /***
+     * Remove listeners
+     * @private
+     */
+    __removeListeners() {
+        this.__getPageUp().removeEventListener(this.__context.pageUpClick.type, this.__context.pageUpClick.listener);
+    }
+
+    /***
      * Add component to parent
      */
     render(context) {
@@ -92,6 +100,18 @@ export class PageUp {
 
             this.__parent.insertAdjacentHTML('beforeend', pageUpTemplate());
             this.__addListeners();
+        } catch (err) {
+            console.log(err.message);
+        }
+    }
+
+    /***
+     * Remove component from parent
+     */
+    remove() {
+        try {
+            this.__removeListeners();
+            this.__getPageUp().remove();
         } catch (err) {
             console.log(err.message);
         }

@@ -4,7 +4,7 @@ import {router} from '../modules/router.js';
 import {ProductListModel} from '../models/ProductListModel.js';
 import {frontUrls} from '../modules/frontUrls.js';
 import {SearchModel} from '../models/SearchModel.js';
-import {amountMask} from '../modules/amountMask.js';
+import {amountMask} from '../modules/mask.js';
 import {PageUpHandler} from '../modules/pageUpHandler.js';
 import {noop} from '../models/Noop';
 /***
@@ -34,9 +34,7 @@ export class SearchPresenter extends BasePresenter {
      */
     async update() {
         return super.update()
-            .then(() => this.__productListModel.update())
             .catch((err) => {
-                //TODO(Sergey) нормальная обработка ошибок
                 console.log(err.message);
             });
     }
@@ -49,7 +47,7 @@ export class SearchPresenter extends BasePresenter {
      */
     async control() {
         await this.update();
-        this.__view.render(this.__makeContext());
+        this.__view.render(this.__makeContext()).then(() => this.__search());
         (new PageUpHandler()).start();
     }
 
@@ -207,8 +205,8 @@ export class SearchPresenter extends BasePresenter {
         const {fromAmount, toAmount, search} = this.__view.getAllFields();
         this.__model.fillProductModel({
             category: sessionStorage.getItem('category'),
-            fromAmount: parseInt(fromAmount.value.replace(/[^0-9]/g, '')),
-            toAmount: parseInt(toAmount.value.replace(/[^0-9]/g, '')),
+            fromAmount: parseInt(fromAmount.value.replace(/[^0-9]/g, '', 0)),
+            toAmount: parseInt(toAmount.value.replace(/[^0-9]/g, ''), 0),
             date: sessionStorage.getItem('date'),
             radius: 5,
             sorting: sessionStorage.getItem('sort'),

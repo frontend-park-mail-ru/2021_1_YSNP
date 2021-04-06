@@ -5,46 +5,41 @@ import './style.css';
 import {router} from './modules/router.js';
 import {frontUrls} from './modules/frontUrls.js';
 
-import {FavoriteView} from './views/FavoriteView.js';
+import {UserFavoriteView} from './views/UserFavoriteView.js';
 import {MainView} from './views/MainView.js';
-import {MyAdsView} from './views/MyAdsView.js';
+import {UserAdView} from './views/UserAdView.js';
 import {ProductCreateView} from './views/ProductCreateView.js';
 import {ProductView} from './views/ProductView.js';
-import {ProfileView} from './views/ProfileView.js';
+import {UserProfileView} from './views/UserProfileView.js';
 import {RegistrationView} from './views/RegistrationView.js';
 import {SearchView} from './views/SearchView.js';
 import {PromotionView} from './views/PromotionView.js';
+import {NotFoundView} from './views/NotFoundView.js';
 
-import {FavoritePresenter} from './presenters/FavoritePresenter.js';
+import {UserFavoritePresenter} from './presenters/UserFavoritePresenter.js';
 import {MainPresenter} from './presenters/MainPresenter.js';
-import {MyAdsPresenter} from './presenters/MyAdsPresenter.js';
+import {UserAdPresenter} from './presenters/UserAdPresenter.js';
 import {ProductCreatePresenter} from './presenters/ProductCreatePresenter.js';
 import {ProductPresenter} from './presenters/ProductPresenter.js';
-import {ProfilePresenter} from './presenters/ProfilePresenter.js';
+import {UserProfilePresenter} from './presenters/UserProfilePresenter.js';
 import {RegistrationPresenter} from './presenters/RegistrationPresenter.js';
 import {SearchPresenter} from './presenters/SearchPresenter.js';
 import {PromotionPresenter} from './presenters/PromotionPresenter.js';
+import {NotFoundPresenter} from './presenters/NotFoundPresenter.js';
 import {baseCreateProduct, baseRegistration} from './modules/fields.js';
 
 const app = document.getElementById('app');
 
-const favoriteView = new FavoriteView(app);
+const favoriteView = new UserFavoriteView(app);
 const mainView = new MainView(app);
-const myAdsView = new MyAdsView(app);
+const adView = new UserAdView(app);
 const productCreateView = new ProductCreateView(app, baseCreateProduct);
 const productView = new ProductView(app);
-const profileView = new ProfileView(app);
+const profileView = new UserProfileView(app);
 const registrationView = new RegistrationView(app, baseRegistration);
 const searchView = new SearchView(app);
 const promotionView = new PromotionView(app);
-
-/***
- * Open user favorite page
- */
-const doFavorite = () => {
-    const favoritePresenter = new FavoritePresenter(favoriteView);
-    favoritePresenter.control();
-};
+const notFoundView = new NotFoundView(app);
 
 /***
  * Open main page
@@ -52,14 +47,18 @@ const doFavorite = () => {
 const doMain = () => {
     const mainPresenter = new MainPresenter(mainView);
     mainPresenter.control();
+
+    return mainPresenter.removePageListeners.bind(mainPresenter);
 };
 
 /***
- * Open user ads page
+ * Open registration page
  */
-const doMyAds = () => {
-    const myAdsPresenter = new MyAdsPresenter(myAdsView);
-    myAdsPresenter.control();
+const doRegistration = () => {
+    const registrationPresenter = new RegistrationPresenter(registrationView);
+    registrationPresenter.control();
+
+    // return registrationPresenter.removePageListeners.bind(registrationPresenter);
 };
 
 /***
@@ -68,6 +67,8 @@ const doMyAds = () => {
 const doProductCreate = () => {
     const productCreatePresenter = new ProductCreatePresenter(productCreateView);
     productCreatePresenter.control();
+
+    // return productCreatePresenter.removePageListeners.bind(productCreatePresenter);
 };
 
 /***
@@ -77,22 +78,48 @@ const doProductCreate = () => {
 const doProduct = (id) => {
     const productPresenter = new ProductPresenter(productView, id.parameters.id);
     productPresenter.control();
+
+    // return productPresenter.removePageListeners.bind(productPresenter);
+};
+
+/***
+ * Open promotion page
+ */
+const doPromotion = () => {
+    const promotionPresenter = new PromotionPresenter(promotionView);
+    promotionPresenter.control();
+
+    // return promotionPresenter.removePageListeners.bind(promotionPresenter);
 };
 
 /***
  * Open user profile page
  */
 const doProfile = () => {
-    const profilePresenter = new ProfilePresenter(profileView);
+    const profilePresenter = new UserProfilePresenter(profileView);
     profilePresenter.control();
+
+    // return profilePresenter.removePageListeners.bind(profilePresenter);
 };
 
 /***
- * Open registration page
+ * Open user ads page
  */
-const doRegistration = () => {
-    const registrationPresenter = new RegistrationPresenter(registrationView);
-    registrationPresenter.control();
+const doAd = () => {
+    const adPresenter = new UserAdPresenter(adView);
+    adPresenter.control();
+
+    return adPresenter.removePageListeners.bind(adPresenter);
+};
+
+/***
+ * Open user favorite page
+ */
+const doFavorite = () => {
+    const favoritePresenter = new UserFavoritePresenter(favoriteView);
+    favoritePresenter.control();
+
+    return favoritePresenter.removePageListeners.bind(favoritePresenter);
 };
 
 /***
@@ -101,21 +128,28 @@ const doRegistration = () => {
 const doSearch = () => {
     const searchPresenter = new SearchPresenter(searchView);
     searchPresenter.control();
+
+    // return searchPresenter.removePageListeners.bind(searchPresenter);
 };
 
-const doPromotion = () => {
-    const favoritePresenter = new FavoritePresenter(favoriteView);
-    promotionPresenter.control();
+/***
+ * Open not found page
+ */
+const doNotFound = () => {
+    const notFoundPresenter = new NotFoundPresenter(notFoundView);
+    notFoundPresenter.control();
 };
 
-router.add(frontUrls.favorite, doFavorite);
 router.add(frontUrls.main, doMain);
-router.add(frontUrls.myAds, doMyAds);
+router.add(frontUrls.registration, doRegistration);
 router.add(frontUrls.productCreate, doProductCreate);
 router.add(frontUrls.product(), doProduct);
 router.add(frontUrls.promotion, doPromotion);
-router.add(frontUrls.profile, doProfile);
-router.add(frontUrls.registration, doRegistration);
+router.add(frontUrls.userProfile, doProfile);
+router.add(frontUrls.userAd, doAd);
+router.add(frontUrls.userFavorite, doFavorite);
 router.add(frontUrls.search, doSearch);
+
+router.addNotFound(doNotFound);
 
 router.start();

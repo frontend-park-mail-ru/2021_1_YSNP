@@ -106,7 +106,7 @@ export class SearchView extends BaseView {
      * @param{Object} context
      * @this {SearchView}
      */
-    render(context) {
+    async render(context) {
         super.render();
         this.layout = new Layout(this.__app, true);
         this.layout.render();

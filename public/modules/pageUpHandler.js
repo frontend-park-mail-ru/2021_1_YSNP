@@ -10,6 +10,8 @@ export class PageUpHandler {
     constructor() {
         this.__isShown = false;
         this.__pageUp = new PageUp(document.getElementById('app'));
+
+        this.__listener = this.__scrollListener.bind(this);
     }
 
     /***
@@ -18,6 +20,14 @@ export class PageUpHandler {
     start() {
         this.__pageUp.render(this.__createListeners());
         this.__addListener();
+    }
+
+    /***
+     * Remove page up
+     */
+    remove() {
+        this.__pageUp.remove();
+        this.__removeListeners();
     }
 
     /***
@@ -67,8 +77,17 @@ export class PageUpHandler {
      * @private
      */
     __addListener() {
-        window.addEventListener('scroll', this.__scrollListener.bind(this));
+        window.addEventListener('scroll', this.__listener);
     }
+
+    /***
+     * Remove page up listeners
+     * @private
+     */
+    __removeListeners() {
+        window.removeEventListener('scroll', this.__listener);
+    }
+
 
     /***
      * Page up click callback

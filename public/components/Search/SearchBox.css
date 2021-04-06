@@ -47,13 +47,14 @@
 }
 
 .search-line__input{
-    width: 43vw;
+    width: 42vw;
     height: 4vh;
     font-size: 1.6vh;
     padding-left: 1vh;
     border: 0;
     outline: 0;
 }
+
 .search-line__settings{
     width: 3vh;
     height: 3vh;

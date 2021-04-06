@@ -42,13 +42,13 @@ export class AuthUserModel extends PasswordUserModel {
 
     /***
      * Get auth user model Json
-     * @returns {{password: string, telephone: (Object.telephone|string|*)}}
+     * @returns {{telephone: Object.telephone, password1: string}}
      * @private
      */
     __jsonData() {
         return {
             telephone: this.__telephone,
-            password: this.__password
+            password: this.__password1
         };
     }
 

@@ -150,7 +150,6 @@ export class RegistrationView extends BaseView {
         this.__regSubView.errorText(val);
     }
 
-
     /***
      * @author Ivan Gorshkov
      *

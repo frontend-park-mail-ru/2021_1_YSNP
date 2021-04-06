@@ -1,18 +1,18 @@
 import {BasePresenter} from './BasePresenter.js';
 import {addSuccesses, hideError, insertError, showError} from '../modules/validationStates.js';
 import {eventHandlerWithDataType} from '../modules/eventHandler.js';
-import {parseTelNumber, telMask} from '../modules/telMask.js';
+import {parseTelNumber, telMask} from '../modules/mask.js';
 import {router} from '../modules/router.js';
 import {frontUrls} from '../modules/frontUrls.js';
 import {RegUserData} from '../models/RegUserData.js';
 import {noop} from '../models/Noop.js';
+import {checkIsNotAuth} from '../modules/checkAuth.js';
 
 
 /***
  *  RegistrationPresenter class
  */
 export class RegistrationPresenter extends BasePresenter {
-
     /***
      * Class constructor
      * @param {RegistrationView} view - view
@@ -45,10 +45,8 @@ export class RegistrationPresenter extends BasePresenter {
      */
     async control() {
         await this.update();
-        if (this.__userModel.isAuth) {
-            router.redirect(frontUrls.main);
-            return;
-        }
+
+        checkIsNotAuth();
 
         this.__view.render(this.__makeContext());
     }
@@ -185,7 +183,7 @@ export class RegistrationPresenter extends BasePresenter {
      * @author Ivan Gorshkov
      *
      * Make view context
-     * @returns {{productList: {data: *[], listeners: {productCardClick: {listener: *, type: string}}}}}
+     * @returns {{navigation: {data: null, listeners: {backClick: {listener: *, type: string}}}, registrationPanel: {data: null, listeners: {focusInput: {listener: *, type: string}, validateChange: {listener: *, type: string}, validateInput: {listener: *, type: string}, blurInput: {listener: *, type: string}, keydown: {listener: function(*): boolean, type: string}, registrationClick: {listener: *, type: string}}}}}
      * @private
      * @this {RegistrationPresenter}
      */
@@ -326,7 +324,7 @@ export class RegistrationPresenter extends BasePresenter {
      * handlingErrors
      * @param {boolean} error
      * @param {HTMLElement} target
-     * @param {[string]} message
+     * @param {string} message
      * @param {Function} supprotValidate
      * @return {boolean}
      * @this {RegistrationPresenter}
@@ -364,10 +362,14 @@ export class RegistrationPresenter extends BasePresenter {
      * @private
      */
     __validatePhoto() {
-        if (this.__isPicAdd) {
+        const {error, message} = this.__model.validationImage(this.__view.getForm());
+        if (this.__isPicAdd && !error) {
             this.__view.removeErrorAvatar();
             return true;
         }
+
+        console.log(message);
+        //TODO(Ivan) нормальная обработка ошибок
         this.__view.addErrorAvatar();
         return false;
     }
