@@ -112,10 +112,15 @@ export class UserFavoritePresenter extends BasePresenter {
      * @private
      */
     __likeCard(id) {
-        // TODO(Sergey) release __likeCard
-
         const numberId = parseInt(id, 10);
-        this.__view.likeProduct(numberId);
+        this.__favoriteListModel.voteProduct(numberId)
+            .then(() => {
+                router.redirect(frontUrls.userFavorite);
+            })
+            .catch((err) => {
+                //TODO(Sergey) нормальная обработка ошибок
+                console.log(err.message);
+            });
     }
 
     /***
