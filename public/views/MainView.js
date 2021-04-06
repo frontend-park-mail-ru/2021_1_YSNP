@@ -60,6 +60,7 @@ export class MainView extends BaseView {
 
     /***
      * Render view
+     * @param {Object} context - view context
      */
     render(context) {
         super.render();

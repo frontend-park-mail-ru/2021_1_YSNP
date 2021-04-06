@@ -14,6 +14,7 @@ import {UserProfileView} from './views/UserProfileView.js';
 import {RegistrationView} from './views/RegistrationView.js';
 import {SearchView} from './views/SearchView.js';
 import {PromotionView} from './views/PromotionView.js';
+import {NotFoundView} from './views/NotFoundView.js';
 
 import {UserFavoritePresenter} from './presenters/UserFavoritePresenter.js';
 import {MainPresenter} from './presenters/MainPresenter.js';
@@ -24,6 +25,7 @@ import {UserProfilePresenter} from './presenters/UserProfilePresenter.js';
 import {RegistrationPresenter} from './presenters/RegistrationPresenter.js';
 import {SearchPresenter} from './presenters/SearchPresenter.js';
 import {PromotionPresenter} from './presenters/PromotionPresenter.js';
+import {NotFoundPresenter} from './presenters/NotFoundPresenter.js';
 import {baseCreateProduct, baseRegistration} from './modules/fields.js';
 
 const app = document.getElementById('app');
@@ -37,6 +39,7 @@ const profileView = new UserProfileView(app);
 const registrationView = new RegistrationView(app, baseRegistration);
 const searchView = new SearchView(app);
 const promotionView = new PromotionView(app);
+const notFoundView = new NotFoundView(app);
 
 /***
  * Open main page
@@ -129,6 +132,11 @@ const doSearch = () => {
     // return searchPresenter.removePageListeners.bind(searchPresenter);
 };
 
+const doNotFound = () => {
+    const notFoundPresenter = new NotFoundPresenter(notFoundView);
+    notFoundPresenter.control();
+};
+
 router.add(frontUrls.main, doMain);
 router.add(frontUrls.registration, doRegistration);
 router.add(frontUrls.productCreate, doProductCreate);
@@ -138,5 +146,7 @@ router.add(frontUrls.userProfile, doProfile);
 router.add(frontUrls.userAd, doAd);
 router.add(frontUrls.userFavorite, doFavorite);
 router.add(frontUrls.search, doSearch);
+
+router.addNotFound(doNotFound);
 
 router.start();
