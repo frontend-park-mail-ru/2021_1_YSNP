@@ -6,7 +6,7 @@ import {frontUrls} from '../modules/frontUrls.js';
 import {ProductModel} from '../models/ProductModel.js';
 import {eventHandlerWithDataType} from '../modules/eventHandler';
 
-import {checkAuth} from '../modules/checkAuth.js';
+import {checkIsAuth} from '../modules/checkAuth.js';
 
 /***
  *  noop function
@@ -73,9 +73,10 @@ export class ProductCreatePresenter extends BasePresenter {
      * @this {ProductCreatePresenter}
      */
     async control() {
-        checkAuth();
-
         await this.update();
+
+        checkIsAuth();
+
         this.__view.render(this.__makeContext());
     }
 

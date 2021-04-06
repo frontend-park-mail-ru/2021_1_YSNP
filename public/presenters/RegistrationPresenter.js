@@ -5,6 +5,7 @@ import {parseTelNumber, telMask} from '../modules/mask.js';
 import {router} from '../modules/router.js';
 import {frontUrls} from '../modules/frontUrls.js';
 import {RegUserData} from '../models/RegUserData.js';
+import {checkIsNotAuth} from '../modules/checkAuth.js';
 
 /***
  *  noop function
@@ -48,10 +49,8 @@ export class RegistrationPresenter extends BasePresenter {
      */
     async control() {
         await this.update();
-        if (this.__userModel.isAuth) {
-            router.redirect(frontUrls.main);
-            return;
-        }
+
+        checkIsNotAuth();
 
         this.__view.render(this.__makeContext());
     }

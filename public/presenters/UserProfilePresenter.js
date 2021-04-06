@@ -10,10 +10,11 @@ import {
     validateError,
     showSuccessMessage
 } from '../modules/validationStates.js';
+
 import {router} from '../modules/router';
 import {frontUrls} from '../modules/frontUrls';
 import {user} from '../models/ProfileUserModel.js';
-import {checkAuth} from '../modules/checkAuth';
+import {checkIsAuth} from '../modules/checkAuth';
 
 /***
  * Profile settings presenter
@@ -44,7 +45,9 @@ export class UserProfilePresenter extends BasePresenter {
      */
     async control() {
         await this.update();
-        checkAuth();
+
+        checkIsAuth();
+
         this.__view.render(this.__makeContext());
     }
 
