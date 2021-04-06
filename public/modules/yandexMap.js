@@ -1,5 +1,7 @@
 /* eslint-disable */
 
+import {noop} from '../models/Noop.js';
+
 /***
  * Yandex map module
  */
@@ -20,9 +22,8 @@ export class YandexMap {
      * @param config
      * @param callback
      */
-    render(config,  callback = () => {}) {
-
-        ymaps.ready(this.__init.bind(this, callback, config));
+    render(config, callback) {
+        ymaps.ready(this.__init.bind(this, config, callback));
     }
 
     /***
@@ -62,7 +63,6 @@ export class YandexMap {
         }
     }
 
-
     /***
      * Add circle to point on map
      * @param {{latitude: number, longitude: number}} pos - circle center
@@ -92,16 +92,14 @@ export class YandexMap {
             offset: [10, 10]
         });
 
-        const self = this;
-        suggestView.events.add('select', function (e) {
-            console.log(e)
+        suggestView.events.add('select', (e) => {
             const myGeocoder = ymaps.geocode(e.originalEvent.item.value);
             myGeocoder.then(
-                function (res) {
-                    self.__movePoint(self.__convertPosArrayToObject(res.geoObjects.get(0).geometry.getCoordinates()));
-                    self.setCenter(self.__convertPosArrayToObject(res.geoObjects.get(0).geometry.getCoordinates(), 1));
+                (res) => {
+                    this.__movePoint(this.__convertPosArrayToObject(res.geoObjects.get(0).geometry.getCoordinates()));
+                    this.setCenter(this.__convertPosArrayToObject(res.geoObjects.get(0).geometry.getCoordinates(), 1));
                 },
-                function (err) {
+                (err) => {
                     console.log('Ошибка', err);
                 }
             );
@@ -112,7 +110,7 @@ export class YandexMap {
      * Init map
      * @private
      */
-    __init(callback = () => {}, config) {
+    __init(config, callback = noop) {
         this.callback = callback;
         document.getElementById(config.id).innerHTML = '';
         this.__myMap = new ymaps.Map(config.id, {
@@ -294,16 +292,14 @@ export class YandexMap {
      * @private
      */
     movePointByName(text) {
-
-        const self = this;
-        ymaps.ready( () => {
+        ymaps.ready(() => {
             const myGeocoder = ymaps.geocode(text);
             myGeocoder.then(
-                function (res) {
-                    self.setCenter(self.__convertPosArrayToObject(res.geoObjects.get(0).geometry.getCoordinates(), 3));
-                    self.addCircle(self.__convertPosArrayToObject(res.geoObjects.get(0).geometry.getCoordinates()), 1000, 0.004);
+                (res) => {
+                    this.setCenter(this.__convertPosArrayToObject(res.geoObjects.get(0).geometry.getCoordinates(), 3));
+                    this.addCircle(this.__convertPosArrayToObject(res.geoObjects.get(0).geometry.getCoordinates()), 1000, 0.004);
                 },
-                function (err) {
+                (err) => {
                     console.log('Ошибка');
                 }
             );
@@ -314,11 +310,7 @@ export class YandexMap {
 
     static async isAdressCorrect(adress) {
         const myGeocoder = ymaps.geocode(adress);
-        return await  myGeocoder.then(
-            function (res) {
-                return res.geoObjects.get(0) !== undefined;
-            }
-        );
+        return await  myGeocoder.then((res) => res.geoObjects.get(0) !== undefined);
     }
 
     /***

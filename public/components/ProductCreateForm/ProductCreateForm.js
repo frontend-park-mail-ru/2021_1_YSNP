@@ -291,11 +291,20 @@ export class ProductCreateForm {
         button.disabled = true;
     }
 
+    /***
+     *
+     * get city from map
+     * @return {string}
+     */
     getAddress() {
         return this.__yaMap.city;
     }
 
 
+    /***
+     * get position from map
+     * @return {{latitude: number, longitude: number}}
+     */
     getPos() {
         return this.__yaMap.getPointPos();
     }
@@ -307,16 +316,12 @@ export class ProductCreateForm {
      */
     async render(ctx) {
         this.listeners = ctx.productCreate.listeners;
-        console.log(this.listeners);
         this.__parent.insertAdjacentHTML('beforeend', productCreateFormTemplate(ctx.productCreate));
 
         for (const fields in ctx.productCreate.fields) {
             const field = new Field(document.getElementById('ProductForm'), ctx.productCreate.fields[fields]);
             field.render();
         }
-
-
-      //  await new Promise((resolve) => setTimeout(resolve, 500));
 
         this.__yaMap = new YandexMap();
         this.__yaMap.render({
@@ -327,7 +332,7 @@ export class ProductCreateForm {
         }, (address) => {
             document.getElementById('addressInput').value = address;
         });
-        this.__yaMap.addSearch('addressInput');
+        ymaps.ready(this.__yaMap.addSearch.bind(this.__yaMap, 'addressInput'));
         this.addListeners();
     }
 }

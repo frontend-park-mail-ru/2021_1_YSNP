@@ -59,10 +59,6 @@ export class Description {
                 text: this.__ctx.__category
             },
             {
-                title: 'Подкатегория',
-                text: 'С пробегом'
-            },
-            {
                 title: 'Адрес',
                 text: 'Москва, Профсоюзная улица, 132к2, Коньково'
             }]
