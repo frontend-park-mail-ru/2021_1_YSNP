@@ -1,43 +1,43 @@
 @import "../../../scss/main.scss";
 
 .product-inner {
-    margin-top: 3vw;
-    font-style: normal;
-    font-weight: normal;
+  margin-top: 3vw;
+  font-style: normal;
+  font-weight: normal;
 }
 
 .product-des {
-    display: flex;
-}
+  display: flex;
 
-.product-des-topic {
+  &-topic {
     min-width: 18%;
     margin-top: 1vh;
-}
 
-.product-des-inner {
+    &__title {
+      @include description-label;
+      font-size: 1.6vh;
+      font-family: SF Pro Display, sans-serif;
+      margin-top: 1vh;
+      margin-bottom: 1vh;
+    }
+  }
+
+  &-inner {
     width: 75%;
-}
+  }
 
-.product-des__text {
+  &__text {
     font-family: Open Sans, sans-serif;
     font-size: 1vw;
     line-height: 3vh;
     color: #000000;
     margin-top: 1vh;
     margin-bottom: 1vh;
-}
-
-.product-des-topic__title {
-    @include description-label;
-    font-size: 1.6vh;
-    font-family: SF Pro Display, sans-serif;
-    margin-top: 1vh;
-    margin-bottom: 1vh;
+  }
 }
 
 .separator {
-    @include separator;
-    width: 98%;
-    margin-left: 0;
+  @include separator;
+  width: 98%;
+  margin-left: 0;
 }

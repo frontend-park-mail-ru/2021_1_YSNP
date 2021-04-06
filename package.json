@@ -38,9 +38,20 @@
     "webpack-cli": "^4.5.0"
   },
   "devDependencies": {
+    "autoprefixer": "^10.2.5",
     "css-loader": "^5.2.0",
     "mini-css-extract-plugin": "^1.4.0",
     "node-sass": "^5.0.0",
-    "sass-loader": "^11.0.1"
-  }
+    "postcss-loader": "^5.2.0",
+    "sass-loader": "^11.0.1",
+    "style-loader": "^2.0.0"
+  },
+  "browserslist": [
+    "defaults",
+    "not ie < 11",
+    "last 2 versions",
+    "> 1%",
+    "iOS 7",
+    "last 3 iOS versions"
+  ]
 }

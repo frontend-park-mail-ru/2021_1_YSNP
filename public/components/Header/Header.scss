@@ -10,137 +10,137 @@
   display: flex;
   @include shadow-block;
   border-radius: 0;
-}
 
-.header-inner {
-  height: 100%;
-  width: 100%;
+  &-inner {
+    height: 100%;
+    width: 100%;
 
-  padding-left: 10vw;
-  padding-right: 10vw;
+    padding-left: 10vw;
+    padding-right: 10vw;
 
-  display: flex;
-  justify-content: space-between;
-}
-
-.header-left {
-  display: flex;
-  align-items: center;
-}
-
-.header-left__brand {
-  margin-right: 1vw;
-  cursor: pointer;
-}
-
-.header-left-location {
-  border: 0;
-  background: none;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-
-  &:focus {
-    outline: none;
+    display: flex;
+    justify-content: space-between;
   }
-}
 
-.header-left-location__icon {
-  height: 1vh;
-  width: 1vh;
+  &-left {
+    display: flex;
+    align-items: center;
 
-  margin-right: 0.4vh;
-}
+    &__brand {
+      margin-right: 1vw;
+      cursor: pointer;
+    }
 
-.header-left-location__name {
-  font-size: 1.5vh;
-  color: rgb(71, 71, 71);
+    &-location {
+      border: 0;
+      background: none;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
 
-  &:hover {
-    color: $linkColor;
+      &:focus {
+        outline: none;
+      }
+
+      &__icon {
+        height: 1vh;
+        width: 1vh;
+
+        margin-right: 0.4vh;
+      }
+
+      &__name {
+        font-size: 1.5vh;
+        color: rgb(71, 71, 71);
+
+        &:hover {
+          color: $linkColor;
+        }
+      }
+    }
   }
-}
 
-.header-right {
-  display: flex;
-  align-items: center;
-}
+  &-right {
+    display: flex;
+    align-items: center;
 
-.header-right__create-button {
-  margin-right: 2vw;
-  @include red-button(20vh, 4vh);
-}
+    &__create-button {
+      margin-right: 2vw;
+      @include red-button(20vh, 4vh);
+    }
 
-.header-right__account {
-  height: 4vh;
-  width: 4vh;
+    &__account {
+      height: 4vh;
+      width: 4vh;
 
-  border: 0;
-  background: none;
+      border: 0;
+      background: none;
 
-  cursor: pointer;
+      cursor: pointer;
 
-  display: flex;
-  align-items: center;
-}
+      display: flex;
+      align-items: center;
+    }
 
-.header-right__dropdown {
-  @include set-size(4vh, 4vh);
-  @include circle;
-  cursor: pointer;
-}
+    &__dropdown {
+      @include set-size(4vh, 4vh);
+      @include circle;
+      cursor: pointer;
+    }
+  }
 
-.header-dropdown {
-  float: right;
+  &-dropdown {
+    float: right;
 
-  position: relative;
-  display: inline-block;
-}
+    position: relative;
+    display: inline-block;
 
-.header-dropdown-content {
-  width: 20vh;
-  margin-top: 2.5vh;
-  @include block;
-  border: 1px solid rgb(227, 227, 227);
-  border-radius: 3px;
+    &-content {
+      width: 20vh;
+      margin-top: 2.5vh;
+      @include block;
+      border: 1px solid rgb(227, 227, 227);
+      border-radius: 3px;
 
-  right: 0;
-  position: absolute;
-  z-index: 1;
-}
+      right: 0;
+      position: absolute;
+      z-index: 1;
 
-.header-dropdown-content-inner {
-  margin: 2vh;
-}
+      &-inner {
+        margin: 2vh;
+      }
 
-.header-dropdown-content_hidden {
-  display: none;
-}
+      &_hidden {
+        display: none;
+      }
 
-.header-dropdown-content-item {
-  margin: 1.3vh 0;
+      &-item {
+        margin: 1.3vh 0;
 
-  display: flex;
-  align-items: center;
-  @include menu-link;
-}
+        display: flex;
+        align-items: center;
+        @include menu-link;
+      }
 
-.header-dropdown-content__user {
-  margin: 1.3vh 0;
+      &__user {
+        margin: 1.3vh 0;
 
-  display: block;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  color: $textColorDefault;
+        display: block;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        color: $textColorDefault;
 
-  font-size: 1.7vh;
-}
+        font-size: 1.7vh;
+      }
 
-.header-dropdown-content__separator {
-  @include separator;
-}
+      &__separator {
+        @include separator;
+      }
 
-.header-dropdown-content__logo {
-  margin-right: 1vh;
+      &__logo {
+        margin-right: 1vh;
+      }
+    }
+  }
 }

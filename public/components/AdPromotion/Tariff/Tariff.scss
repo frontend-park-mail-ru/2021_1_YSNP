@@ -8,6 +8,7 @@
   margin: 1vh 1vh 4vh;
   color: $textColorDefault;
   @include border-block;
+
   &_unchecked {
     border: 1px solid rgba(0, 0, 0, 0.4);
   }
@@ -15,47 +16,42 @@
   &_checked {
     border: 3px solid rgba(211, 30, 30, 0.8);
   }
-}
 
-.tariffs-block__title {
-  font-size: 1.5vh;
-  line-height: 2vh;
-  opacity: 0.7;
-  display: flex;
-  justify-content: center;
-  margin-top: 2vh;
-}
+  &__title {
+    font-size: 1.5vh;
+    line-height: 2vh;
+    opacity: 0.7;
+    display: flex;
+    justify-content: center;
+    margin-top: 2vh;
+  }
 
-.tariffs-block__type {
-  display: flex;
-  justify-content: center;
-  font-size: 3vh;
-  line-height: 5vh;
-  margin-bottom: 2vh;
-}
+  &__type {
+    display: flex;
+    justify-content: center;
+    font-size: 3vh;
+    line-height: 5vh;
+    margin-bottom: 2vh;
+  }
 
-.tariffs-block__description {
-  font-size: 1.5vh;
-  line-height: 2.5vh;
-  height: 20vh;
+  &__description {
+    font-size: 1.5vh;
+    line-height: 2.5vh;
+    height: 20vh;
+  }
+
+  &__price {
+    margin-top: 2vh;
+    margin-bottom: 2vh;
+    display: flex;
+    justify-content: center;
+    font-size: 5vh;
+    line-height: 7vh;
+  }
 }
 
 .tariffs_description__list {
   margin-bottom: 1.5vh;
-}
-
-ul {
-  padding: 0;
-  margin-left: 20px;
-}
-
-.tariffs-block__price {
-  margin-top: 2vh;
-  margin-bottom: 2vh;
-  display: flex;
-  justify-content: center;
-  font-size: 5vh;
-  line-height: 7vh;
 }
 
 .tariffs-block__button {
@@ -70,4 +66,9 @@ ul {
 
 .tariffs__button_checked {
   @include red-button(15vh, 3.5vh);
+}
+
+ul {
+  padding: 0;
+  margin-left: 20px;
 }

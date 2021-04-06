@@ -1,54 +1,53 @@
 @import "../../scss/main.scss";
 
 .switch {
-    margin: 1vh 0;
-    width: 100%;
-}
+  margin: 1vh 0;
+  width: 100%;
 
-.switch-inner {
+  &-inner {
 
-}
+    &__title {
+      font-size: 3vh;
+    }
+  }
 
-.switch-inner__title {
-    font-size: 3vh;
-}
-
-.switch-buttons {
+  &-buttons {
     margin-top: 1.5vh;
 
     height: 100%;
     width: 100%;
-}
 
-.switch-buttons-inner {
-    height: 4vh;
+    &-inner {
+      height: 4vh;
 
-    display: flex;
-    flex-direction: row;
-    text-align: center;
-}
-
-.switch-buttons__button {
-    margin-right: 2vh;
-    padding: 0;
-
-    font-size: 1.7vh;
-    color: rgb(125, 125, 125);
-
-    border: none;
-    background: none;
-    cursor: pointer;
-
-    &:focus {
-        outline: none;
+      display: flex;
+      flex-direction: row;
+      text-align: center;
     }
 
-    &_selected {
+    &__button {
+      margin-right: 2vh;
+      padding: 0;
+
+      font-size: 1.7vh;
+      color: rgb(125, 125, 125);
+
+      border: none;
+      background: none;
+      cursor: pointer;
+
+      &:focus {
+        outline: none;
+      }
+
+      &_selected {
         color: black;
         border-bottom: 2px solid $linkColor;
+      }
     }
-}
+  }
 
-.switch-separator {
+  &-separator {
     @include separator;
+  }
 }
