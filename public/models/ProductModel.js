@@ -15,6 +15,36 @@ export class ProductModel {
     }
 
     /***
+     * Get id
+     * @returns {number}
+     */
+    get id() {
+        return this.__id;
+    }
+
+    /***
+     * Get user like
+     * @returns {boolean}
+     */
+    get userLiked() {
+        return this.__userLiked;
+    }
+
+    /***
+     * Set user like
+     */
+    setLike() {
+        this.__userLiked = true;
+    }
+
+    /***
+     * Set user dislike
+     */
+    setDislike() {
+        this.__userLiked = false;
+    }
+
+    /***
      * Get first image
      * @returns {string}
      */
@@ -129,6 +159,13 @@ export class ProductModel {
     }
 
     /***
+     * Set liked product
+     */
+    setLiked() {
+        this.__userLiked = true;
+    }
+
+    /***
      * Fill product model
      * @param {Object} data - product data
      */
@@ -147,7 +184,6 @@ export class ProductModel {
         this.__ownerSurname = data.ownerSurname;
         this.__ownerStars = data.ownerStars;
         this.__category = data.category;
-
     }
 
     /***
@@ -193,8 +229,6 @@ export class ProductModel {
      * @returns {{date: (Object.date|string|*), amount: (Object.amount|number|*), linkImage: string, name: (Object.name|string|*), id: (Object.id|string|*), userLiked: (Object.userLiked|boolean|*)}}
      */
     getMainData() {
-
-
         return {
             id: this.__id,
             name: this.__name,
@@ -235,7 +269,7 @@ export class ProductModel {
      * @returns {Promise<{isUpdate: boolean}|void>}
      */
     async update() {
-        return http.get(backUrls.product + this.__id)
+        return http.get(backUrls.product(this.id))
             .then(({status, data}) => {
                 if (status === httpStatus.StatusNotFound) {
                     throw new Error('Нет такого товара');
@@ -279,7 +313,7 @@ export class ProductModel {
                 }
 
                 this.__id = data.id;
-                return http.post(backUrls.productUploadPhotos + this.__id, new FormData(form), true)
+                return http.post(backUrls.productUploadPhotos(this.__id), new FormData(form), true)
                     .then(({status}) => {
                         if (status === httpStatus.StatusUnauthorized) {
                             throw new Error('Пользователь не авторизован');

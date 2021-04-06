@@ -14,12 +14,7 @@ export class MainListModel extends ProductListModel {
      * @private
      */
     async __updateNewDataPage() {
-        return http.post(backUrls.productList, {
-            content: {
-                from: this.__page,
-                count: this.__pageCount
-            }
-        })
+        return http.get(backUrls.productList(this.__page, this.__pageCount))
             .then(({status, data}) => {
                 if (status === httpStatus.StatusInternalServerError) {
                     throw new Error('Ошибка сервера');

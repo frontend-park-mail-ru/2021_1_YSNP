@@ -14,12 +14,7 @@ export class AdListModel extends ProductListModel {
      * @private
      */
     async __updateNewDataPage() {
-        return http.post(backUrls.productList, {
-            content: {
-                from: this.__page,
-                count: this.__pageCount
-            }
-        })
+        return http.get(backUrls.userAdList(this.__page, this.__pageCount))
             .then(({status, data}) => {
                 if (status === httpStatus.StatusInternalServerError) {
                     throw new Error('Ошибка сервера');
