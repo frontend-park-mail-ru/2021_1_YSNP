@@ -132,6 +132,9 @@ const doSearch = () => {
     // return searchPresenter.removePageListeners.bind(searchPresenter);
 };
 
+/***
+ * Open not found page
+ */
 const doNotFound = () => {
     const notFoundPresenter = new NotFoundPresenter(notFoundView);
     notFoundPresenter.control();
