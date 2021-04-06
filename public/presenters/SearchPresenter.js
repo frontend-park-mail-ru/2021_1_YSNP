@@ -4,7 +4,7 @@ import {router} from '../modules/router.js';
 import {ProductListModel} from '../models/ProductListModel.js';
 import {frontUrls} from '../modules/frontUrls.js';
 import {SearchModel} from '../models/SearchModel.js';
-import {amountMask} from '../modules/amountMask.js';
+import {amountMask} from '../modules/mask.js';
 import {PageUpHandler} from '../modules/pageUpHandler.js';
 import {noop} from '../models/Noop';
 /***

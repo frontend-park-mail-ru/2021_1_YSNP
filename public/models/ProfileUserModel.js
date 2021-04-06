@@ -39,7 +39,7 @@ export class ProfileUserModel extends PasswordUserModel {
      */
     __jsonPassword() {
         return {
-            oldPassword: this.__password,
+            oldPassword: this.__password1,
             newPassword1: this.__password1,
             newPassword2: this.__password2
         };
@@ -58,7 +58,7 @@ export class ProfileUserModel extends PasswordUserModel {
             sex: this.__sex,
             email: this.__email,
             telephone: this.__telephone,
-            password: this.__password,
+            password: this.__password1,
             linkImages: this.__linkImages
         };
     }

@@ -119,7 +119,7 @@ export class BasePresenter {
 
         const {error, message} = this.__authModel.validateData({
             telephone: telephone,
-            password: password
+            password1: password
         });
 
         if (error) {
