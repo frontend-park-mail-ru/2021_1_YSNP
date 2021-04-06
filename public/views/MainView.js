@@ -1,5 +1,5 @@
 import {BaseView} from './BaseView.js';
-
+import {SearchBox} from '../components/Search/SearchBox.js';
 import {Switch} from '../components/Switch/Switch.js';
 import {Layout} from '../components/Layout/Layout.js';
 import {ProductTable} from '../components/ProductTable/ProductTable.js';
@@ -43,6 +43,10 @@ export class MainView extends BaseView {
                 data: context.productList.data,
                 listeners: context.productList.listeners
             },
+            search: {
+                data: context.search.data,
+                listeners: context.search.listeners
+            },
             switch: {
                 data: {
                     title: 'Все объявления'
@@ -57,6 +61,10 @@ export class MainView extends BaseView {
     render(context) {
         super.render();
         this.__makeContext(context);
+
+
+        const searchBox = new SearchBox(this.__app);
+        searchBox.render(this.__context.search);
 
         const layout = new Layout(this.__app, true);
         layout.render();

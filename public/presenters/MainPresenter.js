@@ -6,6 +6,7 @@ import {frontUrls} from '../modules/frontUrls';
 
 import {EndlessScroll} from '../modules/endlessScroll.js';
 import {PageUpHandler} from '../modules/pageUpHandler.js';
+import {eventHandlerWithDataType} from '../modules/eventHandler.js';
 
 /***
  * Main view
@@ -91,6 +92,11 @@ export class MainPresenter extends BasePresenter {
             });
     }
 
+    __listenerSearchClick(dataType, actions, ev) {
+        ev.preventDefault();
+        eventHandlerWithDataType(ev, dataType, actions, true);
+    }
+
     /***
      * Get view listeners
      * @returns {{productList: {productCardClick: {listener: *, type: string}}}}
@@ -102,6 +108,12 @@ export class MainPresenter extends BasePresenter {
                 productCardClick: {
                     type: 'click',
                     listener: this.__listenerProductListClick.bind(this)
+                }
+            },
+            search: {
+                searchClick: {
+                    type: 'click',
+                    listener: this.__listenerSearchClick.bind(this, 'action', this.__getActions().search)
                 }
             },
             scroll: {
@@ -146,8 +158,18 @@ export class MainPresenter extends BasePresenter {
                 likeClick: {
                     open: this.__likeCard.bind(this)
                 }
+            },
+            search: {
+                searchButtonClick: {
+                    open: this.__searchButton.bind(this)
+                }
             }
         };
+    }
+
+    __searchButton() {
+        alert('asd');
+      router.redirect(frontUrls.search);
     }
 
     /***
@@ -160,6 +182,10 @@ export class MainPresenter extends BasePresenter {
             productList: {
                 data: this.__productListModel.getData(),
                 listeners: this.__createListeners().productList
+            },
+            search: {
+                data: null,
+                listeners: this.__createListeners().search
             }
         };
     }

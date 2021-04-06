@@ -1,0 +1,30 @@
+<img src="/img/search-background.jpg" class="search" id="search">
+    <div class="search-background"></div>
+    <div class="search-content">
+        <div class="search-title">
+            Более 800 миллионов объявлений по всей России
+        </div>
+        <div class="search-line">
+            <form>
+                <input class="search-line__input" type="search" id="search-input" name="q" placeholder="Поиск">
+                <input class="search-line__button" type="submit" value="Найти" id="search-button" data-action="searchButtonClick">
+            </form>
+        </div>
+        <div class="search-categories">
+            {{#each this}}
+                    <div class="search-category-card">
+                        <div class="search-category__title">
+                            {{this.title}}
+                        </div>
+                        <div class="search-category__item">
+                        {{#each this.items}}
+                            <a href="#" class='search-category__item-inner' id="category-{{this}}" data-action="categoryClick">
+                                {{this}}
+                            </a>
+                            {{/each}}
+                        </div>
+                    </div>
+                {{/each}}
+        </div>
+    </div>
+</div>
