@@ -39,7 +39,7 @@ export class ProfileUserModel extends PasswordUserModel {
      */
     __jsonPassword() {
         return {
-            oldPassword: this.__password1,
+            oldPassword: this.__password,
             newPassword1: this.__password1,
             newPassword2: this.__password2
         };
