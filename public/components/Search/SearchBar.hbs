@@ -2,16 +2,11 @@
     <div class="search-filter-container">
         <h3>Фильтр</h3>
         <div class="search-filter-elem">
-            <select id="category" class="reg-panel__textfield filter-bg" name="{{this.id}}">
+            <select id="category" class="reg-panel__textfield filter-bg">
                 <option value="" selected>Все категории</option>
-                <option {{#if_eq optionCategory 'Автомобиль'}} selected {{/if_eq}}> Автомобиль </option>
-                <option {{#if_eq optionCategory 'Электроника'}} selected {{/if_eq}}> Электроника </option>
-                <option {{#if_eq optionCategory 'Одежда'}} selected {{/if_eq}}> Одежда </option>
-                <option {{#if_eq optionCategory 'Хобби'}} selected {{/if_eq}}> Хобби </option>
-                <option {{#if_eq optionCategory 'Запчасти'}} selected {{/if_eq}}> Запчасти </option>
-                <option {{#if_eq optionCategory 'Спорт'}} selected {{/if_eq}}> Спорт </option>
-                <option {{#if_eq optionCategory 'Животные'}} selected {{/if_eq}}> Животные </option>
-                <option {{#if_eq optionCategory 'Услуги'}} selected {{/if_eq}}> Услуги </option>
+                {{#each categories}}
+                    <option {{#if_eq ../optionCategory this.title}} selected {{/if_eq}}> {{this.title}} </option>
+                {{/each}}
             </select>
         </div>
         <div class="search-filter-elem">
@@ -21,7 +16,7 @@
             </div>
         </div>
         <div class="search-filter-elem">
-            <select id="date" class="reg-panel__textfield filter-bg" name="{{this.id}}">
+            <select id="date" class="reg-panel__textfield filter-bg">
                 <option value="" disabled selected hidden>Срок размещения</option>
                 <option {{#if_eq optionDate 'За 24 часа'}} selected {{/if_eq}}>За 24 часа</option>
                 <option {{#if_eq optionDate 'За 7 дней'}} selected {{/if_eq}}>За 7 дней</option>
@@ -44,7 +39,7 @@
                        id="search-submit" value="Поиск"
                        data-action="submitSearch"/>
             </div>
-            <select id="sorting" data-action="changeSort" class="search__sort" name="{{this.id}}" >
+            <select id="sorting" data-action="changeSort" class="search__sort">
                 <option value="" disabled selected hidden>Сортировать по</option>
                 <option {{#if_eq optionSort 'По возрастанию цены'}} selected {{/if_eq}}>По возрастанию цены</option>
                 <option {{#if_eq optionSort 'По убыванию цены'}} selected {{/if_eq}}>По убыванию цены</option>

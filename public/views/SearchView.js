@@ -3,7 +3,7 @@ import {Layout} from '../components/Layout/Layout';
 import {Navigation} from '../components/Navigation/Navigation';
 import {Switch} from '../components/Switch/Switch';
 import {SearchBar} from '../components/Search/SearchBar.js';
-
+import {categories} from '../modules/fields.js';
 /***
  *  SearchView
  */
@@ -53,7 +53,8 @@ export class SearchView extends BaseView {
             filter: {
                 optionSort: sessionStorage.getItem('sort'),
                 optionCategory: sessionStorage.getItem('category'),
-                optionDate: sessionStorage.getItem('date')
+                optionDate: sessionStorage.getItem('date'),
+                categories: categories
             },
             switch: {
                 data: {
