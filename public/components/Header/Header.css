@@ -183,4 +183,6 @@
 
 .header-left__brand__donut{
     margin-top: 1vh;
+    padding-left: 6px;
+    padding-right: 3px;
 }
