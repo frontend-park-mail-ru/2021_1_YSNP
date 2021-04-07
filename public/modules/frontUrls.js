@@ -86,6 +86,14 @@ class FrontUrls {
     get userFavorite() {
         return '/user/favorite';
     }
+
+    /***
+     * DONUT
+     * @returns {string}
+     */
+    get donut() {
+        return '/donut/donut';
+    }
 }
 
 export const frontUrls = new FrontUrls();
