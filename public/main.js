@@ -143,6 +143,9 @@ const doNotFound = () => {
     notFoundPresenter.control();
 };
 
+/***
+ * Open donut page
+ */
 const doDonut = () => {
     const donutPresenter = new DonutPresenter(donutView);
     donutPresenter.control();
