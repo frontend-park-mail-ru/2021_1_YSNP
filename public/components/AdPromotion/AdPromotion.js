@@ -216,7 +216,7 @@ export class AdPromotion {
         };
         const tariff2 = {
             name: 'Улучшенный',
-            price: '199',
+            price: '5',
             description: [
                 'Объявление показывается в ленте в 10 раз чаще',
                 'Объявление выделяется красным цветом'
@@ -228,7 +228,7 @@ export class AdPromotion {
         };
         const tariff3 = {
             name: 'Продвинутый',
-            price: '399',
+            price: '7',
             description: [
                 'Объявление показывается в ленте в 10 раз чаще',
                 'Объявление выделяется красным цветом',
