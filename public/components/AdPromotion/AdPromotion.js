@@ -161,7 +161,19 @@ export class AdPromotion {
         document.getElementById('promotion-title').value = `KOYA: покупка продвижения объявления по тарифу ${type}`;
         document.getElementById('promotion-type').value = `KOYA: покупка продвижения объявления по тарифу ${type}`;
         document.getElementById('promotion-sum').value = sum;
-        document.getElementById('promotion-label').value += `, ${type}`;
+        let tariff = 0;
+        switch (type) {
+            case 'Базовый':
+                tariff = 1;
+                break;
+            case 'Улучшенный':
+                tariff = 2;
+                break;
+            case 'Продвинутый':
+                tariff = 3;
+                break;
+        }
+        document.getElementById('promotion-label').value += `, ${tariff}`;
         document.getElementById('promotion-description').value = `KOYA: Покупка продвижения объявления по тарифу ${type}`;
     }
 

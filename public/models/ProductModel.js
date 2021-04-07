@@ -147,7 +147,7 @@ export class ProductModel {
         this.__ownerSurname = data.ownerSurname;
         this.__ownerStars = data.ownerStars;
         this.__category = data.category;
-
+        this.__tariff = data.tariff;
     }
 
     /***
@@ -184,7 +184,8 @@ export class ProductModel {
             ownerId: this.__ownerId,
             ownerName: this.__ownerName,
             ownerSurname: this.__ownerSurname,
-            ownerStars: this.__ownerStars
+            ownerStars: this.__ownerStars,
+            tariff: this.__tariff
         };
     }
 
@@ -208,7 +209,7 @@ export class ProductModel {
             amount: `${this.__amount.toLocaleString()} ₽`,
             userLiked: this.__userLiked,
             linkImage: this.__getFirstImage(),
-            status: 0
+            tariff: this.__tariff
         };
     }
 

@@ -182,7 +182,7 @@ export class ProfilePresenter extends BasePresenter {
         const isValidNewPwd = this.__validatePassword(newPassword);
         if (isValidNewPwd && isValidpwdConfirm) {
             this.__model.fillUserData({
-                password: oldPassword,
+                password: oldPassword.value,
                 password1: newPassword.value,
                 password2: passwordConfirm.value
             });
