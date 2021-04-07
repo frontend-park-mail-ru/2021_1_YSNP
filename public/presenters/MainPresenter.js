@@ -121,9 +121,8 @@ export class MainPresenter extends BasePresenter {
 
                 this.__view.likeProduct(numberId);
             })
-            .catch((err) => {
-                //TODO(Sergey) нормальная обработка ошибок
-                console.log(err.message);
+            .catch(() => {
+                router.redirect(frontUrls.registration);
             });
     }
 
