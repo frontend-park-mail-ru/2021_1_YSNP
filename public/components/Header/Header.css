@@ -31,6 +31,8 @@
 .header-left__brand {
     margin-right: 1vw;
     cursor: pointer;
+    align-items: center;
+    display: flex;
 }
 
 .header-left-location {
@@ -177,4 +179,10 @@
 
 .header-dropdown-content__logo {
     margin-right: 1vh;
+}
+
+.header-left__brand__donut{
+    margin-top: 1vh;
+    padding-left: 6px;
+    padding-right: 3px;
 }
