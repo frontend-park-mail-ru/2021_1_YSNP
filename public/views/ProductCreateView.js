@@ -194,6 +194,14 @@ export class ProductCreateView extends BaseView {
     }
 
     /***
+     * Set view title
+     * @private
+     */
+    __setTitle() {
+        document.title = 'Новое объявление';
+    }
+
+    /***
      * @author Ivan Gorshkov
      *
      * render with context
@@ -202,6 +210,7 @@ export class ProductCreateView extends BaseView {
      */
     render(context) {
         super.render();
+        this.__setTitle();
         this.layout.render();
         this.__makeContext(context);
 

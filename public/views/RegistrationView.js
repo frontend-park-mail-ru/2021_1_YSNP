@@ -174,6 +174,14 @@ export class RegistrationView extends BaseView {
     }
 
     /***
+     * Set view title
+     * @private
+     */
+    __setTitle() {
+        document.title = 'Регистрация';
+    }
+
+    /***
      * @author Ivan Gorshkov
      *
      * render with context
@@ -182,6 +190,7 @@ export class RegistrationView extends BaseView {
      */
     render(context) {
         super.render();
+        this.__setTitle();
         this.layout.render();
         this.__makeContext(context);
 
