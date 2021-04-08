@@ -83,8 +83,6 @@ export class SearchBar {
         document
             .getElementById('amount')
             .addEventListener(this.listeners.validateInput.type, this.listeners.validateInput.listener);
-
-
     }
 
     /***
