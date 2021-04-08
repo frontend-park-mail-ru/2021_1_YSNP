@@ -347,10 +347,29 @@ export class BasePresenter {
      * @private
      */
     __createUserAddress() {
-        console.log(this.__yaMap.getPointPos());
-        console.log(this.__yaMap.getAddress());
+        if (!this.__userModel.isAuth) {
+            router.redirect(frontUrls.registration);
+            return;
+        }
 
-        this.__closeMap();
+        this.__userModel.fillUserData({
+            latitude: this.__yaMap.getPointPos().latitude,
+            longitude: this.__yaMap.getPointPos().longitude,
+            radius: this.__yaMap.getRadius(),
+            address: this.__yaMap.getAddress()
+        });
+
+        console.log(this.__userModel);
+
+        this.__userModel.position()
+            .then(() => {
+                router.redirect(frontUrls.main);
+            })
+            .catch((err) => {
+                //TODO(Sergey) нормальная обработка ошибок
+                console.log(err.message);
+                this.__closeMap();
+            });
     }
 
     /***
@@ -408,6 +427,7 @@ export class BasePresenter {
                     isAuth: this.__userModel.getData().isAuth,
                     surname: this.__userModel.getData().surname,
                     name: this.__userModel.getData().name,
+                    address: this.__userModel.getData().address ? this.__userModel.getData().address : 'Москва',
                     linkImage: this.__userModel.getData().linkImage
                 },
                 listeners: this.__createBaseListeners().header
@@ -416,6 +436,11 @@ export class BasePresenter {
                 listeners: this.__createBaseListeners().auth
             },
             map: {
+                data: {
+                    latitude: this.__userModel.getData().latitude,
+                    longitude: this.__userModel.getData().longitude,
+                    radius: this.__userModel.getData().radius
+                },
                 listeners: this.__createBaseListeners().map
             }
         };

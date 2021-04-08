@@ -35,6 +35,14 @@ export class YandexMap {
     }
 
     /***
+     * Get radius
+     * @returns {number}
+     */
+    getRadius() {
+        return this.__radius;
+    }
+
+    /***
      * Get position address
      * @returns {*}
      */
@@ -69,7 +77,7 @@ export class YandexMap {
      * @param {number} radius - circle radius (m)
      * @param {number} measurementError - measurementError
      */
-    addCircle(pos, radius, measurementError= 0) {
+    addCircle(pos, radius, measurementError = 0) {
         this.__radius = radius;
         if (pos !== undefined) {
             this.__deleteCircle(this.__circle);
@@ -80,7 +88,7 @@ export class YandexMap {
     }
 
     randomInRange(min, max) {
-        return Math.random() < 0.5 ? ((1-Math.random()) * (max-min) + min) : (Math.random() * (max-min) + min);
+        return Math.random() < 0.5 ? ((1 - Math.random()) * (max - min) + min) : (Math.random() * (max - min) + min);
     }
 
     /***
@@ -273,9 +281,10 @@ export class YandexMap {
             });
     }
 
-   get city() {
+    get city() {
         return this.__city;
     }
+
     /***
      * Move point to another position
      * @param {{latitude: number, longitude: number}} pos - point position
@@ -293,16 +302,16 @@ export class YandexMap {
      */
     movePointByName(text) {
         ymaps.ready(() => {
-            const myGeocoder = ymaps.geocode(text);
-            myGeocoder.then(
-                (res) => {
-                    this.setCenter(this.__convertPosArrayToObject(res.geoObjects.get(0).geometry.getCoordinates(), 3));
-                    this.addCircle(this.__convertPosArrayToObject(res.geoObjects.get(0).geometry.getCoordinates()), 1000, 0.004);
-                },
-                (err) => {
-                    console.log('Ошибка');
-                }
-            );
+                const myGeocoder = ymaps.geocode(text);
+                myGeocoder.then(
+                    (res) => {
+                        this.setCenter(this.__convertPosArrayToObject(res.geoObjects.get(0).geometry.getCoordinates(), 3));
+                        this.addCircle(this.__convertPosArrayToObject(res.geoObjects.get(0).geometry.getCoordinates()), 1000, 0.004);
+                    },
+                    (err) => {
+                        console.log('Ошибка');
+                    }
+                );
             }
         );
     }
@@ -310,7 +319,7 @@ export class YandexMap {
 
     static async isAdressCorrect(adress) {
         const myGeocoder = ymaps.geocode(adress);
-        return await  myGeocoder.then((res) => res.geoObjects.get(0) !== undefined);
+        return await myGeocoder.then((res) => res.geoObjects.get(0) !== undefined);
     }
 
     /***
