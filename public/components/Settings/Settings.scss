@@ -154,8 +154,6 @@
          visibility: hidden;
     }
 }
-select:disabled {
-    -webkit-appearance: none;
-    -moz-appearance: none;
+[id^=settings-gender] select:disabled {
     appearance: none;
 }

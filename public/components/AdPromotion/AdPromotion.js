@@ -129,7 +129,7 @@ export class AdPromotion {
     __setChecked(block, button) {
         this.__resetChecked();
         block.classList.add('tariffs-block_checked');
-        button.classList.add('tariffs__button_checked');
+        button.classList.add('tariffs-block__button_checked');
         button.textContent = 'Выбрано';
     }
 
@@ -139,9 +139,9 @@ export class AdPromotion {
      */
     __resetChecked() {
         const {base, improved, advanced, noTariff, baseBlock, improvedBlock, advancedBlock} = this.__getTariffDOM();
-        base.classList.remove('tariffs__button_checked');
-        improved.classList.remove('tariffs__button_checked');
-        advanced.classList.remove('tariffs__button_checked');
+        base.classList.remove('tariffs-block__button_checked');
+        improved.classList.remove('tariffs-block__button_checked');
+        advanced.classList.remove('tariffs-block__button_checked');
         noTariff.removeAttribute('checked');
 
         base.textContent = 'Выбрать';

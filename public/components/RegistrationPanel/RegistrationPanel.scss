@@ -1,44 +1,57 @@
 @import "../../scss/main.scss";
 
-.reg-panel__textfield {
-  @include border-block;
-  font-size: 1.8vh;
-  height: 2.5vw;
-  width: 15.5vw;
-  padding-left: 10px;
-}
+.reg {
+  &-panel {
+    &__textfield {
+      @include border-block;
+      font-size: 1.8vh;
+      height: 2.5vw;
+      width: 15.5vw;
+      padding-left: 10px;
+    }
 
-.reg-error {
-  text-align: left;
-}
+    &__coutry-code {
+      margin: 0;
+      height: 2.5vw;
+    }
 
-.reg-panel__coutry-code {
-  margin: 0;
-  height: 2.5vw;
-}
+    &__tel {
+      margin: 0;
+      height: 2.5vw;
+      width: 12.8vw;
+    }
 
-.reg-panel__tel {
-  margin: 0;
-  height: 2.5vw;
-  width: 12.8vw;
-}
+    &-title {
+      margin-bottom: 1vw;
 
-.reg-panel-title__product-name {
-  font-size: 3vh;
-  margin: 0;
-  line-height: 5vh;
-}
+      &__product-name {
+        font-size: 3vh;
+        margin: 0;
+        line-height: 5vh;
+      }
+    }
+  }
 
-.reg-panel-title {
-  margin-bottom: 1vw;
-}
+  &-error {
+    text-align: left;
+  }
 
-.reg__button {
-  @include red-button(15.5vw, 4vh);
-  font-size: 1vw;
-  width: 15.5vw;
-  margin-bottom: 1vh;
-  margin-left: 1vw;
+  &__gender {
+    width: auto;
+  }
+
+  &-picture {
+    position: relative;
+    transform: translate(5%, 0);
+  }
+
+  &__button {
+    @include red-button(15.5vw, 4vh);
+    font-size: 1vw;
+    width: 15.5vw;
+    margin-bottom: 1vh;
+    margin-left: 1vw;
+  }
 }
 
 .form-spacing {
@@ -90,16 +103,7 @@
   }
 }
 
-.reg-picture {
-  position: relative;
-  transform: translate(5%, 0);
-}
-
 .form-inner {
   position: relative;
   margin: auto 0;
-}
-
-.reg__gender {
-  width: auto;
 }

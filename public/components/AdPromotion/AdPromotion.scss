@@ -1,7 +1,6 @@
 @import "../../scss/main.scss";
 
 .promotion {
-  width: 80vw;
   padding: 2vw;
   margin: 1.5vw auto;
   @include shadow-block;
@@ -55,8 +54,7 @@
   }
 
   &-product {
-    width: 82vw;
-    padding: 1vw;
+    padding: 2vh 1vw;
     margin: 1.5vw auto 0;
     @include shadow-block;
 
@@ -67,9 +65,8 @@
     }
 
     &__text {
-      width: 100%;
       font-size: 1.8vh;
-      line-height: 5vh;
+      line-height: 2vh;
       color: $textColorDefault;
     }
 
