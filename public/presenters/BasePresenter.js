@@ -256,6 +256,7 @@ export class BasePresenter {
             listeners: true,
             id: 'ya-map'
         });
+        this.__yaMap.setPosition(this.__getUserPosition().pos, this.__getUserPosition().radius);
     }
 
     /***
@@ -359,8 +360,6 @@ export class BasePresenter {
             address: this.__yaMap.getAddress()
         });
 
-        console.log(this.__userModel);
-
         this.__userModel.position()
             .then(() => {
                 router.redirect(frontUrls.main);
@@ -412,6 +411,21 @@ export class BasePresenter {
                     open: this.__createUserAddress.bind(this)
                 }
             }
+        };
+    }
+
+    /***
+     * Get user position
+     * @returns {{pos: {latitude: number, longitude: number}, radius: number}}
+     * @private
+     */
+    __getUserPosition() {
+        return {
+            pos: {
+                latitude: this.__userModel.getData().latitude,
+                longitude: this.__userModel.getData().longitude
+            },
+            radius: this.__userModel.getData().radius
         };
     }
 

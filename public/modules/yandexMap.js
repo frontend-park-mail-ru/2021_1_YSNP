@@ -14,7 +14,6 @@ export class YandexMap {
             latitude: 55.753808,
             longitude: 37.620017
         };
-
     }
 
     /***
@@ -24,6 +23,15 @@ export class YandexMap {
      */
     render(config, callback) {
         ymaps.ready(this.__init.bind(this, config, callback));
+    }
+
+    /***
+     * Render position
+     * @param {{latitude: number, longitude: number}} pos - position
+     * @param {number} radius - radius
+     */
+    setPosition(pos, radius) {
+        ymaps.ready(this.addPointWithCircle.bind(this, pos, radius))
     }
 
     /***
@@ -44,7 +52,7 @@ export class YandexMap {
 
     /***
      * Get position address
-     * @returns {*}
+     * @returns {string}
      */
     getAddress() {
         return this.__text;
@@ -57,6 +65,16 @@ export class YandexMap {
      */
     setCenter(pos, zoom) {
         this.__myMap.setCenter(this.__convectPosObjectToArray(pos), zoom);
+    }
+
+    /***
+     * Add point with circle
+     * @param {{latitude: number, longitude: number}} pos - point center
+     * @param {number} radius - circle radius
+     */
+    addPointWithCircle(pos, radius) {
+        this.addPoint(pos);
+        this.addCircle(pos, radius);
     }
 
     /***
@@ -108,7 +126,7 @@ export class YandexMap {
                     this.setCenter(this.__convertPosArrayToObject(res.geoObjects.get(0).geometry.getCoordinates(), 1));
                 },
                 (err) => {
-                    console.log('Ошибка', err);
+                    console.log(err);
                 }
             );
         });
@@ -225,7 +243,7 @@ export class YandexMap {
                 const index = e.get('index');
                 const coords = this.__searchControl.getResultsArray()[index].geometry.getCoordinates();
                 this.__movePoint(this.__convertPosArrayToObject(coords));
-                this.__text = this.__searchControl.getResultsArray()[index].properties.get('text');
+                this.__text = this.__getUserPositionAddress(this.__searchControl.getResultsArray()[index].properties);
             }, this);
 
         }
@@ -275,10 +293,26 @@ export class YandexMap {
     __getAddress() {
         ymaps.geocode([this.__pos.latitude, this.__pos.longitude])
             .then((res) => {
-                this.__text = res.geoObjects.get(0).properties.get('text');
+                this.__text = this.__getUserPositionAddress(res.geoObjects.get(0).properties);
                 this.__city = res.geoObjects.get(0).properties.getAll().metaDataProperty.GeocoderMetaData.AddressDetails.Country.AdministrativeArea.AdministrativeAreaName;
                 this.callback(this.__text);
             });
+    }
+
+    __getUserPositionAddress(properties) {
+        const prop = properties.get('metaDataProperty').GeocoderMetaData.AddressDetails.Country
+        const country = this.__getCountry(prop);
+        const city = this.__getCity(prop);
+
+        return `${country}, ${city}`;
+    }
+
+    __getCountry(prop) {
+        return prop.CountryName;
+    }
+
+    __getCity(prop) {
+        return prop.AdministrativeArea.AdministrativeAreaName;
     }
 
     get city() {
@@ -309,7 +343,7 @@ export class YandexMap {
                         this.addCircle(this.__convertPosArrayToObject(res.geoObjects.get(0).geometry.getCoordinates()), 1000, 0.004);
                     },
                     (err) => {
-                        console.log('Ошибка');
+                        console.log(err);
                     }
                 );
             }
@@ -331,6 +365,7 @@ export class YandexMap {
     __createPoint(pos) {
         const point = new ymaps.Placemark([pos.latitude, pos.longitude]);
         this.__myMap.geoObjects.add(point);
+
         return point;
     }
 
