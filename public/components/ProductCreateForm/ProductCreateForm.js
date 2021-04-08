@@ -332,7 +332,7 @@ export class ProductCreateForm {
         }, (address) => {
             document.getElementById('addressInput').value = address;
         });
-        ymaps.ready(this.__yaMap.addSearch.bind(this.__yaMap, 'addressInput'));
+        this.__yaMap.addSearch('addressInput');
         this.addListeners();
     }
 }

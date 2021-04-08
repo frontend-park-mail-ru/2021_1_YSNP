@@ -4,11 +4,10 @@ import {MainListModel} from '../models/MainListModel.js';
 import {router} from '../modules/router';
 import {frontUrls} from '../modules/frontUrls';
 
-import {eventProductListHandler} from '../modules/eventHandler.js';
+import {eventProductListHandler, eventHandlerWithDataType} from '../modules/eventHandler.js';
 
 import {EndlessScroll} from '../modules/endlessScroll.js';
 import {PageUpHandler} from '../modules/pageUpHandler.js';
-import {eventHandlerWithDataType} from '../modules/eventHandler.js';
 
 /***
  * Main presenter
@@ -157,13 +156,28 @@ export class MainPresenter extends BasePresenter {
             search: {
                 searchButtonClick: {
                     open: this.__searchButton.bind(this)
+                },
+                categoryClick: {
+                    open: this.__categoryClick.bind(this)
                 }
             }
         };
     }
 
+    __categoryClick(ev) {
+        sessionStorage.setItem('category', this.__view.getCategory(ev.target));
+
+        router.redirect(frontUrls.searchWithText(ev.target.innerText));
+    }
+
     __searchButton() {
-      router.redirect(frontUrls.search);
+        sessionStorage.setItem('category', '');
+        const val = this.__view.getTextFromSearch();
+        if (val !== '') {
+            router.redirect(frontUrls.searchWithText(val));
+            return;
+        }
+        router.redirect(frontUrls.search);
     }
 
     /***

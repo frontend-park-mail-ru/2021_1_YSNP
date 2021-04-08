@@ -45,6 +45,7 @@ export class SearchBar {
      * @param{Object} ctx
      */
     rerenderProductList(ctx) {
+        document.getElementById('product-content').innerText = '';
         this.__productList.render(ctx.productList);
     }
 

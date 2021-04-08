@@ -10,7 +10,7 @@
                 <input class="search-line__button" type="submit" value="Найти" id="search-button" data-action="searchButtonClick">
             </form>
         </div>
-        <div class="search-categories">
+        <div class="search-categories" id="search-categories">
             {{#each this}}
                     <div class="search-category-card">
                         <div class="search-category__title">
@@ -18,8 +18,8 @@
                         </div>
                         <div class="search-category__item">
                         {{#each this.items}}
-                            <a href="#" class='search-category__item-inner' id="category-{{this}}" data-action="categoryClick">
-                                {{this}}
+                            <a href="#" class='search-category__item-inner' data-category="{{../title}}" data-action="categoryClick">
+                              {{this}}
                             </a>
                             {{/each}}
                         </div>
@@ -27,4 +27,4 @@
                 {{/each}}
         </div>
     </div>
-</div>
+</img>

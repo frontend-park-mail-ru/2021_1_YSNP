@@ -62,7 +62,6 @@ export class Switch {
     render(context) {
         try {
             this.__context = context;
-
             this.__parent.insertAdjacentHTML('beforeend', adSwitchTemplate(this.__context.data));
             this.__addListeners();
         } catch (err) {

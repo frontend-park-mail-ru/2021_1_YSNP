@@ -87,8 +87,6 @@ export class ProductTable {
     render(context) {
         try {
             this.__context = context;
-            this.__parent.innerText = '';
-
             this.__parent.insertAdjacentHTML('beforeend', productTableTemplate());
             this.__addCards(this.__context.data);
             this.__addListeners();

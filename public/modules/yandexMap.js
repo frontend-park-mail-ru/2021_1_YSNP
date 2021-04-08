@@ -88,21 +88,23 @@ export class YandexMap {
      * @param {number} id - input id
      */
     addSearch(id) {
-        const suggestView = new ymaps.SuggestView(id, {
-            offset: [10, 10]
-        });
+        ymaps.ready(() => {
+            const suggestView = new ymaps.SuggestView(id, {
+                offset: [10, 10]
+            });
 
-        suggestView.events.add('select', (e) => {
-            const myGeocoder = ymaps.geocode(e.originalEvent.item.value);
-            myGeocoder.then(
-                (res) => {
-                    this.__movePoint(this.__convertPosArrayToObject(res.geoObjects.get(0).geometry.getCoordinates()));
-                    this.setCenter(this.__convertPosArrayToObject(res.geoObjects.get(0).geometry.getCoordinates(), 1));
-                },
-                (err) => {
-                    console.log('Ошибка', err);
-                }
-            );
+            suggestView.events.add('select', (e) => {
+                const myGeocoder = ymaps.geocode(e.originalEvent.item.value);
+                myGeocoder.then(
+                    (res) => {
+                        this.__movePoint(this.__convertPosArrayToObject(res.geoObjects.get(0).geometry.getCoordinates()));
+                        this.setCenter(this.__convertPosArrayToObject(res.geoObjects.get(0).geometry.getCoordinates(), 1));
+                    },
+                    (err) => {
+                        console.log('Ошибка', err);
+                    }
+                );
+            });
         });
     }
 

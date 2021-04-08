@@ -20,7 +20,7 @@
 }
 
 .search-content{
-    padding: 10vh;
+    padding: 5vw;
 
     position: relative;
     z-index: 3;
@@ -32,12 +32,12 @@
 }
 
 .search-title {
-    width: 85vh;
+    width: 49vw;
     font-size: 5vh;
     color: #FFFFFF;
 }
 .search-line {
-    width: 85vh;
+    width: 49vw;
     height: 5vh;
     margin-top: 3vh;
     margin-bottom: 3vh;
@@ -47,7 +47,7 @@
 }
 
 .search-line__input{
-    width: 42vw;
+    width: 41vw;
     height: 4vh;
     font-size: 1.6vh;
     padding-left: 1vh;

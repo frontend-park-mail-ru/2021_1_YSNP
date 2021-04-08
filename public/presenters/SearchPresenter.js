@@ -17,13 +17,15 @@ export class SearchPresenter extends BasePresenter {
      *
      * Class constructor
      * @param{SearchView} view - view
+     * @param text
      * @this {SearchPresenter}
      */
-    constructor(view) {
+    constructor(view, text) {
         super(view);
         this.__view = view;
         this.__productListModel = new ProductListModel();
         this.__model = new SearchModel();
+        this.__searchInitText = text;
     }
 
     /***
@@ -47,7 +49,12 @@ export class SearchPresenter extends BasePresenter {
      */
     async control() {
         await this.update();
-        this.__view.render(this.__makeContext()).then(() => this.__search());
+        this.__view.render(this.__makeContext()).then(() => {
+            console.log(this.__searchInitText);
+            const {search} = this.__view.getAllFields();
+            search.value = this.__searchInitText;
+            this.__search();
+        });
         (new PageUpHandler()).start();
     }
 

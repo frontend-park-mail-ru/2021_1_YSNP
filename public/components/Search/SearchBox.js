@@ -115,6 +115,13 @@ export class SearchBox {
         this.__listeners = val;
     }
 
+    /***
+     *
+     * @return {string}
+     */
+    getTextFromSearch() {
+        return document.getElementById('search-input').value;
+    }
 
     /***
      * add new listeners
@@ -124,6 +131,18 @@ export class SearchBox {
         document
             .getElementById('search-button')
             .addEventListener(this.listeners.searchClick.type, this.listeners.searchClick.listener);
+        document
+            .getElementById('search-categories')
+            .addEventListener(this.listeners.searchClick.type, this.listeners.searchClick.listener);
+    }
+
+
+    /***
+     *
+     * @param{HTMLElement} element
+     */
+    getCategory(element) {
+        return element.dataset['category'];
     }
 
     /***

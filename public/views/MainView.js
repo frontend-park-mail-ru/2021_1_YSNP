@@ -63,6 +63,18 @@ export class MainView extends BaseView {
     }
 
     /***
+     *
+     * @return {string}
+     */
+    getTextFromSearch() {
+        return this.__searchBox.getTextFromSearch();
+    }
+
+    getCategory(element) {
+        return this.__searchBox.getCategory(element);
+    }
+
+    /***
      * Render view
      * @param {Object} context - view context
      */
@@ -71,8 +83,8 @@ export class MainView extends BaseView {
         this.__makeContext(context);
 
 
-        const searchBox = new SearchBox(this.__app);
-        searchBox.render(this.__context.search);
+        this.__searchBox = new SearchBox(this.__app);
+        this.__searchBox.render(this.__context.search);
 
         const layout = new Layout(this.__app, true);
         layout.render();
@@ -80,8 +92,9 @@ export class MainView extends BaseView {
 
         const adSwitch = new Switch(parent);
         adSwitch.render(this.__context.switch);
-
         this.__mainList = new ProductTable(parent);
         this.__mainList.render(this.__context.mainList);
+
+
     }
 }

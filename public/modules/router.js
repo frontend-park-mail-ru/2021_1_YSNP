@@ -17,7 +17,7 @@ class Router {
      */
     start() {
         const route = this.__getCurrentRoute();
-        this.__removeListeners = route.callback.call(this, this.__getParamsFromRegExp(route));
+        route.callback.call(this, this.__getParamsFromRegExp(route));
     }
 
     /***
@@ -248,6 +248,7 @@ class Router {
      * @private
      */
     __getCurrentRoute() {
+        console.log(this.__routes);
         const route = this.__routes.find((route) => this.__getCurrentPath().match(route.regExp), this);
 
         if (route === undefined) {
