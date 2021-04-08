@@ -10,18 +10,19 @@ import {
     validateError,
     showSuccessMessage
 } from '../modules/validationStates.js';
+
 import {router} from '../modules/router';
 import {frontUrls} from '../modules/frontUrls';
 import {user} from '../models/ProfileUserModel.js';
-import {checkAuth} from '../modules/checkAuth';
+import {checkIsAuth} from '../modules/checkAuth';
 
 /***
  * Profile settings presenter
  */
-export class ProfilePresenter extends BasePresenter {
+export class UserProfilePresenter extends BasePresenter {
     /***
      * Class constructor
-     * @param {ProfileView} view - view
+     * @param {UserProfileView} view - view
      */
     constructor(view) {
         super(view);
@@ -44,7 +45,9 @@ export class ProfilePresenter extends BasePresenter {
      */
     async control() {
         await this.update();
-        checkAuth();
+
+        checkIsAuth();
+
         this.__view.render(this.__makeContext());
     }
 
@@ -182,7 +185,7 @@ export class ProfilePresenter extends BasePresenter {
         const isValidNewPwd = this.__validatePassword(newPassword);
         if (isValidNewPwd && isValidpwdConfirm) {
             this.__model.fillUserData({
-                password: oldPassword,
+                password: oldPassword.value,
                 password1: newPassword.value,
                 password2: passwordConfirm.value
             });
@@ -318,7 +321,7 @@ export class ProfilePresenter extends BasePresenter {
                 .then(({isUpdate, message}) => {
                     if (isUpdate) {
                         hideBackendError(errorSettingsID);
-                        router.redirect(frontUrls.profile);
+                        router.redirect(frontUrls.userProfile);
                     } else {
                         showBackendError(errorSettingsID, message);
                     }

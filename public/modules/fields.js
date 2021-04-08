@@ -4,6 +4,8 @@ import fieldSelectTemplate from '../components/RegistrationPanel/Fields/FieldSel
 import fieldAvatarTemplate from '../components/RegistrationPanel/Fields/FieldAvatar.hbs';
 import fieldTextAreaTemplate from '../components/RegistrationPanel/Fields/FieldTextArea.hbs';
 import fieldMultiPhotoTemplate from '../components/RegistrationPanel/Fields/FieldMultiPhoto.hbs';
+import {http} from './http.js';
+import {backUrls} from './backUrls.js';
 
 
 /***
@@ -94,24 +96,14 @@ export const baseRegistration = {
     }
 };
 
-
 /***
- * @author Ivan Gorshkov
  *
- * array of categories
- * @type {({title: string}|{title: string}|{title: string}|{title: string}|{title: string})[]}
  */
-const getOptionsCategories = [
-    {title: 'Автомобиль'},
-    {title: 'Электроника'},
-    {title: 'Одежда'},
-    {title: 'Хобби'},
-    {title: 'Запчасти'},
-    {title: 'Спорт'},
-    {title: 'Животные'},
-    {title: 'Услуги'}
-];
-
+async function getCategories() {
+    return http.get(backUrls.categories);
+}
+// eslint-disable-next-line init-declarations
+export let categories;
 /***
  * @author Ivan Gorshkov
  *
@@ -131,64 +123,64 @@ const getOptionsType = [
  * @return {Object} - fields of createForm
  */
 export const baseCreateProduct = {
-    name: {
-        title: 'Название*',
-        placeholder: 'Название товара',
-        inputType: 'text',
-        id: 'nameInput',
-        dataAction: 'inputEmpty',
-        template: fieldTemplate.bind()
-    },
-    categories: {
-        title: 'Категория*',
-        placeholder: 'Категория',
-        inputType: 'select',
-        id: 'categorySelect',
-        dataAction: 'inputEmpty',
-        template: fieldSelectTemplate.bind(),
-        options: getOptionsCategories
-    }, /*
-            subCategories: {
-                title: 'Подкатегория*',
-                placeholder: 'Подкатегория',
-                inputType: 'select',
-                id: 'subcategorySelect',
-                dataAction: 'inputEmpty',
-                options: this.__getOptionsSubcategories()
-            },*/
-    type: {
-        title: 'Тип*',
-        placeholder: 'Тип',
-        inputType: 'select',
-        id: 'typeSelect',
-        dataAction: 'inputEmpty',
-        template: fieldSelectTemplate.bind(),
-        options: getOptionsType
-    },
-    price: {
-        title: 'Цена*',
-        placeholder: 'Цена (₽)',
-        inputType: 'text',
-        id: 'priceInput',
-        dataAction: 'priceInput',
-        template: fieldTemplate.bind()
-    },
-    description: {
-        title: 'Описание*',
-        placeholder: 'Описание',
-        inputType: 'textarea',
-        id: 'textareaInput',
-        dataAction: 'textareaInputEmpty',
-        template: fieldTextAreaTemplate.bind()
-    }, /*,            place: {
-                title: 'Местоположение*',
-                placeholder: 'Местоположение',
-                inputType: 'text',
-                id: 'placeInput',
-                dataAction: 'inputEmpty'
-            }*/
-    avatar: {
-        title: 'Фото',
-        template: fieldMultiPhotoTemplate.bind()
-    }
-};
+        name: {
+            title: 'Название*',
+            placeholder: 'Название товара',
+            inputType: 'text',
+            id: 'nameInput',
+            dataAction: 'inputEmpty',
+            template: fieldTemplate.bind()
+        },
+        categories: {
+            title: 'Категория*',
+            placeholder: 'Категория',
+            inputType: 'select',
+            id: 'categorySelect',
+            dataAction: 'inputEmpty',
+            template: fieldSelectTemplate.bind(),
+            options: []
+        },
+        type: {
+            title: 'Тип*',
+            placeholder: 'Тип',
+            inputType: 'select',
+            id: 'typeSelect',
+            dataAction: 'inputEmpty',
+            template: fieldSelectTemplate.bind(),
+            options: getOptionsType
+        },
+        price: {
+            title: 'Цена*',
+            placeholder: 'Цена (₽)',
+            inputType: 'text',
+            id: 'priceInput',
+            dataAction: 'priceInput',
+            template: fieldTemplate.bind()
+        },
+        description: {
+            title: 'Описание*',
+            placeholder: 'Описание',
+            inputType: 'textarea',
+            id: 'textareaInput',
+            dataAction: 'textareaInputEmpty',
+            template: fieldTextAreaTemplate.bind()
+        },
+        avatar: {
+            title: 'Фото',
+            template: fieldMultiPhotoTemplate.bind()
+        },
+        address: {
+            title: 'Адрес',
+            placeholder: 'Укажите на карте адрес',
+            inputType: 'text',
+            id: 'addressInput',
+            dataAction: 'tapMap',
+            template: fieldTemplate.bind(),
+            params: ''
+        }
+    };
+
+getCategories().then(({data}) => {
+    categories = data;
+    baseCreateProduct.categories.options = categories;
+});

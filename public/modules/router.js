@@ -16,7 +16,13 @@ class Router {
      * Start rote application
      */
     start() {
-        const route = this.__getCurrentRoute();
+        const route = this.__routes.find((route) => this.__getCurrentPath().match(route.regExp), this);
+
+        if (route === undefined) {
+            this.redirectNotFound();
+            return;
+        }
+
         this.__removeListeners = route.callback.call(this, this.__getParamsFromRegExp(route));
     }
 
@@ -46,6 +52,14 @@ class Router {
             parameters: params,
             regExp: regExp
         });
+    }
+
+    /***
+     * Add not found callback
+     * @param {Function} callback - not found callback
+     */
+    addNotFound(callback) {
+        this.__notFoundCallback = callback;
     }
 
     /***
@@ -94,6 +108,14 @@ class Router {
         window.history.pushState(state, title, url);
         return this.start();
     }
+
+    /***
+     * Redirect not found
+     */
+    redirectNotFound() {
+        this.__notFoundCallback();
+    }
+
 
     /***
      * Set page state
@@ -224,21 +246,6 @@ class Router {
      */
     __getCurrentPath() {
         return window.location.pathname;
-    }
-
-    /***
-     * Get current route
-     * @returns {*}
-     * @private
-     */
-    __getCurrentRoute() {
-        let route = this.__routes.find((route) => this.__getCurrentPath().match(route.regExp), this);
-
-        if (route === undefined) {
-            route = this.__routes.find((router) => router.url === '/', this);
-        }
-
-        return route;
     }
 
     /***
