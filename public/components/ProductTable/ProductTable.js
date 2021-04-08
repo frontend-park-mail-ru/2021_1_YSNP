@@ -1,5 +1,5 @@
 import productTableTemplate from './ProductTable.hbs';
-import './ProductTable.css';
+import './ProductTable.scss';
 
 import {ProductCard} from './ProductCard/ProductCard.js';
 

@@ -1,4 +1,4 @@
-import './ProductCreateForm.css';
+import './ProductCreateForm.scss';
 import productCreateFormTemplate from './ProductCreateForm.hbs';
 import productPhotoTemplate from './ProductPhoto.hbs';
 import productFileTemplate from './ProductFile.hbs';

@@ -1,0 +1,51 @@
+@import "../../scss/main.scss";
+
+.page-up {
+  height: 100vh;
+  width: 12vh;
+
+  top: 0;
+  position: fixed;
+
+  transition-duration: 0.5s;
+  transition-property: color, background-color;
+
+  &:hover {
+    color: $linkColor;
+    background-color: #ECECEC;
+  }
+
+  &__disabled {
+    display: none;
+  }
+
+  &-inner {
+    height: 100%;
+    width: 100%;
+
+    margin-top: 9vh;
+
+    display: flex;
+    justify-content: center;
+  }
+
+  &-button {
+    height: fit-content;
+
+    display: flex;
+    flex-direction: row;
+
+    align-items: center;
+
+    &__img {
+      height: 2vh;
+      width: 2vh;
+
+      margin-right: 0.5vh;
+    }
+
+    &__text {
+      font-size: 1.5vh;
+    }
+  }
+}

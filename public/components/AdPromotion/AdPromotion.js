@@ -1,5 +1,5 @@
-import './AdPromotion.css';
-import './Tariff/Tariff.css';
+import './AdPromotion.scss';
+import './Tariff/Tariff.scss';
 import adPromotionTemplate from './AdPromotion.hbs';
 import tariffTemplate from './Tariff/Tariff.hbs';
 
@@ -108,14 +108,16 @@ export class AdPromotion {
      */
     __showError(errorId, message) {
         document.getElementById(errorId).textContent = message;
-        document.getElementById(errorId).classList.add('promotion-error_visible');
+        document.getElementById(errorId).classList.add('error-visible');
+        document.getElementById(errorId).classList.remove('error-hidden');
     }
 
     /***
      * Remove error message
      */
     removeError() {
-        document.getElementById('promotion-error').classList.remove('promotion-error_visible');
+        document.getElementById('promotion-error').classList.remove('error-visible');
+        document.getElementById('promotion-error').classList.add('error-hidden');
     }
 
     /***
@@ -127,7 +129,7 @@ export class AdPromotion {
     __setChecked(block, button) {
         this.__resetChecked();
         block.classList.add('tariffs-block_checked');
-        button.classList.add('tariffs__button_checked');
+        button.classList.add('tariffs-block__button_checked');
         button.textContent = 'Выбрано';
     }
 
@@ -137,9 +139,9 @@ export class AdPromotion {
      */
     __resetChecked() {
         const {base, improved, advanced, noTariff, baseBlock, improvedBlock, advancedBlock} = this.__getTariffDOM();
-        base.classList.remove('tariffs__button_checked');
-        improved.classList.remove('tariffs__button_checked');
-        advanced.classList.remove('tariffs__button_checked');
+        base.classList.remove('tariffs-block__button_checked');
+        improved.classList.remove('tariffs-block__button_checked');
+        advanced.classList.remove('tariffs-block__button_checked');
         noTariff.removeAttribute('checked');
 
         base.textContent = 'Выбрать';

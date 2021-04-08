@@ -1,5 +1,5 @@
 import pageUpTemplate from './PageUp.hbs';
-import './PageUp.css';
+import './PageUp.scss';
 
 /***
  * Page up component

@@ -1,6 +1,7 @@
 'use strict';
 
-import './style.css';
+import './scss/style.scss';
+import './scss/main.scss';
 
 import {router} from './modules/router.js';
 import {frontUrls} from './modules/frontUrls.js';

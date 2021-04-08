@@ -1,4 +1,4 @@
-import './Description.css';
+import './Description.scss';
 import descriptionTemplate from './Description.hbs';
 
 /***

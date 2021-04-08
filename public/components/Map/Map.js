@@ -1,5 +1,5 @@
 import mapTemplate from './Map.hbs';
-import './Map.css';
+import './Map.scss';
 
 /***
  * YandexMap component
