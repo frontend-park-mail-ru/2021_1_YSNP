@@ -189,6 +189,10 @@ export class UserModel {
         this.__dateBirth = data.dateBirth;
         this.__email = data.email;
         this.__telephone = data.telephone;
+        this.__latitude = data.latitude;
+        this.__longitude = data.longitude;
+        this.__radius = data.radius;
+        this.__address = data.address;
         this.__linkImages = data.linkImages !== undefined ? data.linkImages : '';
     }
 }
