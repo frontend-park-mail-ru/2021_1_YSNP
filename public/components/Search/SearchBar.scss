@@ -1,14 +1,13 @@
+@import "../../scss/main.scss";
 
 .search {
   &-block {
     display: flex;
 
     &__search-field {
-      width: 75%;
-      height: 3.5vh;
+      @include set-size(75%, 3.5vh);
+      @include border-block;
       background-color: rgb(245, 245, 245);
-      border: 1px solid rgba(0, 0, 0, 0.2);
-      border-radius: 0.5vh;
       margin-bottom: 1vh;
       font-size: 2vh;
       padding-left: 1vh;
@@ -27,18 +26,18 @@
 
     &__from-input {
       width: 8vw;
+      @include border-block;
       border-radius: 0.5vh 0 0 0.5vh;
       font-size: 2vh;
       padding: 1vh;
-      border: 1px solid rgba(0, 0, 0, 0.2);
     }
 
     &__to-input {
       width: 5.0vw;
+      @include border-block;
       border-radius: 0 0.5vh 0.5vh 0;
       font-size: 2vh;
       padding: 1vh;
-      border: 1px solid rgba(0, 0, 0, 0.2);
     }
   }
 
