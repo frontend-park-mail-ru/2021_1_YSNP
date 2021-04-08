@@ -256,7 +256,7 @@ export class BasePresenter {
             listeners: true,
             id: 'ya-map'
         });
-        this.__yaMap.setPosition(this.__getUserPosition().pos, this.__getUserPosition().radius);
+        this.__yaMap.setPosition(this.__getUserPosition().pos, this.__getUserPosition().radius * 1000);
     }
 
     /***
@@ -356,7 +356,7 @@ export class BasePresenter {
         this.__userModel.fillUserData({
             latitude: this.__yaMap.getPointPos().latitude,
             longitude: this.__yaMap.getPointPos().longitude,
-            radius: this.__yaMap.getRadius(),
+            radius: this.__yaMap.getRadius() / 1000,
             address: this.__yaMap.getAddress()
         });
 

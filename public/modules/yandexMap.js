@@ -31,7 +31,8 @@ export class YandexMap {
      * @param {number} radius - radius
      */
     setPosition(pos, radius) {
-        ymaps.ready(this.addPointWithCircle.bind(this, pos, radius))
+        ymaps.ready(this.addPointWithCircle.bind(this, pos, radius));
+        ymaps.ready(this.setCenter.bind(this, pos, 11));
     }
 
     /***
