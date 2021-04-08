@@ -38,7 +38,7 @@ export class AdPromotion {
      * Set base tariff style
      */
     setBase() {
-        const {base, baseBlock} = this.__getTariffDOM();
+        const { base, baseBlock } = this.__getTariffDOM();
         this.__setChecked(baseBlock, base);
     }
 
@@ -46,7 +46,7 @@ export class AdPromotion {
      * Set improved tariff style
      */
     setImproved() {
-        const {improved, improvedBlock} = this.__getTariffDOM();
+        const { improved, improvedBlock } = this.__getTariffDOM();
         this.__setChecked(improvedBlock, improved);
     }
 
@@ -72,7 +72,7 @@ export class AdPromotion {
      * @returns {{status: string}}
      */
     getSelected() {
-        const {base, improved, advanced, noTariff} = this.__getTariffDOM();
+        const { base, improved, advanced, noTariff } = this.__getTariffDOM();
         const baseCheck = base.textContent;
         const improvedCheck = improved.textContent;
         const advancedCheck = advanced.textContent;
@@ -81,23 +81,23 @@ export class AdPromotion {
         if (baseCheck === 'Выбрано') {
             const { basePrice } = this.__getTariffDOM();
             this.__sendForm('Базовый', parseInt(basePrice.value));
-            return {status: 'send'};
+            return { status: 'send' };
         }
         if (improvedCheck === 'Выбрано') {
             const { improvedPrice } = this.__getTariffDOM();
             this.__sendForm('Улучшенный', parseInt(improvedPrice.value));
-            return {status: 'send'};
+            return { status: 'send' };
         }
         if (advancedCheck === 'Выбрано') {
             const { advancedPrice } = this.__getTariffDOM();
             this.__sendForm('Продвинутый', parseInt(advancedPrice.value));
-            return {status: 'send'};
+            return { status: 'send' };
         }
         if (noTariffCheck) {
-            return {status: 'nothing'};
+            return { status: 'nothing' };
         }
         this.__showError('promotion-error', 'Выберите какой-нибудь тариф');
-        return {status: 'error'};
+        return { status: 'error' };
     }
 
     /***
@@ -163,7 +163,19 @@ export class AdPromotion {
         document.getElementById('promotion-title').value = `KOYA: покупка продвижения объявления по тарифу ${type}`;
         document.getElementById('promotion-type').value = `KOYA: покупка продвижения объявления по тарифу ${type}`;
         document.getElementById('promotion-sum').value = sum;
-        document.getElementById('promotion-label').value += `, ${type}`;
+        let tariff = 0;
+        switch (type) {
+            case 'Базовый':
+                tariff = 1;
+                break;
+            case 'Улучшенный':
+                tariff = 2;
+                break;
+            case 'Продвинутый':
+                tariff = 3;
+                break;
+        }
+        document.getElementById('promotion-label').value += `,${tariff}`;
         document.getElementById('promotion-description').value = `KOYA: Покупка продвижения объявления по тарифу ${type}`;
     }
 
@@ -193,7 +205,7 @@ export class AdPromotion {
      * @private
      */
     __fillTariffData() {
-       const tariff1 = {
+        const tariff1 = {
             name: 'Базовый',
             price: '2',
             description: [
@@ -206,7 +218,7 @@ export class AdPromotion {
         };
         const tariff2 = {
             name: 'Улучшенный',
-            price: '199',
+            price: '5',
             description: [
                 'Объявление показывается в ленте в 10 раз чаще',
                 'Объявление выделяется красным цветом'
@@ -218,7 +230,7 @@ export class AdPromotion {
         };
         const tariff3 = {
             name: 'Продвинутый',
-            price: '399',
+            price: '7',
             description: [
                 'Объявление показывается в ленте в 10 раз чаще',
                 'Объявление выделяется красным цветом',

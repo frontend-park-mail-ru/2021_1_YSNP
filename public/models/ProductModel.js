@@ -180,11 +180,11 @@ export class ProductModel {
         this.__ownerSurname = data.ownerSurname;
         this.__ownerStars = data.ownerStars;
         this.__category = data.category;
+        this.__tariff = data.tariff;
         this.__adress = data.address;
         this.__category = data.category;
         this.__latitude = data.latitude;
         this.__longitude = data.longitude;
-
     }
 
     /***
@@ -225,6 +225,7 @@ export class ProductModel {
             ownerName: this.__ownerName,
             ownerSurname: this.__ownerSurname,
             ownerStars: this.__ownerStars,
+            tariff: this.__tariff,
             latitude: this.__latitude,
             longitude: this.__longitude,
             address: this.__adress
@@ -245,7 +246,7 @@ export class ProductModel {
             amount: this.__getAmount(),
             userLiked: this.__userLiked,
             linkImage: this.__getFirstImage(),
-            status: 0
+            tariff: this.__tariff
         };
     }
 
