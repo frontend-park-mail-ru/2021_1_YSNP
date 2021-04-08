@@ -58,7 +58,7 @@ export class ProfileUserModel extends PasswordUserModel {
             sex: this.__sex,
             email: this.__email,
             telephone: this.__telephone,
-            password: this.__password,
+            password: this.__password1,
             linkImages: this.__linkImages
         };
     }

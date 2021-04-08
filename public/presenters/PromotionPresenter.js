@@ -1,7 +1,7 @@
 import {BasePresenter} from './BasePresenter.js';
 import {router} from '../modules/router';
 import {frontUrls} from '../modules/frontUrls';
-import {checkAuth} from '../modules/checkAuth.js';
+import {checkIsAuth} from '../modules/checkAuth.js';
 /***
  * Profile settings presenter
  */
@@ -29,7 +29,9 @@ export class PromotionPresenter extends BasePresenter {
      */
     async control() {
         await this.update();
-        checkAuth();
+
+        checkIsAuth();
+
         this.__view.render(this.__makeContext());
     }
 

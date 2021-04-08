@@ -1,0 +1,159 @@
+@import "../../scss/main.scss";
+
+.settings {
+    width: 85vh;
+    height: 105vh;
+    margin-bottom: 10vh;
+    display: flex;
+    flex-direction: column;
+
+    &-inner {
+        @include shadow-block;
+        display: flex;
+        flex-direction: column;
+        padding: 1vh 2.5vh;
+        height: 100%;
+    }
+
+    &-title {
+        font-size: 2.5vh;
+        color: $textColorDefault;
+        width: 100%;
+        height: 8vh;
+        display: flex;
+        align-items: center;
+
+        &__edit {
+            margin-left: 1vw;
+            cursor: pointer;
+
+            &:hover svg path {
+                fill: black;
+                opacity: 1;
+            }
+        }
+
+        &__save_button {
+            @include red-button(17vh, 4vh);
+            margin-left: calc(100% - 40vh);
+            visibility: hidden;
+        }
+
+        &__reset_button {
+            @include cancel-button(17vh, 4vh);
+            margin-left: calc(100% - 120vh);
+            visibility: hidden;
+        }
+    }
+
+    &__separator {
+        @include separator;
+    }
+
+    &-components {
+        margin-bottom: 1vh;
+        width: 100%;
+        height: 40vh;
+        display: flex;
+        flex-direction: row;
+        font-style: normal;
+        font-weight: normal;
+
+        &__title {
+            @include description-label;
+            height: 6vh;
+            align-items: center;
+            margin-bottom: 1vh;
+        }
+
+        &__input {
+            background: none;
+            @include input;
+
+            &:read-only {
+                outline: 0;
+                outline-offset: 0;
+                border: none;
+                padding-left: 10px;
+            }
+        }
+    }
+
+    &-left-components {
+        width: 25%;
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+        justify-content: left;
+    }
+
+
+    &-right-components {
+        width: 75%;
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+    }
+
+    &-input-inner {
+        position: relative;
+        width: 27vh;
+        height: 6vh;
+        margin-top: 0.6vh;
+        justify-content: left;
+        display: flex;
+        flex-direction: column;
+    }
+
+
+    &-photo-inner {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+    }
+
+    &-avatar {
+        position: relative;
+        margin-left: 15vh;
+        transform: translate(5%, 0);
+
+        &-upload__button {
+            cursor: pointer;
+            width: 1vw;
+            height: 1vw;
+            position: absolute;
+            top: 0;
+            left: 0;
+            transform: translate(7vw, 7vw);
+            visibility: hidden;
+        }
+        &-inner {
+            cursor: pointer;
+            border-radius: 100%;
+            overflow: hidden;
+            @include set-size(9vw, 9vw);
+            border: 1px solid rgba(0, 0, 0, 0.1);
+        }
+
+        &__pic {
+            display: block;
+            @include circle;
+            @include set-size(9vw, 9vw);
+        }
+
+        &-upload {
+            top: 167px;
+            right: 30px;
+            color: #666666;
+            opacity: 0.5;
+            transition: all .3s cubic-bezier(.175, .885, .32, 1.275);
+        }
+    }
+
+    &-photo-label {
+         visibility: hidden;
+    }
+}
+[id^=settings-gender] select:disabled {
+    appearance: none;
+}

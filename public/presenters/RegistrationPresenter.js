@@ -1,16 +1,13 @@
 import {BasePresenter} from './BasePresenter.js';
 import {addSuccesses, hideError, insertError, showError} from '../modules/validationStates.js';
 import {eventHandlerWithDataType} from '../modules/eventHandler.js';
-import {parseTelNumber, telMask} from '../modules/telMask.js';
+import {parseTelNumber, telMask} from '../modules/mask.js';
 import {router} from '../modules/router.js';
 import {frontUrls} from '../modules/frontUrls.js';
 import {RegUserData} from '../models/RegUserData.js';
+import {noop} from '../models/Noop.js';
+import {checkIsNotAuth} from '../modules/checkAuth.js';
 
-/***
- *  noop function
- */
-const noop = () => {
-};
 
 /***
  *  RegistrationPresenter class
@@ -48,10 +45,8 @@ export class RegistrationPresenter extends BasePresenter {
      */
     async control() {
         await this.update();
-        if (this.__userModel.isAuth) {
-            router.redirect(frontUrls.main);
-            return;
-        }
+
+        checkIsNotAuth();
 
         this.__view.render(this.__makeContext());
     }

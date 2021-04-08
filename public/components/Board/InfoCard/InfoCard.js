@@ -1,4 +1,4 @@
-import './InfoCard.css';
+import './InfoCard.scss';
 import infoCardTemplate from './InfoCard.hbs';
 
 /***

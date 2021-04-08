@@ -1,18 +1,12 @@
 import {BasePresenter} from './BasePresenter.js';
 import {addSuccesses, hideError, insertError, showError} from '../modules/validationStates.js';
-import {amountMask} from '../modules/amountMask.js';
+import {amountMask} from '../modules/mask.js';
 import {router} from '../modules/router.js';
 import {frontUrls} from '../modules/frontUrls.js';
 import {ProductModel} from '../models/ProductModel.js';
 import {eventHandlerWithDataType} from '../modules/eventHandler';
-
-import {checkAuth} from '../modules/checkAuth.js';
-
-/***
- *  noop function
- */
-const noop = () => {
-};
+import {noop} from '../models/Noop.js';
+import {checkIsAuth} from '../modules/checkAuth.js';
 
 /***
  *  ProductCreatePresenter class, extends from BasePresenter
@@ -73,9 +67,8 @@ export class ProductCreatePresenter extends BasePresenter {
      * @this {ProductCreatePresenter}
      */
     async control() {
-        checkAuth();
-
         await this.update();
+        checkIsAuth();
         this.__view.render(this.__makeContext());
     }
 
@@ -209,6 +202,9 @@ export class ProductCreatePresenter extends BasePresenter {
                 },
                 hideError: {
                     open: hideError.bind(this)
+                },
+                tapMap: {
+                    open: this.__validateFields.bind(this, this.__validateAddressInput.bind(this))
                 }
             }
         };
@@ -223,10 +219,26 @@ export class ProductCreatePresenter extends BasePresenter {
      * @param {Function} validFunc
      * @param {Event} ev
      */
-    __validateFields(validFunc, ev) {
-        if (!validFunc(ev.target)) {
+    async __validateFields(validFunc, ev) {
+        if (!await validFunc(ev.target)) {
             this.__view.hideError(this.__view.getErrorId(ev.target));
         }
+    }
+
+    /***
+     * @author Ivan Gorshkov
+     *
+     * validate name
+     * @param{HTMLElement} target
+     * @return {boolean}
+     * @private
+     * this {ProductCreatePresenter}
+     */
+    async __validateAddressInput(target) {
+        return await this.__model.validationPos(target.value.toString()).then(({
+                                                                                   error,
+                                                                                   message
+                                                                               }) => this.__handlingErrors(error, target, message));
     }
 
     /***
@@ -236,20 +248,23 @@ export class ProductCreatePresenter extends BasePresenter {
      * @private
      * @this {ProductCreatePresenter}
      */
-    __listenerSubmitClick() {
-        const {price, description, name, category} = this.__view.getAllFields();
+    async __listenerSubmitClick() {
+        const {price, description, name, category, address} = this.__view.getAllFields();
         const isValidPrice = this.__validatePriceInput(price);
         const isValidDescription = this.__validateTextArea(description);
         const isValidName = this.__validateEmptyInput(name);
+        const isValidAddress = await this.__validateAddressInput(address);
         const isValidImages = this.__validateImageSize(this.__view.getForm());
         const emptyPhotoField = 0;
-
-        if (isValidName && isValidDescription && isValidPrice && isValidImages && this.__count !== emptyPhotoField) {
+        if (isValidName && isValidDescription && isValidPrice && isValidImages && isValidAddress && this.__count !== emptyPhotoField) {
             this.__model.fillProductModel({
                 name: name.value,
                 description: description.value,
                 amount: parseInt(price.value.toString().split(' ').join('')),
-                category: category.options[category.selectedIndex].text
+                category: category.options[category.selectedIndex].text,
+                latitude: this.__view.getPos().latitude,
+                longitude: this.__view.getPos().longitude,
+                address: this.__view.getAddress()
             });
             this.__view.changeDisableButton();
 
@@ -455,3 +470,4 @@ export class ProductCreatePresenter extends BasePresenter {
         };
     }
 }
+

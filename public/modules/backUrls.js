@@ -6,8 +6,8 @@ class BackUrls {
      * Class constructor
      */
     constructor() {
-        this.__url = 'https://ykoya.ru';
-        // this.__url = 'http://localhost:8080';
+        // this.__url = 'https://ykoya.ru';
+        this.__url = 'http://localhost:8080';
         this.__api = '/api/v1';
     }
 
@@ -97,6 +97,22 @@ class BackUrls {
      */
     get newPassword() {
         return `${this.__url}${this.__api}/settings/password`;
+    }
+
+    /***
+     * Get find products url
+     * @returns {string}
+     */
+    get search() {
+        return `${this.__url}${this.__api}/search`;
+    }
+
+    /***
+     *
+     * @return {string}
+     */
+    get categories() {
+        return `${this.__url}${this.__api}/categories`;
     }
 }
 

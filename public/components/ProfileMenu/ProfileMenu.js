@@ -1,4 +1,4 @@
-import './ProfileMenu.css';
+import './ProfileMenu.scss';
 import profileMenuTemplate from './ProfileMenu.hbs';
 
 /***

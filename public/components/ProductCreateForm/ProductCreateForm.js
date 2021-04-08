@@ -1,9 +1,10 @@
-import './ProductCreateForm.css';
+import './ProductCreateForm.scss';
 import productCreateFormTemplate from './ProductCreateForm.hbs';
 import productPhotoTemplate from './ProductPhoto.hbs';
 import productFileTemplate from './ProductFile.hbs';
 import {createMessageError} from '../../modules/validationStates.js';
 import {Field} from '../RegistrationPanel/Fields/Field';
+import {YandexMap} from '../../modules/yandexMap';
 
 /***
  * @author Max Torzhkov
@@ -272,7 +273,8 @@ export class ProductCreateForm {
             price: document.getElementById('priceInput'),
             description: document.getElementById('textareaInput'),
             name: document.getElementById('nameInput'),
-            category: document.getElementById('categorySelect')
+            category: document.getElementById('categorySelect'),
+            address: document.getElementById('addressInput')
         };
     }
 
@@ -289,13 +291,30 @@ export class ProductCreateForm {
         button.disabled = true;
     }
 
+    /***
+     *
+     * get city from map
+     * @return {string}
+     */
+    getAddress() {
+        return this.__yaMap.city;
+    }
+
+
+    /***
+     * get position from map
+     * @return {{latitude: number, longitude: number}}
+     */
+    getPos() {
+        return this.__yaMap.getPointPos();
+    }
 
     /***
      * @author Max Torzhkov
      * Add component to parent
      * @this {ProductCreateForm}
      */
-    render(ctx) {
+    async render(ctx) {
         this.listeners = ctx.productCreate.listeners;
         this.__parent.insertAdjacentHTML('beforeend', productCreateFormTemplate(ctx.productCreate));
 
@@ -304,6 +323,16 @@ export class ProductCreateForm {
             field.render();
         }
 
+        this.__yaMap = new YandexMap();
+        this.__yaMap.render({
+            searchControl: false,
+            geolocationControl: true,
+            listeners: true,
+            id: 'ya-map-create-product'
+        }, (address) => {
+            document.getElementById('addressInput').value = address;
+        });
+        ymaps.ready(this.__yaMap.addSearch.bind(this.__yaMap, 'addressInput'));
         this.addListeners();
     }
 }

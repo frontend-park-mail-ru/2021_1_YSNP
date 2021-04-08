@@ -13,7 +13,7 @@ export class MainView extends BaseView {
      * @param {number} id - product id
      */
     likeProduct(id) {
-        this.__productList.like(id);
+        this.__mainList.like(id);
     }
 
     /***
@@ -21,7 +21,7 @@ export class MainView extends BaseView {
      * @param {number} id - product id
      */
     dislikeProduct(id) {
-        this.__productList.dislike(id);
+        this.__mainList.dislike(id);
     }
 
     /***
@@ -29,14 +29,14 @@ export class MainView extends BaseView {
      * @param {Object[]} context - new cards
      */
     addNewCards(context) {
-        this.__productList.addNewCards(context);
+        this.__mainList.addNewCards(context);
     }
 
     /***
      * Remove product list listeners
      */
     removeProductListListeners() {
-        this.__productList.removeListeners();
+        this.__mainList.removeListeners();
     }
 
     /***
@@ -46,9 +46,9 @@ export class MainView extends BaseView {
      */
     __makeContext(context) {
         this.__context = {
-            productList: {
-                data: context.productList.data,
-                listeners: context.productList.listeners
+            mainList: {
+                data: context.mainList.data,
+                listeners: context.mainList.listeners
             },
             switch: {
                 data: {
@@ -60,6 +60,7 @@ export class MainView extends BaseView {
 
     /***
      * Render view
+     * @param {Object} context - view context
      */
     render(context) {
         super.render();
@@ -72,7 +73,7 @@ export class MainView extends BaseView {
         const adSwitch = new Switch(parent);
         adSwitch.render(this.__context.switch);
 
-        this.__productList = new ProductTable(parent);
-        this.__productList.render(this.__context.productList);
+        this.__mainList = new ProductTable(parent);
+        this.__mainList.render(this.__context.mainList);
     }
 }
