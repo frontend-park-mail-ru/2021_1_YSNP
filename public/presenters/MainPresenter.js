@@ -86,6 +86,16 @@ export class MainPresenter extends BasePresenter {
             });
     }
 
+    /***
+     * @author Ivan Gorshkov
+     *
+     * Header click listener
+     * @param {MouseEvent} ev - event
+     * @param {string} dataType
+     * @param {Object} actions
+     * @private
+     * @this {MainPresenter}
+     */
     __listenerSearchClick(dataType, actions, ev) {
         ev.preventDefault();
         eventHandlerWithDataType(ev, dataType, actions, true);
@@ -164,12 +174,21 @@ export class MainPresenter extends BasePresenter {
         };
     }
 
+    /***
+     * click to subcategory
+     * @param{Event} ev
+     * @private
+     */
     __categoryClick(ev) {
         sessionStorage.setItem('category', this.__view.getCategory(ev.target));
 
         router.redirect(frontUrls.searchWithText(ev.target.innerText));
     }
 
+    /***
+     * click to search button
+     * @private
+     */
     __searchButton() {
         sessionStorage.setItem('category', '');
         const val = this.__view.getTextFromSearch();

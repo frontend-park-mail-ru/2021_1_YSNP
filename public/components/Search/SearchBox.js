@@ -1,7 +1,9 @@
 import './SearchBox.css';
 import searchBoxTemplate from './SearchBox.hbs';
 
-
+/***
+ * class for SearchBox component (Main page)
+ */
 export class SearchBox {
     /***
      * Class constructor
@@ -13,6 +15,12 @@ export class SearchBox {
         this.__parent = parent;
     }
 
+    /***
+     *
+     * list of category and subcategory
+     * @return {Object}
+     * @private
+     */
     __getSearchCategories() {
         return [
             {
@@ -107,10 +115,18 @@ export class SearchBox {
         ];
     }
 
+    /***
+     * getter for listeners
+     * @return {Object}
+     */
     get listeners() {
         return this.__listeners;
     }
 
+    /***
+     * setter for listeners
+     * @return {Object}
+     */
     set listeners(val) {
         this.__listeners = val;
     }

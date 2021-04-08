@@ -11,16 +11,6 @@ export class SearchView extends BaseView {
     /***
      * @author Ivan Gorshkov
      *
-     * @param {HTMLElement} app - parent element
-     * @this {SearchView}
-     */
-    constructor(app) {
-        super(app);
-    }
-
-    /***
-     * @author Ivan Gorshkov
-     *
      * get HTMLElement of layout
      * @return {HTMLElement}
      * @this {SearchView}

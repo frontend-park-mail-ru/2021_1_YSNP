@@ -123,7 +123,7 @@ const doFavorite = () => {
 };
 
 /***
- * Open search page
+ * Open search page with text
  */
 const doSearchWithText = (text = '') => {
     const searchPresenter = new SearchPresenter(searchView, decodeURI(text.parameters.text));
@@ -132,6 +132,9 @@ const doSearchWithText = (text = '') => {
 //    return searchPresenter.removePageListeners.bind(searchPresenter);
 };
 
+/***
+ * Open search page
+ */
 const doSearch = () => {
     const searchPresenter = new SearchPresenter(searchView, '');
     searchPresenter.control();

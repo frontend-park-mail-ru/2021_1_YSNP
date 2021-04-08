@@ -99,11 +99,11 @@ export class YandexMap {
                     (res) => {
                         this.__movePoint(this.__convertPosArrayToObject(res.geoObjects.get(0).geometry.getCoordinates()));
                         this.setCenter(this.__convertPosArrayToObject(res.geoObjects.get(0).geometry.getCoordinates(), 1));
-                    },
+                    }
+                ).catch(
                     (err) => {
                         console.log('Ошибка', err);
-                    }
-                );
+                    });
             });
         });
     }
@@ -300,11 +300,11 @@ export class YandexMap {
                 (res) => {
                     this.setCenter(this.__convertPosArrayToObject(res.geoObjects.get(0).geometry.getCoordinates(), 3));
                     this.addCircle(this.__convertPosArrayToObject(res.geoObjects.get(0).geometry.getCoordinates()), 1000, 0.004);
-                },
-                (err) => {
-                    console.log('Ошибка');
                 }
-            );
+            ).catch(
+                (err) => {
+                    console.log('Ошибка', err);
+                });
             }
         );
     }

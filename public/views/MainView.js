@@ -70,6 +70,11 @@ export class MainView extends BaseView {
         return this.__searchBox.getTextFromSearch();
     }
 
+    /***
+     * get category from subcategory
+     * @param{HTMLElement} element
+     * @return {string}
+     */
     getCategory(element) {
         return this.__searchBox.getCategory(element);
     }
