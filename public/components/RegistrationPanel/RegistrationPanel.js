@@ -210,7 +210,8 @@ export class RegistrationPanel {
             name: document.getElementById('name'),
             surname: document.getElementById('surname'),
             date: document.getElementById('date'),
-            sex: document.getElementById('sex')
+            sex: document.getElementById('sex'),
+            pic: document.getElementById('profile-pic')
         };
     }
 

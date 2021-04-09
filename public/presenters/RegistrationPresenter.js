@@ -371,6 +371,8 @@ export class RegistrationPresenter extends BasePresenter {
         console.log(message);
         //TODO(Ivan) нормальная обработка ошибок
         this.__view.addErrorAvatar();
+        this.__view.errorText(message);
+
         return false;
     }
 
