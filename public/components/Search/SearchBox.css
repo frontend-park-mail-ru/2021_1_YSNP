@@ -1,30 +1,28 @@
 .search {
-    position: absolute;
+
     top: 6vh;
     width: 100%;
-    height: 91%;
+    height: max-content;
     background-position: center;
     background-repeat: no-repeat;
     background-size: cover;
+    object-fit: cover;
     z-index: 0;
+    background-image:url(https://design-homefort.ru/upload/iblock/004/004273143a5a15591bf16ea617242115.jpg);
 }
 
 .search-background {
     width: 100%;
-    height: 90%;
     background: #1F2F2F;
     opacity: 0.8;
     z-index: 2;
-    position: absolute;
-    top: 7vh;
+    top: 0;
 }
 
 .search-content{
     padding: 5vw;
-
     position: relative;
     z-index: 3;
-
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -35,6 +33,7 @@
     width: 49vw;
     font-size: 5vh;
     color: #FFFFFF;
+    padding-top: 2vw;
 }
 .search-line {
     width: 49vw;
@@ -95,7 +94,7 @@
 
 .search-category-card{
     width: 20vh;
-    height: 25vh;
+    height: fit-content;
     color: #FFFFFF;
     font-size: 1.5vh;
     position: relative;
