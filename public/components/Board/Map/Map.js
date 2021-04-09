@@ -46,7 +46,6 @@ export class Map {
      * @public
      */
    async render(context) {
-       console.log(context);
         this.__parent.insertAdjacentHTML('beforeend', mapTemplate());
         this.__yaMap = new YandexMap();
         this.__yaMap.render({
@@ -55,6 +54,9 @@ export class Map {
             listeners: false,
             id: 'ya-map-product'
         });
-        this.__yaMap.movePointByName('Москва, Профсоюзная улица, 132к2, Коньково');
+        this.__yaMap.movePointByPos({
+            latitude: context.__latitude,
+            longitude: context.__longitude
+        });
     }
 }
