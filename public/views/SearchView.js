@@ -48,7 +48,7 @@ export class SearchView extends BaseView {
             },
             switch: {
                 data: {
-                    title: 'Все категории'
+                    title: 'Поиск объявлений'
                 }
             }
         };

@@ -1,6 +1,6 @@
-// eslint-disable-next-line no-empty-function
-
-/***
- *  noop function
+/**
+ *  nope func
  */
-export const noop = () => {};
+export const noop = () => {
+ console.log('nope');
+};
