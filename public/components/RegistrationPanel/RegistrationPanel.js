@@ -33,7 +33,7 @@ export class RegistrationPanel {
      */
     errorText(val) {
         document
-            .getElementById('auth-error')
+            .getElementById('reg-error')
             .textContent = val;
     }
 
