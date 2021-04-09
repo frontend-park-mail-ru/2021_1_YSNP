@@ -180,9 +180,9 @@ export class MainPresenter extends BasePresenter {
      * @private
      */
     __categoryClick(ev) {
-        sessionStorage.setItem('category', this.__view.getCategory(ev.target));
+        sessionStorage.setItem('category', ev.target.innerText);
 
-        router.redirect(frontUrls.searchWithText(ev.target.innerText));
+        router.redirect(frontUrls.search);
     }
 
     /***

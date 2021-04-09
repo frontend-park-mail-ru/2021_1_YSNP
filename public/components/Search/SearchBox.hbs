@@ -13,15 +13,8 @@
         <div class="search-categories" id="search-categories">
             {{#each this}}
                     <div class="search-category-card">
-                        <div class="search-category__title">
+                        <div class="search-category__title" data-action="categoryClick">
                             {{this.title}}
-                        </div>
-                        <div class="search-category__item">
-                        {{#each this.items}}
-                            <a href="#" class='search-category__item-inner' data-category="{{../title}}" data-action="categoryClick">
-                              {{this}}
-                            </a>
-                            {{/each}}
                         </div>
                     </div>
                 {{/each}}
