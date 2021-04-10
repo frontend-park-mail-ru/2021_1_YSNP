@@ -4,18 +4,17 @@ import {Navigation} from '../components/Navigation/Navigation';
 import {Switch} from '../components/Switch/Switch';
 import {SearchBar} from '../components/Search/SearchBar.js';
 import {categories} from '../modules/fields.js';
+
 /***
  *  SearchView
  */
 export class SearchView extends BaseView {
     /***
-     * @author Ivan Gorshkov
-     *
-     * @param {HTMLElement} app - parent element
-     * @this {SearchView}
+     * Set view title
+     * @private
      */
-    constructor(app) {
-        super(app);
+    __setTitle() {
+        document.title = 'Поиск';
     }
 
     /***
@@ -108,6 +107,7 @@ export class SearchView extends BaseView {
      */
     render(context) {
         super.render();
+        this.__setTitle();
         this.layout = new Layout(this.__app, true);
         this.layout.render();
         this.__makeContext(context);

@@ -194,6 +194,14 @@ export class ProductCreateView extends BaseView {
     }
 
     /***
+     * Set view title
+     * @private
+     */
+    __setTitle() {
+        document.title = 'Новое объявление';
+    }
+
+    /***
      * get address from product create
      * @return {string}
      */
@@ -218,6 +226,7 @@ export class ProductCreateView extends BaseView {
      */
     render(context) {
         super.render();
+        this.__setTitle();
         this.layout.render();
         this.__makeContext(context);
 

@@ -111,10 +111,19 @@ export class MainPresenter extends BasePresenter {
      * @private
      */
     __likeCard(id) {
-        // TODO(Sergey) release __likeCard
-
         const numberId = parseInt(id, 10);
-        this.__view.likeProduct(numberId);
+        this.__mainListModel.voteProduct(numberId)
+            .then(({status}) => {
+                if (status === 'dislike') {
+                    this.__view.dislikeProduct(numberId);
+                    return;
+                }
+
+                this.__view.likeProduct(numberId);
+            })
+            .catch(() => {
+                router.redirect(frontUrls.registration);
+            });
     }
 
     /***
