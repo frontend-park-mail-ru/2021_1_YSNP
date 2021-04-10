@@ -78,16 +78,8 @@ export class ProfileUserModel extends PasswordUserModel {
     }
 
     /***
-     * Get first image
-     * @returns {string}
-     */
-    getFirstImage() {
-        return super.__getFirstImage();
-    }
-
-    /***
      * Get user Data for settings
-     * @returns {{linkImage: (*|null), surname: (Object.surname|string|*), sex: (Object.sex|string|*), name: (Object.name|string|*), telephone: (Object.telephone|string|*), dateBirth: (Object.dateBirth|string|*), email: (Object.email|string|*)}}
+     * @returns {{isAuth: boolean, address, linkImage, surname, sex, latitude, name, telephone, dateBirth, radius, email, longitude}}
      */
     getData() {
         return {
@@ -102,7 +94,7 @@ export class ProfileUserModel extends PasswordUserModel {
             latitude: this.__latitude,
             longitude: this.__longitude,
             radius: this.__radius,
-            address: this.__address
+            address: this.__address ? this.__address : 'Москва'
         };
     }
 
@@ -132,9 +124,6 @@ export class ProfileUserModel extends PasswordUserModel {
                                 }
                                 this.__isAuth = false;
                                 return {isUpdate: true};
-                            })
-                            .catch((err) => {
-                                throw err;
                             });
                     }
                 }
@@ -156,10 +145,7 @@ export class ProfileUserModel extends PasswordUserModel {
                 this.__isAuth = false;
                 return {isUpdate: true};
             })
-            .catch((err) => {
-                console.log(err.message);
-                return {isUpdate: false, message: err.message};
-            });
+            .catch((err) => ({isUpdate: false, message: err.message}));
     }
 
     /***
@@ -176,15 +162,12 @@ export class ProfileUserModel extends PasswordUserModel {
 
                 return {isUpdate: true};
             })
-            .catch((err) => {
-                console.log(err.message);
-                return {isUpdate: false, message: err.message};
-            });
+            .catch((err) => ({isUpdate: false, message: err.message}));
     }
 
     /***
      * Get user data from backend
-     * @returns {Promise<void>}
+     * @returns {Promise<{data: *, status: number}>}
      */
     async update() {
         if (this.__isAuth) {
@@ -210,16 +193,12 @@ export class ProfileUserModel extends PasswordUserModel {
 
                 this.fillUserData(data);
                 this.__isAuth = true;
-            })
-            .catch((err) => {
-                console.log(err.message);
-                // throw err;
             });
     }
 
     /***
      * Logout user
-     * @returns {Promise<void>}
+     * @returns {Promise<{data: *, status: number}>}
      */
     async logout() {
         return http.post(backUrls.logout, null)
@@ -238,16 +217,12 @@ export class ProfileUserModel extends PasswordUserModel {
                     throw new Error('Ошибка сервера');
                     // throw new Error(data.message);
                 }
-            })
-            .catch((err) => {
-                console.log(err.message);
-                throw err;
             });
     }
 
     /***
      * Change position
-     * @returns {Promise<void>}
+     * @returns {Promise<{data: *, status: number}>}
      */
     async position() {
         return http.post(backUrls.userPosition, this.__jsonPosition())
@@ -267,10 +242,6 @@ export class ProfileUserModel extends PasswordUserModel {
                     // throw new Error(data.message);
                 }
 
-            })
-            .catch((err) => {
-                console.log(err.message);
-                throw err;
             });
     }
 }

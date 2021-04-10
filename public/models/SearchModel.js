@@ -63,6 +63,7 @@ export class SearchModel {
                     throw new Error('Ошибка сервера');
                     // throw new Error(data.message);
                 }
+
                 return {isUpdate: true, data: data};
             });
     }

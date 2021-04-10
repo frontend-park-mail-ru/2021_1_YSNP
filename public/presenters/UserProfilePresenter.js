@@ -266,12 +266,14 @@ export class UserProfilePresenter extends BasePresenter {
                     dateBirth: modelData.dateBirth,
                     telephone: modelData.telephone,
                     email: modelData.email,
-                    imageSrc: this.__model.getFirstImage()
+                    imageSrc: modelData.linkImage
                 };
+
                 this.__view.resetSettingsChanges(data);
                 this.__isOpen = false;
                 this.__changeImg = false;
             }
+
         } else {
             this.__view.enableEditing();
             this.__isOpen = true;
