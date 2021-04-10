@@ -32,7 +32,6 @@ export class BasePresenter {
         return this.__userModel.update()
             .then(() => {
                 this.__view.baseContext = this.__makeBaseContext();
-                console.log(this.__makeBaseContext());
             })
             .catch((err) => {
                 //TODO(Sergey) нормальная обработка ошибок
