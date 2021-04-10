@@ -102,7 +102,7 @@ export class SearchView extends BaseView {
         this.layout.render();
         this.__makeContext(context);
 
-        this.__navSubView = new Navigation(this.getLayoutParent(), 'Главная страница', {route: ['поиск объявлений']});
+        this.__navSubView = new Navigation(this.getLayoutParent(), 'Главная страница', {route: ['Поиск объявлений']});
         this.__navSubView.render(context);
 
         const adSwitch = new Switch(this.getLayoutParent());

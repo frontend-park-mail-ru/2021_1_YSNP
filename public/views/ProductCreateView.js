@@ -221,7 +221,7 @@ export class ProductCreateView extends BaseView {
         this.layout.render();
         this.__makeContext(context);
 
-        this.__navSubView = new Navigation(this.getLayoutParent(), 'Главная страница', {route: ['Регистрация профиля']});
+        this.__navSubView = new Navigation(this.getLayoutParent(), 'Главная страница', {route: ['Создание товара']});
         this.__navSubView.render(this.__context);
         this.__productCreate = new ProductCreateForm(this.getLayoutParent());
         this.__productCreate.render(this.__context);
