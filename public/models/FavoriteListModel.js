@@ -21,7 +21,6 @@ export class FavoriteListModel extends ProductListModel {
                     // throw new Error(data.message);
                 }
 
-                this.parseData(data);
                 this.parseData(data, true);
             });
     }
