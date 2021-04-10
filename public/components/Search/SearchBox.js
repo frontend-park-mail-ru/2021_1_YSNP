@@ -1,5 +1,6 @@
 import './SearchBox.css';
 import searchBoxTemplate from './SearchBox.hbs';
+import {categories} from '../../modules/fields.js';
 
 /***
  * class for SearchBox component (Main page)
@@ -175,7 +176,7 @@ export class SearchBox {
      */
     render(ctx) {
         this.listeners = ctx.listeners;
-        this.__parent.insertAdjacentHTML('beforeend', searchBoxTemplate(this.__getSearchCategories()));
+        this.__parent.insertAdjacentHTML('beforeend', searchBoxTemplate(categories));
         this.__addListeners();
     }
 }
