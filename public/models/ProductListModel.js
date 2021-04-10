@@ -44,32 +44,10 @@ export class ProductListModel {
     async voteProduct(id) {
         const product = this.__getProduct(id);
         if (product.userLiked) {
-            return this.__dislikeProduct(id)
-                .then(() => {
-                    product.setDislike();
-
-                    return {
-                        status: 'dislike'
-                    };
-                })
-                .catch((err) => {
-                    console.log(err.message);
-                    throw err;
-                });
+            return this.__dislikeProduct(id, product);
         }
 
-        return this.__likeProduct(id)
-            .then(() => {
-                product.setLike();
-
-                return {
-                    status: 'like'
-                };
-            })
-            .catch((err) => {
-                console.log(err.message);
-                throw err;
-            });
+        return this.__likeProduct(id, product);
     }
 
     /***
@@ -140,10 +118,11 @@ export class ProductListModel {
     /***
      * Like product
      * @param {number} id - product id
-     * @returns {Promise<void>}
+     *  @param {ProductModel} product - product
+     * @returns {Promise<{status: string}>}
      * @private
      */
-    async __likeProduct(id) {
+    async __likeProduct(id, product) {
         return http.post(backUrls.userLikeProduct(id), null)
             .then(({status}) => {
                 if (status === httpStatus.StatusUnauthorized) {
@@ -160,20 +139,20 @@ export class ProductListModel {
                     throw new Error('Ошибка сервера');
                     // throw new Error(data.message);
                 }
-            })
-            .catch((err) => {
-                console.log(err.message);
-                throw err;
+
+                product.setLike();
+                return {status: 'like'};
             });
     }
 
     /***
      * Dislike product
      * @param {number} id - product id
-     * @returns {Promise<void>}
+     * @param {ProductModel} product - product
+     * @returns {Promise<{status: string}>}
      * @private
      */
-    async __dislikeProduct(id) {
+    async __dislikeProduct(id, product) {
         return http.post(backUrls.userDislikeProduct(id), null)
             .then(({status}) => {
                 if (status === httpStatus.StatusUnauthorized) {
@@ -190,10 +169,9 @@ export class ProductListModel {
                     throw new Error('Ошибка сервера');
                     // throw new Error(data.message);
                 }
-            })
-            .catch((err) => {
-                console.log(err.message);
-                throw err;
+
+                product.setDislike();
+                return {status: 'dislike'};
             });
     }
 }
