@@ -6,12 +6,12 @@
     width: 80vw;
     display: flex;
     margin: 2vh auto;
-}
 
-.navigation-inner {
-    margin: auto 0;
-}
+    &-inner {
+        margin: auto 0;
+    }
 
-.navigation-back {
-    cursor: pointer;
+    &-back {
+        cursor: pointer;
+    }
 }

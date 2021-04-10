@@ -1,5 +1,5 @@
 import searchBarTemplate from '../Search/SearchBar.hbs';
-import './SearchBar.css';
+import './SearchBar.scss';
 import {ProductTable} from '../ProductTable/ProductTable';
 
 /***

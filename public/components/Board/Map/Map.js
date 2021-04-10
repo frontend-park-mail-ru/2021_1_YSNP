@@ -1,4 +1,4 @@
-import './Map.css';
+import './Map.scss';
 import mapTemplate from './Map.hbs';
 import {YandexMap} from '../../../modules/yandexMap';
 

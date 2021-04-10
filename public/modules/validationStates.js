@@ -10,11 +10,11 @@
 export function createMessageError(errText) {
     return `
             <div class="message-container">
-              <div class="message__arrow">
-                <div class="message-outer"></div>
-                <div class="message-inner"></div>
+              <div class="message-container-arrow">
+                <div class="message-container-arrow-outer"></div>
+                <div class="message-container-arrow-inner"></div>
               </div>
-              <div class="message-body">
+              <div class="message-container-body">
                     ${errText}
               </div>
             </div>
@@ -30,7 +30,7 @@ export function createMessageError(errText) {
  * @param{string} textError
  */
 export function insertError(target, idError, textError) {
-    target.classList.add('reg-panel__input-error');
+    target.classList.add('input-error');
     if (document.getElementById(idError) === null) {
         const el = document.createElement('div');
         el.id = idError;
@@ -50,8 +50,8 @@ export function insertError(target, idError, textError) {
  * @param{string} idError
  */
 export function addSuccesses(target, idError) {
-    target.classList.remove('reg-panel__input-error');
-    target.classList.add('reg-panel__input-susses');
+    target.classList.remove('input-error');
+    target.classList.add('input-susses');
     if (document.getElementById(idError)) {
         target.parentNode.removeChild(target.nextSibling);
     }
@@ -92,8 +92,8 @@ export function showError(ev) {
 export function showBackendError(id, text) {
     const err = document.getElementById(id);
     err.textContent = text;
-    err.classList.add('backend-error_visible');
-    err.classList.remove('backend-error_hidden');
+    err.classList.add('error-visible');
+    err.classList.remove('error-hidden');
 }
 
 /***
@@ -104,8 +104,8 @@ export function showBackendError(id, text) {
 export function showSuccessMessage(id, text) {
     const err = document.getElementById(id);
     err.textContent = text;
-    err.classList.add('settings-password-error_success');
-    err.classList.remove('backend-error_hidden');
+    err.classList.add('error-success');
+    err.classList.remove('error-hidden');
 }
 
 /***
@@ -113,9 +113,9 @@ export function showSuccessMessage(id, text) {
  * @param {string} id - id of error
  */
 export function hideBackendError(id) {
-    document.getElementById(id).classList.remove('backend-error_visible');
-    document.getElementById(id).classList.add('backend-error_hidden');
-    document.getElementById(id).classList.remove('settings-password-error_success');
+    document.getElementById(id).classList.remove('error-visible');
+    document.getElementById(id).classList.add('error-hidden');
+    document.getElementById(id).classList.remove('error-success');
 }
 
 /***

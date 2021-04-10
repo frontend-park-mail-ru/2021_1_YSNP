@@ -1,7 +1,7 @@
-import '../Board/Board.css';
-import '../Board/Description/Description.css';
-import '../Settings/Settings.css';
-import './RegistrationPanel.css';
+import '../Board/Board.scss';
+import '../Board/Description/Description.scss';
+import '../Settings/Settings.scss';
+import './RegistrationPanel.scss';
 import registrationPanelTemplate from './RegistrationPanel.hbs';
 import {createMessageError} from '../../modules/validationStates.js';
 import {Field} from './Fields/Field.js';

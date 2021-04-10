@@ -1,0 +1,122 @@
+@import "../../../scss/main.scss";
+
+.product-card {
+  @include set-size(12vw, 19vw);
+  @include shadow-block;
+  margin: 0.5vw 0.5vw 1vw;
+
+  position: relative;
+  overflow: hidden;
+  transition-duration: 0.5s;
+  transition-property: box-shadow;
+
+  &:hover {
+    cursor: pointer;
+    box-shadow: rgba(0, 0, 0, 0.5) 0 0 10px;
+  }
+
+  &_vip {
+    border: 2px solid $mainColor;
+  }
+
+  &-inner {
+    height: 100%;
+    width: 100%;
+
+    display: flex;
+    flex-direction: column;
+  }
+
+
+  &__label {
+    position: absolute;
+    top: 0.5vw;
+    left: 0.5vw;
+
+    font-size: 1vw;
+    padding: 0.2vw 0.7vw;
+
+    border-radius: 0.7vh;
+    background-color: $mainColor;
+
+    display: none;
+
+    color: white;
+
+    &_vip {
+      display: block;
+    }
+  }
+
+  &__like {
+    position: absolute;
+    top: 0.5vw;
+    right: 0.5vw;
+
+    &:hover {
+      cursor: pointer;
+    }
+
+    &_liked {
+      color: red;
+    }
+  }
+
+  &__img {
+    height: 11vw;
+    object-fit: cover;
+  }
+
+  &-info {
+    height: 8vw;
+    width: 100%;
+
+    display: flex;
+
+    &-inner {
+      width: 90%;
+      margin: 1vw;
+
+      display: flex;
+      flex-direction: column;
+    }
+
+    &__name {
+      max-height: 2.3vw;
+      width: 100%;
+      margin-bottom: 0.4vw;
+
+      font-size: 1vw;
+
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    &__date {
+      font-size: 0.7vw;
+      color: rgb(142, 142, 142);
+    }
+
+    &__amount {
+      width: 100%;
+      font-size: 1.4vw;
+
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+
+      margin-top: auto;
+
+      &_vip {
+        width: fit-content;
+
+        padding: 0.2vw 0.5vw;
+
+        border-radius: 0.7vh;
+        background-color: $mainColor;
+
+        color: white;
+      }
+    }
+  }
+}

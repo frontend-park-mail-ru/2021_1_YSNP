@@ -1,5 +1,5 @@
 import productCardTemplate from './ProductCard.hbs';
-import './ProductCard.css';
+import './ProductCard.scss';
 
 /***
  * Product card component with img, name, date, amount and like
@@ -99,7 +99,7 @@ export class ProductCard {
      * @private
      */
     __setStatus() {
-        switch (this.__context.status) {
+        switch (this.__context.tariff) {
             case 1: {
                 this.__setVip();
                 break;

@@ -1,0 +1,232 @@
+$textColorDefault: #000000;
+$linkColor: rgb(112, 146, 254);
+$mainColor: rgb(211, 30, 30);
+
+@mixin red-button($w, $h) {
+  height: $h;
+  width: $w;
+
+  border: 0;
+  border-radius: 3px;
+
+  text-decoration: none;
+  font-size: 1.5vh;
+  text-align: center;
+
+  cursor: pointer;
+  color: rgb(255, 255, 255);
+  background-color: $mainColor;
+
+  outline: none;
+  &:hover {
+    background-color: rgb(194, 23, 23);
+  }
+
+  &:focus {
+    outline: none;
+  }
+}
+
+@mixin cancel-button($w, $h){
+  height: $h;
+  width: $w;
+
+  border: 0;
+  border-radius: 3px;
+
+  text-decoration: none;
+  font-size: 1.5vh;
+  text-align: center;
+  cursor: pointer;
+  color: rgb(255, 255, 255);
+  background-color: #747474;
+
+  outline: none;
+  &:hover {
+    background-color: #636363;
+  }
+
+  &:focus {
+    outline: none;
+  }
+}
+
+@mixin white-button($w, $h) {
+  height: $h;
+  width: $w;
+
+  border: 1px solid #000000;
+  border-radius: 3px;
+
+  text-decoration: none;
+  font-size: 1.5vh;
+  text-align: center;
+  cursor: pointer;
+  color: $textColorDefault;
+  background-color: snow;
+
+  outline: none;
+  &:hover {
+    background-color: rgb(229, 227, 227);
+  }
+
+  &:focus {
+    outline: none;
+  }
+}
+
+@mixin menu-link() {
+  text-decoration: none;
+  color: black;
+
+  cursor: pointer;
+  font-size: 1.6vh;
+
+  &:hover {
+    color: $linkColor;
+  }
+
+  &:focus {
+    color: $linkColor;
+  }
+}
+
+@mixin input() {
+  /*    background: none; */
+  height: 3.8vh;
+  font-size: 2vh;
+  color: black;
+  border: 1px solid rgba(0, 0, 0, 0.2);
+  box-sizing: border-box;
+  border-radius: 0.5vh;
+
+  padding-left: 10px;
+}
+
+@mixin description-label() {
+  display: flex;
+  font-size: 2vh;
+  color: #000000;
+  opacity: 0.5;
+}
+
+@mixin block() {
+  background-color: white;
+  border: 0;
+  border-radius: 1vh;
+}
+
+@mixin border-block() {
+  box-sizing: border-box;
+  border-radius: 5px;
+  border: 1px solid rgba(0, 0, 0, 0.2);
+}
+
+@mixin shadow-block() {
+  background-color: white;
+
+  border: 0;
+  border-radius: 5px;
+  box-shadow: 0 0 1vw rgba(0, 0, 0, 0.2);
+}
+
+@mixin circle() {
+  object-fit: cover;
+  background: #C4C4C4;
+  border-radius: 50%;
+}
+
+@mixin set-size($w, $h) {
+  width: $w;
+  height: $h;
+}
+
+@mixin separator() {
+  border-top: 1px solid rgb(227, 227, 227);
+  margin-bottom: 1vh;
+}
+
+@mixin message-container() {
+  clear: both;
+  position: absolute;
+  transform: translateX(100%);
+  display: flex;
+  right: 0;
+  top: 0;
+  z-index: 1000;
+  &-arrow {
+    width: 12px;
+    height: 20px;
+    overflow: hidden;
+    position: relative;
+    float: left;
+    top: 6px;
+    right: -1px;
+
+    &-outer {
+      width: 0;
+      height: 0;
+      border-right: 20px solid #000000;
+      border-top: 10px solid transparent;
+      border-bottom: 10px solid transparent;
+      position: absolute;
+      top: 0;
+      left: 0;
+      opacity: 0.1;
+    }
+
+    &-inner {
+      width: 0;
+      height: 0;
+      border-right: 20px solid #ffffff;
+      border-top: 10px solid transparent;
+      border-bottom: 10px solid transparent;
+      position: absolute;
+      top: 0;
+      left: 2px;
+    }
+  }
+  &-body {
+    float: left;
+    width: 300px;
+    height: auto;
+    background-color: #ffffff;
+    border: 1px solid rgba(0.0, 0.0, 0.0, 0.1);
+    padding: 6px 8px;
+    border-radius: 5px;
+  }
+}
+
+.message-container {
+  @include message-container;
+}
+
+.error-hidden {
+  display: none;
+}
+
+.error-visible {
+  visibility: visible;
+  color: #D31E1E;
+  font-size: 1.3vh;
+  font-style: italic;
+}
+.error-success{
+  visibility: visible;
+  color: green;
+  font-size: 1.3vh;
+  font-style: italic;
+}
+
+.input-susses {
+  border: 1px solid green;
+}
+
+.input-error {
+  border: 1px solid red;
+}
+
+.list-errors {
+  font-size: 1.8vh;
+  color: #D31E1E;
+}
