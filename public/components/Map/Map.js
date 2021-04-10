@@ -38,6 +38,29 @@ export class Map {
     }
 
     /***
+     * Get input by value
+     * @param value
+     * @returns {Element}
+     * @private
+     */
+    __getInput(value) {
+        return this.__parent.querySelector(`input[value="${value}"]`);
+    }
+
+    /***
+     * Set radius
+     * @param {number} radius - radius
+     * @private
+     */
+    __setRadius(radius) {
+        const input = this.__getInput(radius);
+
+        if (input) {
+            input.checked = true;
+        }
+    }
+
+    /***
      * Get map radius
      * @returns {{radius: ({id: string, text: string}|{id: string, text: string}|{id: string, text: string}|{id: string, text: string}|{id: string, text: string})[]}}
      * @private
@@ -88,6 +111,7 @@ export class Map {
 
             this.__parent.insertAdjacentHTML('beforeend', mapTemplate(this.__getRadius()));
             this.__addListeners();
+            this.__setRadius(this.__context.data.radius);
         } catch (err) {
             console.log(err.message);
         }

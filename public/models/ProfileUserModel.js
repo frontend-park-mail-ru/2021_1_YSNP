@@ -64,6 +64,20 @@ export class ProfileUserModel extends PasswordUserModel {
     }
 
     /***
+     * Get user model json position
+     * @returns {{address: Object.address, latitude: Object.latitude, radius: Object.radius, longitude: Object.longitude}}
+     * @private
+     */
+    __jsonPosition() {
+        return {
+            latitude: this.__latitude,
+            longitude: this.__longitude,
+            radius: this.__radius,
+            address: this.__address
+        };
+    }
+
+    /***
      * Get first image
      * @returns {string}
      */
@@ -84,7 +98,11 @@ export class ProfileUserModel extends PasswordUserModel {
             sex: this.__sex,
             email: this.__email,
             telephone: this.__telephone,
-            linkImage: this.__linkImages
+            linkImage: this.__linkImages,
+            latitude: this.__latitude,
+            longitude: this.__longitude,
+            radius: this.__radius,
+            address: this.__address
         };
     }
 
@@ -180,6 +198,11 @@ export class ProfileUserModel extends PasswordUserModel {
                     // throw new Error(data.message);
                 }
 
+                if (status === httpStatus.StatusBadRequest) {
+                    throw new Error('Неправильные данные');
+                    // throw new Error(data.message);
+                }
+
                 if (status === httpStatus.StatusInternalServerError) {
                     throw new Error('Ошибка сервера');
                     // throw new Error(data.message);
@@ -206,12 +229,44 @@ export class ProfileUserModel extends PasswordUserModel {
                     // throw new Error(data.message);
                 }
 
+                if (status === httpStatus.StatusBadRequest) {
+                    throw new Error('Неправильные данные');
+                    // throw new Error(data.message);
+                }
+
+                if (status === httpStatus.StatusInternalServerError) {
+                    throw new Error('Ошибка сервера');
+                    // throw new Error(data.message);
+                }
+            })
+            .catch((err) => {
+                console.log(err.message);
+                throw err;
+            });
+    }
+
+    /***
+     * Change position
+     * @returns {Promise<void>}
+     */
+    async position() {
+        return http.post(backUrls.userPosition, this.__jsonPosition())
+            .then(({status}) => {
+                if (status === httpStatus.StatusUnauthorized) {
+                    throw new Error('Пользователь не авторизован');
+                    // throw new Error(data.message);
+                }
+
+                if (status === httpStatus.StatusBadRequest) {
+                    throw new Error('Неправильные данные');
+                    // throw new Error(data.message);
+                }
+
                 if (status === httpStatus.StatusInternalServerError) {
                     throw new Error('Ошибка сервера');
                     // throw new Error(data.message);
                 }
 
-                this.__isAuth = false;
             })
             .catch((err) => {
                 console.log(err.message);
