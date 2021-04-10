@@ -5,20 +5,21 @@
     &__textfield {
       @include border-block;
       font-size: 1.8vh;
-      height: 2.5vw;
-      width: 15.5vw;
+      height: 5vh;
+      width: 27vh;
       padding-left: 10px;
     }
 
     &__coutry-code {
       margin: 0;
-      height: 2.5vw;
+      height: 5vh;
+      min-width: 2.5vw;
     }
 
     &__tel {
       margin: 0;
-      height: 2.5vw;
-      width: 12.8vw;
+      height: 5vh;
+      min-width: 22vh;
     }
 
     &-title {

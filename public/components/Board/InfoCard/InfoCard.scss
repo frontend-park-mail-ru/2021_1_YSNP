@@ -19,7 +19,7 @@
 
   &-profile {
     display: flex;
-    margin: 0 0 0 3vh;
+    margin: 0 0 0 1vw;
   }
 
   &__image {
@@ -32,44 +32,45 @@
   }
 
   &__name {
-    font-size: 3vh;
+    font-size: 1.5vw;
     line-height: 2vh;
     margin: 0 0 0 1vh;
   }
 
   &-rating {
-    line-height: 3vh;
-    margin: 1vh 0 0 1vh;
+    line-height: 1.5vw;
+    margin: 1vw 0 0 1vw;
     display: flex;
     align-items: center;
 
     &__text {
-      font-size: 2vh;
-      margin-right: 1vh;
+      font-size: 1.5vw;
+      margin-right: 1vw;
     }
   }
 
   &-btn {
     text-align: center;
-    font-size: 1vw;
     line-height: 2vh;
 
     &__massage {
       @include red-button(80%, 3vw);
       margin-top: 2vh;
+      font-size: 1vw;
     }
 
     &__number {
       @include white-button(80%, 3vw);
       margin-top: 1vh;
       box-shadow: 0 0 1vh rgba(0, 0, 0, 0.1);
+      font-size: 1vw;
     }
   }
 
   &__time {
     text-align: center;
     margin-top: 4vw;
-    font-size: 2vh;
+    font-size: 1vw;
     margin-bottom: 1vh;
   }
 
@@ -84,7 +85,7 @@
 
       &__text {
         margin-left: 1vh;
-        font-size: 1.5vh;
+        font-size: 1vw;
       }
     }
 
@@ -95,7 +96,7 @@
 
       &__text {
         margin-left: 1vh;
-        font-size: 1.5vh;
+        font-size: 1vw;
       }
     }
   }
