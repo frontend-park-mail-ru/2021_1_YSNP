@@ -14,19 +14,14 @@ export class FavoriteListModel extends ProductListModel {
      * @private
      */
     async __updateNewDataPage() {
-        return http.post(backUrls.productList, {
-            content: {
-                from: this.__page,
-                count: this.__pageCount
-            }
-        })
+        return http.get(backUrls.userFavoriteList(this.__page, this.__pageCount))
             .then(({status, data}) => {
                 if (status === httpStatus.StatusInternalServerError) {
                     throw new Error('Ошибка сервера');
                     // throw new Error(data.message);
                 }
 
-                this.parseData(data);
+                this.parseData(data, true);
             })
             .catch((err) => {
                 console.log(err.message);
