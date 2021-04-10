@@ -92,6 +92,7 @@ export class ProductView extends BaseView {
         this.__boardSubView.selectImage(target);
     }
 
+
     /***
      * Set view title
      * @private

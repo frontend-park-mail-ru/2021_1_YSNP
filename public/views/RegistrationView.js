@@ -18,7 +18,6 @@ export class RegistrationView extends BaseView {
      */
     constructor(app, baseRegistration) {
         super(app);
-        this.layout = new Layout(this.__app, true);
         this.__baseRegistration = baseRegistration;
     }
 
@@ -191,6 +190,7 @@ export class RegistrationView extends BaseView {
     render(context) {
         super.render();
         this.__setTitle();
+        this.layout = new Layout(this.__app, true);
         this.layout.render();
         this.__makeContext(context);
 

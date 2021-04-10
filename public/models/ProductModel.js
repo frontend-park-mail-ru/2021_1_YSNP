@@ -1,6 +1,7 @@
 import {http} from '../modules/http.js';
 import {backUrls} from '../modules/backUrls.js';
 import {httpStatus} from '../modules/httpStatus.js';
+import {YandexMap} from '../modules/yandexMap';
 
 /***
  * Product model
@@ -79,6 +80,38 @@ export class ProductModel {
             message: [''],
             error: false
         };
+    }
+
+    /***
+     * validation address, validator watching address in ymap
+     * @param{string} address
+     * @return {Promise<{message: [string], error: boolean}|{message: string, error: boolean}|{message: [string], error: boolean}>}
+     */
+    async validationPos(address) {
+        const minSize = 0;
+
+        if (address.length === minSize) {
+            return {
+                message: ['Адрес не должен быть пустым'],
+                error: true
+            };
+        }
+
+        return await YandexMap.isAdressCorrect(address).then(
+            (res) => {
+                if (res) {
+                    return {
+                        message: '',
+                        error: false
+                    };
+                } 
+                    return {
+                        message: ['Адрес не корректен'],
+                        error: true
+                    };
+                
+            }
+        );
     }
 
     /***
@@ -184,6 +217,11 @@ export class ProductModel {
         this.__ownerSurname = data.ownerSurname;
         this.__ownerStars = data.ownerStars;
         this.__category = data.category;
+        this.__tariff = data.tariff;
+        this.__adress = data.address;
+        this.__category = data.category;
+        this.__latitude = data.latitude;
+        this.__longitude = data.longitude;
     }
 
     /***
@@ -197,7 +235,10 @@ export class ProductModel {
             description: this.__description,
             amount: this.__amount,
             linkImages: this.__linkImages,
-            category: this.__category
+            category: this.__category,
+            latitude: this.__latitude,
+            longitude: this.__longitude,
+            address: this.__adress
         };
     }
 
@@ -220,7 +261,11 @@ export class ProductModel {
             ownerId: this.__ownerId,
             ownerName: this.__ownerName,
             ownerSurname: this.__ownerSurname,
-            ownerStars: this.__ownerStars
+            ownerStars: this.__ownerStars,
+            tariff: this.__tariff,
+            latitude: this.__latitude,
+            longitude: this.__longitude,
+            address: this.__adress
         };
     }
 
@@ -236,7 +281,7 @@ export class ProductModel {
             amount: this.__getAmount(),
             userLiked: this.__userLiked,
             linkImage: this.__getFirstImage(),
-            status: 0
+            tariff: this.__tariff
         };
     }
 

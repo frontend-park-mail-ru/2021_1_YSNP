@@ -1,4 +1,4 @@
-import './Description.css';
+import './Description.scss';
 import descriptionTemplate from './Description.hbs';
 
 /***
@@ -57,10 +57,6 @@ export class Description {
             {
                 title: 'Категория',
                 text: this.__ctx.__category
-            },
-            {
-                title: 'Подкатегория',
-                text: 'С пробегом'
             },
             {
                 title: 'Адрес',

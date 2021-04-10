@@ -202,6 +202,22 @@ export class ProductCreateView extends BaseView {
     }
 
     /***
+     * get address from product create
+     * @return {string}
+     */
+    getAddress() {
+        return this.__productCreate.getAddress();
+    }
+
+    /***
+     * get position from product create
+     * @return {{latitude: number, longitude: number}}
+     */
+    getPos() {
+        return this.__productCreate.getPos();
+    }
+
+    /***
      * @author Ivan Gorshkov
      *
      * render with context

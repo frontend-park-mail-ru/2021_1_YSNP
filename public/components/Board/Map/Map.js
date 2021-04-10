@@ -1,5 +1,6 @@
-import './Map.css';
+import './Map.scss';
 import mapTemplate from './Map.hbs';
+import {YandexMap} from '../../../modules/yandexMap';
 
 /***
  * @author Ivan Gorshkov
@@ -44,7 +45,15 @@ export class Map {
      * @this {Map}
      * @public
      */
-    render() {
+   async render(context) {
         this.__parent.insertAdjacentHTML('beforeend', mapTemplate());
+        this.__yaMap = new YandexMap();
+        this.__yaMap.render({
+            searchControl: false,
+            geolocationControl: true,
+            listeners: false,
+            id: 'ya-map-product'
+        });
+        this.__yaMap.movePointByName('Москва, Профсоюзная улица, 132к2, Коньково');
     }
 }

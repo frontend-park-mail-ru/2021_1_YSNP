@@ -32,7 +32,8 @@ module.exports = {
         }),
         new HtmlWebpackPlugin({
             template: './public/index.html'
-        })
+        }),
+        require('autoprefixer')
     ],
     module: {
         rules: [
@@ -43,6 +44,15 @@ module.exports = {
             {
                 test: /\.css$/,
                 use: [MiniCssExtractPlugin.loader, 'css-loader']
+            },
+            {
+                test: /.(s*)css$/,
+                use: [
+                    MiniCssExtractPlugin.loader,
+                    'css-loader?url=false',
+                    'postcss-loader',
+                    'sass-loader'
+                ]
             },
             {
                 test: /\.hbs/,

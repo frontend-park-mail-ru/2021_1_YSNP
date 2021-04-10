@@ -16,7 +16,13 @@ class Router {
      * Start rote application
      */
     start() {
-        const route = this.__getCurrentRoute();
+        const route = this.__routes.find((route) => this.__getCurrentPath().match(route.regExp), this);
+
+        if (route === undefined) {
+            this.redirectNotFound();
+            return;
+        }
+
         this.__removeListeners = route.callback.call(this, this.__getParamsFromRegExp(route));
     }
 
@@ -240,21 +246,6 @@ class Router {
      */
     __getCurrentPath() {
         return window.location.pathname;
-    }
-
-    /***
-     * Get current route
-     * @returns {*}
-     * @private
-     */
-    __getCurrentRoute() {
-        const route = this.__routes.find((route) => this.__getCurrentPath().match(route.regExp), this);
-
-        if (route === undefined) {
-            this.redirectNotFound();
-        }
-
-        return route;
     }
 
     /***

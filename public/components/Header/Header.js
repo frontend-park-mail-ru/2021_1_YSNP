@@ -1,5 +1,5 @@
 import headerTemplate from './Header.hbs';
-import './Header.css';
+import './Header.scss';
 
 /***
  * Header component

@@ -6,8 +6,8 @@ class BackUrls {
      * Class constructor
      */
     constructor() {
-        this.__url = 'https://ykoya.ru';
-        // this.__url = 'http://localhost:8080';
+        // this.__url = 'https://ykoya.ru';
+        this.__url = 'http://localhost:8080';
         this.__api = '/api/v1';
     }
 
@@ -78,29 +78,12 @@ class BackUrls {
     }
 
     /***
-     * Get one product url
-     * @param {number} id - product id
-     * @returns {string}
-     */
-    product(id) {
-        return `${this.__url}${this.__api}/product/${id}`;
-    }
-
-    /***
      * Get product create url
+     * Get position user url
      * @returns {string}
      */
-    get productCreate() {
-        return `${this.__url}${this.__api}/product/create`;
-    }
-
-    /***
-     * Get product upload photo url
-     *  @param {number} id - product id
-     * @returns {string}
-     */
-    productUploadPhotos(id) {
-        return `${this.__url}${this.__api}/product/upload/${id}`;
+    get userPosition() {
+        return `${this.__url}${this.__api}/user/position`;
     }
 
     /***
@@ -139,6 +122,49 @@ class BackUrls {
      */
     userDislikeProduct(id) {
         return `${this.__url}${this.__api}/user/favorite/dislike/${id}`;
+    }
+
+    /***
+     * Get one product url
+     * @param {number} id - product id
+     * @returns {string}
+     */
+    product(id) {
+        return `${this.__url}${this.__api}/product/${id}`;
+    }
+
+    /***
+     * Get logout user url
+     * @returns {string}
+     */
+    get productCreate() {
+        return `${this.__url}${this.__api}/product/create`;
+    }
+
+    /***
+     * Get product upload photo url
+     *  @param {number} id - product id
+     * @returns {string}
+     */
+    productUploadPhotos(id) {
+        return `${this.__url}${this.__api}/product/upload/${id}`;
+    }
+
+
+    /***
+     * Get find products url
+     * @returns {string}
+     */
+    get search() {
+        return `${this.__url}${this.__api}/search`;
+    }
+
+    /***
+     *
+     * @return {string}
+     */
+    get categories() {
+        return `${this.__url}${this.__api}/categories`;
     }
 }
 

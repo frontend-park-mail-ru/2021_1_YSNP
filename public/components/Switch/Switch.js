@@ -1,5 +1,5 @@
 import adSwitchTemplate from './Switch.hbs';
-import './Switch.css';
+import './Switch.scss';
 
 /***
  * Ad switch component

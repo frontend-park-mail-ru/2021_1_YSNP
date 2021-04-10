@@ -1,4 +1,4 @@
-import './Board.css';
+import './Board.scss';
 import boardTemplate from './Board.hbs';
 import {InfoCard} from './InfoCard/InfoCard.js';
 import {Slider} from './Carousel/Slider.js';
@@ -155,7 +155,7 @@ export class Board {
         this.__infoCard = new InfoCard(parentRightSide, this.__context.data);
         this.__infoCard.render();
         this.__map = new Map(parentLeftSide);
-        this.__map.render();
+        this.__map.render(this.__context.data);
         this.addListeners();
     }
 }
