@@ -59,6 +59,7 @@ export class AuthUserModel extends PasswordUserModel {
     async auth() {
         return http.post(backUrls.login, this.__jsonData())
             .then(({status}) => {
+
                 if (status === httpStatus.StatusBadRequest) {
                     throw new Error('Неправильный номер или пароль');
                     // throw new Error(data.message);
@@ -67,6 +68,9 @@ export class AuthUserModel extends PasswordUserModel {
                 if (status === httpStatus.StatusInternalServerError) {
                     throw new Error('Ошибка сервера');
                     // throw new Error(data.message);
+                }
+                if (status === httpStatus.StatusForbidden) {
+                    throw new Error('Доступ запрещен');
                 }
             })
             .catch((err) => {

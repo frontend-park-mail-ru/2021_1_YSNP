@@ -112,6 +112,9 @@ export class ProfileUserModel extends PasswordUserModel {
                                 if (status === httpStatus.StatusInternalServerError) {
                                     throw new Error(data.message);
                                 }
+                                if (status === httpStatus.StatusForbidden) {
+                                    throw new Error('Доступ запрещен');
+                                }
                                 this.__isAuth = false;
                                 return {isUpdate: true};
                             })
@@ -135,6 +138,9 @@ export class ProfileUserModel extends PasswordUserModel {
                     throw new Error('Ошибка сервера');
                     // throw new Error(data.message);
                 }
+                if (status === httpStatus.StatusForbidden) {
+                    throw new Error('Доступ запрещен');
+                }
                 this.__isAuth = false;
                 return {isUpdate: true};
             })
@@ -155,7 +161,9 @@ export class ProfileUserModel extends PasswordUserModel {
                     throw new Error('Неправильно введен пароль');
                     // throw new Error(data.message);
                 }
-
+                if (status === httpStatus.StatusForbidden) {
+                    throw new Error('Доступ запрещен');
+                }
                 return {isUpdate: true};
             })
             .catch((err) => {
@@ -184,7 +192,9 @@ export class ProfileUserModel extends PasswordUserModel {
                     throw new Error('Ошибка сервера');
                     // throw new Error(data.message);
                 }
-
+                if (status === httpStatus.StatusForbidden) {
+                    throw new Error('Доступ запрещен');
+                }
                 this.fillUserData(data);
                 this.__isAuth = true;
             })
@@ -210,7 +220,9 @@ export class ProfileUserModel extends PasswordUserModel {
                     throw new Error('Ошибка сервера');
                     // throw new Error(data.message);
                 }
-
+                if (status === httpStatus.StatusForbidden) {
+                    throw new Error('Доступ запрещен');
+                }
                 this.__isAuth = false;
             })
             .catch((err) => {
