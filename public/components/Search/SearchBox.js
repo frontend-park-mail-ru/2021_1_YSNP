@@ -1,4 +1,4 @@
-import './SearchBox.css';
+import './SearchBox.scss';
 import searchBoxTemplate from './SearchBox.hbs';
 import {categories} from '../../modules/fields.js';
 
