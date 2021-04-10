@@ -310,6 +310,16 @@ export class ProductCreateForm {
     }
 
     /***
+     * show global error
+     * @param message
+     */
+    errorText(message) {
+        document
+            .getElementById('create-error')
+            .textContent = message;
+    }
+
+    /***
      * @author Max Torzhkov
      * Add component to parent
      * @this {ProductCreateForm}

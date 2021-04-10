@@ -210,6 +210,14 @@ export class ProductCreateView extends BaseView {
     }
 
     /***
+     * output global errors
+     * @param{string} message
+     */
+    errorText(message) {
+        this.__productCreate.errorText(message);
+    }
+
+    /***
      * @author Ivan Gorshkov
      *
      * render with context
