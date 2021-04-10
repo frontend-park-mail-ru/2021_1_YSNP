@@ -10,7 +10,7 @@ import {httpStatus} from '../modules/httpStatus.js';
 export class FavoriteListModel extends ProductListModel {
     /***
      * Get data from backend with pagination
-     * @returns {Promise<void>}
+     * @returns {Promise<{data: *, status: number}>}
      * @private
      */
     async __updateNewDataPage() {
@@ -21,11 +21,9 @@ export class FavoriteListModel extends ProductListModel {
                     // throw new Error(data.message);
                 }
 
+                this.parseData(data);
                 this.parseData(data, true);
-            })
-            .catch((err) => {
-                console.log(err.message);
-                throw err;
+            });
             });
     }
 }

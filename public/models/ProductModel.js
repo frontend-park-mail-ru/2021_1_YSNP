@@ -104,12 +104,12 @@ export class ProductModel {
                         message: '',
                         error: false
                     };
-                } 
-                    return {
-                        message: ['Адрес не корректен'],
-                        error: true
-                    };
-                
+                }
+                return {
+                    message: ['Адрес не корректен'],
+                    error: true
+                };
+
             }
         );
     }
@@ -311,7 +311,7 @@ export class ProductModel {
 
     /***
      * Get product data from backend
-     * @returns {Promise<{isUpdate: boolean}|void>}
+     * @returns {Promise<{data: *, status: number}>}
      */
     async update() {
         return http.get(backUrls.product(this.id))
@@ -327,17 +327,12 @@ export class ProductModel {
                 }
 
                 this.fillProductModel(data);
-                return {isUpdate: true};
-            })
-            .catch((err) => {
-                console.log(err.message);
-                return {isUpdate: false, message: err.message};
             });
     }
 
     /***
      * Post create new product
-     * @returns {Promise<void>}
+     * @returns {Promise<{id: *}>}
      */
     async create(form) {
         return http.post(backUrls.productCreate, this.__jsonData())
@@ -377,10 +372,6 @@ export class ProductModel {
 
                         return {id: this.__id};
                     });
-            })
-            .catch((err) => {
-                console.log(err.message);
-                throw err;
             });
     }
 }
