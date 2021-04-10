@@ -227,6 +227,7 @@ export class SearchPresenter extends BasePresenter {
                 this.__view.rerenderProductList(this.__makeContext());
             }
         }).catch(() => {
+            this.__productListModel = new ProductListModel();
             this.__view.rerenderProductList(this.__makeContext());
         });
     }
