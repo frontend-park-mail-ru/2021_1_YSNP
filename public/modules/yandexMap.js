@@ -336,20 +336,11 @@ export class YandexMap {
      * @param {{latitude: number, longitude: number}} pos - point position
      * @private
      */
-    movePointByName(text) {
+    movePointByPos(pos) {
         ymaps.ready(() => {
-            const myGeocoder = ymaps.geocode(text);
-            myGeocoder.then(
-                (res) => {
-                    this.setCenter(this.__convertPosArrayToObject(res.geoObjects.get(0).geometry.getCoordinates(), 3));
-                    this.addCircle(this.__convertPosArrayToObject(res.geoObjects.get(0).geometry.getCoordinates()), 1000, 0.004);
-                }
-            ).catch(
-                (err) => {
-                    console.log('Ошибка', err);
-                });
-            }
-        );
+            this.setCenter(pos, 12);
+            this.addCircle(pos, 1000, 0.004);
+        });
     }
 
 

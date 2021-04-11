@@ -54,6 +54,9 @@ export class Map {
             listeners: false,
             id: 'ya-map-product'
         });
-        this.__yaMap.movePointByName('Москва, Профсоюзная улица, 132к2, Коньково');
+        this.__yaMap.movePointByPos({
+            latitude: context.__latitude,
+            longitude: context.__longitude
+        });
     }
 }

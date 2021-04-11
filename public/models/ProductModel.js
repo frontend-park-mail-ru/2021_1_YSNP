@@ -51,7 +51,7 @@ export class ProductModel {
      */
     __getFirstImage() {
         const start = 0;
-        return this.__linkImages[start];
+        return this.__linkImages;
     }
 
     /***
