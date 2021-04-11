@@ -78,7 +78,8 @@ export class MainView extends BaseView {
     getCategory(element) {
         return this.__searchBox.getCategory(element);
     }
-  
+
+    /***
      * Set view title
      * @private
      */
