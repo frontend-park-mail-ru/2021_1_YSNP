@@ -78,6 +78,13 @@ export class MainView extends BaseView {
     getCategory(element) {
         return this.__searchBox.getCategory(element);
     }
+  
+     * Set view title
+     * @private
+     */
+    __setTitle() {
+        document.title = 'Koya';
+    }
 
     /***
      * Render view
@@ -85,6 +92,7 @@ export class MainView extends BaseView {
      */
     render(context) {
         super.render();
+        this.__setTitle();
         this.__makeContext(context);
 
 
