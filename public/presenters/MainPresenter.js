@@ -133,6 +133,12 @@ export class MainPresenter extends BasePresenter {
      */
     __likeCard(id) {
         const numberId = parseInt(id, 10);
+
+        if (!this.__userModel.isAuth) {
+            router.redirect(frontUrls.registration);
+            return;
+        }
+
         this.__mainListModel.voteProduct(numberId)
             .then(({status}) => {
                 if (status === 'dislike') {
@@ -142,8 +148,9 @@ export class MainPresenter extends BasePresenter {
 
                 this.__view.likeProduct(numberId);
             })
-            .catch(() => {
-                router.redirect(frontUrls.registration);
+            .catch((err) => {
+                //TODO(Sergey) нормальная обработка ошибок
+                console.log(err.message);
             });
     }
 
