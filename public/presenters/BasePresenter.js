@@ -239,7 +239,7 @@ export class BasePresenter {
         if (this.__userModel.isAuth) {
             router.redirect(frontUrls.productCreate);
         } else {
-            this.__openAuth();
+            this.openAuth();
         }
     }
 
@@ -276,9 +276,8 @@ export class BasePresenter {
 
     /***
      * Open auth
-     * @private
      */
-    __openAuth() {
+    openAuth() {
         this.closeAllComponents();
         this.__isShownAuth = true;
         this.__view.renderAuth();
@@ -353,7 +352,7 @@ export class BasePresenter {
      */
     __createUserAddress() {
         if (!this.__userModel.isAuth) {
-            router.redirect(frontUrls.registration);
+            this.openAuth();
             return;
         }
 
@@ -390,7 +389,7 @@ export class BasePresenter {
                     open: this.__openCreateProduct.bind(this)
                 },
                 authClick: {
-                    open: this.__openAuth.bind(this)
+                    open: this.openAuth.bind(this)
                 },
                 dropdownClick: {
                     open: this.__toggleDropdownMenu.bind(this)

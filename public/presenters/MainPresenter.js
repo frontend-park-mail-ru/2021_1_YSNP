@@ -67,6 +67,7 @@ export class MainPresenter extends BasePresenter {
      * @param {MouseEvent} ev - event
      */
     __listenerMainListClick(ev) {
+        ev.stopPropagation();
         eventProductListHandler(ev, this.__getActions().mainList);
     }
 
@@ -135,7 +136,7 @@ export class MainPresenter extends BasePresenter {
         const numberId = parseInt(id, 10);
 
         if (!this.__userModel.isAuth) {
-            router.redirect(frontUrls.registration);
+            super.openAuth();
             return;
         }
 
