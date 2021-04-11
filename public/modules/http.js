@@ -1,3 +1,4 @@
+import {localStorage} from './localStorage.js';
 /***
  * Http module
  */
@@ -17,8 +18,8 @@ class Http {
             credentials: 'include'
         };
 
-        const csrf = sessionStorage.getItem('csrf');
-        if (csrf) {
+        const csrf = localStorage.getCSRF();
+        if (csrf !== '') {
             options['headers'] = {'X-CSRF-Token': csrf};
         }
 
@@ -39,7 +40,7 @@ class Http {
 
         const csrf = response.headers.get('X-CSRF-Token');
         if (csrf) {
-            sessionStorage.setItem('csrf', 2);
+            localStorage.setCSRF(csrf);
         }
         
         const responseData = await response.json();
@@ -62,7 +63,7 @@ class Http {
 
         const csrf = response.headers.get('X-CSRF-Token');
         if (csrf) {
-            sessionStorage.setItem('csrf', csrf);
+            localStorage.setCSRF(csrf);
         }
 
         const responseData = await response.json();
