@@ -365,7 +365,8 @@ export class BasePresenter {
 
         this.__userModel.position()
             .then(() => {
-                router.redirect(frontUrls.main);
+                this.__closeMap();
+                this.__view.updateAddress(this.__userModel.getData().address);
             })
             .catch((err) => {
                 //TODO(Sergey) нормальная обработка ошибок
