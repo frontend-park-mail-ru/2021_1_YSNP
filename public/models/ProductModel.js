@@ -186,7 +186,7 @@ export class ProductModel {
         }
 
         return {
-            message: 'Слишком большой размер фото',
+            message: 'Слишком большой общий размер фото',
             error: true
         };
     }

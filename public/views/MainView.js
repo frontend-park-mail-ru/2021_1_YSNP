@@ -1,5 +1,5 @@
 import {BaseView} from './BaseView.js';
-
+import {SearchBox} from '../components/Search/SearchBox.js';
 import {Switch} from '../components/Switch/Switch.js';
 import {Layout} from '../components/Layout/Layout.js';
 import {ProductTable} from '../components/ProductTable/ProductTable.js';
@@ -50,6 +50,10 @@ export class MainView extends BaseView {
                 data: context.mainList.data,
                 listeners: context.mainList.listeners
             },
+            search: {
+                data: context.search.data,
+                listeners: context.search.listeners
+            },
             switch: {
                 data: {
                     title: 'Все объявления'
@@ -59,6 +63,22 @@ export class MainView extends BaseView {
     }
 
     /***
+     *
+     * @return {string}
+     */
+    getTextFromSearch() {
+        return this.__searchBox.getTextFromSearch();
+    }
+
+    /***
+     * get category from subcategory
+     * @param{HTMLElement} element
+     * @return {string}
+     */
+    getCategory(element) {
+        return this.__searchBox.getCategory(element);
+    }
+  
      * Set view title
      * @private
      */
@@ -75,14 +95,19 @@ export class MainView extends BaseView {
         this.__setTitle();
         this.__makeContext(context);
 
+
+        this.__searchBox = new SearchBox(this.__app);
+        this.__searchBox.render(this.__context.search);
+
         const layout = new Layout(this.__app, true);
         layout.render();
         const parent = layout.parent;
 
         const adSwitch = new Switch(parent);
         adSwitch.render(this.__context.switch);
-
         this.__mainList = new ProductTable(parent);
         this.__mainList.render(this.__context.mainList);
+
+
     }
 }

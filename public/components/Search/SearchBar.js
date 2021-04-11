@@ -45,6 +45,7 @@ export class SearchBar {
      * @param{Object} ctx
      */
     rerenderProductList(ctx) {
+        document.getElementById('product-content').innerText = '';
         this.__productList.render(ctx.productList);
     }
 
@@ -82,8 +83,6 @@ export class SearchBar {
         document
             .getElementById('amount')
             .addEventListener(this.listeners.validateInput.type, this.listeners.validateInput.listener);
-
-
     }
 
     /***

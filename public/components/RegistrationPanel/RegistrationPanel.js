@@ -33,7 +33,7 @@ export class RegistrationPanel {
      */
     errorText(val) {
         document
-            .getElementById('auth-error')
+            .getElementById('reg-error')
             .textContent = val;
     }
 
@@ -210,7 +210,8 @@ export class RegistrationPanel {
             name: document.getElementById('name'),
             surname: document.getElementById('surname'),
             date: document.getElementById('date'),
-            sex: document.getElementById('sex')
+            sex: document.getElementById('sex'),
+            pic: document.getElementById('profile-pic')
         };
     }
 

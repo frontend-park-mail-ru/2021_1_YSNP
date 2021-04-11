@@ -115,21 +115,22 @@ export class YandexMap {
      * @param {number} id - input id
      */
     addSearch(id) {
-        const suggestView = new ymaps.SuggestView(id, {
-            offset: [10, 10]
-        });
-
-        suggestView.events.add('select', (e) => {
-            const myGeocoder = ymaps.geocode(e.originalEvent.item.value);
-            myGeocoder.then(
-                (res) => {
-                    this.__movePoint(this.__convertPosArrayToObject(res.geoObjects.get(0).geometry.getCoordinates()));
-                    this.setCenter(this.__convertPosArrayToObject(res.geoObjects.get(0).geometry.getCoordinates(), 1));
-                },
-                (err) => {
-                    console.log(err);
-                }
-            );
+        ymaps.ready(() => {
+            const suggestView = new ymaps.SuggestView(id, {
+                offset: [10, 10]
+            });
+            suggestView.events.add('select', (e) => {
+                const myGeocoder = ymaps.geocode(e.originalEvent.item.value);
+                myGeocoder.then(
+                    (res) => {
+                        this.__movePoint(this.__convertPosArrayToObject(res.geoObjects.get(0).geometry.getCoordinates()));
+                        this.setCenter(this.__convertPosArrayToObject(res.geoObjects.get(0).geometry.getCoordinates(), 1));
+                    }
+                ).catch(
+                    (err) => {
+                        console.log('Ошибка', err);
+                    });
+            });
         });
     }
 
@@ -337,16 +338,16 @@ export class YandexMap {
      */
     movePointByName(text) {
         ymaps.ready(() => {
-                const myGeocoder = ymaps.geocode(text);
-                myGeocoder.then(
-                    (res) => {
-                        this.setCenter(this.__convertPosArrayToObject(res.geoObjects.get(0).geometry.getCoordinates(), 3));
-                        this.addCircle(this.__convertPosArrayToObject(res.geoObjects.get(0).geometry.getCoordinates()), 1000, 0.004);
-                    },
-                    (err) => {
-                        console.log(err);
-                    }
-                );
+            const myGeocoder = ymaps.geocode(text);
+            myGeocoder.then(
+                (res) => {
+                    this.setCenter(this.__convertPosArrayToObject(res.geoObjects.get(0).geometry.getCoordinates(), 3));
+                    this.addCircle(this.__convertPosArrayToObject(res.geoObjects.get(0).geometry.getCoordinates()), 1000, 0.004);
+                }
+            ).catch(
+                (err) => {
+                    console.log('Ошибка', err);
+                });
             }
         );
     }

@@ -57,7 +57,7 @@ export class SearchView extends BaseView {
             },
             switch: {
                 data: {
-                    title: 'Все категории'
+                    title: 'Поиск объявлений'
                 }
             }
         };
@@ -105,14 +105,14 @@ export class SearchView extends BaseView {
      * @param{Object} context
      * @this {SearchView}
      */
-    render(context) {
+    async render(context) {
         super.render();
         this.__setTitle();
         this.layout = new Layout(this.__app, true);
         this.layout.render();
         this.__makeContext(context);
 
-        this.__navSubView = new Navigation(this.getLayoutParent(), 'Главная страница', {route: ['поиск объявлений']});
+        this.__navSubView = new Navigation(this.getLayoutParent(), 'Главная страница', {route: ['Поиск объявлений']});
         this.__navSubView.render(context);
 
         const adSwitch = new Switch(this.getLayoutParent());
