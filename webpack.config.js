@@ -27,6 +27,10 @@ module.exports = {
                 {
                     from: 'public/img/svg',
                     to: 'img/svg'
+                },
+                {
+                    from: 'public/sw.js',
+                    to: '',
                 }
             ]
         }),
