@@ -257,7 +257,10 @@ export class BasePresenter {
             listeners: true,
             id: 'ya-map'
         });
-        this.__yaMap.setPosition(this.__getUserPosition().pos, this.__getUserPosition().radius * 1000);
+
+        if (this.__userModel.isAuth) {
+            this.__yaMap.setPosition(this.__getUserPosition().pos, this.__getUserPosition().radius * 1000);
+        }
     }
 
     /***
