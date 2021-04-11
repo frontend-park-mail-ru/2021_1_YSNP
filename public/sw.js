@@ -1,11 +1,7 @@
 const cacheName = 'ysnpkoya-cache-v1';
 
 const cacheUrls = [
-    '/login',
-    '/signup',
-    '/product/',
-    '/settings',
-    '/me',
+    ''
 ];
 
 const FALLBACK =
@@ -85,9 +81,8 @@ const FALLBACK =
 
 self.addEventListener('install', (event) => {
     event.waitUntil(caches.open(cacheName).then((cache) => {
-        cache.addAll(cacheUrls).then(() => self.skipWaiting());
-    }),
-    );
+            cache.addAll(cacheUrls).then(() => self.skipWaiting());
+        }));
 });
 
 self.addEventListener('activate', (event) => {
@@ -96,17 +91,17 @@ self.addEventListener('activate', (event) => {
 
 self.addEventListener('fetch', (event) => {
     event.respondWith(
-        (async () => {
+        (async() => {
             if (navigator.onLine) {
                 const response = await fetch(event.request);
                 if (response && response.ok) {
-                    let cache = await caches.open(cacheName);
+                    const cache = await caches.open(cacheName);
                     await cache.put(event.request, response.clone());
                 }
 
                 return response;
-            } else {
-                let cache = await caches.open(cacheName);
+            } 
+                const cache = await caches.open(cacheName);
                 const match = await cache.match(event.request)
                     .then(
                         (matching) => matching || new Response(FALLBACK, {
@@ -117,7 +112,7 @@ self.addEventListener('fetch', (event) => {
                     );
 
                 return match;
-            }
+            
         })()
     );
 });

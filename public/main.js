@@ -30,9 +30,8 @@ import {NotFoundPresenter} from './presenters/NotFoundPresenter.js';
 import {baseCreateProduct, baseRegistration} from './modules/fields.js';
 
 /***
- * Register service worker  
- */ 
-if ('serviceWorker' in navigator) {
+ * Register service worker
+ if ('serviceWorker' in navigator) {
     navigator.serviceWorker.register('./sw.js', {scope: '/'})
         .then((registration) => {
             console.log('Service Worker registered.')
@@ -40,6 +39,7 @@ if ('serviceWorker' in navigator) {
             console.log('Error while register service worker:' + error)
         });
 }
+ */
 
 const app = document.getElementById('app');
 
