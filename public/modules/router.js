@@ -24,6 +24,7 @@ class Router {
         }
 
         this.__removeListeners = route.callback.call(this, this.__getParamsFromRegExp(route));
+
     }
 
     /***

@@ -43,6 +43,18 @@ class FrontUrls {
      * Get search page
      * @returns {string}
      */
+    searchWithText(text = undefined) {
+        if (text !== undefined) {
+            return `/search/${text}`;
+        }
+
+        return '/search/{text}';
+    }
+
+    /***
+     * Get search page
+     * @returns {string}
+     */
     get search() {
         return '/search';
     }

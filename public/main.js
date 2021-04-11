@@ -124,13 +124,23 @@ const doFavorite = () => {
 };
 
 /***
+ * Open search page with text
+ */
+const doSearchWithText = (text = '') => {
+    const searchPresenter = new SearchPresenter(searchView, decodeURI(text.parameters.text));
+    searchPresenter.control();
+
+//    return searchPresenter.removePageListeners.bind(searchPresenter);
+};
+
+/***
  * Open search page
  */
 const doSearch = () => {
-    const searchPresenter = new SearchPresenter(searchView);
+    const searchPresenter = new SearchPresenter(searchView, '');
     searchPresenter.control();
 
-    // return searchPresenter.removePageListeners.bind(searchPresenter);
+//    return searchPresenter.removePageListeners.bind(searchPresenter);
 };
 
 /***
@@ -144,12 +154,13 @@ const doNotFound = () => {
 router.add(frontUrls.main, doMain);
 router.add(frontUrls.registration, doRegistration);
 router.add(frontUrls.productCreate, doProductCreate);
+router.add(frontUrls.search, doSearch);
+router.add(frontUrls.searchWithText(), doSearchWithText);
 router.add(frontUrls.product(), doProduct);
 router.add(frontUrls.promotion, doPromotion);
 router.add(frontUrls.userProfile, doProfile);
 router.add(frontUrls.userAd, doAd);
 router.add(frontUrls.userFavorite, doFavorite);
-router.add(frontUrls.search, doSearch);
 
 router.addNotFound(doNotFound);
 

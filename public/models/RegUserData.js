@@ -63,9 +63,6 @@ export class RegUserData extends PasswordUserModel {
                             }
 
                             return {};
-                        })
-                        .catch((err) => {
-                            throw err;
                         });
                 }
 
@@ -78,6 +75,6 @@ export class RegUserData extends PasswordUserModel {
                 }
 
                 return {};
-            }).catch((err) => Promise.reject(err));
+            });
     }
 }

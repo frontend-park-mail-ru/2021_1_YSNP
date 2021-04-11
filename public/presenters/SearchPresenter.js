@@ -17,13 +17,15 @@ export class SearchPresenter extends BasePresenter {
      *
      * Class constructor
      * @param{SearchView} view - view
+     * @param text
      * @this {SearchPresenter}
      */
-    constructor(view) {
+    constructor(view, text) {
         super(view);
         this.__view = view;
         this.__productListModel = new ProductListModel();
         this.__model = new SearchModel();
+        this.__searchInitText = text;
     }
 
     /***
@@ -34,9 +36,7 @@ export class SearchPresenter extends BasePresenter {
      */
     async update() {
         return super.update()
-            .then(() => this.__productListModel.update())
             .catch((err) => {
-                //TODO(Sergey) нормальная обработка ошибок
                 console.log(err.message);
             });
     }
@@ -49,7 +49,12 @@ export class SearchPresenter extends BasePresenter {
      */
     async control() {
         await this.update();
-        this.__view.render(this.__makeContext());
+        this.__view.render(this.__makeContext()).then(() => {
+            console.log(this.__searchInitText);
+            const {search} = this.__view.getAllFields();
+            search.value = this.__searchInitText;
+            this.__search();
+        });
         (new PageUpHandler()).start();
     }
 
@@ -207,8 +212,8 @@ export class SearchPresenter extends BasePresenter {
         const {fromAmount, toAmount, search} = this.__view.getAllFields();
         this.__model.fillProductModel({
             category: sessionStorage.getItem('category'),
-            fromAmount: parseInt(fromAmount.value.replace(/[^0-9]/g, '')),
-            toAmount: parseInt(toAmount.value.replace(/[^0-9]/g, '')),
+            fromAmount: parseInt(fromAmount.value.replace(/[^0-9]/g, '', 0)),
+            toAmount: parseInt(toAmount.value.replace(/[^0-9]/g, ''), 0),
             date: sessionStorage.getItem('date'),
             radius: 5,
             sorting: sessionStorage.getItem('sort'),
@@ -222,6 +227,7 @@ export class SearchPresenter extends BasePresenter {
                 this.__view.rerenderProductList(this.__makeContext());
             }
         }).catch(() => {
+            this.__productListModel = new ProductListModel();
             this.__view.rerenderProductList(this.__makeContext());
         });
     }

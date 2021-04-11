@@ -42,7 +42,7 @@ export class AuthUserModel extends PasswordUserModel {
 
     /***
      * Get auth user model Json
-     * @returns {{telephone: Object.telephone, password1: string}}
+     * @returns {{password: string, telephone}}
      * @private
      */
     __jsonData() {
@@ -54,7 +54,7 @@ export class AuthUserModel extends PasswordUserModel {
 
     /***
      * Post auth user data to backend
-     * @returns {Promise<void>}
+     * @returns {Promise<{data: *, status: number}>}
      */
     async auth() {
         return http.post(backUrls.login, this.__jsonData())
@@ -68,10 +68,6 @@ export class AuthUserModel extends PasswordUserModel {
                     throw new Error('Ошибка сервера');
                     // throw new Error(data.message);
                 }
-            })
-            .catch((err) => {
-                console.log(err.message);
-                throw err;
             });
     }
 }

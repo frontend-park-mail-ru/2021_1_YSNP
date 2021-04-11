@@ -4,7 +4,7 @@ import {MainListModel} from '../models/MainListModel.js';
 import {router} from '../modules/router';
 import {frontUrls} from '../modules/frontUrls';
 
-import {eventProductListHandler} from '../modules/eventHandler.js';
+import {eventProductListHandler, eventHandlerWithDataType} from '../modules/eventHandler.js';
 
 import {EndlessScroll} from '../modules/endlessScroll.js';
 import {PageUpHandler} from '../modules/pageUpHandler.js';
@@ -87,6 +87,21 @@ export class MainPresenter extends BasePresenter {
     }
 
     /***
+     * @author Ivan Gorshkov
+     *
+     * Header click listener
+     * @param {MouseEvent} ev - event
+     * @param {string} dataType
+     * @param {Object} actions
+     * @private
+     * @this {MainPresenter}
+     */
+    __listenerSearchClick(dataType, actions, ev) {
+        ev.preventDefault();
+        eventHandlerWithDataType(ev, dataType, actions, true);
+    }
+
+    /***
      * Get view listeners
      * @returns {{scroll: {scrollEnd: any}, mainList: {productCardClick: {listener: *, type: string}}}}
      * @private
@@ -97,6 +112,12 @@ export class MainPresenter extends BasePresenter {
                 productCardClick: {
                     type: 'click',
                     listener: this.__listenerMainListClick.bind(this)
+                }
+            },
+            search: {
+                searchClick: {
+                    type: 'click',
+                    listener: this.__listenerSearchClick.bind(this, 'action', this.__getActions().search)
                 }
             },
             scroll: {
@@ -111,10 +132,19 @@ export class MainPresenter extends BasePresenter {
      * @private
      */
     __likeCard(id) {
-        // TODO(Sergey) release __likeCard
-
         const numberId = parseInt(id, 10);
-        this.__view.likeProduct(numberId);
+        this.__mainListModel.voteProduct(numberId)
+            .then(({status}) => {
+                if (status === 'dislike') {
+                    this.__view.dislikeProduct(numberId);
+                    return;
+                }
+
+                this.__view.likeProduct(numberId);
+            })
+            .catch(() => {
+                router.redirect(frontUrls.registration);
+            });
     }
 
     /***
@@ -141,8 +171,41 @@ export class MainPresenter extends BasePresenter {
                 likeClick: {
                     open: this.__likeCard.bind(this)
                 }
+            },
+            search: {
+                searchButtonClick: {
+                    open: this.__searchButton.bind(this)
+                },
+                categoryClick: {
+                    open: this.__categoryClick.bind(this)
+                }
             }
         };
+    }
+
+    /***
+     * click to subcategory
+     * @param{Event} ev
+     * @private
+     */
+    __categoryClick(ev) {
+        sessionStorage.setItem('category', ev.target.innerText);
+
+        router.redirect(frontUrls.search);
+    }
+
+    /***
+     * click to search button
+     * @private
+     */
+    __searchButton() {
+        sessionStorage.setItem('category', '');
+        const val = this.__view.getTextFromSearch();
+        if (val !== '') {
+            router.redirect(frontUrls.searchWithText(val));
+            return;
+        }
+        router.redirect(frontUrls.search);
     }
 
     /***
@@ -152,6 +215,10 @@ export class MainPresenter extends BasePresenter {
      */
     __makeContext() {
         return {
+            search: {
+                data: null,
+                listeners: this.__createListeners().search
+            },
             mainList: {
                 data: this.__mainListModel.getData(),
                 listeners: this.__createListeners().mainList

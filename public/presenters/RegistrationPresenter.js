@@ -365,12 +365,14 @@ export class RegistrationPresenter extends BasePresenter {
         const {error, message} = this.__model.validationImage(this.__view.getForm());
         if (this.__isPicAdd && !error) {
             this.__view.removeErrorAvatar();
+            this.__view.errorText('');
             return true;
         }
 
         console.log(message);
-        //TODO(Ivan) нормальная обработка ошибок
         this.__view.addErrorAvatar();
+        this.__view.errorText(message);
+
         return false;
     }
 

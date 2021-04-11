@@ -8,11 +8,20 @@ import {PageNotFound} from '../components/PageNotFound/PageNotFound.js';
  */
 export class NotFoundView extends BaseView {
     /***
+     * Set view title
+     * @private
+     */
+    __setTitle() {
+        document.title = 'Страница не найдена';
+    }
+
+    /***
      * Render view
      * @param {Object} context
      */
     render(context) {
         super.render();
+        this.__setTitle();
 
         const layout = new Layout(this.__app, true);
         layout.render();

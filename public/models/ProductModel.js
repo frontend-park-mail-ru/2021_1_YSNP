@@ -16,6 +16,36 @@ export class ProductModel {
     }
 
     /***
+     * Get id
+     * @returns {number}
+     */
+    get id() {
+        return this.__id;
+    }
+
+    /***
+     * Get user like
+     * @returns {boolean}
+     */
+    get userLiked() {
+        return this.__userLiked;
+    }
+
+    /***
+     * Set user like
+     */
+    setLike() {
+        this.__userLiked = true;
+    }
+
+    /***
+     * Set user dislike
+     */
+    setDislike() {
+        this.__userLiked = false;
+    }
+
+    /***
      * Get first image
      * @returns {string}
      */
@@ -74,12 +104,12 @@ export class ProductModel {
                         message: '',
                         error: false
                     };
-                } 
-                    return {
-                        message: ['Адрес не корректен'],
-                        error: true
-                    };
-                
+                }
+                return {
+                    message: ['Адрес не корректен'],
+                    error: true
+                };
+
             }
         );
     }
@@ -156,9 +186,16 @@ export class ProductModel {
         }
 
         return {
-            message: 'Слишком большой размер фото',
+            message: 'Слишком большой общий размер фото',
             error: true
         };
+    }
+
+    /***
+     * Set liked product
+     */
+    setLiked() {
+        this.__userLiked = true;
     }
 
     /***
@@ -237,8 +274,6 @@ export class ProductModel {
      * @returns {{date: (Object.date|string|*), amount: (Object.amount|number|*), linkImage: string, name: (Object.name|string|*), id: (Object.id|string|*), userLiked: (Object.userLiked|boolean|*)}}
      */
     getMainData() {
-
-
         return {
             id: this.__id,
             name: this.__name,
@@ -276,10 +311,10 @@ export class ProductModel {
 
     /***
      * Get product data from backend
-     * @returns {Promise<{isUpdate: boolean}|void>}
+     * @returns {Promise<{data: *, status: number}>}
      */
     async update() {
-        return http.get(backUrls.product + this.__id)
+        return http.get(backUrls.product(this.id))
             .then(({status, data}) => {
                 if (status === httpStatus.StatusNotFound) {
                     throw new Error('Нет такого товара');
@@ -292,17 +327,12 @@ export class ProductModel {
                 }
 
                 this.fillProductModel(data);
-                return {isUpdate: true};
-            })
-            .catch((err) => {
-                console.log(err.message);
-                return {isUpdate: false, message: err.message};
             });
     }
 
     /***
      * Post create new product
-     * @returns {Promise<void>}
+     * @returns {Promise<{id: *}>}
      */
     async create(form) {
         return http.post(backUrls.productCreate, this.__jsonData())
@@ -323,7 +353,7 @@ export class ProductModel {
                 }
 
                 this.__id = data.id;
-                return http.post(backUrls.productUploadPhotos + this.__id, new FormData(form), true)
+                return http.post(backUrls.productUploadPhotos(this.__id), new FormData(form), true)
                     .then(({status}) => {
                         if (status === httpStatus.StatusUnauthorized) {
                             throw new Error('Пользователь не авторизован');
@@ -342,10 +372,6 @@ export class ProductModel {
 
                         return {id: this.__id};
                     });
-            })
-            .catch((err) => {
-                console.log(err.message);
-                throw err;
             });
     }
 }
