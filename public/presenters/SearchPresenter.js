@@ -223,7 +223,7 @@ export class SearchPresenter extends BasePresenter {
         await this.__model.update().then(({isUpdate, data}) => {
             if (isUpdate) {
                 this.__productListModel = new ProductListModel();
-                this.__productListModel.setNewData(data);
+                this.__productListModel.parseData(data);
                 this.__view.rerenderProductList(this.__makeContext());
             }
         }).catch(() => {
