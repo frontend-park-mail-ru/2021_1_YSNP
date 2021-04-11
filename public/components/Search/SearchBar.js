@@ -14,6 +14,21 @@ export class SearchBar {
         this.__parent = parent;
     }
 
+    /***
+     * Like product
+     * @param {number} id - product id
+     */
+    likeProduct(id) {
+        this.__productList.like(id);
+    }
+
+    /***
+     * Dislike product
+     * @param {number} id - product id
+     */
+    dislikeProduct(id) {
+        this.__productList.dislike(id);
+    }
 
     /***
      * @author Ivan Gorshkov
