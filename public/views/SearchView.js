@@ -18,6 +18,22 @@ export class SearchView extends BaseView {
     }
 
     /***
+     * Like product
+     * @param {number} id - product id
+     */
+    likeProduct(id) {
+        this.__searchBar.likeProduct(id);
+    }
+
+    /***
+     * Dislike product
+     * @param {number} id - product id
+     */
+    dislikeProduct(id) {
+        this.__searchBar.dislikeProduct(id);
+    }
+
+    /***
      * @author Ivan Gorshkov
      *
      * get HTMLElement of layout
@@ -73,7 +89,6 @@ export class SearchView extends BaseView {
         this.__searchBar.removeListeners();
         this.__navSubView.removeListeners();
     }
-
 
     /***
      * @author Ivan Gorshkov
