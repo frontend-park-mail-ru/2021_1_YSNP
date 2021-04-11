@@ -76,6 +76,16 @@ export class Header {
     }
 
     /***
+     * Update user address
+     * @param address
+     */
+    updateAddress(address) {
+        document
+            .getElementById('header-address')
+            .innerText = address;
+    }
+
+    /***
      * Add component to parent
      */
     render(context) {
