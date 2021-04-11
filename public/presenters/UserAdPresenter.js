@@ -79,7 +79,12 @@ export class UserAdPresenter extends BasePresenter {
     __scrollEnd() {
         this.__adListModel.updateNewData()
             .then(() => {
-                this.__view.addNewCards(this.__adListModel.newData);
+                const newData = this.__mainListModel.newData;
+                if (newData.length === 0) {
+                    this.__endlessScroll.remove();
+                }
+
+                this.__view.addNewCards(newData);
             })
             .catch((err) => {
                 //TODO(Sergey) нормальная обработка ошибок

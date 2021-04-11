@@ -79,7 +79,12 @@ export class UserFavoritePresenter extends BasePresenter {
     __scrollEnd() {
         this.__favoriteListModel.updateNewData()
             .then(() => {
-                this.__view.addNewCards(this.__favoriteListModel.newData);
+                const newData = this.__mainListModel.newData;
+                if (newData.length === 0) {
+                    this.__endlessScroll.remove();
+                }
+
+                this.__view.addNewCards(newData);
             })
             .catch((err) => {
                 //TODO(Sergey) нормальная обработка ошибок
