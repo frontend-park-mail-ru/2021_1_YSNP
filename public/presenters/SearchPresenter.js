@@ -1,5 +1,5 @@
 import {BasePresenter} from './BasePresenter.js';
-import {eventHandlerWithDataType} from '../modules/eventHandler.js';
+import {eventHandlerWithDataType, eventProductListHandler} from '../modules/eventHandler.js';
 import {router} from '../modules/router.js';
 import {ProductListModel} from '../models/ProductListModel.js';
 import {frontUrls} from '../modules/frontUrls.js';
@@ -7,6 +7,7 @@ import {SearchModel} from '../models/SearchModel.js';
 import {amountMask} from '../modules/mask.js';
 import {PageUpHandler} from '../modules/pageUpHandler.js';
 import {noop} from '../models/Noop';
+
 /***
  *  class SearchPresenter extends BasePresenter
  */
@@ -122,7 +123,7 @@ export class SearchPresenter extends BasePresenter {
         const numberId = parseInt(id, 10);
 
         if (!this.__userModel.isAuth) {
-            router.redirect(frontUrls.registration);
+            super.openAuth();
             return;
         }
 
@@ -157,28 +158,8 @@ export class SearchPresenter extends BasePresenter {
      * @param {MouseEvent} ev - event
      */
     __listenerProductListClick(ev) {
-        ev.preventDefault();
-
-        let id = undefined;
-        let action = undefined;
-        Object
-            .entries(ev.composedPath())
-            .forEach(([, el]) => {
-                if (el.dataset !== undefined) {
-                    if ('action' in el.dataset && action === undefined) {
-                        action = el.dataset.action;
-                    }
-
-                    if ('cardId' in el.dataset) {
-                        id = el.dataset.cardId;
-                    }
-                }
-            });
-
-        if (action !== undefined) {
-            const actions = this.__getActions().productList;
-            actions[action].open(id);
-        }
+        ev.stopPropagation();
+        eventProductListHandler(ev, this.__getActions().productList);
     }
 
     /***
@@ -211,7 +192,7 @@ export class SearchPresenter extends BasePresenter {
      * @this {SearchPresenter}
      * @private
      */
-     __submitFilter() {
+    __submitFilter() {
         sessionStorage.setItem('category', document.getElementById('category').value);
         sessionStorage.setItem('date', document.getElementById('date').value);
         this.__search().then(() => noop());
@@ -292,7 +273,7 @@ export class SearchPresenter extends BasePresenter {
      * @this {SearchPresenter}
      * @private
      */
-     __validateFields(ev) {
+    __validateFields(ev) {
         ev.target.value = amountMask(ev.target.value);
     }
 

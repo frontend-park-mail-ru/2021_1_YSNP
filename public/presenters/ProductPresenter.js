@@ -183,7 +183,7 @@ export class ProductPresenter extends BasePresenter {
         if (this.__userModel.isAuth) {
             console.log('number');
         } else {
-            this.__openAuth();
+            super.openAuth();
         }
     }
 
@@ -198,7 +198,7 @@ export class ProductPresenter extends BasePresenter {
         if (this.__userModel.isAuth) {
             console.log('massage');
         } else {
-            this.__openAuth();
+            super.openAuth();
         }
     }
 
