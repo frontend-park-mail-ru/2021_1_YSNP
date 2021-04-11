@@ -25,6 +25,8 @@ export class SearchModel {
         this.__toAmount = data.toAmount;
         this.__date = data.date;
         this.__radius = data.radius;
+        this.__latitude = data.latitude;
+        this.__longitude = data.longitude;
         this.__sorting = data.sorting;
         this.__search = data.search;
     }
@@ -41,6 +43,8 @@ export class SearchModel {
             toAmount: this.__toAmount,
             date: this.__date,
             radius: this.__radius,
+            latitude: this.__latitude,
+            longitude: this.__longitude,
             sorting: this.__sorting,
             search: this.__search
         };

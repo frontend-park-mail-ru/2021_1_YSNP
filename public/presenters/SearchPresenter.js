@@ -215,7 +215,9 @@ export class SearchPresenter extends BasePresenter {
             fromAmount: parseInt(fromAmount.value.replace(/[^0-9]/g, '', 0)),
             toAmount: parseInt(toAmount.value.replace(/[^0-9]/g, ''), 0),
             date: sessionStorage.getItem('date'),
-            radius: 5,
+            radius: this.__userModel.getData().radius,
+            longitude: this.__userModel.getData().longitude,
+            latitude: this.__userModel.getData().latitude,
             sorting: sessionStorage.getItem('sort'),
             search: search.value
         });
