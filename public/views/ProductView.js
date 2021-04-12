@@ -101,6 +101,10 @@ export class ProductView extends BaseView {
         document.title = `${this.__context.product.data.__name}`;
     }
 
+    showNumber(tel) {
+        this.__boardSubView.showNumber(tel);
+    }
+
     /***
      * @author Ivan Gorshkov
      *

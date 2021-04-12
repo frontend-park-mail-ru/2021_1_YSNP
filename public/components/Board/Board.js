@@ -135,6 +135,11 @@ export class Board {
         target.style.opacity = '1.0';
     }
 
+
+    showNumber(tel) {
+        this.__infoCard.showNumber(tel);
+    }
+
     /***
      * @author Ivan Gorshkov
      *
