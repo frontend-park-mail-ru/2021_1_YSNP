@@ -2,6 +2,7 @@ import {BaseView} from './BaseView.js';
 import {Layout} from '../components/Layout/Layout.js';
 import {Navigation} from '../components/Navigation/Navigation.js';
 import {RegistrationPanel} from '../components/RegistrationPanel/RegistrationPanel.js';
+import {router} from '../modules/router';
 
 /***
  * class RegistrationView extends BaseView
@@ -195,7 +196,7 @@ export class RegistrationView extends BaseView {
         this.__makeContext(context);
 
 
-        this.__navSubView = new Navigation(this.getLayoutParent(), 'Главная страница', {route: ['Регистрация профиля']});
+        this.__navSubView = new Navigation(this.getLayoutParent(), router.getPreviousTitle(), {route: ['Регистрация профиля']});
         this.__regSubView = new RegistrationPanel(this.getLayoutParent());
         this.__navSubView.render(this.__context);
         this.__regSubView.render(this.__context);
