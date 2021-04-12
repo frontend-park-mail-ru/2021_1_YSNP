@@ -3,6 +3,7 @@ import {Layout} from '../components/Layout/Layout';
 import {Navigation} from '../components/Navigation/Navigation';
 import {Switch} from '../components/Switch/Switch';
 import {SearchBar} from '../components/SearchBar/SearchBar.js';
+
 import {categories} from '../modules/fields.js';
 import {router} from '../modules/router';
 import {Footer} from '../components/Footer/Footer';
@@ -25,6 +26,14 @@ export class SearchView extends BaseView {
      */
     likeProduct(id) {
         this.__searchBar.likeProduct(id);
+    }
+
+    /***
+     * Add new cards to view
+     * @param {Object[]} context - new cards
+     */
+    addNewCards(context) {
+        this.__searchBar.addNewCards(context);
     }
 
     /***
@@ -67,12 +76,6 @@ export class SearchView extends BaseView {
                 data: context.search.data,
                 listeners: context.search.listeners
             },
-            filter: {
-                optionSort: sessionStorage.getItem('sort'),
-                optionCategory: sessionStorage.getItem('category'),
-                optionDate: sessionStorage.getItem('date'),
-                categories: categories
-            },
             switch: {
                 data: {
                     title: 'Поиск объявлений'
@@ -104,6 +107,10 @@ export class SearchView extends BaseView {
         this.__searchBar.rerenderProductList(this.__context);
     }
 
+    deleteProductList() {
+        this.__searchBar.deleteProductList();
+    }
+
     /***
      * @author Ivan Gorshkov
      *
@@ -119,7 +126,7 @@ export class SearchView extends BaseView {
      * @author Ivan Gorshkov
      *
      * render with context
-     * @param{Object} context
+     * @param {Object} context
      * @this {SearchView}
      */
     async render(context) {

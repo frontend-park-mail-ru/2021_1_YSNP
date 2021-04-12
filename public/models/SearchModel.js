@@ -2,24 +2,17 @@ import {http} from '../modules/http';
 import {backUrls} from '../modules/backUrls';
 import {httpStatus} from '../modules/httpStatus';
 
+import {ProductListModel} from './ProductListModel.js';
+
 /***
  * Registration user model
  */
-export class SearchModel {
-    /***
-     * Class constructor
-     * @param data
-     */
-    constructor(data = {}) {
-        this.fillProductModel(data);
-    }
-
-
+export class SearchModel extends ProductListModel {
     /***
      * Fill product model
      * @param {Object} data - product data
      */
-    fillProductModel(data) {
+    fillSearchData(data) {
         this.__category = data.category;
         this.__fromAmount = data.fromAmount;
         this.__toAmount = data.toAmount;
@@ -36,39 +29,32 @@ export class SearchModel {
      * @returns {{amount: (Object.amount|number|*), name: (Object.name|string|*), description: (Object.description|string|*)}}
      * @private
      */
-    __jsonData() {
+    __jsonSearchData() {
         return {
-            category: this.__category,
-            fromAmount: this.__fromAmount,
-            toAmount: this.__toAmount,
-            date: this.__date,
-            radius: this.__radius,
-            latitude: this.__latitude,
-            longitude: this.__longitude,
-            sorting: this.__sorting,
-            search: this.__search
+            category: this.__category ? this.__category : '',
+            fromAmount: this.__fromAmount ? this.__fromAmount : '',
+            toAmount: this.__toAmount ? this.__toAmount : '',
+            date: this.__date ? this.__date : '',
+            radius: this.__radius ? this.__radius : '',
+            latitude: this.__latitude ? this.__latitude : '',
+            longitude: this.__longitude ? this.__longitude : '',
+            sorting: this.__sorting ? this.__sorting : '',
+            search: this.__search ? this.__search : '',
+            from: this.__page,
+            count: this.__pageCount
         };
     }
 
     /***
-     * Get product data from backend
-     * @returns {Promise<{isUpdate: boolean}|void>}
+     * Get data from backend with pagination
+     * @returns {Promise<{data: *, status: number}>}
+     * @private
      */
-    async update() {
-        return http.post(backUrls.search, this.__jsonData())
+    async __updateNewDataPage() {
+        return http.get(backUrls.search(this.__jsonSearchData()))
             .then(({status, data}) => {
-                if (status === httpStatus.StatusForbidden) {
-                    throw new Error('Доступ запрещен');
-                    // throw new Error(data.message);
-                }
-
                 if (status === httpStatus.StatusBadRequest) {
                     throw new Error('Неправильные данные');
-                    // throw new Error(data.message);
-                }
-
-                if (status === httpStatus.StatusNotFound) {
-                    throw new Error('Нет такого товара');
                     // throw new Error(data.message);
                 }
 
@@ -77,7 +63,7 @@ export class SearchModel {
                     // throw new Error(data.message);
                 }
 
-                return {isUpdate: true, data: data};
+                this.parseData(data);
             });
     }
 }

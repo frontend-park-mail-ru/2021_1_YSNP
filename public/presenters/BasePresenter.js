@@ -250,6 +250,7 @@ export class BasePresenter {
     __openMap() {
         this.closeAllComponents();
         this.__isShownMap = true;
+        this.__view.updateMapContext(this.__getUserPosition());
         this.__view.renderMap();
         this.__yaMap.render({
             searchControl: true,
@@ -455,8 +456,6 @@ export class BasePresenter {
             },
             map: {
                 data: {
-                    latitude: this.__userModel.getData().latitude,
-                    longitude: this.__userModel.getData().longitude,
                     radius: this.__userModel.getData().radius
                 },
                 listeners: this.__createBaseListeners().map

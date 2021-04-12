@@ -1,6 +1,7 @@
 import searchBarTemplate from './SearchBar.hbs';
 import './SearchBar.scss';
 import {ProductTable} from '../ProductTable/ProductTable';
+import {Switch} from '../Switch/Switch';
 
 /***
  * SearchBar box on profile page
@@ -31,28 +32,11 @@ export class SearchBar {
     }
 
     /***
-     * @author Ivan Gorshkov
-     *
-     * get Navigation listeners
-     * @this {RegistrationPanel}
-     * @private
-     * @readonly
-     * @return  {Object} array of listeners
+     * Add new cards to view
+     * @param {Object[]} context - new cards
      */
-    get listeners() {
-        return this.__listeners;
-    }
-
-    /***
-     * @author Ivan Gorshkov
-     *
-     * Set new listeners
-     * @this {RegistrationPanel}
-     * @param  {Object} val - Object of listeners
-     * @public
-     */
-    set listeners(val) {
-        this.__listeners = val;
+    addNewCards(context) {
+        this.__productList.addNewCards(context);
     }
 
     /***
@@ -62,6 +46,19 @@ export class SearchBar {
     rerenderProductList(ctx) {
         document.getElementById('product-content').innerText = '';
         this.__productList.render(ctx.productList);
+    }
+
+    /***
+     * Delete product list
+     */
+    deleteProductList() {
+        const product = document.getElementById('product-content');
+        product.innerText = '';
+        (new Switch(product)).render({
+            data: {
+                text: 'Нет объявлений по такому запросу'
+            }
+        });
     }
 
     /***
@@ -119,8 +116,9 @@ export class SearchBar {
      * Add component to parent
      */
     render(context) {
-        this.__parent.insertAdjacentHTML('beforeend', searchBarTemplate(context.filter));
+        this.__parent.insertAdjacentHTML('beforeend', searchBarTemplate(context.search.data));
         this.listeners = context.search.listeners;
+
         this.__productList = new ProductTable(document.getElementById('product-content'));
         this.__productList.render(context.productList);
         this.__addListeners();

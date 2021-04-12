@@ -109,6 +109,17 @@ class Router {
         return this.start();
     }
 
+
+    /***
+     * Push state without redirect
+     * @param {string} url - redirect url
+     * @param {string} title - redirect title
+     * @param {Object} state - redirect state
+     */
+    pushState(url, title = '', state = {}) {
+        window.history.pushState(state, title, url);
+    }
+
     /***
      * Redirect current page
      */

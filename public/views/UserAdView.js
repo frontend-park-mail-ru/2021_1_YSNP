@@ -84,8 +84,16 @@ export class UserAdView extends BaseView {
         const adSwitch = new Switch(right);
         adSwitch.render(this.__context.switch);
 
-        this.__adList = new ProductTable(right);
-        this.__adList.render(this.__context.adList);
+        if (this.__context.adList.data.length !== 0) {
+            this.__adList = new ProductTable(right);
+            this.__adList.render(this.__context.adList);
+        } else {
+            (new Switch(right)).render({
+                data: {
+                    text: 'У вас еще нет объявлений'
+                }
+            });
+        }
 
         super.renderFooter();
     }
