@@ -26,8 +26,8 @@ export class PageUpHandler {
      * Remove page up
      */
     remove() {
-        this.__pageUp.remove();
         this.__removeListeners();
+        this.__pageUp.remove();
     }
 
     /***

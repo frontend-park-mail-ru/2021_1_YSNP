@@ -254,13 +254,13 @@ class Router {
      * @param {MouseEvent} ev - mouse event
      */
     redirectEvent(ev) {
-        if (ev.target instanceof HTMLAnchorElement) {
+        if (ev.target instanceof HTMLAnchorElement && ev.target.pathname !== '') {
             ev.preventDefault();
 
             this.redirect(ev.target.pathname);
         }
 
-        if (ev.target.parentElement instanceof HTMLAnchorElement) {
+        if (ev.target.parentElement instanceof HTMLAnchorElement && ev.target.pathname !== '') {
             ev.preventDefault();
 
             this.redirect(ev.target.parentElement.pathname);
