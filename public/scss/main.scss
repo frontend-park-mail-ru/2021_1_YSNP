@@ -27,7 +27,7 @@ $mainColor: rgb(211, 30, 30);
   }
 }
 
-@mixin cancel-button($w, $h){
+@mixin cancel-button($w, $h) {
   height: $h;
   width: $w;
 
@@ -211,7 +211,8 @@ $mainColor: rgb(211, 30, 30);
   font-size: 1.3vh;
   font-style: italic;
 }
-.error-success{
+
+.error-success {
   visibility: visible;
   color: green;
   font-size: 1.3vh;

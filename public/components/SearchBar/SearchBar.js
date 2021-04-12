@@ -1,4 +1,4 @@
-import searchBarTemplate from '../Search/SearchBar.hbs';
+import searchBarTemplate from './SearchBar.hbs';
 import './SearchBar.scss';
 import {ProductTable} from '../ProductTable/ProductTable';
 

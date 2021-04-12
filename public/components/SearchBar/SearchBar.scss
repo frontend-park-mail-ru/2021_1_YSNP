@@ -1,0 +1,99 @@
+@import "../../scss/main";
+
+.search {
+  &-block {
+    display: flex;
+
+    &__search-field {
+
+    }
+  }
+
+  &-filter {
+    &-elem {
+      height: 5vh;
+
+      &__text-field {
+        @include set-size(27vh, 4vh);
+        @include input;
+        font-size: 1.5vh;
+
+        background-color: whitesmoke;
+
+        &:focus {
+          outline: none;
+        }
+      }
+
+      &__button {
+        margin-right: 2vw;
+        @include red-button(27vh, 4vh);
+      }
+    }
+
+    &-amount {
+      display: flex;
+
+      &__from {
+        @include set-size(14vh, 4vh);
+        @include input;
+        font-size: 1.5vh;
+
+        border-radius: 0.5vh 0 0 0.5vh;
+        background-color: whitesmoke;
+      }
+
+      &__to {
+        @include set-size(13vh, 4vh);
+        @include input;
+        font-size: 1.5vh;
+
+        border-radius: 0 0.5vh 0.5vh 0;
+        background-color: whitesmoke;
+      }
+    }
+  }
+
+  &-items {
+    width: 100%;
+
+    &-bar {
+      display: flex;
+      width: 100%;
+
+      &__text-field {
+        @include set-size(90%, 4vh);
+        @include input;
+        font-size: 1.5vh;
+
+        margin-right: 1vh;
+
+        background-color: whitesmoke;
+      }
+
+      &__button {
+        @include red-button(10vh, 4vh);
+      }
+    }
+
+    &__sort {
+      @include set-size(20vh, 4vh);
+      background: rgba(0, 0, 0, 0.0);
+      border: 0;
+
+      &:focus {
+        outline: none;
+      }
+    }
+
+    &__separator {
+      @include separator;
+
+      border-top: 1px solid rgba(0, 0, 0, 0.3);
+    }
+
+    &-product {
+      margin-left: 2vw;
+    }
+  }
+}

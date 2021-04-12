@@ -311,7 +311,6 @@ export class ProductCreatePresenter extends BasePresenter {
 
         if (error) {
             this.__view.errorText(message);
-            console.log(message);
             return false;
         }
 
