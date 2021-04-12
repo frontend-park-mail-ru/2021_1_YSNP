@@ -3,31 +3,30 @@
  */
 class LocalStorage {
     /***
-     * Class constructor
-     */
-    constructor() {
-    }
-
-    /***
-     * Get csrf token
+     * Get item
+     * @param {string} key - key name
      * @returns {string}
      */
-    getCSRF() {
+    get(key) {
         try {
-            return sessionStorage.getItem('csrf');
+            return sessionStorage.getItem(key);
         } catch (err) {
-            console.log(err);
-            return '';
+            console.log(err.message);
+            return undefined;
         }
     }
 
     /***
-     * Set csrf token
-     * @constructor
-     * @param {string} csrfToken - csrf token
+     * Set item
+     * @param {string} key - key name
+     * @param {string} val - value
      */
-    setCSRF(csrfToken) {
-        sessionStorage.setItem('csrf', csrfToken);
+    set(key, val) {
+        try {
+            sessionStorage.setItem(key, val);
+        } catch (err) {
+            console.log(err.message);
+        }
     }
 }
 
