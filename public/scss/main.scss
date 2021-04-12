@@ -27,7 +27,7 @@ $mainColor: rgb(211, 30, 30);
   }
 }
 
-@mixin cancel-button($w, $h){
+@mixin cancel-button($w, $h) {
   height: $h;
   width: $w;
 
@@ -118,7 +118,7 @@ $mainColor: rgb(211, 30, 30);
 
 @mixin border-block() {
   box-sizing: border-box;
-  border-radius: 5px;
+  border-radius: 1vh;
   border: 1px solid rgba(0, 0, 0, 0.2);
 }
 
@@ -126,7 +126,7 @@ $mainColor: rgb(211, 30, 30);
   background-color: white;
 
   border: 0;
-  border-radius: 5px;
+  border-radius: 1vh;
   box-shadow: 0 0 1vw rgba(0, 0, 0, 0.2);
 }
 
@@ -211,7 +211,8 @@ $mainColor: rgb(211, 30, 30);
   font-size: 1.3vh;
   font-style: italic;
 }
-.error-success{
+
+.error-success {
   visibility: visible;
   color: green;
   font-size: 1.3vh;
