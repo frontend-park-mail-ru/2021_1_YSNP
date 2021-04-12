@@ -20,6 +20,10 @@ export class FavoriteListModel extends ProductListModel {
                     throw new Error('Ошибка сервера');
                     // throw new Error(data.message);
                 }
+          
+                if (status === httpStatus.StatusForbidden) {
+                    throw new Error('Доступ запрещен');
+                }
 
                 this.parseData(data, true);
             });

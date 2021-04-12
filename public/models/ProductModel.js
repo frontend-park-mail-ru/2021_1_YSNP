@@ -325,7 +325,9 @@ export class ProductModel {
                     throw new Error('Ошибка сервера');
                     // throw new Error(data.message);
                 }
-
+                if (status === httpStatus.StatusForbidden) {
+                    throw new Error('Доступ запрещен');
+                }
                 this.fillProductModel(data);
             });
     }
@@ -351,7 +353,9 @@ export class ProductModel {
                     throw new Error('Ошибка сервера');
                     // throw new Error(data.message);
                 }
-
+                if (status === httpStatus.StatusForbidden) {
+                    throw new Error('Доступ запрещен');
+                }
                 this.__id = data.id;
                 return http.post(backUrls.productUploadPhotos(this.__id), new FormData(form), true)
                     .then(({status}) => {
@@ -369,7 +373,9 @@ export class ProductModel {
                             throw new Error('Ошибка сервера');
                             // throw new Error(data.message);
                         }
-
+                        if (status === httpStatus.StatusForbidden) {
+                            throw new Error('Доступ запрещен');
+                        }
                         return {id: this.__id};
                     });
             });

@@ -11,7 +11,8 @@ class HttpStatus {
             BadRequest: 400,
             Unauthorized: 401,
             NotFound: 404,
-            InternalServerError: 500
+            InternalServerError: 500,
+            Forbidden: 403
         };
     }
 
@@ -58,6 +59,15 @@ class HttpStatus {
      */
     get StatusInternalServerError() {
         return this.__statuses.InternalServerError;
+    }
+
+    /***
+     * Get status Forbidden
+     * @returns {number}
+     * @constructor
+     */
+    get StatusForbidden() {
+        return this.__statuses.Forbidden;
     }
 }
 

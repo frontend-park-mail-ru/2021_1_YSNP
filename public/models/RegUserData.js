@@ -62,6 +62,9 @@ export class RegUserData extends PasswordUserModel {
                                 throw new Error(data.message);
                             }
 
+                            if (status === httpStatus.StatusForbidden) {
+                                throw new Error('Доступ запрещен');
+                            }
                             return {};
                         });
                 }
@@ -73,7 +76,9 @@ export class RegUserData extends PasswordUserModel {
                 if (status === httpStatus.StatusInternalServerError) {
                     throw new Error(data.message);
                 }
-
+                if (status === httpStatus.StatusForbidden) {
+                    throw new Error('Доступ запрещен');
+                }
                 return {};
             });
     }
