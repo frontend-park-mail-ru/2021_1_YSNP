@@ -51,6 +51,16 @@ class BackUrls {
         return `${this.__url}${this.__api}/me`;
     }
 
+
+    /***
+     * Get user url
+     * @param {number} id - user id
+     * @returns {string}
+     */
+    getUser(id) {
+        return `${this.__url}${this.__api}/user/${id}`;
+    }
+
     /***
      * Get change user url
      * @returns {string}
