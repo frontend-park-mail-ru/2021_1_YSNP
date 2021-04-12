@@ -5,6 +5,7 @@ import {Switch} from '../components/Switch/Switch';
 import {SearchBar} from '../components/SearchBar/SearchBar.js';
 import {categories} from '../modules/fields.js';
 import {router} from '../modules/router';
+import {Footer} from '../components/Footer/Footer';
 
 /***
  *  SearchView
@@ -136,5 +137,7 @@ export class SearchView extends BaseView {
 
         this.__searchBar = new SearchBar(this.getLayoutParent());
         this.__searchBar.render(this.__context);
+
+        super.renderFooter();
     }
 }

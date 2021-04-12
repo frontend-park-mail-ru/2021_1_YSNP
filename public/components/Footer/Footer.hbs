@@ -1,0 +1,25 @@
+
+<div class="footer" id="footer">
+    <hr class="footer-hr"/>
+    <div class="footer-inner">
+        <div class="footer-content">
+            <a class="footer__link">Помощь</a>
+            <a class="footer__link">Реклама на koya</a>
+            <a class="footer__link">Лицензионное соглашение</a>
+        </div>
+        <div class="footer-content">
+            <a class="footer__link">Безопасность</a>
+            <a class="footer__link">О компании</a>
+        </div>
+        <div class="footer-content">
+            <a class="footer__link" data-action="locationClick">{{address}}</a>
+    {{#if isAuth}}
+            <a href="/user/profile" class="footer__link">Профиль</a>
+    {{/if}}
+            <a class="footer__link" data-action="createProductClick">Разместить объявление</a>
+        </div>
+        <div class="footer-content">
+            <a class="footer__corp">© 2021 YSNP</a>
+        </div>
+    </div>
+</div>

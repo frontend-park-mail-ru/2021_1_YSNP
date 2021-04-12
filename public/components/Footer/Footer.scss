@@ -1,0 +1,43 @@
+@import "../../scss/main.scss";
+
+.footer {
+  width: 80vw;
+  margin: 0 auto;
+  padding-top: 2vw;
+  padding-bottom: 2vw;
+
+  &-hr {
+    opacity: 0.2;
+  }
+
+  &-inner {
+    margin-left: 1vh;
+    display: flex;
+    justify-content: space-between;
+
+  }
+
+  &__link {
+    opacity: 0.5;
+    text-decoration: underline;
+    display: block;
+    text-decoration-color: #272c35;
+
+    &:hover {
+      cursor: pointer;
+      color: #D31E1E;
+    }
+
+    &:link {
+      color: #272c35;
+    }
+
+    &:visited {
+      color: #272c35;
+    }
+  }
+
+  &__corp{
+    opacity: 0.5;
+  }
+}

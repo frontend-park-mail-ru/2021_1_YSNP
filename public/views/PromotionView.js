@@ -1,6 +1,7 @@
 import {BaseView} from './BaseView.js';
 import {Layout} from '../components/Layout/Layout';
 import {AdPromotion} from '../components/AdPromotion/AdPromotion';
+import {Footer} from '../components/Footer/Footer';
 
 /***
  * Profile view
@@ -92,5 +93,7 @@ export class PromotionView extends BaseView {
 
         this.__promotion = new AdPromotion(parent);
         this.__promotion.render(this.__context.promotion);
+
+        super.renderFooter();
     }
 }

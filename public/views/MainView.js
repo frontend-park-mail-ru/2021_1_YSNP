@@ -3,6 +3,7 @@ import {SearchBox} from '../components/SearchBox/SearchBox.js';
 import {Switch} from '../components/Switch/Switch.js';
 import {Layout} from '../components/Layout/Layout.js';
 import {ProductTable} from '../components/ProductTable/ProductTable.js';
+import {Footer} from '../components/Footer/Footer.js';
 
 /***
  * Main view
@@ -102,6 +103,6 @@ export class MainView extends BaseView {
         this.__mainList = new ProductTable(parent);
         this.__mainList.render(this.__context.mainList);
 
-
+        super.renderFooter();
     }
 }
