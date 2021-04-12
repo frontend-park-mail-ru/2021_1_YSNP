@@ -78,6 +78,14 @@ export class BaseView {
     }
 
     /***
+     * Update map context
+     * @param {Object} context - map context
+     */
+    updateMapContext(context) {
+        this.__baseContext.map.data.radius = context.radius;
+    }
+
+    /***
      * Remove map component
      */
     removeMap() {

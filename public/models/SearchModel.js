@@ -38,15 +38,15 @@ export class SearchModel {
      */
     __jsonData() {
         return {
-            category: this.__category,
-            fromAmount: this.__fromAmount,
-            toAmount: this.__toAmount,
-            date: this.__date,
-            radius: this.__radius,
-            latitude: this.__latitude,
-            longitude: this.__longitude,
-            sorting: this.__sorting,
-            search: this.__search
+            category: this.__category ? this.__category : '',
+            fromAmount: this.__fromAmount ? this.__fromAmount : '',
+            toAmount: this.__toAmount ? this.__toAmount : '',
+            date: this.__date ? this.__date : '',
+            radius: this.__radius ? this.__radius : '',
+            latitude: this.__latitude ? this.__latitude : '',
+            longitude: this.__longitude ? this.__longitude : '',
+            sorting: this.__sorting ? this.__sorting : '',
+            search: this.__search ? this.__search : ''
         };
     }
 
@@ -55,13 +55,8 @@ export class SearchModel {
      * @returns {Promise<{isUpdate: boolean}|void>}
      */
     async update() {
-        return http.post(backUrls.search, this.__jsonData())
+        return http.get(backUrls.search(this.__jsonData()))
             .then(({status, data}) => {
-                if (status === httpStatus.StatusForbidden) {
-                    throw new Error('Доступ запрещен');
-                    // throw new Error(data.message);
-                }
-
                 if (status === httpStatus.StatusBadRequest) {
                     throw new Error('Неправильные данные');
                     // throw new Error(data.message);

@@ -36,7 +36,7 @@ export class SearchPresenter extends BasePresenter {
      * @author Ivan Gorshkov
      *
      * update super Presenter. update productListModel and userModel
-     * @return {Promise<void>}
+     * @return {Promise<{data: *, status: number}>}
      */
     async update() {
         return super.update()
@@ -53,6 +53,7 @@ export class SearchPresenter extends BasePresenter {
      */
     async control() {
         await this.update();
+
         this.__view.render(this.__makeContext()).then(() => {
             const {search} = this.__view.getAllFields();
             search.value = this.__searchInitText;
@@ -233,16 +234,17 @@ export class SearchPresenter extends BasePresenter {
             search: search.value
         });
 
-        await this.__model.update().then(({isUpdate, data}) => {
-            if (isUpdate) {
+        await this.__model.update()
+            .then(({isUpdate, data}) => {
+                if (isUpdate) {
+                    this.__productListModel = new ProductListModel();
+                    this.__productListModel.parseData(data);
+                    this.__view.rerenderProductList(this.__makeContext());
+                }
+            }).catch(() => {
                 this.__productListModel = new ProductListModel();
-                this.__productListModel.parseData(data);
                 this.__view.rerenderProductList(this.__makeContext());
-            }
-        }).catch(() => {
-            this.__productListModel = new ProductListModel();
-            this.__view.rerenderProductList(this.__makeContext());
-        });
+            });
     }
 
     /***
