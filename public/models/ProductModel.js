@@ -207,21 +207,21 @@ export class ProductModel {
         this.__name = data.name;
         this.__date = data.date;
         this.__amount = data.amount;
+        this.__linkImages = data.linkImages;
         this.__description = data.description;
+        this.__category = data.category;
+        this.__adress = data.address;
+        this.__longitude = data.longitude;
+        this.__latitude = data.latitude;
         this.__views = data.views;
         this.__likes = data.likes;
-        this.__userLiked = data.userLiked;
-        this.__linkImages = data.linkImages;
+        // this.__userLiked = data.userLiked;
+        this.__tariff = data.tariff;
         this.__ownerId = data.ownerId;
         this.__ownerName = data.ownerName;
         this.__ownerSurname = data.ownerSurname;
-        this.__ownerStars = data.ownerStars;
-        this.__category = data.category;
-        this.__tariff = data.tariff;
-        this.__adress = data.address;
-        this.__category = data.category;
-        this.__latitude = data.latitude;
-        this.__longitude = data.longitude;
+        this.__ownerLinkImages = data.ownerLinkImages;
+        this.__ownerStars = 4.8;
     }
 
     /***
@@ -244,7 +244,7 @@ export class ProductModel {
 
     /***
      * Get model data to view
-     * @returns {{date: (Object.date|string|*), ownerStars: (Object.ownerStars|number|*), amount: (Object.amount|number|*), description: (Object.description|string|*), ownerId: (Object.ownerId|string|*), userLiked: (Object.userLiked|boolean|*), ownerName: (Object.ownerName|string|*), name: (Object.name|string|*), ownerSurname: (Object.ownerSurname|string|*), linkImages: Object.linkImages, id: (Object.id|string|*), views: (Object.views|number|*), likes: (Object.likes|number|*)}}
+     * @returns {{date, amount, address, latitude, description, ownerId, ownerName, ownerLinkImages, name, ownerSurname, linkImages, tariff, id: (*), category, views, longitude, likes}}
      */
     getData() {
         return {
@@ -252,20 +252,21 @@ export class ProductModel {
             name: this.__name,
             date: this.__date,
             amount: this.__amount,
-            category: this.__category,
+            linkImages: this.__linkImages,
             description: this.__description,
+            category: this.__category,
+            address: this.__adress,
+            longitude: this.__longitude,
+            latitude: this.__latitude,
             views: this.__views,
             likes: this.__likes,
-            userLiked: this.__userLiked,
-            linkImages: this.__linkImages,
+            // userLiked: this.__userLiked,
+            tariff: this.__tariff,
             ownerId: this.__ownerId,
             ownerName: this.__ownerName,
             ownerSurname: this.__ownerSurname,
-            ownerStars: this.__ownerStars,
-            tariff: this.__tariff,
-            latitude: this.__latitude,
-            longitude: this.__longitude,
-            address: this.__adress
+            ownerLinkImages: this.__ownerLinkImages,
+            ownerStars: this.__ownerStars
         };
     }
 
@@ -314,7 +315,7 @@ export class ProductModel {
      * @returns {Promise<{data: *, status: number}>}
      */
     async update() {
-        return http.get(backUrls.product(this.id))
+        return http.get(backUrls.product(this.__id))
             .then(({status, data}) => {
                 if (status === httpStatus.StatusBadRequest) {
                     throw new Error('Неправильные данные');

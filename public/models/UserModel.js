@@ -1,3 +1,7 @@
+import {http} from '../modules/http';
+import {backUrls} from '../modules/backUrls';
+import {httpStatus} from '../modules/httpStatus';
+
 /***
  * User model
  */
@@ -186,5 +190,54 @@ export class UserModel {
         this.__radius = data.radius;
         this.__address = data.address;
         this.__linkImages = data.linkImages;
+    }
+
+    /***
+     * Get user data
+     * @returns {{linkImage, surname, sex, name, telephone, id, dateBirth, email}}
+     */
+    getData() {
+        return {
+            id: this.__id,
+            name: this.__name,
+            surname: this.__surname,
+            sex: this.__sex,
+            dateBirth: this.__dateBirth,
+            email: this.__email,
+            telephone: this.__telephone,
+            linkImage: this.__linkImages
+        };
+    }
+
+    /***
+     * Get user
+     * @param {number} id - user id
+     * @returns {Promise<{data: *, status: number}>}
+     */
+    async getUser(id) {
+        return http.get(backUrls.getUser(id))
+            .then(({status, data}) => {
+                if (status === httpStatus.StatusUnauthorized) {
+                    throw new Error('Пользователь не авторизован');
+                    // throw new Error(data.message);
+                }
+
+                if (status === httpStatus.StatusBadRequest) {
+                    throw new Error('Неправильные данные');
+                    // throw new Error(data.message);
+                }
+
+                if (status === httpStatus.StatusNotFound) {
+                    throw new Error('Нет такого товара');
+                    // throw new Error(data.message);
+                }
+
+                if (status === httpStatus.StatusInternalServerError) {
+                    throw new Error('Ошибка сервера');
+                    // throw new Error(data.message);
+                }
+
+                this.fillUserData(data);
+            });
     }
 }

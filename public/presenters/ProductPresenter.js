@@ -2,6 +2,7 @@ import {BasePresenter} from './BasePresenter.js';
 import {router} from '../modules/router.js';
 import {eventHandlerWithDataType} from '../modules/eventHandler.js';
 import {ProductModel} from '../models/ProductModel.js';
+import {UserModel} from '../models/UserModel';
 
 /***
  *  ProductPresenter class, extends from BasePresenter
@@ -19,6 +20,7 @@ export class ProductPresenter extends BasePresenter {
         this.__view = view;
         this.__id = id;
         this.__model = new ProductModel({id: this.__id});
+        this.__user = new UserModel();
     }
 
     /***
@@ -185,12 +187,20 @@ export class ProductPresenter extends BasePresenter {
      * @private
      */
     __listenerShowNumber() {
-        // TODO(Ivan) release __listenerShowNumber
-        if (this.__userModel.isAuth) {
-            console.log('number');
-        } else {
+        if (!this.__userModel.isAuth) {
             super.openAuth();
+            return;
         }
+
+        this.__user.getUser(this.__model.getData().ownerId)
+            .then(() => {
+                // TODO(Ivan) release __listenerShowNumber
+                console.log(this.__user.getData());
+            })
+            .catch((err) => {
+                //TODO(Sergey) нормальная обработка ошибок
+                console.log(err.message);
+            });
     }
 
     /***
@@ -200,12 +210,13 @@ export class ProductPresenter extends BasePresenter {
      * @private
      */
     __listenerWriteMassage() {
-        // TODO(Ivan) release __listenerWriteMassage
-        if (this.__userModel.isAuth) {
-            console.log('massage');
-        } else {
+        if (!this.__userModel.isAuth) {
             super.openAuth();
+            return;
         }
+
+        // TODO(Ivan) release __listenerWriteMassage
+        console.log('massage');
     }
 
     /***
