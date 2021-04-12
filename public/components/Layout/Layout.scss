@@ -23,9 +23,12 @@
 
     &-left {
         height: 100%;
+        width: 30%;
     }
 
     &-right {
         height: 100%;
+        width: 70%;
+        margin-left: 2vw;
     }
 }
