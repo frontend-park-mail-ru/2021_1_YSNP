@@ -28,6 +28,18 @@ class LocalStorage {
             console.log(err.message);
         }
     }
+
+    /***
+     * Remove item
+     * @param {string} key - key name
+     */
+    del(key) {
+        try {
+            sessionStorage.removeItem(key);
+        } catch (err) {
+            console.log(err.message);
+        }
+    }
 }
 
 export const localStorage = new LocalStorage();

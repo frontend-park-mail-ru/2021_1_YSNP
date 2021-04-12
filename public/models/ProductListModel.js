@@ -23,6 +23,10 @@ export class ProductListModel {
      * @param {boolean} isLiked - product like
      */
     parseData(data, isLiked = false) {
+        if (!Array.isArray(data)) {
+            throw new Error('no data');
+        }
+
         this.__newData = data.reduce((accum, el) => {
             const product = new ProductModel(el);
             if (isLiked) {
@@ -94,6 +98,7 @@ export class ProductListModel {
      * @returns {Promise<void>}
      */
     async update() {
+        this.__productList = [];
         return this.__updateNewDataPage();
     }
 

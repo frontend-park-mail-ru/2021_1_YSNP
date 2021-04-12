@@ -1,13 +1,15 @@
 import {BasePresenter} from './BasePresenter.js';
 import {eventHandlerWithDataType, eventProductListHandler} from '../modules/eventHandler.js';
 import {router} from '../modules/router.js';
-import {ProductListModel} from '../models/ProductListModel.js';
 import {frontUrls} from '../modules/frontUrls.js';
 import {SearchModel} from '../models/SearchModel.js';
-import {amountMask} from '../modules/mask.js';
+import {amountMask, parseAmount} from '../modules/mask.js';
 import {PageUpHandler} from '../modules/pageUpHandler.js';
 import {noop} from '../models/Noop';
 import {EndlessScroll} from '../modules/endlessScroll';
+
+import {localStorage} from '../modules/localStorage.js';
+import {categories} from '../modules/fields.js';
 
 /***
  *  class SearchPresenter extends BasePresenter
@@ -18,17 +20,16 @@ export class SearchPresenter extends BasePresenter {
      * @author Ivan Gorshkov
      *
      * Class constructor
-     * @param{SearchView} view - view
+     * @param {SearchView} view - view
      * @param text
      * @this {SearchPresenter}
      */
     constructor(view, text) {
         super(view);
         this.__view = view;
-        this.__productListModel = new ProductListModel();
         this.__model = new SearchModel();
         this.__searchInitText = text;
-        // this.__endlessScroll = new EndlessScroll(this.__createListeners().scroll);
+        this.__endlessScroll = new EndlessScroll(this.__createListeners().scroll);
         this.__pageUp = new PageUpHandler();
     }
 
@@ -41,6 +42,7 @@ export class SearchPresenter extends BasePresenter {
     async update() {
         return super.update()
             .catch((err) => {
+                //TODO(Serge) нормальная обработка ошибок
                 console.log(err.message);
             });
     }
@@ -54,13 +56,10 @@ export class SearchPresenter extends BasePresenter {
     async control() {
         await this.update();
 
-        this.__view.render(this.__makeContext()).then(() => {
-            const {search} = this.__view.getAllFields();
-            search.value = this.__searchInitText;
-            this.__search();
-        });
+        this.__view.render(this.__makeContext())
+            .then(() => this.__search());
 
-        // this.__endlessScroll.start();
+        this.__endlessScroll.start();
         this.__pageUp.start();
     }
 
@@ -70,7 +69,7 @@ export class SearchPresenter extends BasePresenter {
     removePageListeners() {
         super.removePageListeners();
 
-        // this.__endlessScroll.remove();
+        this.__endlessScroll.remove();
         this.__pageUp.remove();
     }
 
@@ -84,7 +83,7 @@ export class SearchPresenter extends BasePresenter {
      * @private
      * @this {SearchPresenter}
      */
-    __listenerRegistrationPanel(dataType, actions, ev) {
+    __listenerSearch(dataType, actions, ev) {
         ev.preventDefault();
         eventHandlerWithDataType(ev, dataType, actions, true);
     }
@@ -102,21 +101,21 @@ export class SearchPresenter extends BasePresenter {
             navigation: {
                 backClick: {
                     type: 'click',
-                    listener: this.__listenerRegistrationPanel.bind(this, 'action', this.__getActions().navigation)
+                    listener: this.__listenerSearch.bind(this, 'action', this.__getActions().navigation)
                 }
             },
             search: {
                 sort: {
                     type: 'change',
-                    listener: this.__listenerRegistrationPanel.bind(this, 'action', this.__getActions().search)
+                    listener: this.__listenerSearch.bind(this, 'action', this.__getActions().search)
                 },
                 submitFilter: {
                     type: 'click',
-                    listener: this.__listenerRegistrationPanel.bind(this, 'action', this.__getActions().search)
+                    listener: this.__listenerSearch.bind(this, 'action', this.__getActions().search)
                 },
                 validateInput: {
                     type: 'input',
-                    listener: this.__listenerRegistrationPanel.bind(this, 'action', this.__getActions().search)
+                    listener: this.__listenerSearch.bind(this, 'action', this.__getActions().search)
                 }
             },
             productList: {
@@ -124,10 +123,12 @@ export class SearchPresenter extends BasePresenter {
                     type: 'click',
                     listener: this.__listenerProductListClick.bind(this)
                 }
+            },
+            scroll: {
+                scrollEnd: this.__scrollEnd.bind(this)
             }
         };
     }
-
 
     /***
      * Like card callback
@@ -142,7 +143,7 @@ export class SearchPresenter extends BasePresenter {
             return;
         }
 
-        this.__productListModel.voteProduct(numberId)
+        this.__model.voteProduct(numberId)
             .then(({status}) => {
                 if (status === 'dislike') {
                     this.__view.dislikeProduct(numberId);
@@ -166,7 +167,6 @@ export class SearchPresenter extends BasePresenter {
         const numberId = parseInt(id, 10);
         router.redirect(frontUrls.product(numberId));
     }
-
 
     /***
      * Product List click event
@@ -197,7 +197,8 @@ export class SearchPresenter extends BasePresenter {
      * @private
      */
     __sort(ev) {
-        sessionStorage.setItem('sort', ev.target.value);
+        localStorage.set('sort', ev.target.value);
+
         this.__search().then(() => noop());
     }
 
@@ -208,42 +209,66 @@ export class SearchPresenter extends BasePresenter {
      * @private
      */
     __submitFilter() {
-        sessionStorage.setItem('category', document.getElementById('category').value);
-        sessionStorage.setItem('date', document.getElementById('date').value);
+        localStorage.set('category', this.__view.getAllFields().category.value);
+        localStorage.set('date', this.__view.getAllFields().date.value);
+
         this.__search().then(() => noop());
     }
 
     /***
      * @author Ivan Gorshkov
      *
-     * async function for search with filer and sorung
+     * async function for search with filer and soring
      * @return {Promise<void>}
      * @private
      */
     async __search() {
-        const {fromAmount, toAmount, search} = this.__view.getAllFields();
-        this.__model.fillProductModel({
-            category: sessionStorage.getItem('category'),
-            fromAmount: parseInt(fromAmount.value.replace(/[^0-9]/g, '', 0)),
-            toAmount: parseInt(toAmount.value.replace(/[^0-9]/g, ''), 0),
-            date: sessionStorage.getItem('date'),
+        const {sort, search, fromAmount, toAmount, date, category} = this.__view.getAllFields();
+        this.__model.fillSearchData({
+            category: category.value,
+            fromAmount: parseAmount(fromAmount.value),
+            toAmount: parseAmount(toAmount.value),
+            date: date.value,
             radius: this.__userModel.getData().radius,
             longitude: this.__userModel.getData().longitude,
             latitude: this.__userModel.getData().latitude,
-            sorting: sessionStorage.getItem('sort'),
+            sorting: sort.value,
             search: search.value
         });
 
+        if (search.value !== '') {
+            router.pushState(frontUrls.searchWithText(search.value));
+        } else {
+            router.pushState(frontUrls.search);
+        }
+
         await this.__model.update()
-            .then(({isUpdate, data}) => {
-                if (isUpdate) {
-                    this.__productListModel = new ProductListModel();
-                    this.__productListModel.parseData(data);
-                    this.__view.rerenderProductList(this.__makeContext());
-                }
-            }).catch(() => {
-                this.__productListModel = new ProductListModel();
+            .then(() => {
                 this.__view.rerenderProductList(this.__makeContext());
+            })
+            .catch(() => {
+                this.__view.deleteProductList();
+            });
+    }
+
+    /***
+     * Listener on scroll end
+     * @returns {Promise<void>}
+     * @private
+     */
+    __scrollEnd() {
+        this.__model.updateNewData()
+            .then(() => {
+                const newData = this.__model.newData;
+                if (!Array.isArray(newData) || newData.length === 0) {
+                    this.__endlessScroll.remove();
+                }
+
+                this.__view.addNewCards(newData);
+            })
+            .catch((err) => {
+                console.log(err.message);
+                this.__endlessScroll.remove();
             });
     }
 
@@ -310,11 +335,17 @@ export class SearchPresenter extends BasePresenter {
                 listeners: this.__createListeners().navigation
             },
             productList: {
-                data: this.__productListModel.getData(),
+                data: this.__model.getData(),
                 listeners: this.__createListeners().productList
             },
             search: {
-                data: null,
+                data: {
+                    textSearch: this.__searchInitText,
+                    optionSort: localStorage.get('sort'),
+                    optionCategory: localStorage.get('category'),
+                    optionDate: localStorage.get('date'),
+                    categories: categories
+                },
                 listeners: this.__createListeners().search
             }
         };

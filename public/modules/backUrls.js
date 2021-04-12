@@ -160,13 +160,12 @@ class BackUrls {
         return `${this.__url}${this.__api}/product/upload/${id}`;
     }
 
-
     /***
      * Get find products url
      * @returns {string}
      */
     search(data) {
-        return `${this.__url}${this.__api}/search?category=${data.category}&fromAmount=${data.fromAmount}&toAmount=${data.toAmount}&date=${data.date}&radius=${data.radius}&latitude=${data.latitude}&longitude=${data.longitude}&sorting=${data.sorting}&search=${data.search}`;
+        return `${this.__url}${this.__api}/search?category=${data.category}&fromAmount=${data.fromAmount}&toAmount=${data.toAmount}&date=${data.date}&radius=${data.radius}&latitude=${data.latitude}&longitude=${data.longitude}&sorting=${data.sorting}&search=${data.search}&from=${data.from}&count=${data.count}`;
     }
 
     /***

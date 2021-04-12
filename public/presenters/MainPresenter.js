@@ -9,6 +9,8 @@ import {eventProductListHandler, eventHandlerWithDataType} from '../modules/even
 import {EndlessScroll} from '../modules/endlessScroll.js';
 import {PageUpHandler} from '../modules/pageUpHandler.js';
 
+import {localStorage} from '../modules/localStorage.js';
+
 /***
  * Main presenter
  */
@@ -200,22 +202,22 @@ export class MainPresenter extends BasePresenter {
      * @private
      */
     __categoryClick(ev) {
-        sessionStorage.setItem('category', ev.target.innerText);
-
+        localStorage.set('category', ev.target.innerText);
         router.redirect(frontUrls.search);
     }
 
     /***
-     * click to search button
+     * Click to search button
      * @private
      */
     __searchButton() {
-        sessionStorage.setItem('category', '');
+        localStorage.set('category', '');
         const val = this.__view.getTextFromSearch();
         if (val !== '') {
             router.redirect(frontUrls.searchWithText(val));
             return;
         }
+
         router.redirect(frontUrls.search);
     }
 
