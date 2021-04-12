@@ -79,7 +79,12 @@ export class UserFavoritePresenter extends BasePresenter {
     __scrollEnd() {
         this.__favoriteListModel.updateNewData()
             .then(() => {
-                this.__view.addNewCards(this.__favoriteListModel.newData);
+                const newData = this.__mainListModel.newData;
+                if (newData.length === 0) {
+                    this.__endlessScroll.remove();
+                }
+
+                this.__view.addNewCards(newData);
             })
             .catch((err) => {
                 //TODO(Sergey) нормальная обработка ошибок
@@ -112,10 +117,15 @@ export class UserFavoritePresenter extends BasePresenter {
      * @private
      */
     __likeCard(id) {
-        // TODO(Sergey) release __likeCard
-
         const numberId = parseInt(id, 10);
-        this.__view.likeProduct(numberId);
+        this.__favoriteListModel.voteProduct(numberId)
+            .then(() => {
+                router.redirect(frontUrls.userFavorite);
+            })
+            .catch((err) => {
+                //TODO(Sergey) нормальная обработка ошибок
+                console.log(err.message);
+            });
     }
 
     /***

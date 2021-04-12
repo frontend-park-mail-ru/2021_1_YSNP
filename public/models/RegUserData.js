@@ -42,47 +42,44 @@ export class RegUserData extends PasswordUserModel {
      */
     async registration(form) {
         return http.post(backUrls.singUp, this.__jsonData())
-            .then(({status, data}) => {
-                if (status === httpStatus.StatusOK) {
-                    return http.post(backUrls.upload, new FormData(form), true)
-                        .then(({status, data}) => {
-                            if (status === httpStatus.StatusOK) {
-                                return {};
-                            }
-
-                            if (status === httpStatus.StatusBadRequest) {
-                                throw new Error(data.message);
-                            }
-
-                            if (status === httpStatus.StatusUnauthorized) {
-                                throw new Error(data.message);
-                            }
-
-                            if (status === httpStatus.StatusInternalServerError) {
-                                throw new Error(data.message);
-                            }
-
-                            if (status === httpStatus.StatusForbidden) {
-                                throw new Error('Доступ запрещен');
-                            }
-                            return {};
-                        })
-                        .catch((err) => {
-                            throw err;
-                        });
+            .then(({status}) => {
+                if (status === httpStatus.StatusForbidden) {
+                    throw new Error('Доступ запрещен');
+                    // throw new Error(data.message);
                 }
 
                 if (status === httpStatus.StatusBadRequest) {
                     throw new Error('Пользователь уже существует');
+                    // throw new Error(data.message);
                 }
 
                 if (status === httpStatus.StatusInternalServerError) {
-                    throw new Error(data.message);
+                    throw new Error('Ошибка сервера');
+                    // throw new Error(data.message);
                 }
-                if (status === httpStatus.StatusForbidden) {
-                    throw new Error('Доступ запрещен');
-                }
-                return {};
-            }).catch((err) => Promise.reject(err));
+
+                return http.post(backUrls.upload, new FormData(form), true)
+                    .then(({status}) => {
+                        if (status === httpStatus.StatusUnauthorized) {
+                            throw new Error('Пользователь не авторизован');
+                            // throw new Error(data.message);
+                        }
+
+                        if (status === httpStatus.StatusForbidden) {
+                            throw new Error('Доступ запрещен');
+                            // throw new Error(data.message);
+                        }
+
+                        if (status === httpStatus.StatusBadRequest) {
+                            throw new Error('Неправильные данные');
+                            // throw new Error(data.message);
+                        }
+
+                        if (status === httpStatus.StatusInternalServerError) {
+                            throw new Error('Ошибка сервера');
+                            // throw new Error(data.message);
+                        }
+                    });
+            });
     }
 }

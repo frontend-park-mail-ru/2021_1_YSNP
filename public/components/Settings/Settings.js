@@ -1,4 +1,4 @@
-import './Settings.css';
+import './Settings.scss';
 import settingsTemplate from './Settings.hbs';
 import {ChangePassword} from './ChangePassword/ChangePassword.js';
 

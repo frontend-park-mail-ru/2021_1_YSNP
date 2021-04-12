@@ -1,5 +1,5 @@
 import headerTemplate from './Header.hbs';
-import './Header.css';
+import './Header.scss';
 
 /***
  * Header component
@@ -73,6 +73,16 @@ export class Header {
                 .getElementById('header-dropdown')
                 .removeEventListener(this.__context.listeners.dropdownClick.type, this.__context.listeners.dropdownClick.listener);
         }
+    }
+
+    /***
+     * Update user address
+     * @param address
+     */
+    updateAddress(address) {
+        document
+            .getElementById('header-address')
+            .innerText = address;
     }
 
     /***

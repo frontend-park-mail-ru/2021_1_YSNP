@@ -304,11 +304,12 @@ export class ProductCreatePresenter extends BasePresenter {
         const {error, message} = this.__model.validationImages(form);
 
         if (error) {
-            // TODO(Ivan) обработка ошибок
+            this.__view.errorText(message);
             console.log(message);
             return false;
         }
 
+        this.__view.errorText('');
         return true;
     }
 

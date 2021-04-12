@@ -1,5 +1,5 @@
 import {BasePresenter} from './BasePresenter.js';
-import {eventHandlerWithDataType} from '../modules/eventHandler.js';
+import {eventHandlerWithDataType, eventProductListHandler} from '../modules/eventHandler.js';
 import {router} from '../modules/router.js';
 import {ProductListModel} from '../models/ProductListModel.js';
 import {frontUrls} from '../modules/frontUrls.js';
@@ -7,6 +7,7 @@ import {SearchModel} from '../models/SearchModel.js';
 import {amountMask} from '../modules/mask.js';
 import {PageUpHandler} from '../modules/pageUpHandler.js';
 import {noop} from '../models/Noop';
+
 /***
  *  class SearchPresenter extends BasePresenter
  */
@@ -17,13 +18,15 @@ export class SearchPresenter extends BasePresenter {
      *
      * Class constructor
      * @param{SearchView} view - view
+     * @param text
      * @this {SearchPresenter}
      */
-    constructor(view) {
+    constructor(view, text) {
         super(view);
         this.__view = view;
         this.__productListModel = new ProductListModel();
         this.__model = new SearchModel();
+        this.__searchInitText = text;
     }
 
     /***
@@ -34,9 +37,7 @@ export class SearchPresenter extends BasePresenter {
      */
     async update() {
         return super.update()
-            .then(() => this.__productListModel.update())
             .catch((err) => {
-                //TODO(Sergey) нормальная обработка ошибок
                 console.log(err.message);
             });
     }
@@ -49,7 +50,12 @@ export class SearchPresenter extends BasePresenter {
      */
     async control() {
         await this.update();
-        this.__view.render(this.__makeContext());
+        this.__view.render(this.__makeContext()).then(() => {
+            console.log(this.__searchInitText);
+            const {search} = this.__view.getAllFields();
+            search.value = this.__searchInitText;
+            this.__search();
+        });
         (new PageUpHandler()).start();
     }
 
@@ -114,10 +120,26 @@ export class SearchPresenter extends BasePresenter {
      * @private
      */
     __likeCard(id) {
-        // TODO(Sergey) release __likeCard
-
         const numberId = parseInt(id, 10);
-        this.__view.likeProduct(numberId);
+
+        if (!this.__userModel.isAuth) {
+            super.openAuth();
+            return;
+        }
+
+        this.__productListModel.voteProduct(numberId)
+            .then(({status}) => {
+                if (status === 'dislike') {
+                    this.__view.dislikeProduct(numberId);
+                    return;
+                }
+
+                this.__view.likeProduct(numberId);
+            })
+            .catch((err) => {
+                //TODO(Sergey) нормальная обработка ошибок
+                console.log(err.message);
+            });
     }
 
     /***
@@ -136,28 +158,8 @@ export class SearchPresenter extends BasePresenter {
      * @param {MouseEvent} ev - event
      */
     __listenerProductListClick(ev) {
-        ev.preventDefault();
-
-        let id = undefined;
-        let action = undefined;
-        Object
-            .entries(ev.composedPath())
-            .forEach(([, el]) => {
-                if (el.dataset !== undefined) {
-                    if ('action' in el.dataset && action === undefined) {
-                        action = el.dataset.action;
-                    }
-
-                    if ('cardId' in el.dataset) {
-                        id = el.dataset.cardId;
-                    }
-                }
-            });
-
-        if (action !== undefined) {
-            const actions = this.__getActions().productList;
-            actions[action].open(id);
-        }
+        ev.stopPropagation();
+        eventProductListHandler(ev, this.__getActions().productList);
     }
 
     /***
@@ -190,7 +192,7 @@ export class SearchPresenter extends BasePresenter {
      * @this {SearchPresenter}
      * @private
      */
-     __submitFilter() {
+    __submitFilter() {
         sessionStorage.setItem('category', document.getElementById('category').value);
         sessionStorage.setItem('date', document.getElementById('date').value);
         this.__search().then(() => noop());
@@ -207,8 +209,8 @@ export class SearchPresenter extends BasePresenter {
         const {fromAmount, toAmount, search} = this.__view.getAllFields();
         this.__model.fillProductModel({
             category: sessionStorage.getItem('category'),
-            fromAmount: parseInt(fromAmount.value.replace(/[^0-9]/g, '')),
-            toAmount: parseInt(toAmount.value.replace(/[^0-9]/g, '')),
+            fromAmount: parseInt(fromAmount.value.replace(/[^0-9]/g, '', 0)),
+            toAmount: parseInt(toAmount.value.replace(/[^0-9]/g, ''), 0),
             date: sessionStorage.getItem('date'),
             radius: 5,
             sorting: sessionStorage.getItem('sort'),
@@ -218,10 +220,11 @@ export class SearchPresenter extends BasePresenter {
         await this.__model.update().then(({isUpdate, data}) => {
             if (isUpdate) {
                 this.__productListModel = new ProductListModel();
-                this.__productListModel.setNewData(data);
+                this.__productListModel.parseData(data);
                 this.__view.rerenderProductList(this.__makeContext());
             }
         }).catch(() => {
+            this.__productListModel = new ProductListModel();
             this.__view.rerenderProductList(this.__makeContext());
         });
     }
@@ -270,7 +273,7 @@ export class SearchPresenter extends BasePresenter {
      * @this {SearchPresenter}
      * @private
      */
-     __validateFields(ev) {
+    __validateFields(ev) {
         ev.target.value = amountMask(ev.target.value);
     }
 

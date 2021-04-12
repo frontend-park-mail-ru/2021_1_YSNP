@@ -16,12 +16,42 @@ export class ProductModel {
     }
 
     /***
+     * Get id
+     * @returns {number}
+     */
+    get id() {
+        return this.__id;
+    }
+
+    /***
+     * Get user like
+     * @returns {boolean}
+     */
+    get userLiked() {
+        return this.__userLiked;
+    }
+
+    /***
+     * Set user like
+     */
+    setLike() {
+        this.__userLiked = true;
+    }
+
+    /***
+     * Set user dislike
+     */
+    setDislike() {
+        this.__userLiked = false;
+    }
+
+    /***
      * Get first image
      * @returns {string}
      */
     __getFirstImage() {
         const start = 0;
-        return this.__linkImages[start];
+        return this.__linkImages;
     }
 
     /***
@@ -74,12 +104,12 @@ export class ProductModel {
                         message: '',
                         error: false
                     };
-                } 
-                    return {
-                        message: ['Адрес не корректен'],
-                        error: true
-                    };
-                
+                }
+                return {
+                    message: ['Адрес не корректен'],
+                    error: true
+                };
+
             }
         );
     }
@@ -156,9 +186,16 @@ export class ProductModel {
         }
 
         return {
-            message: 'Слишком большой размер фото',
+            message: 'Слишком большой общий размер фото',
             error: true
         };
+    }
+
+    /***
+     * Set liked product
+     */
+    setLiked() {
+        this.__userLiked = true;
     }
 
     /***
@@ -180,11 +217,11 @@ export class ProductModel {
         this.__ownerSurname = data.ownerSurname;
         this.__ownerStars = data.ownerStars;
         this.__category = data.category;
+        this.__tariff = data.tariff;
         this.__adress = data.address;
         this.__category = data.category;
         this.__latitude = data.latitude;
         this.__longitude = data.longitude;
-
     }
 
     /***
@@ -225,6 +262,7 @@ export class ProductModel {
             ownerName: this.__ownerName,
             ownerSurname: this.__ownerSurname,
             ownerStars: this.__ownerStars,
+            tariff: this.__tariff,
             latitude: this.__latitude,
             longitude: this.__longitude,
             address: this.__adress
@@ -236,8 +274,6 @@ export class ProductModel {
      * @returns {{date: (Object.date|string|*), amount: (Object.amount|number|*), linkImage: string, name: (Object.name|string|*), id: (Object.id|string|*), userLiked: (Object.userLiked|boolean|*)}}
      */
     getMainData() {
-
-
         return {
             id: this.__id,
             name: this.__name,
@@ -245,7 +281,7 @@ export class ProductModel {
             amount: this.__getAmount(),
             userLiked: this.__userLiked,
             linkImage: this.__getFirstImage(),
-            status: 0
+            tariff: this.__tariff
         };
     }
 
@@ -275,11 +311,16 @@ export class ProductModel {
 
     /***
      * Get product data from backend
-     * @returns {Promise<{isUpdate: boolean}|void>}
+     * @returns {Promise<{data: *, status: number}>}
      */
     async update() {
-        return http.get(backUrls.product + this.__id)
+        return http.get(backUrls.product(this.id))
             .then(({status, data}) => {
+                if (status === httpStatus.StatusBadRequest) {
+                    throw new Error('Неправильные данные');
+                    // throw new Error(data.message);
+                }
+
                 if (status === httpStatus.StatusNotFound) {
                     throw new Error('Нет такого товара');
                     // throw new Error(data.message);
@@ -289,27 +330,25 @@ export class ProductModel {
                     throw new Error('Ошибка сервера');
                     // throw new Error(data.message);
                 }
-                if (status === httpStatus.StatusForbidden) {
-                    throw new Error('Доступ запрещен');
-                }
+
                 this.fillProductModel(data);
-                return {isUpdate: true};
-            })
-            .catch((err) => {
-                console.log(err.message);
-                return {isUpdate: false, message: err.message};
             });
     }
 
     /***
      * Post create new product
-     * @returns {Promise<void>}
+     * @returns {Promise<{id: *}>}
      */
     async create(form) {
         return http.post(backUrls.productCreate, this.__jsonData())
             .then(({status, data}) => {
                 if (status === httpStatus.StatusUnauthorized) {
                     throw new Error('Пользователь не авторизован');
+                    // throw new Error(data.message);
+                }
+
+                if (status === httpStatus.StatusForbidden) {
+                    throw new Error('Доступ запрещен');
                     // throw new Error(data.message);
                 }
 
@@ -322,14 +361,17 @@ export class ProductModel {
                     throw new Error('Ошибка сервера');
                     // throw new Error(data.message);
                 }
-                if (status === httpStatus.StatusForbidden) {
-                    throw new Error('Доступ запрещен');
-                }
+
                 this.__id = data.id;
-                return http.post(backUrls.productUploadPhotos + this.__id, new FormData(form), true)
+                return http.post(backUrls.productUploadPhotos(this.__id), new FormData(form), true)
                     .then(({status}) => {
                         if (status === httpStatus.StatusUnauthorized) {
                             throw new Error('Пользователь не авторизован');
+                            // throw new Error(data.message);
+                        }
+
+                        if (status === httpStatus.StatusForbidden) {
+                            throw new Error('Доступ запрещен');
                             // throw new Error(data.message);
                         }
 
@@ -342,15 +384,9 @@ export class ProductModel {
                             throw new Error('Ошибка сервера');
                             // throw new Error(data.message);
                         }
-                        if (status === httpStatus.StatusForbidden) {
-                            throw new Error('Доступ запрещен');
-                        }
+
                         return {id: this.__id};
                     });
-            })
-            .catch((err) => {
-                console.log(err.message);
-                throw err;
             });
     }
 }

@@ -26,7 +26,7 @@ export class BasePresenter {
 
     /***
      * Update user data
-     * @returns {Promise<void>}
+     * @returns {Promise<{data: *, status: number}>}
      */
     async update() {
         return this.__userModel.update()
@@ -35,6 +35,7 @@ export class BasePresenter {
             })
             .catch((err) => {
                 //TODO(Sergey) нормальная обработка ошибок
+                this.__view.baseContext = this.__makeBaseContext();
                 console.log(err.message);
             });
     }
@@ -172,7 +173,7 @@ export class BasePresenter {
 
     /***
      * Create view listeners
-     * @returns {{auth: {submitForm: {listener: any, type: string}, authClick: {listener: *, type: string}, keyClick: {listener: *, type: string}, telFocus: {listener: mask, type: string}, telInput: {listener: mask, type: string}, telBlur: {listener: mask, type: string}}, header: {dropdownClick: {listener: *, type: string}, pageClick: {listener: *, type: string}, headerClick: {listener: *, type: string}}}}
+     * @returns {{auth: {submitForm: {listener: any, type: string}, authClick: {listener: *, type: string}, keyClick: {listener: *, type: string}, telFocus: {listener: telMask, type: string}, telInput: {listener: telMask, type: string}, telBlur: {listener: telMask, type: string}}, header: {dropdownClick: {listener: *, type: string}, pageClick: {listener: *, type: string}, headerClick: {listener: *, type: string}}, map: {mapClick: {listener: *, type: string}, keyClick: {listener: *, type: string}}}}
      * @private
      */
     __createBaseListeners() {
@@ -238,7 +239,7 @@ export class BasePresenter {
         if (this.__userModel.isAuth) {
             router.redirect(frontUrls.productCreate);
         } else {
-            this.__openAuth();
+            this.openAuth();
         }
     }
 
@@ -256,6 +257,10 @@ export class BasePresenter {
             listeners: true,
             id: 'ya-map'
         });
+
+        if (this.__userModel.isAuth) {
+            this.__yaMap.setPosition(this.__getUserPosition().pos, this.__getUserPosition().radius * 1000);
+        }
     }
 
     /***
@@ -271,9 +276,8 @@ export class BasePresenter {
 
     /***
      * Open auth
-     * @private
      */
-    __openAuth() {
+    openAuth() {
         this.closeAllComponents();
         this.__isShownAuth = true;
         this.__view.renderAuth();
@@ -347,15 +351,33 @@ export class BasePresenter {
      * @private
      */
     __createUserAddress() {
-        console.log(this.__yaMap.getPointPos());
-        console.log(this.__yaMap.getAddress());
+        if (!this.__userModel.isAuth) {
+            this.openAuth();
+            return;
+        }
 
-        this.__closeMap();
+        this.__userModel.fillUserData({
+            latitude: this.__yaMap.getPointPos().latitude,
+            longitude: this.__yaMap.getPointPos().longitude,
+            radius: this.__yaMap.getRadius() / 1000,
+            address: this.__yaMap.getAddress()
+        });
+
+        this.__userModel.position()
+            .then(() => {
+                this.__closeMap();
+                this.__view.updateAddress(this.__userModel.getData().address);
+            })
+            .catch((err) => {
+                //TODO(Sergey) нормальная обработка ошибок
+                console.log(err.message);
+                this.__closeMap();
+            });
     }
 
     /***
-     * Get listeners actions
-     * @returns {{auth: {closeClick: {open: *}}, header: {logoutClick: {open: *}, createProductClick: {open: *}, authClick: {open: *}, dropdownClick: {open: *}, locationClick: {open: *}}}}
+     *  Get listeners actions
+     * @returns {{auth: {closeClick: {open: *}}, header: {logoutClick: {open: any}, createProductClick: {open: *}, authClick: {open: *}, dropdownClick: {open: *}, locationClick: {open: *}}, map: {closeClick: {open: *}, groupClick: {open: *}, createClick: {open: *}}}}
      * @private
      */
     __getBaseActions() {
@@ -368,7 +390,7 @@ export class BasePresenter {
                     open: this.__openCreateProduct.bind(this)
                 },
                 authClick: {
-                    open: this.__openAuth.bind(this)
+                    open: this.openAuth.bind(this)
                 },
                 dropdownClick: {
                     open: this.__toggleDropdownMenu.bind(this)
@@ -397,8 +419,23 @@ export class BasePresenter {
     }
 
     /***
+     * Get user position
+     * @returns {{pos: {latitude: number, longitude: number}, radius: number}}
+     * @private
+     */
+    __getUserPosition() {
+        return {
+            pos: {
+                latitude: this.__userModel.getData().latitude,
+                longitude: this.__userModel.getData().longitude
+            },
+            radius: this.__userModel.getData().radius
+        };
+    }
+
+    /***
      * Make view context
-     * @returns {{auth: {listeners: {submitForm: {listener: *, type: string}, authClick: {listener: *, type: string}, keyClick: {listener: *, type: string}, telFocus: {listener: mask, type: string}, telInput: {listener: mask, type: string}, telBlur: {listener: mask, type: string}}}, header: {data: {isAuth: (boolean|*), linkImage: (*|null), surname: (Object.surname|string|*), name: (Object.name|string|*)}, listeners: {dropdownClick: {listener: *, type: string}, pageClick: {listener: *, type: string}, headerClick: {listener: *, type: string}}}}}
+     * @returns {{auth: {listeners: {submitForm: {listener: *, type: string}, authClick: {listener: *, type: string}, keyClick: {listener: *, type: string}, telFocus: {listener: telMask, type: string}, telInput: {listener: telMask, type: string}, telBlur: {listener: telMask, type: string}}}, header: {data: {isAuth: boolean, address, linkImage: *, surname: *, name}, listeners: {dropdownClick: {listener: *, type: string}, pageClick: {listener: *, type: string}, headerClick: {listener: *, type: string}}}, map: {data: {latitude, radius: (number|*), longitude}, listeners: {mapClick: {listener: *, type: string}, keyClick: {listener: *, type: string}}}}}
      * @private
      */
     __makeBaseContext() {
@@ -408,6 +445,7 @@ export class BasePresenter {
                     isAuth: this.__userModel.getData().isAuth,
                     surname: this.__userModel.getData().surname,
                     name: this.__userModel.getData().name,
+                    address: this.__userModel.getData().address,
                     linkImage: this.__userModel.getData().linkImage
                 },
                 listeners: this.__createBaseListeners().header
@@ -416,6 +454,11 @@ export class BasePresenter {
                 listeners: this.__createBaseListeners().auth
             },
             map: {
+                data: {
+                    latitude: this.__userModel.getData().latitude,
+                    longitude: this.__userModel.getData().longitude,
+                    radius: this.__userModel.getData().radius
+                },
                 listeners: this.__createBaseListeners().map
             }
         };

@@ -1,0 +1,84 @@
+@import "../../scss/main.scss";
+
+.search {
+  &-block {
+    display: flex;
+
+    &__search-field {
+      @include set-size(75%, 3.5vh);
+      @include border-block;
+      background-color: rgb(245, 245, 245);
+      margin-bottom: 1vh;
+      font-size: 2vh;
+      padding-left: 1vh;
+    }
+  }
+
+  &-filter {
+    &-elem {
+      margin-top: 1vw;
+    }
+
+    &__amount {
+      display: flex;
+      height: 2.5vw;
+    }
+
+    &__from-input {
+      width: 8vw;
+      @include border-block;
+      border-radius: 0.5vh 0 0 0.5vh;
+      font-size: 2vh;
+      padding: 1vh;
+    }
+
+    &__to-input {
+      width: 7.5vw;
+      @include border-block;
+      border-radius: 0 0.5vh 0.5vh 0;
+      font-size: 2vh;
+      padding: 1vh;
+    }
+  }
+
+  &-bar {
+    display: flex;
+  }
+
+  &__sort {
+    width: 20%;
+    background: rgba(0, 0, 0, 0.0);
+    border: 0;
+  }
+
+  &-items-inner {
+    margin-left: 3vw;
+    width: 55vw;
+  }
+}
+
+.remove-margin {
+  margin: 0;
+}
+
+.filter-bg {
+  background-color: rgb(245, 245, 245);
+}
+
+.small-btn {
+  height: 3.8vh;
+  width: 5vw;
+  margin-left: 0.5vw;
+  font-size: 1.5vh;
+}
+
+.hr-srch {
+  opacity: 0.9;
+  width: 90%;
+  margin-left: 0;
+  border-width: 0.1vh;
+}
+
+.product-content {
+  margin-left: 2vw;
+}

@@ -63,11 +63,20 @@ export class UserFavoriteView extends BaseView {
     }
 
     /***
+     * Set view title
+     * @private
+     */
+    __setTitle() {
+        document.title = 'Избранное';
+    }
+
+    /***
      * Render view
      * @param {Object} context - view context
      */
     render(context) {
         super.render();
+        this.__setTitle();
         this.__makeContext(context);
 
         const layout = new Layout(this.__app, true);

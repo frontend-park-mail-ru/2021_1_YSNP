@@ -71,15 +71,24 @@ export class PromotionView extends BaseView {
     }
 
     /***
+     * Set view title
+     * @private
+     */
+    __setTitle() {
+        document.title = 'Продвижение товара';
+    }
+
+    /***
      * Render view
      */
     render(context) {
         super.render();
+        this.__setTitle();
         this.__makeContext(context);
 
         const layout = new Layout(this.__app, true);
         layout.render();
-        const parent = layout.mainParent;
+        const parent = layout.parent;
 
         this.__promotion = new AdPromotion(parent);
         this.__promotion.render(this.__context.promotion);

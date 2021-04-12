@@ -194,6 +194,14 @@ export class ProductCreateView extends BaseView {
     }
 
     /***
+     * Set view title
+     * @private
+     */
+    __setTitle() {
+        document.title = 'Новое объявление';
+    }
+
+    /***
      * get address from product create
      * @return {string}
      */
@@ -210,6 +218,14 @@ export class ProductCreateView extends BaseView {
     }
 
     /***
+     * output global errors
+     * @param{string} message
+     */
+    errorText(message) {
+        this.__productCreate.errorText(message);
+    }
+
+    /***
      * @author Ivan Gorshkov
      *
      * render with context
@@ -218,10 +234,11 @@ export class ProductCreateView extends BaseView {
      */
     render(context) {
         super.render();
+        this.__setTitle();
         this.layout.render();
         this.__makeContext(context);
 
-        this.__navSubView = new Navigation(this.getLayoutParent(), 'Главная страница', {route: ['Регистрация профиля']});
+        this.__navSubView = new Navigation(this.getLayoutParent(), 'Главная страница', {route: ['Создание товара']});
         this.__navSubView.render(this.__context);
         this.__productCreate = new ProductCreateForm(this.getLayoutParent());
         this.__productCreate.render(this.__context);

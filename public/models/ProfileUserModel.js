@@ -64,16 +64,22 @@ export class ProfileUserModel extends PasswordUserModel {
     }
 
     /***
-     * Get first image
-     * @returns {string}
+     * Get user model json position
+     * @returns {{address: Object.address, latitude: Object.latitude, radius: Object.radius, longitude: Object.longitude}}
+     * @private
      */
-    getFirstImage() {
-        return super.__getFirstImage();
+    __jsonPosition() {
+        return {
+            latitude: this.__latitude,
+            longitude: this.__longitude,
+            radius: this.__radius,
+            address: this.__address
+        };
     }
 
     /***
      * Get user Data for settings
-     * @returns {{linkImage: (*|null), surname: (Object.surname|string|*), sex: (Object.sex|string|*), name: (Object.name|string|*), telephone: (Object.telephone|string|*), dateBirth: (Object.dateBirth|string|*), email: (Object.email|string|*)}}
+     * @returns {{isAuth: boolean, address, linkImage, surname, sex, latitude, name, telephone, dateBirth, radius, email, longitude}}
      */
     getData() {
         return {
@@ -84,7 +90,11 @@ export class ProfileUserModel extends PasswordUserModel {
             sex: this.__sex,
             email: this.__email,
             telephone: this.__telephone,
-            linkImage: this.__linkImages
+            linkImage: this.__linkImages,
+            latitude: this.__latitude,
+            longitude: this.__longitude,
+            radius: this.__radius,
+            address: this.__address ? this.__address : 'Москва'
         };
     }
 
@@ -97,40 +107,17 @@ export class ProfileUserModel extends PasswordUserModel {
     async settings(form, isChangeImg) {
         return http.post(backUrls.settings, this.__jsonData())
             .then(({status}) => {
-                if (status === httpStatus.StatusOK) {
-                    if (isChangeImg) {
-                        return http.post(backUrls.upload, new FormData(form), true)
-                            .then(({status, data}) => {
-                                if (status === httpStatus.StatusBadRequest) {
-                                    throw new Error(data.message);
-                                }
-
-                                if (status === httpStatus.StatusUnauthorized) {
-                                    throw new Error(data.message);
-                                }
-
-                                if (status === httpStatus.StatusInternalServerError) {
-                                    throw new Error(data.message);
-                                }
-                                if (status === httpStatus.StatusForbidden) {
-                                    throw new Error('Доступ запрещен');
-                                }
-                                this.__isAuth = false;
-                                return {isUpdate: true};
-                            })
-                            .catch((err) => {
-                                throw err;
-                            });
-                    }
-                }
-
                 if (status === httpStatus.StatusUnauthorized) {
                     throw new Error('Пользователь не авторизован');
                     // throw new Error(data.message);
                 }
 
+                if (status === httpStatus.StatusForbidden) {
+                    throw new Error('Доступ запрещен');
+                }
+
                 if (status === httpStatus.StatusBadRequest) {
-                    throw new Error('Попробуйте еще раз');
+                    throw new Error('Неправильные данные');
                     // throw new Error(data.message);
                 }
 
@@ -138,16 +125,41 @@ export class ProfileUserModel extends PasswordUserModel {
                     throw new Error('Ошибка сервера');
                     // throw new Error(data.message);
                 }
-                if (status === httpStatus.StatusForbidden) {
-                    throw new Error('Доступ запрещен');
+
+                if (!isChangeImg) {
+                    this.__isAuth = false;
+                    return {isUpdate: true};
                 }
-                this.__isAuth = false;
-                return {isUpdate: true};
+
+                return http.post(backUrls.upload, new FormData(form), true)
+                    .then(({status}) => {
+                        if (status === httpStatus.StatusUnauthorized) {
+                            throw new Error('Пользователь не авторизован');
+                            // throw new Error(data.message);
+                        }
+
+                        if (status === httpStatus.StatusForbidden) {
+                            throw new Error('Доступ запрещен');
+                            // throw new Error(data.message);
+                        }
+
+                        if (status === httpStatus.StatusBadRequest) {
+                            throw new Error('Неправильные данные');
+                            // throw new Error(data.message);
+                        }
+
+                        if (status === httpStatus.StatusInternalServerError) {
+                            throw new Error('Ошибка сервера');
+                            // throw new Error(data.message);
+                        }
+
+                        this.__isAuth = false;
+                        return {isUpdate: true};
+                    });
             })
-            .catch((err) => {
-                console.log(err.message);
-                return {isUpdate: false, message: err.message};
-            });
+            .catch((err) => ({
+                isUpdate: false, message: err.message
+            }));
     }
 
     /***
@@ -157,24 +169,36 @@ export class ProfileUserModel extends PasswordUserModel {
     async newPassword() {
         return http.post(backUrls.newPassword, this.__jsonPassword())
             .then(({status}) => {
+                if (status === httpStatus.StatusUnauthorized) {
+                    throw new Error('Пользователь не авторизован');
+                    // throw new Error(data.message);
+                }
+
+                if (status === httpStatus.StatusForbidden) {
+                    throw new Error('Доступ запрещен');
+                    // throw new Error(data.message);
+                }
+
                 if (status === httpStatus.StatusBadRequest) {
                     throw new Error('Неправильно введен пароль');
                     // throw new Error(data.message);
                 }
-                if (status === httpStatus.StatusForbidden) {
-                    throw new Error('Доступ запрещен');
+
+                if (status === httpStatus.StatusInternalServerError) {
+                    throw new Error('Ошибка сервера');
+                    // throw new Error(data.message);
                 }
+
                 return {isUpdate: true};
             })
-            .catch((err) => {
-                console.log(err.message);
-                return {isUpdate: false, message: err.message};
-            });
+            .catch((err) => ({
+                isUpdate: false, message: err.message
+            }));
     }
 
     /***
      * Get user data from backend
-     * @returns {Promise<void>}
+     * @returns {Promise<{data: *, status: number}>}
      */
     async update() {
         if (this.__isAuth) {
@@ -188,25 +212,24 @@ export class ProfileUserModel extends PasswordUserModel {
                     // throw new Error(data.message);
                 }
 
+                if (status === httpStatus.StatusBadRequest) {
+                    throw new Error('Неправильные данные');
+                    // throw new Error(data.message);
+                }
+
                 if (status === httpStatus.StatusInternalServerError) {
                     throw new Error('Ошибка сервера');
                     // throw new Error(data.message);
                 }
-                if (status === httpStatus.StatusForbidden) {
-                    throw new Error('Доступ запрещен');
-                }
+
                 this.fillUserData(data);
                 this.__isAuth = true;
-            })
-            .catch((err) => {
-                console.log(err.message);
-                // throw err;
             });
     }
 
     /***
      * Logout user
-     * @returns {Promise<void>}
+     * @returns {Promise<{data: *, status: number}>}
      */
     async logout() {
         return http.post(backUrls.logout, null)
@@ -216,18 +239,49 @@ export class ProfileUserModel extends PasswordUserModel {
                     // throw new Error(data.message);
                 }
 
+                if (status === httpStatus.StatusForbidden) {
+                    throw new Error('Доступ запрещен');
+                    // throw new Error(data.message);
+                }
+
+                if (status === httpStatus.StatusBadRequest) {
+                    throw new Error('Неправильные данные');
+                    // throw new Error(data.message);
+                }
+
                 if (status === httpStatus.StatusInternalServerError) {
                     throw new Error('Ошибка сервера');
                     // throw new Error(data.message);
                 }
+            });
+    }
+
+    /***
+     * Change position
+     * @returns {Promise<{data: *, status: number}>}
+     */
+    async position() {
+        return http.post(backUrls.userPosition, this.__jsonPosition())
+            .then(({status}) => {
+                if (status === httpStatus.StatusUnauthorized) {
+                    throw new Error('Пользователь не авторизован');
+                    // throw new Error(data.message);
+                }
+
                 if (status === httpStatus.StatusForbidden) {
                     throw new Error('Доступ запрещен');
+                    // throw new Error(data.message);
                 }
-                this.__isAuth = false;
-            })
-            .catch((err) => {
-                console.log(err.message);
-                throw err;
+
+                if (status === httpStatus.StatusBadRequest) {
+                    throw new Error('Неправильные данные');
+                    // throw new Error(data.message);
+                }
+
+                if (status === httpStatus.StatusInternalServerError) {
+                    throw new Error('Ошибка сервера');
+                    // throw new Error(data.message);
+                }
             });
     }
 }

@@ -106,6 +106,14 @@ export class BaseView {
     }
 
     /***
+     * Update user address
+     * @param address
+     */
+    updateAddress(address) {
+        this.__header.updateAddress(address);
+    }
+
+    /***
      * Render view
      */
     render() {

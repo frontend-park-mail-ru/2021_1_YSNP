@@ -1,5 +1,5 @@
 import mapTemplate from './Map.hbs';
-import './Map.css';
+import './Map.scss';
 
 /***
  * YandexMap component
@@ -35,6 +35,29 @@ export class Map {
 
         window
             .removeEventListener(this.__context.listeners.keyClick.type, this.__context.listeners.keyClick.listener);
+    }
+
+    /***
+     * Get input by value
+     * @param value
+     * @returns {Element}
+     * @private
+     */
+    __getInput(value) {
+        return this.__parent.querySelector(`input[value="${value}"]`);
+    }
+
+    /***
+     * Set radius
+     * @param {number} radius - radius
+     * @private
+     */
+    __setRadius(radius) {
+        const input = this.__getInput(radius);
+
+        if (input) {
+            input.checked = true;
+        }
     }
 
     /***
@@ -88,6 +111,7 @@ export class Map {
 
             this.__parent.insertAdjacentHTML('beforeend', mapTemplate(this.__getRadius()));
             this.__addListeners();
+            this.__setRadius(this.__context.data.radius);
         } catch (err) {
             console.log(err.message);
         }

@@ -1,6 +1,7 @@
 'use strict';
 
-import './style.css';
+import './scss/style.scss';
+import './scss/main.scss';
 
 import {router} from './modules/router.js';
 import {frontUrls} from './modules/frontUrls.js';
@@ -27,6 +28,18 @@ import {SearchPresenter} from './presenters/SearchPresenter.js';
 import {PromotionPresenter} from './presenters/PromotionPresenter.js';
 import {NotFoundPresenter} from './presenters/NotFoundPresenter.js';
 import {baseCreateProduct, baseRegistration} from './modules/fields.js';
+
+/***
+ * Register service worker
+ if ('serviceWorker' in navigator) {
+    navigator.serviceWorker.register('./sw.js', {scope: '/'})
+        .then((registration) => {
+            console.log('Service Worker registered.')
+        }).catch((error) => {
+            console.log('Error while register service worker:' + error)
+        });
+}
+ */
 
 const app = document.getElementById('app');
 
@@ -123,13 +136,23 @@ const doFavorite = () => {
 };
 
 /***
+ * Open search page with text
+ */
+const doSearchWithText = (text = '') => {
+    const searchPresenter = new SearchPresenter(searchView, decodeURI(text.parameters.text));
+    searchPresenter.control();
+
+//    return searchPresenter.removePageListeners.bind(searchPresenter);
+};
+
+/***
  * Open search page
  */
 const doSearch = () => {
-    const searchPresenter = new SearchPresenter(searchView);
+    const searchPresenter = new SearchPresenter(searchView, '');
     searchPresenter.control();
 
-    // return searchPresenter.removePageListeners.bind(searchPresenter);
+//    return searchPresenter.removePageListeners.bind(searchPresenter);
 };
 
 /***
@@ -143,12 +166,13 @@ const doNotFound = () => {
 router.add(frontUrls.main, doMain);
 router.add(frontUrls.registration, doRegistration);
 router.add(frontUrls.productCreate, doProductCreate);
+router.add(frontUrls.search, doSearch);
+router.add(frontUrls.searchWithText(), doSearchWithText);
 router.add(frontUrls.product(), doProduct);
 router.add(frontUrls.promotion, doPromotion);
 router.add(frontUrls.userProfile, doProfile);
 router.add(frontUrls.userAd, doAd);
 router.add(frontUrls.userFavorite, doFavorite);
-router.add(frontUrls.search, doSearch);
 
 router.addNotFound(doNotFound);
 

@@ -1,4 +1,4 @@
-import './Description.css';
+import './Description.scss';
 import descriptionTemplate from './Description.hbs';
 
 /***
@@ -22,6 +22,7 @@ export class Description {
         this.__parent = parent;
         this.__ctx = data;
         this.__context();
+        console.log(this.__ctx);
     }
 
     /***
@@ -60,7 +61,7 @@ export class Description {
             },
             {
                 title: 'Адрес',
-                text: 'Москва, Профсоюзная улица, 132к2, Коньково'
+                text: this.__ctx.__adress
             }]
         };
     }

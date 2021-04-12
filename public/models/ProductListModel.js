@@ -1,4 +1,7 @@
 import {ProductModel} from './ProductModel.js';
+import {http} from '../modules/http';
+import {backUrls} from '../modules/backUrls';
+import {httpStatus} from '../modules/httpStatus';
 
 /***
  * Product list model
@@ -17,10 +20,14 @@ export class ProductListModel {
     /***
      * Parse object to model
      * @param {Object} data - product list data
+     * @param {boolean} isLiked - product like
      */
-    parseData(data) {
+    parseData(data, isLiked = false) {
         this.__newData = data.reduce((accum, el) => {
             const product = new ProductModel(el);
+            if (isLiked) {
+                product.setLiked();
+            }
             accum.push(product);
 
             return accum;
@@ -30,19 +37,27 @@ export class ProductListModel {
     }
 
     /***
-     * Parse object to model
-     * @param {Object} data - product list data
-     * @public
+     * Vote product
+     * @param {number} id - product id
+     * @returns {Promise<{status: string} | void>}
      */
-    setNewData(data) {
-        this.__newData = data.reduce((accum, el) => {
-            const product = new ProductModel(el);
-            accum.push(product);
+    async voteProduct(id) {
+        const product = this.__getProduct(id);
+        if (product.userLiked) {
+            return this.__dislikeProduct(id, product);
+        }
 
-            return accum;
-        }, []);
+        return this.__likeProduct(id, product);
+    }
 
-        this.__productList = this.__productList.concat(this.__newData);
+    /***
+     * Get product
+     * @param {number} id - product id
+     * @returns {ProductModel}
+     * @private
+     */
+    __getProduct(id) {
+        return this.__productList.find((el) => el.id === id);
     }
 
     /***
@@ -98,5 +113,75 @@ export class ProductListModel {
      */
     async __updateNewDataPage() {
         throw new Error('virtual method not initialized!');
+    }
+
+    /***
+     * Like product
+     * @param {number} id - product id
+     *  @param {ProductModel} product - product
+     * @returns {Promise<{status: string}>}
+     * @private
+     */
+    async __likeProduct(id, product) {
+        return http.post(backUrls.userLikeProduct(id), null)
+            .then(({status}) => {
+                if (status === httpStatus.StatusUnauthorized) {
+                    throw new Error('Пользователь не авторизован');
+                    // throw new Error(data.message);
+                }
+
+                if (status === httpStatus.StatusForbidden) {
+                    throw new Error('Доступ запрещен');
+                    // throw new Error(data.message);
+                }
+
+                if (status === httpStatus.StatusBadRequest) {
+                    throw new Error('Неправильные данные');
+                    // throw new Error(data.message);
+                }
+
+                if (status === httpStatus.StatusInternalServerError) {
+                    throw new Error('Ошибка сервера');
+                    // throw new Error(data.message);
+                }
+
+                product.setLike();
+                return {status: 'like'};
+            });
+    }
+
+    /***
+     * Dislike product
+     * @param {number} id - product id
+     * @param {ProductModel} product - product
+     * @returns {Promise<{status: string}>}
+     * @private
+     */
+    async __dislikeProduct(id, product) {
+        return http.post(backUrls.userDislikeProduct(id), null)
+            .then(({status}) => {
+                if (status === httpStatus.StatusUnauthorized) {
+                    throw new Error('Пользователь не авторизован');
+                    // throw new Error(data.message);
+                }
+
+                if (status === httpStatus.StatusForbidden) {
+                    throw new Error('Доступ запрещен');
+                    // throw new Error(data.message);
+                }
+
+                if (status === httpStatus.StatusBadRequest) {
+                    throw new Error('Неправильные данные');
+                    // throw new Error(data.message);
+                }
+
+                if (status === httpStatus.StatusInternalServerError) {
+                    throw new Error('Ошибка сервера');
+                    // throw new Error(data.message);
+                }
+
+                product.setDislike();
+                return {status: 'dislike'};
+            });
     }
 }

@@ -1,5 +1,5 @@
 import productCardTemplate from './ProductCard.hbs';
-import './ProductCard.css';
+import './ProductCard.scss';
 
 /***
  * Product card component with img, name, date, amount and like
@@ -14,11 +14,19 @@ export class ProductCard {
     }
 
     /***
+     * Get card element
+     * @returns {Element}
+     * @private
+     */
+    __getCard() {
+        return this.__parent.querySelector(`[data-card-id='${this.__context.id}']`);
+    }
+
+    /***
      * Add like animation
      */
     like() {
-        this.__parent
-            .querySelector(`[data-card-id='${this.__context.id}']`)
+        this.__getCard()
             .querySelector('[data-action=\'likeClick\']')
             .classList.add('product-card__like_liked');
     }
@@ -27,8 +35,7 @@ export class ProductCard {
      * Remove like animation
      */
     dislike() {
-        this.__parent
-            .querySelector(`[data-card-id='${this.__context.id}']`)
+        this.__getCard()
             .querySelector('[data-action=\'likeClick\']')
             .classList
             .remove('product-card__like_liked');
@@ -39,8 +46,7 @@ export class ProductCard {
      * @private
      */
     __setCardBorderVip() {
-        this.__parent
-            .querySelector(`[data-card-id='${this.__context.id}']`)
+        this.__getCard()
             .classList
             .add('product-card_vip');
     }
@@ -50,8 +56,7 @@ export class ProductCard {
      * @private
      */
     __setCardAmountVip() {
-        this.__parent
-            .querySelector(`[data-card-id='${this.__context.id}']`)
+        this.__getCard()
             .querySelector('[class="product-card-info__amount"]')
             .classList
             .add('product-card-info__amount_vip');
@@ -62,8 +67,7 @@ export class ProductCard {
      * @private
      */
     __setCardLabelVip() {
-        this.__parent
-            .querySelector(`[data-card-id='${this.__context.id}']`)
+        this.__getCard()
             .querySelector('[class="product-card__label"]')
             .classList
             .add('product-card__label_vip');
@@ -99,7 +103,7 @@ export class ProductCard {
      * @private
      */
     __setStatus() {
-        switch (this.__context.status) {
+        switch (this.__context.tariff) {
             case 1: {
                 this.__setVip();
                 break;
@@ -118,6 +122,16 @@ export class ProductCard {
     }
 
     /***
+     * Check card is like
+     * @private
+     */
+    __checkLike() {
+        if (this.__context.userLiked) {
+            this.like();
+        }
+    }
+
+    /***
      * Add component to parent
      */
     render(context) {
@@ -125,6 +139,7 @@ export class ProductCard {
             this.__context = context;
             this.__parent.insertAdjacentHTML('beforeend', productCardTemplate(this.__context));
             this.__setStatus();
+            this.__checkLike();
         } catch (err) {
             console.log(err.message);
         }

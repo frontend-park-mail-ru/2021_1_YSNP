@@ -1,4 +1,4 @@
-import './Board.css';
+import './Board.scss';
 import boardTemplate from './Board.hbs';
 import {InfoCard} from './InfoCard/InfoCard.js';
 import {Slider} from './Carousel/Slider.js';
