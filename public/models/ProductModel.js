@@ -316,6 +316,11 @@ export class ProductModel {
     async update() {
         return http.get(backUrls.product(this.id))
             .then(({status, data}) => {
+                if (status === httpStatus.StatusBadRequest) {
+                    throw new Error('Неправильные данные');
+                    // throw new Error(data.message);
+                }
+
                 if (status === httpStatus.StatusNotFound) {
                     throw new Error('Нет такого товара');
                     // throw new Error(data.message);
@@ -325,9 +330,7 @@ export class ProductModel {
                     throw new Error('Ошибка сервера');
                     // throw new Error(data.message);
                 }
-                if (status === httpStatus.StatusForbidden) {
-                    throw new Error('Доступ запрещен');
-                }
+
                 this.fillProductModel(data);
             });
     }
@@ -344,6 +347,11 @@ export class ProductModel {
                     // throw new Error(data.message);
                 }
 
+                if (status === httpStatus.StatusForbidden) {
+                    throw new Error('Доступ запрещен');
+                    // throw new Error(data.message);
+                }
+
                 if (status === httpStatus.StatusBadRequest) {
                     throw new Error('Неправильные данные');
                     // throw new Error(data.message);
@@ -353,14 +361,17 @@ export class ProductModel {
                     throw new Error('Ошибка сервера');
                     // throw new Error(data.message);
                 }
-                if (status === httpStatus.StatusForbidden) {
-                    throw new Error('Доступ запрещен');
-                }
+
                 this.__id = data.id;
                 return http.post(backUrls.productUploadPhotos(this.__id), new FormData(form), true)
                     .then(({status}) => {
                         if (status === httpStatus.StatusUnauthorized) {
                             throw new Error('Пользователь не авторизован');
+                            // throw new Error(data.message);
+                        }
+
+                        if (status === httpStatus.StatusForbidden) {
+                            throw new Error('Доступ запрещен');
                             // throw new Error(data.message);
                         }
 
@@ -373,9 +384,7 @@ export class ProductModel {
                             throw new Error('Ошибка сервера');
                             // throw new Error(data.message);
                         }
-                        if (status === httpStatus.StatusForbidden) {
-                            throw new Error('Доступ запрещен');
-                        }
+
                         return {id: this.__id};
                     });
             });

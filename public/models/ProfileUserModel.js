@@ -107,37 +107,17 @@ export class ProfileUserModel extends PasswordUserModel {
     async settings(form, isChangeImg) {
         return http.post(backUrls.settings, this.__jsonData())
             .then(({status}) => {
-                if (status === httpStatus.StatusOK) {
-                    if (isChangeImg) {
-                        return http.post(backUrls.upload, new FormData(form), true)
-                            .then(({status, data}) => {
-                                if (status === httpStatus.StatusBadRequest) {
-                                    throw new Error(data.message);
-                                }
-
-                                if (status === httpStatus.StatusUnauthorized) {
-                                    throw new Error(data.message);
-                                }
-
-                                if (status === httpStatus.StatusInternalServerError) {
-                                    throw new Error(data.message);
-                                }
-                                if (status === httpStatus.StatusForbidden) {
-                                    throw new Error('Доступ запрещен');
-                                }
-                                this.__isAuth = false;
-                                return {isUpdate: true};
-                            });
-                    }
-                }
-
                 if (status === httpStatus.StatusUnauthorized) {
                     throw new Error('Пользователь не авторизован');
                     // throw new Error(data.message);
                 }
 
+                if (status === httpStatus.StatusForbidden) {
+                    throw new Error('Доступ запрещен');
+                }
+
                 if (status === httpStatus.StatusBadRequest) {
-                    throw new Error('Попробуйте еще раз');
+                    throw new Error('Неправильные данные');
                     // throw new Error(data.message);
                 }
 
@@ -145,13 +125,41 @@ export class ProfileUserModel extends PasswordUserModel {
                     throw new Error('Ошибка сервера');
                     // throw new Error(data.message);
                 }
-                if (status === httpStatus.StatusForbidden) {
-                    throw new Error('Доступ запрещен');
+
+                if (!isChangeImg) {
+                    this.__isAuth = false;
+                    return {isUpdate: true};
                 }
-                this.__isAuth = false;
-                return {isUpdate: true};
+
+                return http.post(backUrls.upload, new FormData(form), true)
+                    .then(({status}) => {
+                        if (status === httpStatus.StatusUnauthorized) {
+                            throw new Error('Пользователь не авторизован');
+                            // throw new Error(data.message);
+                        }
+
+                        if (status === httpStatus.StatusForbidden) {
+                            throw new Error('Доступ запрещен');
+                            // throw new Error(data.message);
+                        }
+
+                        if (status === httpStatus.StatusBadRequest) {
+                            throw new Error('Неправильные данные');
+                            // throw new Error(data.message);
+                        }
+
+                        if (status === httpStatus.StatusInternalServerError) {
+                            throw new Error('Ошибка сервера');
+                            // throw new Error(data.message);
+                        }
+
+                        this.__isAuth = false;
+                        return {isUpdate: true};
+                    });
             })
-            .catch((err) => ({isUpdate: false, message: err.message}));
+            .catch((err) => ({
+                isUpdate: false, message: err.message
+            }));
     }
 
     /***
@@ -161,16 +169,31 @@ export class ProfileUserModel extends PasswordUserModel {
     async newPassword() {
         return http.post(backUrls.newPassword, this.__jsonPassword())
             .then(({status}) => {
+                if (status === httpStatus.StatusUnauthorized) {
+                    throw new Error('Пользователь не авторизован');
+                    // throw new Error(data.message);
+                }
+
+                if (status === httpStatus.StatusForbidden) {
+                    throw new Error('Доступ запрещен');
+                    // throw new Error(data.message);
+                }
+
                 if (status === httpStatus.StatusBadRequest) {
                     throw new Error('Неправильно введен пароль');
                     // throw new Error(data.message);
                 }
-                if (status === httpStatus.StatusForbidden) {
-                    throw new Error('Доступ запрещен');
+
+                if (status === httpStatus.StatusInternalServerError) {
+                    throw new Error('Ошибка сервера');
+                    // throw new Error(data.message);
                 }
+
                 return {isUpdate: true};
             })
-            .catch((err) => ({isUpdate: false, message: err.message}));
+            .catch((err) => ({
+                isUpdate: false, message: err.message
+            }));
     }
 
     /***
@@ -198,9 +221,7 @@ export class ProfileUserModel extends PasswordUserModel {
                     throw new Error('Ошибка сервера');
                     // throw new Error(data.message);
                 }
-                if (status === httpStatus.StatusForbidden) {
-                    throw new Error('Доступ запрещен');
-                }
+
                 this.fillUserData(data);
                 this.__isAuth = true;
             });
@@ -215,6 +236,11 @@ export class ProfileUserModel extends PasswordUserModel {
             .then(({status}) => {
                 if (status === httpStatus.StatusUnauthorized) {
                     throw new Error('Пользователь не авторизован');
+                    // throw new Error(data.message);
+                }
+
+                if (status === httpStatus.StatusForbidden) {
+                    throw new Error('Доступ запрещен');
                     // throw new Error(data.message);
                 }
 
@@ -242,6 +268,11 @@ export class ProfileUserModel extends PasswordUserModel {
                     // throw new Error(data.message);
                 }
 
+                if (status === httpStatus.StatusForbidden) {
+                    throw new Error('Доступ запрещен');
+                    // throw new Error(data.message);
+                }
+
                 if (status === httpStatus.StatusBadRequest) {
                     throw new Error('Неправильные данные');
                     // throw new Error(data.message);
@@ -250,10 +281,6 @@ export class ProfileUserModel extends PasswordUserModel {
                 if (status === httpStatus.StatusInternalServerError) {
                     throw new Error('Ошибка сервера');
                     // throw new Error(data.message);
-                }
-
-                if (status === httpStatus.StatusForbidden) {
-                    throw new Error('Доступ запрещен');
                 }
             });
     }

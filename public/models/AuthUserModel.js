@@ -59,7 +59,7 @@ export class AuthUserModel extends PasswordUserModel {
     async auth() {
         return http.post(backUrls.login, this.__jsonData())
             .then(({status}) => {
-           if (status === httpStatus.StatusForbidden) {
+                if (status === httpStatus.StatusForbidden) {
                     throw new Error('Доступ запрещен');
                 }
 
@@ -71,7 +71,7 @@ export class AuthUserModel extends PasswordUserModel {
                 if (status === httpStatus.StatusInternalServerError) {
                     throw new Error('Ошибка сервера');
                     // throw new Error(data.message);
-                }  
+                }
             });
     }
 }
