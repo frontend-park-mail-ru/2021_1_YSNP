@@ -142,6 +142,7 @@ class Router {
     __removePageListeners() {
         if (this.__removeListeners) {
             this.__removeListeners();
+            this.__removeListeners = undefined;
         }
     }
 
