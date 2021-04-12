@@ -3,7 +3,6 @@ import {Layout} from '../components/Layout/Layout.js';
 import {Navigation} from '../components/Navigation/Navigation.js';
 import {Board} from '../components/Board/Board.js';
 import {router} from '../modules/router';
-import {Footer} from '../components/Footer/Footer';
 
 /***
  * class ProductView extends BaseView
