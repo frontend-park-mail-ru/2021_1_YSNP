@@ -2,6 +2,7 @@ import {BaseView} from './BaseView.js';
 import {Layout} from '../components/Layout/Layout';
 import {ProfileMenu} from '../components/ProfileMenu/ProfileMenu';
 import {Settings} from '../components/Settings/Settings';
+import {Footer} from '../components/Footer/Footer';
 
 /***
  * Profile view
@@ -164,5 +165,7 @@ export class UserProfileView extends BaseView {
 
         this.__settings = new Settings(rightParent);
         this.__settings.render(this.__context.profileSettings);
+
+        super.renderFooter();
     }
 }

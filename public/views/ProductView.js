@@ -3,6 +3,7 @@ import {Layout} from '../components/Layout/Layout.js';
 import {Navigation} from '../components/Navigation/Navigation.js';
 import {Board} from '../components/Board/Board.js';
 import {router} from '../modules/router';
+import {Footer} from '../components/Footer/Footer';
 
 /***
  * class ProductView extends BaseView
@@ -120,5 +121,7 @@ export class ProductView extends BaseView {
         this.__navSubView.render(this.__context);
         this.__boardSubView = new Board(this.getLayoutParent());
         this.__boardSubView.render(this.__context);
+
+        super.renderFooter();
     }
 }

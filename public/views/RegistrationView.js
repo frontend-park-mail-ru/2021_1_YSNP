@@ -3,6 +3,7 @@ import {Layout} from '../components/Layout/Layout.js';
 import {Navigation} from '../components/Navigation/Navigation.js';
 import {RegistrationPanel} from '../components/RegistrationPanel/RegistrationPanel.js';
 import {router} from '../modules/router';
+import {Footer} from '../components/Footer/Footer';
 
 /***
  * class RegistrationView extends BaseView
@@ -200,5 +201,7 @@ export class RegistrationView extends BaseView {
         this.__regSubView = new RegistrationPanel(this.getLayoutParent());
         this.__navSubView.render(this.__context);
         this.__regSubView.render(this.__context);
+
+        super.renderFooter();
     }
 }

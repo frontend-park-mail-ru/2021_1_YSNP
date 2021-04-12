@@ -4,6 +4,7 @@ import {Layout} from '../components/Layout/Layout.js';
 import {Switch} from '../components/Switch/Switch.js';
 import {ProductTable} from '../components/ProductTable/ProductTable.js';
 import {ProfileMenu} from '../components/ProfileMenu/ProfileMenu.js';
+import {Footer} from '../components/Footer/Footer';
 
 /***
  * Favorite view
@@ -85,5 +86,7 @@ export class UserFavoriteView extends BaseView {
 
         this.__favoriteList = new ProductTable(right);
         this.__favoriteList.render(this.__context.favoriteList);
+
+        super.renderFooter();
     }
 }

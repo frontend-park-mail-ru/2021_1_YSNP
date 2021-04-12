@@ -3,6 +3,7 @@ import {Navigation} from '../components/Navigation/Navigation.js';
 import {Layout} from '../components/Layout/Layout.js';
 import {ProductCreateForm} from '../components/ProductCreateForm/ProductCreateForm.js';
 import {router} from '../modules/router';
+import {Footer} from '../components/Footer/Footer';
 
 /***
  * class ProductCreateView extends BaseView
@@ -243,5 +244,7 @@ export class ProductCreateView extends BaseView {
         this.__navSubView.render(this.__context);
         this.__productCreate = new ProductCreateForm(this.getLayoutParent());
         this.__productCreate.render(this.__context);
+
+        super.renderFooter();
     }
 }
