@@ -54,7 +54,6 @@ export class SearchPresenter extends BasePresenter {
     async control() {
         await this.update();
         this.__view.render(this.__makeContext()).then(() => {
-            console.log(this.__searchInitText);
             const {search} = this.__view.getAllFields();
             search.value = this.__searchInitText;
             this.__search();

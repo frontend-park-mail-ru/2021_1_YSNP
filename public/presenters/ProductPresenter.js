@@ -46,7 +46,6 @@ export class ProductPresenter extends BasePresenter {
      */
     async control() {
         await this.update();
-        console.log(this.__makeContext());
         this.__view.render(this.__makeContext());
     }
 

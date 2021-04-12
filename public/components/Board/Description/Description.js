@@ -22,7 +22,6 @@ export class Description {
         this.__parent = parent;
         this.__ctx = data;
         this.__context();
-        console.log(this.__ctx);
     }
 
     /***
