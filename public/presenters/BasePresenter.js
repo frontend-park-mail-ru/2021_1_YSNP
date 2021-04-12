@@ -130,7 +130,7 @@ export class BasePresenter {
 
         this.__authModel.auth()
             .then(() => {
-                router.redirect(frontUrls.main);
+                router.redirectCurrent();
             })
             .catch((err) => {
                 this.__view.authErrorText(err.message);
@@ -327,7 +327,7 @@ export class BasePresenter {
     async __logout() {
         this.__userModel.logout()
             .then(() => {
-                router.redirect(frontUrls.main);
+                router.redirectCurrent();
             })
             .catch((err) => {
                 //TODO(Sergey) нормальная обработка ошибок
