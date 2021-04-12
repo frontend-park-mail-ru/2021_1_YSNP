@@ -1,0 +1,115 @@
+@import "../../scss/main.scss";
+
+.promotion {
+  padding: 2vw;
+  margin: 1.5vw auto;
+  @include shadow-block;
+
+  &__title {
+    width: 100%;
+    margin-bottom: 1vh;
+
+    font-size: 3vh;
+    line-height: 5vh;
+    color: $textColorDefault;
+  }
+
+  &-tariffs {
+    padding-left: 3vw;
+    padding-right: 3vw;
+
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+  }
+
+  &-no-tariff {
+    padding-left: 3.3vw;
+    margin-bottom: 5vh;
+    color: $textColorDefault;
+    font-size: 1.5vh;
+
+
+    &-inner {
+      width: 21vw;
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+    }
+
+    &__label {
+      opacity: 0.7;
+      margin-left: 1vw;
+    }
+  }
+
+  &-button {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 1vh;
+
+    &__purchase {
+      @include red-button(18vh, 3.5vh);
+    }
+  }
+
+  &-product {
+    padding: 2vh 1vw;
+    margin: 1.5vw auto 0;
+    @include shadow-block;
+
+    &-success {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+    }
+
+    &__text {
+      font-size: 1.8vh;
+      line-height: 2vh;
+      color: $textColorDefault;
+    }
+
+  }
+}
+
+.success-circle {
+  @include circle;
+  @include set-size(4vh, 4vh);
+  margin-right: 1vw;
+}
+
+[id^=no-tariff] {
+  display: none;
+}
+
+[id^=no-tariff] + label {
+  display: block;
+  width: 2vh;
+  height: 2vh;
+  border: 1px solid $textColorDefault;
+  border-radius: 3px;
+  text-align: center;
+  position: relative;
+}
+
+[id^=no-tariff] + label:before {
+  content: '\2713';
+  width: 1.9vh;
+  height: 1.8vh;
+  position: absolute;
+  left: -0.1vw;
+  margin-top: -1px;
+  display: inline-block;
+  color: #d31e1e;
+  font-size: 14px;
+  font-weight: bold;
+  border: 2px solid #d31e1e;
+  border-radius: 3px;
+  transform: scale(0);
+  transition: 0.3s;
+}
+
+[id^=no-tariff]:checked + label:before {
+  transform: scale(1);
+}

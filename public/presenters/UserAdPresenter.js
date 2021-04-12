@@ -79,7 +79,12 @@ export class UserAdPresenter extends BasePresenter {
     __scrollEnd() {
         this.__adListModel.updateNewData()
             .then(() => {
-                this.__view.addNewCards(this.__adListModel.newData);
+                const newData = this.__mainListModel.newData;
+                if (newData.length === 0) {
+                    this.__endlessScroll.remove();
+                }
+
+                this.__view.addNewCards(newData);
             })
             .catch((err) => {
                 //TODO(Sergey) нормальная обработка ошибок
@@ -107,18 +112,6 @@ export class UserAdPresenter extends BasePresenter {
     }
 
     /***
-     *  Like card callback
-     * @param {string} id - card id
-     * @private
-     */
-    __likeCard(id) {
-        // TODO(Sergey) release __likeCard
-
-        const numberId = parseInt(id, 10);
-        this.__view.likeProduct(numberId);
-    }
-
-    /***
      * Open card callback
      * @param {string} id - card id
      * @private
@@ -130,7 +123,7 @@ export class UserAdPresenter extends BasePresenter {
 
     /***
      * Get presenter actions
-     * @returns {{adList: {likeClick: {open: *}, cardClick: {open: *}}}}
+     * @returns {{adList: {cardClick: {open: *}}}}
      * @private
      */
     __getActions() {
@@ -138,9 +131,6 @@ export class UserAdPresenter extends BasePresenter {
             adList: {
                 cardClick: {
                     open: this.__openCard.bind(this)
-                },
-                likeClick: {
-                    open: this.__likeCard.bind(this)
                 }
             }
         };

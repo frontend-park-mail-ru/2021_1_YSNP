@@ -1,5 +1,5 @@
 import changePasswordTemplate from './ChangePassword.hbs';
-import './ChangePassword.css';
+import './ChangePassword.scss';
 
 /***
  * Change password box on profile page

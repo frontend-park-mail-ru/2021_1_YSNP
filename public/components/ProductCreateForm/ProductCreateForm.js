@@ -1,4 +1,4 @@
-import './ProductCreateForm.css';
+import './ProductCreateForm.scss';
 import productCreateFormTemplate from './ProductCreateForm.hbs';
 import productPhotoTemplate from './ProductPhoto.hbs';
 import productFileTemplate from './ProductFile.hbs';
@@ -310,6 +310,16 @@ export class ProductCreateForm {
     }
 
     /***
+     * show global error
+     * @param message
+     */
+    errorText(message) {
+        document
+            .getElementById('create-error')
+            .textContent = message;
+    }
+
+    /***
      * @author Max Torzhkov
      * Add component to parent
      * @this {ProductCreateForm}
@@ -332,7 +342,7 @@ export class ProductCreateForm {
         }, (address) => {
             document.getElementById('addressInput').value = address;
         });
-        ymaps.ready(this.__yaMap.addSearch.bind(this.__yaMap, 'addressInput'));
+        this.__yaMap.addSearch('addressInput');
         this.addListeners();
     }
 }

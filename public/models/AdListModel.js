@@ -10,16 +10,11 @@ import {httpStatus} from '../modules/httpStatus.js';
 export class AdListModel extends ProductListModel {
     /***
      * Get data from backend with pagination
-     * @returns {Promise<void>}
+     * @returns {Promise<{data: *, status: number}>}
      * @private
      */
     async __updateNewDataPage() {
-        return http.post(backUrls.productList, {
-            content: {
-                from: this.__page,
-                count: this.__pageCount
-            }
-        })
+        return http.get(backUrls.userAdList(this.__page, this.__pageCount))
             .then(({status, data}) => {
                 if (status === httpStatus.StatusInternalServerError) {
                     throw new Error('Ошибка сервера');
@@ -29,10 +24,6 @@ export class AdListModel extends ProductListModel {
                     throw new Error('Доступ запрещен');
                 }
                 this.parseData(data);
-            })
-            .catch((err) => {
-                console.log(err.message);
-                throw err;
             });
     }
 }

@@ -1,7 +1,7 @@
-import '../Board/Board.css';
-import '../Board/Description/Description.css';
-import '../Settings/Settings.css';
-import './RegistrationPanel.css';
+import '../Board/Board.scss';
+import '../Board/Description/Description.scss';
+import '../Settings/Settings.scss';
+import './RegistrationPanel.scss';
 import registrationPanelTemplate from './RegistrationPanel.hbs';
 import {createMessageError} from '../../modules/validationStates.js';
 import {Field} from './Fields/Field.js';
@@ -33,7 +33,7 @@ export class RegistrationPanel {
      */
     errorText(val) {
         document
-            .getElementById('auth-error')
+            .getElementById('reg-error')
             .textContent = val;
     }
 
@@ -210,7 +210,8 @@ export class RegistrationPanel {
             name: document.getElementById('name'),
             surname: document.getElementById('surname'),
             date: document.getElementById('date'),
-            sex: document.getElementById('sex')
+            sex: document.getElementById('sex'),
+            pic: document.getElementById('profile-pic')
         };
     }
 

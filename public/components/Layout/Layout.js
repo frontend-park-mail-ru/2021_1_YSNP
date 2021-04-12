@@ -1,5 +1,5 @@
 import layoutTemplate from './Layout.hbs';
-import './Layout.css';
+import './Layout.scss';
 
 /***
  * Layout component
@@ -53,15 +53,6 @@ export class Layout {
                 .classList
                 .add('layout__main');
         }
-    }
-
-    /***
-     * Get main parent
-     * @returns {HTMLElement}
-     */
-    get mainParent() {
-        this.__checkIsMain();
-        return document.getElementById('layout');
     }
 
     /***

@@ -1,5 +1,5 @@
 import searchBarTemplate from '../Search/SearchBar.hbs';
-import './SearchBar.css';
+import './SearchBar.scss';
 import {ProductTable} from '../ProductTable/ProductTable';
 
 /***
@@ -14,6 +14,21 @@ export class SearchBar {
         this.__parent = parent;
     }
 
+    /***
+     * Like product
+     * @param {number} id - product id
+     */
+    likeProduct(id) {
+        this.__productList.like(id);
+    }
+
+    /***
+     * Dislike product
+     * @param {number} id - product id
+     */
+    dislikeProduct(id) {
+        this.__productList.dislike(id);
+    }
 
     /***
      * @author Ivan Gorshkov
@@ -45,6 +60,7 @@ export class SearchBar {
      * @param{Object} ctx
      */
     rerenderProductList(ctx) {
+        document.getElementById('product-content').innerText = '';
         this.__productList.render(ctx.productList);
     }
 
@@ -82,8 +98,6 @@ export class SearchBar {
         document
             .getElementById('amount')
             .addEventListener(this.listeners.validateInput.type, this.listeners.validateInput.listener);
-
-
     }
 
     /***

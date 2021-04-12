@@ -42,7 +42,7 @@ export class AuthUserModel extends PasswordUserModel {
 
     /***
      * Get auth user model Json
-     * @returns {{telephone: Object.telephone, password1: string}}
+     * @returns {{password: string, telephone}}
      * @private
      */
     __jsonData() {
@@ -54,11 +54,14 @@ export class AuthUserModel extends PasswordUserModel {
 
     /***
      * Post auth user data to backend
-     * @returns {Promise<void>}
+     * @returns {Promise<{data: *, status: number}>}
      */
     async auth() {
         return http.post(backUrls.login, this.__jsonData())
             .then(({status}) => {
+           if (status === httpStatus.StatusForbidden) {
+                    throw new Error('Доступ запрещен');
+                }
 
                 if (status === httpStatus.StatusBadRequest) {
                     throw new Error('Неправильный номер или пароль');
@@ -68,14 +71,7 @@ export class AuthUserModel extends PasswordUserModel {
                 if (status === httpStatus.StatusInternalServerError) {
                     throw new Error('Ошибка сервера');
                     // throw new Error(data.message);
-                }
-                if (status === httpStatus.StatusForbidden) {
-                    throw new Error('Доступ запрещен');
-                }
-            })
-            .catch((err) => {
-                console.log(err.message);
-                throw err;
+                }  
             });
     }
 }

@@ -11,14 +11,6 @@ export class UserModel {
     }
 
     /***
-     * Get first image
-     * @returns {string}
-     */
-    __getFirstImage() {
-        return this.__linkImages;
-    }
-
-    /***
      * Validate user name/surname/patronymic/location
      * @param {string} value - value of user field
      * @returns {{message: [string], error: boolean}}
@@ -189,6 +181,10 @@ export class UserModel {
         this.__dateBirth = data.dateBirth;
         this.__email = data.email;
         this.__telephone = data.telephone;
-        this.__linkImages = data.linkImages !== undefined ? data.linkImages : '';
+        this.__latitude = data.latitude;
+        this.__longitude = data.longitude;
+        this.__radius = data.radius;
+        this.__address = data.address;
+        this.__linkImages = data.linkImages;
     }
 }

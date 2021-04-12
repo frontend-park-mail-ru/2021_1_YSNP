@@ -1,5 +1,5 @@
 import notFoundTemplate from './PageNotFound.hbs';
-import './PageNotFound.css';
+import './PageNotFound.scss';
 
 /***
  * Page not found component

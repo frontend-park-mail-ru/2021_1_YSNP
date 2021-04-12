@@ -25,12 +25,16 @@ export class ProductPresenter extends BasePresenter {
      * @author Ivan Gorshkov
      *
      * Update view data
-     * @returns {Promise<void>}
+     * @returns {Promise<{}>}
      * @this {ProductPresenter}
      */
     async update() {
-        await super.update();
-        await this.__model.update();
+        return super.update()
+            .then(() => this.__model.update())
+            .catch((err) => {
+                //TODO(Sergey) нормальная обработка ошибок
+                console.log(err.message);
+            });
     }
 
     /***
@@ -42,6 +46,7 @@ export class ProductPresenter extends BasePresenter {
      */
     async control() {
         await this.update();
+        console.log(this.__makeContext());
         this.__view.render(this.__makeContext());
     }
 
@@ -178,7 +183,7 @@ export class ProductPresenter extends BasePresenter {
         if (this.__userModel.isAuth) {
             console.log('number');
         } else {
-            this.__openAuth();
+            super.openAuth();
         }
     }
 
@@ -193,7 +198,7 @@ export class ProductPresenter extends BasePresenter {
         if (this.__userModel.isAuth) {
             console.log('massage');
         } else {
-            this.__openAuth();
+            super.openAuth();
         }
     }
 

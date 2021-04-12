@@ -1,4 +1,4 @@
-import './Slider.css';
+import './Slider.scss';
 import CarouselTemplate from './Slider.hbs';
 
 /* eslint-disable no-magic-numbers */

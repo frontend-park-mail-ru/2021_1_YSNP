@@ -66,9 +66,6 @@ export class RegUserData extends PasswordUserModel {
                                 throw new Error('Доступ запрещен');
                             }
                             return {};
-                        })
-                        .catch((err) => {
-                            throw err;
                         });
                 }
 
@@ -83,6 +80,6 @@ export class RegUserData extends PasswordUserModel {
                     throw new Error('Доступ запрещен');
                 }
                 return {};
-            }).catch((err) => Promise.reject(err));
+            });
     }
 }
