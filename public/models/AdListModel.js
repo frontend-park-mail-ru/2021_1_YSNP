@@ -16,13 +16,16 @@ export class AdListModel extends ProductListModel {
     async __updateNewDataPage() {
         return http.get(backUrls.userAdList(this.__page, this.__pageCount))
             .then(({status, data}) => {
+                if (status === httpStatus.StatusBadRequest) {
+                    throw new Error('Неправильные данные');
+                    // throw new Error(data.message);
+                }
+
                 if (status === httpStatus.StatusInternalServerError) {
                     throw new Error('Ошибка сервера');
                     // throw new Error(data.message);
                 }
-                if (status === httpStatus.StatusForbidden) {
-                    throw new Error('Доступ запрещен');
-                }
+
                 this.parseData(data);
             });
     }

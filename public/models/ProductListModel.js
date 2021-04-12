@@ -130,6 +130,11 @@ export class ProductListModel {
                     // throw new Error(data.message);
                 }
 
+                if (status === httpStatus.StatusForbidden) {
+                    throw new Error('Доступ запрещен');
+                    // throw new Error(data.message);
+                }
+
                 if (status === httpStatus.StatusBadRequest) {
                     throw new Error('Неправильные данные');
                     // throw new Error(data.message);
@@ -157,6 +162,11 @@ export class ProductListModel {
             .then(({status}) => {
                 if (status === httpStatus.StatusUnauthorized) {
                     throw new Error('Пользователь не авторизован');
+                    // throw new Error(data.message);
+                }
+
+                if (status === httpStatus.StatusForbidden) {
+                    throw new Error('Доступ запрещен');
                     // throw new Error(data.message);
                 }
 

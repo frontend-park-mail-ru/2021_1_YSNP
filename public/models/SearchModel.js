@@ -53,6 +53,15 @@ export class SearchModel {
     async update() {
         return http.post(backUrls.search, this.__jsonData())
             .then(({status, data}) => {
+                if (status === httpStatus.StatusForbidden) {
+                    throw new Error('Доступ запрещен');
+                    // throw new Error(data.message);
+                }
+
+                if (status === httpStatus.StatusBadRequest) {
+                    throw new Error('Неправильные данные');
+                    // throw new Error(data.message);
+                }
 
                 if (status === httpStatus.StatusNotFound) {
                     throw new Error('Нет такого товара');
@@ -61,11 +70,6 @@ export class SearchModel {
 
                 if (status === httpStatus.StatusInternalServerError) {
                     throw new Error('Ошибка сервера');
-                    // throw new Error(data.message);
-                }
-
-                if (status === httpStatus.StatusForbidden) {
-                    throw new Error('Доступ запрещен');
                     // throw new Error(data.message);
                 }
 
