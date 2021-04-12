@@ -18,10 +18,10 @@ class Http {
             credentials: 'include'
         };
 
-        const csrf = localStorage.getCSRF();
-        if (csrf !== '') {
-            options['headers'] = {'X-CSRF-Token': csrf};
-        }
+        // const csrf = localStorage.getCSRF();
+        // if (csrf !== '') {
+        //     options['headers'] = {'X-CSRF-Token': csrf};
+        // }
 
         if (data) {
             options['body'] = data;
@@ -38,10 +38,10 @@ class Http {
     async get(url) {
         const response = await fetch(this.__ajax(url, 'GET', null));
 
-        const csrf = response.headers.get('X-CSRF-Token');
-        if (csrf) {
-            localStorage.setCSRF(csrf);
-        }
+        // const csrf = response.headers.get('X-CSRF-Token');
+        // if (csrf) {
+        //     localStorage.setCSRF(csrf);
+        // }
         
         const responseData = await response.json();
 
@@ -61,10 +61,10 @@ class Http {
     async post(url, data, photo = false) {
         const response = await fetch(this.__ajax(url, 'POST', photo ? data : JSON.stringify(data)));
 
-        const csrf = response.headers.get('X-CSRF-Token');
-        if (csrf) {
-            localStorage.setCSRF(csrf);
-        }
+        // const csrf = response.headers.get('X-CSRF-Token');
+        // if (csrf) {
+        //     localStorage.setCSRF(csrf);
+        // }
 
         const responseData = await response.json();
 
