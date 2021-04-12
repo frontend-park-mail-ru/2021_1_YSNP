@@ -1,7 +1,6 @@
 import {BaseView} from './BaseView.js';
 import {Layout} from '../components/Layout/Layout';
 import {AdPromotion} from '../components/AdPromotion/AdPromotion';
-import {Footer} from '../components/Footer/Footer';
 
 /***
  * Profile view

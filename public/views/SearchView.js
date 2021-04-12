@@ -5,7 +5,6 @@ import {Switch} from '../components/Switch/Switch';
 import {SearchBar} from '../components/SearchBar/SearchBar.js';
 import {categories} from '../modules/fields.js';
 import {router} from '../modules/router';
-import {Footer} from '../components/Footer/Footer';
 
 /***
  *  SearchView

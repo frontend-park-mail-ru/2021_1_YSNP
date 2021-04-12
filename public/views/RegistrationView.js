@@ -3,7 +3,6 @@ import {Layout} from '../components/Layout/Layout.js';
 import {Navigation} from '../components/Navigation/Navigation.js';
 import {RegistrationPanel} from '../components/RegistrationPanel/RegistrationPanel.js';
 import {router} from '../modules/router';
-import {Footer} from '../components/Footer/Footer';
 
 /***
  * class RegistrationView extends BaseView

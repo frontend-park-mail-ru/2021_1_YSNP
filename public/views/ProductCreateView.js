@@ -3,7 +3,6 @@ import {Navigation} from '../components/Navigation/Navigation.js';
 import {Layout} from '../components/Layout/Layout.js';
 import {ProductCreateForm} from '../components/ProductCreateForm/ProductCreateForm.js';
 import {router} from '../modules/router';
-import {Footer} from '../components/Footer/Footer';
 
 /***
  * class ProductCreateView extends BaseView
@@ -193,6 +192,15 @@ export class ProductCreateView extends BaseView {
      */
     changeDisableButton(title = 'Загрузка...') {
         this.__productCreate.changeDisableButton(title);
+    }
+
+
+    /***
+     * make enable btn
+     * @param{string} title
+     */
+    changeEnableButton(title = 'Загрузка...') {
+        this.__productCreate.changeEnableButton(title);
     }
 
     /***

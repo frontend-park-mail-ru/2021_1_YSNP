@@ -280,8 +280,8 @@ export class ProductCreatePresenter extends BasePresenter {
                     this.__view.removingSubViews();
                     router.redirect(frontUrls.promotion, '', {id: parseInt(id, 10)});
                 }).catch((err) => {
-                //TODO(Sergey) нормальная обработка ошибок
-                console.log(err.message);
+                this.__view.changeEnableButton('Продолжить');
+                this.__view.errorText(err.message);
             });
         }
     }
