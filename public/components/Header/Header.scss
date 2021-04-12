@@ -64,6 +64,15 @@
     display: flex;
     align-items: center;
 
+    &__search-button {
+      height: 2vh;
+      width: 2vh;
+
+      margin-right: 2vw;
+
+      cursor: pointer;
+    }
+
     &__create-button {
       margin-right: 2vw;
       @include red-button(20vh, 4vh);
