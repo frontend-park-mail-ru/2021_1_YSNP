@@ -36,6 +36,13 @@ export class PromotionPresenter extends BasePresenter {
     }
 
     /***
+     * Remove page listeners
+     */
+    removePageListeners() {
+        super.removePageListeners();
+    }
+
+    /***
      * AdPromotion click event
      * @param {Event} ev - mouse event
      * @private

@@ -114,7 +114,9 @@ class Router {
      * Redirect not found
      */
     redirectNotFound() {
-        this.__notFoundCallback();
+        this.__removePageListeners();
+
+        this.__removeNotFoundListeners = this.__notFoundCallback();
     }
 
 
@@ -143,6 +145,11 @@ class Router {
         if (this.__removeListeners) {
             this.__removeListeners();
             this.__removeListeners = undefined;
+        }
+
+        if (this.__removeNotFoundListeners) {
+            this.__removeNotFoundListeners();
+            this.__removeNotFoundListeners = undefined;
         }
     }
 

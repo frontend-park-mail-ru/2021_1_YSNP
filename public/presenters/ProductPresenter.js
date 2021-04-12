@@ -51,6 +51,13 @@ export class ProductPresenter extends BasePresenter {
     }
 
     /***
+     * Remove page listeners
+     */
+    removePageListeners() {
+        super.removePageListeners();
+    }
+
+    /***
      * @author Ivan Gorshkov
      *
      * Header click listener

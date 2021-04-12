@@ -56,8 +56,6 @@ export class UserAdPresenter extends BasePresenter {
     removePageListeners() {
         super.removePageListeners();
 
-        this.__view.removeProductListListeners();
-
         this.__endlessScroll.remove();
         this.__pageUp.remove();
     }

@@ -71,7 +71,7 @@ const doRegistration = () => {
     const registrationPresenter = new RegistrationPresenter(registrationView);
     registrationPresenter.control();
 
-    // return registrationPresenter.removePageListeners.bind(registrationPresenter);
+    return registrationPresenter.removePageListeners.bind(registrationPresenter);
 };
 
 /***
@@ -81,7 +81,7 @@ const doProductCreate = () => {
     const productCreatePresenter = new ProductCreatePresenter(productCreateView);
     productCreatePresenter.control();
 
-    // return productCreatePresenter.removePageListeners.bind(productCreatePresenter);
+    return productCreatePresenter.removePageListeners.bind(productCreatePresenter);
 };
 
 /***
@@ -92,7 +92,7 @@ const doProduct = (id) => {
     const productPresenter = new ProductPresenter(productView, id.parameters.id);
     productPresenter.control();
 
-    // return productPresenter.removePageListeners.bind(productPresenter);
+    return productPresenter.removePageListeners.bind(productPresenter);
 };
 
 /***
@@ -102,7 +102,7 @@ const doPromotion = () => {
     const promotionPresenter = new PromotionPresenter(promotionView);
     promotionPresenter.control();
 
-    // return promotionPresenter.removePageListeners.bind(promotionPresenter);
+    return promotionPresenter.removePageListeners.bind(promotionPresenter);
 };
 
 /***
@@ -112,7 +112,7 @@ const doProfile = () => {
     const profilePresenter = new UserProfilePresenter(profileView);
     profilePresenter.control();
 
-    // return profilePresenter.removePageListeners.bind(profilePresenter);
+    return profilePresenter.removePageListeners.bind(profilePresenter);
 };
 
 /***
@@ -142,7 +142,7 @@ const doSearchWithText = (text = '') => {
     const searchPresenter = new SearchPresenter(searchView, decodeURI(text.parameters.text));
     searchPresenter.control();
 
-//    return searchPresenter.removePageListeners.bind(searchPresenter);
+    return searchPresenter.removePageListeners.bind(searchPresenter);
 };
 
 /***
@@ -152,7 +152,7 @@ const doSearch = () => {
     const searchPresenter = new SearchPresenter(searchView, '');
     searchPresenter.control();
 
-//    return searchPresenter.removePageListeners.bind(searchPresenter);
+    return searchPresenter.removePageListeners.bind(searchPresenter);
 };
 
 /***
@@ -161,6 +161,8 @@ const doSearch = () => {
 const doNotFound = () => {
     const notFoundPresenter = new NotFoundPresenter(notFoundView);
     notFoundPresenter.control();
+
+    return notFoundPresenter.removePageListeners.bind(notFoundPresenter);
 };
 
 router.add(frontUrls.main, doMain);

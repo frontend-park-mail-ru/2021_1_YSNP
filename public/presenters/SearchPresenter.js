@@ -7,6 +7,7 @@ import {SearchModel} from '../models/SearchModel.js';
 import {amountMask} from '../modules/mask.js';
 import {PageUpHandler} from '../modules/pageUpHandler.js';
 import {noop} from '../models/Noop';
+import {EndlessScroll} from '../modules/endlessScroll';
 
 /***
  *  class SearchPresenter extends BasePresenter
@@ -27,6 +28,8 @@ export class SearchPresenter extends BasePresenter {
         this.__productListModel = new ProductListModel();
         this.__model = new SearchModel();
         this.__searchInitText = text;
+        // this.__endlessScroll = new EndlessScroll(this.__createListeners().scroll);
+        this.__pageUp = new PageUpHandler();
     }
 
     /***
@@ -56,7 +59,19 @@ export class SearchPresenter extends BasePresenter {
             search.value = this.__searchInitText;
             this.__search();
         });
-        (new PageUpHandler()).start();
+
+        // this.__endlessScroll.start();
+        this.__pageUp.start();
+    }
+
+    /***
+     * Remove page listeners
+     */
+    removePageListeners() {
+        super.removePageListeners();
+
+        // this.__endlessScroll.remove();
+        this.__pageUp.remove();
     }
 
     /***

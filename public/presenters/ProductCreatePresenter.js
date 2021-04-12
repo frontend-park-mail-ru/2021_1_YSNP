@@ -72,6 +72,12 @@ export class ProductCreatePresenter extends BasePresenter {
         this.__view.render(this.__makeContext());
     }
 
+    /***
+     * Remove page listeners
+     */
+    removePageListeners() {
+        super.removePageListeners();
+    }
 
     /***
      * @author Ivan Gorshkov
