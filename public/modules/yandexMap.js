@@ -128,7 +128,7 @@ export class YandexMap {
                     }
                 ).catch(
                     (err) => {
-                        console.log('Ошибка', err);
+                        console.log(err.message);
                     });
             });
         });

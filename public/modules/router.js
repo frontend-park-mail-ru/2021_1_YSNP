@@ -24,7 +24,6 @@ class Router {
         }
 
         this.__removeListeners = route.callback.call(this, this.__getParamsFromRegExp(route));
-
     }
 
     /***
@@ -108,6 +107,13 @@ class Router {
 
         window.history.pushState(state, title, url);
         return this.start();
+    }
+
+    /***
+     * Redirect current page
+     */
+    redirectCurrent() {
+        this.redirect(this.__getCurrentPath());
     }
 
     /***

@@ -48,13 +48,12 @@ export class SearchPresenter extends BasePresenter {
     /***
      * @author Ivan Gorshkov
      *
-     * Search Presenter control. render view and PageUP
+     * SearchBox Presenter control. render view and PageUP
      * @return {Promise<void>}
      */
     async control() {
         await this.update();
         this.__view.render(this.__makeContext()).then(() => {
-            console.log(this.__searchInitText);
             const {search} = this.__view.getAllFields();
             search.value = this.__searchInitText;
             this.__search();
