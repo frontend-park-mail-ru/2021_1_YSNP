@@ -39,7 +39,7 @@
                            type="text" value="{{name}}" data-move="showError" data-moveout="hideError" readonly>
                 </div>
                 <div class="settings-input-inner">
-                    <select id="settings-gender" class="settings-components__input" disabled>
+                    <select id="settings-gender" class="settings-components__input__gender" disabled>
                         <option value="female" name="female">Женский</option>
                         <option value="male" name="male">Мужской</option>
                     </select>
@@ -47,7 +47,7 @@
                 <div class="settings-input-inner">
                     <input id="settings-birthday" data-action="inputEmpty" class="settings-components__input"
                            type="date" min="1900-01-01" max="2021-01-01" value="{{dateBirth}}" data-move="showError"
-                           data-moveout="hideError" readonly>
+                           data-moveout="hideError" onkeydown="return false" readonly>
                 </div>
                 <div class="settings-input-inner">
                     <input id="settings-telephone" data-action="inputPhone" class="settings-components__input"

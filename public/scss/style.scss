@@ -16,6 +16,16 @@ body {
   background-color: rgb(245, 245, 245);
 }
 
-select:disabled {
-  appearance: none;
+select:disabled{
+    appearance: none;
+}
+
+select:enabled {
+    appearance: none;
+    background-image: url("../img/svg/select.svg");
+    background-position: calc(100% - 2vh) calc(1em + -0.5vh), calc(100% - 3vh) calc(1em + 1.5vh), 100% 0;
+    background-size:
+            10px 10px,
+            10px 10px;
+    background-repeat: no-repeat;
 }
