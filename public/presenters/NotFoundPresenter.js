@@ -33,6 +33,13 @@ export class NotFoundPresenter extends BasePresenter {
     }
 
     /***
+     * Remove page listeners
+     */
+    removePageListeners() {
+        super.removePageListeners();
+    }
+
+    /***
      * Get page description
      * @returns {{code: number, description: string}}
      * @private

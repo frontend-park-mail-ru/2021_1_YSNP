@@ -34,13 +34,6 @@ export class UserFavoriteView extends BaseView {
     }
 
     /***
-     * Remove product list listeners
-     */
-    removeProductListListeners() {
-        this.__favoriteList.removeListeners();
-    }
-
-    /***
      * Get view context
      * @param {Object} context - presenter context
      * @private

@@ -114,7 +114,9 @@ class Router {
      * Redirect not found
      */
     redirectNotFound() {
-        this.__notFoundCallback();
+        this.__removePageListeners();
+
+        this.__removeNotFoundListeners = this.__notFoundCallback();
     }
 
 
@@ -142,6 +144,12 @@ class Router {
     __removePageListeners() {
         if (this.__removeListeners) {
             this.__removeListeners();
+            this.__removeListeners = undefined;
+        }
+
+        if (this.__removeNotFoundListeners) {
+            this.__removeNotFoundListeners();
+            this.__removeNotFoundListeners = undefined;
         }
     }
 
@@ -254,13 +262,13 @@ class Router {
      * @param {MouseEvent} ev - mouse event
      */
     redirectEvent(ev) {
-        if (ev.target instanceof HTMLAnchorElement) {
+        if (ev.target instanceof HTMLAnchorElement && ev.target.pathname !== '') {
             ev.preventDefault();
 
             this.redirect(ev.target.pathname);
         }
 
-        if (ev.target.parentElement instanceof HTMLAnchorElement) {
+        if (ev.target.parentElement instanceof HTMLAnchorElement && ev.target.pathname !== '') {
             ev.preventDefault();
 
             this.redirect(ev.target.parentElement.pathname);

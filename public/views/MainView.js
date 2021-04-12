@@ -33,13 +33,6 @@ export class MainView extends BaseView {
     }
 
     /***
-     * Remove product list listeners
-     */
-    removeProductListListeners() {
-        this.__mainList.removeListeners();
-    }
-
-    /***
      * Get view context
      * @param {Object} context - presenter context
      * @private

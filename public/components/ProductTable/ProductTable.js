@@ -26,15 +26,6 @@ export class ProductTable {
     }
 
     /***
-     * Remove component listeners
-     */
-    removeListeners() {
-        document
-            .getElementById('product-table')
-            .removeEventListener(this.__context.listeners.productCardClick.type, this.__context.listeners.productCardClick.listener);
-    }
-
-    /***
      * Add like animation
      * @param {number} id - product card id
      */

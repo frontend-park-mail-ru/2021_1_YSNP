@@ -52,6 +52,13 @@ export class UserProfilePresenter extends BasePresenter {
     }
 
     /***
+     * Remove page listeners
+     */
+    removePageListeners() {
+        super.removePageListeners();
+    }
+
+    /***
      * Settings click event
      * @param {Event} ev - event
      * @param {string} type - type action
@@ -98,17 +105,14 @@ export class UserProfilePresenter extends BasePresenter {
             validateChange: {
                 type: 'change',
                 listener: this.__listenerSettingsClick.bind(this, 'action')
-
             },
             focusInput: {
                 type: 'focus',
                 listener: this.__listenerSettingsClick.bind(this, 'move')
-
             },
             blurInput: {
                 type: 'blur',
                 listener: this.__listenerSettingsClick.bind(this, 'moveout')
-
             }
         };
     }

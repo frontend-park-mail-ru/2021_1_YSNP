@@ -34,13 +34,6 @@ export class UserAdView extends BaseView {
     }
 
     /***
-     * Remove product list listeners
-     */
-    removeProductListListeners() {
-        this.__adList.removeListeners();
-    }
-
-    /***
      * Get view context
      * @param {Object} context - presenter context
      * @private

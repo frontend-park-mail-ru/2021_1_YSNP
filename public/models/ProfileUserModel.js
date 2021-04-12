@@ -253,6 +253,8 @@ export class ProfileUserModel extends PasswordUserModel {
                     throw new Error('Ошибка сервера');
                     // throw new Error(data.message);
                 }
+
+                this.__isAuth = false;
             });
     }
 
