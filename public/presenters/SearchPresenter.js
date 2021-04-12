@@ -48,7 +48,7 @@ export class SearchPresenter extends BasePresenter {
     /***
      * @author Ivan Gorshkov
      *
-     * Search Presenter control. render view and PageUP
+     * SearchBox Presenter control. render view and PageUP
      * @return {Promise<void>}
      */
     async control() {

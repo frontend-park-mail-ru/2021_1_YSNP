@@ -1,5 +1,5 @@
 import {BaseView} from './BaseView.js';
-import {SearchBox} from '../components/Search/SearchBox.js';
+import {SearchBox} from '../components/SearchBox/SearchBox.js';
 import {Switch} from '../components/Switch/Switch.js';
 import {Layout} from '../components/Layout/Layout.js';
 import {ProductTable} from '../components/ProductTable/ProductTable.js';
