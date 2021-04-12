@@ -1,25 +1,25 @@
 <div class="search">
     <div class="search-background">
-    <div class="search-content">
-        <div class="search-title">
-            Более 800 миллионов объявлений по всей России
-        </div>
-        <div class="search-line">
-            <form>
-                <input class="search-line__input" type="search" id="search-input" name="q" placeholder="Поиск">
-                <input class="search-line__button" type="submit" value="Найти" id="search-button" data-action="searchButtonClick">
-            </form>
-        </div>
-        <div class="search-categories" id="search-categories">
-            {{#each this}}
+        <div class="search-content">
+            <div class="search-title">
+                Более 800 миллионов объявлений по всей России
+            </div>
+            <div class="search-line">
+                <form>
+                    <input class="search-line__input" type="search" id="search-input" name="q" placeholder="Поиск">
+                    <input class="search-line__button" type="submit" value="Найти" id="search-button"
+                           data-action="searchButtonClick">
+                </form>
+            </div>
+            <div class="search-categories" id="search-categories">
+                {{#each this}}
                     <div class="search-category-card">
                         <div class="search-category__title" data-action="categoryClick">
                             {{this.title}}
                         </div>
                     </div>
                 {{/each}}
+            </div>
         </div>
     </div>
-    </div>
-</img>
 </div>
