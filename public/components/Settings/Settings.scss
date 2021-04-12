@@ -73,6 +73,15 @@
       background: none;
       @include input;
 
+      &__gender{
+        @include input;
+        background: none;
+        cursor: pointer;
+        &:disabled{
+          border: 0;
+        }
+      }
+
       &:read-only {
         outline: 0;
         outline-offset: 0;
