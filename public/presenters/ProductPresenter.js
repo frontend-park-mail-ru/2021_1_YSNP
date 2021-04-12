@@ -210,12 +210,13 @@ export class ProductPresenter extends BasePresenter {
      * @private
      */
     __listenerWriteMassage() {
-        // TODO(Ivan) release __listenerWriteMassage
-        if (this.__userModel.isAuth) {
-            console.log('massage');
-        } else {
+        if (!this.__userModel.isAuth) {
             super.openAuth();
+            return;
         }
+
+        // TODO(Ivan) release __listenerWriteMassage
+        console.log('massage');
     }
 
     /***
