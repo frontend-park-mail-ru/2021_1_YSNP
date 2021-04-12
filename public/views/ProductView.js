@@ -2,6 +2,8 @@ import {BaseView} from './BaseView.js';
 import {Layout} from '../components/Layout/Layout.js';
 import {Navigation} from '../components/Navigation/Navigation.js';
 import {Board} from '../components/Board/Board.js';
+import {router} from '../modules/router';
+import {Footer} from '../components/Footer/Footer';
 
 /***
  * class ProductView extends BaseView
@@ -114,9 +116,12 @@ export class ProductView extends BaseView {
         this.__makeContext(context);
         this.__setTitle();
 
-        this.__navSubView = new Navigation(this.getLayoutParent(), 'Главная страница', {route: [this.__context.product.data.__category, this.__context.product.data.__name]});
+
+        this.__navSubView = new Navigation(this.getLayoutParent(), router.getPreviousTitle(), {route: [this.__context.product.data.__category, this.__context.product.data.__name]});
         this.__navSubView.render(this.__context);
         this.__boardSubView = new Board(this.getLayoutParent());
         this.__boardSubView.render(this.__context);
+
+        super.renderFooter();
     }
 }

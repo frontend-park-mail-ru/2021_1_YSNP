@@ -215,7 +215,7 @@ export class ProductModel {
         this.__latitude = data.latitude;
         this.__views = data.views;
         this.__likes = data.likes;
-        // this.__userLiked = data.userLiked;
+        this.__userLiked = data.userLiked;
         this.__tariff = data.tariff;
         this.__ownerId = data.ownerId;
         this.__ownerName = data.ownerName;
@@ -260,7 +260,7 @@ export class ProductModel {
             latitude: this.__latitude,
             views: this.__views,
             likes: this.__likes,
-            // userLiked: this.__userLiked,
+            userLiked: this.__userLiked,
             tariff: this.__tariff,
             ownerId: this.__ownerId,
             ownerName: this.__ownerName,

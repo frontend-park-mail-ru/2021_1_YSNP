@@ -1,6 +1,7 @@
 import {Header} from '../components/Header/Header.js';
 import {Auth} from '../components/Auth/Auth.js';
 import {Map} from '../components/Map/Map.js';
+import {Footer} from '../components/Footer/Footer';
 
 /***
  * Application base view
@@ -129,5 +130,10 @@ export class BaseView {
 
         this.__header = new Header(this.__app);
         this.__header.render(this.__baseContext.header);
+    }
+
+    renderFooter() {
+        this.__footer = new Footer(this.__app);
+        this.__footer.render(this.__baseContext.header);
     }
 }

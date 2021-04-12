@@ -4,6 +4,10 @@ import {Navigation} from '../components/Navigation/Navigation';
 import {Switch} from '../components/Switch/Switch';
 import {SearchBar} from '../components/SearchBar/SearchBar.js';
 
+import {categories} from '../modules/fields.js';
+import {router} from '../modules/router';
+import {Footer} from '../components/Footer/Footer';
+
 /***
  *  SearchView
  */
@@ -132,7 +136,7 @@ export class SearchView extends BaseView {
         this.layout.render();
         this.__makeContext(context);
 
-        this.__navSubView = new Navigation(this.getLayoutParent(), 'Главная страница', {route: ['Поиск объявлений']});
+        this.__navSubView = new Navigation(this.getLayoutParent(), router.getPreviousTitle(), {route: ['Поиск объявлений']});
         this.__navSubView.render(context);
 
         const adSwitch = new Switch(this.getLayoutParent());
@@ -140,5 +144,7 @@ export class SearchView extends BaseView {
 
         this.__searchBar = new SearchBar(this.getLayoutParent());
         this.__searchBar.render(this.__context);
+
+        super.renderFooter();
     }
 }

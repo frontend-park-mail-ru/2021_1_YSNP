@@ -36,7 +36,6 @@ export class ProductListModel {
 
             return accum;
         }, []);
-
         this.__productList = this.__productList.concat(this.__newData);
     }
 

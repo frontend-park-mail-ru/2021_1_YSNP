@@ -4,6 +4,7 @@ import {Layout} from '../components/Layout/Layout.js';
 import {Switch} from '../components/Switch/Switch.js';
 import {ProductTable} from '../components/ProductTable/ProductTable.js';
 import {ProfileMenu} from '../components/ProfileMenu/ProfileMenu.js';
+import {Footer} from '../components/Footer/Footer';
 
 /***
  * Favorite view
@@ -93,5 +94,7 @@ export class UserAdView extends BaseView {
                 }
             });
         }
+
+        super.renderFooter();
     }
 }

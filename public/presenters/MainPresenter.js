@@ -167,7 +167,7 @@ export class MainPresenter extends BasePresenter {
      */
     __openCard(id) {
         const numberId = parseInt(id, 10);
-        router.redirect(frontUrls.product(numberId));
+        router.redirect(frontUrls.product(numberId), '', {title: 'Koya'});
     }
 
     /***
@@ -203,7 +203,8 @@ export class MainPresenter extends BasePresenter {
      */
     __categoryClick(ev) {
         localStorage.set('category', ev.target.innerText);
-        router.redirect(frontUrls.search);
+
+        router.redirect(frontUrls.search, '', {title: 'Koya'});
     }
 
     /***
@@ -214,11 +215,11 @@ export class MainPresenter extends BasePresenter {
         localStorage.set('category', '');
         const val = this.__view.getTextFromSearch();
         if (val !== '') {
-            router.redirect(frontUrls.searchWithText(val));
+            router.redirect(frontUrls.searchWithText(val), '', {title: 'Koya'});
             return;
         }
-
-        router.redirect(frontUrls.search);
+      
+        router.redirect(frontUrls.search, '', {title: 'Koya'});
     }
 
     /***

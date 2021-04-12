@@ -237,7 +237,7 @@ export class BasePresenter {
      */
     __openCreateProduct() {
         if (this.__userModel.isAuth) {
-            router.redirect(frontUrls.productCreate);
+            router.redirect(frontUrls.productCreate, '', {title: document.title});
         } else {
             this.openAuth();
         }

@@ -165,7 +165,7 @@ export class SearchPresenter extends BasePresenter {
      */
     __openCard(id) {
         const numberId = parseInt(id, 10);
-        router.redirect(frontUrls.product(numberId));
+        router.redirect(frontUrls.product(numberId), '', {title: 'Поиск'});
     }
 
     /***
