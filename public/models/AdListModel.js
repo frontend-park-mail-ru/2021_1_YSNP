@@ -4,6 +4,8 @@ import {http} from '../modules/http.js';
 import {backUrls} from '../modules/backUrls.js';
 import {httpStatus} from '../modules/httpStatus.js';
 
+import {BadRequestError, OfflineError, InternalServerError} from '../modules/customError.js';
+
 /***
  * Favorite list model
  */
@@ -17,13 +19,18 @@ export class AdListModel extends ProductListModel {
         return http.get(backUrls.userAdList(this.__page, this.__pageCount))
             .then(({status, data}) => {
                 if (status === httpStatus.StatusBadRequest) {
-                    throw new Error('Неправильные данные');
-                    // throw new Error(data.message);
+                    throw new BadRequestError();
+                    // throw new BadRequestError(data.message);
+                }
+
+                if (status === httpStatus.StatusOffline) {
+                    throw new OfflineError();
+                    // throw new OfflineError(data.message);
                 }
 
                 if (status === httpStatus.StatusInternalServerError) {
-                    throw new Error('Ошибка сервера');
-                    // throw new Error(data.message);
+                    throw new InternalServerError();
+                    // throw new InternalServerError(data.message);
                 }
 
                 this.parseData(data);

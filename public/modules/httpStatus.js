@@ -12,6 +12,7 @@ class HttpStatus {
             Unauthorized: 401,
             Forbidden: 403,
             NotFound: 404,
+            Offline: 420,
             InternalServerError: 500
         };
     }
@@ -59,6 +60,15 @@ class HttpStatus {
      */
     get StatusNotFound() {
         return this.__statuses.NotFound;
+    }
+
+    /***
+     * Get status PageOffline
+     * @returns {number}
+     * @constructor
+     */
+    get StatusOffline() {
+        return this.__statuses.Offline;
     }
 
     /***
