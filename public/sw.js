@@ -33,16 +33,12 @@ const cacheUrls = [
 
     '/fonts/Roboto-Regular.woff2',
 
-    '/'
-    // '/product/',
-    // '/product/create',
-    // '/signup',
-    // '/search/',
-    // '/promotion',
-    // '/user/profile',
-    // '/user/ad',
-    // '/user/chats',
-    // '/user/favorite'
+    '/',
+    '/product/create',
+    '/signup',
+    '/user/profile',
+    '/user/ad',
+    '/user/favorite'
 ];
 
 const websiteUrls = [
