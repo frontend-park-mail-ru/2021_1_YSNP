@@ -33,10 +33,15 @@ export class UserProfilePresenter extends BasePresenter {
 
     /***
      * Update view data
-     * @returns {Promise<void>}
+     * @returns {Promise<{data: *, status: number}>}
      */
     async update() {
-        await super.update();
+        return super.update()
+            .catch((err) => {
+                //TODO(Sergey) нормальная обработка ошибок
+                console.log(err.message);
+                this.checkOfflineStatus(err);
+            });
     }
 
     /***

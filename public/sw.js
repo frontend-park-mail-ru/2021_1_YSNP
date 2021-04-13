@@ -6,8 +6,7 @@ const cacheUrls = [
     '/index.html',
     '/sw.js',
 
-
-    '/img/favicon.ico',
+    '/img/favicon.svg',
     '/img/profile.png',
     '/img/search-background.webp',
 
@@ -34,16 +33,16 @@ const cacheUrls = [
 
     '/fonts/Roboto-Regular.woff2',
 
-    '/',
-    '/product/',
-    '/product/create',
-    '/signup',
-    '/search/',
-    '/promotion',
-    '/user/profile',
-    '/user/ad',
-    '/user/chats',
-    '/user/favorite'
+    '/'
+    // '/product/',
+    // '/product/create',
+    // '/signup',
+    // '/search/',
+    // '/promotion',
+    // '/user/profile',
+    // '/user/ad',
+    // '/user/chats',
+    // '/user/favorite'
 ];
 
 const websiteUrls = [
@@ -72,9 +71,14 @@ class FakeResponse {
      * @returns {{headers: {"Content-Type": string}, status: number}}
      * @private
      */
-    __getInit() {
+    __getInit(request) {
+        let status = 420;
+        if (request.url.includes('/me')) {
+            status = 401;
+        }
+
         return {
-            status: 420,
+            status: status,
             headers: {
                 'Content-Type': 'application/json'
             }
@@ -98,8 +102,8 @@ class FakeResponse {
      * Get response
      * @returns {Response}
      */
-    get() {
-        return new Response(this.__getBody(), this.__getInit());
+    get(request) {
+        return new Response(this.__getBody(), this.__getInit(request));
     }
 }
 
@@ -128,7 +132,7 @@ class CacheControl {
     async getCache(request) {
         const cache = await this.__getCacheStorage();
         return cache.match(request.url)
-            .then((matching) => matching || fakeResponse.get());
+            .then((matching) => matching || fakeResponse.get(request));
     }
 
     /***
@@ -218,7 +222,7 @@ class PostRequestManager {
             return await fetch(request);
         }
 
-        return fakeResponse.get();
+        return fakeResponse.get(request);
     }
 }
 

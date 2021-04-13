@@ -44,6 +44,7 @@ export class SearchPresenter extends BasePresenter {
             .catch((err) => {
                 //TODO(Serge) нормальная обработка ошибок
                 console.log(err.message);
+                this.checkOfflineStatus(err);
             });
     }
 
