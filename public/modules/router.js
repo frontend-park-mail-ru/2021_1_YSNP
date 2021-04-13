@@ -310,7 +310,10 @@ class Router {
         });
     }
 
-
+    /***
+     * Get previous title
+     * @returns {string|*}
+     */
     getPreviousTitle() {
         if (this.getState() === undefined || this.getState() === null) {
             return 'Koya';

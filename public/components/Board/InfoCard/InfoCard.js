@@ -119,6 +119,11 @@ export class InfoCard {
         return stars;
     }
 
+    /***
+     * Get seller avatar
+     * @returns {string}
+     * @private
+     */
     get __getAvatar() {
         return this.__data.__ownerLinkImages;
     }

@@ -4,7 +4,6 @@ import {Navigation} from '../components/Navigation/Navigation';
 import {Switch} from '../components/Switch/Switch';
 import {SearchBar} from '../components/SearchBar/SearchBar.js';
 
-import {categories} from '../modules/fields.js';
 import {router} from '../modules/router';
 
 /***
@@ -98,7 +97,7 @@ export class SearchView extends BaseView {
      * @author Ivan Gorshkov
      *
      * rerender only product list with context
-     * @param ctx
+     * @param {Object} ctx - product list context
      * @this {SearchView}
      */
     rerenderProductList(ctx) {
@@ -106,6 +105,9 @@ export class SearchView extends BaseView {
         this.__searchBar.rerenderProductList(this.__context);
     }
 
+    /***
+     * Delete product list
+     */
     deleteProductList() {
         this.__searchBar.deleteProductList();
     }

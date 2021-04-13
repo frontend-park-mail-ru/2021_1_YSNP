@@ -50,8 +50,11 @@ export class ProductModel {
      * @returns {string}
      */
     __getFirstImage() {
-        const start = 0;
-        return this.__linkImages;
+        if (this.__linkImages) {
+            return this.__linkImages[0];
+        }
+
+        return '';
     }
 
     /***
