@@ -38,7 +38,7 @@ export class AdPromotion {
      * Set base tariff style
      */
     setBase() {
-        const {base, baseBlock} = this.__getTariffDOM();
+        const { base, baseBlock } = this.__getTariffDOM();
         this.__setChecked(baseBlock, base);
     }
 
@@ -46,7 +46,7 @@ export class AdPromotion {
      * Set improved tariff style
      */
     setImproved() {
-        const {improved, improvedBlock} = this.__getTariffDOM();
+        const { improved, improvedBlock } = this.__getTariffDOM();
         this.__setChecked(improvedBlock, improved);
     }
 
@@ -54,7 +54,7 @@ export class AdPromotion {
      * Set advanced tariff style
      */
     setAdvanced() {
-        const {advanced, advancedBlock} = this.__getTariffDOM();
+        const { advanced, advancedBlock } = this.__getTariffDOM();
         this.__setChecked(advancedBlock, advanced);
     }
 
@@ -63,7 +63,7 @@ export class AdPromotion {
      */
     setNothing() {
         this.__resetChecked();
-        const {noTariff} = this.__getTariffDOM();
+        const { noTariff } = this.__getTariffDOM();
         noTariff.setAttribute('checked', 'true');
     }
 
@@ -72,32 +72,32 @@ export class AdPromotion {
      * @returns {{status: string}}
      */
     getSelected() {
-        const {base, improved, advanced, noTariff} = this.__getTariffDOM();
+        const { base, improved, advanced, noTariff } = this.__getTariffDOM();
         const baseCheck = base.textContent;
         const improvedCheck = improved.textContent;
         const advancedCheck = advanced.textContent;
         const noTariffCheck = noTariff.hasAttribute('checked');
 
         if (baseCheck === 'Выбрано') {
-            const {basePrice} = this.__getTariffDOM();
+            const { basePrice } = this.__getTariffDOM();
             this.__sendForm('Базовый', parseInt(basePrice.value));
-            return {status: 'send'};
+            return { status: 'send' };
         }
         if (improvedCheck === 'Выбрано') {
-            const {improvedPrice} = this.__getTariffDOM();
+            const { improvedPrice } = this.__getTariffDOM();
             this.__sendForm('Улучшенный', parseInt(improvedPrice.value));
-            return {status: 'send'};
+            return { status: 'send' };
         }
         if (advancedCheck === 'Выбрано') {
-            const {advancedPrice} = this.__getTariffDOM();
+            const { advancedPrice } = this.__getTariffDOM();
             this.__sendForm('Продвинутый', parseInt(advancedPrice.value));
-            return {status: 'send'};
+            return { status: 'send' };
         }
         if (noTariffCheck) {
-            return {status: 'nothing'};
+            return { status: 'nothing' };
         }
         this.__showError('promotion-error', 'Выберите какой-нибудь тариф');
-        return {status: 'error'};
+        return { status: 'error' };
     }
 
     /***
@@ -138,7 +138,7 @@ export class AdPromotion {
      * @private
      */
     __resetChecked() {
-        const {base, improved, advanced, noTariff, baseBlock, improvedBlock, advancedBlock} = this.__getTariffDOM();
+        const { base, improved, advanced, noTariff, baseBlock, improvedBlock, advancedBlock } = this.__getTariffDOM();
         base.classList.remove('tariffs-block__button_checked');
         improved.classList.remove('tariffs-block__button_checked');
         advanced.classList.remove('tariffs-block__button_checked');
@@ -209,7 +209,7 @@ export class AdPromotion {
             name: 'Базовый',
             price: '2',
             description: [
-                'Объявление показывается в ленте в 10 раз чаще'
+                'Объявление выделяется красной рамочкой'
             ],
             idBlock: 'block-base-tariff',
             idButton: 'base-tariff',
@@ -220,8 +220,8 @@ export class AdPromotion {
             name: 'Улучшенный',
             price: '5',
             description: [
-                'Объявление показывается в ленте в 10 раз чаще',
-                'Объявление выделяется красным цветом'
+                'Объявление выделяется красной рамочкой',
+                'Цена подсвечивается красным цветом'
             ],
             idBlock: 'block-improved-tariff',
             idButton: 'improved-tariff',
@@ -232,9 +232,9 @@ export class AdPromotion {
             name: 'Продвинутый',
             price: '7',
             description: [
-                'Объявление показывается в ленте в 10 раз чаще',
-                'Объявление выделяется красным цветом',
-                'Публикация в приложении “Вконтакте”'
+                'Объявление выделяется красной рамочкой',
+                'Цена подсвечивается красным цветом',
+                'Объявление помечается уникальным значком VIP'
             ],
             idBlock: 'block-advanced-tariff',
             idButton: 'advanced-tariff',
