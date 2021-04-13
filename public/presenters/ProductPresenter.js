@@ -199,10 +199,9 @@ export class ProductPresenter extends BasePresenter {
         }
 
         if (!this.__numberIsShowed) {
-          this.__user.getUser(this.__model.getData().ownerId)
-                .then(({data}) => {
-                    // TODO(Ivan) release __listenerShowNumber
-                    this.__view.showNumber(data.telephone);
+            this.__user.getUser(this.__model.getData().ownerId)
+                .then(() => {
+                    this.__view.showNumber(this.__user.getData().telephone);
                     this.__numberIsShowed = true;
                 })
                 .catch((err) => {
@@ -210,7 +209,7 @@ export class ProductPresenter extends BasePresenter {
                     console.log(err.message);
                     this.__view.showNumber(err.message);
                     this.__numberIsShowed = false;
-            
+
                     this.checkOfflineStatus(err);
                     this.checkOffline();
                 });
