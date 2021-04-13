@@ -29,6 +29,10 @@ export class NotFoundPresenter extends BasePresenter {
      */
     async control() {
         await this.update();
+        if (this.checkOffline()) {
+            return;
+        }
+
         this.__view.render(this.__makeContext());
     }
 
