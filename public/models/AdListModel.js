@@ -11,6 +11,19 @@ import {BadRequestError, OfflineError, InternalServerError} from '../modules/cus
  */
 export class AdListModel extends ProductListModel {
     /***
+     * Get Array data from class
+     * @param {ProductModel[]} list - product model list
+     * @returns {Object[]}
+     * @private
+     */
+    __getArrayData(list) {
+        return list.reduce((data, el) => {
+            data.push(el.getAdData());
+            return data;
+        }, []);
+    }
+
+    /***
      * Get data from backend with pagination
      * @returns {Promise<{data: *, status: number}>}
      * @private

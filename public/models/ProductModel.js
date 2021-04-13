@@ -300,6 +300,23 @@ export class ProductModel {
     }
 
     /***
+     * Get ad user data
+     * @returns {{date: string, amount: string, linkImage: string, name, tariff, id: (*), userLiked: (boolean|*), status: string}}
+     */
+    getAdData() {
+        return {
+            id: this.__id,
+            name: this.__name,
+            date: this.__getDate(),
+            amount: this.__getAmount(),
+            userLiked: this.__userLiked,
+            linkImage: this.__getFirstImage(),
+            tariff: this.__tariff,
+            status: 'открыто'
+        };
+    }
+
+    /***
      * Get locale date
      * @returns {string}
      * @private
