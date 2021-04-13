@@ -29,5 +29,6 @@ export class NotFoundView extends BaseView {
 
         const pageNotFound = new PageNotFound(parent);
         pageNotFound.render(context.pageNotFound);
+        super.renderFooter();
     }
 }

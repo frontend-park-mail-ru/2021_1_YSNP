@@ -60,7 +60,7 @@ export function parseTelNumber(tel) {
  * @return {string}
  */
 export function amountMask(value) {
-    const maxDigit = 15;
+    const maxDigit = 13;
     const firstIndex = 0;
     const lastIndex = -1;
     const groupNumber = 3;
@@ -79,4 +79,13 @@ export function amountMask(value) {
     }, '');
 
     return newStr.split('').reverse().join('');
+}
+
+/***
+ * Parse telephone number (delete mask symbols)
+ * @param {string} value - value
+ * @returns {number}
+ */
+export function parseAmount(value) {
+    return parseInt(value.replace(/[^0-9]/g, '', 0));
 }

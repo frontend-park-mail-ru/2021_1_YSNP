@@ -92,5 +92,7 @@ export class PromotionView extends BaseView {
 
         this.__promotion = new AdPromotion(parent);
         this.__promotion.render(this.__context.promotion);
+
+        super.renderFooter();
     }
 }

@@ -29,20 +29,23 @@
   }
 
   &-title {
-    width: 49vw;
     font-size: 5vh;
     color: #FFFFFF;
     padding-top: 2vw;
+    width: 60vw;
+    text-align: center;
   }
 
+
   &-line {
-    width: 49vw;
+    width: 60vw;
     height: 5vh;
     margin-top: 3vh;
     margin-bottom: 3vh;
     display: flex;
     flex-direction: row;
     align-items: center;
+    justify-content: center;
 
     &__input {
       width: 40vw;
@@ -54,18 +57,19 @@
     }
 
     &__button {
-      @include red-button(9vh, 4.1vh);
+      @include red-button(9vh, 4vh);
       margin: 0;
+      padding: 0;
       border-radius: 0;
     }
   }
 
   &-categories {
-    width: 80%;
+    width: 60%;
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
-    justify-content: center;
+    justify-content: space-evenly;
   }
 
   &-category {
@@ -82,7 +86,6 @@
       font-weight: 600;
       text-align: center;
       margin-bottom: 2vw;
-
 
       &:hover {
         color: #eeeeee;

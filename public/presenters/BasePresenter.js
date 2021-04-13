@@ -7,6 +7,8 @@ import {user} from '../models/ProfileUserModel.js';
 import {AuthUserModel} from '../models/AuthUserModel.js';
 import {YandexMap} from '../modules/yandexMap';
 
+import {OfflineError} from '../modules/customError';
+
 /***
  * Base presenter
  */
@@ -34,9 +36,11 @@ export class BasePresenter {
                 this.__view.baseContext = this.__makeBaseContext();
             })
             .catch((err) => {
-                //TODO(Sergey) нормальная обработка ошибок
                 this.__view.baseContext = this.__makeBaseContext();
+
+                //TODO(Sergey) нормальная обработка ошибок
                 console.log(err.message);
+                this.checkOfflineStatus(err);
             });
     }
 
@@ -46,6 +50,32 @@ export class BasePresenter {
      */
     async control() {
         throw new Error('virtual method not initialized!');
+    }
+
+    /***
+     * Check user offline
+     * @returns {boolean}
+     */
+    checkOffline() {
+        if (this.__offline) {
+            this.__view.renderOffline();
+            return true;
+        }
+
+        return false;
+    }
+
+    /***
+     * Check user offline status
+     * @param err
+     */
+    checkOfflineStatus(err) {
+        if (err instanceof OfflineError) {
+            this.__offline = true;
+            return;
+        }
+
+        this.__offline = false;
     }
 
     /***
@@ -237,7 +267,7 @@ export class BasePresenter {
      */
     __openCreateProduct() {
         if (this.__userModel.isAuth) {
-            router.redirect(frontUrls.productCreate);
+            router.redirect(frontUrls.productCreate, '', {title: document.title});
         } else {
             this.openAuth();
         }
@@ -250,6 +280,7 @@ export class BasePresenter {
     __openMap() {
         this.closeAllComponents();
         this.__isShownMap = true;
+        this.__view.updateMapContext(this.__getUserPosition());
         this.__view.renderMap();
         this.__yaMap.render({
             searchControl: true,
@@ -455,8 +486,6 @@ export class BasePresenter {
             },
             map: {
                 data: {
-                    latitude: this.__userModel.getData().latitude,
-                    longitude: this.__userModel.getData().longitude,
                     radius: this.__userModel.getData().radius
                 },
                 listeners: this.__createBaseListeners().map

@@ -1,88 +1,233 @@
 const cacheName = 'ysnpkoya-cache-v1';
 
 const cacheUrls = [
-    ''
+    '/bundle.js',
+    '/bundle.css',
+    '/index.html',
+    '/sw.js',
+
+    '/img/favicon.svg',
+    '/img/profile.png',
+    '/img/search-background.webp',
+
+    '/img/svg/cancel.svg',
+    '/img/svg/checked.scg',
+    '/img/svg/email.svg',
+    '/img/svg/eye.svg',
+    '/img/svg/gear.svg',
+    '/img/svg/heart_regular.svg',
+    '/img/svg/koya.svg',
+    '/img/svg/like_light.svg',
+    '/img/svg/like_solid.svg',
+    '/img/svg/list.svg',
+    '/img/svg/loupe.svg',
+    '/img/svg/open-door.svg',
+    '/img/svg/page-down.svg',
+    '/img/svg/page-up.svg',
+    '/img/svg/photo.svg',
+    '/img/svg/placeholder.svg',
+    '/img/svg/search.svg',
+    '/img/svg/select.svg',
+    '/img/svg/user.svg',
+    '/img/svg/visibility.svg',
+
+    '/fonts/Roboto-Regular.woff2',
+
+    '/',
+    '/product/create',
+    '/signup',
+    '/user/profile',
+    '/user/ad',
+    '/user/favorite'
 ];
 
-const FALLBACK =
-    '<head>' +
-    '<meta charset="utf-8">' +
-    '<meta name="viewport" content="width=device-width">' +
-    '<title>Koya</title>' +
-    '<style type="text/css">' +
-    '    body {' +
-    '        margin: 0;' +
-    '        padding: 0;' +
-    '    }' +
-    '' +
-    '    .offline-page {' +
-    '        bottom: 0;' +
-    '        top: 0;' +
-    '        margin: 0;' +
-    '        padding: 0;' +
-    '        left: 0;' +
-    '        right: 0;' +
-    '        width: 100%;' +
-    '        height: 100vh;' +
-    '        background-color: rgb(245, 245, 245);' +
-    '    }' +
-    '    ' +
-    '    .logo-wrapper {' +
-    '        display: flex;' +
-    '        flex-direction: column;' +
-    '       justify-content: space-evenly;' +
-    '       justify-items: center;' +
-    '       align-items: center;' +
-    '       align-content: center;' +
-    '       width: 100%;' +
-    '       height: 100%;' +
-    '   }' +
-    '' +
-    '    .offline-logo-img {' +
-    '        animation: flowing 2s ease-in-out infinite;' +
-    '        transform: translateY(0vw);' +
-    '    }' +
-    '' +
-    '.offline-message {' +
-    'font-family: Roboto, sans-serif;' +
-    'font-size: 2vw;' +
-    'color: black;' +
-    '}' +
-    '' +
-    '@keyframes flowing {' +
-    '50% {' +
-    'transform: translateX(-100%);' +
-    '}' +
-    '100% {' +
-    'transform: translateX(100%);' +
-    '}' +
-    '}' +
-    '</style>' +
-    '</head>' +
-    '<body>' +
-    '<div class="offline-page">' +
-    '<div class="logo-wrapper">' +
-    '<svg class="offline-logo-img" width="60" height="60" viewBox="0 0 60 60" fill="none" xmlns="http://www.w3.org/2000/svg">' +
-    '<g clip-path="url(#clip0)">' +
-    '<rect width="60" height="60" rx="15" fill="#E3E3E3"/>' +
-    '<circle cx="45.5" cy="42.5" r="3.5" fill="#D31E1E"/>' +
-    '<path opacity="0.5" d="M18.125 46V9.57812H21.7812V33.4375L32.75 20.7812H37.5312L28.5312 30.8594L38.5625 46H34.1562L26.1875 33.3906L21.7812 38.3125V46H18.125Z" fill="black"/>' +
-    '</g>' +
-    '<defs>' +
-    '<clipPath id="clip0">' +
-    '<rect width="60" height="60" fill="white"/>' +
-    '</clipPath>' +
-    '</defs>' +
-    '</svg>' +
-    '<span class="offline-message">You are offline</span>' +
-    '</div>' +
-    '</div>' +
-    '</body>';
+const websiteUrls = [
+    'http://localhost:3000',
+    'http://localhost:8080',
+    'http://ykoya.ru',
+    'https://ykoya.ru'
+];
+
+/***
+ * Check is url to cache
+ * @param {string} url - get url
+ * @returns {boolean}
+ */
+function isCacheUrl(url) {
+    const cache = websiteUrls.find((val) => url.includes(val));
+    return !!cache;
+}
+
+/***
+ * Fake response
+ */
+class FakeResponse {
+    /***
+     * Get init
+     * @returns {{headers: {"Content-Type": string}, status: number}}
+     * @private
+     */
+    __getInit(request) {
+        let status = 420;
+        if (request.url.includes('/me')) {
+            status = 401;
+        }
+
+        return {
+            status: status,
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        };
+    }
+
+    /***
+     * Get body
+     * @returns {Blob}
+     * @private
+     */
+    __getBody() {
+        const body = {
+            message: 'no internet'
+        };
+
+        return new Blob([JSON.stringify(body)]);
+    }
+
+    /***
+     * Get response
+     * @returns {Response}
+     */
+    get(request) {
+        return new Response(this.__getBody(), this.__getInit(request));
+    }
+}
+
+const fakeResponse = new FakeResponse();
+
+/***
+ * Cache control
+ */
+class CacheControl {
+    /***
+     * Put cache when install sw
+     * @returns {Promise<Cache>}
+     */
+    installPutCache() {
+        return this.__getCacheStorage()
+            .then((cache) => {
+                cache.addAll(cacheUrls).then(() => self.skipWaiting());
+            });
+    }
+
+    /***
+     * Get response from cache
+     * @param request
+     * @returns {Promise<Response | undefined>}
+     */
+    async getCache(request) {
+        const cache = await this.__getCacheStorage();
+        return cache.match(request.url)
+            .then((matching) => matching || fakeResponse.get(request));
+    }
+
+    /***
+     * Put response to cache
+     * @param {Request} request
+     * @param {Response} response
+     * @returns {Promise<Response | undefined>}
+     */
+    async putCache(request, response) {
+        const cache = await this.__getCacheStorage();
+        return cache.match(request.url)
+            .then((matching) => {
+                if (!matching) {
+                    cache.put(request, response.clone());
+                }
+            });
+    }
+
+    /***
+     * Get cache storage
+     * @returns {Promise<Cache>}
+     * @private
+     */
+    async __getCacheStorage() {
+        return caches.open(cacheName);
+    }
+}
+
+const cacheControl = new CacheControl();
+
+/***
+ * Get request manager
+ */
+class GetRequestManager {
+    /***
+     * Work with request when offline
+     * @param {Request} request
+     * @returns {Promise<Response|undefined>}
+     * @private
+     */
+    async __offlineRequest(request) {
+        return await cacheControl.getCache(request);
+    }
+
+    /***
+     * Work with request when online
+     * @param request
+     * @returns {Promise<Response<any, Record<string, any>, number>>}
+     * @private
+     */
+    async __onlineRequest(request) {
+        const response = await fetch(request);
+        if (response && response.ok) {
+            if (isCacheUrl(request.url)) {
+                await cacheControl.putCache(request, response);
+            }
+        }
+
+        return response;
+    }
+
+    /***
+     * Fetch data
+     * @param {Request} request
+     * @returns {Promise<Response<*, Record<string, *>, number>|Response|undefined>}
+     */
+    async fetch(request) {
+        if (navigator.onLine) {
+            return await this.__onlineRequest(request);
+        }
+
+        return await this.__offlineRequest(request);
+    }
+}
+
+/***
+ * Post request manager
+ */
+class PostRequestManager {
+    /***
+     * Fetch data
+     * @param request
+     * @returns {Promise<Response<any, Record<string, any>, number>>}
+     */
+    async fetch(request) {
+        if (navigator.onLine) {
+            return await fetch(request);
+        }
+
+        return fakeResponse.get(request);
+    }
+}
+
+const getRequest = new GetRequestManager();
+const postRequest = new PostRequestManager();
 
 self.addEventListener('install', (event) => {
-    event.waitUntil(caches.open(cacheName).then((cache) => {
-            cache.addAll(cacheUrls).then(() => self.skipWaiting());
-        }));
+    event.waitUntil(cacheControl.installPutCache());
+
 });
 
 self.addEventListener('activate', (event) => {
@@ -90,29 +235,9 @@ self.addEventListener('activate', (event) => {
 });
 
 self.addEventListener('fetch', (event) => {
-    event.respondWith(
-        (async() => {
-            if (navigator.onLine) {
-                const response = await fetch(event.request);
-                if (response && response.ok) {
-                    const cache = await caches.open(cacheName);
-                    await cache.put(event.request, response.clone());
-                }
-
-                return response;
-            } 
-                const cache = await caches.open(cacheName);
-                const match = await cache.match(event.request)
-                    .then(
-                        (matching) => matching || new Response(FALLBACK, {
-                            headers: {
-                                'Content-Type': 'text/html; charset=utf-8'
-                            }
-                        })
-                    );
-
-                return match;
-            
-        })()
-    );
+    if (event.request.method === 'GET') {
+        event.respondWith(getRequest.fetch(event.request));
+    } else {
+        event.respondWith(postRequest.fetch(event.request));
+    }
 });

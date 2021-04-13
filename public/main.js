@@ -31,15 +31,16 @@ import {baseCreateProduct, baseRegistration} from './modules/fields.js';
 
 /***
  * Register service worker
+ *  */
  if ('serviceWorker' in navigator) {
     navigator.serviceWorker.register('./sw.js', {scope: '/'})
-        .then((registration) => {
-            console.log('Service Worker registered.')
+        .then(() => {
+            console.log('Service Worker registered.');
         }).catch((error) => {
-            console.log('Error while register service worker:' + error)
+            console.log(`Error while register service worker:${error}`);
         });
 }
- */
+
 
 const app = document.getElementById('app');
 
@@ -86,10 +87,10 @@ const doProductCreate = () => {
 
 /***
  * Open product page
- * @param {number} id - page params
+ * @param {Object} val - page params
  */
-const doProduct = (id) => {
-    const productPresenter = new ProductPresenter(productView, id.parameters.id);
+const doProduct = (val) => {
+    const productPresenter = new ProductPresenter(productView, val.parameters.id);
     productPresenter.control();
 
     return productPresenter.removePageListeners.bind(productPresenter);
@@ -138,8 +139,8 @@ const doFavorite = () => {
 /***
  * Open search page with text
  */
-const doSearchWithText = (text = '') => {
-    const searchPresenter = new SearchPresenter(searchView, decodeURI(text.parameters.text));
+const doSearchWithText = (val) => {
+    const searchPresenter = new SearchPresenter(searchView, val.parameters.text);
     searchPresenter.control();
 
     return searchPresenter.removePageListeners.bind(searchPresenter);

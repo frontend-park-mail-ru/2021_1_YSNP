@@ -83,7 +83,17 @@ export class UserFavoriteView extends BaseView {
         const adSwitch = new Switch(right);
         adSwitch.render(this.__context.switch);
 
-        this.__favoriteList = new ProductTable(right);
-        this.__favoriteList.render(this.__context.favoriteList);
+        if (this.__context.favoriteList.data.length !== 0) {
+            this.__favoriteList = new ProductTable(right);
+            this.__favoriteList.render(this.__context.favoriteList);
+        } else {
+            (new Switch(right)).render({
+                data: {
+                    text: 'В избранном пусто'
+                }
+            });
+        }
+
+        super.renderFooter();
     }
 }

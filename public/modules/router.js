@@ -109,6 +109,17 @@ class Router {
         return this.start();
     }
 
+
+    /***
+     * Push state without redirect
+     * @param {string} url - redirect url
+     * @param {string} title - redirect title
+     * @param {Object} state - redirect state
+     */
+    pushState(url, title = '', state = {}) {
+        window.history.pushState(state, title, url);
+    }
+
     /***
      * Redirect current page
      */
@@ -271,13 +282,13 @@ class Router {
         if (ev.target instanceof HTMLAnchorElement && ev.target.pathname !== '') {
             ev.preventDefault();
 
-            this.redirect(ev.target.pathname);
+            this.redirect(ev.target.pathname, '', {title: document.title});
         }
 
         if (ev.target.parentElement instanceof HTMLAnchorElement && ev.target.pathname !== '') {
             ev.preventDefault();
 
-            this.redirect(ev.target.parentElement.pathname);
+            this.redirect(ev.target.parentElement.pathname, '', {title: document.title});
         }
     }
 
@@ -297,6 +308,18 @@ class Router {
         window.addEventListener('popstate', () => {
             this.start();
         });
+    }
+
+    /***
+     * Get previous title
+     * @returns {string|*}
+     */
+    getPreviousTitle() {
+        if (this.getState() === undefined || this.getState() === null) {
+            return 'Koya';
+        }
+
+        return this.getState().title;
     }
 }
 

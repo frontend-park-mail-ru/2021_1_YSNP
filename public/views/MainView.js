@@ -102,6 +102,6 @@ export class MainView extends BaseView {
         this.__mainList = new ProductTable(parent);
         this.__mainList.render(this.__context.mainList);
 
-
+        super.renderFooter();
     }
 }

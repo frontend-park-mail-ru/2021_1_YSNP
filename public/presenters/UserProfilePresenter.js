@@ -33,10 +33,15 @@ export class UserProfilePresenter extends BasePresenter {
 
     /***
      * Update view data
-     * @returns {Promise<void>}
+     * @returns {Promise<{data: *, status: number}>}
      */
     async update() {
-        await super.update();
+        return super.update()
+            .catch((err) => {
+                //TODO(Sergey) нормальная обработка ошибок
+                console.log(err.message);
+                this.checkOfflineStatus(err);
+            });
     }
 
     /***
@@ -45,6 +50,9 @@ export class UserProfilePresenter extends BasePresenter {
      */
     async control() {
         await this.update();
+        if (this.checkOffline()) {
+            return;
+        }
 
         checkIsAuth();
 
@@ -203,8 +211,11 @@ export class UserProfilePresenter extends BasePresenter {
                         showSuccessMessage(errorPasswordID, 'Пароль успешно изменен');
                     }
                 })
-                .catch((error) => {
-                    showBackendError(errorPasswordID, error.message);
+                .catch((err) => {
+                    showBackendError(errorPasswordID, err.message);
+
+                    this.checkOfflineStatus(err);
+                    this.checkOffline();
                 });
         } else {
             showBackendError(errorPasswordID, 'Проверьте, что все поля заполнены');
@@ -334,6 +345,9 @@ export class UserProfilePresenter extends BasePresenter {
                 })
                 .catch((error) => {
                     showBackendError(errorSettingsID, error.message);
+
+                    this.checkOfflineStatus(err);
+                    this.checkOffline();
                 });
         } else {
             showBackendError(errorSettingsID, 'Проверьте правильность введенных данных');

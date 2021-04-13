@@ -2,6 +2,7 @@ import {BaseView} from './BaseView.js';
 import {Navigation} from '../components/Navigation/Navigation.js';
 import {Layout} from '../components/Layout/Layout.js';
 import {ProductCreateForm} from '../components/ProductCreateForm/ProductCreateForm.js';
+import {router} from '../modules/router';
 
 /***
  * class ProductCreateView extends BaseView
@@ -193,6 +194,15 @@ export class ProductCreateView extends BaseView {
         this.__productCreate.changeDisableButton(title);
     }
 
+
+    /***
+     * make enable btn
+     * @param{string} title
+     */
+    changeEnableButton(title = 'Загрузка...') {
+        this.__productCreate.changeEnableButton(title);
+    }
+
     /***
      * Set view title
      * @private
@@ -238,9 +248,11 @@ export class ProductCreateView extends BaseView {
         this.layout.render();
         this.__makeContext(context);
 
-        this.__navSubView = new Navigation(this.getLayoutParent(), 'Главная страница', {route: ['Создание товара']});
+        this.__navSubView = new Navigation(this.getLayoutParent(), router.getPreviousTitle(), {route: ['Создание товара']});
         this.__navSubView.render(this.__context);
         this.__productCreate = new ProductCreateForm(this.getLayoutParent());
         this.__productCreate.render(this.__context);
+
+        super.renderFooter();
     }
 }

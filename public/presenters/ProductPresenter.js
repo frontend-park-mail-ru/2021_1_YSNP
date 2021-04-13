@@ -37,6 +37,7 @@ export class ProductPresenter extends BasePresenter {
             .catch((err) => {
                 //TODO(Sergey) нормальная обработка ошибок
                 console.log(err.message);
+                this.checkOfflineStatus(err);
             });
     }
 
@@ -49,6 +50,10 @@ export class ProductPresenter extends BasePresenter {
      */
     async control() {
         await this.update();
+        if (this.checkOffline()) {
+            return;
+        }
+
         this.__view.render(this.__makeContext());
     }
 
@@ -192,6 +197,7 @@ export class ProductPresenter extends BasePresenter {
             super.openAuth();
             return;
         }
+
         if (!this.__numberIsShowed) {
           this.__user.getUser(this.__model.getData().ownerId)
                 .then(({data}) => {
@@ -204,6 +210,9 @@ export class ProductPresenter extends BasePresenter {
                     console.log(err.message);
                     this.__view.showNumber(err.message);
                     this.__numberIsShowed = false;
+            
+                    this.checkOfflineStatus(err);
+                    this.checkOffline();
                 });
         } else {
             this.__view.showNumber('Показать номер');

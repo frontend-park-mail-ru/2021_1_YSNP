@@ -1,6 +1,8 @@
 import {Header} from '../components/Header/Header.js';
 import {Auth} from '../components/Auth/Auth.js';
 import {Map} from '../components/Map/Map.js';
+import {Footer} from '../components/Footer/Footer';
+import {PageOffline} from '../components/PageOffline/PageOffline';
 
 /***
  * Application base view
@@ -78,6 +80,14 @@ export class BaseView {
     }
 
     /***
+     * Update map context
+     * @param {Object} context - map context
+     */
+    updateMapContext(context) {
+        this.__baseContext.map.data.radius = context.radius;
+    }
+
+    /***
      * Remove map component
      */
     removeMap() {
@@ -102,7 +112,9 @@ export class BaseView {
      * Remove header listeners
      */
     removeHeaderListeners() {
-        this.__header.removeListeners();
+        if (this.__header) {
+            this.__header.removeListeners();
+        }
     }
 
     /***
@@ -114,6 +126,16 @@ export class BaseView {
     }
 
     /***
+     * Render offline
+     */
+    renderOffline() {
+        this.__app.innerHTML = '';
+
+        const offline = new PageOffline(this.__app);
+        offline.render();
+    }
+
+    /***
      * Render view
      */
     render() {
@@ -121,5 +143,13 @@ export class BaseView {
 
         this.__header = new Header(this.__app);
         this.__header.render(this.__baseContext.header);
+    }
+
+    /***
+     * Render footer
+     */
+    renderFooter() {
+        this.__footer = new Footer(this.__app);
+        this.__footer.render(this.__baseContext.header);
     }
 }

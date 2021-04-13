@@ -20,6 +20,7 @@
   &-profile {
     display: flex;
     margin: 0 0 0 1vw;
+    align-items: center;
   }
 
   &__image {
@@ -28,23 +29,24 @@
   }
 
   &-container {
-    display: block;
+    display: flex;
+    flex-direction: column;
+    margin-left: 0.5vw;
   }
 
   &__name {
-    font-size: 1.5vw;
+    font-size: 1.7vw;
     line-height: 2vh;
-    margin: 0 0 0 1vh;
+    margin: 0 0 0.6vh 0;
   }
 
   &-rating {
     line-height: 1.5vw;
-    margin: 1vw 0 0 1vw;
     display: flex;
     align-items: center;
 
     &__text {
-      font-size: 1.5vw;
+      font-size: 1.3vw;
       margin-right: 1vw;
     }
   }

@@ -1,7 +1,17 @@
 import {http} from '../modules/http.js';
 import {backUrls} from '../modules/backUrls.js';
 import {httpStatus} from '../modules/httpStatus.js';
-import {YandexMap} from '../modules/yandexMap';
+
+import {YandexMap} from '../modules/yandexMap.js';
+
+import {
+    UnauthorizedError,
+    ForbiddenError,
+    BadRequestError,
+    NotFoundError,
+    OfflineError,
+    InternalServerError
+} from '../modules/customError.js';
 
 /***
  * Product model
@@ -50,8 +60,11 @@ export class ProductModel {
      * @returns {string}
      */
     __getFirstImage() {
-        const start = 0;
-        return this.__linkImages;
+        if (this.__linkImages) {
+            return this.__linkImages[0];
+        }
+
+        return '';
     }
 
     /***
@@ -215,7 +228,7 @@ export class ProductModel {
         this.__latitude = data.latitude;
         this.__views = data.views;
         this.__likes = data.likes;
-        // this.__userLiked = data.userLiked;
+        this.__userLiked = data.userLiked;
         this.__tariff = data.tariff;
         this.__ownerId = data.ownerId;
         this.__ownerName = data.ownerName;
@@ -260,7 +273,7 @@ export class ProductModel {
             latitude: this.__latitude,
             views: this.__views,
             likes: this.__likes,
-            // userLiked: this.__userLiked,
+            userLiked: this.__userLiked,
             tariff: this.__tariff,
             ownerId: this.__ownerId,
             ownerName: this.__ownerName,
@@ -318,18 +331,23 @@ export class ProductModel {
         return http.get(backUrls.product(this.__id))
             .then(({status, data}) => {
                 if (status === httpStatus.StatusBadRequest) {
-                    throw new Error('Неправильные данные');
-                    // throw new Error(data.message);
+                    throw new BadRequestError();
+                    // throw new BadRequestError(data.message);
                 }
 
                 if (status === httpStatus.StatusNotFound) {
-                    throw new Error('Нет такого товара');
-                    // throw new Error(data.message);
+                    throw new NotFoundError(NotFoundError.defaultProductMessage);
+                    // throw new NotFoundError(data.message);
+                }
+
+                if (status === httpStatus.StatusOffline) {
+                    throw new OfflineError();
+                    // throw new OfflineError(data.message);
                 }
 
                 if (status === httpStatus.StatusInternalServerError) {
-                    throw new Error('Ошибка сервера');
-                    // throw new Error(data.message);
+                    throw new InternalServerError();
+                    // throw new InternalServerError(data.message);
                 }
 
                 this.fillProductModel(data);
@@ -343,47 +361,57 @@ export class ProductModel {
     async create(form) {
         return http.post(backUrls.productCreate, this.__jsonData())
             .then(({status, data}) => {
+                if (status === httpStatus.StatusBadRequest) {
+                    throw new BadRequestError();
+                    // throw new BadRequestError(data.message);
+                }
+
                 if (status === httpStatus.StatusUnauthorized) {
-                    throw new Error('Пользователь не авторизован');
-                    // throw new Error(data.message);
+                    throw new UnauthorizedError();
+                    // throw new UnauthorizedError(data.message);
                 }
 
                 if (status === httpStatus.StatusForbidden) {
-                    throw new Error('Доступ запрещен');
-                    // throw new Error(data.message);
+                    throw new ForbiddenError();
+                    // throw new ForbiddenError(data.message);
                 }
 
-                if (status === httpStatus.StatusBadRequest) {
-                    throw new Error('Неправильные данные');
-                    // throw new Error(data.message);
+                if (status === httpStatus.StatusOffline) {
+                    throw new OfflineError();
+                    // throw new OfflineError(data.message);
                 }
 
                 if (status === httpStatus.StatusInternalServerError) {
-                    throw new Error('Ошибка сервера');
-                    // throw new Error(data.message);
+                    throw new InternalServerError();
+                    // throw new InternalServerError(data.message);
                 }
 
                 this.__id = data.id;
                 return http.post(backUrls.productUploadPhotos(this.__id), new FormData(form), true)
                     .then(({status}) => {
+                        if (status === httpStatus.StatusBadRequest) {
+                            throw new BadRequestError();
+                            // throw new BadRequestError(data.message);
+                        }
+
                         if (status === httpStatus.StatusUnauthorized) {
-                            throw new Error('Пользователь не авторизован');
-                            // throw new Error(data.message);
+                            throw new UnauthorizedError();
+                            // throw new UnauthorizedError(data.message);
                         }
 
                         if (status === httpStatus.StatusForbidden) {
-                            throw new Error('Доступ запрещен');
-                            // throw new Error(data.message);
+                            throw new ForbiddenError();
+                            // throw new ForbiddenError(data.message);
                         }
 
-                        if (status === httpStatus.StatusBadRequest) {
-                            throw new Error('Неправильные данные');
-                            // throw new Error(data.message);
+                        if (status === httpStatus.StatusOffline) {
+                            throw new OfflineError();
+                            // throw new OfflineError(data.message);
                         }
 
                         if (status === httpStatus.StatusInternalServerError) {
-                            throw new Error('Ошибка сервера');
-                            // throw new Error(data.message);
+                            throw new InternalServerError();
+                            // throw new InternalServerError(data.message);
                         }
 
                         return {id: this.__id};

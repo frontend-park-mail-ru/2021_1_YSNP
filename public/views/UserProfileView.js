@@ -164,5 +164,7 @@ export class UserProfileView extends BaseView {
 
         this.__settings = new Settings(rightParent);
         this.__settings.render(this.__context.profileSettings);
+
+        super.renderFooter();
     }
 }

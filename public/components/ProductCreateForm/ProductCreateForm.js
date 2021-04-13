@@ -292,6 +292,16 @@ export class ProductCreateForm {
     }
 
     /***
+     * make enable btn
+     * @param{string} title
+     */
+    changeEnableButton(title) {
+        const button = document.getElementById('submitProduct');
+        button.value = title;
+        button.disabled = false;
+    }
+
+    /***
      *
      * get city from map
      * @return {string}
