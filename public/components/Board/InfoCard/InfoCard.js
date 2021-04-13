@@ -24,6 +24,15 @@ export class InfoCard {
     }
 
     /***
+     *
+     * show text in number field
+     * @param{string} tel
+     */
+    showNumber(tel) {
+        document.querySelector('.info-card-btn__number').value = tel;
+    }
+
+    /***
      * @author Ivan Gorshkov
      *
      * getter product price

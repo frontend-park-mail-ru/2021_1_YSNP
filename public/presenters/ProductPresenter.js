@@ -21,6 +21,7 @@ export class ProductPresenter extends BasePresenter {
         this.__id = id;
         this.__model = new ProductModel({id: this.__id});
         this.__user = new UserModel();
+        this.__numberIsShowed = false;
     }
 
     /***
@@ -197,18 +198,26 @@ export class ProductPresenter extends BasePresenter {
             return;
         }
 
-        this.__user.getUser(this.__model.getData().ownerId)
-            .then(() => {
-                // TODO(Ivan) release __listenerShowNumber
-                console.log(this.__user.getData());
-            })
-            .catch((err) => {
-                //TODO(Sergey) нормальная обработка ошибок
-                console.log(err.message);
-
-                this.checkOfflineStatus(err);
-                this.checkOffline();
-            });
+        if (!this.__numberIsShowed) {
+          this.__user.getUser(this.__model.getData().ownerId)
+                .then(({data}) => {
+                    // TODO(Ivan) release __listenerShowNumber
+                    this.__view.showNumber(data.telephone);
+                    this.__numberIsShowed = true;
+                })
+                .catch((err) => {
+                    //TODO(Sergey) нормальная обработка ошибок
+                    console.log(err.message);
+                    this.__view.showNumber(err.message);
+                    this.__numberIsShowed = false;
+            
+                    this.checkOfflineStatus(err);
+                    this.checkOffline();
+                });
+        } else {
+            this.__view.showNumber('Показать номер');
+            this.__numberIsShowed = false;
+        }
     }
 
     /***
