@@ -132,6 +132,9 @@ export class BaseView {
         this.__header.render(this.__baseContext.header);
     }
 
+    /***
+     * Render footer
+     */
     renderFooter() {
         this.__footer = new Footer(this.__app);
         this.__footer.render(this.__baseContext.header);

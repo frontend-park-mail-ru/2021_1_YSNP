@@ -1,6 +1,5 @@
 import footerTemplate from './Footer.hbs';
 import './Footer.scss';
-import navigationTemplate from '../Navigation/Navigation.hbs';
 
 /***
  * Header component
