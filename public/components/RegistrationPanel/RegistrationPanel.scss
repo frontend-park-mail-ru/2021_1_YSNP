@@ -1,110 +1,96 @@
 @import "../../scss/main.scss";
-
 .reg {
-  &-panel {
-    &__textfield {
-      @include border-block;
-      font-size: 1.8vh;
-      height: 5vh;
-      width: 27vh;
-      padding-left: 10px;
+    &-panel {
+        &__textfield {
+            @include input;
+            width: 27vh;
+        }
+        &__coutry-code {
+            margin: 0;
+            height: 5vh;
+            min-width: 2.5vw;
+        }
+        &__tel {
+            margin: 0;
+            height: 5vh;
+            min-width: 22vh;
+        }
+        &-title {
+            margin-bottom: 1vw;
+            &__product-name {
+                font-size: 3vh;
+                margin: 0;
+                line-height: 5vh;
+            }
+        }
     }
-
-    &__coutry-code {
-      margin: 0;
-      height: 5vh;
-      min-width: 2.5vw;
+    &-error {
+        text-align: left;
     }
-
-    &__tel {
-      margin: 0;
-      height: 5vh;
-      min-width: 22vh;
+    &__gender {
+        width: auto;
     }
-
-    &-title {
-      margin-bottom: 1vw;
-
-      &__product-name {
-        font-size: 3vh;
-        margin: 0;
-        line-height: 5vh;
-      }
+    &-picture {
+        position: relative;
+        transform: translate(5%, 0);
     }
-  }
-
-  &-error {
-    text-align: left;
-  }
-
-  &__gender {
-    width: auto;
-  }
-
-  &-picture {
-    position: relative;
-    transform: translate(5%, 0);
-  }
-
-  &__button {
-    @include red-button(15.5vw, 4vh);
-    font-size: 1vw;
-    width: 15.5vw;
-    margin-bottom: 1vh;
-    margin-left: 1vw;
-  }
+    &__button {
+        @include red-button(15.5vw, 4vh);
+        font-size: 1vw;
+        width: 15.5vw;
+        margin-bottom: 1vh;
+        margin-left: 1vw;
+    }
 }
 
 .form-spacing {
-  margin: 2vh;
+    margin: 2vh;
 }
 
 .profile-pic {
-  display: block;
-  object-fit: cover;
-  @include set-size(9vw, 9vw);
+    display: block;
+    object-fit: cover;
+    @include set-size(9vw, 9vw);
 }
 
 .file-upload {
-  display: none;
+    display: none;
 }
 
 .circle {
-  cursor: pointer;
-  border-radius: 100%;
-  overflow: hidden;
-  @include set-size(9vw, 9vw);
-  border: 1px solid rgba(0, 0, 0, 0.1);
+    cursor: pointer;
+    border-radius: 100%;
+    overflow: hidden;
+    @include set-size(9vw, 9vw);
+    border: 1px solid rgba(0, 0, 0, 0.1);
 }
 
 .p-image {
-  top: 167px;
-  right: 30px;
-  color: #666666;
-  opacity: 0.5;
-  transition: all .3s cubic-bezier(.175, .885, .32, 1.275);
-
-  &:hover {
-    opacity: 1;
-  }
+    top: 167px;
+    right: 30px;
+    color: #666666;
+    opacity: 0.5;
+    transition: all .3s cubic-bezier(.175, .885, .32, 1.275);
+    &:hover {
+        opacity: 1;
+    }
 }
 
 .upload-button {
-  cursor: pointer;
-  width: 1vw;
-  height: 1vw;
-  position: absolute;
-  top: 0;
-  left: 0;
-  transform: translate(7vw, 7vw);
-
-  &:hover {
-    transition: all .3s cubic-bezier(.175, .885, .32, 1.275);
-    color: #999;
-  }
+    cursor: pointer;
+    width: 1vw;
+    height: 1vw;
+    position: absolute;
+    top: 0;
+    left: 0;
+    transform: translate(7vw, 7vw);
+    &:hover {
+        transition: all .3s cubic-bezier(.175, .885, .32, 1.275);
+        color: #999;
+    }
 }
 
 .form-inner {
-  position: relative;
-  margin: auto 0;
+    position: relative;
+    margin: auto 0;
 }
