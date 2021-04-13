@@ -2,6 +2,7 @@ import {Header} from '../components/Header/Header.js';
 import {Auth} from '../components/Auth/Auth.js';
 import {Map} from '../components/Map/Map.js';
 import {Footer} from '../components/Footer/Footer';
+import {PageOffline} from '../components/PageOffline/PageOffline';
 
 /***
  * Application base view
@@ -111,7 +112,9 @@ export class BaseView {
      * Remove header listeners
      */
     removeHeaderListeners() {
-        this.__header.removeListeners();
+        if (this.__header) {
+            this.__header.removeListeners();
+        }
     }
 
     /***
@@ -120,6 +123,16 @@ export class BaseView {
      */
     updateAddress(address) {
         this.__header.updateAddress(address);
+    }
+
+    /***
+     * Render offline
+     */
+    renderOffline() {
+        this.__app.innerHTML = '';
+
+        const offline = new PageOffline(this.__app);
+        offline.render();
     }
 
     /***

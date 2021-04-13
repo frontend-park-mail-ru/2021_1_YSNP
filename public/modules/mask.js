@@ -60,7 +60,7 @@ export function parseTelNumber(tel) {
  * @return {string}
  */
 export function amountMask(value) {
-    const maxDigit = 15;
+    const maxDigit = 12;
     const firstIndex = 0;
     const lastIndex = -1;
     const groupNumber = 3;

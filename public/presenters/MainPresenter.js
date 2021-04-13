@@ -37,6 +37,7 @@ export class MainPresenter extends BasePresenter {
             .catch((err) => {
                 //TODO(Sergey) нормальная обработка ошибок
                 console.log(err.message);
+                this.checkOfflineStatus(err);
             });
     }
 
@@ -46,6 +47,9 @@ export class MainPresenter extends BasePresenter {
      */
     async control() {
         await this.update();
+        if (this.checkOffline()) {
+            return;
+        }
 
         this.__view.render(this.__makeContext());
         this.__endlessScroll.start();
@@ -157,6 +161,9 @@ export class MainPresenter extends BasePresenter {
             .catch((err) => {
                 //TODO(Sergey) нормальная обработка ошибок
                 console.log(err.message);
+
+                this.checkOfflineStatus(err);
+                this.checkOffline();
             });
     }
 
@@ -218,7 +225,7 @@ export class MainPresenter extends BasePresenter {
             router.redirect(frontUrls.searchWithText(val), '', {title: 'Koya'});
             return;
         }
-      
+
         router.redirect(frontUrls.search, '', {title: 'Koya'});
     }
 

@@ -17,10 +17,15 @@ export class NotFoundPresenter extends BasePresenter {
 
     /***
      * Update page date
-     * @returns {Promise<void>}
+     * @returns {Promise<{data: *, status: number}>}
      */
     async update() {
-        await super.update();
+        return super.update()
+            .catch((err) => {
+                //TODO(Sergey) нормальная обработка ошибок
+                console.log(err.message);
+                this.checkOfflineStatus(err);
+            });
     }
 
     /***
@@ -29,6 +34,10 @@ export class NotFoundPresenter extends BasePresenter {
      */
     async control() {
         await this.update();
+        if (this.checkOffline()) {
+            return;
+        }
+
         this.__view.render(this.__makeContext());
     }
 

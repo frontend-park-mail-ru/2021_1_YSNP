@@ -1,7 +1,17 @@
 import {http} from '../modules/http.js';
 import {backUrls} from '../modules/backUrls.js';
 import {httpStatus} from '../modules/httpStatus.js';
-import {YandexMap} from '../modules/yandexMap';
+
+import {YandexMap} from '../modules/yandexMap.js';
+
+import {
+    UnauthorizedError,
+    ForbiddenError,
+    BadRequestError,
+    NotFoundError,
+    OfflineError,
+    InternalServerError
+} from '../modules/customError.js';
 
 /***
  * Product model
@@ -290,6 +300,23 @@ export class ProductModel {
     }
 
     /***
+     * Get ad user data
+     * @returns {{date: string, amount: string, linkImage: string, name, tariff, id: (*), userLiked: (boolean|*), status: string}}
+     */
+    getAdData() {
+        return {
+            id: this.__id,
+            name: this.__name,
+            date: this.__getDate(),
+            amount: this.__getAmount(),
+            userLiked: this.__userLiked,
+            linkImage: this.__getFirstImage(),
+            tariff: this.__tariff,
+            status: 'открыто'
+        };
+    }
+
+    /***
      * Get locale date
      * @returns {string}
      * @private
@@ -321,18 +348,23 @@ export class ProductModel {
         return http.get(backUrls.product(this.__id))
             .then(({status, data}) => {
                 if (status === httpStatus.StatusBadRequest) {
-                    throw new Error('Неправильные данные');
-                    // throw new Error(data.message);
+                    throw new BadRequestError();
+                    // throw new BadRequestError(data.message);
                 }
 
                 if (status === httpStatus.StatusNotFound) {
-                    throw new Error('Нет такого товара');
-                    // throw new Error(data.message);
+                    throw new NotFoundError(NotFoundError.defaultProductMessage);
+                    // throw new NotFoundError(data.message);
+                }
+
+                if (status === httpStatus.StatusOffline) {
+                    throw new OfflineError();
+                    // throw new OfflineError(data.message);
                 }
 
                 if (status === httpStatus.StatusInternalServerError) {
-                    throw new Error('Ошибка сервера');
-                    // throw new Error(data.message);
+                    throw new InternalServerError();
+                    // throw new InternalServerError(data.message);
                 }
 
                 this.fillProductModel(data);
@@ -346,47 +378,57 @@ export class ProductModel {
     async create(form) {
         return http.post(backUrls.productCreate, this.__jsonData())
             .then(({status, data}) => {
+                if (status === httpStatus.StatusBadRequest) {
+                    throw new BadRequestError();
+                    // throw new BadRequestError(data.message);
+                }
+
                 if (status === httpStatus.StatusUnauthorized) {
-                    throw new Error('Пользователь не авторизован');
-                    // throw new Error(data.message);
+                    throw new UnauthorizedError();
+                    // throw new UnauthorizedError(data.message);
                 }
 
                 if (status === httpStatus.StatusForbidden) {
-                    throw new Error('Доступ запрещен');
-                    // throw new Error(data.message);
+                    throw new ForbiddenError();
+                    // throw new ForbiddenError(data.message);
                 }
 
-                if (status === httpStatus.StatusBadRequest) {
-                    throw new Error('Неправильные данные');
-                    // throw new Error(data.message);
+                if (status === httpStatus.StatusOffline) {
+                    throw new OfflineError();
+                    // throw new OfflineError(data.message);
                 }
 
                 if (status === httpStatus.StatusInternalServerError) {
-                    throw new Error('Ошибка сервера');
-                    // throw new Error(data.message);
+                    throw new InternalServerError();
+                    // throw new InternalServerError(data.message);
                 }
 
                 this.__id = data.id;
                 return http.post(backUrls.productUploadPhotos(this.__id), new FormData(form), true)
                     .then(({status}) => {
+                        if (status === httpStatus.StatusBadRequest) {
+                            throw new BadRequestError();
+                            // throw new BadRequestError(data.message);
+                        }
+
                         if (status === httpStatus.StatusUnauthorized) {
-                            throw new Error('Пользователь не авторизован');
-                            // throw new Error(data.message);
+                            throw new UnauthorizedError();
+                            // throw new UnauthorizedError(data.message);
                         }
 
                         if (status === httpStatus.StatusForbidden) {
-                            throw new Error('Доступ запрещен');
-                            // throw new Error(data.message);
+                            throw new ForbiddenError();
+                            // throw new ForbiddenError(data.message);
                         }
 
-                        if (status === httpStatus.StatusBadRequest) {
-                            throw new Error('Неправильные данные');
-                            // throw new Error(data.message);
+                        if (status === httpStatus.StatusOffline) {
+                            throw new OfflineError();
+                            // throw new OfflineError(data.message);
                         }
 
                         if (status === httpStatus.StatusInternalServerError) {
-                            throw new Error('Ошибка сервера');
-                            // throw new Error(data.message);
+                            throw new InternalServerError();
+                            // throw new InternalServerError(data.message);
                         }
 
                         return {id: this.__id};

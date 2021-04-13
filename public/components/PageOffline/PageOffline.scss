@@ -1,0 +1,48 @@
+.offline-page {
+  bottom: 0;
+  top: 0;
+  margin: 0;
+  padding: 0;
+  left: 0;
+  right: 0;
+  width: 100%;
+  height: 100vh;
+  background-color: rgb(245, 245, 245);
+}
+
+.logo-wrapper {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+  justify-items: center;
+  align-items: center;
+  align-content: center;
+  width: 100%;
+  height: 100%;
+}
+
+
+.offline-logo-img {
+  animation: flowing 2s ease-in-out infinite;
+  transform: translateY(0vw);
+}
+
+
+.offline-message {
+  font-family: Roboto, sans-serif;
+  font-size: 2vw;
+  color: black;
+}
+
+
+@keyframes flowing {
+  0% {
+    transform: translateX(-100%);
+  }
+  50% {
+    transform: translateX(100%);
+  }
+  100% {
+    transform: translateX(-100%);
+  }
+}

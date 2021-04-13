@@ -66,7 +66,12 @@ export class PageUpHandler {
             this.__pageUp.unable();
         }
 
-        if (this.__isShown && !this.__isSetUp && window.pageYOffset * 2 < window.innerHeight) {
+        // if (this.__isShown && !this.__isSetUp && window.pageYOffset * 2 < window.innerHeight) {
+        //     this.__isShown = false;
+        //     this.__pageUp.disable();
+        // }
+
+        if (this.__isShown && window.pageYOffset * 2 < window.innerHeight) {
             this.__isShown = false;
             this.__pageUp.disable();
         }

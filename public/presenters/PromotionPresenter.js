@@ -2,6 +2,7 @@ import {BasePresenter} from './BasePresenter.js';
 import {router} from '../modules/router';
 import {frontUrls} from '../modules/frontUrls';
 import {checkIsAuth} from '../modules/checkAuth.js';
+
 /***
  * Profile settings presenter
  */
@@ -17,10 +18,15 @@ export class PromotionPresenter extends BasePresenter {
 
     /***
      * Update view data
-     * @returns {Promise<void>}
+     * @returns {Promise<{data: *, status: number}>}
      */
     async update() {
-        await super.update();
+        return super.update()
+            .catch((err) => {
+                //TODO(Sergey) нормальная обработка ошибок
+                console.log(err.message);
+                this.checkOfflineStatus(err);
+            });
     }
 
     /***
@@ -29,6 +35,9 @@ export class PromotionPresenter extends BasePresenter {
      */
     async control() {
         await this.update();
+        if (this.checkOffline()) {
+            return;
+        }
 
         checkIsAuth();
 
@@ -109,7 +118,7 @@ export class PromotionPresenter extends BasePresenter {
      * @private
      */
     __setBase() {
-       this.__view.setBase();
+        this.__view.setBase();
     }
 
     /***
@@ -133,7 +142,7 @@ export class PromotionPresenter extends BasePresenter {
      * @private
      */
     __setNothing() {
-       this.__view.setNothing();
+        this.__view.setNothing();
     }
 
     /***

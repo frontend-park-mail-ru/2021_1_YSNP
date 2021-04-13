@@ -18,10 +18,14 @@ export class Header {
      */
     toggleDropdown() {
         if (this.__context.data.isAuth) {
-            document
-                .getElementById('header-dropdown-content')
-                .classList
-                .toggle('header-dropdown-content_hidden');
+            try {
+                document
+                    .getElementById('header-dropdown-content')
+                    .classList
+                    .toggle('header-dropdown-content_hidden');
+            } catch (err) {
+                console.log(err.message);
+            }
         }
     }
 
@@ -30,10 +34,14 @@ export class Header {
      */
     removeDropdown() {
         if (this.__context.data.isAuth) {
-            document
-                .getElementById('header-dropdown-content')
-                .classList
-                .add('header-dropdown-content_hidden');
+            try {
+                document
+                    .getElementById('header-dropdown-content')
+                    .classList
+                    .add('header-dropdown-content_hidden');
+            } catch (err) {
+                console.log(err.message);
+            }
         }
     }
 
@@ -60,18 +68,22 @@ export class Header {
      * Remove component listeners
      */
     removeListeners() {
-        document
-            .getElementById('header')
-            .removeEventListener(this.__context.listeners.headerClick.type, this.__context.listeners.headerClick.listener);
-
-        document
-            .getElementById('app')
-            .removeEventListener(this.__context.listeners.pageClick.type, this.__context.listeners.pageClick.listener);
-
-        if (this.__context.data.isAuth) {
+        try {
             document
-                .getElementById('header-dropdown')
-                .removeEventListener(this.__context.listeners.dropdownClick.type, this.__context.listeners.dropdownClick.listener);
+                .getElementById('header')
+                .removeEventListener(this.__context.listeners.headerClick.type, this.__context.listeners.headerClick.listener);
+
+            document
+                .getElementById('app')
+                .removeEventListener(this.__context.listeners.pageClick.type, this.__context.listeners.pageClick.listener);
+
+            if (this.__context.data.isAuth) {
+                document
+                    .getElementById('header-dropdown')
+                    .removeEventListener(this.__context.listeners.dropdownClick.type, this.__context.listeners.dropdownClick.listener);
+            }
+        } catch (err) {
+            console.log(err.message);
         }
     }
 

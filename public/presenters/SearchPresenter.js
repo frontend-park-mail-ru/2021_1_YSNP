@@ -44,6 +44,7 @@ export class SearchPresenter extends BasePresenter {
             .catch((err) => {
                 //TODO(Serge) нормальная обработка ошибок
                 console.log(err.message);
+                this.checkOfflineStatus(err);
             });
     }
 
@@ -55,6 +56,9 @@ export class SearchPresenter extends BasePresenter {
      */
     async control() {
         await this.update();
+        if (this.checkOffline()) {
+            return;
+        }
 
         this.__view.render(this.__makeContext())
             .then(() => this.__search());
@@ -155,6 +159,9 @@ export class SearchPresenter extends BasePresenter {
             .catch((err) => {
                 //TODO(Sergey) нормальная обработка ошибок
                 console.log(err.message);
+
+                this.checkOfflineStatus(err);
+                this.checkOffline();
             });
     }
 
@@ -237,17 +244,23 @@ export class SearchPresenter extends BasePresenter {
         });
 
         if (search.value !== '') {
-            router.pushState(frontUrls.searchWithText(search.value));
+            router.replaceState(frontUrls.searchWithText(search.value));
         } else {
-            router.pushState(frontUrls.search);
+            router.replaceState(frontUrls.search);
         }
 
         await this.__model.update()
             .then(() => {
                 this.__view.rerenderProductList(this.__makeContext());
             })
-            .catch(() => {
+            .catch((err) => {
+                //TODO(Sergey) нормальная обработка ошибок
+                console.log(err.message);
+
                 this.__view.deleteProductList();
+
+                this.checkOfflineStatus(err);
+                this.checkOffline();
             });
     }
 

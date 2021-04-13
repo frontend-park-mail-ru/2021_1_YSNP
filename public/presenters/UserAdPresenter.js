@@ -35,6 +35,7 @@ export class UserAdPresenter extends BasePresenter {
             .catch((err) => {
                 //TODO(Sergey) нормальная обработка ошибок
                 console.log(err.message);
+                this.checkOfflineStatus(err);
             });
     }
 
@@ -44,6 +45,9 @@ export class UserAdPresenter extends BasePresenter {
      */
     async control() {
         await this.update();
+        if (this.checkOffline()) {
+            return;
+        }
 
         this.__view.render(this.__makeContext());
         this.__endlessScroll.start();

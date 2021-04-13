@@ -116,8 +116,8 @@ class Router {
      * @param {string} title - redirect title
      * @param {Object} state - redirect state
      */
-    pushState(url, title = '', state = {}) {
-        window.history.pushState(state, title, url);
+    replaceState(url, title = '', state = {}) {
+        window.history.replaceState(state, title, url);
     }
 
     /***
