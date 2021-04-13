@@ -236,10 +236,10 @@ export class ProfileUserModel extends PasswordUserModel {
                     // throw new BadRequestError(data.message);
                 }
 
-                // if (status === httpStatus.StatusUnauthorized) {
-                //     throw new UnauthorizedError();
-                //     // throw new UnauthorizedError(data.message);
-                // }
+                if (status === httpStatus.StatusUnauthorized) {
+                    throw new UnauthorizedError();
+                    // throw new UnauthorizedError(data.message);
+                }
 
                 if (status === httpStatus.StatusOffline) {
                     throw new OfflineError();
@@ -253,7 +253,6 @@ export class ProfileUserModel extends PasswordUserModel {
 
                 this.fillUserData(data);
                 this.__isAuth = true;
-                throw new OfflineError();
             });
     }
 

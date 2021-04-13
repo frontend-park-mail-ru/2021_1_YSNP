@@ -65,7 +65,7 @@ export class BasePresenter {
     checkOffline() {
         if (this.__offline) {
             //TODO(Sergey) offline
-            console.log('User offline');
+            this.__view.renderOffline();
             return true;
         }
 
