@@ -18,10 +18,14 @@ export class Header {
      */
     toggleDropdown() {
         if (this.__context.data.isAuth) {
-            document
-                .getElementById('header-dropdown-content')
-                .classList
-                .toggle('header-dropdown-content_hidden');
+            try {
+                document
+                    .getElementById('header-dropdown-content')
+                    .classList
+                    .toggle('header-dropdown-content_hidden');
+            } catch (err) {
+                console.log(err.message);
+            }
         }
     }
 
@@ -30,10 +34,14 @@ export class Header {
      */
     removeDropdown() {
         if (this.__context.data.isAuth) {
-            document
-                .getElementById('header-dropdown-content')
-                .classList
-                .add('header-dropdown-content_hidden');
+            try {
+                document
+                    .getElementById('header-dropdown-content')
+                    .classList
+                    .add('header-dropdown-content_hidden');
+            } catch (err) {
+                console.log(err.message);
+            }
         }
     }
 
