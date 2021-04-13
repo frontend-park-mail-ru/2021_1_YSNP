@@ -28,7 +28,7 @@ export class SearchPresenter extends BasePresenter {
         super(view);
         this.__view = view;
         this.__model = new SearchModel();
-        this.__searchInitText = text;
+        this.__searchInitText = decodeURI(text);
         this.__endlessScroll = new EndlessScroll(this.__createListeners().scroll);
         this.__pageUp = new PageUpHandler();
     }
