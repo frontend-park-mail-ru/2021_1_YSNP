@@ -123,10 +123,11 @@ self.addEventListener('fetch', (event) => {
                 const cache = await caches.open(cacheName);
                 const match = await cache.match(event.request.url)
                     .then(
-                        (matching) => matching || new Response(FALLBACK, {
+                        (matching) => matching || new Response(JSON.stringify({result: 'offline'}), {
                             headers: {
-                                'Content-Type': 'text/html; charset=utf-8'
-                            }
+                                'Content-Type': 'application/json'
+                            },
+                            status: 420
                         })
                     );
 
