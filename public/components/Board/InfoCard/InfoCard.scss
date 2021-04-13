@@ -1,105 +1,87 @@
 @import "../../../scss/main.scss";
-
 .info-card {
-  @include border-block;
-  display: block;
-  position: sticky;
-  top: 20px;
-  margin: 2vw 0 0 0.3vw;
-  padding-bottom: 1vw;
-  font-style: normal;
-  font-weight: normal;
-
-  &__price {
-    font-size: 2vw;
-    text-align: center;
-    margin-top: 2vh;
-    margin-bottom: 1vh;
+    @include border-block;
+    display: block;
+    position: sticky;
+    top: 20px;
+    margin: 2vw 0 0 0.3vw;
+    padding-bottom: 1vw;
+    font-style: normal;
+    font-weight: normal;
+    &__price {
+        font-size: 2vw;
+        text-align: center;
+        margin-top: 2vh;
+        margin-bottom: 1vh;
   }
 
-  &-profile {
-    display: flex;
-    margin: 0 0 0 1vw;
-    align-items: center;
-  }
-
-  &__image {
-    @include circle;
-    @include set-size(4vw, 4vw);
-  }
-
-  &-container {
-    display: flex;
-    flex-direction: column;
-    margin-left: 0.5vw;
-  }
-
-  &__name {
-    font-size: 1.7vw;
-    line-height: 2vh;
-    margin: 0 0 0.6vh 0;
-  }
-
-  &-rating {
-    line-height: 1.5vw;
-    display: flex;
-    align-items: center;
-
-    &__text {
-      font-size: 1.3vw;
-      margin-right: 1vw;
+    &-profile {
+        display: flex;
+        margin: 0 0 0 1vw;
     }
-  }
-
-  &-btn {
-    text-align: center;
-    line-height: 2vh;
-
-    &__massage {
-      @include red-button(80%, 3vw);
-      margin-top: 2vh;
-      font-size: 1vw;
+    &__image {
+        @include circle;
+        @include set-size(4vw, 4vw);
     }
-
-    &__number {
-      @include white-button(80%, 3vw);
-      margin-top: 1vh;
-      box-shadow: 0 0 1vh rgba(0, 0, 0, 0.1);
-      font-size: 1vw;
+    &-container {
+        display: block;
     }
-  }
-
-  &__time {
-    text-align: center;
-    margin-top: 4vw;
-    font-size: 1vw;
-    margin-bottom: 1vh;
-  }
-
-  &-statistic {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-
-    &-views {
-      display: flex;
-      align-items: center;
-
-      &__text {
-        margin-left: 1vh;
+    &__name {
+        font-size: 1.5vw;
+        line-height: 2vh;
+        margin: 0 0 0 1vh;
+    }
+    &-rating {
+        line-height: 1.5vw;
+        margin: 1vw 0 0 1vw;
+        display: flex;
+        align-items: center;
+        &__text {
+            font-size: 1.5vw;
+            margin-right: 0.3vw;
+        }
+    }
+    &-btn {
+        text-align: center;
+        line-height: 2vh;
+        &__massage {
+            @include red-button(80%, 3vw);
+            margin-top: 2vh;
+            font-size: 1vw;
+        }
+        &__number {
+            @include white-button(80%, 3vw);
+            margin-top: 1vh;
+            box-shadow: 0 0 1vh rgba(0, 0, 0, 0.1);
+            font-size: 1vw;
+        }
+    }
+    &__time {
+        text-align: center;
+        margin-top: 4vw;
         font-size: 1vw;
-      }
+        margin-bottom: 1vh;
     }
-
-    &-likes {
-      display: flex;
-      align-items: center;
-      margin-left: 1vh;
-
-      &__text {
-        margin-left: 1vh;
-        font-size: 1vw;
-      }
+    &-statistic {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        &-views {
+            display: flex;
+            align-items: center;
+            &__text {
+                margin-left: 1vh;
+                font-size: 1vw;
+            }
+        }
+        &-likes {
+            display: flex;
+            align-items: center;
+            margin-left: 1vh;
+            &__text {
+                margin-left: 1vh;
+                font-size: 1vw;
+            }
+        }
     }
-  }
 }
