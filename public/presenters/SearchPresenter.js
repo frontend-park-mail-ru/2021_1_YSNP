@@ -237,9 +237,9 @@ export class SearchPresenter extends BasePresenter {
         });
 
         if (search.value !== '') {
-            router.pushState(frontUrls.searchWithText(search.value));
+            router.replaceState(frontUrls.searchWithText(search.value));
         } else {
-            router.pushState(frontUrls.search);
+            router.replaceState(frontUrls.search);
         }
 
         await this.__model.update()
