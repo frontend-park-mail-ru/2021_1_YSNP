@@ -27,6 +27,25 @@
     flex-direction: column;
   }
 
+  &__status {
+    position: absolute;
+    top: 0.5vw;
+    right: 0.5vw;
+
+    height: 1.6vw;
+    width: 5vw;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    font-size: 1vw;
+
+    border-radius: 0.7vh;
+    background-color: rgb(235, 235, 235);
+
+    color: black;
+  }
 
   &__label {
     position: absolute;
@@ -50,7 +69,7 @@
 
   &__like {
     position: absolute;
-    filter: drop-shadow( 1px 0px 2px rgba(255, 255, 255, 1));
+    filter: drop-shadow(1px 0px 2px rgba(255, 255, 255, 1));
     top: 0.5vw;
     right: 0.5vw;
 
