@@ -53,6 +53,28 @@ export class BasePresenter {
     }
 
     /***
+     * Remove page listeners
+     */
+    removePageListeners() {
+        if (this.__isShownAuth) {
+            this.__view.removeAuth();
+        }
+
+        if (this.__isShownMap) {
+            this.__view.removeMap();
+        }
+
+        this.__view.removeHeaderListeners();
+    }
+
+    /***
+     * Scroll up page
+     */
+    scrollUp() {
+        window.scrollTo(0, 0);
+    }
+
+    /***
      * Check user offline
      * @returns {boolean}
      */
@@ -76,21 +98,6 @@ export class BasePresenter {
         }
 
         this.__offline = false;
-    }
-
-    /***
-     * Remove page listeners
-     */
-    removePageListeners() {
-        if (this.__isShownAuth) {
-            this.__view.removeAuth();
-        }
-
-        if (this.__isShownMap) {
-            this.__view.removeMap();
-        }
-
-        this.__view.removeHeaderListeners();
     }
 
     /***

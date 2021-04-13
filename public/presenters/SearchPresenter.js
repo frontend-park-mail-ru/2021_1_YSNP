@@ -56,6 +56,7 @@ export class SearchPresenter extends BasePresenter {
      */
     async control() {
         await this.update();
+        this.scrollUp();
         if (this.checkOffline()) {
             return;
         }

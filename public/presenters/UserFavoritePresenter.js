@@ -45,6 +45,7 @@ export class UserFavoritePresenter extends BasePresenter {
      */
     async control() {
         await this.update();
+        this.scrollUp();
         if (this.checkOffline()) {
             return;
         }
