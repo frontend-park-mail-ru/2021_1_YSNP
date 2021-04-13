@@ -31,15 +31,16 @@ import {baseCreateProduct, baseRegistration} from './modules/fields.js';
 
 /***
  * Register service worker
+ *  */
  if ('serviceWorker' in navigator) {
     navigator.serviceWorker.register('./sw.js', {scope: '/'})
-        .then((registration) => {
-            console.log('Service Worker registered.')
+        .then(() => {
+            console.log('Service Worker registered.');
         }).catch((error) => {
-            console.log('Error while register service worker:' + error)
+            console.log(`Error while register service worker:${error}`);
         });
 }
- */
+
 
 const app = document.getElementById('app');
 

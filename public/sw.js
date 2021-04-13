@@ -40,7 +40,6 @@ const FALLBACK =
     '' +
     '    .offline-logo-img {' +
     '        animation: flowing 2s ease-in-out infinite;' +
-    '        transform: translateY(0vw);' +
     '    }' +
     '' +
     '.offline-message {' +
@@ -50,11 +49,14 @@ const FALLBACK =
     '}' +
     '' +
     '@keyframes flowing {' +
-    '50% {' +
+    '0% {' +
     'transform: translateX(-100%);' +
     '}' +
-    '100% {' +
+    '50% {' +
     'transform: translateX(100%);' +
+    '}' +
+    '100% {' +
+    'transform: translateX(-100%);' +
     '}' +
     '}' +
     '</style>' +
@@ -62,7 +64,7 @@ const FALLBACK =
     '<body>' +
     '<div class="offline-page">' +
     '<div class="logo-wrapper">' +
-    '<svg class="offline-logo-img" width="60" height="60" viewBox="0 0 60 60" fill="none" xmlns="http://www.w3.org/2000/svg">' +
+    '<svg class="offline-logo-img" width="100" height="100" viewBox="0 0 60 60" fill="none" xmlns="http://www.w3.org/2000/svg">' +
     '<g clip-path="url(#clip0)">' +
     '<rect width="60" height="60" rx="15" fill="#E3E3E3"/>' +
     '<circle cx="45.5" cy="42.5" r="3.5" fill="#D31E1E"/>' +
@@ -90,19 +92,36 @@ self.addEventListener('activate', (event) => {
 });
 
 self.addEventListener('fetch', (event) => {
+    const request = event.request;
+    if (request.method !== 'GET') {
+        event.respondWith(
+            fetch(request)
+                .catch(() => {
+                    const response = new Response(JSON.stringify({result: 'offline'}), { headers: { 'Content-Type': 'apllication/json' }, status: 400});
+                    console.log(response.body);
+                    return response;
+                })
+        );
+        return;
+    }
     event.respondWith(
         (async() => {
             if (navigator.onLine) {
                 const response = await fetch(event.request);
                 if (response && response.ok) {
                     const cache = await caches.open(cacheName);
-                    await cache.put(event.request, response.clone());
+                    await cache.match(event.request)
+                        .then((matching) => {
+                            if (!matching) {
+                                cache.put(event.request, response.clone());
+                            }
+                        });
                 }
 
                 return response;
             } 
                 const cache = await caches.open(cacheName);
-                const match = await cache.match(event.request)
+                const match = await cache.match(event.request.url)
                     .then(
                         (matching) => matching || new Response(FALLBACK, {
                             headers: {
