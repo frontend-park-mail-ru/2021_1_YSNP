@@ -1,8 +1,10 @@
+import {ProductListModel} from './ProductListModel.js';
+
 import {http} from '../modules/http';
 import {backUrls} from '../modules/backUrls';
 import {httpStatus} from '../modules/httpStatus';
 
-import {ProductListModel} from './ProductListModel.js';
+import {BadRequestError, OfflineError, InternalServerError} from '../modules/customError.js';
 
 /***
  * Registration user model
@@ -54,13 +56,18 @@ export class SearchModel extends ProductListModel {
         return http.get(backUrls.search(this.__jsonSearchData()))
             .then(({status, data}) => {
                 if (status === httpStatus.StatusBadRequest) {
-                    throw new Error('Неправильные данные');
-                    // throw new Error(data.message);
+                    throw new BadRequestError();
+                    // throw new BadRequestError(data.message);
+                }
+
+                if (status === httpStatus.StatusOffline) {
+                    throw new OfflineError();
+                    // throw new OfflineError(data.message);
                 }
 
                 if (status === httpStatus.StatusInternalServerError) {
-                    throw new Error('Ошибка сервера');
-                    // throw new Error(data.message);
+                    throw new InternalServerError();
+                    // throw new InternalServerError(data.message);
                 }
 
                 this.parseData(data);

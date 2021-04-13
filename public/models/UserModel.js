@@ -1,6 +1,14 @@
-import {http} from '../modules/http';
-import {backUrls} from '../modules/backUrls';
-import {httpStatus} from '../modules/httpStatus';
+import {http} from '../modules/http.js';
+import {backUrls} from '../modules/backUrls.js';
+import {httpStatus} from '../modules/httpStatus.js';
+
+import {
+    UnauthorizedError,
+    BadRequestError,
+    NotFoundError,
+    OfflineError,
+    InternalServerError
+} from '../modules/customError.js';
 
 /***
  * User model
@@ -217,24 +225,29 @@ export class UserModel {
     async getUser(id) {
         return http.get(backUrls.getUser(id))
             .then(({status, data}) => {
-                if (status === httpStatus.StatusUnauthorized) {
-                    throw new Error('Пользователь не авторизован');
-                    // throw new Error(data.message);
+                if (status === httpStatus.StatusBadRequest) {
+                    throw new BadRequestError();
+                    // throw new BadRequestError(data.message);
                 }
 
-                if (status === httpStatus.StatusBadRequest) {
-                    throw new Error('Неправильные данные');
-                    // throw new Error(data.message);
+                if (status === httpStatus.StatusUnauthorized) {
+                    throw new UnauthorizedError();
+                    // throw new UnauthorizedError(data.message);
                 }
 
                 if (status === httpStatus.StatusNotFound) {
-                    throw new Error('Нет такого товара');
-                    // throw new Error(data.message);
+                    throw new NotFoundError(NotFoundError.defaultUserMessage);
+                    // throw new NotFoundError(data.message);
+                }
+
+                if (status === httpStatus.StatusOffline) {
+                    throw new OfflineError();
+                    // throw new OfflineError(data.message);
                 }
 
                 if (status === httpStatus.StatusInternalServerError) {
-                    throw new Error('Ошибка сервера');
-                    // throw new Error(data.message);
+                    throw new InternalServerError();
+                    // throw new InternalServerError(data.message);
                 }
 
                 this.fillUserData(data);
