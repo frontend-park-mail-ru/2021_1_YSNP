@@ -52,11 +52,16 @@ export class ProductCreatePresenter extends BasePresenter {
      * @author Ivan Gorshkov
      *
      * Update view data
-     * @returns {Promise<void>}
+     * @returns {Promise<{data: *, status: number}>}
      * @this {ProductCreatePresenter}
      */
     async update() {
-        await super.update();
+        return super.update()
+            .catch((err) => {
+                //TODO(Sergey) нормальная обработка ошибок
+                console.log(err.message);
+                this.checkOfflineStatus(err);
+            });
     }
 
     /***
@@ -245,10 +250,8 @@ export class ProductCreatePresenter extends BasePresenter {
      * this {ProductCreatePresenter}
      */
     async __validateAddressInput(target) {
-        return await this.__model.validationPos(target.value.toString()).then(({
-                                                                                   error,
-                                                                                   message
-                                                                               }) => this.__handlingErrors(error, target, message));
+        return await this.__model.validationPos(target.value.toString())
+            .then(({error, message}) => this.__handlingErrors(error, target, message));
     }
 
     /***
@@ -283,10 +286,17 @@ export class ProductCreatePresenter extends BasePresenter {
                     this.closeAllComponents();
                     this.__view.removingSubViews();
                     router.redirect(frontUrls.promotion, '', {id: parseInt(id, 10)});
-                }).catch((err) => {
-                this.__view.changeEnableButton('Продолжить');
-                this.__view.errorText(err.message);
-            });
+                })
+                .catch((err) => {
+                    //TODO(Sergey) нормальная обработка ошибок
+                    console.log(err.message);
+
+                    this.__view.changeEnableButton('Продолжить');
+                    this.__view.errorText(err.message);
+
+                    this.checkOfflineStatus(err);
+                    this.checkOffline();
+                });
         }
     }
 

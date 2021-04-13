@@ -44,6 +44,7 @@ export class SearchPresenter extends BasePresenter {
             .catch((err) => {
                 //TODO(Serge) нормальная обработка ошибок
                 console.log(err.message);
+                this.checkOfflineStatus(err);
             });
     }
 
@@ -158,6 +159,9 @@ export class SearchPresenter extends BasePresenter {
             .catch((err) => {
                 //TODO(Sergey) нормальная обработка ошибок
                 console.log(err.message);
+
+                this.checkOfflineStatus(err);
+                this.checkOffline();
             });
     }
 
@@ -249,8 +253,14 @@ export class SearchPresenter extends BasePresenter {
             .then(() => {
                 this.__view.rerenderProductList(this.__makeContext());
             })
-            .catch(() => {
+            .catch((err) => {
+                //TODO(Sergey) нормальная обработка ошибок
+                console.log(err.message);
+
                 this.__view.deleteProductList();
+
+                this.checkOfflineStatus(err);
+                this.checkOffline();
             });
     }
 

@@ -29,11 +29,16 @@ export class RegistrationPresenter extends BasePresenter {
      * @author Ivan Gorshkov
      *
      * Update view data
-     * @returns {Promise<void>}
+     * @returns {Promise<{data: *, status: number}>}
      * @this {RegistrationPresenter}
      */
     async update() {
-        await super.update();
+        return super.update()
+            .catch((err) => {
+                //TODO(Sergey) нормальная обработка ошибок
+                console.log(err.message);
+                this.checkOfflineStatus(err);
+            });
     }
 
     /***
@@ -421,8 +426,14 @@ export class RegistrationPresenter extends BasePresenter {
                     this.__view.removingSubViews();
                     router.redirect(frontUrls.main);
                 })
-                .catch((data) => {
-                    this.__view.errorText(data);
+                .catch((err) => {
+                    //TODO(Sergey) нормальная обработка ошибок
+                    console.log(err.message);
+
+                    this.__view.errorText(err.message);
+
+                    this.checkOfflineStatus(err);
+                    this.checkOffline();
                 });
         }
     }

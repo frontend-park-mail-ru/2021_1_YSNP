@@ -60,18 +60,22 @@ export class Header {
      * Remove component listeners
      */
     removeListeners() {
-        document
-            .getElementById('header')
-            .removeEventListener(this.__context.listeners.headerClick.type, this.__context.listeners.headerClick.listener);
-
-        document
-            .getElementById('app')
-            .removeEventListener(this.__context.listeners.pageClick.type, this.__context.listeners.pageClick.listener);
-
-        if (this.__context.data.isAuth) {
+        try {
             document
-                .getElementById('header-dropdown')
-                .removeEventListener(this.__context.listeners.dropdownClick.type, this.__context.listeners.dropdownClick.listener);
+                .getElementById('header')
+                .removeEventListener(this.__context.listeners.headerClick.type, this.__context.listeners.headerClick.listener);
+
+            document
+                .getElementById('app')
+                .removeEventListener(this.__context.listeners.pageClick.type, this.__context.listeners.pageClick.listener);
+
+            if (this.__context.data.isAuth) {
+                document
+                    .getElementById('header-dropdown')
+                    .removeEventListener(this.__context.listeners.dropdownClick.type, this.__context.listeners.dropdownClick.listener);
+            }
+        } catch (err) {
+            console.log(err.message);
         }
     }
 

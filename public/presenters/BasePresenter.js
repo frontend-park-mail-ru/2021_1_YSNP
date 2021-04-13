@@ -40,13 +40,7 @@ export class BasePresenter {
 
                 //TODO(Sergey) нормальная обработка ошибок
                 console.log(err.message);
-
-                if (err instanceof OfflineError) {
-                    this.__offline = true;
-                    return;
-                }
-
-                this.__offline = false;
+                this.checkOfflineStatus(err);
             });
     }
 
@@ -64,12 +58,24 @@ export class BasePresenter {
      */
     checkOffline() {
         if (this.__offline) {
-            //TODO(Sergey) offline
             this.__view.renderOffline();
             return true;
         }
 
         return false;
+    }
+
+    /***
+     * Check user offline status
+     * @param err
+     */
+    checkOfflineStatus(err) {
+        if (err instanceof OfflineError) {
+            this.__offline = true;
+            return;
+        }
+
+        this.__offline = false;
     }
 
     /***
