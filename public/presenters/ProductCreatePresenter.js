@@ -250,10 +250,8 @@ export class ProductCreatePresenter extends BasePresenter {
      * this {ProductCreatePresenter}
      */
     async __validateAddressInput(target) {
-        return await this.__model.validationPos(target.value.toString()).then(({
-                                                                                   error,
-                                                                                   message
-                                                                               }) => this.__handlingErrors(error, target, message));
+        return await this.__model.validationPos(target.value.toString())
+            .then(({error, message}) => this.__handlingErrors(error, target, message));
     }
 
     /***
@@ -292,13 +290,12 @@ export class ProductCreatePresenter extends BasePresenter {
                 .catch((err) => {
                     //TODO(Sergey) нормальная обработка ошибок
                     console.log(err.message);
-                    this.checkOfflineStatus(err);
-                    if (this.checkOffline()) {
-                        return;
-                    }
 
                     this.__view.changeEnableButton('Продолжить');
                     this.__view.errorText(err.message);
+
+                    this.checkOfflineStatus(err);
+                    this.checkOffline();
                 });
         }
     }

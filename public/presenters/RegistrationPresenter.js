@@ -429,12 +429,11 @@ export class RegistrationPresenter extends BasePresenter {
                 .catch((err) => {
                     //TODO(Sergey) нормальная обработка ошибок
                     console.log(err.message);
-                    this.checkOfflineStatus(err);
-                    if (this.checkOffline()) {
-                        return;
-                    }
 
                     this.__view.errorText(err.message);
+
+                    this.checkOfflineStatus(err);
+                    this.checkOffline();
                 });
         }
     }

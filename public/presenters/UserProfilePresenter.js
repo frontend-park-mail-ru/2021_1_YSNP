@@ -211,8 +211,11 @@ export class UserProfilePresenter extends BasePresenter {
                         showSuccessMessage(errorPasswordID, 'Пароль успешно изменен');
                     }
                 })
-                .catch((error) => {
-                    showBackendError(errorPasswordID, error.message);
+                .catch((err) => {
+                    showBackendError(errorPasswordID, err.message);
+
+                    this.checkOfflineStatus(err);
+                    this.checkOffline();
                 });
         } else {
             showBackendError(errorPasswordID, 'Проверьте, что все поля заполнены');
@@ -342,6 +345,9 @@ export class UserProfilePresenter extends BasePresenter {
                 })
                 .catch((error) => {
                     showBackendError(errorSettingsID, error.message);
+
+                    this.checkOfflineStatus(err);
+                    this.checkOffline();
                 });
         } else {
             showBackendError(errorSettingsID, 'Проверьте правильность введенных данных');
