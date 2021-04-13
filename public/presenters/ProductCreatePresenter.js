@@ -68,6 +68,10 @@ export class ProductCreatePresenter extends BasePresenter {
      */
     async control() {
         await this.update();
+        if (this.checkOffline()) {
+            return;
+        }
+
         checkIsAuth();
         this.__view.render(this.__makeContext());
     }

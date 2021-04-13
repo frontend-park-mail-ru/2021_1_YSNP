@@ -7,6 +7,8 @@ import {user} from '../models/ProfileUserModel.js';
 import {AuthUserModel} from '../models/AuthUserModel.js';
 import {YandexMap} from '../modules/yandexMap';
 
+import {OfflineError} from '../modules/customError';
+
 /***
  * Base presenter
  */
@@ -34,9 +36,17 @@ export class BasePresenter {
                 this.__view.baseContext = this.__makeBaseContext();
             })
             .catch((err) => {
-                //TODO(Sergey) нормальная обработка ошибок
                 this.__view.baseContext = this.__makeBaseContext();
+
+                //TODO(Sergey) нормальная обработка ошибок
                 console.log(err.message);
+
+                if (err instanceof OfflineError) {
+                    this.__offline = true;
+                    return;
+                }
+
+                this.__offline = false;
             });
     }
 
@@ -46,6 +56,20 @@ export class BasePresenter {
      */
     async control() {
         throw new Error('virtual method not initialized!');
+    }
+
+    /***
+     * Check user offline
+     * @returns {boolean}
+     */
+    checkOffline() {
+        if (this.__offline) {
+            //TODO(Sergey) offline
+            this.__view.renderOffline();
+            return true;
+        }
+
+        return false;
     }
 
     /***

@@ -106,6 +106,7 @@ export class ProductListModel {
      */
     async update() {
         this.__productList = [];
+        this.__page = 0;
         return this.__updateNewDataPage();
     }
 

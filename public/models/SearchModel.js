@@ -4,7 +4,7 @@ import {http} from '../modules/http';
 import {backUrls} from '../modules/backUrls';
 import {httpStatus} from '../modules/httpStatus';
 
-import {BadRequestError, OfflineError, InternalServerError} from '../modules/customError.js';
+import {BadRequestError, OfflineError, InternalServerError, NotFoundError} from '../modules/customError.js';
 
 /***
  * Registration user model
@@ -58,6 +58,11 @@ export class SearchModel extends ProductListModel {
                 if (status === httpStatus.StatusBadRequest) {
                     throw new BadRequestError();
                     // throw new BadRequestError(data.message);
+                }
+
+                if (status === httpStatus.StatusNotFound) {
+                    throw new NotFoundError('Больше объявлений нет');
+                    // throw new NotFoundError(data.message);
                 }
 
                 if (status === httpStatus.StatusOffline) {
