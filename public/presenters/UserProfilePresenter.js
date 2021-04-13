@@ -45,6 +45,9 @@ export class UserProfilePresenter extends BasePresenter {
      */
     async control() {
         await this.update();
+        if (this.checkOffline()) {
+            return;
+        }
 
         checkIsAuth();
 
