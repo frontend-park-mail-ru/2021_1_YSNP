@@ -1,0 +1,56 @@
+.slider {
+  display: flex;
+  margin-top: 2vw;
+
+  &-carousel {
+    position: absolute;
+    visibility: hidden;
+  }
+
+  &-preview {
+    padding-left: 2vw;
+    padding-right: 2vw;
+
+    &__picture {
+      margin-top: 0;
+      width: 41vw;
+      height: 50vh;
+      object-fit: cover;
+      user-select: none;
+    }
+  }
+
+  &__button {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    margin-bottom: 1vh;
+
+    &-next {
+      margin-top: 2vh;
+    }
+
+    &-prev {
+      width: 2vw;
+      height: 2vw;
+    }
+  }
+}
+
+.carousel-wrapper {
+  position: relative;
+  overflow: hidden;
+}
+
+
+.button_disabled {
+  pointer-events: none;
+  cursor: default;
+}
+
+.picture-frame img {
+  user-select: none;
+  object-fit: cover;
+  cursor: pointer;
+}

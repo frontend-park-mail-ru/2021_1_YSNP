@@ -1,0 +1,108 @@
+@import "../../scss/main.scss";
+
+.auth {
+  @include set-size(100vw, 100vh);
+  position: fixed;
+  top: 0;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: rgba(0, 0, 0, 0.5);
+
+  z-index: 101;
+
+  &-content {
+    position: relative;
+    width: 50vh;
+    z-index: 102;
+    @include block;
+
+    &-inner {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+
+      &__error {
+        height: 2.5vh;
+        width: 30vh;
+
+        font-size: 1.5vh;
+        text-align: center;
+
+        font-style: italic;
+        color: rgb(170, 0, 0);
+
+        overflow: hidden;
+      }
+
+      &__close {
+        position: absolute;
+        fill: rgb(120, 120, 120);
+
+        top: 1vh;
+        right: 1vh;
+
+        &:hover {
+          cursor: pointer;
+        }
+      }
+
+      &__title {
+        margin: 4vh 0 2vh;
+        font-size: 3vh;
+      }
+    }
+
+    &-form {
+      display: flex;
+      align-items: center;
+      flex-direction: column;
+
+      margin-bottom: 4vh;
+
+      &__input {
+        margin: 1vh 0;
+        padding-left: 1vh;
+        @include input;
+      }
+
+      &__country {
+        height: 4vh;
+        width: 4.4vh;
+
+        &:focus {
+          outline: none;
+        }
+      }
+
+      &__tel {
+        height: 4vh;
+        width: 20vh;
+      }
+
+      &__password {
+        height: 4vh;
+        width: 24.8vh;
+      }
+
+      &__button {
+        @include red-button(14vh, 4vh);
+        margin-top: 1.5vh;
+      }
+
+      &-registration {
+        font-size: 1.7vh;
+        margin-bottom: 1vh;
+
+
+        &__link {
+          cursor: pointer;
+          text-decoration: underline;
+          color: $linkColor;
+        }
+      }
+    }
+  }
+}

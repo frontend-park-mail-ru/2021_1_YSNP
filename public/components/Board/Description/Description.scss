@@ -1,0 +1,40 @@
+@import "../../../scss/main.scss";
+
+.product {
+  &-inner {
+    margin-top: 3vw;
+    font-style: normal;
+    font-weight: normal;
+  }
+
+  &-des {
+    display: flex;
+
+    &-topic {
+      min-width: 18%;
+      margin-top: 1vh;
+
+      &__title {
+        @include description-label;
+        font-family: SF Pro Display, sans-serif;
+        margin-top: 1vh;
+        margin-bottom: 1vh;
+      }
+    }
+
+    &-inner {
+    }
+
+    &__text {
+      font-family: Open Sans, sans-serif;
+      line-height: 3vh;
+      color: #000000;
+    }
+  }
+}
+
+.separator {
+  @include separator;
+  width: 98%;
+  margin-left: 0;
+}

@@ -1,15 +1,17 @@
-'use strict';
+import './Map.scss';
+import mapTemplate from './Map.hbs';
+import {YandexMap} from '../../../modules/yandexMap';
 
 /***
  * @author Ivan Gorshkov
- * Map class for seller location
+ * YandexMap class for seller location
  * @class Map
  */
 export class Map {
 
     /***
      * @author Ivan Gorshkov
-     * init of class Map
+     * init of class YandexMap
      * @param {HTMLElement} parent - parent element
      * @constructor
      * @this {Map}
@@ -28,7 +30,10 @@ export class Map {
      */
     __getTemplate() {
         return `  
-            <div id="map">
+            <div class="product-map" id="ya-map">
+                <span>
+                    Какие-то проблемы с картой
+                </span>
             </div>
         `;
     }
@@ -40,8 +45,18 @@ export class Map {
      * @this {Map}
      * @public
      */
-    render() {
-        const template = this.__getTemplate();
-        this.__parent.insertAdjacentHTML('beforeend', template);
+   async render(context) {
+        this.__parent.insertAdjacentHTML('beforeend', mapTemplate());
+        this.__yaMap = new YandexMap();
+        this.__yaMap.render({
+            searchControl: false,
+            geolocationControl: true,
+            listeners: false,
+            id: 'ya-map-product'
+        });
+        this.__yaMap.movePointByPos({
+            latitude: context.__latitude,
+            longitude: context.__longitude
+        });
     }
 }

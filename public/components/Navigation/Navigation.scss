@@ -1,0 +1,17 @@
+.navigation {
+    font-style: normal;
+    font-weight: normal;
+    font-size: 2vh;
+    height: 3vh;
+    width: 80vw;
+    display: flex;
+    margin: 2vh auto;
+
+    &-inner {
+        margin: auto 0;
+    }
+
+    &-back {
+        cursor: pointer;
+    }
+}

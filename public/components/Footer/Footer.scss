@@ -1,0 +1,60 @@
+@import "../../scss/main.scss";
+
+.footer {
+  margin: 3vh 0;
+
+  &-inner {
+    margin: 0 10vw;
+  }
+
+  &-urls {
+    &-inner {
+      margin: 2vh 15vh;
+      display: flex;
+      flex-direction: row;
+      justify-content: space-between;
+    }
+
+
+    &__logo {
+      height: 11vh;
+      width: 20vh;
+    }
+
+    &-container {
+      display: flex;
+      flex-direction: column;
+
+      &__title {
+        margin-bottom: 0.7vh;
+
+        font-size: 2vh;
+      }
+
+      &__elem {
+        @include menu-link;
+        margin-top: 0.8vh;
+
+        font-size: 1.3vh;
+
+        color: #666666;
+      }
+    }
+  }
+
+  &-corp {
+    &-inner {
+      display: flex;
+      flex-direction: row;
+
+      margin: 0 2vh;
+
+      font-size: 1.5vh;
+    }
+  }
+
+  &__separator {
+    @include separator;
+    border-top: 1px solid rgba(0, 0, 0, 0.3);
+  }
+}

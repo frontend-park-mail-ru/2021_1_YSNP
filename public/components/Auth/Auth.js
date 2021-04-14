@@ -1,3 +1,6 @@
+import authTemplate from './Auth.hbs';
+import './Auth.scss';
+
 /***
  * Auth component
  */
@@ -5,11 +8,9 @@ export class Auth {
     /***
      * Class constructor
      * @param {HTMLElement} parent - element where the component will be inserted
-     * @param {Object} listeners - component listeners
      */
-    constructor(parent, listeners = {}) {
+    constructor(parent) {
         this.__parent = parent;
-        this.__listeners = listeners;
     }
 
     /***
@@ -23,140 +24,100 @@ export class Auth {
     }
 
     /***
-     * Get listeners
-     * @returns {Object}
+     * Get user telephone
+     * @returns {string}
      */
-    get listeners() {
-        return this.__listeners;
+    getTelephone() {
+        return document.getElementById('auth-tel').value;
     }
 
     /***
-     * Set listeners
-     * @param {Object} val - component listeners
+     * Get user password
+     * @returns {string}
      */
-    set listeners(val) {
-        this.__listeners = val;
+    getPassword() {
+        return document.getElementById('auth-password').value;
     }
 
     /***
      * Add component listeners
      */
-    addListeners() {
+    __addListeners() {
         document
             .getElementById('auth-content')
-            .addEventListener(this.__listeners.authClick.type, this.__listeners.authClick.listener);
-
-        document
-            .getElementById('app')
-            .addEventListener(this.__listeners.pageClick.type, this.__listeners.pageClick.listener);
+            .addEventListener(this.__context.listeners.authClick.type, this.__context.listeners.authClick.listener);
 
         window
-            .addEventListener(this.__listeners.keyClick.type, this.__listeners.keyClick.listener);
+            .addEventListener(this.__context.listeners.keyClick.type, this.__context.listeners.keyClick.listener);
 
         document
             .getElementById('auth-form')
-            .addEventListener(this.__listeners.submitForm.type, this.__listeners.submitForm.listener);
+            .addEventListener(this.__context.listeners.submitForm.type, this.__context.listeners.submitForm.listener);
 
         document
             .getElementById('auth-tel')
-            .addEventListener(this.__listeners.telFocus.type, this.__listeners.telFocus.listener);
+            .addEventListener(this.__context.listeners.telFocus.type, this.__context.listeners.telFocus.listener);
 
         document
             .getElementById('auth-tel')
-            .addEventListener(this.__listeners.telInput.type, this.__listeners.telInput.listener);
+            .addEventListener(this.__context.listeners.telInput.type, this.__context.listeners.telInput.listener);
 
         document
             .getElementById('auth-tel')
-            .addEventListener(this.__listeners.telBlur.type, this.__listeners.telBlur.listener);
+            .addEventListener(this.__context.listeners.telBlur.type, this.__context.listeners.telBlur.listener);
     }
 
     /***
      * Remove component listeners
      */
-    removeListeners() {
+    __removeListeners() {
         document
             .getElementById('auth-content')
-            .removeEventListener(this.__listeners.authClick.type, this.__listeners.authClick.listener);
-
-        document
-            .getElementById('app')
-            .removeEventListener(this.__listeners.pageClick.type, this.__listeners.pageClick.listener);
+            .removeEventListener(this.__context.listeners.authClick.type, this.__context.listeners.authClick.listener);
 
         window
-            .removeEventListener(this.__listeners.keyClick.type, this.__listeners.keyClick.listener);
+            .removeEventListener(this.__context.listeners.keyClick.type, this.__context.listeners.keyClick.listener);
+
+        document
+            .getElementById('auth-form')
+            .removeEventListener(this.__context.listeners.submitForm.type, this.__context.listeners.submitForm.listener);
 
         document
             .getElementById('auth-tel')
-            .removeEventListener(this.__listeners.telFocus.type, this.__listeners.telFocus.listener);
+            .removeEventListener(this.__context.listeners.telFocus.type, this.__context.listeners.telFocus.listener);
 
         document
             .getElementById('auth-tel')
-            .removeEventListener(this.__listeners.telInput.type, this.__listeners.telInput.listener);
+            .removeEventListener(this.__context.listeners.telInput.type, this.__context.listeners.telInput.listener);
 
         document
             .getElementById('auth-tel')
-            .removeEventListener(this.__listeners.telBlur.type, this.__listeners.telBlur.listener);
-    }
-
-    /***
-     * Component HTML
-     * @returns {string}
-     * @private
-     */
-    __getTemplate() {
-        return `
-        <div class="auth" id="auth">
-            <div class="auth-content" id="auth-content">
-                <div class="auth-content-inner">
-                        
-                    <svg version="1.1" class="auth-content-inner__close" data-action="closeClick" height="2vh" width="2vh" xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" viewBox="0 0 512.001 512.001" xml:space="preserve">
-                        <g><g>
-                        <path d="M284.286,256.002L506.143,34.144c7.811-7.811,7.811-20.475,0-28.285c-7.811-7.81-20.475-7.811-28.285,0L256,227.717
-                        L34.143,5.859c-7.811-7.811-20.475-7.811-28.285,0c-7.81,7.811-7.811,20.475,0,28.285l221.857,221.857L5.858,477.859
-                        c-7.811,7.811-7.811,20.475,0,28.285c3.905,3.905,9.024,5.857,14.143,5.857c5.119,0,10.237-1.952,14.143-5.857L256,284.287
-                        l221.857,221.857c3.905,3.905,9.024,5.857,14.143,5.857s10.237-1.952,14.143-5.857c7.811-7.811,7.811-20.475,0-28.285
-                        L284.286,256.002z"/>
-                        </g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g>
-                    </svg>
-                
-                    <div class="auth-content-inner__title">
-                        <span>Вход</span>
-                    </div>
-                     <div class="auth-content-inner__error" id="auth-error">
-                        <span></span>
-                    </div>
-                    <form class="auth-content-form" id="auth-form">
-                    <div>
-                        <input class="auth-content-form__input auth-content-form__country" readonly required value="+7">
-                        <input class="auth-content-form__input auth-content-form__tel" id="auth-tel" type="tel" placeholder="(999) 999 99 99" required>
-                    </div>
-                    <div>
-                        <input class="auth-content-form__input auth-content-form__password" id="auth-password" type="password" placeholder="Пароль" required>
-                    </div>
-                        <button class="auth-content-form__button" type="submit">Войти</button>
-                    </form>
-                    <div class="auth-content-form__registration">
-                        <span>Еще не зарегистрировались?</span>
-                        <a href="#" data-action="registrationClick">Создайте аккаунт.</a>
-                    </div>
-                </div>
-            </div>
-        </div>
-        `;
+            .removeEventListener(this.__context.listeners.telBlur.type, this.__context.listeners.telBlur.listener);
     }
 
     /***
      * Add component to parent
      */
-    render() {
-        const template = this.__getTemplate();
-        this.__parent.insertAdjacentHTML('beforeend', template);
+    render(context) {
+        try {
+            this.__context = context;
+
+            this.__parent.insertAdjacentHTML('beforeend', authTemplate());
+            this.__addListeners();
+        } catch (err) {
+            console.log(err.message);
+        }
     }
 
     /***
      * Remove component
      */
     remove() {
-        document.getElementById('auth').remove();
+        try {
+            this.__removeListeners();
+            document.getElementById('auth').remove();
+        } catch (err) {
+            console.log(err.message);
+        }
     }
 }

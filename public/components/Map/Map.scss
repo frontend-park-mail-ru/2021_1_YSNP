@@ -1,0 +1,165 @@
+@import "../../scss/main.scss";
+
+.map {
+  height: 100vh;
+  width: 100vw;
+
+  position: fixed;
+  top: 0;
+
+  display: flex;
+
+  align-items: center;
+  justify-content: center;
+  background-color: rgba(0, 0, 0, 0.5);
+
+  z-index: 101;
+
+  &-content {
+    width: 120vh;
+    position: relative;
+    z-index: 2;
+    @include block;
+
+    &-inner {
+      height: 100%;
+      width: 100%;
+
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+    }
+  }
+
+  &-top {
+    height: 4vh;
+    width: 100%;
+
+    &__title {
+      height: 100%;
+      padding-left: 2vh;
+      display: flex;
+      align-items: center;
+
+      font-size: 2vh;
+    }
+
+    &__close {
+      position: absolute;
+
+      fill: rgb(120, 120, 120);
+
+      top: 1vh;
+      right: 1vh;
+
+      &:hover {
+        cursor: pointer;
+      }
+    }
+  }
+
+  &-middle {
+    height: 60vh;
+    width: 100%;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+  }
+
+  &-bottom {
+    width: 100%;
+
+    display: flex;
+    flex-direction: row;
+
+    &-radius {
+      margin-left: 2vh;
+
+      display: flex;
+      flex-direction: row;
+
+      align-items: center;
+
+      &__desc {
+        margin-left: 2vh;
+
+        font-size: 1.3vh;
+        color: rgb(143, 143, 143);
+      }
+
+      &__text {
+        font-size: 1.3vh;
+        color: #272c35;
+
+        margin-left: auto;
+        margin-right: 1vh;
+      }
+    }
+
+    &-group {
+      height: 2.5vh;
+
+      display: flex;
+      flex-direction: row;
+
+      /*background-color: white;*/
+      /*color: rgb(211, 30, 30);*/
+
+      border: 1px solid rgb(177, 177, 177);
+      border-radius: 5px;
+
+      margin-right: 2vh;
+
+      &__button {
+        height: 100%;
+        overflow: hidden;
+
+        cursor: pointer;
+
+        &:hover {
+          color: $linkColor;
+        }
+      }
+    }
+
+    &__create {
+      @include red-button(15vh, 4vh);
+      margin: 1vh 2vh 1vh auto;
+      border-radius: 0.5vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+  }
+}
+
+.map-bottom-group div + div {
+  border-left: 1px solid rgb(177, 177, 177);
+}
+
+.map-bottom-group__button input[type=radio] {
+  display: none;
+}
+
+.map-bottom-group__button label {
+  height: 100%;
+
+  cursor: pointer;
+
+  display: flex;
+  align-items: center;
+
+  font-size: 1.5vh;
+  padding: 0 1vh;
+}
+
+.map-bottom-group__button input[type=radio]:checked + label {
+  /*color: rgb(112, 146, 254);*/
+  color: rgb(180, 46, 46);
+
+  /*color: white;*/
+  /*background-color: rgb(211, 30, 30);*/
+}

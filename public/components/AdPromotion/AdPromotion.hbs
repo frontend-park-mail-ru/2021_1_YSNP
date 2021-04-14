@@ -1,0 +1,44 @@
+<div class="promotion-product">
+    <div class="promotion-product-success">
+        <img src="/img/svg/checked.svg" alt="" class="success-circle">
+        <div class="promotion-product__text">
+            <span>Ваше объявление успешно опубликовано. Вы можете купить продвижение объявления.</span>
+        </div>
+    </div>
+</div>
+<div class="promotion" id="promotion">
+    <div class="promotion__title">
+        <span>Продвижение</span>
+    </div>
+    <span class="error-hidden" id="promotion-error"></span>
+    <div class="promotion-tariffs">
+        {{#each tariffs}}
+            {{{this}}}
+        {{/each}}
+    </div>
+    <div class="promotion-no-tariff">
+        <div class="promotion-no-tariff-inner" id="block-no-tariff" data-action="nothingClick">
+            <input type="checkbox" id="no-tariff">
+            <label for="no-tariff"></label>
+            <label class="promotion-no-tariff__label">Не продвигать объявление</label>
+        </div>
+    </div>
+    <div class="promotion-button">
+        <form method="POST" action="https://yoomoney.ru/quickpay/confirm.xml">
+            <input type="hidden" name="receiver" value="4100116612179382">
+            <input type="hidden" name="formcomment" id="promotion-title" value="">
+            <input type="hidden" name="short-dest" id="promotion-type" value="">
+            <input type="hidden" name="label" id="promotion-label" value="{{id}}">
+            <input type="hidden" name="quickpay-form" value="small">
+            <input type="hidden" name="targets" id="promotion-description" value="">
+            <input type="hidden" name="sum" id="promotion-sum" value="0" data-type="number">
+            <input type="hidden" name="comment" value="">
+            <input type="hidden" name="need-fio" value="false">
+            <input type="hidden" name="need-email" value="false">
+            <input type="hidden" name="need-phone" value="false">
+            <input type="hidden" name="need-address" value="false">
+            <input type="hidden" name="paymentType" value="AC">
+            <input type="submit" value="Далее" class="promotion-button__purchase" data-action="setClick">
+        </form>
+    </div>
+</div>

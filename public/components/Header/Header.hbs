@@ -1,0 +1,77 @@
+<div class="header" id="header">
+    <div class="header-inner">
+        <div class="header-left">
+
+            <div class="header-left__brand">
+                <a href="/">
+                    <img src="/img/svg/koya.svg" alt="logo">
+                </a>
+            </div>
+
+            <button class="header-left-location" data-action="locationClick">
+                <img src="/img/svg/placeholder.svg" alt="location" class="header-left-location__icon">
+                <span class="header-left-location__name" id="header-address">{{address}}</span>
+            </button>
+
+        </div>
+
+        <div class="header-right">
+
+            <a href="/search">
+                <img class="header-right__search-button" src="/img/svg/search.svg">
+            </a>
+
+            <button class="header-right__create-button" data-action="createProductClick">Разместить объявление</button>
+
+            {{#if isAuth}}
+
+                <img class="header-right__dropdown" data-action="dropdownClick" src="{{linkImage}}" alt="avatar"/>
+
+                <div class="header-dropdown" id="header-dropdown">
+                    <div class="header-dropdown-content header-dropdown-content_hidden" id="header-dropdown-content">
+                        <div class="header-dropdown-content-inner">
+                            <span class="header-dropdown-content__user">{{surname}} {{name}}</span>
+
+                            <div class="header-dropdown-content__separator"></div>
+
+                            <a href="/user/profile" class="header-dropdown-content-item">
+                                <img src="/img/svg/gear.svg" alt="profile" class="header-dropdown-content__logo">
+                                <span>Настройки</span>
+                            </a>
+
+                            <a href="/user/ad" class="header-dropdown-content-item">
+                                <img src="/img/svg/list.svg" alt="ad" class="header-dropdown-content__logo">
+                                <span>Мои объявления</span>
+                            </a>
+
+                            <a href="/user/chats" class="header-dropdown-content-item">
+                                <img src="/img/svg/email.svg" alt="message" class="header-dropdown-content__logo">
+                                <span>Мои сообщения</span>
+                            </a>
+
+                            <a href="/user/favorite" class="header-dropdown-content-item">
+                                <img src="/img/svg/like_light.svg" alt="favorite"
+                                     class="header-dropdown-content__logo">
+                                <span>Избранное</span>
+                            </a>
+
+                            <div class="header-dropdown-content__separator"></div>
+
+                            <button class="header-dropdown-content-item" data-action="logoutClick">
+                                <img src="/img/svg/open-door.svg" alt="logout" class="header-dropdown-content__logo">
+                                <span>Выйти</span>
+                            </button>
+
+                        </div>
+                    </div>
+                </div>
+
+            {{else}}
+
+                <img src="/img/svg/user.svg" alt="user" class="header-right__account" data-action="authClick">
+
+            {{/if}}
+
+        </div>
+    </div>
+</div>

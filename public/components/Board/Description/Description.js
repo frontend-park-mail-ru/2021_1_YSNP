@@ -1,4 +1,5 @@
-'use strict';
+import './Description.scss';
+import descriptionTemplate from './Description.hbs';
 
 /***
  * @author Ivan Gorshkov
@@ -19,52 +20,51 @@ export class Description {
      */
     constructor(parent, data) {
         this.__parent = parent;
-        this.__data = data;
+        this.__ctx = data;
+        this.__context();
     }
 
     /***
      * @author Ivan Gorshkov
      *
-     * getter of html with descriptions blocks
-     * @return {string}
+     * context for template after reformatting
+     * @return {{description: *}}
      * @private
-     * @this {Description}
-     * @readonly
      */
-    get __getDescription() {
-        const descriptions = this.__data.description;
-        let des = '';
-        descriptions.forEach((value) => {
-            des += `
-            <div class="product-des">
-                <div class="product-des-topic">
-                    <p class="product-des-topic__title">${value.title}</p>
-                </div>
-                <div class="product-des-inner">
-                    <p class="product-des__text"> ${value.text.replaceAll('\n', '<br/>')}</p>
-                </div>
-            </div>
-            <hr class="hr-des"/>
-            `;
-        });
-        return des;
+    __reformatContext() {
+        this.__data = {
+            description: this.__data.description.map((value) => ({
+                title: value.title,
+                text: value.text.replaceAll('\n', '<br/>')
+            }))
+        };
+        return this.__data;
     }
 
     /***
      * @author Ivan Gorshkov
      *
-     * main template of component
-     * @return {string}
-     * @private
+     * context before reformat \n tp <br>
      * @this {Description}
+     * @private
      */
-    __getTemplate() {
-        return `    
-             <div class="product-inner">
-                ${this.__getDescription}
-             </div>
-        `;
+    __context() {
+        this.__data = {
+            description: [{
+                title: 'Описание',
+                text: this.__ctx.__description
+            },
+            {
+                title: 'Категория',
+                text: this.__ctx.__category
+            },
+            {
+                title: 'Адрес',
+                text: this.__ctx.__adress
+            }]
+        };
     }
+
 
     /***
      * @author Ivan Gorshkov
@@ -74,7 +74,6 @@ export class Description {
      * @public
      */
     render() {
-        const template = this.__getTemplate();
-        this.__parent.insertAdjacentHTML('beforeend', template);
+        this.__parent.insertAdjacentHTML('beforeend', descriptionTemplate(this.__reformatContext()));
     }
 }

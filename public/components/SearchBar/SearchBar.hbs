@@ -1,0 +1,63 @@
+<div class="search-block">
+    <div class="search-filter">
+        <h3>Фильтр</h3>
+
+        <div class="search-filter-elem">
+            <select id="category" class="search-filter-elem__text-field">
+                <option value="" selected>Все категории</option>
+                {{#each categories}}
+                    <option {{#if_eq ../optionCategory this.title}} selected {{/if_eq}}> {{this.title}} </option>
+                {{/each}}
+            </select>
+        </div>
+
+        <div class="search-filter-elem">
+            <div class="search-filter-amount" id="amount">
+                <input data-action="priceInput" class="search-filter-amount__from" id="fromAmount"
+                       type="text"
+                       placeholder="Цена от, ₽"/>
+                <input data-action="priceInput" class="search-filter-amount__to" id="toAmount"
+                       type="text"
+                       placeholder="до"/>
+            </div>
+        </div>
+
+        <div class="search-filter-elem">
+            <select id="date" class="search-filter-elem__text-field">
+                <option value="" disabled selected hidden>Срок размещения</option>
+                <option {{#if_eq optionDate 'За 24 часа'}} selected {{/if_eq}}>За 24 часа</option>
+                <option {{#if_eq optionDate 'За 7 дней'}} selected {{/if_eq}}>За 7 дней</option>
+                <option {{#if_eq optionDate 'За все время'}} selected {{/if_eq}}>За все время</option>
+            </select>
+        </div>
+
+        <div class="search-filter-elem">
+            <input class="search-filter-elem__button"
+                   id="submitFilter"
+                   data-action="submitFilter"
+                   type="submit"
+                   value="Применить"/>
+        </div>
+    </div>
+
+    <div class="search-items" id="search-panel">
+        <div class="search-items-bar">
+            <input type="text" id="search-field" class="search-items-bar__text-field"
+                   placeholder="Введите товар для поиска..." value="{{textSearch}}"/>
+            <input class="search-items-bar__button" type="submit"
+                   id="search-submit" value="Поиск"
+                   data-action="submitSearch"/>
+        </div>
+
+        <select id="sorting" data-action="changeSort" class="search-items__sort">
+            <option value="" disabled selected hidden>Сортировать по</option>
+            <option {{#if_eq optionSort 'По возрастанию цены'}} selected {{/if_eq}}>По возрастанию цены</option>
+            <option {{#if_eq optionSort 'По убыванию цены'}} selected {{/if_eq}}>По убыванию цены</option>
+            <option {{#if_eq optionSort 'По имени'}} selected {{/if_eq}}>По имени</option>
+        </select>
+
+        <div class="search-items__separator"></div>
+
+        <div class="search-items-product" id="product-content"></div>
+    </div>
+</div>

@@ -5,9 +5,11 @@
   "main": "index.js",
   "scripts": {
     "lint": "eslint -c .eslintrc.js public",
+    "build": "webpack",
+    "buildDebug": "webpack --mode=development --watch",
     "start": "forever start server",
     "stop": "forever stop server",
-    "debug": "DEBUG=express:* node server",
+    "startDebug": "node server",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
@@ -22,11 +24,35 @@
   },
   "homepage": "https://github.com/frontend-park-mail-ru/2021_1_YSNP#readme",
   "dependencies": {
-    "body-parser": "^1.19.0",
-    "cookie-parser": "^1.4.5",
+    "@babel/core": "^7.13.14",
+    "babel-loader": "^8.2.2",
+    "copy-webpack-plugin": "^8.0.0",
     "eslint": "^7.20.0",
     "express": "^4.17.1",
+    "file-loader": "^6.2.0",
     "forever": "^3.0.4",
-    "morgan": "^1.10.0"
-  }
+    "handlebars": "^4.7.7",
+    "handlebars-loader": "^1.7.1",
+    "html-webpack-plugin": "^5.3.1",
+    "svg-url-loader": "^7.1.1",
+    "webpack": "^5.30.0",
+    "webpack-cli": "^4.5.0"
+  },
+  "devDependencies": {
+    "autoprefixer": "^10.2.5",
+    "css-loader": "^5.2.0",
+    "mini-css-extract-plugin": "^1.4.0",
+    "node-sass": "^5.0.0",
+    "postcss-loader": "^5.2.0",
+    "sass-loader": "^11.0.1",
+    "style-loader": "^2.0.0"
+  },
+  "browserslist": [
+    "defaults",
+    "not ie < 11",
+    "last 2 versions",
+    "> 1%",
+    "iOS 7",
+    "last 3 iOS versions"
+  ]
 }

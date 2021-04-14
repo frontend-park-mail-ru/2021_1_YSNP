@@ -1,8 +1,16 @@
 import {PasswordUserModel} from './PasswordUserModel.js';
 
 import {http} from '../modules/http.js';
-import {urls} from '../modules/urls.js';
+import {backUrls} from '../modules/backUrls.js';
 import {httpStatus} from '../modules/httpStatus.js';
+
+import {
+    UnauthorizedError,
+    ForbiddenError,
+    BadRequestError,
+    OfflineError,
+    InternalServerError
+} from '../modules/customError.js';
 
 /***
  * Registration user model
@@ -18,19 +26,19 @@ export class RegUserData extends PasswordUserModel {
 
     /***
      * Get registration user model Json
-     * @returns {{password: string, year: (Object.year|string|*), surname: (Object.surname|string|*), sex: (Object.sex|string|*), name: (Object.name|string|*), telephone: (Object.telephone|string|*), email: (Object.email|string|*)}}
+     * @returns {{surname: Object.surname, sex: Object.sex, name: Object.name, telephone: Object.telephone, password2: string, linkImages: Object.linkImages, password1: string, dateBirth: Object.dateBirth, email: Object.email}}
      * @private
      */
     __jsonData() {
         return {
-            id: 0,
             name: this.__name,
             surname: this.__surname,
             dateBirth: this.__dateBirth,
             sex: this.__sex,
             email: this.__email,
             telephone: this.__telephone,
-            password: this.__password,
+            password1: this.__password1,
+            password2: this.__password2,
             linkImages: this.__linkImages
         };
     }
@@ -41,45 +49,55 @@ export class RegUserData extends PasswordUserModel {
      * @returns {Promise<{}|void>}
      */
     async registration(form) {
-        return await http.post(urls.upload, new FormData(form), true)
-            .then(({status, data}) => {
-                if (status === httpStatus.StatusOK) {
-                    console.log(data);
-                    this.__linkImages.push(data.linkImages);
-
-                    return http.post(urls.singUp, this.__jsonData()).then(({status, data}) => {
-                        if (status === httpStatus.StatusOK) {
-                            return {};
-                        }
-
-                        if (status === httpStatus.StatusBadRequest) {
-                            throw new Error(data.message);
-                        }
-
-                        return {};
-                    }).catch((err) => {
-                        throw err;
-                    });
+        return http.post(backUrls.singUp, this.__jsonData())
+            .then(({status}) => {
+                if (status === httpStatus.StatusBadRequest) {
+                    throw new BadRequestError('Пользователь уже существует');
+                    // throw new BadRequestError(data.message);
                 }
 
-                return {};
-            }).catch((err) => Promise.reject(err));
-    }
+                if (status === httpStatus.StatusForbidden) {
+                    throw new ForbiddenError();
+                    // throw new ForbiddenError(data.message);
+                }
 
-    /***
-     * Log current data
-     */
-    log() {
-        console.dir({
-            id: this.__id,
-            name: this.__name,
-            surname: this.__surname,
-            sex: this.__sex,
-            dateBirth: this.__dateBirth,
-            email: this.__email,
-            telephone: this.__telephone,
-            linkImages: this.__linkImages,
-            password: this.__password
-        });
+                if (status === httpStatus.StatusOffline) {
+                    throw new OfflineError();
+                    // throw new OfflineError(data.message);
+                }
+
+                if (status === httpStatus.StatusInternalServerError) {
+                    throw new InternalServerError();
+                    // throw new InternalServerError(data.message);
+                }
+
+                return http.post(backUrls.upload, new FormData(form), true)
+                    .then(({status}) => {
+                        if (status === httpStatus.StatusBadRequest) {
+                            throw new BadRequestError();
+                            // throw new BadRequestError(data.message);
+                        }
+
+                        if (status === httpStatus.StatusUnauthorized) {
+                            throw new UnauthorizedError();
+                            // throw new UnauthorizedError(data.message);
+                        }
+
+                        if (status === httpStatus.StatusForbidden) {
+                            throw new ForbiddenError();
+                            // throw new ForbiddenError(data.message);
+                        }
+
+                        if (status === httpStatus.StatusOffline) {
+                            throw new OfflineError();
+                            // throw new OfflineError(data.message);
+                        }
+
+                        if (status === httpStatus.StatusInternalServerError) {
+                            throw new InternalServerError();
+                            // throw new InternalServerError(data.message);
+                        }
+                    });
+            });
     }
 }
