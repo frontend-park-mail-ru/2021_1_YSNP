@@ -124,62 +124,53 @@ const getOptionsType = [
  * @return {Object} - fields of createForm
  */
 export const baseCreateProduct = {
-    name: {
-        title: 'Название*',
-        placeholder: 'Название товара',
-        inputType: 'text',
-        id: 'nameInput',
-        dataAction: 'inputEmpty',
-        template: fieldTemplate.bind()
-    },
-    categories: {
-        title: 'Категория*',
-        placeholder: 'Категория',
-        inputType: 'select',
-        id: 'categorySelect',
-        dataAction: 'inputEmpty',
-        template: fieldSelectTemplate.bind(),
-        options: []
-    },
-    type: {
-        title: 'Тип*',
-        placeholder: 'Тип',
-        inputType: 'select',
-        id: 'typeSelect',
-        dataAction: 'inputEmpty',
-        template: fieldSelectTemplate.bind(),
-        options: getOptionsType
-    },
-    price: {
-        title: 'Цена*',
-        placeholder: 'Цена (₽)',
-        inputType: 'text',
-        id: 'priceInput',
-        dataAction: 'priceInput',
-        template: fieldTemplate.bind()
-    },
-    description: {
-        title: 'Описание*',
-        placeholder: 'Описание',
-        inputType: 'textarea',
-        id: 'textareaInput',
-        dataAction: 'textareaInputEmpty',
-        template: fieldTextAreaTemplate.bind()
-    },
-    avatar: {
-        title: 'Фото',
-        template: fieldMultiPhotoTemplate.bind()
-    },
-    address: {
-        title: 'Адрес',
-        placeholder: 'Укажите на карте адрес',
-        inputType: 'text',
-        id: 'addressInput',
-        dataAction: 'tapMap',
-        template: fieldTemplate.bind(),
-        params: ''
-    }
-};
+        name: {
+            title: 'Название*',
+            placeholder: 'Название товара',
+            inputType: 'text',
+            id: 'nameInput',
+            dataAction: 'inputEmpty',
+            template: fieldTemplate.bind()
+        },
+        categories: {
+            title: 'Категория*',
+            placeholder: 'Категория',
+            inputType: 'select',
+            id: 'categorySelect',
+            dataAction: 'inputEmpty',
+            template: fieldSelectTemplate.bind(),
+            options: []
+        },
+        price: {
+            title: 'Цена*',
+            placeholder: 'Цена (₽)',
+            inputType: 'text',
+            id: 'priceInput',
+            dataAction: 'priceInput',
+            template: fieldTemplate.bind()
+        },
+        description: {
+            title: 'Описание*',
+            placeholder: 'Описание',
+            inputType: 'textarea',
+            id: 'textareaInput',
+            dataAction: 'textareaInputEmpty',
+            template: fieldTextAreaTemplate.bind()
+        },
+        avatar: {
+            title: 'Фото',
+            template: fieldMultiPhotoTemplate.bind()
+        },
+        address: {
+            title: 'Адрес',
+            placeholder: 'Укажите на карте адрес',
+            inputType: 'text',
+            id: 'addressInput',
+            dataAction: 'tapMap',
+            template: fieldTemplate.bind(),
+            params: ''
+        }
+    };
 
 getCategories()
     .then(({data}) => {

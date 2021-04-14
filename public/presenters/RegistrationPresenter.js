@@ -5,7 +5,7 @@ import {parseTelNumber, telMask} from '../modules/mask.js';
 import {router} from '../modules/router.js';
 import {frontUrls} from '../modules/frontUrls.js';
 import {RegUserData} from '../models/RegUserData.js';
-import {noop} from '../models/Noop.js';
+import {noop} from '../modules/Noop.js';
 import {checkIsNotAuth} from '../modules/checkAuth.js';
 
 
