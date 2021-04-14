@@ -5,7 +5,7 @@ import {router} from '../modules/router.js';
 import {frontUrls} from '../modules/frontUrls.js';
 import {ProductModel} from '../models/ProductModel.js';
 import {eventHandlerWithDataType} from '../modules/eventHandler';
-import {noop} from '../models/Noop.js';
+import {noop} from '../modules/Noop.js';
 import {checkIsAuth} from '../modules/checkAuth.js';
 
 /***

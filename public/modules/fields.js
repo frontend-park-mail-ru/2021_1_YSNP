@@ -140,15 +140,6 @@ export const baseCreateProduct = {
             template: fieldSelectTemplate.bind(),
             options: []
         },
-        type: {
-            title: 'Тип*',
-            placeholder: 'Тип',
-            inputType: 'select',
-            id: 'typeSelect',
-            dataAction: 'inputEmpty',
-            template: fieldSelectTemplate.bind(),
-            options: getOptionsType
-        },
         price: {
             title: 'Цена*',
             placeholder: 'Цена (₽)',
