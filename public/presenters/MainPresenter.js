@@ -9,7 +9,7 @@ import {eventProductListHandler, eventHandlerWithDataType} from '../modules/even
 import {EndlessScroll} from '../modules/endlessScroll.js';
 import {PageUpHandler} from '../modules/pageUpHandler.js';
 
-import {localStorage} from '../modules/localStorage.js';
+import {customSessionStorage} from '../modules/customSessionStorage.js';
 
 /***
  * Main presenter
@@ -210,7 +210,7 @@ export class MainPresenter extends BasePresenter {
      * @private
      */
     __categoryClick(ev) {
-        localStorage.set('category', ev.target.innerText);
+        customSessionStorage.set('category', ev.target.innerText);
 
         router.redirect(frontUrls.search, '', {title: 'Koya'});
     }
@@ -220,7 +220,7 @@ export class MainPresenter extends BasePresenter {
      * @private
      */
     __searchButton() {
-        localStorage.set('category', '');
+        customSessionStorage.set('category', '');
         const val = this.__view.getTextFromSearch();
         if (val !== '') {
             router.redirect(frontUrls.searchWithText(val), '', {title: 'Koya'});
