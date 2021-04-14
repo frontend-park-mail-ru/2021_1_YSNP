@@ -55,7 +55,7 @@ export class ProfileUserModel extends PasswordUserModel {
 
     /***
      * Get settings user model Json
-     * @returns {{password: string, year: (Object.year|string|*), surname: (Object.surname|string|*), sex: (Object.sex|string|*), name: (Object.name|string|*), telephone: (Object.telephone|string|*), email: (Object.email|string|*)}}
+     * @returns {{surname, sex, name, telephone, dateBirth, email}}
      * @private
      */
     __jsonData() {
@@ -65,9 +65,7 @@ export class ProfileUserModel extends PasswordUserModel {
             dateBirth: this.__dateBirth,
             sex: this.__sex,
             email: this.__email,
-            telephone: this.__telephone,
-            password: this.__password1,
-            linkImages: this.__linkImages
+            telephone: this.__telephone
         };
     }
 
