@@ -1,43 +1,64 @@
 @import "../../scss/main.scss";
 
 .footer {
-  width: 80vw;
-  margin: 0 auto;
-  padding-top: 2vw;
-  padding-bottom: 2vw;
-
-  &-hr {
-    opacity: 0.2;
-  }
+  margin-bottom: 1vh;
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
 
   &-inner {
-    margin-left: 1vh;
-    display: flex;
-    justify-content: space-between;
-
+    margin: 0 10vw;
   }
 
-  &__link {
-    opacity: 0.5;
-    text-decoration: underline;
-    display: block;
-    text-decoration-color: #272c35;
-
-    &:hover {
-      cursor: pointer;
-      color: #D31E1E;
+  &-urls {
+    &-inner {
+      margin: 2vh 15vh;
+      display: flex;
+      flex-direction: row;
+      justify-content: space-between;
     }
 
-    &:link {
-      color: #272c35;
+
+    &__logo {
+      height: 11vh;
+      width: 20vh;
     }
 
-    &:visited {
-      color: #272c35;
+    &-container {
+      display: flex;
+      flex-direction: column;
+
+      &__title {
+        margin-bottom: 0.7vh;
+
+        font-size: 2vh;
+      }
+
+      &__elem {
+        @include menu-link;
+        margin-top: 0.8vh;
+
+        font-size: 1.3vh;
+
+        color: #666666;
+      }
     }
   }
 
-  &__corp{
-    opacity: 0.5;
+  &-corp {
+    &-inner {
+      display: flex;
+      flex-direction: row;
+
+      margin: 0 2vh;
+
+      font-size: 1.5vh;
+    }
+  }
+
+  &__separator {
+    @include separator;
+    border-top: 1px solid rgba(0, 0, 0, 0.3);
   }
 }

@@ -1,25 +1,46 @@
-
 <div class="footer" id="footer">
-    <hr class="footer-hr"/>
     <div class="footer-inner">
-        <div class="footer-content">
-            <a class="footer__link">Помощь</a>
-            <a class="footer__link">Реклама на koya</a>
-            <a class="footer__link">Лицензионное соглашение</a>
+
+        <div class="footer__separator"></div>
+
+        <div class="footer-urls">
+            <div class="footer-urls-inner">
+                <div class="footer-urls-container">
+                    <img class="footer-urls__logo" src="/img/svg/koya.svg" alt="logo">
+                </div>
+
+                <div class="footer-urls-container">
+                    <span class="footer-urls-container__title">Покупателям</span>
+                    <a class="footer-urls-container__elem" data-action="createProductClick">Разместить объявление</a>
+                    <a class="footer-urls-container__elem" data-action="locationClick">{{address}}</a>
+                    <a href="/search" class="footer-urls-container__elem">Поиск</a>
+
+                </div>
+
+                <div class="footer-urls-container">
+                    <span class="footer-urls-container__title">Профиль</span>
+
+                    {{#if isAuth}}
+                        <a href="/user/profile" class="footer-urls-container__elem">Настройки</a>
+                        <a href="/user/ad" class="footer-urls-container__elem">Мои объявления</a>
+                        <a href="/user/chats" class="footer-urls-container__elem">Мои сообщения</a>
+                        <a href="/user/favorite" class="footer-urls-container__elem">Избранное</a>
+                    {{else}}
+                        <a class="footer-urls-container__elem" data-action="authClick">Авторизация</a>
+                        <a href="/signup" class="footer-urls-container__elem">Регистрация</a>
+                    {{/if}}
+
+                </div>
+            </div>
         </div>
-        <div class="footer-content">
-            <a class="footer__link">Безопасность</a>
-            <a class="footer__link">О компании</a>
+
+        <div class="footer__separator"></div>
+
+        <div class="footer-corp">
+            <div class="footer-corp-inner">
+                <span>© 2021 YSNP</span>
+            </div>
         </div>
-        <div class="footer-content">
-            <a class="footer__link" data-action="locationClick">{{address}}</a>
-    {{#if isAuth}}
-            <a href="/user/profile" class="footer__link">Профиль</a>
-    {{/if}}
-            <a class="footer__link" data-action="createProductClick">Разместить объявление</a>
-        </div>
-        <div class="footer-content">
-            <a class="footer__corp">© 2021 YSNP</a>
-        </div>
+
     </div>
 </div>

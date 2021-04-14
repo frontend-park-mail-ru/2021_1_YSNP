@@ -102,6 +102,7 @@ export const baseRegistration = {
 async function getCategories() {
     return http.get(backUrls.categories);
 }
+
 // eslint-disable-next-line init-declarations
 export let categories;
 /***
@@ -171,7 +172,8 @@ export const baseCreateProduct = {
         }
     };
 
-getCategories().then(({data}) => {
-    categories = data;
-    baseCreateProduct.categories.options = categories;
-});
+getCategories()
+    .then(({data}) => {
+        categories = data;
+        baseCreateProduct.categories.options = categories;
+    });

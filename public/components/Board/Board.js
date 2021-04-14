@@ -136,6 +136,10 @@ export class Board {
     }
 
 
+    /***
+     * Show number
+     * @param tel
+     */
     showNumber(tel) {
         this.__infoCard.showNumber(tel);
     }

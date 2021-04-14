@@ -344,8 +344,8 @@ export class UserProfilePresenter extends BasePresenter {
                         showBackendError(errorSettingsID, message);
                     }
                 })
-                .catch((error) => {
-                    showBackendError(errorSettingsID, error.message);
+                .catch((err) => {
+                    showBackendError(errorSettingsID, err.message);
 
                     this.checkOfflineStatus(err);
                     this.checkOffline();
