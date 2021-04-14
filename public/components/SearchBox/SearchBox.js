@@ -17,22 +17,6 @@ export class SearchBox {
     }
 
     /***
-     * getter for listeners
-     * @return {Object}
-     */
-    get listeners() {
-        return this.__listeners;
-    }
-
-    /***
-     * setter for listeners
-     * @return {Object}
-     */
-    set listeners(val) {
-        this.__listeners = val;
-    }
-
-    /***
      *
      * @return {string}
      */
