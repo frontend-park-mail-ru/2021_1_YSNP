@@ -426,11 +426,19 @@ export class UserProfilePresenter extends BasePresenter {
      * @private
      */
     __validateString(target) {
-        let error = true;
-        if (target.value !== '') {
-            error = false;
+        let error = false;
+        let message = '';
+        if (target.value === '') {
+            error = true;
+            message = 'Поле не должно быть пустым';
         }
-        return validateError(error, target, 'Поле не должно быть пустым');
+
+        if (target.value.length > 30) {
+            error = true;
+            message = 'Поле не должно превышать 30 знаков';
+        }
+
+        return validateError(error, target, message);
     }
 
     /***

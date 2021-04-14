@@ -4,8 +4,8 @@ import {eventHandlerWithDataType} from '../modules/eventHandler.js';
 import {parseTelNumber, telMask} from '../modules/mask.js';
 import {router} from '../modules/router.js';
 import {frontUrls} from '../modules/frontUrls.js';
-import {RegUserData} from '../models/RegUserData.js';
-import {noop} from '../modules/Noop.js';
+import {RegUserModel} from '../models/RegUserModel.js';
+import {noop} from '../modules/noop.js';
 import {checkIsNotAuth} from '../modules/checkAuth.js';
 
 
@@ -20,7 +20,7 @@ export class RegistrationPresenter extends BasePresenter {
      */
     constructor(view) {
         super(view);
-        this.__model = new RegUserData();
+        this.__model = new RegUserModel();
         this.__view = view;
         this.__isPicAdd = false;
     }

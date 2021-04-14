@@ -5,7 +5,7 @@ import {frontUrls} from '../modules/frontUrls.js';
 import {SearchModel} from '../models/SearchModel.js';
 import {amountMask, parseAmount} from '../modules/mask.js';
 import {PageUpHandler} from '../modules/pageUpHandler.js';
-import {noop} from '../modules/Noop';
+import {noop} from '../modules/noop';
 import {EndlessScroll} from '../modules/endlessScroll';
 
 import {localStorage} from '../modules/localStorage.js';

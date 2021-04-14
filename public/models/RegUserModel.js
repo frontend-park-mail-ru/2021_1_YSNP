@@ -15,7 +15,7 @@ import {
 /***
  * Registration user model
  */
-export class RegUserData extends PasswordUserModel {
+export class RegUserModel extends PasswordUserModel {
     /***
      * Fill user model data
      * @param {Object} data - user data
