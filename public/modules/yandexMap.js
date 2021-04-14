@@ -1,6 +1,6 @@
 /* eslint-disable */
 
-import {noop} from './Noop.js';
+import {noop} from './noop.js';
 
 /***
  * Yandex map module
