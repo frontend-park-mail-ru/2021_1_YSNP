@@ -102,6 +102,10 @@ export class ProductView extends BaseView {
         document.title = `${this.__context.product.data.__name}`;
     }
 
+    /***
+     * Show user number
+     * @param tel
+     */
     showNumber(tel) {
         this.__boardSubView.showNumber(tel);
     }
