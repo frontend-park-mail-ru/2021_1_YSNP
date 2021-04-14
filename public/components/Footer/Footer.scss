@@ -1,7 +1,11 @@
 @import "../../scss/main.scss";
 
 .footer {
-  margin: 3vh 0;
+  margin-bottom: 1vh;
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
 
   &-inner {
     margin: 0 10vw;
