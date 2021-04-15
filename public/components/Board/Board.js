@@ -36,7 +36,10 @@ export class Board {
      */
     addListeners() {
         document
-            .getElementById('board')
+            .getElementById('sliderPanel')
+            .addEventListener(this.listeners.product.type, this.listeners.product.listener);
+        document
+            .getElementById('info-card-btns')
             .addEventListener(this.listeners.product.type, this.listeners.product.listener);
     }
 
@@ -49,8 +52,11 @@ export class Board {
      */
     removeListeners() {
         document
-            .getElementById('board')
+            .getElementById('sliderPanel')
             .removeEventListener(this.listeners.product.type, this.listeners.product.listener);
+        document
+            .getElementById('info-card-btns')
+            .addEventListener(this.listeners.product.type, this.listeners.product.listener);
     }
 
     /***
