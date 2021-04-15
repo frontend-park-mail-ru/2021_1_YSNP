@@ -321,6 +321,8 @@ export class ProfileUserModel extends PasswordUserModel {
                     throw new InternalServerError();
                     // throw new InternalServerError(data.message);
                 }
+
+                this.__isAuth = false;
             });
     }
 }
