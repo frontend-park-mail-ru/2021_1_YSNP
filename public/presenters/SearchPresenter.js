@@ -8,7 +8,7 @@ import {PageUpHandler} from '../modules/pageUpHandler.js';
 import {noop} from '../modules/noop';
 import {EndlessScroll} from '../modules/endlessScroll';
 
-import {localStorage} from '../modules/localStorage.js';
+import {customSessionStorage} from '../modules/customSessionStorage.js';
 import {categories} from '../modules/fields.js';
 
 /***
@@ -205,7 +205,7 @@ export class SearchPresenter extends BasePresenter {
      * @private
      */
     __sort(ev) {
-        localStorage.set('sort', ev.target.value);
+        customSessionStorage.set('sort', ev.target.value);
 
         this.__search().then(() => noop());
     }
@@ -217,8 +217,8 @@ export class SearchPresenter extends BasePresenter {
      * @private
      */
     __submitFilter() {
-        localStorage.set('category', this.__view.getAllFields().category.value);
-        localStorage.set('date', this.__view.getAllFields().date.value);
+        customSessionStorage.set('category', this.__view.getAllFields().category.value);
+        customSessionStorage.set('date', this.__view.getAllFields().date.value);
 
         this.__search().then(() => noop());
     }
@@ -355,9 +355,9 @@ export class SearchPresenter extends BasePresenter {
             search: {
                 data: {
                     textSearch: this.__searchInitText,
-                    optionSort: localStorage.get('sort'),
-                    optionCategory: localStorage.get('category'),
-                    optionDate: localStorage.get('date'),
+                    optionSort: customSessionStorage.get('sort'),
+                    optionCategory: customSessionStorage.get('category'),
+                    optionDate: customSessionStorage.get('date'),
                     categories: categories
                 },
                 listeners: this.__createListeners().search
