@@ -72,11 +72,12 @@
       background: none;
       @include input;
 
-      &__gender{
+      &__gender {
         @include input;
         background: none;
         cursor: pointer;
-        &:disabled{
+
+        &:disabled {
           border: 0;
         }
       }

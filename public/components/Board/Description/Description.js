@@ -54,14 +54,14 @@ export class Description {
                 title: 'Описание',
                 text: this.__ctx.__description
             },
-            {
-                title: 'Категория',
-                text: this.__ctx.__category
-            },
-            {
-                title: 'Адрес',
-                text: this.__ctx.__adress
-            }]
+                {
+                    title: 'Категория',
+                    text: this.__ctx.__category
+                },
+                {
+                    title: 'Адрес',
+                    text: this.__ctx.__adress
+                }]
         };
     }
 
