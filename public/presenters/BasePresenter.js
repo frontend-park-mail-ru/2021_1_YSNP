@@ -403,7 +403,8 @@ export class BasePresenter {
 
         this.__userModel.position()
             .then(() => {
-                this.__closeMap();
+                // this.__closeMap();
+                router.redirectCurrent();
                 this.__view.updateAddress(this.__userModel.getData().address);
             })
             .catch((err) => {

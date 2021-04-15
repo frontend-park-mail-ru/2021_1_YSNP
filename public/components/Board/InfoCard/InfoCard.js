@@ -103,7 +103,7 @@ export class InfoCard {
      */
     get __getDate() {
         const date = new Date(this.__data.__date);
-        return date.toLocaleDateString('ru-RU', { weekday: 'short', day: 'numeric', month: 'short', year: 'numeric' });
+        return date.toLocaleDateString('ru-RU', {weekday: 'short', day: 'numeric', month: 'short', year: 'numeric'});
     }
 
     /***
