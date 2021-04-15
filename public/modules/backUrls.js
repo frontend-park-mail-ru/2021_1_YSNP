@@ -6,8 +6,8 @@ class BackUrls {
      * Class constructor
      */
     constructor() {
-        //this.__url = 'https://ykoya.ru';
-        this.__url = 'http://localhost:8080';
+        this.__url = 'https://ykoya.ru';
+        //this.__url = 'http://localhost:8080';
         this.__api = '/api/v1';
     }
 
