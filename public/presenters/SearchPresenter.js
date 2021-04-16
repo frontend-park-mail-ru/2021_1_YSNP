@@ -121,6 +121,10 @@ export class SearchPresenter extends BasePresenter {
                 validateInput: {
                     type: 'input',
                     listener: this.__listenerSearch.bind(this, 'action', this.__getActions().search)
+                },
+                mapOpen: {
+                    type: 'click',
+                    listener: this.mapMap.bind(this)
                 }
             },
             productList: {
@@ -133,6 +137,16 @@ export class SearchPresenter extends BasePresenter {
                 scrollEnd: this.__scrollEnd.bind(this)
             }
         };
+    }
+
+    /***
+     * Map map
+     * @param ev
+     */
+    mapMap(ev) {
+        //TODO(Sergey) перепиши эту херню
+        ev.stopPropagation();
+        this.__openMap();
     }
 
     /***
