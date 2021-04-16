@@ -366,7 +366,6 @@ export class ProductCreatePresenter extends BasePresenter {
      */
     __deletePicture(ev) {
         this.__count = this.__view.deletePicture(ev.target, this.__count -= 1);
-        document.event.stopImmediatePropagation();
     }
 
     /***
@@ -434,9 +433,11 @@ export class ProductCreatePresenter extends BasePresenter {
      * this {ProductCreatePresenter}
      */
     __upload(ev) {
-        const maxPics = 10;
-        if (this.__count < maxPics) {
-            this.__view.openFileSystem(ev.target);
+        if (ev.target.className !== this.__view.getCrossClass()) {
+            const maxPics = 10;
+            if (this.__count < maxPics) {
+                this.__view.openFileSystem(ev.target);
+            }
         }
     }
 

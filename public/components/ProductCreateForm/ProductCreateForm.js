@@ -310,6 +310,12 @@ export class ProductCreateForm {
         return this.__yaMap.city;
     }
 
+    /***
+     * get class of cross element
+     */
+    getCrossClass() {
+        return 'cross';
+    }
 
     /***
      * get position from map

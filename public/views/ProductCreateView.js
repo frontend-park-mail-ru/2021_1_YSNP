@@ -194,6 +194,12 @@ export class ProductCreateView extends BaseView {
         this.__productCreate.changeDisableButton(title);
     }
 
+    /***
+     * get class of cross element
+     */
+    getCrossClass() {
+        return this.__productCreate.getCrossClass();
+    }
 
     /***
      * make enable btn
