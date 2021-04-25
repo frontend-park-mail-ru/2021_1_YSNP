@@ -282,9 +282,8 @@ export class BasePresenter {
 
     /***
      * Open map
-     * @private
      */
-    __openMap() {
+    openMap() {
         this.closeAllComponents();
         this.__isShownMap = true;
         this.__view.updateMapContext(this.__getUserPosition());
@@ -423,7 +422,7 @@ export class BasePresenter {
         return {
             header: {
                 locationClick: {
-                    open: this.__openMap.bind(this)
+                    open: this.openMap.bind(this)
                 },
                 createProductClick: {
                     open: this.__openCreateProduct.bind(this)

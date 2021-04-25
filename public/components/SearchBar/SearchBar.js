@@ -95,6 +95,9 @@ export class SearchBar {
         document
             .getElementById('amount')
             .addEventListener(this.listeners.validateInput.type, this.listeners.validateInput.listener);
+        document
+            .getElementById('search-map')
+            .addEventListener(this.listeners.mapOpen.type, this.listeners.mapOpen.listener);
     }
 
     /***

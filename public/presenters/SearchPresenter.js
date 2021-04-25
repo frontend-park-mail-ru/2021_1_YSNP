@@ -121,6 +121,10 @@ export class SearchPresenter extends BasePresenter {
                 validateInput: {
                     type: 'input',
                     listener: this.__listenerSearch.bind(this, 'action', this.__getActions().search)
+                },
+                mapOpen: {
+                    type: 'click',
+                    listener: this.__openMapPopUp.bind(this)
                 }
             },
             productList: {
@@ -133,6 +137,15 @@ export class SearchPresenter extends BasePresenter {
                 scrollEnd: this.__scrollEnd.bind(this)
             }
         };
+    }
+
+    /***
+     * Open Map PopUp
+     * @param {MouseEvent} ev - event
+     */
+    __openMapPopUp(ev) {
+        ev.stopPropagation();
+        this.openMap();
     }
 
     /***

@@ -1,6 +1,30 @@
 @import "../../scss/main";
 
 .search {
+  &-label {
+    margin: 1.5vh 0;
+    width: 100%;
+
+    &__title {
+      font-size: 3vh;
+    }
+
+    &-text {
+      margin-top: 0.6vh;
+
+      font-size: 1.7vh;
+      color: rgba(0, 0, 0, 0.8);
+
+      &__map {
+        color: #551A8B;
+
+        &:hover {
+          cursor: pointer;
+        }
+      }
+    }
+  }
+
   &-block {
     display: flex;
 
