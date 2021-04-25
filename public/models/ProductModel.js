@@ -247,7 +247,6 @@ export class ProductModel {
             name: this.__name,
             description: this.__description,
             amount: this.__amount,
-            linkImages: this.__linkImages,
             category: this.__category,
             latitude: this.__latitude,
             longitude: this.__longitude,

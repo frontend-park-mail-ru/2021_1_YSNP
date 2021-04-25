@@ -431,6 +431,7 @@ export class RegistrationPresenter extends BasePresenter {
                     //TODO(Sergey) нормальная обработка ошибок
                     console.log(err.message);
 
+                    this.scrollUp();
                     this.__view.errorText(err.message);
 
                     this.checkOfflineStatus(err);
