@@ -26,13 +26,18 @@ export class YandexMap {
     }
 
     /***
-     * Render position
-     * @param {{latitude: number, longitude: number}} pos - position
-     * @param {number} radius - radius
+     * Set user initial data and render position position
+     * @param {{latitude: number, longitude: number}} pos - user position
+     * @param {number} radius - user radius
+     * @param {string} address - user address
      */
-    setPosition(pos, radius) {
-        ymaps.ready(this.addPointWithCircle.bind(this, pos, radius));
-        ymaps.ready(this.setCenter.bind(this, pos, 11));
+    setInitialData(pos, radius, address) {
+        this.__pos = pos;
+        this.__radius = radius;
+        this.__text = address;
+
+        ymaps.ready(this.addPointWithCircle.bind(this, this.__pos, this.__radius));
+        ymaps.ready(this.setCenter.bind(this, this.__pos, 11));
     }
 
     /***
