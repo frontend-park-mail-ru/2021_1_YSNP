@@ -5,6 +5,8 @@
   @include shadow-block;
   margin: 0.5vw 0.5vw 1vw;
 
+  box-sizing: border-box;
+
   position: relative;
   overflow: hidden;
   transition-duration: 0.5s;
