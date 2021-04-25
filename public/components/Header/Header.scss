@@ -35,8 +35,10 @@
       border: 0;
       background: none;
       cursor: pointer;
-      display: flex;
       align-items: center;
+
+      @include overflow-text-width;
+      max-width: 50%;
 
       &:focus {
         outline: none;
@@ -142,12 +144,10 @@
         margin: 1.3vh 0;
 
         display: block;
-        white-space: nowrap;
-        overflow: hidden;
-        text-overflow: ellipsis;
         color: $textColorDefault;
-
         font-size: 1.7vh;
+
+        @include overflow-text-width;
       }
 
       &__separator {

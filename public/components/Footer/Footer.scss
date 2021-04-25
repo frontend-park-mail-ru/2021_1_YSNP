@@ -43,6 +43,11 @@
 
         color: #666666;
       }
+
+      &__address {
+        max-width: 30vh;
+        @include overflow-text-width;
+      }
     }
   }
 

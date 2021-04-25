@@ -96,7 +96,7 @@
     display: flex;
 
     &-inner {
-      width: 90%;
+      width: 84%;
       margin: 1vw;
 
       display: flex;
@@ -104,14 +104,12 @@
     }
 
     &__name {
-      max-height: 2.3vw;
       width: 100%;
       margin-bottom: 0.4vw;
 
       font-size: 1vw;
 
-      overflow: hidden;
-      text-overflow: ellipsis;
+      @include overflow-text-height(2.3vw);
     }
 
     &__date {
@@ -123,13 +121,12 @@
       width: 100%;
       font-size: 1.4vw;
 
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
+      @include overflow-text-width;
 
       margin-top: auto;
 
       &_vip {
+        max-width: 90%;
         width: fit-content;
 
         padding: 0.2vw 0.5vw;
