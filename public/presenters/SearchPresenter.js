@@ -124,7 +124,7 @@ export class SearchPresenter extends BasePresenter {
                 },
                 mapOpen: {
                     type: 'click',
-                    listener: this.mapMap.bind(this)
+                    listener: this.__openMapPopUp.bind(this)
                 }
             },
             productList: {
@@ -140,13 +140,12 @@ export class SearchPresenter extends BasePresenter {
     }
 
     /***
-     * Map map
-     * @param ev
+     * Open Map PopUp
+     * @param {MouseEvent} ev - event
      */
-    mapMap(ev) {
-        //TODO(Sergey) перепиши эту херню
+    __openMapPopUp(ev) {
         ev.stopPropagation();
-        this.__openMap();
+        this.openMap();
     }
 
     /***
