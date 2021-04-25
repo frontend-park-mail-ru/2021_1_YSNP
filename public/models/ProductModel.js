@@ -1,27 +1,21 @@
+import {BaseModel} from './BaseModel.js';
+
 import {http} from '../modules/http.js';
 import {backUrls} from '../modules/backUrls.js';
-import {httpStatus} from '../modules/httpStatus.js';
 
 import {YandexMap} from '../modules/yandexMap.js';
 
-import {
-    UnauthorizedError,
-    ForbiddenError,
-    BadRequestError,
-    NotFoundError,
-    OfflineError,
-    InternalServerError
-} from '../modules/customError.js';
 
 /***
  * Product model
  */
-export class ProductModel {
+export class ProductModel extends BaseModel {
     /***
      * Class constructor
      * @param data
      */
     constructor(data = {}) {
+        super();
         this.fillProductModel(data);
     }
 
@@ -346,25 +340,10 @@ export class ProductModel {
     async update() {
         return http.get(backUrls.product(this.__id))
             .then(({status, data}) => {
-                if (status === httpStatus.StatusBadRequest) {
-                    throw new BadRequestError();
-                    // throw new BadRequestError(data.message);
-                }
-
-                if (status === httpStatus.StatusNotFound) {
-                    throw new NotFoundError(NotFoundError.defaultProductMessage);
-                    // throw new NotFoundError(data.message);
-                }
-
-                if (status === httpStatus.StatusOffline) {
-                    throw new OfflineError();
-                    // throw new OfflineError(data.message);
-                }
-
-                if (status === httpStatus.StatusInternalServerError) {
-                    throw new InternalServerError();
-                    // throw new InternalServerError(data.message);
-                }
+                this.checkError(status, {
+                    message: data.message,
+                    notFound: 'Нет такого товара'
+                });
 
                 this.fillProductModel(data);
             });
@@ -377,58 +356,16 @@ export class ProductModel {
     async create(form) {
         return http.post(backUrls.productCreate, this.__jsonData())
             .then(({status, data}) => {
-                if (status === httpStatus.StatusBadRequest) {
-                    throw new BadRequestError();
-                    // throw new BadRequestError(data.message);
-                }
-
-                if (status === httpStatus.StatusUnauthorized) {
-                    throw new UnauthorizedError();
-                    // throw new UnauthorizedError(data.message);
-                }
-
-                if (status === httpStatus.StatusForbidden) {
-                    throw new ForbiddenError();
-                    // throw new ForbiddenError(data.message);
-                }
-
-                if (status === httpStatus.StatusOffline) {
-                    throw new OfflineError();
-                    // throw new OfflineError(data.message);
-                }
-
-                if (status === httpStatus.StatusInternalServerError) {
-                    throw new InternalServerError();
-                    // throw new InternalServerError(data.message);
-                }
+                this.checkError(status, {
+                    message: data.message
+                });
 
                 this.__id = data.id;
                 return http.post(backUrls.productUploadPhotos(this.__id), new FormData(form), true)
-                    .then(({status}) => {
-                        if (status === httpStatus.StatusBadRequest) {
-                            throw new BadRequestError();
-                            // throw new BadRequestError(data.message);
-                        }
-
-                        if (status === httpStatus.StatusUnauthorized) {
-                            throw new UnauthorizedError();
-                            // throw new UnauthorizedError(data.message);
-                        }
-
-                        if (status === httpStatus.StatusForbidden) {
-                            throw new ForbiddenError();
-                            // throw new ForbiddenError(data.message);
-                        }
-
-                        if (status === httpStatus.StatusOffline) {
-                            throw new OfflineError();
-                            // throw new OfflineError(data.message);
-                        }
-
-                        if (status === httpStatus.StatusInternalServerError) {
-                            throw new InternalServerError();
-                            // throw new InternalServerError(data.message);
-                        }
+                    .then(({status, data}) => {
+                        this.checkError(status, {
+                            message: data.message
+                        });
 
                         return {id: this.__id};
                     });

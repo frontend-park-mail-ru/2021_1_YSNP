@@ -5,9 +5,9 @@ import {parseTelNumber, telMask} from '../modules/mask.js';
 
 import {user} from '../models/ProfileUserModel.js';
 import {AuthUserModel} from '../models/AuthUserModel.js';
-import {YandexMap} from '../modules/yandexMap';
+import {YandexMap} from '../modules/yandexMap.js';
 
-import {OfflineError} from '../modules/customError';
+import {OfflineError} from '../modules/httpError.js';
 
 /***
  * Base presenter

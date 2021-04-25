@@ -2,15 +2,6 @@ import {PasswordUserModel} from './PasswordUserModel.js';
 
 import {http} from '../modules/http.js';
 import {backUrls} from '../modules/backUrls.js';
-import {httpStatus} from '../modules/httpStatus.js';
-
-import {
-    UnauthorizedError,
-    ForbiddenError,
-    BadRequestError,
-    OfflineError,
-    InternalServerError
-} from '../modules/customError.js';
 
 /***
  * Registration user model
@@ -50,53 +41,17 @@ export class RegUserModel extends PasswordUserModel {
      */
     async registration(form) {
         return http.post(backUrls.singUp, this.__jsonData())
-            .then(({status}) => {
-                if (status === httpStatus.StatusBadRequest) {
-                    throw new BadRequestError('Пользователь уже существует');
-                    // throw new BadRequestError(data.message);
-                }
-
-                if (status === httpStatus.StatusForbidden) {
-                    throw new ForbiddenError();
-                    // throw new ForbiddenError(data.message);
-                }
-
-                if (status === httpStatus.StatusOffline) {
-                    throw new OfflineError();
-                    // throw new OfflineError(data.message);
-                }
-
-                if (status === httpStatus.StatusInternalServerError) {
-                    throw new InternalServerError();
-                    // throw new InternalServerError(data.message);
-                }
+            .then(({status, data}) => {
+                this.checkError(status, {
+                    message: data.message,
+                    badRequest: 'Пользователь уже существует'
+                });
 
                 return http.post(backUrls.upload, new FormData(form), true)
-                    .then(({status}) => {
-                        if (status === httpStatus.StatusBadRequest) {
-                            throw new BadRequestError();
-                            // throw new BadRequestError(data.message);
-                        }
-
-                        if (status === httpStatus.StatusUnauthorized) {
-                            throw new UnauthorizedError();
-                            // throw new UnauthorizedError(data.message);
-                        }
-
-                        if (status === httpStatus.StatusForbidden) {
-                            throw new ForbiddenError();
-                            // throw new ForbiddenError(data.message);
-                        }
-
-                        if (status === httpStatus.StatusOffline) {
-                            throw new OfflineError();
-                            // throw new OfflineError(data.message);
-                        }
-
-                        if (status === httpStatus.StatusInternalServerError) {
-                            throw new InternalServerError();
-                            // throw new InternalServerError(data.message);
-                        }
+                    .then(({status, data}) => {
+                        this.checkError(status, {
+                            message: data.message
+                        });
                     });
             });
     }

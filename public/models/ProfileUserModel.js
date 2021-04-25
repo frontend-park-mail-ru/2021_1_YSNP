@@ -2,15 +2,6 @@ import {PasswordUserModel} from './PasswordUserModel.js';
 
 import {http} from '../modules/http.js';
 import {backUrls} from '../modules/backUrls.js';
-import {httpStatus} from '../modules/httpStatus.js';
-
-import {
-    UnauthorizedError,
-    ForbiddenError,
-    BadRequestError,
-    OfflineError,
-    InternalServerError
-} from '../modules/customError.js';
 
 /***
  * Settings user model
@@ -112,31 +103,10 @@ export class ProfileUserModel extends PasswordUserModel {
      */
     async settings(form, isChangeImg) {
         return http.post(backUrls.settings, this.__jsonData())
-            .then(({status}) => {
-                if (status === httpStatus.StatusBadRequest) {
-                    throw new BadRequestError();
-                    // throw new BadRequestError(data.message);
-                }
-
-                if (status === httpStatus.StatusUnauthorized) {
-                    throw new UnauthorizedError();
-                    // throw new UnauthorizedError(data.message);
-                }
-
-                if (status === httpStatus.StatusForbidden) {
-                    throw new ForbiddenError();
-                    // throw new ForbiddenError(data.message);
-                }
-
-                if (status === httpStatus.StatusOffline) {
-                    throw new OfflineError();
-                    // throw new OfflineError(data.message);
-                }
-
-                if (status === httpStatus.StatusInternalServerError) {
-                    throw new InternalServerError();
-                    // throw new InternalServerError(data.message);
-                }
+            .then(({status, data}) => {
+                this.checkError(status, {
+                    message: data.message
+                });
 
                 if (!isChangeImg) {
                     this.__isAuth = false;
@@ -144,31 +114,10 @@ export class ProfileUserModel extends PasswordUserModel {
                 }
 
                 return http.post(backUrls.upload, new FormData(form), true)
-                    .then(({status}) => {
-                        if (status === httpStatus.StatusBadRequest) {
-                            throw new BadRequestError();
-                            // throw new BadRequestError(data.message);
-                        }
-
-                        if (status === httpStatus.StatusUnauthorized) {
-                            throw new UnauthorizedError();
-                            // throw new UnauthorizedError(data.message);
-                        }
-
-                        if (status === httpStatus.StatusForbidden) {
-                            throw new ForbiddenError();
-                            // throw new ForbiddenError(data.message);
-                        }
-
-                        if (status === httpStatus.StatusOffline) {
-                            throw new OfflineError();
-                            // throw new OfflineError(data.message);
-                        }
-
-                        if (status === httpStatus.StatusInternalServerError) {
-                            throw new InternalServerError();
-                            // throw new InternalServerError(data.message);
-                        }
+                    .then(({status, data}) => {
+                        this.checkError(status, {
+                            message: data.message
+                        });
 
                         this.__isAuth = false;
                         return {isUpdate: true};
@@ -185,31 +134,11 @@ export class ProfileUserModel extends PasswordUserModel {
      */
     async newPassword() {
         return http.post(backUrls.newPassword, this.__jsonPassword())
-            .then(({status}) => {
-                if (status === httpStatus.StatusBadRequest) {
-                    throw new BadRequestError('Неправильно введен пароль');
-                    // throw new BadRequestError(data.message);
-                }
-
-                if (status === httpStatus.StatusUnauthorized) {
-                    throw new UnauthorizedError();
-                    // throw new UnauthorizedError(data.message);
-                }
-
-                if (status === httpStatus.StatusForbidden) {
-                    throw new ForbiddenError();
-                    // throw new ForbiddenError(data.message);
-                }
-
-                if (status === httpStatus.StatusOffline) {
-                    throw new OfflineError();
-                    // throw new OfflineError(data.message);
-                }
-
-                if (status === httpStatus.StatusInternalServerError) {
-                    throw new InternalServerError();
-                    // throw new InternalServerError(data.message);
-                }
+            .then(({status, data}) => {
+                this.checkError(status, {
+                    message: data.message,
+                    badRequest: 'Неправильно введен пароль'
+                });
 
                 return {isUpdate: true};
             })
@@ -229,25 +158,9 @@ export class ProfileUserModel extends PasswordUserModel {
 
         return http.get(backUrls.me)
             .then(({status, data}) => {
-                if (status === httpStatus.StatusBadRequest) {
-                    throw new BadRequestError();
-                    // throw new BadRequestError(data.message);
-                }
-
-                if (status === httpStatus.StatusUnauthorized) {
-                    throw new UnauthorizedError();
-                    // throw new UnauthorizedError(data.message);
-                }
-
-                if (status === httpStatus.StatusOffline) {
-                    throw new OfflineError();
-                    // throw new OfflineError(data.message);
-                }
-
-                if (status === httpStatus.StatusInternalServerError) {
-                    throw new InternalServerError();
-                    // throw new InternalServerError(data.message);
-                }
+                this.checkError(status, {
+                    message: data.message
+                });
 
                 this.fillUserData(data);
                 this.__isAuth = true;
@@ -260,31 +173,10 @@ export class ProfileUserModel extends PasswordUserModel {
      */
     async logout() {
         return http.post(backUrls.logout, null)
-            .then(({status}) => {
-                if (status === httpStatus.StatusBadRequest) {
-                    throw new BadRequestError();
-                    // throw new BadRequestError(data.message);
-                }
-
-                if (status === httpStatus.StatusUnauthorized) {
-                    throw new UnauthorizedError();
-                    // throw new UnauthorizedError(data.message);
-                }
-
-                if (status === httpStatus.StatusForbidden) {
-                    throw new ForbiddenError();
-                    // throw new ForbiddenError(data.message);
-                }
-
-                if (status === httpStatus.StatusOffline) {
-                    throw new OfflineError();
-                    // throw new OfflineError(data.message);
-                }
-
-                if (status === httpStatus.StatusInternalServerError) {
-                    throw new InternalServerError();
-                    // throw new InternalServerError(data.message);
-                }
+            .then(({status, data}) => {
+                this.checkError(status, {
+                    message: data.message
+                });
 
                 this.__isAuth = false;
             });
@@ -296,31 +188,10 @@ export class ProfileUserModel extends PasswordUserModel {
      */
     async position() {
         return http.post(backUrls.userPosition, this.__jsonPosition())
-            .then(({status}) => {
-                if (status === httpStatus.StatusBadRequest) {
-                    throw new BadRequestError();
-                    // throw new BadRequestError(data.message);
-                }
-
-                if (status === httpStatus.StatusUnauthorized) {
-                    throw new UnauthorizedError();
-                    // throw new UnauthorizedError(data.message);
-                }
-
-                if (status === httpStatus.StatusForbidden) {
-                    throw new ForbiddenError();
-                    // throw new ForbiddenError(data.message);
-                }
-
-                if (status === httpStatus.StatusOffline) {
-                    throw new OfflineError();
-                    // throw new OfflineError(data.message);
-                }
-
-                if (status === httpStatus.StatusInternalServerError) {
-                    throw new InternalServerError();
-                    // throw new InternalServerError(data.message);
-                }
+            .then(({status, data}) => {
+                this.checkError(status, {
+                    message: data.message
+                });
 
                 this.__isAuth = false;
             });

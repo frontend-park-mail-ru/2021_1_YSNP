@@ -2,9 +2,6 @@ import {ProductListModel} from './ProductListModel.js';
 
 import {http} from '../modules/http.js';
 import {backUrls} from '../modules/backUrls.js';
-import {httpStatus} from '../modules/httpStatus.js';
-
-import {BadRequestError, OfflineError, InternalServerError} from '../modules/customError.js';
 
 /***
  * Main list model
@@ -18,20 +15,9 @@ export class MainListModel extends ProductListModel {
     async __updateNewDataPage() {
         return http.get(backUrls.productList(this.__page, this.__pageCount))
             .then(({status, data}) => {
-                if (status === httpStatus.StatusBadRequest) {
-                    throw new BadRequestError();
-                    // throw new BadRequestError(data.message);
-                }
-
-                if (status === httpStatus.StatusOffline) {
-                    throw new OfflineError();
-                    // throw new OfflineError(data.message);
-                }
-
-                if (status === httpStatus.StatusInternalServerError) {
-                    throw new InternalServerError();
-                    // throw new InternalServerError(data.message);
-                }
+                this.checkError(status, {
+                    message: data.message
+                });
 
                 this.parseData(data);
             });

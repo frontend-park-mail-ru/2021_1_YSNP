@@ -2,9 +2,6 @@ import {ProductListModel} from './ProductListModel.js';
 
 import {http} from '../modules/http';
 import {backUrls} from '../modules/backUrls';
-import {httpStatus} from '../modules/httpStatus';
-
-import {BadRequestError, OfflineError, InternalServerError, NotFoundError} from '../modules/customError.js';
 
 /***
  * Registration user model
@@ -55,25 +52,10 @@ export class SearchModel extends ProductListModel {
     async __updateNewDataPage() {
         return http.get(backUrls.search(this.__jsonSearchData()))
             .then(({status, data}) => {
-                if (status === httpStatus.StatusBadRequest) {
-                    throw new BadRequestError();
-                    // throw new BadRequestError(data.message);
-                }
-
-                if (status === httpStatus.StatusNotFound) {
-                    throw new NotFoundError('Больше объявлений нет');
-                    // throw new NotFoundError(data.message);
-                }
-
-                if (status === httpStatus.StatusOffline) {
-                    throw new OfflineError();
-                    // throw new OfflineError(data.message);
-                }
-
-                if (status === httpStatus.StatusInternalServerError) {
-                    throw new InternalServerError();
-                    // throw new InternalServerError(data.message);
-                }
+                this.checkError(status, {
+                    message: data.message,
+                    notFound: 'Больше объявлений нет'
+                });
 
                 this.parseData(data);
             });
