@@ -33,6 +33,13 @@ export class BaseView {
     }
 
     /***
+     * Overflow hidden
+     */
+    addOverflowHidden() {
+        document.body.classList.add('overflow-hidden');
+    }
+
+    /***
      * Render auth component
      */
     renderAuth() {

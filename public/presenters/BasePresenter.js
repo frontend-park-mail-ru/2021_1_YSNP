@@ -317,6 +317,7 @@ export class BasePresenter {
     openAuth() {
         this.closeAllComponents();
         this.__isShownAuth = true;
+        this.__view.addOverflowHidden();
         this.__view.renderAuth();
     }
 
