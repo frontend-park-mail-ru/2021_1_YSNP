@@ -1,13 +1,13 @@
 @import "../../../scss/main.scss";
 
 .product-card {
-  @include set-size(12vw, 19vw);
+  @include set-size(12vw, 20vw);
   @include shadow-block;
-  margin: 0.5vw 0.5vw 1vw;
-
-  box-sizing: border-box;
 
   position: relative;
+  margin: 0.5vw;
+  box-sizing: border-box;
+
   overflow: hidden;
   transition-duration: 0.5s;
   transition-property: box-shadow;
@@ -17,13 +17,27 @@
     box-shadow: rgba(0, 0, 0, 0.5) 0 0 10px;
   }
 
+  @media screen and (max-width: 1024px) {
+    @include set-size(18vw, 29vw);
+    margin: 0.7vw;
+  }
+
+  @media screen and (max-width: 768px) {
+    @include set-size(24vw, 39vw);
+    margin: 1vw;
+  }
+
+  @media screen and (max-width: 576px) {
+    @include set-size(43vw, 60vw);
+    margin: 1.5vw;
+  }
+
   &_vip {
     border: 2px solid $mainColor;
   }
 
   &-inner {
-    height: 100%;
-    width: 100%;
+    @include set-size(100%, 100%);
 
     display: flex;
     flex-direction: column;
@@ -31,38 +45,74 @@
 
   &__status {
     position: absolute;
+    padding: 4px 10px;
     top: 0.5vw;
     right: 0.5vw;
-
-    height: 1.6vw;
-    width: 5vw;
 
     display: flex;
     justify-content: center;
     align-items: center;
 
     font-size: 1vw;
-
-    border-radius: 0.7vh;
+    border-radius: 7px;
+    color: black;
     background-color: rgb(235, 235, 235);
 
-    color: black;
+    @media screen and (max-width: 1024px) {
+      top: 0.7vw;
+      right: 0.7vw;
+
+      font-size: 1.5vw;
+    }
+
+    @media screen and (max-width: 768px) {
+      top: 1vw;
+      right: 1vw;
+
+      font-size: 2vw;
+    }
+
+    @media screen and (max-width: 576px) {
+      top: 1.5vw;
+      right: 1.5vw;
+
+      font-size: 3vw;
+    }
   }
 
   &__label {
+    display: none;
+
     position: absolute;
+    padding: 4px 10px;
     top: 0.5vw;
     left: 0.5vw;
 
     font-size: 1vw;
-    padding: 0.2vw 0.7vw;
-
-    border-radius: 0.7vh;
+    border-radius: 7px;
+    color: white;
     background-color: $mainColor;
 
-    display: none;
+    @media screen and (max-width: 1024px) {
+      top: 0.7vw;
+      left: 0.7vw;
 
-    color: white;
+      font-size: 1.5vw;
+    }
+
+    @media screen and (max-width: 768px) {
+      top: 1vw;
+      left: 1vw;
+
+      font-size: 2vw;
+    }
+
+    @media screen and (max-width: 576px) {
+      top: 1.5vw;
+      left: 1.5vw;
+
+      font-size: 3vw;
+    }
 
     &_vip {
       display: block;
@@ -70,13 +120,36 @@
   }
 
   &__like {
+    @include set-size(1.5vw, 1.5vw);
+
     position: absolute;
-    filter: drop-shadow(1px 0px 2px rgba(255, 255, 255, 1));
     top: 0.5vw;
     right: 0.5vw;
+    filter: drop-shadow(1px 0px 2px rgba(255, 255, 255, 1));
 
     &:hover {
       cursor: pointer;
+    }
+
+    @media screen and (max-width: 1024px) {
+      @include set-size(2.5vw, 2.5vw);
+
+      top: 0.7vw;
+      right: 0.7vw;
+    }
+
+    @media screen and (max-width: 768px) {
+      @include set-size(3.5vw, 3.5vw);
+
+      top: 1vw;
+      right: 1vw;
+    }
+
+    @media screen and (max-width: 576px) {
+      @include set-size(5vw, 5vw);
+
+      top: 1.5vw;
+      right: 1.5vw;
     }
 
     &_liked {
@@ -85,18 +158,15 @@
   }
 
   &__img {
-    height: 11vw;
+    height: 60%;
     object-fit: cover;
   }
 
   &-info {
-    height: 8vw;
-    width: 100%;
-
+    @include set-size(100%, 40%);
     display: flex;
 
     &-inner {
-      width: 84%;
       margin: 1vw;
 
       display: flex;
@@ -105,36 +175,79 @@
 
     &__name {
       width: 100%;
-      margin-bottom: 0.4vw;
+      margin-bottom: 0.2vw;
 
       font-size: 1vw;
+      @include overflow-text-height(2.4vw);
 
-      @include overflow-text-height(2.3vw);
+      @media screen and (max-width: 1024px) {
+        margin-bottom: 0.5vw;
+
+        font-size: 1.5vw;
+        @include overflow-text-height(3.5vw);
+      }
+
+      @media screen and (max-width: 768px) {
+        margin-bottom: 1vw;
+
+        font-size: 2vw;
+        @include overflow-text-height(4.5vw);
+      }
+
+      @media screen and (max-width: 576px) {
+        margin-bottom: 2vw;
+
+        font-size: 3vw;
+        @include overflow-text-height(6.5vw);
+      }
     }
 
     &__date {
+      width: 100%;
+
       font-size: 0.7vw;
       color: rgb(142, 142, 142);
+
+      @media screen and (max-width: 1024px) {
+        font-size: 1.1vw;
+      }
+
+      @media screen and (max-width: 768px) {
+        font-size: 1.4vw;
+      }
+
+      @media screen and (max-width: 576px) {
+        font-size: 2.1vw;
+      }
     }
 
     &__amount {
       width: 100%;
-      font-size: 1.4vw;
+      margin-top: auto;
 
+      font-size: 1.5vw;
       @include overflow-text-width;
 
-      margin-top: auto;
+      @media screen and (max-width: 1024px) {
+        font-size: 2.3vw;
+      }
+
+      @media screen and (max-width: 768px) {
+        font-size: 3vw;
+      }
+
+      @media screen and (max-width: 576px) {
+        font-size: 4.5vw;
+      }
 
       &_vip {
         max-width: 90%;
         width: fit-content;
+        padding: 3px 7px;
 
-        padding: 0.2vw 0.5vw;
-
-        border-radius: 0.7vh;
-        background-color: $mainColor;
-
+        border-radius: 7px;
         color: white;
+        background-color: $mainColor;
       }
     }
   }
