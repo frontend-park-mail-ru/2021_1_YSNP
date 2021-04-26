@@ -9,6 +9,14 @@
 
   &-inner {
     margin: 0 10vw;
+
+    @media screen and (max-width: 768px) {
+      margin: 0 5vw;
+    }
+
+    @media screen and (max-width: 576px) {
+      margin: 0;
+    }
   }
 
   &-urls {
@@ -17,12 +25,30 @@
       display: flex;
       flex-direction: row;
       justify-content: space-between;
+
+      @media screen and (max-width: 1024px) {
+        margin: 2vh 10vh;
+      }
+
+      @media screen and (max-width: 768px) {
+        margin: 2vh 5vh;
+      }
+
+      @media screen and (max-width: 576px) {
+        margin: 2vh 5vh;
+      }
     }
 
 
-    &__logo {
-      height: 11vh;
-      width: 20vh;
+    &-logo {
+      @media screen and (max-width: 576px) {
+        display: none;
+        position: absolute;
+      }
+
+      &__img {
+        @include set-size(20vh, 11vh);
+      }
     }
 
     &-container {
