@@ -2,9 +2,6 @@ import {PasswordUserModel} from './PasswordUserModel.js';
 
 import {http} from '../modules/http.js';
 import {backUrls} from '../modules/backUrls.js';
-import {httpStatus} from '../modules/httpStatus.js';
-
-import {ForbiddenError, BadRequestError, OfflineError, InternalServerError} from '../modules/customError.js';
 
 /***
  * Auth user model
@@ -60,26 +57,11 @@ export class AuthUserModel extends PasswordUserModel {
      */
     async auth() {
         return http.post(backUrls.login, this.__jsonData())
-            .then(({status}) => {
-                if (status === httpStatus.StatusBadRequest) {
-                    throw new BadRequestError('Неправильный номер или пароль');
-                    // throw new BadRequestError(data.message);
-                }
-
-                if (status === httpStatus.StatusForbidden) {
-                    throw new ForbiddenError();
-                    // throw new ForbiddenError(data.message);
-                }
-
-                if (status === httpStatus.StatusOffline) {
-                    throw new OfflineError();
-                    // throw new OfflineError(data.message);
-                }
-
-                if (status === httpStatus.StatusInternalServerError) {
-                    throw new InternalServerError();
-                    // throw new InternalServerError(data.message);
-                }
+            .then(({status, data}) => {
+                this.checkError(status, {
+                    message: data.message,
+                    badRequest: 'Неправильный номер или пароль'
+                });
             });
     }
 }

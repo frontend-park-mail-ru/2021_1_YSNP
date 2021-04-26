@@ -5,9 +5,9 @@ import {parseTelNumber, telMask} from '../modules/mask.js';
 
 import {user} from '../models/ProfileUserModel.js';
 import {AuthUserModel} from '../models/AuthUserModel.js';
-import {YandexMap} from '../modules/yandexMap';
+import {YandexMap} from '../modules/yandexMap.js';
 
-import {OfflineError} from '../modules/customError';
+import {OfflineError} from '../modules/httpError.js';
 
 /***
  * Base presenter
@@ -296,7 +296,7 @@ export class BasePresenter {
         });
 
         if (this.__userModel.isAuth) {
-            this.__yaMap.setPosition(this.__getUserPosition().pos, this.__getUserPosition().radius * 1000);
+            this.__yaMap.setInitialData(this.__getUserPosition().pos, this.__getUserPosition().radius * 1000, this.__getUserPosition().address);
         }
     }
 
@@ -458,7 +458,7 @@ export class BasePresenter {
 
     /***
      * Get user position
-     * @returns {{pos: {latitude: number, longitude: number}, radius: number}}
+     * @returns {{pos: {latitude: number, longitude: number}, radius: number, address: string}}
      * @private
      */
     __getUserPosition() {
@@ -467,7 +467,8 @@ export class BasePresenter {
                 latitude: this.__userModel.getData().latitude,
                 longitude: this.__userModel.getData().longitude
             },
-            radius: this.__userModel.getData().radius
+            radius: this.__userModel.getData().radius,
+            address: this.__userModel.getData().address
         };
     }
 

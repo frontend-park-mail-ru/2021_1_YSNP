@@ -53,13 +53,13 @@
         </div>
 
         <div class="search-items" id="search-panel">
-            <div class="search-items-bar">
+            <form class="search-items-bar">
                 <input type="text" id="search-field" class="search-items-bar__text-field"
                        placeholder="Введите товар для поиска..." value="{{textSearch}}"/>
                 <input class="search-items-bar__button" type="submit"
                        id="search-submit" value="Поиск"
                        data-action="submitSearch"/>
-            </div>
+            </form>
 
             <select id="sorting" data-action="changeSort" class="search-items__sort">
                 <option value="" disabled selected hidden>Сортировать по</option>

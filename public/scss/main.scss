@@ -2,6 +2,18 @@ $textColorDefault: #000000;
 $linkColor: rgb(112, 146, 254);
 $mainColor: rgb(211, 30, 30);
 
+@mixin overflow-text-width {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+@mixin overflow-text-height($h) {
+  max-height: $h;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
 @mixin red-button($w, $h) {
   height: $h;
   width: $w;

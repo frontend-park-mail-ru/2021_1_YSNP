@@ -1,25 +1,20 @@
+import {BaseModel} from './BaseModel.js';
+
 import {ProductModel} from './ProductModel.js';
+
 import {http} from '../modules/http';
 import {backUrls} from '../modules/backUrls';
-import {httpStatus} from '../modules/httpStatus';
-
-import {
-    UnauthorizedError,
-    ForbiddenError,
-    BadRequestError,
-    OfflineError,
-    InternalServerError
-} from '../modules/customError.js';
 
 /***
  * Product list model
  */
-export class ProductListModel {
+export class ProductListModel extends BaseModel {
     /***
      * Class constructor
      * @param {number} pageCount - count of products in page
      */
     constructor(pageCount = 30) {
+        super();
         this.__productList = [];
         this.__page = 0;
         this.__pageCount = pageCount;
@@ -137,31 +132,10 @@ export class ProductListModel {
      */
     async __likeProduct(id, product) {
         return http.post(backUrls.userLikeProduct(id), null)
-            .then(({status}) => {
-                if (status === httpStatus.StatusBadRequest) {
-                    throw new BadRequestError();
-                    // throw new BadRequestError(data.message);
-                }
-
-                if (status === httpStatus.StatusUnauthorized) {
-                    throw new UnauthorizedError();
-                    // throw new UnauthorizedError(data.message);
-                }
-
-                if (status === httpStatus.StatusForbidden) {
-                    throw new ForbiddenError();
-                    // throw new ForbiddenError(data.message);
-                }
-
-                if (status === httpStatus.StatusOffline) {
-                    throw new OfflineError();
-                    // throw new OfflineError(data.message);
-                }
-
-                if (status === httpStatus.StatusInternalServerError) {
-                    throw new InternalServerError();
-                    // throw new InternalServerError(data.message);
-                }
+            .then(({status, data}) => {
+                this.checkError(status, {
+                    message: data.message
+                });
 
                 product.setLike();
                 return {status: 'like'};
@@ -177,31 +151,10 @@ export class ProductListModel {
      */
     async __dislikeProduct(id, product) {
         return http.post(backUrls.userDislikeProduct(id), null)
-            .then(({status}) => {
-                if (status === httpStatus.StatusBadRequest) {
-                    throw new BadRequestError();
-                    // throw new BadRequestError(data.message);
-                }
-
-                if (status === httpStatus.StatusUnauthorized) {
-                    throw new UnauthorizedError();
-                    // throw new UnauthorizedError(data.message);
-                }
-
-                if (status === httpStatus.StatusForbidden) {
-                    throw new ForbiddenError();
-                    // throw new ForbiddenError(data.message);
-                }
-
-                if (status === httpStatus.StatusOffline) {
-                    throw new OfflineError();
-                    // throw new OfflineError(data.message);
-                }
-
-                if (status === httpStatus.StatusInternalServerError) {
-                    throw new InternalServerError();
-                    // throw new InternalServerError(data.message);
-                }
+            .then(({status, data}) => {
+                this.checkError(status, {
+                    message: data.message
+                });
 
                 product.setDislike();
                 return {status: 'dislike'};
