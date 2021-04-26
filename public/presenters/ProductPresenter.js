@@ -55,6 +55,7 @@ export class ProductPresenter extends BasePresenter {
             return;
         }
 
+
         this.__view.render(this.__makeContext());
     }
 
@@ -148,9 +149,18 @@ export class ProductPresenter extends BasePresenter {
                 },
                 massageClick: {
                     open: this.__listenerWriteMassage.bind(this)
+                },
+                closeProduct: {
+                    open: this.__listenerCloseProduct.bind(this)
                 }
             }
         };
+    }
+
+    __listenerCloseProduct() {
+        if (confirm('Вы уверены, что хотите закрыть объявление')) {
+            this.__model.close(this.__model.getData().id);
+        }
     }
 
     /***
@@ -252,7 +262,8 @@ export class ProductPresenter extends BasePresenter {
             },
             product: {
                 data: this.__model,
-                listeners: this.__createListeners().product
+                listeners: this.__createListeners().product,
+                owner: this.__userModel.getData().id === this.__model.getData().ownerId
             }
         };
     }

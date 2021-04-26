@@ -20,7 +20,8 @@ export class InfoCard {
      */
     constructor(parent, data) {
         this.__parent = parent;
-        this.__data = data;
+        this.__data = data.data;
+        this.__owener = data.owner;
     }
 
     /***
@@ -153,7 +154,9 @@ export class InfoCard {
             date: this.__getDate,
             views: this.__getViews,
             likes: this.__getLikes,
-            avatar: this.__getAvatar
+            avatar: this.__getAvatar,
+            owner: this.__owener,
+            close: this.__data.__close
         };
     }
 

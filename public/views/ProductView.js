@@ -36,7 +36,8 @@ export class ProductView extends BaseView {
             },
             product: {
                 data: context.product.data,
-                listeners: context.product.listeners
+                listeners: context.product.listeners,
+                owner: context.product.owner
             }
         };
     }
