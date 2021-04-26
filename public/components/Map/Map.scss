@@ -1,8 +1,7 @@
 @import "../../scss/main.scss";
 
 .map {
-  height: 100vh;
-  width: 100vw;
+  @include set-size(100vw, 100vh);
 
   position: fixed;
   top: 0;
@@ -16,14 +15,21 @@
   z-index: 101;
 
   &-content {
-    width: 120vh;
+    width: 110vh;
     position: relative;
     z-index: 2;
     @include block;
 
+    @media screen and (max-width: 1024px) {
+      width: 90vw;
+    }
+
+    @media screen and (max-width: 576px) {
+      @include set-size(100vw, 100vh);
+    }
+
     &-inner {
-      height: 100%;
-      width: 100%;
+      @include set-size(100%, 100%);
 
       display: flex;
       flex-direction: column;
@@ -36,6 +42,10 @@
     height: 4vh;
     width: 100%;
 
+    @media screen and (max-width: 576px) {
+      margin-bottom: 2vh;
+    }
+
     &__title {
       height: 100%;
       padding-left: 2vh;
@@ -43,6 +53,10 @@
       align-items: center;
 
       font-size: 2vh;
+
+      @media screen and (max-width: 576px) {
+        justify-content: center;
+      }
     }
 
     &__close {
@@ -60,13 +74,20 @@
   }
 
   &-middle {
-    height: 60vh;
-    width: 100%;
+    @include set-size(100%, 60vh);
 
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
+
+    @media screen and (max-width: 1024px) {
+      @include set-size(100%, 50vw);
+    }
+
+    @media screen and (max-width: 576px) {
+      @include set-size(100%, 80vh);
+    }
   }
 
   &-bottom {
@@ -75,6 +96,13 @@
     display: flex;
     flex-direction: row;
 
+    @media screen and (max-width: 576px) {
+      margin-top: 1vh;
+
+      flex-direction: column;
+      justify-content: center;
+    }
+
     &-radius {
       margin-left: 2vh;
 
@@ -82,6 +110,12 @@
       flex-direction: row;
 
       align-items: center;
+
+      @media screen and (max-width: 576px) {
+        margin: auto;
+
+        justify-content: center;
+      }
 
       &__desc {
         margin-left: 2vh;
@@ -113,6 +147,10 @@
 
       margin-right: 2vh;
 
+      @media screen and (max-width: 576px) {
+        margin: auto;
+      }
+
       &__button {
         height: 100%;
         overflow: hidden;
@@ -132,6 +170,12 @@
       display: flex;
       align-items: center;
       justify-content: center;
+
+      @media screen and (max-width: 576px) {
+        margin-right: auto;
+
+        @include red-button(95%, 4vh);
+      }
     }
   }
 }

@@ -287,6 +287,7 @@ export class BasePresenter {
         this.closeAllComponents();
         this.__isShownMap = true;
         this.__view.updateMapContext(this.__getUserPosition());
+        this.__view.addOverflowHidden();
         this.__view.renderMap();
         this.__yaMap.render({
             searchControl: true,
@@ -317,6 +318,7 @@ export class BasePresenter {
     openAuth() {
         this.closeAllComponents();
         this.__isShownAuth = true;
+        this.__view.addOverflowHidden();
         this.__view.renderAuth();
     }
 

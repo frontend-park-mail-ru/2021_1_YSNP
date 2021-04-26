@@ -18,6 +18,12 @@
     z-index: 102;
     @include block;
 
+    @media screen and (max-width: 576px) {
+      @include set-size(100vh, 100vh);
+      display: flex;
+      justify-content: center;
+    }
+
     &-inner {
       display: flex;
       flex-direction: column;
@@ -96,6 +102,7 @@
         font-size: 1.7vh;
         margin-bottom: 1vh;
 
+        text-align: center;
 
         &__link {
           cursor: pointer;
