@@ -93,7 +93,7 @@ export class MainView extends BaseView {
         this.__searchBox = new SearchBox(this.__app);
         this.__searchBox.render(this.__context.search);
 
-        const layout = new Layout(this.__app, true);
+        const layout = new Layout(this.__app);
         layout.render();
         const parent = layout.parent;
 
