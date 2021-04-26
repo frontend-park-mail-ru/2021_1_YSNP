@@ -139,6 +139,15 @@ export class InfoCard {
     }
 
     /***
+     * Get seller avatar
+     * @returns {string}
+     * @private
+     */
+    get __getClose() {
+        return this.__data.__close;
+    }
+
+    /***
      * @author Ivan Gorshkov
      *
      * context for template
@@ -156,7 +165,7 @@ export class InfoCard {
             likes: this.__getLikes,
             avatar: this.__getAvatar,
             owner: this.__owener,
-            close: this.__data.__close
+            close: this.__getClose
         };
     }
 
