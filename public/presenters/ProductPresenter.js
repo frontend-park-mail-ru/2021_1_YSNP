@@ -216,17 +216,14 @@ export class ProductPresenter extends BasePresenter {
                     this.__numberIsShowed = true;
                 })
                 .catch((err) => {
-                    //TODO(Sergey) нормальная обработка ошибок
                     console.log(err.message);
                     this.__view.showNumber(err.message);
-                    this.__numberIsShowed = false;
-
+                   this.__numberIsShowed = false;
                     this.checkOfflineStatus(err);
                     this.checkOffline();
                 });
         } else {
-            this.__view.showNumber('Показать номер');
-            this.__numberIsShowed = false;
+            window.open(`tel: ${this.__view.getTelNumber()}`);
         }
     }
 

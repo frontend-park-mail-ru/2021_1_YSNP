@@ -104,7 +104,6 @@ class Router {
      */
     redirect(url, title = '', state = {}) {
         this.__removePageListeners();
-
         window.history.pushState(state, title, url);
         return this.start();
     }

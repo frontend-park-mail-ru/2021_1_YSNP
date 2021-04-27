@@ -112,6 +112,15 @@ export class ProductView extends BaseView {
     }
 
     /***
+     *
+     * get tel
+     * @return {string}
+     */
+    getTelNumber() {
+        return this.__boardSubView.getTelNumber();
+    }
+
+    /***
      * @author Ivan Gorshkov
      *
      * render with context

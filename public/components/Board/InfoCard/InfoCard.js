@@ -34,6 +34,15 @@ export class InfoCard {
     }
 
     /***
+     *
+     * get tel
+     * @return {string}
+     */
+    getTelNumber() {
+        return document.querySelector('.info-card-btn__number').value;
+    }
+
+    /***
      * @author Ivan Gorshkov
      *
      * getter product price
