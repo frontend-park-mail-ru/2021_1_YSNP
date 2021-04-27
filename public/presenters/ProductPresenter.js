@@ -3,6 +3,7 @@ import {router} from '../modules/router.js';
 import {eventHandlerWithDataType} from '../modules/eventHandler.js';
 import {ProductModel} from '../models/ProductModel.js';
 import {UserModel} from '../models/UserModel';
+import {frontUrls} from '../modules/frontUrls';
 
 /***
  *  ProductPresenter class, extends from BasePresenter
@@ -152,11 +153,20 @@ export class ProductPresenter extends BasePresenter {
                 },
                 closeProduct: {
                     open: this.__listenerCloseProduct.bind(this)
+                },
+                editProduct: {
+                    open: this.__listenerEditProduct.bind(this)
                 }
             }
         };
     }
 
+
+    __listenerEditProduct() {
+        router.redirect(frontUrls.editProduct(this.__model.id), '', {title: document.title});
+    }
+    
+    
     __listenerCloseProduct() {
         if (confirm('Вы уверены, что хотите закрыть объявление')) {
             this.__model.close(this.__model.getData().id);

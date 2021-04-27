@@ -16,6 +16,7 @@ import {RegistrationView} from './views/RegistrationView.js';
 import {SearchView} from './views/SearchView.js';
 import {PromotionView} from './views/PromotionView.js';
 import {NotFoundView} from './views/NotFoundView.js';
+import {ProductEditView} from './views/ProductEditView.js';
 
 import {UserFavoritePresenter} from './presenters/UserFavoritePresenter.js';
 import {MainPresenter} from './presenters/MainPresenter.js';
@@ -28,6 +29,7 @@ import {SearchPresenter} from './presenters/SearchPresenter.js';
 import {PromotionPresenter} from './presenters/PromotionPresenter.js';
 import {NotFoundPresenter} from './presenters/NotFoundPresenter.js';
 import {baseCreateProduct, baseRegistration} from './modules/fields.js';
+import {EditProductPresenter} from './presenters/EditProductPresenter';
 
 /***
  * Register service worker
@@ -54,6 +56,7 @@ const registrationView = new RegistrationView(app, baseRegistration);
 const searchView = new SearchView(app);
 const promotionView = new PromotionView(app);
 const notFoundView = new NotFoundView(app);
+const productEditView = new ProductEditView(app, baseCreateProduct);
 
 /***
  * Open main page
@@ -83,6 +86,16 @@ const doProductCreate = () => {
     productCreatePresenter.control();
 
     return productCreatePresenter.removePageListeners.bind(productCreatePresenter);
+};
+
+/***
+ * Open product editing page
+ */
+const doProductEdit = (val) => {
+    const editProductPresenter = new EditProductPresenter(productEditView, val.parameters.id);
+    editProductPresenter.control();
+
+    return editProductPresenter.removePageListeners.bind(editProductPresenter);
 };
 
 /***
@@ -176,6 +189,7 @@ router.add(frontUrls.promotion, doPromotion);
 router.add(frontUrls.userProfile, doProfile);
 router.add(frontUrls.userAd, doAd);
 router.add(frontUrls.userFavorite, doFavorite);
+router.add(frontUrls.editProduct(), doProductEdit);
 
 router.addNotFound(doNotFound);
 

@@ -17,7 +17,7 @@ class Router {
      */
     start() {
         const route = this.__routes.find((route) => this.__getCurrentPath().match(route.regExp), this);
-
+        console.log(this.__routes);
         if (route === undefined) {
             this.redirectNotFound();
             return;
@@ -45,7 +45,6 @@ class Router {
 
         const params = this.__convertParamsToRegExp(lowerUrl);
         const regExp = this.__convertUrlToRegExp(lowerUrl, params);
-
         this.__routes.push({
             url: lowerUrl,
             callback: callback,
