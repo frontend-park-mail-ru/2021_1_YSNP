@@ -167,6 +167,7 @@ export class BasePresenter {
 
         this.__authModel.auth()
             .then(() => {
+                this.__view.removeOverflowHidden();
                 router.redirectCurrent();
             })
             .catch((err) => {
@@ -406,7 +407,7 @@ export class BasePresenter {
 
         this.__userModel.position()
             .then(() => {
-                // this.__closeMap();
+                this.__view.removeOverflowHidden();
                 router.redirectCurrent();
                 this.__view.updateAddress(this.__userModel.getData().address);
             })

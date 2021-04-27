@@ -26,11 +26,11 @@
 
     @media screen and (max-width: 576px) {
       @include set-size(100vw, 100vh);
+
+      border-radius: 0;
     }
 
     &-inner {
-      @include set-size(100%, 100%);
-
       display: flex;
       flex-direction: column;
       align-items: center;
@@ -39,11 +39,10 @@
   }
 
   &-top {
-    height: 4vh;
-    width: 100%;
+    @include set-size(100%, 4vh);
 
     @media screen and (max-width: 576px) {
-      margin-bottom: 2vh;
+      @include set-size(100%, 7vh);
     }
 
     &__title {
@@ -55,11 +54,15 @@
       font-size: 2vh;
 
       @media screen and (max-width: 576px) {
+        padding: 0;
         justify-content: center;
+
+        font-size: 2.5vh;
       }
     }
 
     &__close {
+      @include set-size(2vh, 2vh);
       position: absolute;
 
       fill: rgb(120, 120, 120);
@@ -69,6 +72,13 @@
 
       &:hover {
         cursor: pointer;
+      }
+
+      @media screen and (max-width: 576px) {
+        top: 2vh;
+        right: 2vh;
+
+        @include set-size(3vh, 3vh);
       }
     }
   }
@@ -86,7 +96,7 @@
     }
 
     @media screen and (max-width: 576px) {
-      @include set-size(100%, 80vh);
+      @include set-size(100%, 65vh);
     }
   }
 
@@ -115,21 +125,6 @@
         margin: auto;
 
         justify-content: center;
-      }
-
-      &__desc {
-        margin-left: 2vh;
-
-        font-size: 1.3vh;
-        color: rgb(143, 143, 143);
-      }
-
-      &__text {
-        font-size: 1.3vh;
-        color: #272c35;
-
-        margin-left: auto;
-        margin-right: 1vh;
       }
     }
 
@@ -174,7 +169,7 @@
       @media screen and (max-width: 576px) {
         margin-right: auto;
 
-        @include red-button(95%, 4vh);
+        @include red-button(95%, 5vh);
       }
     }
   }
@@ -198,6 +193,10 @@
 
   font-size: 1.5vh;
   padding: 0 1vh;
+
+  @media screen and (max-width: 576px) {
+    font-size: 1.8vh;
+  }
 }
 
 .map-bottom-group__button input[type=radio]:checked + label {

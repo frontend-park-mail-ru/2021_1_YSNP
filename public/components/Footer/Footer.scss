@@ -35,7 +35,7 @@
       }
 
       @media screen and (max-width: 576px) {
-        margin: 2vh 5vh;
+        margin: 2vh 3vh;
       }
     }
 
@@ -59,6 +59,10 @@
         margin-bottom: 0.7vh;
 
         font-size: 2vh;
+
+        @media screen and (max-width: 576px) {
+          font-size: 2.5vh;
+        }
       }
 
       &__elem {
@@ -68,11 +72,19 @@
         font-size: 1.3vh;
 
         color: #666666;
+
+        @media screen and (max-width: 576px) {
+          font-size: 1.7vh;
+        }
       }
 
       &__address {
         max-width: 30vh;
         @include overflow-text-width;
+
+        @media screen and (max-width: 576px) {
+          max-width: 25vh;
+        }
       }
     }
   }

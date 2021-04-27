@@ -22,6 +22,10 @@ body {
   min-height: 88%;
 
   padding-bottom: 25vh;
+
+  @media screen and (max-width: 576px) {
+    padding-bottom: 30vh;
+  }
 }
 
 .overflow-hidden {

@@ -76,7 +76,7 @@
       top: 1.5vw;
       right: 1.5vw;
 
-      font-size: 3vw;
+      font-size: 3.5vw;
     }
   }
 
@@ -111,7 +111,7 @@
       top: 1.5vw;
       left: 1.5vw;
 
-      font-size: 3vw;
+      font-size: 3.5vw;
     }
 
     &_vip {
@@ -146,7 +146,7 @@
     }
 
     @media screen and (max-width: 576px) {
-      @include set-size(5vw, 5vw);
+      @include set-size(7vw, 7vw);
 
       top: 1.5vw;
       right: 1.5vw;
@@ -195,10 +195,8 @@
       }
 
       @media screen and (max-width: 576px) {
-        margin-bottom: 2vw;
-
-        font-size: 3vw;
-        @include overflow-text-height(6.5vw);
+        font-size: 4vw;
+        @include overflow-text-height(9.6vw);
       }
     }
 
@@ -217,7 +215,7 @@
       }
 
       @media screen and (max-width: 576px) {
-        font-size: 2.1vw;
+        font-size: 2.5vw;
       }
     }
 
