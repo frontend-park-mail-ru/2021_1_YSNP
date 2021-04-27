@@ -1,3 +1,5 @@
+@import "../../scss/main.scss";
+
 .not-found {
   width: 100%;
 
@@ -15,15 +17,15 @@
     flex-direction: row;
     align-items: center;
 
-    @media screen and (max-width: 1024px) {
+    @media screen and (max-width: $breakDesktop) {
       font-size: 5vh;
     }
 
-    @media screen and (max-width: 768px) {
+    @media screen and (max-width: $breakTablet) {
       font-size: 4vh;
     }
 
-    @media screen and (max-width: 576px) {
+    @media screen and (max-width: $breakMobile) {
       flex-direction: column;
 
       margin-bottom: 2vh;

@@ -1,7 +1,6 @@
 import {BaseView} from './BaseView.js';
 import {Layout} from '../components/Layout/Layout';
 import {Navigation} from '../components/Navigation/Navigation';
-import {Switch} from '../components/Switch/Switch';
 import {SearchBar} from '../components/SearchBar/SearchBar.js';
 
 import {router} from '../modules/router';

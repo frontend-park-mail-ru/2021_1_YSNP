@@ -18,7 +18,7 @@
     z-index: 102;
     @include block;
 
-    @media screen and (max-width: 576px) {
+    @media screen and (max-width: $breakMobile) {
       @include set-size(100vh, 100vh);
       display: flex;
       justify-content: center;
@@ -36,7 +36,7 @@
         margin: 4vh 0 2vh;
         font-size: 3vh;
 
-        @media screen and (max-width: 576px) {
+        @media screen and (max-width: $breakMobile) {
           margin: 0;
 
           font-size: 4vh;
@@ -69,7 +69,7 @@
           cursor: pointer;
         }
 
-        @media screen and (max-width: 576px) {
+        @media screen and (max-width: $breakMobile) {
           top: 2vh;
           right: 2vh;
 
@@ -98,7 +98,7 @@
           outline: none;
         }
 
-        @media screen and (max-width: 576px) {
+        @media screen and (max-width: $breakMobile) {
           @include set-size(5.4vh, 5vh);
         }
       }
@@ -106,7 +106,7 @@
       &__tel {
         @include set-size(20vh, 4vh);
 
-        @media screen and (max-width: 576px) {
+        @media screen and (max-width: $breakMobile) {
           @include set-size(20vh, 5vh);
         }
       }
@@ -114,7 +114,7 @@
       &__password {
         @include set-size(25.2vh, 4vh);
 
-        @media screen and (max-width: 576px) {
+        @media screen and (max-width: $breakMobile) {
           @include set-size(26vh, 5vh);
         }
       }
@@ -123,7 +123,7 @@
         @include red-button(14vh, 4vh);
         margin-top: 1.5vh;
 
-        @media screen and (max-width: 576px) {
+        @media screen and (max-width: $breakMobile) {
           @include red-button(14vh, 5vh);
         }
       }

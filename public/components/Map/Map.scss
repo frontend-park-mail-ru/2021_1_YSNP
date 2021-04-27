@@ -20,11 +20,11 @@
     z-index: 2;
     @include block;
 
-    @media screen and (max-width: 1024px) {
+    @media screen and (max-width: $breakDesktop) {
       width: 90vw;
     }
 
-    @media screen and (max-width: 576px) {
+    @media screen and (max-width: $breakMobile) {
       @include set-size(100vw, 100vh);
 
       border-radius: 0;
@@ -41,7 +41,7 @@
   &-top {
     @include set-size(100%, 4vh);
 
-    @media screen and (max-width: 576px) {
+    @media screen and (max-width: $breakMobile) {
       @include set-size(100%, 7vh);
     }
 
@@ -53,7 +53,7 @@
 
       font-size: 2vh;
 
-      @media screen and (max-width: 576px) {
+      @media screen and (max-width: $breakMobile) {
         padding: 0;
         justify-content: center;
 
@@ -74,7 +74,7 @@
         cursor: pointer;
       }
 
-      @media screen and (max-width: 576px) {
+      @media screen and (max-width: $breakMobile) {
         top: 2vh;
         right: 2vh;
 
@@ -91,11 +91,11 @@
     align-items: center;
     justify-content: center;
 
-    @media screen and (max-width: 1024px) {
+    @media screen and (max-width: $breakDesktop) {
       @include set-size(100%, 50vw);
     }
 
-    @media screen and (max-width: 576px) {
+    @media screen and (max-width: $breakMobile) {
       @include set-size(100%, 65vh);
     }
   }
@@ -106,7 +106,7 @@
     display: flex;
     flex-direction: row;
 
-    @media screen and (max-width: 576px) {
+    @media screen and (max-width: $breakMobile) {
       margin-top: 1vh;
 
       flex-direction: column;
@@ -121,7 +121,7 @@
 
       align-items: center;
 
-      @media screen and (max-width: 576px) {
+      @media screen and (max-width: $breakMobile) {
         margin: auto;
 
         justify-content: center;
@@ -142,7 +142,7 @@
 
       margin-right: 2vh;
 
-      @media screen and (max-width: 576px) {
+      @media screen and (max-width: $breakMobile) {
         margin: auto;
       }
 
@@ -166,7 +166,7 @@
       align-items: center;
       justify-content: center;
 
-      @media screen and (max-width: 576px) {
+      @media screen and (max-width: $breakMobile) {
         margin-right: auto;
 
         @include red-button(95%, 5vh);
@@ -194,7 +194,7 @@
   font-size: 1.5vh;
   padding: 0 1vh;
 
-  @media screen and (max-width: 576px) {
+  @media screen and (max-width: $breakMobile) {
     font-size: 1.8vh;
   }
 }

@@ -14,11 +14,11 @@
     background-color: #ECECEC;
   }
 
-  @media screen and (max-width: 1024px) {
+  @media screen and (max-width: $breakDesktop) {
     @include set-size(10vh, 100vh);
   }
 
-  @media screen and (max-width: 768px) {
+  @media screen and (max-width: $breakTablet) {
     display: none;
   }
 
@@ -44,7 +44,7 @@
 
     align-items: center;
 
-    @media screen and (max-width: 1024px) {
+    @media screen and (max-width: $breakDesktop) {
       flex-direction: column;
     }
 
