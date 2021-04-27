@@ -33,10 +33,17 @@ export class BaseView {
     }
 
     /***
-     * Overflow hidden
+     * add overflow hidden
      */
     addOverflowHidden() {
         document.body.classList.add('overflow-hidden');
+    }
+
+    /***
+     * Remove overflow hidden
+     */
+    removeOverflowHidden() {
+        document.body.classList.remove('overflow-hidden');
     }
 
     /***

@@ -22,6 +22,8 @@
       @include set-size(100vh, 100vh);
       display: flex;
       justify-content: center;
+
+      border-radius: 0;
     }
 
     &-inner {
@@ -44,6 +46,8 @@
       }
 
       &__close {
+        @include set-size(2vh, 2vh);
+
         position: absolute;
         fill: rgb(120, 120, 120);
 
@@ -52,6 +56,10 @@
 
         &:hover {
           cursor: pointer;
+        }
+
+        @media screen and (max-width: 576px) {
+          @include set-size(3vh, 3vh);
         }
       }
 

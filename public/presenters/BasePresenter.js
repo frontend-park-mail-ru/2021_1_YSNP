@@ -308,6 +308,7 @@ export class BasePresenter {
     __closeMap() {
         if (this.__isShownMap) {
             this.__isShownMap = false;
+            this.__view.removeOverflowHidden();
             this.__view.removeMap();
         }
     }
@@ -329,6 +330,7 @@ export class BasePresenter {
     __closeAuth() {
         if (this.__isShownAuth) {
             this.__isShownAuth = false;
+            this.__view.removeOverflowHidden();
             this.__view.removeAuth();
         }
     }
