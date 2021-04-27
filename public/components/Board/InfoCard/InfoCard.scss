@@ -53,6 +53,24 @@
     text-align: center;
     line-height: 2vh;
 
+    &__change {
+      @include red-button(80%, 3vw);
+      margin-top: 2vh;
+      font-size: 1vw;
+    }
+
+    &__close {
+      @include white-button(80%, 3vw);
+      margin-top: 1vh;
+      box-shadow: 0 0 1vh rgba(0, 0, 0, 0.1);
+      font-size: 1vw;
+    }
+
+    &__closed {
+      @include disable-button(80%, 3vw);
+      margin-top: 5vh;
+    }
+
     &__massage {
       @include red-button(80%, 3vw);
       margin-top: 2vh;
