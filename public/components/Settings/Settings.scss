@@ -47,12 +47,18 @@
       visibility: hidden;
       @media screen and (max-width: 1024px) {
         margin-right: 2vw;
+        width: auto;
+        height: 4.5vh;
       }
     }
 
     &__reset_button {
       @include cancel-button(17vh, 3.5vh);
       visibility: hidden;
+      @media screen and (max-width: 1024px) {
+        width: auto;
+        height: 4.5vh;
+      }
     }
   }
 
@@ -89,6 +95,9 @@
         background: none;
         cursor: pointer;
 
+        @media screen and (max-width: 1024px){
+          width: 25vh;
+        }
         &:disabled {
           border: 0;
         }
@@ -163,8 +172,16 @@
       transform: translate(7vw, 7vw);
       visibility: hidden;
       @media screen and (max-width: 1024px) {
-        top: 55px;
-        left: 65px;
+        top: 5vw;
+        left: 4vw;
+      }
+      @media screen and (max-width: 768px) {
+        top: 8vw;
+        left: 10vw;
+      }
+      @media screen and (max-width: 500px) {
+        top: 10vw;
+        left: 17vw;
       }
     }
     &-inner {
