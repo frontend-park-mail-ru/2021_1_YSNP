@@ -146,16 +146,16 @@
             transform: translate(7vw, 7vw);
             visibility: hidden;
             @media screen and (max-width: 1024px) {
-                top: 5vw;
-                left: 4vw;
+                top: 4vh;
+                left: 6vh;
             }
             @media screen and (max-width: 768px) {
-                top: 8vw;
-                left: 10vw;
+                top: 5vh;
+                left: 5vh;
             }
             @media screen and (max-width: 500px) {
-                top: 10vw;
-                left: 17vw;
+                top: 8vh;
+                left: 10vh;
             }
         }
         &-inner {
