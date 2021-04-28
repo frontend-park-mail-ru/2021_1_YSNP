@@ -4,7 +4,7 @@ import {Switch} from '../components/Switch/Switch.js';
 import {Layout} from '../components/Layout/Layout.js';
 import {ProductTable} from '../components/ProductTable/ProductTable.js';
 
-import {isMobile} from '../modules/mobile';
+import {CreateButton} from '../components/Header/Mobile/CreateButton/CreateButton';
 
 /***
  * Main view
@@ -103,6 +103,9 @@ export class MainView extends BaseView {
 
         this.__mainList = new ProductTable(parent);
         this.__mainList.render(this.__context.mainList);
+
+        this._b = new CreateButton(this.__app);
+        this._b.render(this.__baseContext.header);
 
         super.renderFooter();
     }

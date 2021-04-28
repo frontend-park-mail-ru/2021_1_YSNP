@@ -1,0 +1,16 @@
+@import "../../../../scss/main.scss";
+
+.create-button {
+  @include red-button(30vh, 4.5vh);
+
+  position: fixed;
+  bottom: 0;
+
+  border-radius: 25px;
+
+  left: 50%;
+  margin-right: -50%;
+  transform: translate(-50%, -50%);
+
+  z-index: 1;
+}

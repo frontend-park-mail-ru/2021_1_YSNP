@@ -76,13 +76,13 @@
 
         display: block;
         color: $textColorDefault;
-        font-size: 2vh;
+        font-size: 2.3vh;
 
         @include overflow-text-width;
       }
 
       &-item {
-        margin: 2vh 0;
+        margin: 2.5vh 0;
         padding: 0;
 
         display: flex;
@@ -91,7 +91,7 @@
         background: none;
 
         @include menu-link;
-        font-size: 1.8vh;
+        font-size: 2vh;
 
         &:focus {
           outline: none;
