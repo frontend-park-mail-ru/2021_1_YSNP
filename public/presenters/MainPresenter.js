@@ -55,6 +55,7 @@ export class MainPresenter extends BasePresenter {
         this.__view.render(this.__makeContext());
         this.__endlessScroll.start();
         this.__pageUp.start();
+        // this.__openUserMenu();
     }
 
     /***

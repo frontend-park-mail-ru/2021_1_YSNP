@@ -4,6 +4,8 @@ import {Switch} from '../components/Switch/Switch.js';
 import {Layout} from '../components/Layout/Layout.js';
 import {ProductTable} from '../components/ProductTable/ProductTable.js';
 
+import {isMobile} from '../modules/mobile';
+
 /***
  * Main view
  */
@@ -86,9 +88,8 @@ export class MainView extends BaseView {
      */
     render(context) {
         super.render();
-        this.__setTitle();
         this.__makeContext(context);
-
+        this.removeBackButton();
 
         this.__searchBox = new SearchBox(this.__app);
         this.__searchBox.render(this.__context.search);
@@ -99,6 +100,7 @@ export class MainView extends BaseView {
 
         const adSwitch = new Switch(parent);
         adSwitch.render(this.__context.switch);
+
         this.__mainList = new ProductTable(parent);
         this.__mainList.render(this.__context.mainList);
 

@@ -1,0 +1,38 @@
+<div class="mobile-header" id="mobile-header">
+    <div class="mobile-header-inner">
+
+        <div class="mobile-header-left">
+
+            <img src="/img/back.svg" alt="back" class="mobile-header-left__back" id="mobile-header-back"
+                 data-action="backClick">
+
+        </div>
+
+        <div class="mobile-header-middle">
+
+            <a href="/" class="mobile-header-middle__brand">
+                <img src="/img/svg/koya.svg" alt="logo">
+            </a>
+
+        </div>
+
+        <div class="mobile-header-right">
+            <a href="/search" class="mobile-header-right__search-button">
+                <img src="/img/search.svg" alt="search">
+            </a>
+
+            {{#if isAuth}}
+
+                <img src="{{linkImage}}" alt="avatar" class="mobile-header-right__profile"
+                     data-action="userMenuClick"/>
+
+            {{else}}
+
+                <img src="/img/svg/user.svg" alt="user" class="mobile-header-right__account" data-action="authClick"/>
+
+            {{/if}}
+
+        </div>
+
+    </div>
+</div>

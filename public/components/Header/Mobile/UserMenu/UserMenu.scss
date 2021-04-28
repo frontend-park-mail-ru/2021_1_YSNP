@@ -1,0 +1,106 @@
+@import "../../../../scss/main.scss";
+
+.user-menu {
+  @include set-size(100vw, 100vh);
+  position: fixed;
+  top: 0;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: rgba(0, 0, 0, 0.5);
+
+  z-index: 101;
+
+  &-content {
+    @include set-size(100vw, 100vh);
+
+    display: flex;
+    justify-content: center;
+    position: relative;
+
+    z-index: 102;
+    @include block;
+    border-radius: 0;
+
+    &-inner {
+      @include set-size(100vw, 100vh);
+
+      display: flex;
+      flex-direction: column;
+    }
+
+    &__separator {
+      @include separator;
+    }
+
+    &-top {
+      @include set-size(100%, 7vh);
+
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      &__title {
+        font-size: 2.5vh;
+      }
+
+      &__close {
+        @include set-size(3vh, 3vh);
+
+        position: absolute;
+        cursor: pointer;
+
+        fill: rgb(120, 120, 120);
+
+        top: 2vh;
+        right: 2vh;
+      }
+    }
+
+    &-body {
+      display: flex;
+      flex-direction: column;
+
+      &-inner {
+        margin: 0 2vh;
+      }
+
+      &__separator {
+        @include separator;
+        border-top: 1px solid #eaeaea;
+      }
+
+      &__user {
+        margin: 1vh 0;
+
+        display: block;
+        color: $textColorDefault;
+        font-size: 2vh;
+
+        @include overflow-text-width;
+      }
+
+      &-item {
+        margin: 2vh 0;
+        padding: 0;
+
+        display: flex;
+        align-items: center;
+        border: none;
+        background: none;
+
+        @include menu-link;
+        font-size: 1.8vh;
+
+        &:focus {
+          outline: none;
+        }
+
+        &__img {
+          margin-right: 1vh;
+        }
+      }
+    }
+  }
+}

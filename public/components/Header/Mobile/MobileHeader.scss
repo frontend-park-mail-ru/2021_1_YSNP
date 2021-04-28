@@ -1,0 +1,75 @@
+@import "../../../scss/main";
+
+.mobile-header {
+  height: 7vh;
+  width: 100%;
+  z-index: 100;
+  top: 0;
+  position: fixed;
+
+  display: flex;
+  @include shadow-block;
+  border-radius: 0;
+
+  &-inner {
+    height: 100%;
+    width: 100%;
+
+    padding-left: 2vw;
+    padding-right: 2vw;
+
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  &-left {
+    &__back {
+      @include set-size(3vh, 3vh);
+
+      cursor: pointer;
+
+      &_disabled {
+        display: none;
+      }
+    }
+  }
+
+  &-middle {
+    &__brand {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      margin-right: -50%;
+      transform: translate(-50%, -50%);
+
+      cursor: pointer;
+    }
+  }
+
+  &-right {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+
+    &__search-button {
+      @include set-size(3vh, 3vh);
+
+      margin-right: 4vw;
+
+      cursor: pointer;
+    }
+
+    &__profile {
+      @include set-size(4vh, 4vh);
+      @include circle;
+      cursor: pointer;
+    }
+
+    &__account {
+      @include set-size(4vh, 4vh);
+
+      cursor: pointer;
+    }
+  }
+}

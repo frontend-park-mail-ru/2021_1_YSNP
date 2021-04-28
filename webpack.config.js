@@ -15,7 +15,7 @@ module.exports = {
     },
     plugins: [
         new WebpackPwaManifest({
-            name: 'Killer of Youla and Avito',
+            name: 'KOYA',
             short_name: 'KOYA',
             description: 'Лучший сайт по поиску товаров',
             icons: [
@@ -26,7 +26,7 @@ module.exports = {
             ],
             start_url: '/',
             display: 'fullscreen',
-            theme_color: '#f24e6a',
+            theme_color: '#d31e1e',
             background_color: 'white'
         }),
         new MiniCssExtractPlugin({

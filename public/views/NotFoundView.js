@@ -21,7 +21,6 @@ export class NotFoundView extends BaseView {
      */
     render(context) {
         super.render();
-        this.__setTitle();
 
         const layout = new Layout(this.__app, true);
         layout.render();

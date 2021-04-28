@@ -377,6 +377,26 @@ export class BasePresenter {
             });
     }
 
+    __profileClick() {
+        console.log('profile');
+    }
+
+    /***
+     * Go back
+     * @private
+     */
+    __backClick() {
+        router.navigateBack();
+    }
+
+    __openUserMenu() {
+        this.__view.renderUserMenu();
+    }
+
+    __closeUserMenu() {
+        this.__view.removeUserMenu();
+    }
+
     /***
      * Group button click
      * @param {HTMLElement} el - element click
@@ -440,6 +460,15 @@ export class BasePresenter {
                 },
                 logoutClick: {
                     open: this.__logout.bind(this)
+                },
+                userMenuClick: {
+                    open: this.__openUserMenu.bind(this)
+                },
+                backClick: {
+                    open: this.__backClick.bind(this)
+                },
+                closeClick: {
+                    open: this.__closeUserMenu.bind(this)
                 }
             },
             auth: {

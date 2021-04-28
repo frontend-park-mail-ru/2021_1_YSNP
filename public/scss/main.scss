@@ -6,6 +6,8 @@ $breakDesktop: 1024px;
 $breakTablet: 768px;
 $breakMobile: 576px;
 
+$mobileHeight: calc(var(--vh, 1vh) * 100);
+
 @mixin overflow-text-width {
   white-space: nowrap;
   overflow: hidden;
