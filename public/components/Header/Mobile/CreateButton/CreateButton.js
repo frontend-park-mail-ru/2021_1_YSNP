@@ -13,8 +13,27 @@ export class CreateButton {
         this.__parent = parent;
     }
 
+    /***
+     * Get create button element
+     * @returns {HTMLElement}
+     * @private
+     */
     __getCreateButton() {
         return document.getElementById('create-button');
+    }
+
+    /***
+     * Unable button
+     */
+    unable() {
+        this.__getCreateButton().classList.remove('create-button_disabled');
+    }
+
+    /***
+     * Disable button
+     */
+    disable() {
+        this.__getCreateButton().classList.add('create-button_disabled');
     }
 
     /***
@@ -22,7 +41,7 @@ export class CreateButton {
      */
     __addListeners() {
         this.__getCreateButton()
-            .addEventListener(this.__context.listeners.headerClick.type, this.__context.listeners.headerClick.listener);
+            .addEventListener(this.__context.listeners.createButtonClick.type, this.__context.listeners.createButtonClick.listener);
     }
 
     /***
@@ -30,7 +49,7 @@ export class CreateButton {
      */
     __removeListeners() {
         this.__getCreateButton()
-            .removeEventListener(this.__context.listeners.headerClick.type, this.__context.listeners.headerClick.listener);
+            .removeEventListener(this.__context.listeners.createButtonClick.type, this.__context.listeners.createButtonClick.listener);
     }
 
     /***

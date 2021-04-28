@@ -1,13 +1,13 @@
 import {router} from '../modules/router.js';
-import {frontUrls} from '../modules/frontUrls.js';
-import {eventHandler} from '../modules/eventHandler.js';
-import {parseTelNumber, telMask} from '../modules/mask.js';
+import {frontUrls} from '../modules/urls/frontUrls.js';
+import {eventHandler} from '../modules/handlers/eventHandler.js';
+import {parseTelNumber, telMask} from '../modules/layout/mask.js';
 
 import {user} from '../models/ProfileUserModel.js';
 import {AuthUserModel} from '../models/AuthUserModel.js';
-import {YandexMap} from '../modules/yandexMap.js';
+import {YandexMap} from '../modules/layout/yandexMap.js';
 
-import {OfflineError} from '../modules/httpError.js';
+import {OfflineError} from '../modules/http/httpError.js';
 
 /***
  * Base presenter
@@ -271,9 +271,8 @@ export class BasePresenter {
 
     /***
      * Open create product view
-     * @private
      */
-    __openCreateProduct() {
+    openCreateProduct() {
         if (this.__userModel.isAuth) {
             router.redirect(frontUrls.productCreate, '', {title: document.title});
         } else {
@@ -377,10 +376,6 @@ export class BasePresenter {
             });
     }
 
-    __profileClick() {
-        console.log('profile');
-    }
-
     /***
      * Go back
      * @private
@@ -389,10 +384,18 @@ export class BasePresenter {
         router.navigateBack();
     }
 
+    /***
+     * Open user menu
+     * @private
+     */
     __openUserMenu() {
         this.__view.renderUserMenu();
     }
 
+    /***
+     * Close user menu
+     * @private
+     */
     __closeUserMenu() {
         this.__view.removeUserMenu();
     }
@@ -450,7 +453,7 @@ export class BasePresenter {
                     open: this.openMap.bind(this)
                 },
                 createProductClick: {
-                    open: this.__openCreateProduct.bind(this)
+                    open: this.openCreateProduct.bind(this)
                 },
                 authClick: {
                     open: this.openAuth.bind(this)

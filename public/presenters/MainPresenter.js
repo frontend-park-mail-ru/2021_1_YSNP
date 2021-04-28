@@ -2,14 +2,15 @@ import {BasePresenter} from './BasePresenter.js';
 import {MainListModel} from '../models/MainListModel.js';
 
 import {router} from '../modules/router';
-import {frontUrls} from '../modules/frontUrls';
+import {frontUrls} from '../modules/urls/frontUrls';
 
-import {eventProductListHandler, eventHandlerWithDataType} from '../modules/eventHandler.js';
+import {eventProductListHandler, eventHandlerWithDataType} from '../modules/handlers/eventHandler.js';
 
-import {EndlessScroll} from '../modules/endlessScroll.js';
-import {PageUpHandler} from '../modules/pageUpHandler.js';
+import {EndlessScroll} from '../modules/handlers/endlessScroll.js';
+import {PageUpHandler} from '../modules/handlers/pageUpHandler.js';
 
 import {customSessionStorage} from '../modules/customSessionStorage.js';
+import {CreateButtonHandler} from '../modules/handlers/createButtonHandler';
 
 /***
  * Main presenter
@@ -25,6 +26,7 @@ export class MainPresenter extends BasePresenter {
         this.__mainListModel = new MainListModel();
         this.__endlessScroll = new EndlessScroll(this.__createListeners().scroll);
         this.__pageUp = new PageUpHandler();
+        this.__createButton = new CreateButtonHandler(this.openCreateProduct.bind(this));
     }
 
     /***
@@ -55,7 +57,7 @@ export class MainPresenter extends BasePresenter {
         this.__view.render(this.__makeContext());
         this.__endlessScroll.start();
         this.__pageUp.start();
-        // this.__openUserMenu();
+        this.__createButton.start();
     }
 
     /***
@@ -66,6 +68,7 @@ export class MainPresenter extends BasePresenter {
 
         this.__endlessScroll.remove();
         this.__pageUp.remove();
+        this.__createButton.remove();
     }
 
     /***

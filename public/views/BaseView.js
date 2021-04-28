@@ -175,11 +175,17 @@ export class BaseView {
         }
     }
 
+    /***
+     * Render user menu
+     */
     renderUserMenu() {
         this.__userMenu = new UserMenu(this.__app);
         this.__userMenu.render(this.__baseContext.header);
     }
 
+    /***
+     * Remove user menu
+     */
     removeUserMenu() {
         this.__userMenu.remove();
     }

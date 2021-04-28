@@ -13,10 +13,20 @@ export class UserMenu {
         this.__parent = parent;
     }
 
+    /***
+     * Get user menu element
+     * @returns {HTMLElement}
+     * @private
+     */
     __getUserMenu() {
         return document.getElementById('user-menu');
     }
 
+    /***
+     * Get user menu context element
+     * @returns {HTMLElement}
+     * @private
+     */
     __getUserMenuContent() {
         return document.getElementById('user-menu-content');
     }
