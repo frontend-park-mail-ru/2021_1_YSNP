@@ -1,7 +1,7 @@
 @import "../../../../scss/main.scss";
 
 .create-button {
-  @include red-button(30vh, 4.5vh);
+  @include red-button(30vh, 5vh);
 
   position: fixed;
   bottom: 0;
