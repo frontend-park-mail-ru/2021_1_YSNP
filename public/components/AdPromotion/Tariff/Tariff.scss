@@ -9,6 +9,10 @@
   color: $textColorDefault;
   @include border-block;
 
+  @media screen and (max-width: 1024px){
+    width: 100%;
+  }
+
   &_unchecked {
     border: 1px solid rgba(0, 0, 0, 0.4);
   }
@@ -41,6 +45,11 @@
   &-description {
     font-size: 1.5vh;
     line-height: 2.5vh;
+
+    @media screen and (max-width: 1024px){
+      padding-left: 10vw;
+      padding-right: 10vw;
+    }
 
     &__list {
       padding: 0;

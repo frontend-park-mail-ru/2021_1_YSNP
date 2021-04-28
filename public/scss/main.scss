@@ -140,6 +140,10 @@ $mainColor: rgb(211, 30, 30);
   border: 0;
   border-radius: 1vh;
   box-shadow: 0 0 1vw rgba(0, 0, 0, 0.2);
+
+  @media screen and (max-width: 768px){
+    border-radius: 0;
+  }
 }
 
 @mixin circle() {

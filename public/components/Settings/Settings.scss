@@ -35,11 +35,19 @@
 
     &-right {
       text-align: right;
+
+      @media screen and (max-width: 1024px){
+        display: flex;
+        justify-content: space-between;
+      }
     }
 
     &__save_button {
       @include red-button(17vh, 3.5vh);
       visibility: hidden;
+      @media screen and (max-width: 1024px) {
+        margin-right: 2vw;
+      }
     }
 
     &__reset_button {
@@ -72,6 +80,10 @@
       background: none;
       @include input;
 
+      @media screen and (max-width: 1024px){
+        width: 25vh;
+      }
+
       &__gender {
         @include input;
         background: none;
@@ -97,6 +109,10 @@
     display: flex;
     flex-direction: column;
     justify-content: left;
+
+    @media screen and (max-width: 1024px){
+      width: 30%;
+    }
   }
 
 
@@ -105,6 +121,10 @@
     height: 100%;
     display: flex;
     flex-direction: column;
+
+    @media screen and (max-width: 1024px){
+      width: 70%;
+    }
   }
 
   &-input-inner {
@@ -129,6 +149,10 @@
     margin-left: 8vw;
     transform: translate(5%, 0);
 
+    @media screen and (max-width: 1024px){
+      margin-left: 15vw;
+    }
+
     &-upload__button {
       cursor: pointer;
       width: 1vw;
@@ -138,20 +162,43 @@
       left: 0;
       transform: translate(7vw, 7vw);
       visibility: hidden;
+      @media screen and (max-width: 1024px) {
+        top: 55px;
+        left: 65px;
+      }
     }
-
     &-inner {
       cursor: pointer;
       border-radius: 100%;
       overflow: hidden;
       @include set-size(9vw, 9vw);
       border: 1px solid rgba(0, 0, 0, 0.1);
+
+      @media screen and (max-width: 1024px) {
+        @include set-size(15vw, 15vw);
+      }
+      @media screen and (max-width: 768px) {
+        @include set-size(20vw, 20vw);
+      }
+      @media screen and (max-width: 500px) {
+        @include set-size(30vw, 30vw);
+      }
     }
 
     &__pic {
       display: block;
       @include circle;
       @include set-size(9vw, 9vw);
+
+      @media screen and (max-width: 1024px) {
+        @include set-size(15vw, 15vw);
+      }
+      @media screen and (max-width: 768px) {
+        @include set-size(20vw, 20vw);
+      }
+      @media screen and (max-width: 500px) {
+        @include set-size(30vw, 30vw);
+      }
     }
 
     &-upload {
