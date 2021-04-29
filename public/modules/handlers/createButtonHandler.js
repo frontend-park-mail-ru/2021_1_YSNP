@@ -1,7 +1,7 @@
 import {CreateButton} from '../../components/Header/Mobile/CreateButton/CreateButton';
 import {EndlessScroll} from './endlessScroll';
 
-import {isMobile} from '../mobile';
+import {mobile} from '../mobile';
 
 /***
  * Create button handler
@@ -14,6 +14,7 @@ export class CreateButtonHandler {
     constructor(callback) {
         this.__callback = callback;
         this.__scrollTop = 0;
+        this.__isShown = false;
 
         this.__createButton = new CreateButton(document.getElementById('app'));
         this.__endlessScroll = new EndlessScroll(this.__createListeners().scroll);
@@ -23,9 +24,10 @@ export class CreateButtonHandler {
      * Start create button
      */
     start() {
-        if (isMobile()) {
+        if (mobile.isMobile()) {
             this.__createButton.render(this.__makeContext());
             this.__endlessScroll.start();
+            this.__isShown = true;
         }
     }
 
@@ -33,9 +35,10 @@ export class CreateButtonHandler {
      * Remove create button
      */
     remove() {
-        if (isMobile()) {
+        if (this.__isShown) {
             this.__createButton.remove();
             this.__endlessScroll.remove();
+            this.__isShown = false;
         }
     }
 

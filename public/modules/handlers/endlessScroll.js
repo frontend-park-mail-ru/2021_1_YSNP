@@ -11,7 +11,8 @@ export class EndlessScroll {
         this.__callbackList = callbackList;
         this.__offset = offset;
 
-        this.__listener = this.__scrollListener.bind(this);
+        this.__scrollTimeout = null;
+        this.__listener = this.__scrollThrottler.bind(this);
     }
 
     /***
@@ -38,6 +39,20 @@ export class EndlessScroll {
 
         if (clientRect.bottom < clientHeight * (this.__offset / 100 + 1)) {
             this.__callbackList.scrollEnd(clientRect);
+        }
+    }
+
+    /***
+     * Throttle resize callback
+     * @private
+     */
+    __scrollThrottler() {
+        if (!this.__scrollTimeout) {
+            this.__scrollTimeout = setTimeout(() => {
+                this.__scrollTimeout = null;
+
+                this.__scrollListener();
+            }, 1000 / 60);
         }
     }
 
