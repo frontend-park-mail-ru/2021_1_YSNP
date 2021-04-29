@@ -4,6 +4,7 @@ import {Navigation} from '../components/Navigation/Navigation';
 import {SearchBar} from '../components/SearchBar/SearchBar.js';
 
 import {router} from '../modules/router';
+import {isMobile} from '../modules/mobile';
 
 /***
  *  SearchView
@@ -135,8 +136,10 @@ export class SearchView extends BaseView {
         this.layout.render();
         this.__makeContext(context);
 
-        this.__navSubView = new Navigation(this.getLayoutParent(), router.getPreviousTitle(), {route: ['Поиск объявлений']});
-        this.__navSubView.render(context);
+        if (!isMobile()) {
+            this.__navSubView = new Navigation(this.getLayoutParent(), router.getPreviousTitle(), {route: ['Поиск объявлений']});
+            this.__navSubView.render(context);
+        }
 
         this.__searchBar = new SearchBar(this.getLayoutParent());
         this.__searchBar.render(this.__context);

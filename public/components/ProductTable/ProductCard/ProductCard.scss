@@ -2,20 +2,10 @@
 
 .product-card {
   @include set-size(12vw, 20vw);
-  @include shadow-block;
+  @include product-block;
 
   position: relative;
   margin: 0.5vw;
-  box-sizing: border-box;
-
-  overflow: hidden;
-  transition-duration: 0.5s;
-  transition-property: box-shadow;
-
-  &:hover {
-    cursor: pointer;
-    box-shadow: rgba(0, 0, 0, 0.5) 0 0 10px;
-  }
 
   @media screen and (max-width: $breakDesktop) {
     @include set-size(18vw, 29vw);
