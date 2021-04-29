@@ -8,6 +8,7 @@ import {AuthUserModel} from '../models/AuthUserModel.js';
 import {YandexMap} from '../modules/layout/yandexMap.js';
 
 import {OfflineError} from '../modules/http/httpError.js';
+import {mobile} from '../modules/mobile';
 
 /***
  * Base presenter
@@ -24,6 +25,7 @@ export class BasePresenter {
         this.__isShownMap = false;
         this.__isShownAuth = false;
         this.__yaMap = new YandexMap();
+        mobile.start(this.__resizeCallback.bind(this));
     }
 
     /***
@@ -64,7 +66,17 @@ export class BasePresenter {
             this.__view.removeMap();
         }
 
+        mobile.remove();
+
         this.__view.removeHeaderListeners();
+    }
+
+    /***
+     * Resize callback
+     * @private
+     */
+    __resizeCallback() {
+        router.redirectCurrent();
     }
 
     /***

@@ -5,7 +5,7 @@ import {Footer} from '../components/Footer/Footer';
 import {PageOffline} from '../components/PageOffline/PageOffline';
 import {MobileHeader} from '../components/Header/Mobile/MobileHeader';
 
-import {isMobile} from '../modules/mobile';
+import {mobile} from '../modules/mobile';
 import {UserMenu} from '../components/Header/Mobile/UserMenu/UserMenu';
 
 /***
@@ -116,7 +116,7 @@ export class BaseView {
      * Open / Close dropdown menu
      */
     toggleDropdown() {
-        if (!isMobile()) {
+        if (!mobile.isMobile()) {
             this.__header.toggleDropdown();
         }
     }
@@ -125,7 +125,7 @@ export class BaseView {
      * Remove dropdown menu
      */
     removeDropdown() {
-        if (!isMobile()) {
+        if (!mobile.isMobile()) {
             this.__header.removeDropdown();
         }
     }
@@ -134,16 +134,14 @@ export class BaseView {
      * Remove header listeners
      */
     removeHeaderListeners() {
-        if (isMobile()) {
-            if (this.__mobileHeader) {
-                this.__mobileHeader.removeListeners();
-            }
-
-            return;
-        }
-
         if (this.__header) {
             this.__header.removeListeners();
+            this.__header = undefined;
+        }
+
+        if (this.__mobileHeader) {
+            this.__mobileHeader.removeListeners();
+            this.__mobileHeader = undefined;
         }
     }
 
@@ -152,7 +150,7 @@ export class BaseView {
      * @param address
      */
     updateAddress(address) {
-        if (!isMobile()) {
+        if (!mobile.isMobile()) {
             this.__header.updateAddress(address);
         }
     }
@@ -161,7 +159,7 @@ export class BaseView {
      * Add back button
      */
     addBackButton() {
-        if (isMobile()) {
+        if (mobile.isMobile()) {
             this.__mobileHeader.addBackButton();
         }
     }
@@ -170,7 +168,7 @@ export class BaseView {
      * Remove back button
      */
     removeBackButton() {
-        if (isMobile()) {
+        if (mobile.isMobile()) {
             this.__mobileHeader.removeBackButton();
         }
     }
@@ -215,7 +213,7 @@ export class BaseView {
         this.__app.innerHTML = '';
         this.__setTitle();
 
-        if (!isMobile()) {
+        if (!mobile.isMobile()) {
             this.__header = new Header(this.__app);
             this.__header.render(this.__baseContext.header);
         } else {
