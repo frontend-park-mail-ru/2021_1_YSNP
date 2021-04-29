@@ -109,6 +109,10 @@ $breakMobile: 576px;
   &:focus {
     color: $linkColor;
   }
+
+  @media screen and (max-width: 576px) {
+    font-size: 2vh;
+  }
 }
 
 @mixin input() {
@@ -122,9 +126,9 @@ $breakMobile: 576px;
 
   padding-left: 10px;
 
-  @media screen and (max-width: $breakMobile) {
+  @media screen and (max-width: 576px) {
+    height: 5vh;
     font-size: 2.3vh;
-  }
 }
 
 @mixin description-label() {
@@ -132,6 +136,10 @@ $breakMobile: 576px;
   font-size: 1.8vh;
   color: #000000;
   opacity: 0.5;
+
+  @media screen and (max-width: 576px) {
+    font-size: 2vh;
+  }
 }
 
 @mixin block() {

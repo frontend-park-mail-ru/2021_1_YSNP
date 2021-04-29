@@ -33,15 +33,30 @@
     justify-content: center;
 
     margin-top: 3vh;
+
+    @media screen and (max-width: 768px) {
+      flex-direction: column;
+    }
   }
 
   &-left {
     @include set-size(30%, 100%);
+
+    @media screen and (max-width: 768px) {
+      @include set-size(100%, 100%);
+    }
   }
 
   &-right {
     @include set-size(70%, 100%);
 
     margin-left: 2vw;
+
+    @media screen and (max-width: 768px) {
+      @include set-size(100%, 100%);
+
+      margin-top: 2vh;
+      margin-left: 0;
+    }
   }
 }

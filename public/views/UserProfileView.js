@@ -3,6 +3,8 @@ import {Layout} from '../components/Layout/Layout';
 import {ProfileMenu} from '../components/ProfileMenu/ProfileMenu';
 import {Settings} from '../components/Settings/Settings';
 
+import {isMobile} from '../main';
+
 /***
  * Profile view
  */
@@ -151,18 +153,26 @@ export class UserProfileView extends BaseView {
         super.render();
         this.__makeContext(context);
 
-        const layout = new Layout(this.__app, true);
-        layout.render({
-            layoutCount: 'two'
-        });
-        const leftParent = layout.leftParent;
-        const rightParent = layout.rightParent;
+        if (isMobile()) {
+            const layout = new Layout(this.__app, true);
+            layout.render();
+            const parent = layout.parent;
 
-        const profileMenu = new ProfileMenu(leftParent, {page: 'settings'});
-        profileMenu.render(this.__context.profileSettings);
+            this.__settings = new Settings(parent);
+            this.__settings.render(this.__context.profileSettings);
+        } else {
+            const layout = new Layout(this.__app, true);
+            layout.render({layoutCount: 'two'});
 
-        this.__settings = new Settings(rightParent);
-        this.__settings.render(this.__context.profileSettings);
+            const leftParent = layout.leftParent;
+            const rightParent = layout.rightParent;
+
+            const profileMenu = new ProfileMenu(leftParent, {page: 'settings'});
+            profileMenu.render(this.__context.profileSettings);
+
+            this.__settings = new Settings(rightParent);
+            this.__settings.render(this.__context.profileSettings);
+        }
 
         super.renderFooter();
     }
