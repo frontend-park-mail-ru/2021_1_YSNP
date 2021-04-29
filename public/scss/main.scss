@@ -102,7 +102,7 @@ $mainColor: rgb(211, 30, 30);
     color: $linkColor;
   }
 
-  @media screen and (max-width: 1024px){
+  @media screen and (max-width: 576px) {
     font-size: 2vh;
   }
 }
@@ -118,7 +118,7 @@ $mainColor: rgb(211, 30, 30);
 
   padding-left: 10px;
 
-  @media screen and (max-width: 1024px){
+  @media screen and (max-width: 576px) {
     height: 5vh;
   }
 }
@@ -129,7 +129,7 @@ $mainColor: rgb(211, 30, 30);
   color: #000000;
   opacity: 0.5;
 
-  @media screen and (max-width: 1024px){
+  @media screen and (max-width: 576px) {
     font-size: 2vh;
   }
 }
@@ -153,7 +153,7 @@ $mainColor: rgb(211, 30, 30);
   border-radius: 1vh;
   box-shadow: 0 0 1vw rgba(0, 0, 0, 0.2);
 
-  @media screen and (max-width: 768px){
+  @media screen and (max-width: 576px) {
     border-radius: 0;
   }
 }

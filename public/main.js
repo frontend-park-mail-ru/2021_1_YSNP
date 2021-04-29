@@ -41,6 +41,9 @@ if ('serviceWorker' in navigator) {
     });
 }
 
+export function isMobile() {
+    return window.innerWidth <= 576;
+}
 
 const app = document.getElementById('app');
 
