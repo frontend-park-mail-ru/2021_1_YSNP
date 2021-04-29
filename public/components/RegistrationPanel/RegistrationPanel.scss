@@ -5,18 +5,51 @@
     &__textfield {
       @include input;
       width: 27vh;
+
+      @media screen and (max-width: 1024px) {
+        width: 100%;
+      }
     }
 
     &__coutry-code {
       margin: 0;
-      height: 5vh;
       min-width: 2.5vw;
+      @include input;
+      width: 4.4vh;
+
+      &:focus {
+        outline: none;
+      }
+
+      @media screen and (max-width: 1024px) {
+        width: 10%;
+      }
+
+      @media screen and (max-width: 768px) {
+        width: 13%;
+      }
+
+      @media screen and (max-width: 500px) {
+        width: 15%;
+      }
     }
 
     &__tel {
+      padding-left: 1vh;
+      @include input;
       margin: 0;
-      height: 5vh;
-      min-width: 22vh;
+      width: 22vh;
+
+      @media screen and (max-width: 1024px) {
+        width: 89%;
+      }
+      @media screen and (max-width: 768px) {
+        width: 85.5%;
+      }
+
+      @media screen and (max-width: 500px) {
+        width: 83%;
+      }
     }
 
     &-title {
@@ -26,6 +59,39 @@
         font-size: 3vh;
         margin: 0;
         line-height: 5vh;
+      }
+    }
+  }
+
+  &-form {
+    padding-left: 1vw;
+    padding-right: 1vw;
+
+    &-inner {
+      position: relative;
+      margin: auto 0;
+      @media screen and (max-width: 1024px) {
+        width: 70%;
+      }
+    }
+  }
+
+  &-des {
+    display: flex;
+    margin-bottom: 2vh;
+
+    &-topic {
+      width: 20%;
+      margin-top: 1vh;
+
+      @media screen and (max-width: 1024px) {
+        width: 30%;
+      }
+
+      &__title {
+        @include description-label;
+        margin-top: 1vh;
+        margin-bottom: 1vh;
       }
     }
   }
@@ -44,22 +110,25 @@
   }
 
   &__button {
-    @include red-button(15.5vw, 4vh);
-    font-size: 1vw;
-    width: 15.5vw;
+    @include red-button(17vh, 4vh);
     margin-bottom: 1vh;
     margin-left: 1vw;
   }
-}
-
-.form-spacing {
-  margin: 2vh;
 }
 
 .profile-pic {
   display: block;
   object-fit: cover;
   @include set-size(9vw, 9vw);
+  @media screen and (max-width: 1024px) {
+    @include set-size(15vh, 15vh);
+  }
+  @media screen and (max-width: 768px) {
+    @include set-size(13vh, 13vh);
+  }
+  @media screen and (max-width: 500px) {
+    @include set-size(16vh, 16vh);
+  }
 }
 
 .file-upload {
@@ -72,6 +141,15 @@
   overflow: hidden;
   @include set-size(9vw, 9vw);
   border: 1px solid rgba(0, 0, 0, 0.1);
+  @media screen and (max-width: 1024px) {
+    @include set-size(15vh, 15vh);
+  }
+  @media screen and (max-width: 768px) {
+    @include set-size(13vh, 13vh);
+  }
+  @media screen and (max-width: 500px) {
+    @include set-size(16vh, 16vh);
+  }
 }
 
 .p-image {
@@ -98,6 +176,26 @@
   &:hover {
     transition: all .3s cubic-bezier(.175, .885, .32, 1.275);
     color: #999;
+  }
+
+  & svg {
+    @media screen and (max-width: 1024px) {
+      width: 3vh;
+      height: 3vh;
+    }
+  }
+
+  @media screen and (max-width: 1024px) {
+    top: 4vh;
+    left: 6vh;
+  }
+  @media screen and (max-width: 768px) {
+    top: 5vh;
+    left: 5vh;
+  }
+  @media screen and (max-width: 500px) {
+    top: 8vh;
+    left: 10vh;
   }
 }
 
