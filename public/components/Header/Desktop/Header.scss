@@ -1,4 +1,4 @@
-@import "../../scss/main.scss";
+@import "../../../scss/main";
 
 .header {
   height: 7vh;
@@ -127,6 +127,7 @@
 
       &-item {
         margin: 1.3vh 0;
+        padding: 0;
 
         display: flex;
         align-items: center;

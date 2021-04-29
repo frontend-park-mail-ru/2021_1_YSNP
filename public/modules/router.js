@@ -1,4 +1,4 @@
-import {frontUrls} from './frontUrls';
+import {frontUrls} from './urls/frontUrls';
 
 /***
  * Application router

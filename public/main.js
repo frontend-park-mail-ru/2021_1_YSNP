@@ -4,7 +4,7 @@ import './scss/style.scss';
 import './scss/main.scss';
 
 import {router} from './modules/router.js';
-import {frontUrls} from './modules/frontUrls.js';
+import {frontUrls} from './modules/urls/frontUrls.js';
 
 import {UserFavoriteView} from './views/UserFavoriteView.js';
 import {MainView} from './views/MainView.js';
@@ -27,7 +27,7 @@ import {RegistrationPresenter} from './presenters/RegistrationPresenter.js';
 import {SearchPresenter} from './presenters/SearchPresenter.js';
 import {PromotionPresenter} from './presenters/PromotionPresenter.js';
 import {NotFoundPresenter} from './presenters/NotFoundPresenter.js';
-import {baseCreateProduct, baseRegistration} from './modules/fields.js';
+import {baseCreateProduct, baseRegistration} from './modules/layout/fields.js';
 
 /***
  * Register service worker
@@ -39,10 +39,6 @@ if ('serviceWorker' in navigator) {
         }).catch((error) => {
         console.log(`Error while register service worker:${error}`);
     });
-}
-
-export function isMobile() {
-    return window.innerWidth <= 576;
 }
 
 const app = document.getElementById('app');

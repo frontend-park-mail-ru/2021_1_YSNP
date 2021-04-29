@@ -1,13 +1,14 @@
 import {router} from '../modules/router.js';
-import {frontUrls} from '../modules/frontUrls.js';
-import {eventHandler} from '../modules/eventHandler.js';
-import {parseTelNumber, telMask} from '../modules/mask.js';
+import {frontUrls} from '../modules/urls/frontUrls.js';
+import {eventHandler} from '../modules/handlers/eventHandler.js';
+import {parseTelNumber, telMask} from '../modules/layout/mask.js';
 
 import {user} from '../models/ProfileUserModel.js';
 import {AuthUserModel} from '../models/AuthUserModel.js';
-import {YandexMap} from '../modules/yandexMap.js';
+import {YandexMap} from '../modules/layout/yandexMap.js';
 
-import {OfflineError} from '../modules/httpError.js';
+import {OfflineError} from '../modules/http/httpError.js';
+import {mobile} from '../modules/mobile';
 
 /***
  * Base presenter
@@ -24,6 +25,7 @@ export class BasePresenter {
         this.__isShownMap = false;
         this.__isShownAuth = false;
         this.__yaMap = new YandexMap();
+        mobile.start(this.__resizeCallback.bind(this));
     }
 
     /***
@@ -64,7 +66,17 @@ export class BasePresenter {
             this.__view.removeMap();
         }
 
+        mobile.remove();
+
         this.__view.removeHeaderListeners();
+    }
+
+    /***
+     * Resize callback
+     * @private
+     */
+    __resizeCallback() {
+        router.redirectCurrent();
     }
 
     /***
@@ -167,6 +179,7 @@ export class BasePresenter {
 
         this.__authModel.auth()
             .then(() => {
+                this.__view.removeOverflowHidden();
                 router.redirectCurrent();
             })
             .catch((err) => {
@@ -270,9 +283,8 @@ export class BasePresenter {
 
     /***
      * Open create product view
-     * @private
      */
-    __openCreateProduct() {
+    openCreateProduct() {
         if (this.__userModel.isAuth) {
             router.redirect(frontUrls.productCreate, '', {title: document.title});
         } else {
@@ -308,6 +320,7 @@ export class BasePresenter {
     __closeMap() {
         if (this.__isShownMap) {
             this.__isShownMap = false;
+            this.__view.removeOverflowHidden();
             this.__view.removeMap();
         }
     }
@@ -329,6 +342,7 @@ export class BasePresenter {
     __closeAuth() {
         if (this.__isShownAuth) {
             this.__isShownAuth = false;
+            this.__view.removeOverflowHidden();
             this.__view.removeAuth();
         }
     }
@@ -375,6 +389,30 @@ export class BasePresenter {
     }
 
     /***
+     * Go back
+     * @private
+     */
+    __backClick() {
+        router.navigateBack();
+    }
+
+    /***
+     * Open user menu
+     * @private
+     */
+    __openUserMenu() {
+        this.__view.renderUserMenu();
+    }
+
+    /***
+     * Close user menu
+     * @private
+     */
+    __closeUserMenu() {
+        this.__view.removeUserMenu();
+    }
+
+    /***
      * Group button click
      * @param {HTMLElement} el - element click
      * @private
@@ -404,7 +442,7 @@ export class BasePresenter {
 
         this.__userModel.position()
             .then(() => {
-                // this.__closeMap();
+                this.__view.removeOverflowHidden();
                 router.redirectCurrent();
                 this.__view.updateAddress(this.__userModel.getData().address);
             })
@@ -427,7 +465,7 @@ export class BasePresenter {
                     open: this.openMap.bind(this)
                 },
                 createProductClick: {
-                    open: this.__openCreateProduct.bind(this)
+                    open: this.openCreateProduct.bind(this)
                 },
                 authClick: {
                     open: this.openAuth.bind(this)
@@ -437,6 +475,15 @@ export class BasePresenter {
                 },
                 logoutClick: {
                     open: this.__logout.bind(this)
+                },
+                userMenuClick: {
+                    open: this.__openUserMenu.bind(this)
+                },
+                backClick: {
+                    open: this.__backClick.bind(this)
+                },
+                closeClick: {
+                    open: this.__closeUserMenu.bind(this)
                 }
             },
             auth: {

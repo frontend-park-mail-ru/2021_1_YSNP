@@ -2,32 +2,22 @@
 
 .product-card {
   @include set-size(12vw, 20vw);
-  @include shadow-block;
+  @include product-block;
 
   position: relative;
   margin: 0.5vw;
-  box-sizing: border-box;
 
-  overflow: hidden;
-  transition-duration: 0.5s;
-  transition-property: box-shadow;
-
-  &:hover {
-    cursor: pointer;
-    box-shadow: rgba(0, 0, 0, 0.5) 0 0 10px;
-  }
-
-  @media screen and (max-width: 1024px) {
+  @media screen and (max-width: $breakDesktop) {
     @include set-size(18vw, 29vw);
     margin: 0.7vw;
   }
 
-  @media screen and (max-width: 768px) {
+  @media screen and (max-width: $breakTablet) {
     @include set-size(24vw, 39vw);
     margin: 1vw;
   }
 
-  @media screen and (max-width: 576px) {
+  @media screen and (max-width: $breakMobile) {
     @include set-size(43vw, 60vw);
     margin: 1.5vw;
   }
@@ -58,25 +48,25 @@
     color: black;
     background-color: rgb(235, 235, 235);
 
-    @media screen and (max-width: 1024px) {
+    @media screen and (max-width: $breakDesktop) {
       top: 0.7vw;
       right: 0.7vw;
 
       font-size: 1.5vw;
     }
 
-    @media screen and (max-width: 768px) {
+    @media screen and (max-width: $breakTablet) {
       top: 1vw;
       right: 1vw;
 
       font-size: 2vw;
     }
 
-    @media screen and (max-width: 576px) {
+    @media screen and (max-width: $breakMobile) {
       top: 1.5vw;
       right: 1.5vw;
 
-      font-size: 3vw;
+      font-size: 3.5vw;
     }
   }
 
@@ -93,25 +83,25 @@
     color: white;
     background-color: $mainColor;
 
-    @media screen and (max-width: 1024px) {
+    @media screen and (max-width: $breakDesktop) {
       top: 0.7vw;
       left: 0.7vw;
 
       font-size: 1.5vw;
     }
 
-    @media screen and (max-width: 768px) {
+    @media screen and (max-width: $breakTablet) {
       top: 1vw;
       left: 1vw;
 
       font-size: 2vw;
     }
 
-    @media screen and (max-width: 576px) {
+    @media screen and (max-width: $breakMobile) {
       top: 1.5vw;
       left: 1.5vw;
 
-      font-size: 3vw;
+      font-size: 3.5vw;
     }
 
     &_vip {
@@ -131,22 +121,22 @@
       cursor: pointer;
     }
 
-    @media screen and (max-width: 1024px) {
+    @media screen and (max-width: $breakDesktop) {
       @include set-size(2.5vw, 2.5vw);
 
       top: 0.7vw;
       right: 0.7vw;
     }
 
-    @media screen and (max-width: 768px) {
+    @media screen and (max-width: $breakTablet) {
       @include set-size(3.5vw, 3.5vw);
 
       top: 1vw;
       right: 1vw;
     }
 
-    @media screen and (max-width: 576px) {
-      @include set-size(5vw, 5vw);
+    @media screen and (max-width: $breakMobile) {
+      @include set-size(7vw, 7vw);
 
       top: 1.5vw;
       right: 1.5vw;
@@ -171,6 +161,10 @@
 
       display: flex;
       flex-direction: column;
+
+      @media screen and (max-width: $breakMobile) {
+        margin: 2vw;
+      }
     }
 
     &__name {
@@ -180,25 +174,23 @@
       font-size: 1vw;
       @include overflow-text-height(2.4vw);
 
-      @media screen and (max-width: 1024px) {
+      @media screen and (max-width: $breakDesktop) {
         margin-bottom: 0.5vw;
 
         font-size: 1.5vw;
         @include overflow-text-height(3.5vw);
       }
 
-      @media screen and (max-width: 768px) {
+      @media screen and (max-width: $breakTablet) {
         margin-bottom: 1vw;
 
         font-size: 2vw;
         @include overflow-text-height(4.5vw);
       }
 
-      @media screen and (max-width: 576px) {
-        margin-bottom: 2vw;
-
-        font-size: 3vw;
-        @include overflow-text-height(6.5vw);
+      @media screen and (max-width: $breakMobile) {
+        font-size: 4vw;
+        @include overflow-text-height(9.6vw);
       }
     }
 
@@ -208,16 +200,16 @@
       font-size: 0.7vw;
       color: rgb(142, 142, 142);
 
-      @media screen and (max-width: 1024px) {
+      @media screen and (max-width: $breakDesktop) {
         font-size: 1.1vw;
       }
 
-      @media screen and (max-width: 768px) {
+      @media screen and (max-width: $breakTablet) {
         font-size: 1.4vw;
       }
 
-      @media screen and (max-width: 576px) {
-        font-size: 2.1vw;
+      @media screen and (max-width: $breakMobile) {
+        font-size: 2.5vw;
       }
     }
 
@@ -228,15 +220,15 @@
       font-size: 1.5vw;
       @include overflow-text-width;
 
-      @media screen and (max-width: 1024px) {
+      @media screen and (max-width: $breakDesktop) {
         font-size: 2.3vw;
       }
 
-      @media screen and (max-width: 768px) {
+      @media screen and (max-width: $breakTablet) {
         font-size: 3vw;
       }
 
-      @media screen and (max-width: 576px) {
+      @media screen and (max-width: $breakMobile) {
         font-size: 4.5vw;
       }
 

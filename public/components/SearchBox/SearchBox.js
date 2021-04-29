@@ -1,6 +1,6 @@
 import './SearchBox.scss';
 import searchBoxTemplate from './SearchBox.hbs';
-import {categories} from '../../modules/fields.js';
+import {categories} from '../../modules/layout/fields.js';
 
 /***
  * class for SearchBox component (Main page)

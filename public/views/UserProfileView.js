@@ -151,7 +151,6 @@ export class UserProfileView extends BaseView {
      */
     render(context) {
         super.render();
-        this.__setTitle();
         this.__makeContext(context);
 
         if (isMobile()) {

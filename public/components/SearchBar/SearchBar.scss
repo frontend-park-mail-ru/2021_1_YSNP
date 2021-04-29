@@ -5,6 +5,11 @@
     margin: 1.5vh 0;
     width: 100%;
 
+    @media screen and (max-width: 576px) {
+      width: 90%;
+      margin: 0 2vh 2vh;
+    }
+
     &__title {
       font-size: 3vh;
     }
@@ -15,12 +20,14 @@
       font-size: 1.7vh;
       color: rgba(0, 0, 0, 0.8);
 
-      &__map {
-        color: #551A8B;
+      @media screen and (max-width: 576px) {
+        font-size: 1.8vh;
+      }
 
-        &:hover {
-          cursor: pointer;
-        }
+      &__map {
+        color: $mainColor;
+
+        cursor: pointer;
       }
     }
   }
@@ -28,14 +35,33 @@
   &-block {
     display: flex;
 
+    @media screen and (max-width: 576px) {
+      flex-direction: column;
+    }
+
     &__search-field {
 
     }
   }
 
   &-filter {
+    @media screen and (max-width: 576px) {
+      @include shadow-block;
+
+      padding: 0 2vh 1vh;
+      margin-bottom: 2vh;
+    }
+
     &-elem {
-      height: 5vh;
+      margin-bottom: 1vh;
+
+      @media screen and (max-width: 576px) {
+        width: 100%;
+        margin-bottom: 1.5vh;
+
+        display: flex;
+        justify-content: center;
+      }
 
       &__text-field {
         @include set-size(27vh, 4vh);
@@ -47,16 +73,27 @@
         &:focus {
           outline: none;
         }
+
+        @media screen and (max-width: 576px) {
+          @include set-size(100%, 5vh);
+        }
       }
 
       &__button {
         margin-right: 2vw;
         @include red-button(27vh, 4vh);
+
+        @media screen and (max-width: 576px) {
+          @include set-size(100%, 5vh);
+
+          margin-right: 0;
+        }
       }
     }
 
     &-amount {
       display: flex;
+      width: 100%;
 
       &__from {
         @include set-size(14vh, 4vh);
@@ -65,6 +102,10 @@
 
         border-radius: 0.5vh 0 0 0.5vh;
         background-color: whitesmoke;
+
+        @media screen and (max-width: 576px) {
+          @include set-size(50%, 5vh);
+        }
       }
 
       &__to {
@@ -74,6 +115,10 @@
 
         border-radius: 0 0.5vh 0.5vh 0;
         background-color: whitesmoke;
+
+        @media screen and (max-width: 576px) {
+          @include set-size(50%, 5vh);
+        }
       }
     }
   }
@@ -83,20 +128,31 @@
 
     &-bar {
       display: flex;
-      width: 100%;
+
+      @media screen and (max-width: 576px) {
+        @include shadow-block;
+        justify-content: center;
+        padding: 2vh;
+      }
 
       &__text-field {
         @include set-size(90%, 4vh);
         @include input;
-        font-size: 1.5vh;
-
         margin-right: 1vh;
 
         background-color: whitesmoke;
+
+        @media screen and (max-width: 576px) {
+          @include set-size(75%, 5vh);
+        }
       }
 
       &__button {
         @include red-button(10vh, 4vh);
+
+        @media screen and (max-width: 576px) {
+          @include set-size(25%, 5vh);
+        }
       }
     }
 
@@ -107,6 +163,12 @@
 
       &:focus {
         outline: none;
+      }
+
+      @media screen and (max-width: 576px) {
+        margin: 1vh;
+
+        @include set-size(20vh, 4vh);
       }
     }
 

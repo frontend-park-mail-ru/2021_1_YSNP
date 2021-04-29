@@ -1,0 +1,54 @@
+<div class="user-menu" id="user-menu">
+    <div class="user-menu-content" id="user-menu-content">
+        <div class="user-menu-content-inner">
+
+            <div class="user-menu-content-top">
+                <span class="user-menu-content-top__title">Профиль</span>
+
+                <img src="/img/svg/cancel.svg" alt="close" class="user-menu-content-top__close"
+                     data-action="closeClick">
+            </div>
+
+            <div class="user-menu-content__separator"></div>
+
+            <div class="user-menu-content-body">
+                <div class="user-menu-content-body-inner">
+
+                    <span class="user-menu-content-body__user">{{surname}} {{name}}</span>
+
+                    <div class="user-menu-content-body__separator"></div>
+
+                    <a href="/user/profile" class="user-menu-content-body-item">
+                        <img src="/img/svg/gear.svg" alt="profile" class="user-menu-content-body-item__img">
+                        <span>Настройки</span>
+                    </a>
+
+                    <a href="/user/ad" class="user-menu-content-body-item">
+                        <img src="/img/svg/list.svg" alt="ad" class="user-menu-content-body-item__img">
+                        <span>Мои объявления</span>
+                    </a>
+
+                    <a href="/user/chats" class="user-menu-content-body-item">
+                        <img src="/img/svg/email.svg" alt="message" class="user-menu-content-body-item__img">
+                        <span>Мои сообщения</span>
+                    </a>
+
+                    <a href="/user/favorite" class="user-menu-content-body-item">
+                        <img src="/img/svg/like_light.svg" alt="favorite"
+                             class="user-menu-content-body-item__img">
+                        <span>Избранное</span>
+                    </a>
+
+                    <div class="user-menu-content-body__separator"></div>
+
+                    <button class="user-menu-content-body-item" data-action="logoutClick">
+                        <img src="/img/svg/open-door.svg" alt="logout" class="user-menu-content-body-item__img">
+                        <span>Выйти</span>
+                    </button>
+
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>

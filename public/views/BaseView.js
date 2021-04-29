@@ -1,8 +1,12 @@
-import {Header} from '../components/Header/Header.js';
+import {Header} from '../components/Header/Desktop/Header.js';
 import {Auth} from '../components/Auth/Auth.js';
 import {Map} from '../components/Map/Map.js';
 import {Footer} from '../components/Footer/Footer';
 import {PageOffline} from '../components/PageOffline/PageOffline';
+import {MobileHeader} from '../components/Header/Mobile/MobileHeader';
+
+import {mobile} from '../modules/mobile';
+import {UserMenu} from '../components/Header/Mobile/UserMenu/UserMenu';
 
 /***
  * Application base view
@@ -33,10 +37,17 @@ export class BaseView {
     }
 
     /***
-     * Overflow hidden
+     * add overflow hidden
      */
     addOverflowHidden() {
         document.body.classList.add('overflow-hidden');
+    }
+
+    /***
+     * Remove overflow hidden
+     */
+    removeOverflowHidden() {
+        document.body.classList.remove('overflow-hidden');
     }
 
     /***
@@ -105,14 +116,18 @@ export class BaseView {
      * Open / Close dropdown menu
      */
     toggleDropdown() {
-        this.__header.toggleDropdown();
+        if (!mobile.isMobile()) {
+            this.__header.toggleDropdown();
+        }
     }
 
     /***
      * Remove dropdown menu
      */
     removeDropdown() {
-        this.__header.removeDropdown();
+        if (!mobile.isMobile()) {
+            this.__header.removeDropdown();
+        }
     }
 
     /***
@@ -121,6 +136,12 @@ export class BaseView {
     removeHeaderListeners() {
         if (this.__header) {
             this.__header.removeListeners();
+            this.__header = undefined;
+        }
+
+        if (this.__mobileHeader) {
+            this.__mobileHeader.removeListeners();
+            this.__mobileHeader = undefined;
         }
     }
 
@@ -129,7 +150,42 @@ export class BaseView {
      * @param address
      */
     updateAddress(address) {
-        this.__header.updateAddress(address);
+        if (!mobile.isMobile()) {
+            this.__header.updateAddress(address);
+        }
+    }
+
+    /***
+     * Add back button
+     */
+    addBackButton() {
+        if (mobile.isMobile()) {
+            this.__mobileHeader.addBackButton();
+        }
+    }
+
+    /***
+     * Remove back button
+     */
+    removeBackButton() {
+        if (mobile.isMobile()) {
+            this.__mobileHeader.removeBackButton();
+        }
+    }
+
+    /***
+     * Render user menu
+     */
+    renderUserMenu() {
+        this.__userMenu = new UserMenu(this.__app);
+        this.__userMenu.render(this.__baseContext.header);
+    }
+
+    /***
+     * Remove user menu
+     */
+    removeUserMenu() {
+        this.__userMenu.remove();
     }
 
     /***
@@ -143,13 +199,27 @@ export class BaseView {
     }
 
     /***
+     * Set view title
+     * @private
+     */
+    __setTitle() {
+        throw new Error('virtual method not initialized!');
+    }
+
+    /***
      * Render view
      */
     render() {
         this.__app.innerHTML = '';
+        this.__setTitle();
 
-        this.__header = new Header(this.__app);
-        this.__header.render(this.__baseContext.header);
+        if (!mobile.isMobile()) {
+            this.__header = new Header(this.__app);
+            this.__header.render(this.__baseContext.header);
+        } else {
+            this.__mobileHeader = new MobileHeader(this.__app);
+            this.__mobileHeader.render(this.__baseContext.header);
+        }
     }
 
     /***

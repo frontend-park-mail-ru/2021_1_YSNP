@@ -1,7 +1,7 @@
 import {BaseModel} from './BaseModel.js';
 
-import {http} from '../modules/http.js';
-import {backUrls} from '../modules/backUrls.js';
+import {http} from '../modules/http/http.js';
+import {backUrls} from '../modules/urls/backUrls.js';
 
 /***
  * User model
