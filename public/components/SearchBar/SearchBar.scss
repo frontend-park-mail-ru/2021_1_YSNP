@@ -8,6 +8,7 @@
     @media screen and (max-width: 1024px){
       padding-left: 2vw;
       padding-right: 2vw;
+      width: 96%;
     }
 
     &__title {
@@ -121,11 +122,7 @@
         @include shadow-block;
         justify-content: center;
         padding: 2vh 1vw;
-        width: 97.5%;
-      }
-
-      @media screen and (max-width: 578px){
-        width: 96%;
+        width: 98%;
       }
 
       &__text-field {
