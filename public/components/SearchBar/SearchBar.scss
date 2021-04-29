@@ -5,10 +5,9 @@
     margin: 1.5vh 0;
     width: 100%;
 
-    @media screen and (max-width: 1024px){
-      padding-left: 2vw;
-      padding-right: 2vw;
-      width: 96%;
+    @media screen and (max-width: 576px) {
+      width: 90%;
+      margin: 0 2vh 2vh;
     }
 
     &__title {
@@ -21,12 +20,14 @@
       font-size: 1.7vh;
       color: rgba(0, 0, 0, 0.8);
 
+      @media screen and (max-width: 576px) {
+        font-size: 1.8vh;
+      }
+
       &__map {
         color: $mainColor;
 
-        &:hover {
-          cursor: pointer;
-        }
+        cursor: pointer;
       }
     }
   }
@@ -34,29 +35,34 @@
   &-block {
     display: flex;
 
-    @media screen and (max-width: 1024px){
+    @media screen and (max-width: 576px) {
       flex-direction: column;
     }
+
     &__search-field {
 
     }
   }
 
   &-filter {
-    @media screen and (max-width: 1024px){
+    @media screen and (max-width: 576px) {
       @include shadow-block;
-      padding: 0 2vw 1vh;
+
+      padding: 0 2vh 1vh;
       margin-bottom: 2vh;
     }
 
     &-elem {
-      height: 5vh;
-      @media screen and (max-width: 1024px){
-        display: flex;
-        justify-content: center;
+      margin-bottom: 1vh;
+
+      @media screen and (max-width: 576px) {
         width: 100%;
         margin-bottom: 1.5vh;
+
+        display: flex;
+        justify-content: center;
       }
+
       &__text-field {
         @include set-size(27vh, 4vh);
         @include input;
@@ -64,27 +70,31 @@
 
         background-color: whitesmoke;
 
-        @media screen and (max-width: 1024px){
-          width: 90%;
-        }
         &:focus {
           outline: none;
+        }
+
+        @media screen and (max-width: 576px) {
+          @include set-size(100%, 5vh);
         }
       }
 
       &__button {
         margin-right: 2vw;
         @include red-button(27vh, 4vh);
+
+        @media screen and (max-width: 576px) {
+          @include set-size(100%, 5vh);
+
+          margin-right: 0;
+        }
       }
     }
 
     &-amount {
       display: flex;
+      width: 100%;
 
-      @media screen and (max-width: 1024px){
-        width: 100%;
-        justify-content: center;
-      }
       &__from {
         @include set-size(14vh, 4vh);
         @include input;
@@ -92,8 +102,9 @@
 
         border-radius: 0.5vh 0 0 0.5vh;
         background-color: whitesmoke;
-        @media screen and (max-width: 1024px){
-          width: 45%;
+
+        @media screen and (max-width: 576px) {
+          @include set-size(50%, 5vh);
         }
       }
 
@@ -104,8 +115,9 @@
 
         border-radius: 0 0.5vh 0.5vh 0;
         background-color: whitesmoke;
-        @media screen and (max-width: 1024px){
-          width: 45%;
+
+        @media screen and (max-width: 576px) {
+          @include set-size(50%, 5vh);
         }
       }
     }
@@ -116,13 +128,11 @@
 
     &-bar {
       display: flex;
-      width: 100%;
 
-      @media screen and (max-width: 1024px){
+      @media screen and (max-width: 576px) {
         @include shadow-block;
         justify-content: center;
-        padding: 2vh 1vw;
-        width: 98%;
+        padding: 2vh;
       }
 
       &__text-field {
@@ -132,13 +142,17 @@
 
         background-color: whitesmoke;
 
-        @media screen and (max-width: 1024px){
-          margin-right: 0.3vh;
+        @media screen and (max-width: 576px) {
+          @include set-size(75%, 5vh);
         }
       }
 
       &__button {
         @include red-button(10vh, 4vh);
+
+        @media screen and (max-width: 576px) {
+          @include set-size(25%, 5vh);
+        }
       }
     }
 
@@ -147,22 +161,14 @@
       background: rgba(0, 0, 0, 0.0);
       border: 0;
 
-      @media screen and (max-width: 1024px){
-        margin-top: 2vh;
-        width: 30%;
-        height: 4vh;
-        margin-bottom: 1vh;
-      }
-
-      @media screen and (max-width: 500px){
-        width: 60%;
-      }
-
       &:focus {
         outline: none;
       }
-      @media screen and (max-width: 1024px){
-        margin-left: 2vw;
+
+      @media screen and (max-width: 576px) {
+        margin: 1vh;
+
+        @include set-size(20vh, 4vh);
       }
     }
 

@@ -150,8 +150,31 @@ $breakMobile: 576px;
   background-color: white;
 
   border: 0;
-  border-radius: 0;
+  border-radius: 1vh;
   box-shadow: 0 0 1vw rgba(0, 0, 0, 0.2);
+
+  @media screen and (max-width: 576px) {
+    border-radius: 0;
+  }
+}
+
+@mixin product-block() {
+  background-color: white;
+
+  border: 0;
+  border-radius: 1vh;
+  box-shadow: 0 0 1vw rgba(0, 0, 0, 0.2);
+  box-sizing: border-box;
+
+  cursor: pointer;
+
+  overflow: hidden;
+  transition-duration: 0.5s;
+  transition-property: box-shadow;
+
+  &:hover {
+    box-shadow: rgba(0, 0, 0, 0.5) 0 0 10px;
+  }
 }
 
 @mixin circle() {
