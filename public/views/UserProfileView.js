@@ -149,7 +149,6 @@ export class UserProfileView extends BaseView {
      */
     render(context) {
         super.render();
-        this.__setTitle();
         this.__makeContext(context);
 
         const layout = new Layout(this.__app, true);

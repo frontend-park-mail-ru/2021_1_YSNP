@@ -10,11 +10,11 @@
   &-inner {
     margin: 0 10vw;
 
-    @media screen and (max-width: 768px) {
+    @media screen and (max-width: $breakTablet) {
       margin: 0 5vw;
     }
 
-    @media screen and (max-width: 576px) {
+    @media screen and (max-width: $breakMobile) {
       margin: 0;
     }
   }
@@ -26,22 +26,22 @@
       flex-direction: row;
       justify-content: space-between;
 
-      @media screen and (max-width: 1024px) {
+      @media screen and (max-width: $breakDesktop) {
         margin: 2vh 10vh;
       }
 
-      @media screen and (max-width: 768px) {
+      @media screen and (max-width: $breakTablet) {
         margin: 2vh 5vh;
       }
 
-      @media screen and (max-width: 576px) {
-        margin: 2vh 5vh;
+      @media screen and (max-width: $breakMobile) {
+        margin: 2vh 3vh;
       }
     }
 
 
     &-logo {
-      @media screen and (max-width: 576px) {
+      @media screen and (max-width: $breakMobile) {
         display: none;
         position: absolute;
       }
@@ -59,6 +59,10 @@
         margin-bottom: 0.7vh;
 
         font-size: 2vh;
+
+        @media screen and (max-width: $breakMobile) {
+          font-size: 2.5vh;
+        }
       }
 
       &__elem {
@@ -68,11 +72,19 @@
         font-size: 1.3vh;
 
         color: #666666;
+
+        @media screen and (max-width: $breakMobile) {
+          font-size: 1.7vh;
+        }
       }
 
       &__address {
         max-width: 30vh;
         @include overflow-text-width;
+
+        @media screen and (max-width: $breakMobile) {
+          max-width: 25vh;
+        }
       }
     }
   }

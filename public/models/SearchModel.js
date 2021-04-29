@@ -1,7 +1,7 @@
 import {ProductListModel} from './ProductListModel.js';
 
-import {http} from '../modules/http';
-import {backUrls} from '../modules/backUrls';
+import {http} from '../modules/http/http';
+import {backUrls} from '../modules/urls/backUrls';
 
 /***
  * Registration user model

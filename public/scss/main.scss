@@ -2,6 +2,10 @@ $textColorDefault: #000000;
 $linkColor: rgb(112, 146, 254);
 $mainColor: rgb(211, 30, 30);
 
+$breakDesktop: 1024px;
+$breakTablet: 768px;
+$breakMobile: 576px;
+
 @mixin overflow-text-width {
   white-space: nowrap;
   overflow: hidden;
@@ -36,6 +40,10 @@ $mainColor: rgb(211, 30, 30);
 
   &:focus {
     outline: none;
+  }
+
+  @media screen and (max-width: $breakMobile) {
+    font-size: 2vh;
   }
 }
 
@@ -113,6 +121,10 @@ $mainColor: rgb(211, 30, 30);
   border-radius: 0.5vh;
 
   padding-left: 10px;
+
+  @media screen and (max-width: $breakMobile) {
+    font-size: 2.3vh;
+  }
 }
 
 @mixin description-label() {

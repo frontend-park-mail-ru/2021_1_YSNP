@@ -1,7 +1,7 @@
 import {PasswordUserModel} from './PasswordUserModel.js';
 
-import {http} from '../modules/http.js';
-import {backUrls} from '../modules/backUrls.js';
+import {http} from '../modules/http/http.js';
+import {backUrls} from '../modules/urls/backUrls.js';
 
 /***
  * Registration user model

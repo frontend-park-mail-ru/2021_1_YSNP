@@ -1,7 +1,6 @@
 import {BaseView} from './BaseView.js';
 import {Layout} from '../components/Layout/Layout';
 import {Navigation} from '../components/Navigation/Navigation';
-import {Switch} from '../components/Switch/Switch';
 import {SearchBar} from '../components/SearchBar/SearchBar.js';
 
 import {router} from '../modules/router';
@@ -132,7 +131,6 @@ export class SearchView extends BaseView {
      */
     async render(context) {
         super.render();
-        this.__setTitle();
         this.layout = new Layout(this.__app, true);
         this.layout.render();
         this.__makeContext(context);

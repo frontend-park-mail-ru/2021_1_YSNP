@@ -33,8 +33,11 @@ export class EndlessScroll {
      * @private
      */
     __scrollListener() {
-        if (document.documentElement.getBoundingClientRect().bottom < document.documentElement.clientHeight * (this.__offset / 100 + 1)) {
-            this.__callbackList.scrollEnd();
+        const clientRect = document.documentElement.getBoundingClientRect();
+        const clientHeight = document.documentElement.clientHeight;
+
+        if (clientRect.bottom < clientHeight * (this.__offset / 100 + 1)) {
+            this.__callbackList.scrollEnd(clientRect);
         }
     }
 
