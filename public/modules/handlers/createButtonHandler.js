@@ -45,7 +45,7 @@ export class CreateButtonHandler {
      * @private
      */
     __scrollEnd(clientRect) {
-        if (clientRect.top < this.__scrollTop) {
+        if (clientRect.top <= this.__scrollTop && clientRect.top < -20) {
             this.__createButton.disable();
         } else {
             this.__createButton.unable();

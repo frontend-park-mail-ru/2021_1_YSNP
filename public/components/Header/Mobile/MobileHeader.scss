@@ -52,12 +52,17 @@
     flex-direction: row;
     align-items: center;
 
-    &__search-button {
-      @include set-size(3vh, 3vh);
+    &-search {
+      display: flex;
+      align-items: center;
 
       margin-right: 4vw;
 
       cursor: pointer;
+
+      &__button {
+        @include set-size(3vh, 3vh);
+      }
     }
 
     &__profile {
