@@ -3,7 +3,7 @@ import {Layout} from '../components/Layout/Layout';
 import {ProfileMenu} from '../components/ProfileMenu/ProfileMenu';
 import {Settings} from '../components/Settings/Settings';
 
-import {isMobile} from '../main';
+import {mobile} from '../modules/mobile';
 
 /***
  * Profile view
@@ -153,7 +153,7 @@ export class UserProfileView extends BaseView {
         super.render();
         this.__makeContext(context);
 
-        if (isMobile()) {
+        if (mobile.isMobile()) {
             const layout = new Layout(this.__app, true);
             layout.render();
             const parent = layout.parent;

@@ -110,7 +110,7 @@ $breakMobile: 576px;
     color: $linkColor;
   }
 
-  @media screen and (max-width: 576px) {
+  @media screen and (max-width: $breakMobile) {
     font-size: 2vh;
   }
 }
@@ -126,9 +126,10 @@ $breakMobile: 576px;
 
   padding-left: 10px;
 
-  @media screen and (max-width: 576px) {
+  @media screen and (max-width: $breakMobile) {
     height: 5vh;
     font-size: 2.3vh;
+  }
 }
 
 @mixin description-label() {
@@ -137,7 +138,7 @@ $breakMobile: 576px;
   color: #000000;
   opacity: 0.5;
 
-  @media screen and (max-width: 576px) {
+  @media screen and (max-width: $breakMobile) {
     font-size: 2vh;
   }
 }
@@ -161,7 +162,7 @@ $breakMobile: 576px;
   border-radius: 1vh;
   box-shadow: 0 0 1vw rgba(0, 0, 0, 0.2);
 
-  @media screen and (max-width: 576px) {
+  @media screen and (max-width: $breakMobile) {
     border-radius: 0;
   }
 }

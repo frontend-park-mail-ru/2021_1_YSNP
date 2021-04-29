@@ -34,7 +34,7 @@
 
     margin-top: 3vh;
 
-    @media screen and (max-width: 768px) {
+    @media screen and (max-width: $breakTablet) {
       flex-direction: column;
     }
   }
@@ -42,7 +42,7 @@
   &-left {
     @include set-size(30%, 100%);
 
-    @media screen and (max-width: 768px) {
+    @media screen and (max-width: $breakTablet) {
       @include set-size(100%, 100%);
     }
   }
@@ -52,7 +52,7 @@
 
     margin-left: 2vw;
 
-    @media screen and (max-width: 768px) {
+    @media screen and (max-width: $breakTablet) {
       @include set-size(100%, 100%);
 
       margin-top: 2vh;

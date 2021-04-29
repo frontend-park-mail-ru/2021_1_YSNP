@@ -5,7 +5,7 @@
     margin: 1.5vh 0;
     width: 100%;
 
-    @media screen and (max-width: 576px) {
+    @media screen and (max-width: $breakMobile) {
       width: 90%;
       margin: 0 2vh 2vh;
     }
@@ -20,7 +20,7 @@
       font-size: 1.7vh;
       color: rgba(0, 0, 0, 0.8);
 
-      @media screen and (max-width: 576px) {
+      @media screen and (max-width: $breakMobile) {
         font-size: 1.8vh;
       }
 
@@ -35,7 +35,7 @@
   &-block {
     display: flex;
 
-    @media screen and (max-width: 576px) {
+    @media screen and (max-width: $breakMobile) {
       flex-direction: column;
     }
 
@@ -45,7 +45,7 @@
   }
 
   &-filter {
-    @media screen and (max-width: 576px) {
+    @media screen and (max-width: $breakMobile) {
       @include shadow-block;
 
       padding: 0 2vh 1vh;
@@ -55,7 +55,7 @@
     &-elem {
       margin-bottom: 1vh;
 
-      @media screen and (max-width: 576px) {
+      @media screen and (max-width: $breakMobile) {
         width: 100%;
         margin-bottom: 1.5vh;
 
@@ -74,7 +74,7 @@
           outline: none;
         }
 
-        @media screen and (max-width: 576px) {
+        @media screen and (max-width: $breakMobile) {
           @include set-size(100%, 5vh);
         }
       }
@@ -83,7 +83,7 @@
         margin-right: 2vw;
         @include red-button(27vh, 4vh);
 
-        @media screen and (max-width: 576px) {
+        @media screen and (max-width: $breakMobile) {
           @include set-size(100%, 5vh);
 
           margin-right: 0;
@@ -103,7 +103,7 @@
         border-radius: 0.5vh 0 0 0.5vh;
         background-color: whitesmoke;
 
-        @media screen and (max-width: 576px) {
+        @media screen and (max-width: $breakMobile) {
           @include set-size(50%, 5vh);
         }
       }
@@ -116,7 +116,7 @@
         border-radius: 0 0.5vh 0.5vh 0;
         background-color: whitesmoke;
 
-        @media screen and (max-width: 576px) {
+        @media screen and (max-width: $breakMobile) {
           @include set-size(50%, 5vh);
         }
       }
@@ -129,7 +129,7 @@
     &-bar {
       display: flex;
 
-      @media screen and (max-width: 576px) {
+      @media screen and (max-width: $breakMobile) {
         @include shadow-block;
         justify-content: center;
         padding: 2vh;
@@ -142,7 +142,7 @@
 
         background-color: whitesmoke;
 
-        @media screen and (max-width: 576px) {
+        @media screen and (max-width: $breakMobile) {
           @include set-size(75%, 5vh);
         }
       }
@@ -150,7 +150,7 @@
       &__button {
         @include red-button(10vh, 4vh);
 
-        @media screen and (max-width: 576px) {
+        @media screen and (max-width: $breakMobile) {
           @include set-size(25%, 5vh);
         }
       }
@@ -165,7 +165,7 @@
         outline: none;
       }
 
-      @media screen and (max-width: 576px) {
+      @media screen and (max-width: $breakMobile) {
         margin: 1vh;
 
         @include set-size(20vh, 4vh);

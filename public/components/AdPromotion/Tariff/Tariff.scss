@@ -9,7 +9,7 @@
   color: $textColorDefault;
   @include border-block;
 
-  @media screen and (max-width: 768px) {
+  @media screen and (max-width: $breakTablet) {
     width: 90%;
   }
 
@@ -33,7 +33,7 @@
     justify-content: center;
     margin-top: 2vh;
 
-    @media screen and (max-width: 576px) {
+    @media screen and (max-width: $breakMobile) {
       font-size: 1.7vh;
     }
   }
@@ -45,7 +45,7 @@
     line-height: 5vh;
     margin-bottom: 2vh;
 
-    @media screen and (max-width: 576px) {
+    @media screen and (max-width: $breakMobile) {
       font-size: 2.8vh;
     }
   }
@@ -54,12 +54,12 @@
     font-size: 1.5vh;
     line-height: 2.5vh;
 
-    @media screen and (max-width: 768px) {
+    @media screen and (max-width: $breakTablet) {
       padding: 0 10vw;
     }
 
-    @media screen and (max-width: 576px) {
-     font-size: 1.6vh;
+    @media screen and (max-width: $breakMobile) {
+      font-size: 1.6vh;
     }
 
     &__list {
@@ -89,7 +89,7 @@
     &_unchecked {
       @include white-button(15vh, 3.5vh);
 
-      @media screen and (max-width: 576px) {
+      @media screen and (max-width: $breakMobile) {
         @include white-button(15vh, 4.5vh);
         font-size: 2vh;
       }
@@ -98,7 +98,7 @@
     &_checked {
       @include red-button(15vh, 3.5vh);
 
-      @media screen and (max-width: 576px) {
+      @media screen and (max-width: $breakMobile) {
         @include white-button(15vh, 4.5vh);
         font-size: 2vh;
       }

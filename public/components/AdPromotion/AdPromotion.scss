@@ -5,7 +5,7 @@
   margin: 1.5vw auto;
   @include shadow-block;
 
-  @media screen and (max-width: 768px) {
+  @media screen and (max-width: $breakTablet) {
     margin-top: 3vw;
   }
 
@@ -26,7 +26,7 @@
     flex-wrap: wrap;
     justify-content: space-between;
 
-    @media screen and (max-width: 768px) {
+    @media screen and (max-width: $breakTablet) {
       flex-direction: column;
       align-items: center;
     }
@@ -45,7 +45,7 @@
       flex-direction: row;
       align-items: center;
 
-      @media screen and (max-width: 768px) {
+      @media screen and (max-width: $breakTablet) {
         width: 100%;
       }
     }
@@ -64,7 +64,7 @@
     &__purchase {
       @include red-button(18vh, 3.5vh);
 
-      @media screen and (max-width: 576px) {
+      @media screen and (max-width: $breakMobile) {
         @include red-button(18vh, 4.5vh);
         font-size: 2vh;
       }
@@ -87,7 +87,7 @@
       line-height: 2vh;
       color: $textColorDefault;
 
-      @media screen and (max-width: 768px) {
+      @media screen and (max-width: $breakTablet) {
         margin-left: 1vh;
       }
     }
