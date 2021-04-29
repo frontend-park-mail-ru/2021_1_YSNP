@@ -5,6 +5,11 @@
     margin: 1.5vh 0;
     width: 100%;
 
+    @media screen and (max-width: 1024px){
+      padding-left: 2vw;
+      padding-right: 2vw;
+    }
+
     &__title {
       font-size: 3vh;
     }
@@ -16,7 +21,7 @@
       color: rgba(0, 0, 0, 0.8);
 
       &__map {
-        color: #551A8B;
+        color: $mainColor;
 
         &:hover {
           cursor: pointer;
@@ -28,15 +33,29 @@
   &-block {
     display: flex;
 
+    @media screen and (max-width: 1024px){
+      flex-direction: column;
+    }
     &__search-field {
 
     }
   }
 
   &-filter {
+    @media screen and (max-width: 1024px){
+      @include shadow-block;
+      padding: 0 2vw 1vh;
+      margin-bottom: 2vh;
+    }
+
     &-elem {
       height: 5vh;
-
+      @media screen and (max-width: 1024px){
+        display: flex;
+        justify-content: center;
+        width: 100%;
+        margin-bottom: 1.5vh;
+      }
       &__text-field {
         @include set-size(27vh, 4vh);
         @include input;
@@ -44,6 +63,9 @@
 
         background-color: whitesmoke;
 
+        @media screen and (max-width: 1024px){
+          width: 90%;
+        }
         &:focus {
           outline: none;
         }
@@ -58,6 +80,10 @@
     &-amount {
       display: flex;
 
+      @media screen and (max-width: 1024px){
+        width: 100%;
+        justify-content: center;
+      }
       &__from {
         @include set-size(14vh, 4vh);
         @include input;
@@ -65,6 +91,9 @@
 
         border-radius: 0.5vh 0 0 0.5vh;
         background-color: whitesmoke;
+        @media screen and (max-width: 1024px){
+          width: 45%;
+        }
       }
 
       &__to {
@@ -74,6 +103,9 @@
 
         border-radius: 0 0.5vh 0.5vh 0;
         background-color: whitesmoke;
+        @media screen and (max-width: 1024px){
+          width: 45%;
+        }
       }
     }
   }
@@ -85,14 +117,27 @@
       display: flex;
       width: 100%;
 
+      @media screen and (max-width: 1024px){
+        @include shadow-block;
+        justify-content: center;
+        padding: 2vh 1vw;
+        width: 97.5%;
+      }
+
+      @media screen and (max-width: 578px){
+        width: 96%;
+      }
+
       &__text-field {
         @include set-size(90%, 4vh);
         @include input;
-        font-size: 1.5vh;
-
         margin-right: 1vh;
 
         background-color: whitesmoke;
+
+        @media screen and (max-width: 1024px){
+          margin-right: 0.3vh;
+        }
       }
 
       &__button {
@@ -105,8 +150,22 @@
       background: rgba(0, 0, 0, 0.0);
       border: 0;
 
+      @media screen and (max-width: 1024px){
+        margin-top: 2vh;
+        width: 30%;
+        height: 4vh;
+        margin-bottom: 1vh;
+      }
+
+      @media screen and (max-width: 500px){
+        width: 60%;
+      }
+
       &:focus {
         outline: none;
+      }
+      @media screen and (max-width: 1024px){
+        margin-left: 2vw;
       }
     }
 
