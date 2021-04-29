@@ -70,7 +70,10 @@ export class YandexMap {
      * @param {number} zoom - map zoom
      */
     setCenter(pos, zoom) {
-        this.__myMap.setCenter(this.__convectPosObjectToArray(pos), zoom);
+        ymaps.ready(() => {
+            this.__myMap.setCenter(this.__convectPosObjectToArray(pos), zoom);
+        });
+
     }
 
     /***
@@ -89,10 +92,14 @@ export class YandexMap {
      */
     addPoint(pos) {
         this.__pos = pos;
-        if (this.__pos !== undefined) {
-            this.__deletePoint(this.__point);
-            this.__point = this.__createPoint(pos);
-        }
+        ymaps.ready(() => {
+            if (this.__pos !== undefined) {
+                this.__deletePoint(this.__point);
+                this.__point = this.__createPoint(pos);
+            }
+            this.__getAddress()
+        });
+
     }
 
     /***

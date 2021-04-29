@@ -17,7 +17,6 @@ class Router {
      */
     start() {
         const route = this.__routes.find((route) => this.__getCurrentPath().match(route.regExp), this);
-        console.log(this.__routes);
         if (route === undefined) {
             this.redirectNotFound();
             return;

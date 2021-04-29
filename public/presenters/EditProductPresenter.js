@@ -21,8 +21,8 @@ export class EditProductPresenter extends BasePresenter {
         super(view);
         this.__view = view;
         this.__countPhoto = 0;
-        this.__model = new ProductModel();
         this.__productId = idProduct;
+        this.__model = new ProductModel({id: this.__productId});
     }
 
     /***
@@ -58,6 +58,7 @@ export class EditProductPresenter extends BasePresenter {
      */
     async update() {
         return super.update()
+            .then(() => this.__model.update())
             .catch((err) => {
                 //TODO(Sergey) нормальная обработка ошибок
                 console.log(err.message);
@@ -78,6 +79,8 @@ export class EditProductPresenter extends BasePresenter {
         if (this.checkOffline()) {
             return;
         }
+
+        console.log(this.__model.getData());
 
         checkIsAuth();
         this.__view.render(this.__makeContext());
@@ -486,8 +489,8 @@ export class EditProductPresenter extends BasePresenter {
                 data: null,
                 listeners: this.__createListeners().navigation
             },
-            productCreate: {
-                data: null,
+            productEdit: {
+                data: this.__model,
                 listeners: this.__createListeners().productCreate
             }
         };

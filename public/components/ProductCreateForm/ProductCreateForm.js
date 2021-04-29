@@ -335,17 +335,30 @@ export class ProductCreateForm {
             .textContent = message;
     }
 
+
+    setLocation(pos) {
+        this.__yaMap.addPoint({
+            latitude: pos.latitude,
+            longitude: pos.longitude
+        });
+
+        this.__yaMap.setCenter({
+            latitude: pos.latitude,
+            longitude: pos.longitude
+        }, 11);
+    }
+
     /***
      * @author Max Torzhkov
      * Add component to parent
      * @this {ProductCreateForm}
      */
     async render(ctx) {
-        this.listeners = ctx.productCreate.listeners;
-        this.__parent.insertAdjacentHTML('beforeend', productCreateFormTemplate(ctx.productCreate));
+        this.listeners = ctx.listeners;
+        this.__parent.insertAdjacentHTML('beforeend', productCreateFormTemplate(ctx));
 
-        for (const fields in ctx.productCreate.fields) {
-            const field = new Field(document.getElementById('ProductForm'), ctx.productCreate.fields[fields]);
+        for (const fields in ctx.fields) {
+            const field = new Field(document.getElementById('ProductForm'), ctx.fields[fields]);
             field.render();
         }
 

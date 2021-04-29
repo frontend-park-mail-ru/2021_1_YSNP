@@ -3,6 +3,7 @@ import {Navigation} from '../components/Navigation/Navigation.js';
 import {Layout} from '../components/Layout/Layout.js';
 import {ProductCreateForm} from '../components/ProductCreateForm/ProductCreateForm.js';
 import {router} from '../modules/router';
+import {YandexMap} from '../modules/yandexMap';
 
 /***
  * class ProductCreateView extends BaseView
@@ -47,9 +48,9 @@ export class ProductEditView extends BaseView {
                 data: context.navigation.data,
                 listeners: context.navigation.listeners
             },
-            productCreate: {
-                data: context.productCreate.data,
-                listeners: context.productCreate.listeners,
+            productEdit: {
+                data: context.productEdit.data,
+                listeners: context.productEdit.listeners,
                 fields: this.__baseProductCreate
             }
         };
@@ -257,8 +258,23 @@ export class ProductEditView extends BaseView {
         this.__navSubView = new Navigation(this.getLayoutParent(), router.getPreviousTitle(), {route: ['Создание товара']});
         this.__navSubView.render(this.__context);
         this.__productCreate = new ProductCreateForm(this.getLayoutParent());
-        this.__productCreate.render(this.__context);
+        this.__productCreate.render(this.__context.productEdit);
         document.getElementById('board-title').textContent = 'Реадктирование объявление';
+        console.log(this.__context.productEdit.data.getData().description);
+        document.getElementById('textareaInput').value = this.__context.productEdit.data.getData().description;
+        document.getElementById('priceInput').value = this.__context.productEdit.data.getData().amount;
+        document.getElementById('nameInput').value = this.__context.productEdit.data.getData().name;
+
+        for (const amount of document.getElementById('categorySelect').options) {
+            if (amount.innerText === this.__context.productEdit.data.getData().category) {
+                amount.selected = true;
+            }
+        }
+
+        this.__productCreate.setLocation({
+            latitude: this.__context.productEdit.data.getData().latitude,
+            longitude: this.__context.productEdit.data.getData().longitude
+        });
         super.renderFooter();
     }
 }
