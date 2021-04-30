@@ -182,6 +182,7 @@ export class Board {
             this.__infoCard = new InfoCard(parentLeftSide, this.__context.data);
             this.__infoCard.render();
         }
+
         this.__description = new Description(parentLeftSide, this.__context.data);
         this.__description.render();
 
