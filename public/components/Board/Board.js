@@ -151,6 +151,14 @@ export class Board {
     }
 
     /***
+     * Detect if mobile version
+     * @returns {boolean}
+     */
+    detectMob() {
+        return ((window.innerWidth <= 576));
+    }
+
+    /***
      * @author Ivan Gorshkov
      *
      * Add component to parent
@@ -160,15 +168,22 @@ export class Board {
     render(ctx) {
         this.__context = ctx.product;
         this.listeners = ctx.product.listeners;
+        const isMobile = this.detectMob();
         this.__parent.insertAdjacentHTML('beforeend', boardTemplate(this.__context.data));
         const parentRightSide = document.getElementById('board-right-side');
         const parentLeftSide = document.getElementById('board-left-side');
         this.__carousel = new Slider(parentLeftSide, this.__context.data);
         this.__carousel.render();
+        if (isMobile) {
+            this.__infoCard = new InfoCard(parentLeftSide, this.__context.data);
+            this.__infoCard.render();
+        }
         this.__description = new Description(parentLeftSide, this.__context.data);
         this.__description.render();
-        this.__infoCard = new InfoCard(parentRightSide, this.__context.data);
-        this.__infoCard.render();
+        if (!isMobile) {
+            this.__infoCard = new InfoCard(parentRightSide, this.__context.data);
+            this.__infoCard.render();
+        }
         this.__map = new Map(parentLeftSide);
         this.__map.render(this.__context.data);
         this.addListeners();
