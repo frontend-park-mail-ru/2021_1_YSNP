@@ -1,0 +1,26 @@
+@import "../../scss/main.scss";
+
+.info-text {
+  width: 100%;
+
+  &-inner {
+    display: flex;
+    flex-direction: column;
+
+    @media screen and (max-width: $breakMobile) {
+      margin: 0 2vh;
+    }
+
+    &__title {
+      font-size: 3vh;
+    }
+
+    &__text {
+      font-size: 2vh;
+      color: #666666;
+      opacity: 0.7;
+
+      margin-top: 1vh;
+    }
+  }
+}

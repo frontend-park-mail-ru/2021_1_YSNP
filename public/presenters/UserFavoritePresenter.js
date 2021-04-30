@@ -82,9 +82,10 @@ export class UserFavoritePresenter extends BasePresenter {
     __scrollEnd() {
         this.__favoriteListModel.updateNewData()
             .then(() => {
-                const newData = this.__mainListModel.newData;
+                const newData = this.__favoriteListModel.newData;
                 if (newData.length === 0) {
                     this.__endlessScroll.remove();
+                    return;
                 }
 
                 this.__view.addNewCards(newData);

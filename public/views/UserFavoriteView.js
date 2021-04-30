@@ -1,9 +1,10 @@
 import {BaseView} from './BaseView.js';
 
 import {Layout} from '../components/Layout/Layout.js';
-import {Switch} from '../components/Switch/Switch.js';
+import {InfoText} from '../components/InfoText/InfoText';
 import {ProductTable} from '../components/ProductTable/ProductTable.js';
 import {ProfileMenu} from '../components/ProfileMenu/ProfileMenu.js';
+import {mobile} from '../modules/mobile';
 
 /***
  * Favorite view
@@ -41,16 +42,12 @@ export class UserFavoriteView extends BaseView {
     __makeContext(context) {
         this.__context = {
             favoriteList: {
+                title: 'Избранное',
                 data: context.favoriteList.data,
                 listeners: context.favoriteList.listeners
             },
             profileSettings: {
                 data: context.profileSettings.data
-            },
-            switch: {
-                data: {
-                    title: 'Избранное'
-                }
             }
         };
     }
@@ -63,34 +60,55 @@ export class UserFavoriteView extends BaseView {
         document.title = 'Избранное';
     }
 
-    /***
-     * Render view
-     * @param {Object} context - view context
-     */
-    render(context) {
-        super.render();
-        this.__makeContext(context);
+    __renderFavorite(parent) {
+        if (this.__context.favoriteList.data.length === 0) {
+            (new InfoText(parent)).render({
+                title: 'Избранное',
+                text: 'В избранном пусто'
+            });
 
+            return;
+
+        }
+
+        this.__favoriteList = new ProductTable(parent);
+        this.__favoriteList.render(this.__context.favoriteList);
+    }
+
+    __renderMobile() {
+        const layout = new Layout(this.__app, true);
+        layout.render();
+
+        const parent = layout.parent;
+
+        this.__renderFavorite(parent);
+    }
+
+    __renderDesktop() {
         const layout = new Layout(this.__app, true);
         layout.render({layoutCount: 'two'});
+
         const left = layout.leftParent;
         const right = layout.rightParent;
 
         const profileMenu = new ProfileMenu(left, {page: 'favorites'});
         profileMenu.render(this.__context.profileSettings);
 
-        const adSwitch = new Switch(right);
-        adSwitch.render(this.__context.switch);
+        this.__renderFavorite(right);
+    }
 
-        if (this.__context.favoriteList.data.length !== 0) {
-            this.__favoriteList = new ProductTable(right);
-            this.__favoriteList.render(this.__context.favoriteList);
+    /***
+     * Render view
+     * @param {Object} context - view context
+     */
+    render(context) {
+        this.__makeContext(context);
+        super.render();
+
+        if (mobile.isMobile()) {
+            this.__renderMobile();
         } else {
-            (new Switch(right)).render({
-                data: {
-                    text: 'В избранном пусто'
-                }
-            });
+            this.__renderDesktop();
         }
 
         super.renderFooter();

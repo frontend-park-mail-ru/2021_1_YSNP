@@ -3,15 +3,28 @@
 .product-table {
   width: 100%;
 
-  display: flex;
-  flex-direction: row;
-
   &-inner {
     display: flex;
+    flex-direction: column;
+  }
+
+  &__title {
+    font-size: 3vh;
+    margin-bottom: 1vh;
+
+    @media screen and (max-width: $breakMobile) {
+      margin-left: 4vw;
+      margin-right: 4vw;
+    }
+  }
+
+  &-body {
+    display: flex;
+    flex-direction: row;
     flex-wrap: wrap;
 
     @media screen and (max-width: $breakMobile) {
-      justify-content: center;
+      margin: 0 4vw;
     }
   }
 }

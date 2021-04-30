@@ -145,33 +145,42 @@ export class UserProfileView extends BaseView {
         document.title = 'Настройки';
     }
 
+    __renderMobile() {
+        const layout = new Layout(this.__app, true);
+        layout.render();
+
+        const parent = layout.parent;
+
+        this.__settings = new Settings(parent);
+        this.__settings.render(this.__context.profileSettings);
+    }
+
+    __renderDesktop() {
+        const layout = new Layout(this.__app, true);
+        layout.render({layoutCount: 'two'});
+
+        const leftParent = layout.leftParent;
+        const rightParent = layout.rightParent;
+
+        const profileMenu = new ProfileMenu(leftParent, {page: 'settings'});
+        profileMenu.render(this.__context.profileSettings);
+
+        this.__settings = new Settings(rightParent);
+        this.__settings.render(this.__context.profileSettings);
+    }
+
     /***
      * Render view
      * @this {UserProfileView}
      */
     render(context) {
-        super.render();
         this.__makeContext(context);
+        super.render();
 
         if (mobile.isMobile()) {
-            const layout = new Layout(this.__app, true);
-            layout.render();
-            const parent = layout.parent;
-
-            this.__settings = new Settings(parent);
-            this.__settings.render(this.__context.profileSettings);
+            this.__renderMobile();
         } else {
-            const layout = new Layout(this.__app, true);
-            layout.render({layoutCount: 'two'});
-
-            const leftParent = layout.leftParent;
-            const rightParent = layout.rightParent;
-
-            const profileMenu = new ProfileMenu(leftParent, {page: 'settings'});
-            profileMenu.render(this.__context.profileSettings);
-
-            this.__settings = new Settings(rightParent);
-            this.__settings.render(this.__context.profileSettings);
+            this.__renderDesktop();
         }
 
         super.renderFooter();
