@@ -157,9 +157,23 @@ export class ProductPresenter extends BasePresenter {
         };
     }
 
+    /***
+     * Close click pop up
+     * @private
+     */
     __listenerCloseProduct() {
         if (confirm('Вы уверены, что хотите закрыть объявление')) {
-            this.__model.close(this.__model.getData().id);
+            this.__model.close()
+                .then(() => {
+                    router.redirectCurrent();
+                })
+                .catch((err) => {
+                    //TODO(Sergey) нормальная обработка ошибок
+                    console.log(err.message);
+
+                    this.checkOfflineStatus(err);
+                    this.checkOffline();
+                });
         }
     }
 
@@ -218,7 +232,7 @@ export class ProductPresenter extends BasePresenter {
                 .catch((err) => {
                     console.log(err.message);
                     this.__view.showNumber(err.message);
-                   this.__numberIsShowed = false;
+                    this.__numberIsShowed = false;
                     this.checkOfflineStatus(err);
                     this.checkOffline();
                 });
