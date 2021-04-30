@@ -1,45 +1,72 @@
 @import "../../scss/main.scss";
 
 .search {
-  top: 6vh;
+  top: 0;
+  margin-top: 7vh;
+  margin-bottom: 2vh;
+
   width: 100%;
-  height: max-content;
+
   background-position: center;
   background-repeat: no-repeat;
   background-size: cover;
   object-fit: cover;
+
   z-index: 0;
   background-image: url(../../img/search-background.webp);
 
-  &-background {
-    width: 100%;
+  &-inner {
     background: rgba(31, 47, 47, 0.8);
-    z-index: 2;
-    top: 0;
+    z-index: 1;
   }
 
   &-content {
-    position: relative;
-    z-index: 3;
+    margin: 0 20vw;
+    z-index: 2;
+
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    padding: 5vw 5vw 0;
+
+    padding: 2vw 0;
+
+    @media screen and (max-width: $breakDesktop) {
+      margin: 0 15vw;
+    }
+
+    @media screen and (max-width: $breakTablet) {
+      margin: 0 10vw;
+    }
+
+    @media screen and (max-width: $breakMobile) {
+      margin: 0 3vw;
+    }
   }
 
   &-title {
+    width: 100%;
+    text-align: center;
+
     font-size: 5vh;
     color: #FFFFFF;
-    padding-top: 2vw;
-    width: 60vw;
-    text-align: center;
+
+    @media screen and (max-width: $breakDesktop) {
+      font-size: 4vh;
+    }
+
+    @media screen and (max-width: $breakTablet) {
+      font-size: 3vh;
+    }
+
+    @media screen and (max-width: $breakMobile) {
+      font-size: 2.5vh;
+    }
   }
 
 
   &-line {
-    width: 60vw;
-
+    width: 100%;
     margin: 3vh 0;
 
     display: flex;
@@ -48,21 +75,30 @@
     justify-content: center;
 
     &__input {
-      @include set-size(40vw, 4vh);
+      @include set-size(70%, 4vh);
       @include input;
 
       font-size: 1.5vh;
 
       margin-right: 1vh;
+
+      @media screen and (max-width: $breakMobile) {
+        @include set-size(70%, 4.5vh);
+      }
     }
 
     &__button {
-      @include red-button(9vh, 4vh);
+      @include red-button(10vh, 4vh);
+
+      @media screen and (max-width: $breakMobile) {
+        @include red-button(10vh, 4.5vh);
+      }
     }
   }
 
   &-categories {
-    width: 60%;
+    width: 100%;
+
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
@@ -71,18 +107,25 @@
 
   &-category {
     &-card {
-      width: 20vh;
-      height: fit-content;
+      @include set-size(20vh, fit-content);
+
+      margin-bottom: 1vw;
+
       color: #FFFFFF;
       font-size: 1.5vh;
-      position: relative;
+
       justify-content: space-between;
+
+      @media screen and (max-width: $breakMobile) {
+        @include set-size(20vh, 3.5vh);
+
+        font-size: 1.8vh;
+      }
     }
 
     &__title {
       font-weight: 600;
       text-align: center;
-      margin-bottom: 2vw;
 
       &:hover {
         color: #eeeeee;

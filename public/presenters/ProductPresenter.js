@@ -1,6 +1,6 @@
 import {BasePresenter} from './BasePresenter.js';
 import {router} from '../modules/router.js';
-import {eventHandlerWithDataType} from '../modules/eventHandler.js';
+import {eventHandlerWithDataType} from '../modules/handlers/eventHandler.js';
 import {ProductModel} from '../models/ProductModel.js';
 import {UserModel} from '../models/UserModel';
 

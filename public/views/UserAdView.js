@@ -1,9 +1,9 @@
 import {BaseView} from './BaseView.js';
 
 import {Layout} from '../components/Layout/Layout.js';
-import {Switch} from '../components/Switch/Switch.js';
 import {ProductTable} from '../components/ProductTable/ProductTable.js';
 import {ProfileMenu} from '../components/ProfileMenu/ProfileMenu.js';
+import {mobile} from '../modules/mobile';
 
 /***
  * Favorite view
@@ -41,16 +41,13 @@ export class UserAdView extends BaseView {
     __makeContext(context) {
         this.__context = {
             adList: {
+                title: 'Мои объявления',
+                text: 'У вас еще нет объявлений',
                 data: context.adList.data,
                 listeners: context.adList.listeners
             },
             profileSettings: {
                 data: context.profileSettings.data
-            },
-            switch: {
-                data: {
-                    title: 'Мои объявления'
-                }
             }
         };
     }
@@ -64,34 +61,49 @@ export class UserAdView extends BaseView {
     }
 
     /***
-     * Render view
-     * @param {Object} context - view context
+     * Render mobile components
+     * @private
      */
-    render(context) {
-        super.render();
-        this.__setTitle();
-        this.__makeContext(context);
+    __renderMobile() {
+        const layout = new Layout(this.__app, true);
+        layout.render();
 
+        const parent = layout.parent;
+
+        this.__adList = new ProductTable(parent);
+        this.__adList.render(this.__context.adList);
+    }
+
+    /***
+     * Render desktop components
+     * @private
+     */
+    __renderDesktop() {
         const layout = new Layout(this.__app, true);
         layout.render({layoutCount: 'two'});
+
         const left = layout.leftParent;
         const right = layout.rightParent;
 
         const profileMenu = new ProfileMenu(left, {page: 'posts'});
         profileMenu.render(this.__context.profileSettings);
 
-        const adSwitch = new Switch(right);
-        adSwitch.render(this.__context.switch);
+        this.__adList = new ProductTable(right);
+        this.__adList.render(this.__context.adList);
+    }
 
-        if (this.__context.adList.data.length !== 0) {
-            this.__adList = new ProductTable(right);
-            this.__adList.render(this.__context.adList);
+    /***
+     * Render view
+     * @param {Object} context - view context
+     */
+    render(context) {
+        this.__makeContext(context);
+        super.render();
+
+        if (mobile.isMobile()) {
+            this.__renderMobile();
         } else {
-            (new Switch(right)).render({
-                data: {
-                    text: 'У вас еще нет объявлений'
-                }
-            });
+            this.__renderDesktop();
         }
 
         super.renderFooter();

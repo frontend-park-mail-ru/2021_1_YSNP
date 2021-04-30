@@ -1,4 +1,4 @@
-import {httpStatus} from '../modules/httpStatus';
+import {httpStatus} from '../modules/http/httpStatus';
 import {
     BadRequestError,
     UnauthorizedError,
@@ -6,7 +6,7 @@ import {
     NotFoundError,
     OfflineError,
     InternalServerError
-} from '../modules/httpError';
+} from '../modules/http/httpError';
 
 /***
  * Base model

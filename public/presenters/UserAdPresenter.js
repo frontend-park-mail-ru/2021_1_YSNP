@@ -1,13 +1,13 @@
 import {BasePresenter} from './BasePresenter.js';
 import {AdListModel} from '../models/AdListModel.js';
 
-import {EndlessScroll} from '../modules/endlessScroll.js';
-import {PageUpHandler} from '../modules/pageUpHandler.js';
+import {EndlessScroll} from '../modules/handlers/endlessScroll.js';
+import {PageUpHandler} from '../modules/handlers/pageUpHandler.js';
 
 import {router} from '../modules/router';
-import {frontUrls} from '../modules/frontUrls';
+import {frontUrls} from '../modules/urls/frontUrls';
 
-import {eventProductListHandler} from '../modules/eventHandler.js';
+import {eventProductListHandler} from '../modules/handlers/eventHandler.js';
 
 /***
  * favorite presenter
@@ -82,9 +82,10 @@ export class UserAdPresenter extends BasePresenter {
     __scrollEnd() {
         this.__adListModel.updateNewData()
             .then(() => {
-                const newData = this.__mainListModel.newData;
+                const newData = this.__adListModel.newData;
                 if (newData.length === 0) {
                     this.__endlessScroll.remove();
+                    return;
                 }
 
                 this.__view.addNewCards(newData);

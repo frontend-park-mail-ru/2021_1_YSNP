@@ -1,8 +1,7 @@
 @import "../../scss/main.scss";
 
 .map {
-  height: 100vh;
-  width: 100vw;
+  @include set-size(100vw, 100vh);
 
   position: fixed;
   top: 0;
@@ -16,15 +15,22 @@
   z-index: 101;
 
   &-content {
-    width: 120vh;
+    width: 110vh;
     position: relative;
     z-index: 2;
     @include block;
 
-    &-inner {
-      height: 100%;
-      width: 100%;
+    @media screen and (max-width: $breakDesktop) {
+      width: 90vw;
+    }
 
+    @media screen and (max-width: $breakMobile) {
+      @include set-size(100vw, 100vh);
+
+      border-radius: 0;
+    }
+
+    &-inner {
       display: flex;
       flex-direction: column;
       align-items: center;
@@ -33,8 +39,11 @@
   }
 
   &-top {
-    height: 4vh;
-    width: 100%;
+    @include set-size(100%, 4vh);
+
+    @media screen and (max-width: $breakMobile) {
+      @include set-size(100%, 7vh);
+    }
 
     &__title {
       height: 100%;
@@ -43,9 +52,17 @@
       align-items: center;
 
       font-size: 2vh;
+
+      @media screen and (max-width: $breakMobile) {
+        padding: 0;
+        justify-content: center;
+
+        font-size: 2.5vh;
+      }
     }
 
     &__close {
+      @include set-size(2vh, 2vh);
       position: absolute;
 
       fill: rgb(120, 120, 120);
@@ -56,17 +73,31 @@
       &:hover {
         cursor: pointer;
       }
+
+      @media screen and (max-width: $breakMobile) {
+        top: 2vh;
+        right: 2vh;
+
+        @include set-size(3vh, 3vh);
+      }
     }
   }
 
   &-middle {
-    height: 60vh;
-    width: 100%;
+    @include set-size(100%, 60vh);
 
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
+
+    @media screen and (max-width: $breakDesktop) {
+      @include set-size(100%, 50vw);
+    }
+
+    @media screen and (max-width: $breakMobile) {
+      @include set-size(100%, 65vh);
+    }
   }
 
   &-bottom {
@@ -74,6 +105,13 @@
 
     display: flex;
     flex-direction: row;
+
+    @media screen and (max-width: $breakMobile) {
+      margin-top: 1vh;
+
+      flex-direction: column;
+      justify-content: center;
+    }
 
     &-radius {
       margin-left: 2vh;
@@ -83,19 +121,10 @@
 
       align-items: center;
 
-      &__desc {
-        margin-left: 2vh;
+      @media screen and (max-width: $breakMobile) {
+        margin: auto;
 
-        font-size: 1.3vh;
-        color: rgb(143, 143, 143);
-      }
-
-      &__text {
-        font-size: 1.3vh;
-        color: #272c35;
-
-        margin-left: auto;
-        margin-right: 1vh;
+        justify-content: center;
       }
     }
 
@@ -112,6 +141,10 @@
       border-radius: 5px;
 
       margin-right: 2vh;
+
+      @media screen and (max-width: $breakMobile) {
+        margin: auto;
+      }
 
       &__button {
         height: 100%;
@@ -132,6 +165,12 @@
       display: flex;
       align-items: center;
       justify-content: center;
+
+      @media screen and (max-width: $breakMobile) {
+        margin-right: auto;
+
+        @include red-button(95%, 5vh);
+      }
     }
   }
 }
@@ -154,6 +193,10 @@
 
   font-size: 1.5vh;
   padding: 0 1vh;
+
+  @media screen and (max-width: $breakMobile) {
+    font-size: 1.8vh;
+  }
 }
 
 .map-bottom-group__button input[type=radio]:checked + label {

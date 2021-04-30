@@ -1,15 +1,15 @@
 import {BasePresenter} from './BasePresenter.js';
-import {eventHandlerWithDataType, eventProductListHandler} from '../modules/eventHandler.js';
+import {eventHandlerWithDataType, eventProductListHandler} from '../modules/handlers/eventHandler.js';
 import {router} from '../modules/router.js';
-import {frontUrls} from '../modules/frontUrls.js';
+import {frontUrls} from '../modules/urls/frontUrls.js';
 import {SearchModel} from '../models/SearchModel.js';
-import {amountMask, parseAmount} from '../modules/mask.js';
-import {PageUpHandler} from '../modules/pageUpHandler.js';
+import {amountMask, parseAmount} from '../modules/layout/mask.js';
+import {PageUpHandler} from '../modules/handlers/pageUpHandler.js';
 import {noop} from '../modules/noop';
-import {EndlessScroll} from '../modules/endlessScroll';
+import {EndlessScroll} from '../modules/handlers/endlessScroll';
 
 import {customSessionStorage} from '../modules/customSessionStorage.js';
-import {categories} from '../modules/fields.js';
+import {categories} from '../modules/layout/fields.js';
 
 /***
  *  class SearchPresenter extends BasePresenter
@@ -289,6 +289,7 @@ export class SearchPresenter extends BasePresenter {
                 const newData = this.__model.newData;
                 if (!Array.isArray(newData) || newData.length === 0) {
                     this.__endlessScroll.remove();
+                    return;
                 }
 
                 this.__view.addNewCards(newData);

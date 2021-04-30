@@ -1,7 +1,7 @@
 import {user} from '../models/ProfileUserModel.js';
 
 import {router} from './router.js';
-import {frontUrls} from './frontUrls.js';
+import {frontUrls} from './urls/frontUrls.js';
 
 /***
  * Check user auth, redirect to registration if user is not auth

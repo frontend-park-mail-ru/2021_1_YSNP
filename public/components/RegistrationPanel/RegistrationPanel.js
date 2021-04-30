@@ -3,7 +3,7 @@ import '../Board/Description/Description.scss';
 import '../Settings/Settings.scss';
 import './RegistrationPanel.scss';
 import registrationPanelTemplate from './RegistrationPanel.hbs';
-import {createMessageError} from '../../modules/validationStates.js';
+import {createMessageError} from '../../modules/layout/validationStates.js';
 import {Field} from './Fields/Field.js';
 
 /***

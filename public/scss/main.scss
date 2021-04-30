@@ -2,6 +2,10 @@ $textColorDefault: #000000;
 $linkColor: rgb(112, 146, 254);
 $mainColor: rgb(211, 30, 30);
 
+$breakDesktop: 1024px;
+$breakTablet: 768px;
+$breakMobile: 576px;
+
 @mixin overflow-text-width {
   white-space: nowrap;
   overflow: hidden;
@@ -36,6 +40,10 @@ $mainColor: rgb(211, 30, 30);
 
   &:focus {
     outline: none;
+  }
+
+  @media screen and (max-width: $breakMobile) {
+    font-size: 1.8vh;
   }
 }
 
@@ -77,6 +85,10 @@ $mainColor: rgb(211, 30, 30);
   &:focus {
     outline: none;
   }
+
+  @media screen and (max-width: $breakMobile) {
+    font-size: 1.8vh;
+  }
 }
 
 @mixin white-button($w, $h) {
@@ -101,6 +113,10 @@ $mainColor: rgb(211, 30, 30);
   &:focus {
     outline: none;
   }
+
+  @media screen and (max-width: $breakMobile) {
+    font-size: 1.8vh;
+  }
 }
 
 @mixin menu-link() {
@@ -117,6 +133,10 @@ $mainColor: rgb(211, 30, 30);
   &:focus {
     color: $linkColor;
   }
+
+  @media screen and (max-width: $breakMobile) {
+    font-size: 2vh;
+  }
 }
 
 @mixin input() {
@@ -129,6 +149,11 @@ $mainColor: rgb(211, 30, 30);
   border-radius: 0.5vh;
 
   padding-left: 10px;
+
+  @media screen and (max-width: $breakMobile) {
+    height: 5vh;
+    font-size: 2.3vh;
+  }
 }
 
 @mixin description-label() {
@@ -136,6 +161,10 @@ $mainColor: rgb(211, 30, 30);
   font-size: 1.8vh;
   color: #000000;
   opacity: 0.5;
+
+  @media screen and (max-width: $breakMobile) {
+    font-size: 2vh;
+  }
 }
 
 @mixin block() {
@@ -156,6 +185,29 @@ $mainColor: rgb(211, 30, 30);
   border: 0;
   border-radius: 1vh;
   box-shadow: 0 0 1vw rgba(0, 0, 0, 0.2);
+
+  @media screen and (max-width: $breakMobile) {
+    border-radius: 0;
+  }
+}
+
+@mixin product-block() {
+  background-color: white;
+
+  border: 0;
+  border-radius: 1vh;
+  box-shadow: 0 0 1vw rgba(0, 0, 0, 0.2);
+  box-sizing: border-box;
+
+  cursor: pointer;
+
+  overflow: hidden;
+  transition-duration: 0.5s;
+  transition-property: box-shadow;
+
+  &:hover {
+    box-shadow: rgba(0, 0, 0, 0.5) 0 0 10px;
+  }
 }
 
 @mixin circle() {

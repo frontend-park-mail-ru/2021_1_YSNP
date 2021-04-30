@@ -1,8 +1,7 @@
 @import "../../scss/main.scss";
 
 .page-up {
-  height: 100vh;
-  width: 12vh;
+  @include set-size(12vh, 100vh);
 
   top: 0;
   position: fixed;
@@ -13,6 +12,14 @@
   &:hover {
     color: $linkColor;
     background-color: #ECECEC;
+  }
+
+  @media screen and (max-width: $breakDesktop) {
+    @include set-size(10vh, 100vh);
+  }
+
+  @media screen and (max-width: $breakTablet) {
+    display: none;
   }
 
   &__disabled {
@@ -37,9 +44,12 @@
 
     align-items: center;
 
+    @media screen and (max-width: $breakDesktop) {
+      flex-direction: column;
+    }
+
     &__img {
-      height: 2vh;
-      width: 2vh;
+      @include set-size(2vh, 2vh);
 
       margin-right: 0.5vh;
     }

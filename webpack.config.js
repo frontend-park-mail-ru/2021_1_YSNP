@@ -1,7 +1,10 @@
+/* eslint-disable */
+
 const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
+const WebpackPwaManifest = require('webpack-pwa-manifest');
 
 module.exports = {
     entry: './public/main.js',
@@ -11,6 +14,21 @@ module.exports = {
         publicPath: '/'
     },
     plugins: [
+        new WebpackPwaManifest({
+            name: 'KOYA',
+            short_name: 'KOYA',
+            description: 'Лучший сайт по поиску товаров',
+            icons: [
+                {
+                    src: path.resolve('public/img/favicon.svg'),
+                    sizes: [96, 128, 192, 256, 384, 512, 1024]
+                }
+            ],
+            start_url: '/',
+            display: 'fullscreen',
+            theme_color: '#d31e1e',
+            background_color: 'white'
+        }),
         new MiniCssExtractPlugin({
             filename: 'bundle.css'
         }),
@@ -30,7 +48,7 @@ module.exports = {
                 },
                 {
                     from: 'public/sw.js',
-                    to: '',
+                    to: ''
                 }
             ]
         }),

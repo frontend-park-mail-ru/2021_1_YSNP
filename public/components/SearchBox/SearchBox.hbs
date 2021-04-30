@@ -1,14 +1,17 @@
 <div class="search">
-    <div class="search-background">
+    <div class="search-inner">
         <div class="search-content">
+
             <div class="search-title">
                 Более 800 миллионов объявлений по всей России
             </div>
+
             <form class="search-line">
                 <input class="search-line__input" type="search" id="search-input" name="q" placeholder="Поиск">
                 <input class="search-line__button" type="submit" value="Найти" id="search-button"
                        data-action="searchButtonClick">
             </form>
+
             <div class="search-categories" id="search-categories">
                 {{#each this}}
                     <div class="search-category-card">
@@ -18,6 +21,7 @@
                     </div>
                 {{/each}}
             </div>
+
         </div>
     </div>
 </div>

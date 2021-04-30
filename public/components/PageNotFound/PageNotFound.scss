@@ -1,5 +1,6 @@
+@import "../../scss/main.scss";
+
 .not-found {
-  /*height: 90vh;*/
   width: 100%;
 
   display: flex;
@@ -8,17 +9,34 @@
   align-items: center;
 
   &-error {
+    margin-bottom: 1vh;
+
     font-size: 5vh;
 
     display: flex;
     flex-direction: row;
+    align-items: center;
+
+    @media screen and (max-width: $breakDesktop) {
+      font-size: 5vh;
+    }
+
+    @media screen and (max-width: $breakTablet) {
+      font-size: 4vh;
+    }
+
+    @media screen and (max-width: $breakMobile) {
+      flex-direction: column;
+
+      margin-bottom: 2vh;
+    }
 
     &__code {
       margin-right: 2vh;
     }
 
     &__description {
-
+     text-align: center;
     }
   }
 
