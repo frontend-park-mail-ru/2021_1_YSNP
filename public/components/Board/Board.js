@@ -151,6 +151,15 @@ export class Board {
     }
 
     /***
+     *
+     * get tel
+     * @return {string}
+     */
+    getTelNumber() {
+        return this.__infoCard.getTelNumber();
+    }
+
+    /***
      * @author Ivan Gorshkov
      *
      * Add component to parent
@@ -167,7 +176,7 @@ export class Board {
         this.__carousel.render();
         this.__description = new Description(parentLeftSide, this.__context.data);
         this.__description.render();
-        this.__infoCard = new InfoCard(parentRightSide, this.__context.data);
+        this.__infoCard = new InfoCard(parentRightSide, this.__context);
         this.__infoCard.render();
         this.__map = new Map(parentLeftSide);
         this.__map.render(this.__context.data);

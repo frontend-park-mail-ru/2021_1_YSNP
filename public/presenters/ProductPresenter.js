@@ -55,6 +55,7 @@ export class ProductPresenter extends BasePresenter {
             return;
         }
 
+
         this.__view.render(this.__makeContext());
     }
 
@@ -148,9 +149,32 @@ export class ProductPresenter extends BasePresenter {
                 },
                 massageClick: {
                     open: this.__listenerWriteMassage.bind(this)
+                },
+                closeProduct: {
+                    open: this.__listenerCloseProduct.bind(this)
                 }
             }
         };
+    }
+
+    /***
+     * Close click pop up
+     * @private
+     */
+    __listenerCloseProduct() {
+        if (confirm('Вы уверены, что хотите закрыть объявление')) {
+            this.__model.close()
+                .then(() => {
+                    router.redirectCurrent();
+                })
+                .catch((err) => {
+                    //TODO(Sergey) нормальная обработка ошибок
+                    console.log(err.message);
+
+                    this.checkOfflineStatus(err);
+                    this.checkOffline();
+                });
+        }
     }
 
     /***
@@ -206,17 +230,14 @@ export class ProductPresenter extends BasePresenter {
                     this.__numberIsShowed = true;
                 })
                 .catch((err) => {
-                    //TODO(Sergey) нормальная обработка ошибок
                     console.log(err.message);
                     this.__view.showNumber(err.message);
                     this.__numberIsShowed = false;
-
                     this.checkOfflineStatus(err);
                     this.checkOffline();
                 });
         } else {
-            this.__view.showNumber('Показать номер');
-            this.__numberIsShowed = false;
+            window.open(`tel: ${this.__view.getTelNumber()}`);
         }
     }
 
@@ -252,7 +273,8 @@ export class ProductPresenter extends BasePresenter {
             },
             product: {
                 data: this.__model,
-                listeners: this.__createListeners().product
+                listeners: this.__createListeners().product,
+                owner: this.__userModel.getData().id === this.__model.getData().ownerId
             }
         };
     }

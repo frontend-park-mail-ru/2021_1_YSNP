@@ -152,6 +152,15 @@ class BackUrls {
     }
 
     /***
+     * Post close product
+     * @param {number} id - product id
+     * @returns {string}
+     */
+    closeProduct(id) {
+        return `${this.__url}${this.__api}/product/close/${id}`;
+    }
+
+    /***
      * Get product upload photo url
      *  @param {number} id - product id
      * @returns {string}

@@ -229,6 +229,7 @@ export class ProductModel extends BaseModel {
         this.__ownerSurname = data.ownerSurname;
         this.__ownerLinkImages = data.ownerLinkImages;
         this.__ownerStars = 4.8;
+        this.__close = data.close;
     }
 
     /***
@@ -272,7 +273,8 @@ export class ProductModel extends BaseModel {
             ownerName: this.__ownerName,
             ownerSurname: this.__ownerSurname,
             ownerLinkImages: this.__ownerLinkImages,
-            ownerStars: this.__ownerStars
+            ownerStars: this.__ownerStars,
+            close: this.__close
         };
     }
 
@@ -305,7 +307,7 @@ export class ProductModel extends BaseModel {
             userLiked: this.__userLiked,
             linkImage: this.__getFirstImage(),
             tariff: this.__tariff,
-            status: 'открыто'
+            status: this.__close ? 'закрыто' : 'открыто'
         };
     }
 
@@ -346,6 +348,19 @@ export class ProductModel extends BaseModel {
                 });
 
                 this.fillProductModel(data);
+            });
+    }
+
+    /***
+     * Post close product
+     * @returns {Promise<{data: *, status: number}>}
+     */
+    async close() {
+        return http.post(backUrls.closeProduct(this.__id), null)
+            .then(({status, data}) => {
+                this.checkError(status, {
+                    message: data.message
+                });
             });
     }
 

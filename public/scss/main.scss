@@ -47,6 +47,22 @@ $breakMobile: 576px;
   }
 }
 
+@mixin disable-button($w, $h) {
+  width: $w;
+  height: $h;
+
+  border: 1px solid #000000;
+  border-radius: 3px;
+
+  text-decoration: none;
+  font-size: 1.5vh;
+  text-align: center;
+  color: #666666;
+  background-color:  rgb(255, 255, 255);;
+
+  outline: none;
+}
+
 @mixin cancel-button($w, $h) {
   height: $h;
   width: $w;

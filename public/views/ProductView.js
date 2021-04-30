@@ -24,7 +24,8 @@ export class ProductView extends BaseView {
             },
             product: {
                 data: context.product.data,
-                listeners: context.product.listeners
+                listeners: context.product.listeners,
+                owner: context.product.owner
             }
         };
     }
@@ -85,6 +86,15 @@ export class ProductView extends BaseView {
      */
     showNumber(tel) {
         this.__boardSubView.showNumber(tel);
+    }
+
+    /***
+     *
+     * get tel
+     * @return {string}
+     */
+    getTelNumber() {
+        return this.__boardSubView.getTelNumber();
     }
 
     /***
