@@ -5,7 +5,7 @@
     &__textfield {
       @include input;
       width: 27vh;
-      @media screen and (max-width: 768px) {
+      @media screen and (max-width: $breakTablet) {
         width: 100%;
       }
     }
@@ -20,10 +20,10 @@
         outline: none;
       }
 
-      @media screen and (max-width: 768px) {
+      @media screen and (max-width: $breakTablet) {
         width: 13%;
       }
-      @media screen and (max-width: 500px) {
+      @media screen and (max-width: $breakMobile) {
         width: 15%;
       }
     }
@@ -33,10 +33,10 @@
       @include input;
       margin: 0;
       width: 22vh;
-      @media screen and (max-width: 768px) {
+      @media screen and (max-width: $breakTablet) {
         width: 85.5%;
       }
-      @media screen and (max-width: 500px) {
+      @media screen and (max-width: $breakMobile) {
         width: 83%;
       }
     }
@@ -59,7 +59,7 @@
     &-inner {
       position: relative;
       margin: auto 0;
-      @media screen and (max-width: 768px) {
+      @media screen and (max-width: $breakTablet) {
         width: 70%;
       }
     }
@@ -73,7 +73,7 @@
       width: 25%;
       margin-top: 1vh;
 
-      @media screen and (max-width: 1024px) {
+      @media screen and (max-width: $breakDesktop) {
         width: 30%;
       }
 
@@ -81,7 +81,7 @@
         width: 25%;
         margin-top: 1vh;
 
-        @media screen and (max-width: 1024px) {
+        @media screen and (max-width: $breakDesktop) {
           width: 30%;
         }
       }
@@ -110,8 +110,12 @@
   &__button {
     @include red-button(17vh, 4vh);
 
-    @media screen and (max-width: 768px) {
+    @media screen and (max-width: $breakTablet) {
+      font-size: 1.6vh;
       @include red-button(17vh, 4.5vh);
+    }
+
+    @media screen and (max-width: $breakMobile) {
       font-size: 1.6vh;
     }
   }
@@ -121,13 +125,13 @@
   display: block;
   object-fit: cover;
   @include set-size(9vw, 9vw);
-  @media screen and (max-width: 1024px) {
+  @media screen and (max-width: $breakDesktop) {
     @include set-size(15vh, 15vh);
   }
-  @media screen and (max-width: 768px) {
+  @media screen and (max-width: $breakTablet) {
     @include set-size(13vh, 13vh);
   }
-  @media screen and (max-width: 500px) {
+  @media screen and (max-width: $breakMobile) {
     @include set-size(16vh, 16vh);
   }
 }
@@ -142,13 +146,13 @@
   overflow: hidden;
   @include set-size(9vw, 9vw);
   border: 1px solid rgba(0, 0, 0, 0.1);
-  @media screen and (max-width: 1024px) {
+  @media screen and (max-width: $breakDesktop) {
     @include set-size(15vh, 15vh);
   }
-  @media screen and (max-width: 768px) {
+  @media screen and (max-width: $breakTablet) {
     @include set-size(13vh, 13vh);
   }
-  @media screen and (max-width: 500px) {
+  @media screen and (max-width: $breakMobile) {
     @include set-size(16vh, 16vh);
   }
 }
@@ -180,21 +184,21 @@
   }
 
   & svg {
-    @media screen and (max-width: 1024px) {
+    @media screen and (max-width: $breakDesktop) {
       width: 3vh;
       height: 3vh;
     }
   }
 
-  @media screen and (max-width: 1024px) {
+  @media screen and (max-width: $breakDesktop) {
     top: 4vh;
     left: 6vh;
   }
-  @media screen and (max-width: 768px) {
+  @media screen and (max-width: $breakTablet) {
     top: 5vh;
     left: 5vh;
   }
-  @media screen and (max-width: 500px) {
+  @media screen and (max-width: $breakMobile) {
     top: 8vh;
     left: 10vh;
   }
