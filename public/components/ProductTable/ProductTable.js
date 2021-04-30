@@ -69,7 +69,7 @@ export class ProductTable {
      * @private
      */
     __getParent() {
-        return this.__parent.querySelector('[class="product-table-inner"]');
+        return this.__parent.querySelector('[id="product-table-body"]');
     }
 
     /***
@@ -78,7 +78,7 @@ export class ProductTable {
     render(context) {
         try {
             this.__context = context;
-            this.__parent.insertAdjacentHTML('beforeend', productTableTemplate());
+            this.__parent.insertAdjacentHTML('beforeend', productTableTemplate(this.__context));
             this.__addCards(this.__context.data);
             this.__addListeners();
         } catch (err) {

@@ -82,9 +82,10 @@ export class UserAdPresenter extends BasePresenter {
     __scrollEnd() {
         this.__adListModel.updateNewData()
             .then(() => {
-                const newData = this.__mainListModel.newData;
+                const newData = this.__adListModel.newData;
                 if (newData.length === 0) {
                     this.__endlessScroll.remove();
+                    return;
                 }
 
                 this.__view.addNewCards(newData);

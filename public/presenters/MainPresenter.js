@@ -91,6 +91,7 @@ export class MainPresenter extends BasePresenter {
                 const newData = this.__mainListModel.newData;
                 if (newData.length === 0) {
                     this.__endlessScroll.remove();
+                    return;
                 }
 
                 this.__view.addNewCards(newData);

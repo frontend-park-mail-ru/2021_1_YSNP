@@ -289,6 +289,7 @@ export class SearchPresenter extends BasePresenter {
                 const newData = this.__model.newData;
                 if (!Array.isArray(newData) || newData.length === 0) {
                     this.__endlessScroll.remove();
+                    return;
                 }
 
                 this.__view.addNewCards(newData);

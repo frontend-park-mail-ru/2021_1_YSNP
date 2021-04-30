@@ -45,17 +45,6 @@ export class SearchView extends BaseView {
     /***
      * @author Ivan Gorshkov
      *
-     * get HTMLElement of layout
-     * @return {HTMLElement}
-     * @this {SearchView}
-     */
-    getLayoutParent() {
-        return this.layout.parent;
-    }
-
-    /***
-     * @author Ivan Gorshkov
-     *
      * make new context from context presenter and view
      * @param{Object} context - context from Presenter
      * @private
@@ -131,17 +120,20 @@ export class SearchView extends BaseView {
      * @this {SearchView}
      */
     async render(context) {
-        super.render();
-        this.layout = new Layout(this.__app, true);
-        this.layout.render();
         this.__makeContext(context);
+        super.render();
+
+        const layout = new Layout(this.__app, true);
+        layout.render();
+
+        const parent = layout.parent;
 
         if (!mobile.isMobile()) {
-            this.__navSubView = new Navigation(this.getLayoutParent(), router.getPreviousTitle(), {route: ['Поиск объявлений']});
+            this.__navSubView = new Navigation(parent, router.getPreviousTitle(), {route: ['Поиск объявлений']});
             this.__navSubView.render(context);
         }
 
-        this.__searchBar = new SearchBar(this.getLayoutParent());
+        this.__searchBar = new SearchBar(parent);
         this.__searchBar.render(this.__context);
 
         super.renderFooter();
