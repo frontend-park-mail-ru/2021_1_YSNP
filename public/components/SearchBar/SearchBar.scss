@@ -2,7 +2,7 @@
 
 .search {
   &-label {
-    margin: 1.5vh 0;
+    margin: 1.5vh 0 2.5vh;
     width: 100%;
 
     @media screen and (max-width: $breakMobile) {
@@ -50,6 +50,10 @@
 
       padding: 0 2vh 1vh;
       margin-bottom: 2vh;
+    }
+
+    &__title {
+      margin-top: 0;
     }
 
     &-elem {
@@ -133,6 +137,11 @@
         @include shadow-block;
         justify-content: center;
         padding: 2vh;
+
+        //position: fixed;
+        //top: 0;
+        //margin-top: 7vh;
+        //z-index: 1;
       }
 
       &__text-field {

@@ -1,7 +1,6 @@
 import {BaseView} from './BaseView.js';
 
 import {Layout} from '../components/Layout/Layout.js';
-import {InfoText} from '../components/InfoText/InfoText';
 import {ProductTable} from '../components/ProductTable/ProductTable.js';
 import {ProfileMenu} from '../components/ProfileMenu/ProfileMenu.js';
 import {mobile} from '../modules/mobile';
@@ -43,6 +42,7 @@ export class UserAdView extends BaseView {
         this.__context = {
             adList: {
                 title: 'Мои объявления',
+                text: 'У вас еще нет объявлений',
                 data: context.adList.data,
                 listeners: context.adList.listeners
             },
@@ -60,28 +60,14 @@ export class UserAdView extends BaseView {
         document.title = 'Мои объявления';
     }
 
-    __renderUserAd(parent) {
-        if (this.__context.adList.data.length === 0) {
-            (new InfoText(parent)).render({
-                title: 'Мои объявления',
-                text: 'У вас еще нет объявлений'
-            });
-
-            return;
-
-        }
-
-        this.__adList = new ProductTable(parent);
-        this.__adList.render(this.__context.adList);
-    }
-
     __renderMobile() {
         const layout = new Layout(this.__app, true);
         layout.render();
 
         const parent = layout.parent;
 
-        this.__renderUserAd(parent);
+        this.__adList = new ProductTable(parent);
+        this.__adList.render(this.__context.adList);
     }
 
     __renderDesktop() {
@@ -94,7 +80,8 @@ export class UserAdView extends BaseView {
         const profileMenu = new ProfileMenu(left, {page: 'posts'});
         profileMenu.render(this.__context.profileSettings);
 
-        this.__renderUserAd(right);
+        this.__adList = new ProductTable(right);
+        this.__adList.render(this.__context.adList);
     }
 
     /***
