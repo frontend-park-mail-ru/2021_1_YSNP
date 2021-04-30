@@ -20,7 +20,8 @@ export class InfoCard {
      */
     constructor(parent, data) {
         this.__parent = parent;
-        this.__data = data;
+        this.__data = data.data;
+        this.__owener = data.owner;
     }
 
     /***
@@ -30,6 +31,15 @@ export class InfoCard {
      */
     showNumber(tel) {
         document.querySelector('.info-card-btn__number').value = tel;
+    }
+
+    /***
+     *
+     * get tel
+     * @return {string}
+     */
+    getTelNumber() {
+        return document.querySelector('.info-card-btn__number').value;
     }
 
     /***
@@ -138,6 +148,15 @@ export class InfoCard {
     }
 
     /***
+     * Get seller avatar
+     * @returns {string}
+     * @private
+     */
+    get __getClose() {
+        return this.__data.__close;
+    }
+
+    /***
      * @author Ivan Gorshkov
      *
      * context for template
@@ -153,7 +172,9 @@ export class InfoCard {
             date: this.__getDate,
             views: this.__getViews,
             likes: this.__getLikes,
-            avatar: this.__getAvatar
+            avatar: this.__getAvatar,
+            owner: this.__owener,
+            close: this.__getClose
         };
     }
 

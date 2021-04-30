@@ -1,5 +1,7 @@
 <div class="slider">
     <div class="slider-inner" id="sliderPanel">
+
+        {{#if hideCarousel}}
         <div class="slider__button" data-action="nextClick">
             <a class="slider__button-prev" id="prev">
                 <svg width="2vw" height="2vw" viewBox="0 0 20 11" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -7,11 +9,15 @@
                 </svg>
             </a>
         </div>
+        {{/if}}
+
         <div class="slider-carousel" id="carousel">
             {{#each photos}}
                 <img src="{{this}}" alt="" data-action="selectClick">
             {{/each}}
         </div>
+
+    {{#if hideCarousel}}
         <div class="slider__button" data-action="backClick">
             <a class="slider__button-next" id="next">
                 <svg width="2vw" height="2vw" viewBox="0 0 21 12" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -19,6 +25,8 @@
                 </svg>
             </a>
         </div>
+    {{/if}}
+
     </div>
     <div class="slider-preview">
         <img class="slider-preview__picture" id="pic" src="{{firstPhoto}}" alt="">

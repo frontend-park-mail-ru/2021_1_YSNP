@@ -1,0 +1,9 @@
+@import "../../../scss/main.scss";
+
+.empty-message {
+  &__text {
+    font-size: 2vh;
+    color: #666666;
+    opacity: 0.7;
+  }
+}

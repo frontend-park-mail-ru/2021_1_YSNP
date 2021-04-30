@@ -152,6 +152,15 @@ export class Board {
     }
 
     /***
+     *
+     * get tel
+     * @return {string}
+     */
+    getTelNumber() {
+        return this.__infoCard.getTelNumber();
+    }
+
+    /***
      * @author Ivan Gorshkov
      *
      * Add component to parent

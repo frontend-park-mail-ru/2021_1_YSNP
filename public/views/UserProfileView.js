@@ -145,6 +145,10 @@ export class UserProfileView extends BaseView {
         document.title = 'Настройки';
     }
 
+    /***
+     * Render mobile components
+     * @private
+     */
     __renderMobile() {
         const layout = new Layout(this.__app, true);
         layout.render();
@@ -155,6 +159,10 @@ export class UserProfileView extends BaseView {
         this.__settings.render(this.__context.profileSettings);
     }
 
+    /***
+     * Render desktop components
+     * @private
+     */
     __renderDesktop() {
         const layout = new Layout(this.__app, true);
         layout.render({layoutCount: 'two'});

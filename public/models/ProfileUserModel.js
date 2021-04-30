@@ -80,6 +80,7 @@ export class ProfileUserModel extends PasswordUserModel {
      */
     getData() {
         return {
+            id: this.__id,
             isAuth: this.__isAuth,
             name: this.__name,
             surname: this.__surname,

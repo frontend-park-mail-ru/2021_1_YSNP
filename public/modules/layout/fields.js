@@ -159,11 +159,11 @@ export const baseCreateProduct = {
         template: fieldTextAreaTemplate.bind()
     },
     avatar: {
-        title: 'Фото',
+        title: 'Фото*',
         template: fieldMultiPhotoTemplate.bind()
     },
     address: {
-        title: 'Адрес',
+        title: 'Адрес*',
         placeholder: 'Укажите на карте адрес',
         inputType: 'text',
         id: 'addressInput',

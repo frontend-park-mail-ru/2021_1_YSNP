@@ -139,7 +139,8 @@ export class Slider {
     __context() {
         return {
             firstPhoto: this.__data.__linkImages[0],
-            photos: this.__data.__linkImages
+            photos: this.__data.__linkImages,
+            hideCarousel: this.__data.__linkImages.count > 8
         };
     }
 

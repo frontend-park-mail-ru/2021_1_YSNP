@@ -176,7 +176,7 @@
         top: 5vh;
         left: 5vh;
       }
-      @media screen and (max-width: 500px) {
+      @media screen and (max-width: $breakMobile) {
         top: 8vh;
         left: 10vh;
       }
@@ -194,7 +194,7 @@
       @media screen and (max-width: $breakTablet) {
         @include set-size(13vh, 13vh);
       }
-      @media screen and (max-width: 500px) {
+      @media screen and (max-width: $breakMobile) {
         @include set-size(16vh, 16vh);
       }
     }
@@ -209,7 +209,7 @@
       @media screen and (max-width: $breakTablet) {
         @include set-size(13vh, 13vh);
       }
-      @media screen and (max-width: 500px) {
+      @media screen and (max-width: $breakMobile) {
         @include set-size(16vh, 16vh);
       }
     }
