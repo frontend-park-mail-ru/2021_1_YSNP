@@ -153,6 +153,7 @@
 
         @media screen and (max-width: $breakMobile) {
           @include set-size(75%, 5vh);
+          padding-left: 5px;
         }
       }
 

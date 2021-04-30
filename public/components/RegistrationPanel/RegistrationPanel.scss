@@ -4,7 +4,8 @@
   &-panel {
     &__textfield {
       @include input;
-      width: 27vh;
+      width: 35vh;
+
       @media screen and (max-width: $breakTablet) {
         width: 100%;
       }
@@ -14,7 +15,7 @@
       margin: 0;
       min-width: 2.5vw;
       @include input;
-      width: 4.4vh;
+      width: 5vh;
 
       &:focus {
         outline: none;
@@ -23,6 +24,7 @@
       @media screen and (max-width: $breakTablet) {
         width: 13%;
       }
+
       @media screen and (max-width: $breakMobile) {
         width: 15%;
       }
@@ -32,7 +34,8 @@
       padding-left: 1vh;
       @include input;
       margin: 0;
-      width: 22vh;
+      width: 29.4vh;
+
       @media screen and (max-width: $breakTablet) {
         width: 85.5%;
       }
