@@ -69,12 +69,9 @@
   }
 
   &__name {
-    font-size: 1.5vw;
+    font-size: 3vh;
     line-height: 2vh;
 
-    @media screen and (max-width: $breakDesktop){
-      font-size: 3vw;
-    }
     @media screen and (max-width: $breakMobile) {
       font-size: 4vh;
       line-height: 3vh;
@@ -92,7 +89,7 @@
     }
 
       &__text {
-      font-size: 1.5vw;
+      font-size: 2vh;
       margin-right: 0.3vw;
       @media screen and (max-width: $breakMobile) {
         font-size: 3vh;
