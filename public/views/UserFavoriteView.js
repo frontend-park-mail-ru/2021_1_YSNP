@@ -60,6 +60,10 @@ export class UserFavoriteView extends BaseView {
         document.title = 'Избранное';
     }
 
+    /***
+     * Render mobile components
+     * @private
+     */
     __renderMobile() {
         const layout = new Layout(this.__app, true);
         layout.render();
@@ -70,6 +74,10 @@ export class UserFavoriteView extends BaseView {
         this.__favoriteList.render(this.__context.favoriteList);
     }
 
+    /***
+     * Render desktop components
+     * @private
+     */
     __renderDesktop() {
         const layout = new Layout(this.__app, true);
         layout.render({layoutCount: 'two'});

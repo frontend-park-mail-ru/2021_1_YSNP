@@ -60,6 +60,10 @@ export class UserAdView extends BaseView {
         document.title = 'Мои объявления';
     }
 
+    /***
+     * Render mobile components
+     * @private
+     */
     __renderMobile() {
         const layout = new Layout(this.__app, true);
         layout.render();
@@ -70,6 +74,10 @@ export class UserAdView extends BaseView {
         this.__adList.render(this.__context.adList);
     }
 
+    /***
+     * Render desktop components
+     * @private
+     */
     __renderDesktop() {
         const layout = new Layout(this.__app, true);
         layout.render({layoutCount: 'two'});

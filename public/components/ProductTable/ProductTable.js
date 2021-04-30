@@ -42,6 +42,11 @@ export class ProductTable {
         this.__productTable.get(id).dislike();
     }
 
+    /***
+     * Render empty message
+     * @param {HTMLElement} parent
+     * @private
+     */
     __addEmptyMessage(parent) {
         const emptyMessage = new EmptyMessage(parent);
         emptyMessage.render(this.__context);
