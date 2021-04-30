@@ -1,7 +1,6 @@
 import {BaseView} from './BaseView.js';
 
 import {Layout} from '../components/Layout/Layout.js';
-import {InfoText} from '../components/InfoText/InfoText';
 import {ProductTable} from '../components/ProductTable/ProductTable.js';
 import {ProfileMenu} from '../components/ProfileMenu/ProfileMenu.js';
 import {mobile} from '../modules/mobile';
@@ -43,6 +42,7 @@ export class UserFavoriteView extends BaseView {
         this.__context = {
             favoriteList: {
                 title: 'Избранное',
+                text: 'В избранном пусто',
                 data: context.favoriteList.data,
                 listeners: context.favoriteList.listeners
             },
@@ -60,28 +60,14 @@ export class UserFavoriteView extends BaseView {
         document.title = 'Избранное';
     }
 
-    __renderFavorite(parent) {
-        if (this.__context.favoriteList.data.length === 0) {
-            (new InfoText(parent)).render({
-                title: 'Избранное',
-                text: 'В избранном пусто'
-            });
-
-            return;
-
-        }
-
-        this.__favoriteList = new ProductTable(parent);
-        this.__favoriteList.render(this.__context.favoriteList);
-    }
-
     __renderMobile() {
         const layout = new Layout(this.__app, true);
         layout.render();
 
         const parent = layout.parent;
 
-        this.__renderFavorite(parent);
+        this.__favoriteList = new ProductTable(parent);
+        this.__favoriteList.render(this.__context.favoriteList);
     }
 
     __renderDesktop() {
@@ -94,7 +80,8 @@ export class UserFavoriteView extends BaseView {
         const profileMenu = new ProfileMenu(left, {page: 'favorites'});
         profileMenu.render(this.__context.profileSettings);
 
-        this.__renderFavorite(right);
+        this.__favoriteList = new ProductTable(right);
+        this.__favoriteList.render(this.__context.favoriteList);
     }
 
     /***

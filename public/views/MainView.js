@@ -40,6 +40,7 @@ export class MainView extends BaseView {
         this.__context = {
             mainList: {
                 title: 'Все объявления',
+                text: 'Товары закончились',
                 data: context.mainList.data,
                 listeners: context.mainList.listeners
             },

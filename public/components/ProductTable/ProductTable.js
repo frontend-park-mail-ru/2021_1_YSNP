@@ -2,6 +2,7 @@ import productTableTemplate from './ProductTable.hbs';
 import './ProductTable.scss';
 
 import {ProductCard} from './ProductCard/ProductCard.js';
+import {EmptyMessage} from './EmptyMessage/EmptyMessage';
 
 /***
  * Product List - table of components Product Card
@@ -41,6 +42,11 @@ export class ProductTable {
         this.__productTable.get(id).dislike();
     }
 
+    __addEmptyMessage(parent) {
+        const emptyMessage = new EmptyMessage(parent);
+        emptyMessage.render(this.__context);
+    }
+
     /***
      * Add cards to table
      * @param {Object[]} data - cards
@@ -48,6 +54,11 @@ export class ProductTable {
      */
     __addCards(data) {
         const table = this.__getParent();
+        if (data.length === 0) {
+            this.__addEmptyMessage(table);
+            return;
+        }
+
         data.forEach((el) => {
             const productCard = new ProductCard(table);
             productCard.render(el);

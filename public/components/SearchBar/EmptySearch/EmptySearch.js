@@ -1,10 +1,10 @@
-import infoTextTemplate from './InfoText.hbs';
-import './InfoText.scss';
+import emptySearchTemplate from './EmptySearch.hbs';
+import './EmptySearch.scss';
 
 /***
  * Info text component
  */
-export class InfoText {
+export class EmptySearch {
     /***
      * Class constructor
      * @param {HTMLElement} parent - element where the component will be inserted
@@ -20,7 +20,7 @@ export class InfoText {
     render(context) {
         try {
             this.__context = context;
-            this.__parent.insertAdjacentHTML('beforeend', infoTextTemplate(this.__context));
+            this.__parent.insertAdjacentHTML('beforeend', emptySearchTemplate(this.__context));
         } catch (err) {
             console.log(err.message);
         }
