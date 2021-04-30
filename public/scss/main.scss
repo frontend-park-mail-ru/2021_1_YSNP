@@ -43,7 +43,8 @@ $breakMobile: 576px;
   }
 
   @media screen and (max-width: $breakMobile) {
-    font-size: 1.8vh;
+    font-size: 2vh;
+    height: 4.5vh;
   }
 }
 
@@ -87,7 +88,8 @@ $breakMobile: 576px;
   }
 
   @media screen and (max-width: $breakMobile) {
-    font-size: 1.8vh;
+    font-size: 2vh;
+    height: 4.5vh;
   }
 }
 
@@ -113,9 +115,10 @@ $breakMobile: 576px;
   &:focus {
     outline: none;
   }
-
+  
   @media screen and (max-width: $breakMobile) {
-    font-size: 1.8vh;
+    font-size: 2vh;
+    height: 4.5vh;
   }
 }
 
