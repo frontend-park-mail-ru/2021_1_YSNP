@@ -62,11 +62,6 @@ export class SearchView extends BaseView {
             search: {
                 data: context.search.data,
                 listeners: context.search.listeners
-            },
-            switch: {
-                data: {
-                    title: 'Поиск объявлений'
-                }
             }
         };
     }

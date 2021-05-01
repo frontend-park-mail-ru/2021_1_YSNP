@@ -28,6 +28,8 @@ import {SearchPresenter} from './presenters/SearchPresenter.js';
 import {PromotionPresenter} from './presenters/PromotionPresenter.js';
 import {NotFoundPresenter} from './presenters/NotFoundPresenter.js';
 import {baseCreateProduct, baseRegistration} from './modules/layout/fields.js';
+import {UserChatsView} from './views/UserChatsView';
+import {UserChatsPresenter} from './presenters/UserChatsPresenter';
 
 /***
  * Register service worker
@@ -43,6 +45,8 @@ if ('serviceWorker' in navigator) {
 
 const app = document.getElementById('app');
 
+
+const chatsView = new UserChatsView(app);
 const favoriteView = new UserFavoriteView(app);
 const mainView = new MainView(app);
 const adView = new UserAdView(app);
@@ -56,6 +60,7 @@ const notFoundView = new NotFoundView(app);
 
 /***
  * Open main page
+ * @returns {Function}
  */
 const doMain = () => {
     const mainPresenter = new MainPresenter(mainView);
@@ -66,6 +71,7 @@ const doMain = () => {
 
 /***
  * Open registration page
+ * @returns {Function}
  */
 const doRegistration = () => {
     const registrationPresenter = new RegistrationPresenter(registrationView);
@@ -76,6 +82,7 @@ const doRegistration = () => {
 
 /***
  * Open product create page
+ * @returns {Function}
  */
 const doProductCreate = () => {
     const productCreatePresenter = new ProductCreatePresenter(productCreateView);
@@ -87,6 +94,7 @@ const doProductCreate = () => {
 /***
  * Open product page
  * @param {Object} val - page params
+ * @returns {Function}
  */
 const doProduct = (val) => {
     const productPresenter = new ProductPresenter(productView, val.parameters.id);
@@ -97,6 +105,7 @@ const doProduct = (val) => {
 
 /***
  * Open promotion page
+ * @returns {Function}
  */
 const doPromotion = () => {
     const promotionPresenter = new PromotionPresenter(promotionView);
@@ -107,6 +116,7 @@ const doPromotion = () => {
 
 /***
  * Open user profile page
+ * @returns {Function}
  */
 const doProfile = () => {
     const profilePresenter = new UserProfilePresenter(profileView);
@@ -117,6 +127,7 @@ const doProfile = () => {
 
 /***
  * Open user ads page
+ * @returns {Function}
  */
 const doAd = () => {
     const adPresenter = new UserAdPresenter(adView);
@@ -126,7 +137,19 @@ const doAd = () => {
 };
 
 /***
+ * Open user chats page
+ * @returns {Function}
+ */
+const doChats = () => {
+    const chatsPresenter = new UserChatsPresenter(chatsView);
+    chatsPresenter.control();
+
+    return chatsPresenter.removePageListeners.bind(chatsPresenter);
+};
+
+/***
  * Open user favorite page
+ * @returns {Function}
  */
 const doFavorite = () => {
     const favoritePresenter = new UserFavoritePresenter(favoriteView);
@@ -147,6 +170,7 @@ const doSearchWithText = (val) => {
 
 /***
  * Open search page
+ * @returns {Function}
  */
 const doSearch = () => {
     const searchPresenter = new SearchPresenter(searchView, '');
@@ -157,6 +181,7 @@ const doSearch = () => {
 
 /***
  * Open not found page
+ * @returns {Function}
  */
 const doNotFound = () => {
     const notFoundPresenter = new NotFoundPresenter(notFoundView);
@@ -174,6 +199,7 @@ router.add(frontUrls.product(), doProduct);
 router.add(frontUrls.promotion, doPromotion);
 router.add(frontUrls.userProfile, doProfile);
 router.add(frontUrls.userAd, doAd);
+router.add(frontUrls.userChats, doChats);
 router.add(frontUrls.userFavorite, doFavorite);
 
 router.addNotFound(doNotFound);

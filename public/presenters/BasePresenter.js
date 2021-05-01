@@ -55,6 +55,15 @@ export class BasePresenter {
     }
 
     /***
+     * Prerender control
+     * @returns {boolean}
+     */
+    isRenderView() {
+        this.scrollUp();
+        return !this.checkOffline();
+    }
+
+    /***
      * Remove page listeners
      */
     removePageListeners() {
