@@ -92,6 +92,15 @@ export class InfoCard {
     }
 
     /***
+     * Return product name
+     * @returns {string}
+     * @private
+     */
+    get __getProductName() {
+        return this.__data.__name;
+    }
+
+    /***
      * @author Ivan Gorshkov
      *
      * getter for number of likes
@@ -174,7 +183,8 @@ export class InfoCard {
             likes: this.__getLikes,
             avatar: this.__getAvatar,
             owner: this.__owener,
-            close: this.__getClose
+            close: this.__getClose,
+            productName: this.__getProductName
         };
     }
 
