@@ -1,4 +1,5 @@
 import {BasePresenter} from './BasePresenter';
+import {checkIsAuth} from '../modules/checkAuth';
 
 /***
  * User chats presenter
@@ -35,6 +36,8 @@ export class UserChatsPresenter extends BasePresenter {
         if (!this.isRenderView()) {
             return;
         }
+
+        // checkIsAuth();
 
         this.__view.render(this.__makeContext());
     }
