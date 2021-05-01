@@ -178,11 +178,27 @@ class BackUrls {
     }
 
     /***
-     *
+     * Get categories
      * @return {string}
      */
     get categories() {
         return `${this.__url}${this.__api}/categories`;
+    }
+
+    /***
+     * Get trends
+     * @return {string}
+     */
+    get trends() {
+        return `${this.__url}${this.__api}/stat`;
+    }
+
+    /***
+     * Get trends products
+     * @return {string}
+     */
+    get trendsProducts() {
+        return `${this.__url}${this.__api}/product/trends`;
     }
 }
 

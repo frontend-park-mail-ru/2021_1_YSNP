@@ -3,6 +3,8 @@ import {router} from '../modules/router.js';
 import {eventHandlerWithDataType} from '../modules/handlers/eventHandler.js';
 import {ProductModel} from '../models/ProductModel.js';
 import {UserModel} from '../models/UserModel';
+import {http} from '../modules/http/http';
+import {backUrls} from '../modules/urls/backUrls';
 
 /***
  *  ProductPresenter class, extends from BasePresenter
@@ -38,6 +40,11 @@ export class ProductPresenter extends BasePresenter {
                 //TODO(Sergey) нормальная обработка ошибок
                 console.log(err.message);
                 this.checkOfflineStatus(err);
+            }).then(() => http.post(backUrls.trends, {text: this.__model.getData().name})
+                .then(({status, data}) => {
+                    console.log(status, data);
+                })).catch((err) => {
+                    console.log(err.message);
             });
     }
 
