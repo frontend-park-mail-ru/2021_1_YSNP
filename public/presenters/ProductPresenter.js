@@ -56,7 +56,6 @@ export class ProductPresenter extends BasePresenter {
             return;
         }
 
-
         this.__view.render(this.__makeContext());
     }
 
@@ -169,7 +168,9 @@ export class ProductPresenter extends BasePresenter {
     
     __listenerCloseProduct() {
         if (confirm('Вы уверены, что хотите закрыть объявление')) {
-            this.__model.close(this.__model.getData().id);
+            this.__model.close(this.__model.getData().id).then(() => {
+                router.redirectCurrent();
+            });
         }
     }
 

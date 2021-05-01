@@ -242,6 +242,11 @@ export class ProductEditView extends BaseView {
         this.__productCreate.errorText(message);
     }
 
+
+    getPicCount() {
+        return this.__count;
+    }
+
     /***
      * @author Ivan Gorshkov
      *
@@ -260,7 +265,6 @@ export class ProductEditView extends BaseView {
         this.__productCreate = new ProductCreateForm(this.getLayoutParent());
         this.__productCreate.render(this.__context.productEdit);
         document.getElementById('board-title').textContent = 'Реадктирование объявление';
-        console.log(this.__context.productEdit.data.getData().description);
         document.getElementById('textareaInput').value = this.__context.productEdit.data.getData().description;
         document.getElementById('priceInput').value = this.__context.productEdit.data.getData().amount;
         document.getElementById('nameInput').value = this.__context.productEdit.data.getData().name;
@@ -270,6 +274,13 @@ export class ProductEditView extends BaseView {
                 amount.selected = true;
             }
         }
+
+        this.__count = 0;
+        for (const img of this.__context.productEdit.data.getData().linkImages.reverse()) {
+            this.__productCreate.insertPhoto(img, this.__count);
+            this.__count += 1;
+        }
+
 
         this.__productCreate.setLocation({
             latitude: this.__context.productEdit.data.getData().latitude,

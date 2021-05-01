@@ -183,6 +183,14 @@ class BackUrls {
     get categories() {
         return `${this.__url}${this.__api}/categories`;
     }
+
+    /***
+     *
+     * @return {string}
+     */
+    get editPage() {
+        return `${this.__url}${this.__api}/product/edit`;
+    }
 }
 
 export const backUrls = new BackUrls();

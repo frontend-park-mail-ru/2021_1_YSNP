@@ -21,6 +21,7 @@ export class EditProductPresenter extends BasePresenter {
         super(view);
         this.__view = view;
         this.__countPhoto = 0;
+        this.__countAlreadyPhoto = 0;
         this.__productId = idProduct;
         this.__model = new ProductModel({id: this.__productId});
     }
@@ -79,11 +80,13 @@ export class EditProductPresenter extends BasePresenter {
         if (this.checkOffline()) {
             return;
         }
-
-        console.log(this.__model.getData());
-
         checkIsAuth();
+        if (this.__model.getData().ownerId !== this.__userModel.getData().id) {
+            router.redirect(frontUrls.main);
+            return; 
+        }
         this.__view.render(this.__makeContext());
+        this.__countAlreadyPhoto = this.__view.getPicCount();
     }
 
     /***
@@ -274,23 +277,32 @@ export class EditProductPresenter extends BasePresenter {
         const isValidAddress = await this.__validateAddressInput(address);
         const isValidImages = this.__validateImageSize(this.__view.getForm());
         const emptyPhotoField = 0;
-        if (isValidName && isValidDescription && isValidPrice && isValidImages && isValidAddress && this.__count !== emptyPhotoField) {
+
+        if (isValidName && isValidDescription && isValidPrice && isValidImages && isValidAddress && this.__count + this.__countAlreadyPhoto !== emptyPhotoField) {
             this.__model.fillProductModel({
+                id: parseInt(this.__productId),
                 name: name.value,
                 description: description.value,
                 amount: parseInt(price.value.toString().split(' ').join('')),
                 category: category.options[category.selectedIndex].text,
+                ownerId: this.__model.getData().ownerId,
                 latitude: this.__view.getPos().latitude,
                 longitude: this.__view.getPos().longitude,
-                address: this.__view.getAddress()
+                address: this.__view.getAddress(),
+                linkImages: Array
+                    .from(document.querySelectorAll('.product__pic'))
+                    .filter((item) => !item.src.startsWith('data'))
+                    .slice(0, -1)
+                    .map((item) => item.src)
+
             });
             this.__view.changeDisableButton();
 
-            this.__model.create(this.__view.getForm())
+            this.__model.edit(this.__view.getForm())
                 .then(({id}) => {
                     this.closeAllComponents();
                     this.__view.removingSubViews();
-                    router.redirect(frontUrls.promotion, '', {id: parseInt(id, 10)});
+                    router.redirect(frontUrls.product(id), '', {title: 'Редактирование товара'});
                 })
                 .catch((err) => {
                     //TODO(Sergey) нормальная обработка ошибок
@@ -369,7 +381,12 @@ export class EditProductPresenter extends BasePresenter {
      * @private
      */
     __deletePicture(ev) {
-        this.__count = this.__view.deletePicture(ev.target, this.__count -= 1);
+        const tmpCount = this.__view.deletePicture(ev.target, this.__count -= 1);
+        if (ev.target.id.length === 9) {
+            this.__countAlreadyPhoto -= 1;
+            console.log('asd');
+        }
+        this.__count = tmpCount;
     }
 
     /***
@@ -381,6 +398,7 @@ export class EditProductPresenter extends BasePresenter {
      * this {ProductCreatePresenter}
      */
     __showCross(ev) {
+
         if (parseInt(ev.target.dataset.id) !== this.__count && (ev.target.tagName === 'IMG' || ev.target.tagName === 'DIV')) {
             this.__view.showCross(ev.target);
         }
@@ -439,7 +457,7 @@ export class EditProductPresenter extends BasePresenter {
     __upload(ev) {
         if (ev.target.className !== this.__view.getCrossClass()) {
             const maxPics = 10;
-            if (this.__count < maxPics) {
+            if (this.__count + this.__countAlreadyPhoto < maxPics) {
                 this.__view.openFileSystem(ev.target);
             }
         }
