@@ -1,0 +1,93 @@
+@import "../../../../scss/main.scss";
+
+.one-chat {
+  width: 100%;
+
+  cursor: pointer;
+
+  &:hover {
+    background-color: rgba(231, 237, 255, 0.4);
+  }
+
+  &_open {
+    background-color: rgba(231, 237, 255, 0.4);
+  }
+
+  &-inner {
+    display: flex;
+    flex-direction: column;
+
+    padding-left: 1.5vh;
+    padding-right: 1.5vh;
+    padding-top: 1.5vh;
+  }
+
+  &-content {
+    width: 100%;
+
+    display: flex;
+    flex-direction: row;
+  }
+
+  &-avatar {
+    margin-right: 1vh;
+
+    &__img {
+      @include set-size(4vh, 4vh);
+      @include circle;
+    }
+  }
+
+  &-info {
+    width: calc(100% - 5vh);
+
+    display: flex;
+    flex-direction: column;
+
+    &-title {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      width: 100%;
+
+      &__name {
+        @include overflow-text-width;
+        max-width: 100%;
+
+        margin-right: 0.5vh;
+
+        font-size: 1.7vh;
+        //color: $mainColor;
+      }
+
+      &__date {
+        margin-left: auto;
+
+        white-space: nowrap;
+
+        font-size: 1.3vh;
+        color: $textGrayColor
+      }
+    }
+
+    &__message {
+      max-width: 100%;
+      @include overflow-text-width;
+
+      margin-top: auto;
+
+      font-size: 1.3vh;
+      color: $textGrayColor
+    }
+  }
+
+  &__separator {
+    @include separator;
+    margin-bottom: 0;
+
+    width: calc(100% - 5vh);
+
+    margin-top: 1vh;
+    margin-left: auto;
+  }
+}

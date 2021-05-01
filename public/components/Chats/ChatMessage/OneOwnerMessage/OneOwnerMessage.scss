@@ -1,0 +1,33 @@
+@import "../../../../scss/main.scss";
+
+.owner-message {
+  width: 100%;
+
+  &-inner {
+    padding: 1vh;
+  }
+
+  &-block {
+    width: fit-content;
+    max-width: 60%;
+
+    margin-bottom: 0.5vh;
+
+    background-color: #E5E5E5;
+    border-radius: 2vh;
+
+    &-inner {
+      padding: 1vh;
+    }
+
+    &__text {
+      font-weight: 300;
+      font-size: 1.5vh;
+    }
+  }
+
+  &__date {
+    font-weight: 400;
+    color: $textGrayColor;
+  }
+}
