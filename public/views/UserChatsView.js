@@ -35,6 +35,10 @@ export class UserChatsView extends BaseView {
         this.__chats.addNewMessage(data);
     }
 
+    addNewMessageList(data) {
+        this.__chats.addNewMessageList(data);
+    }
+
     /***
      * Add new chat
      * @param {Object} data - new chat
@@ -57,6 +61,10 @@ export class UserChatsView extends BaseView {
      */
     unselectChat(chatID) {
         this.__chats.unselectChat(chatID);
+    }
+
+    getChatMessageInput() {
+        return this.__chats.getChatMessageInput();
     }
 
     /***

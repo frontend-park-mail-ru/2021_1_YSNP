@@ -1,6 +1,11 @@
 import {BasePresenter} from './BasePresenter';
 import {checkIsAuth} from '../modules/checkAuth';
 
+import {ChatModel} from '../models/ChatModel';
+import {router} from '../modules/router';
+import {frontUrls} from '../modules/urls/frontUrls';
+import {eventChatListHandler} from '../modules/handlers/eventHandler';
+
 /***
  * User chats presenter
  */
@@ -8,18 +13,23 @@ export class UserChatsPresenter extends BasePresenter {
     /***
      * Class constructor
      * @param {UserChatsView} view
+     * @param {number} chatID
      */
-    constructor(view) {
+    constructor(view, chatID = undefined) {
         super(view);
         this.__view = view;
+        this.__chatID = parseInt(chatID, 10);
+
+        this.__chatModel = new ChatModel();
     }
 
     /***
      * Update view data
-     * @returns {Promise<{data: *, status: number}>}
+     * @returns {Promise<void>}
      */
     async update() {
         return super.update()
+            .then(() => this.__chatModel.chatList())
             .catch((err) => {
                 //TODO(Serge) нормальная обработка ошибок
                 console.log(err.message);
@@ -37,11 +47,10 @@ export class UserChatsPresenter extends BasePresenter {
             return;
         }
 
-        // checkIsAuth();
+        checkIsAuth();
 
+        this.__checkChatView();
         this.__view.render(this.__makeContext());
-
-        this.__view.selectChat(1);
     }
 
     /***
@@ -51,21 +60,44 @@ export class UserChatsPresenter extends BasePresenter {
         super.removePageListeners();
     }
 
+    __checkChatView() {
+        if (!this.__chatID) {
+            return;
+        }
+
+        this.__chatModel.connect(this.__createCallbacks())
+            .then(() => this.__chatModel.chatMessage(this.__chatID, this.__userModel.getData().id))
+            .catch((err) => {
+                console.log(err.message);
+            });
+    }
+
+    __newMessageCallback(data) {
+        console.log('presenter add new message', data);
+
+        this.__view.addNewMessage(data);
+    }
+
+    __newMessageListCallback(data) {
+        console.log('presenter add new message list', data);
+
+        this.__view.addNewMessageList(data);
+    }
+
+    __createCallbacks() {
+        return {
+            newMessage: this.__newMessageCallback.bind(this),
+            newMessageList: this.__newMessageListCallback.bind(this)
+        };
+    }
+
     /***
      * Listener chat list click
      * @param {MouseEvent} ev
      * @private
      */
     __listenerChatListClick(ev) {
-        console.log('list click', ev);
-
-        this.__view.addNewChat({
-            chatID: 1,
-            img: '/img/profile.webp',
-            name: 'Вы пытались позвонить Вы',
-            date: '22.09.2000',
-            message: 'Вы пытались позвонить Вы пытались позвонить'
-        });
+        eventChatListHandler(ev, this.__getActions().chats.list);
     }
 
     /***
@@ -87,11 +119,9 @@ export class UserChatsPresenter extends BasePresenter {
 
         console.log('message submit', ev);
 
-        this.__view.addNewMessage({
-            user: false,
-            text: 'Смартфон Apple ',
-            date: '22.09.2000'
-        });
+        const input = this.__view.getChatMessageInput();
+        this.__chatModel.createMessage(input.value);
+        input.value = '';
     }
 
     /***
@@ -120,13 +150,30 @@ export class UserChatsPresenter extends BasePresenter {
         };
     }
 
+    __chatClick(id) {
+        if (!id) {
+            return;
+        }
+
+        const numberId = parseInt(id, 10);
+        router.redirect(frontUrls.userChat(numberId));
+    }
+
     /***
      * Get actions
      * @returns {{}}
      * @private
      */
     __getActions() {
-        return {};
+        return {
+            chats: {
+                list: {
+                    chatClick: {
+                        open: this.__chatClick.bind(this)
+                    }
+                }
+            }
+        };
     }
 
     /***
@@ -138,128 +185,12 @@ export class UserChatsPresenter extends BasePresenter {
         return {
             chats: {
                 list: {
-                    data: [
-                        {
-                            chatID: 1,
-                            img: '/img/search-background.webp',
-                            name: 'Вы пытались позвонить Вы',
-                            date: '22.09.2000',
-                            message: 'Вы пытались позвонить Вы пытались позвонить'
-                        },
-                        {
-                            chatID: 2,
-                            img: '/img/search-background.webp',
-                            name: 'Евгений С.',
-                            date: '22.09.2000',
-                            message: 'Вы пытались позвонить'
-                        },
-                        {
-                            chatID: 3,
-                            img: '/img/search-background.webp',
-                            name: 'Евгений С.',
-                            date: '22.09.2000',
-                            message: 'Вы пытались позвонить'
-                        },
-                        {
-                            chatID: 4,
-                            img: '/img/search-background.webp',
-                            name: 'Евгений С.',
-                            date: '22.09.2000',
-                            message: 'Вы пытались позвонить'
-                        },
-                        {
-                            chatID: 5,
-                            img: '/img/search-background.webp',
-                            name: 'Евгений С.',
-                            date: '22.09.2000',
-                            message: 'Вы пытались позвонить'
-                        },
-                        {
-                            chatID: 6,
-                            img: '/img/search-background.webp',
-                            name: 'Евгений С.',
-                            date: '22.09.2000',
-                            message: 'Вы пытались позвонить'
-                        },
-                        {
-                            chatID: 7,
-                            img: '/img/search-background.webp',
-                            name: 'Евгений С.',
-                            date: '22.09.2000',
-                            message: 'Вы пытались позвонить'
-                        }
-                    ],
+                    selectNumber: this.__chatID,
+                    data: this.__chatModel.getChatListData(),
                     listeners: this.__createListeners().list
                 },
                 message: {
-                    data: {
-                        img: '/img/search-background.webp',
-                        name: 'Евгений С. Евгений С. ЕвгенийЕвгенийЕвгенийЕвгенийЕвгений ',
-                        product: 'Смартфон Apple Iphone 11 Смартфон Apple Iphone 11 Смартфон Apple Iphone 11 Смартфон Apple Iphone 11',
-                        amount: 500001232132131230,
-                        messages: [
-                            {
-                                user: false,
-                                text: 'Смартфон Apple ',
-                                date: '22.09.2000'
-                            },
-                            {
-                                user: false,
-                                text: 'Смартфон Apple ',
-                                date: '22.09.2000'
-                            },
-                            {
-                                user: false,
-                                text: 'Смартфон Apple ',
-                                date: '22.09.2000'
-                            },
-                            {
-                                user: true,
-                                text: 'Смартфон Apple ',
-                                date: '22.09.2000'
-                            },
-                            {
-                                user: true,
-                                text: 'Смартфон Apple ',
-                                date: '22.09.2000'
-                            },
-                            {
-                                user: false,
-                                text: 'Смартфон Apple ',
-                                date: '22.09.2000'
-                            },
-                            {
-                                user: false,
-                                text: 'Смартфон Apple ',
-                                date: '22.09.2000'
-                            },
-                            {
-                                user: true,
-                                text: 'Смартфон Apple ',
-                                date: '22.09.2000'
-                            },
-                            {
-                                user: false,
-                                text: 'Смартфон Apple ',
-                                date: '22.09.2000'
-                            },
-                            {
-                                user: true,
-                                text: 'Смартфон Apple ',
-                                date: '22.09.2000'
-                            },
-                            {
-                                user: false,
-                                text: 'Смартфон Apple ',
-                                date: '22.09.2000'
-                            },
-                            {
-                                user: false,
-                                text: 'Смартфон Apple ',
-                                date: '22.09.2000'
-                            }
-                        ]
-                    },
+                    data: this.__chatModel.getChatMessageData(),
                     listeners: this.__createListeners().message
                 }
             },

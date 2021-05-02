@@ -31,12 +31,7 @@ export function eventHandler(ev, actions, isStopPropagation = false) {
     eventHandlerWithDataType(ev, 'action', actions, isStopPropagation);
 }
 
-/***
- * Release product click event
- * @param {Event} ev - user event
- * @param {Object} actions - actions on this event
- */
-export function eventProductListHandler(ev, actions) {
+export function eventHandlerWithId(ev, actions, idName) {
     ev.preventDefault();
 
     let id = undefined;
@@ -49,8 +44,8 @@ export function eventProductListHandler(ev, actions) {
                     action = el.dataset.action;
                 }
 
-                if ('cardId' in el.dataset) {
-                    id = el.dataset.cardId;
+                if (idName in el.dataset) {
+                    id = el.dataset[idName];
                 }
             }
         });
@@ -58,4 +53,17 @@ export function eventProductListHandler(ev, actions) {
     if (action !== undefined) {
         actions[action].open(id);
     }
+}
+
+/***
+ * Release product click event
+ * @param {Event} ev - user event
+ * @param {Object} actions - actions on this event
+ */
+export function eventProductListHandler(ev, actions) {
+    eventHandlerWithId(ev, actions, 'cardId');
+}
+
+export function eventChatListHandler(ev, actions) {
+    eventHandlerWithId(ev, actions, 'chatId');
 }

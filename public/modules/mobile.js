@@ -10,7 +10,7 @@ class Mobile {
         this.__resizeTimeout = null;
         this.__isMobile = this.isMobile();
 
-        this.__resizeListener = this.__resizeThrottler.bind(this);
+        this.__resizeListener = this.__resizeHandler.bind(this);
     }
 
     /***

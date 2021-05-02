@@ -91,6 +91,14 @@ class FrontUrls {
         return '/user/chats';
     }
 
+    userChat(id = undefined) {
+        if (id !== undefined) {
+            return `/user/chat/${id}`;
+        }
+
+        return '/user/chat/{id}';
+    }
+
     /***
      * Get favorite page
      * @returns {string}

@@ -147,6 +147,13 @@ const doChats = () => {
     return chatsPresenter.removePageListeners.bind(chatsPresenter);
 };
 
+const doChat = (val) => {
+    const chatsPresenter = new UserChatsPresenter(chatsView, val.parameters.id);
+    chatsPresenter.control();
+
+    return chatsPresenter.removePageListeners.bind(chatsPresenter);
+};
+
 /***
  * Open user favorite page
  * @returns {Function}
@@ -200,6 +207,7 @@ router.add(frontUrls.promotion, doPromotion);
 router.add(frontUrls.userProfile, doProfile);
 router.add(frontUrls.userAd, doAd);
 router.add(frontUrls.userChats, doChats);
+router.add(frontUrls.userChat(), doChat);
 router.add(frontUrls.userFavorite, doFavorite);
 
 router.addNotFound(doNotFound);

@@ -9,6 +9,26 @@ class BackUrls {
         this.__url = 'https://ykoya.ru';
         // this.__url = 'http://localhost:8080';
         this.__api = '/api/v1';
+
+        this.__wsUrl = 'wss://ykoya.ru';
+        // this.__wsUrl = 'ws://localhost:8080';
+        this.__wsApi = '/api/v1';
+    }
+
+    get chatCreate() {
+        return `${this.__url}${this.__api}/chat/new`;
+    }
+
+    get chatList() {
+        return `${this.__url}${this.__api}/chat/list`;
+    }
+
+    chat(id) {
+        return `${this.__url}${this.__api}/chat/${id}`;
+    }
+
+    get chatWs() {
+        return `${this.__wsUrl}${this.__wsApi}/chat/ws`;
     }
 
     /***
