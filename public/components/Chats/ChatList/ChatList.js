@@ -112,6 +112,10 @@ export class ChatList {
             this.__addListeners();
 
             this.__addChatList(this.__context.data);
+
+            if (this.__context.selectNumber) {
+                this.selectChat(this.__context.selectNumber);
+            }
         } catch (err) {
             console.log(err.message);
         }

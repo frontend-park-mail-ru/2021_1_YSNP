@@ -21,7 +21,12 @@ export class OneOwnerMessage {
         try {
             this.__context = context;
 
-            this.__parent.insertAdjacentHTML('beforeend', oneOwnerMessageTemplate(this.__context));
+            if (context.isDown) {
+                this.__parent.insertAdjacentHTML('beforeend', oneOwnerMessageTemplate(this.__context));
+                return;
+            }
+
+            this.__parent.insertAdjacentHTML('afterbegin', oneOwnerMessageTemplate(this.__context));
         } catch (err) {
             console.log(err.message);
         }

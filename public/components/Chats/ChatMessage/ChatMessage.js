@@ -67,7 +67,7 @@ export class ChatMessage {
      * @private
      */
     __addMessage(parent, msg) {
-        if (msg.user) {
+        if (msg.isUser) {
             const oneChat = new OneOwnerMessage(parent);
             oneChat.render(msg);
         } else {
@@ -82,6 +82,7 @@ export class ChatMessage {
      */
     addNewMessage(data) {
         const list = this.__getChatMessageContent();
+
         this.__addMessage(list, data);
         this.__scrollEnd();
     }
@@ -89,14 +90,18 @@ export class ChatMessage {
     /***
      * Add chats to message
      * @param {Object} data - messages
-     * @private
      */
-    __addChatMessage(data) {
+    addNewMessageList(data) {
         const list = this.__getChatMessageContent();
 
         data.forEach((el) => {
             this.__addMessage(list, el);
         });
+        this.__scrollEnd();
+    }
+
+    getInput() {
+        return document.getElementById('chat-message-input');
     }
 
     /***
@@ -129,9 +134,6 @@ export class ChatMessage {
 
             this.__parent.insertAdjacentHTML('beforeend', chatMessageTemplate(this.__context.data));
             this.__addListeners();
-
-            this.__addChatMessage(this.__context.data.messages);
-            this.__scrollEnd();
         } catch (err) {
             console.log(err.message);
         }

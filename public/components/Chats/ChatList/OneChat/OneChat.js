@@ -19,7 +19,7 @@ export class OneChat {
      * @private
      */
     __getOneChat() {
-        return document.getElementById('one-chat');
+        return document.getElementById(`one-chat-${this.__context.chatID}`);
     }
 
     /***

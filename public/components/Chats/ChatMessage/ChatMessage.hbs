@@ -4,16 +4,16 @@
         <div class="chat-message-head">
             <div class="chat-message-head-inner">
                 <div class="chat-message-head-avatar">
-                    <img src="{{img}}" alt="product" class="chat-message-head-avatar__img">
+                    <img src="{{productImg}}" alt="product" class="chat-message-head-avatar__img">
                 </div>
 
                 <div class="chat-message-head-info">
-                    <span class="chat-message-head-info-name">{{name}}</span>
+                    <span class="chat-message-head-info-name">{{userName}}</span>
 
                     <div class="chat-message-head-info-product">
-                        <a href="/product/86" class="chat-message-head-info-product__link">{{product}}</a>
+                        <a href="/product/86" class="chat-message-head-info-product__link">{{productName}}</a>
                         <span>&nbsp;•&nbsp;</span>
-                        <span class="chat-message-head-info-product__amount">{{amount}}</span>
+                        <span class="chat-message-head-info-product__amount">{{productAmount}}</span>
                     </div>
                 </div>
             </div>
@@ -28,7 +28,8 @@
         <div class="chat-message-send">
             <div class="chat-message-send-inner">
                 <form class="chat-message-send-form" id="chat-message-form">
-                    <input class="chat-message-send-form__msg" type="text" placeholder="Сообщение">
+                    <input class="chat-message-send-form__msg" id="chat-message-input" type="text"
+                           placeholder="Сообщение">
                     <input class="chat-message-send-form__sbm" type="submit">
                 </form>
             </div>

@@ -79,6 +79,10 @@ export class Chats {
         this.__chatMessage.addNewMessage(data);
     }
 
+    addNewMessageList(data) {
+        this.__chatMessage.addNewMessageList(data);
+    }
+
     /***
      * Add new chat
      * @param {Object} data - new chat
@@ -101,6 +105,10 @@ export class Chats {
      */
     unselectChat(chatID) {
         this.__chatList.unselectChat(chatID);
+    }
+
+    getChatMessageInput() {
+        return this.__chatMessage.getInput();
     }
 
     /***
