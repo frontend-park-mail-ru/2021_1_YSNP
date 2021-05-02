@@ -7,11 +7,37 @@ import {backUrls} from '../modules/urls/backUrls';
 import {http} from '../modules/http/http';
 
 export class ChatModel extends BaseModel {
-    constructor() {
+    constructor(callbackList) {
         super();
 
         this.__chatList = [];
         this.__chatMessage = {};
+
+        this.__callbackList = callbackList;
+        this.__wss = new WebSocketService(backUrls.chatWs);
+    }
+
+    __getDate(date) {
+        const localDate = new Date(date);
+        return localDate.toLocaleDateString('ru-RU', {
+            timeZone: 'UTC',
+            day: 'numeric',
+            month: 'numeric',
+            year: 'numeric'
+        });
+    }
+
+    __getTime(date) {
+        const localTime = new Date(date);
+        return localTime.toLocaleTimeString('ru-RU', {
+            timeZone: 'UTC',
+            minute: 'numeric',
+            hour: 'numeric'
+        });
+    }
+
+    __getAmount(amount) {
+        return `${amount.toLocaleString()} ₽`;
     }
 
     __jsonCreateChatData(productID, partnerID) {
@@ -28,7 +54,6 @@ export class ChatModel extends BaseModel {
                     message: data.message
                 });
 
-                console.log(data);
                 return data;
             });
     }
@@ -41,7 +66,7 @@ export class ChatModel extends BaseModel {
             productImg: data.product_avatar_link,
             productName: data.product_name,
             productAmount: data.product_amount,
-            lastMessageDate: data.last_msg_time,
+            lastMessageDate: this.__getDate(data.last_msg_time),
             lastMessage: data.last_msg_content,
             newMessages: 0
         };
@@ -81,7 +106,7 @@ export class ChatModel extends BaseModel {
             userImg: data.partner_avatar,
             productName: data.product_name,
             productImg: data.product_avatar_link,
-            productAmount: data.product_amount
+            productAmount: this.__getAmount(data.product_amount)
         };
     }
 
@@ -108,9 +133,10 @@ export class ChatModel extends BaseModel {
             });
     }
 
-    async connect(callbackList) {
-        this.__callbackList = callbackList;
-        this.__wss = new WebSocketService(backUrls.chatWs);
+    async connect() {
+        if (this.__wss.isOpen()) {
+            return Promise.resolve();
+        }
 
         return this.__wss.connect()
             .then(() => {
@@ -135,14 +161,14 @@ export class ChatModel extends BaseModel {
     getLastMessages(count = 30) {
         this.__wss.send('GetLastNMessagesReq', {
             chat_id: this.__chatMessage.chatID,
-            messages: count
+            count: count
         });
     }
 
     getMessagesBefore(lastMessageId, count = 30) {
         this.__wss.send('GetNMessagesBeforeReq', {
             chat_id: this.__chatMessage.chatID,
-            n_messages: count,
+            count: count,
             message_id: lastMessageId
         });
     }
@@ -152,7 +178,7 @@ export class ChatModel extends BaseModel {
             isUser: data.user_id === this.__userID,
             isDown: isDown,
             text: data.content,
-            date: data.time
+            date: this.__getTime(data.time)
         };
     }
 
@@ -165,7 +191,7 @@ export class ChatModel extends BaseModel {
     }
 
     parseNewMessage(data) {
-        const message = this.parseOneMessage(data);
+        const message = this.parseOneMessage(data, true);
         this.__chatMessage.messages.push(message);
 
         return message;
@@ -179,17 +205,17 @@ export class ChatModel extends BaseModel {
     }
 
     __callbackLastMessageList(data) {
-        console.log('new message list', data);
+        // console.log('new message list', data);
         this.__callbackList.newMessageList(this.parseNewMessageList(data));
     }
 
     __callbackPageMessageList(data) {
-        console.log('new message page', data);
+        // console.log('new message page', data);
         this.__callbackList.newMessageList(this.parseNewMessageList(data));
     }
 
     __callbackNewMessage(data) {
-        console.log('new message', data);
+        // console.log('new message', data);
         this.__callbackList.newMessage(this.parseNewMessage(data));
     }
 

@@ -83,6 +83,11 @@ export class Chats {
         this.__chatMessage.addNewMessageList(data);
     }
 
+    rerenderChatMessage(context) {
+        this.__getChatsMessage().remove();
+        this.renderChatsMessage(context);
+    }
+
     /***
      * Add new chat
      * @param {Object} data - new chat
@@ -90,6 +95,7 @@ export class Chats {
     addNewChat(data) {
         this.__chatList.addNewChat(data);
     }
+
 
     /***
      * Select chat
@@ -114,19 +120,19 @@ export class Chats {
     /***
      * Render chats list
      */
-    renderChatsList() {
+    renderChatsList(context) {
         this.__getChatsContent().insertAdjacentHTML('beforeend', this.__getChatsListTemplate());
         this.__chatList = new ChatList(this.__getChatsList());
-        this.__chatList.render(this.__context.list);
+        this.__chatList.render(context);
     }
 
     /***
      * Render chats message
      */
-    renderChatsMessage() {
+    renderChatsMessage(context) {
         this.__getChatsContent().insertAdjacentHTML('beforeend', this.__getChatsMessageTemplate());
         this.__chatMessage = new ChatMessage(this.__getChatsMessage());
-        this.__chatMessage.render(this.__context.message);
+        this.__chatMessage.render(context);
     }
 
     /***
@@ -139,9 +145,9 @@ export class Chats {
 
             this.__parent.insertAdjacentHTML('beforeend', chatsTemplate());
 
-            this.renderChatsList();
+            this.renderChatsList(this.__context.list);
             if (!mobile.isMobile()) {
-                this.renderChatsMessage();
+                this.renderChatsMessage(this.__context.message);
             }
 
         } catch (err) {

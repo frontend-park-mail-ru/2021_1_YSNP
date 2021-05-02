@@ -68,10 +68,10 @@ export class ChatMessage {
      */
     __addMessage(parent, msg) {
         if (msg.isUser) {
-            const oneChat = new OneOwnerMessage(parent);
+            const oneChat = new OneUserMessage(parent);
             oneChat.render(msg);
         } else {
-            const oneChat = new OneUserMessage(parent);
+            const oneChat = new OneOwnerMessage(parent);
             oneChat.render(msg);
         }
     }

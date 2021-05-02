@@ -269,7 +269,7 @@ export class ProductPresenter extends BasePresenter {
             return;
         }
 
-        this.__chatModel.createChat(this.__id, this.__userModel.getData().id)
+        this.__chatModel.createChat(this.__id, this.__model.getData().ownerId)
             .then((data) => {
                 console.log(data);
                 router.redirect(frontUrls.userChat(data.id));

@@ -20,7 +20,7 @@ export class UserChatsPresenter extends BasePresenter {
         this.__view = view;
         this.__chatID = parseInt(chatID, 10);
 
-        this.__chatModel = new ChatModel();
+        this.__chatModel = new ChatModel(this.__createCallbacks());
     }
 
     /***
@@ -49,7 +49,7 @@ export class UserChatsPresenter extends BasePresenter {
 
         checkIsAuth();
 
-        this.__checkChatView();
+        await this.__checkChatView();
         this.__view.render(this.__makeContext());
     }
 
@@ -60,12 +60,12 @@ export class UserChatsPresenter extends BasePresenter {
         super.removePageListeners();
     }
 
-    __checkChatView() {
+    async __checkChatView() {
         if (!this.__chatID) {
-            return;
+            return Promise.resolve();
         }
 
-        this.__chatModel.connect(this.__createCallbacks())
+        return this.__chatModel.connect()
             .then(() => this.__chatModel.chatMessage(this.__chatID, this.__userModel.getData().id))
             .catch((err) => {
                 console.log(err.message);
@@ -150,13 +150,17 @@ export class UserChatsPresenter extends BasePresenter {
         };
     }
 
-    __chatClick(id) {
-        if (!id) {
+    async __chatClick(id) {
+        const numberId = parseInt(id, 10);
+        if (!numberId || this.__chatID === numberId) {
             return;
         }
 
-        const numberId = parseInt(id, 10);
-        router.redirect(frontUrls.userChat(numberId));
+        this.__chatID = numberId;
+        router.replaceState(frontUrls.userChat(this.__chatID));
+
+        await this.__checkChatView();
+        this.__view.rerenderChatMessage(this.__makeContext().chats.message);
     }
 
     /***

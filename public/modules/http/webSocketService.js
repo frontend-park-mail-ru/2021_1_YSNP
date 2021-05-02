@@ -7,6 +7,10 @@ export class WebSocketService {
         this.__listeners = this.__createListeners();
     }
 
+    isOpen() {
+        return this.__isOpen;
+    }
+
     async connect() {
         return new Promise((resolve, reject) => {
             this.__ws = new WebSocket(this.__connectionUrl);
@@ -57,7 +61,7 @@ export class WebSocketService {
     }
 
     __onMessage(ev) {
-        console.log('message', ev);
+        // console.log('message', ev);
 
         const response = JSON.parse(ev.data);
         this.__subcribedMessagesList.get(response.type)(response.data);
@@ -68,12 +72,12 @@ export class WebSocketService {
             return;
         }
 
-        console.log('error', ev);
+        // console.log('error', ev);
         this.__errorCallback();
     }
 
     __onClose(ev) {
-        console.log('close', ev);
+        // console.log('close', ev);
         this.__closeCallback();
     }
 
