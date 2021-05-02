@@ -43,6 +43,7 @@ export class UserFavoriteView extends BaseView {
             favoriteList: {
                 title: 'Избранное',
                 text: 'В избранном пусто',
+                id: 'fav',
                 data: context.favoriteList.data,
                 listeners: context.favoriteList.listeners
             },

@@ -66,6 +66,7 @@ export class SearchPresenter extends BasePresenter {
 
         this.__endlessScroll.start();
         this.__pageUp.start();
+        console.log(this.__makeContext().productList.data);
     }
 
     /***

@@ -22,7 +22,7 @@ export class ProductTable {
      */
     __addListeners() {
         document
-            .getElementById('product-table')
+            .getElementById(`product-table${this.__context.id}`)
             .addEventListener(this.__context.listeners.productCardClick.type, this.__context.listeners.productCardClick.listener);
     }
 
@@ -85,7 +85,7 @@ export class ProductTable {
      * @private
      */
     __getParent() {
-        return this.__parent.querySelector('[id="product-table-body"]');
+        return this.__parent.querySelector(`[id="product-table-body${this.__context.id}"]`);
     }
 
     /***

@@ -10,17 +10,27 @@ export class MainView extends BaseView {
     /***
      * Like product
      * @param {number} id - product id
+     * @param {string} idList - main or trends tableview
      */
-    likeProduct(id) {
-        this.__mainList.like(id);
+    likeProduct(id, idList = 'main') {
+        if (idList === 'main') {
+            this.__mainList.like(id);
+        } else {
+            this.__trendsList.like(id);
+        }
     }
 
     /***
      * Dislike product
      * @param {number} id - product id
+     * @param {string} idList - main or trends tableview
      */
-    dislikeProduct(id) {
-        this.__mainList.dislike(id);
+    dislikeProduct(id, idList = 'main') {
+        if (idList === 'main') {
+            this.__mainList.dislike(id);
+        } else {
+            this.__trendsList.dislike(id);
+        }
     }
 
     /***
@@ -41,8 +51,16 @@ export class MainView extends BaseView {
             mainList: {
                 title: 'Все объявления',
                 text: 'Товары закончились',
+                id: 'main',
                 data: context.mainList.data,
                 listeners: context.mainList.listeners
+            },
+            trendsList: {
+                title: 'Рекомендации',
+                text: 'Пока нет новых рекомендаций',
+                id: 'trends',
+                data: context.trendsList.data,
+                listeners: context.trendsList.listeners
             },
             search: {
                 data: context.search.data,
@@ -92,6 +110,9 @@ export class MainView extends BaseView {
         layout.render();
 
         const parent = layout.parent;
+
+        this.__trendsList = new ProductTable(parent);
+        this.__trendsList.render(this.__context.trendsList);
 
         this.__mainList = new ProductTable(parent);
         this.__mainList.render(this.__context.mainList);

@@ -11,6 +11,7 @@ import {PageUpHandler} from '../modules/handlers/pageUpHandler.js';
 
 import {customSessionStorage} from '../modules/customSessionStorage.js';
 import {CreateButtonHandler} from '../modules/handlers/createButtonHandler';
+import {TrendProductListModel} from '../models/TrendProductListModel.js';
 
 /***
  * Main presenter
@@ -24,6 +25,7 @@ export class MainPresenter extends BasePresenter {
         super(view);
         this.__view = view;
         this.__mainListModel = new MainListModel();
+        this.__trendsListModel = new TrendProductListModel();
         this.__endlessScroll = new EndlessScroll(this.__createListeners().scroll);
         this.__pageUp = new PageUpHandler();
         this.__createButton = new CreateButtonHandler(this.openCreateProduct.bind(this));
@@ -36,6 +38,7 @@ export class MainPresenter extends BasePresenter {
     async update() {
         return super.update()
             .then(() => this.__mainListModel.update())
+            .then(() => this.__trendsListModel.update())
             .catch((err) => {
                 //TODO(Sergey) нормальная обработка ошибок
                 console.log(err.message);
@@ -149,7 +152,6 @@ export class MainPresenter extends BasePresenter {
      */
     __likeCard(id) {
         const numberId = parseInt(id, 10);
-
         if (!this.__userModel.isAuth) {
             super.openAuth();
             return;
@@ -170,6 +172,24 @@ export class MainPresenter extends BasePresenter {
 
                 this.checkOfflineStatus(err);
                 this.checkOffline();
+            })
+            .then(() => {
+                this.__trendsListModel.voteProduct(numberId)
+                    .then(({status}) => {
+                        if (status === 'dislike') {
+                            this.__view.dislikeProduct(numberId, 'trends');
+                            return;
+                        }
+
+                        this.__view.likeProduct(numberId, 'trends');
+                    })
+                    .catch((err) => {
+                        //TODO(Sergey) нормальная обработка ошибок
+                        console.log(err.message);
+
+                        this.checkOfflineStatus(err);
+                        this.checkOffline();
+                    });
             });
     }
 
@@ -245,6 +265,10 @@ export class MainPresenter extends BasePresenter {
             search: {
                 data: null,
                 listeners: this.__createListeners().search
+            },
+            trendsList: {
+                data: this.__trendsListModel.getData(),
+                listeners: this.__createListeners().mainList
             },
             mainList: {
                 data: this.__mainListModel.getData(),
