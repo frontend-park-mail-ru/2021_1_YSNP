@@ -7,6 +7,8 @@ import {eventHandlerWithDataType} from '../modules/handlers/eventHandler.js';
 import {NotFoundError} from '../modules/http/httpError';
 
 import {router} from '../modules/router.js';
+import {ChatModel} from '../models/ChatModel';
+import {frontUrls} from '../modules/urls/frontUrls';
 
 /***
  *  ProductPresenter class, extends from BasePresenter
@@ -22,11 +24,13 @@ export class ProductPresenter extends BasePresenter {
     constructor(view, id) {
         super(view);
         this.__view = view;
-        this.__id = id;
-        this.__model = new ProductModel({id: this.__id});
-        this.__user = new UserModel();
+        this.__id = parseInt(id, 10);
         this.__numberIsShowed = false;
         this.__notFound = false;
+
+        this.__model = new ProductModel({id: this.__id});
+        this.__user = new UserModel();
+        this.__chatModel = new ChatModel();
     }
 
     /***
@@ -265,8 +269,18 @@ export class ProductPresenter extends BasePresenter {
             return;
         }
 
-        // TODO(Ivan) release __listenerWriteMassage
-        console.log('massage');
+        this.__chatModel.createChat(this.__id, this.__userModel.getData().id)
+            .then((data) => {
+                console.log(data);
+                router.redirect(frontUrls.userChat(data.id));
+            })
+            .catch((err) => {
+                //TODO(Sergey) нормальная обработка ошибок
+                console.log(err.message);
+
+                this.checkOfflineStatus(err);
+                this.checkOffline();
+            });
     }
 
     /***

@@ -29,6 +29,7 @@ export class ChatModel extends BaseModel {
                 });
 
                 console.log(data);
+                return data;
             });
     }
 
