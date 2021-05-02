@@ -87,8 +87,6 @@
   &-send {
     @include set-size(100%, 9vh);
 
-    border-radius: 0 0 1vh 0;
-
     display: flex;
     flex-direction: row;
     align-items: center;

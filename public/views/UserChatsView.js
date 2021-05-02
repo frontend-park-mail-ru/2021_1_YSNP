@@ -28,6 +28,38 @@ export class UserChatsView extends BaseView {
     }
 
     /***
+     * Add new message
+     * @param {Object} data - new message
+     */
+    addNewMessage(data) {
+        this.__chats.addNewMessage(data);
+    }
+
+    /***
+     * Add new chat
+     * @param {Object} data - new chat
+     */
+    addNewChat(data) {
+        this.__chats.addNewChat(data);
+    }
+
+    /***
+     * Select chat
+     * @param {number} chatID
+     */
+    selectChat(chatID) {
+        this.__chats.selectChat(chatID);
+    }
+
+    /***
+     * Unselect chat
+     * @param {number} chatID
+     */
+    unselectChat(chatID) {
+        this.__chats.unselectChat(chatID);
+    }
+
+    /***
      * Render mobile components
      * @private
      */

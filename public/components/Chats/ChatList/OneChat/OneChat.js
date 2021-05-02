@@ -23,6 +23,20 @@ export class OneChat {
     }
 
     /***
+     * Select chat
+     */
+    selectChat() {
+        this.__getOneChat().classList.add('one-chat_open');
+    }
+
+    /***
+     * Unselect chat
+     */
+    unselectChat() {
+        this.__getOneChat().classList.remove('one-chat_open');
+    }
+
+    /***
      * Add component to parent
      * @param {Object} context - component context
      */
@@ -30,7 +44,7 @@ export class OneChat {
         try {
             this.__context = context;
 
-            this.__parent.insertAdjacentHTML('beforeend', oneChatTemplate(this.__context));
+            this.__parent.insertAdjacentHTML('afterbegin', oneChatTemplate(this.__context));
         } catch (err) {
             console.log(err.message);
         }

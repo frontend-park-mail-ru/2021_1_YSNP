@@ -3,6 +3,7 @@
 .chats {
   @include set-size(100%, 60vh);
   @include shadow-block;
+  overflow: hidden;
 
   &-inner {
     display: flex;
@@ -15,6 +16,10 @@
     @media screen and (max-width: 1400px) {
       @include set-size(40%, 100%);
     }
+
+    @media screen and (max-width: $breakMobile) {
+      @include set-size(100%, 100%);
+    }
   }
 
   &-message {
@@ -22,6 +27,10 @@
 
     @media screen and (max-width: 1400px) {
       @include set-size(60%, 100%);
+    }
+
+    @media screen and (max-width: $breakMobile) {
+      @include set-size(100%, 100%);
     }
   }
 }

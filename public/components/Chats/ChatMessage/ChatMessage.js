@@ -17,12 +17,73 @@ export class ChatMessage {
     }
 
     /***
+     * Get chat message
+     * @returns {HTMLElement}
+     * @private
+     */
+    __getChatMessage() {
+        return document.getElementById('chat-message');
+    }
+
+    /***
+     * Get chat message body
+     * @returns {HTMLElement}
+     * @private
+     */
+    __getChatMessageBody() {
+        return document.getElementById('chat-message-body');
+    }
+
+    /***
      * Get chat message parent
      * @returns {HTMLElement}
      * @private
      */
     __getChatMessageContent() {
         return document.getElementById('chat-message-content');
+    }
+
+    /***
+     * Get chat message form parent
+     * @returns {HTMLElement}
+     * @private
+     */
+    __getChatMessageForm() {
+        return document.getElementById('chat-message-form');
+    }
+
+    /***
+     * Scroll to last message
+     * @private
+     */
+    __scrollEnd() {
+        this.__getChatMessageBody().scrollTo(0, this.__getChatMessageContent().scrollHeight);
+    }
+
+    /***
+     * Add message
+     * @param {HTMLElement} parent - html element
+     * @param {Object} msg - message
+     * @private
+     */
+    __addMessage(parent, msg) {
+        if (msg.user) {
+            const oneChat = new OneOwnerMessage(parent);
+            oneChat.render(msg);
+        } else {
+            const oneChat = new OneUserMessage(parent);
+            oneChat.render(msg);
+        }
+    }
+
+    /***
+     * Add new message
+     * @param {Object} data - new message
+     */
+    addNewMessage(data) {
+        const list = this.__getChatMessageContent();
+        this.__addMessage(list, data);
+        this.__scrollEnd();
     }
 
     /***
@@ -34,14 +95,28 @@ export class ChatMessage {
         const list = this.__getChatMessageContent();
 
         data.forEach((el) => {
-            if (el.user) {
-                const oneChat = new OneOwnerMessage(list);
-                oneChat.render(el);
-            } else {
-                const oneChat = new OneUserMessage(list);
-                oneChat.render(el);
-            }
+            this.__addMessage(list, el);
         });
+    }
+
+    /***
+     * Add component listeners
+     * @private
+     */
+    __addListeners() {
+        // this.__getChatMessage().addEventListener(this.__context.listeners.messageClick.type, this.__context.listeners.messageClick.listener);
+
+        this.__getChatMessageForm().addEventListener(this.__context.listeners.submitForm.type, this.__context.listeners.submitForm.listener);
+    }
+
+    /***
+     * Remove component listeners
+     * @private
+     */
+    __removeListeners() {
+        // this.__getChatMessage().removeEventListener(this.__context.listeners.messageClick.type, this.__context.listeners.messageClick.listener);
+
+        this.__getChatMessageForm().removeEventListener(this.__context.listeners.submitForm.type, this.__context.listeners.submitForm.listener);
     }
 
     /***
@@ -53,7 +128,10 @@ export class ChatMessage {
             this.__context = context;
 
             this.__parent.insertAdjacentHTML('beforeend', chatMessageTemplate(this.__context.data));
+            this.__addListeners();
+
             this.__addChatMessage(this.__context.data.messages);
+            this.__scrollEnd();
         } catch (err) {
             console.log(err.message);
         }

@@ -13,6 +13,7 @@ export class ChatList {
      */
     constructor(parent) {
         this.__parent = parent;
+        this.__chatList = new Map();
     }
 
     /***
@@ -34,6 +35,43 @@ export class ChatList {
     }
 
     /***
+     * Add chat to list
+     * @param {HTMLElement} parent - html element
+     * @param {Object} chat - chat
+     * @private
+     */
+    __addChat(parent, chat) {
+        const oneChat = new OneChat(parent);
+        oneChat.render(chat);
+        this.__chatList.set(chat.chatID, oneChat);
+    }
+
+    /***
+     * Add new chat
+     * @param {Object} data - new chat
+     */
+    addNewChat(data) {
+        const list = this.__getChatListContent();
+        this.__addChat(list, data);
+    }
+
+    /***
+     * Select chat
+     * @param {number} chatID
+     */
+    selectChat(chatID) {
+        this.__chatList.get(chatID).selectChat();
+    }
+
+    /***
+     * Unselect chat
+     * @param {number} chatID
+     */
+    unselectChat(chatID) {
+        this.__chatList.get(chatID).unselectChat();
+    }
+
+    /***
      * Add chats to list
      * @param {Object} data - chats
      * @private
@@ -42,9 +80,24 @@ export class ChatList {
         const list = this.__getChatListContent();
 
         data.forEach((el) => {
-            const oneChat = new OneChat(list);
-            oneChat.render(el);
+            this.__addChat(list, el);
         });
+    }
+
+    /***
+     * Add component listeners
+     * @private
+     */
+    __addListeners() {
+        this.__getChatList().addEventListener(this.__context.listeners.listClick.type, this.__context.listeners.listClick.listener);
+    }
+
+    /***
+     * Remove component listeners
+     * @private
+     */
+    __removeListeners() {
+        this.__getChatList().removeEventListener(this.__context.listeners.listClick.type, this.__context.listeners.listClick.listener);
     }
 
     /***
@@ -56,6 +109,8 @@ export class ChatList {
             this.__context = context;
 
             this.__parent.insertAdjacentHTML('beforeend', chatListTemplate());
+            this.__addListeners();
+
             this.__addChatList(this.__context.data);
         } catch (err) {
             console.log(err.message);
