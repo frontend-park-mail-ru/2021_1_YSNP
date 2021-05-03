@@ -31,6 +31,12 @@ export function eventHandler(ev, actions, isStopPropagation = false) {
     eventHandlerWithDataType(ev, 'action', actions, isStopPropagation);
 }
 
+/***
+ * Release event with id
+ * @param {MouseEvent} ev - user event
+ * @param {Object} actions - actions on this event
+ * @param {string} idName - id name in dataset
+ */
 export function eventHandlerWithId(ev, actions, idName) {
     ev.preventDefault();
 
@@ -57,13 +63,18 @@ export function eventHandlerWithId(ev, actions, idName) {
 
 /***
  * Release product click event
- * @param {Event} ev - user event
+ * @param {MouseEvent} ev - user event
  * @param {Object} actions - actions on this event
  */
 export function eventProductListHandler(ev, actions) {
     eventHandlerWithId(ev, actions, 'cardId');
 }
 
+/***
+ * Release chat list click event
+ * @param {MouseEvent} ev - user event
+ * @param {Object} actions - actions on this event
+ */
 export function eventChatListHandler(ev, actions) {
     eventHandlerWithId(ev, actions, 'chatId');
 }

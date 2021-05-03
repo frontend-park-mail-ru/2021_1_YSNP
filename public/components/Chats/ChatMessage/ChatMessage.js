@@ -101,6 +101,10 @@ export class ChatMessage {
         this.__scrollEnd();
     }
 
+    /***
+     * Get input
+     * @returns {HTMLElement}
+     */
     getInput() {
         return document.getElementById('chat-message-input');
     }
@@ -125,11 +129,20 @@ export class ChatMessage {
         this.__getChatMessageForm().removeEventListener(this.__context.listeners.submitForm.type, this.__context.listeners.submitForm.listener);
     }
 
+    /***
+     * Render empty chat message
+     * @private
+     */
     __renderEmptyChatMessage() {
         const emptyChatMessage = new EmptyChatMessage(this.__parent);
         emptyChatMessage.render();
     }
 
+    /***
+     * Render chat message
+     * @param {Object} context - component context
+     * @private
+     */
     __renderChatMessage(context) {
         this.__parent.insertAdjacentHTML('beforeend', chatMessageTemplate(context));
         this.__addListeners();

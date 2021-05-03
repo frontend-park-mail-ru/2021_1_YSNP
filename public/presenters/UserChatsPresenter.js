@@ -1,7 +1,6 @@
 import {BasePresenter} from './BasePresenter';
 import {checkIsAuth} from '../modules/checkAuth';
 
-import {ChatModel} from '../models/ChatModel';
 import {router} from '../modules/router';
 import {frontUrls} from '../modules/urls/frontUrls';
 import {eventChatListHandler} from '../modules/handlers/eventHandler';
@@ -14,7 +13,7 @@ export class UserChatsPresenter extends BasePresenter {
     /***
      * Class constructor
      * @param {UserChatsView} view
-     * @param {number} chatID
+     * @param {string} chatID
      */
     constructor(view, chatID = undefined) {
         super(view);
@@ -22,12 +21,12 @@ export class UserChatsPresenter extends BasePresenter {
         this.__chatID = parseInt(chatID, 10);
         this.__notFoundChat = false;
 
-        this.__chatModel = new ChatModel(this.__userModel.getData().id, this.__createCallbacks());
+        this.__chatModel.updateCallbackList(this.__createCallbacks());
     }
 
     /***
      * Update view data
-     * @returns {Promise<void>}
+     * @returns {Promise<{data: *, status: number}>}
      */
     async update() {
         return super.update()
@@ -35,6 +34,7 @@ export class UserChatsPresenter extends BasePresenter {
             .catch((err) => {
                 //TODO(Serge) нормальная обработка ошибок
                 console.log(err.message);
+
                 this.checkOfflineStatus(err);
             });
     }
@@ -51,9 +51,9 @@ export class UserChatsPresenter extends BasePresenter {
 
         checkIsAuth();
 
-        await this.__checkChatView();
-
+        await this.__updateChatMessage();
         if (this.__notFoundChat) {
+            this.__notFoundChat = undefined;
             this.__chatID = undefined;
             router.replaceState(frontUrls.userChats);
         }
@@ -70,13 +70,17 @@ export class UserChatsPresenter extends BasePresenter {
         this.__chatModel.close();
     }
 
-    async __checkChatView() {
+    /***
+     * Update chat message
+     * @returns {Promise<{data: *, status: number}>}
+     * @private
+     */
+    async __updateChatMessage() {
         if (!this.__chatID) {
             return Promise.resolve();
         }
 
-        return this.__chatModel.connect()
-            .then(() => this.__chatModel.chatMessage(this.__chatID))
+        return this.__chatModel.chatMessage(this.__chatID)
             .catch((err) => {
                 //TODO(Sergey) нормальная обработка ошибок
                 console.log(err.message);
@@ -90,29 +94,24 @@ export class UserChatsPresenter extends BasePresenter {
             });
     }
 
-    __chatMessageNewMessageCallback(chatID, data) {
-        console.log('presenter add new message', data);
-
-        if (chatID === this.__chatModel.getChatMessageData().chatID) {
-            this.__chatMessageNewMessage(data);
-            this.__chatListUpdateLastDate(chatID, data);
-            return;
-        }
-
-        if (this.__chatModel.getChatListOneChatData(chatID)) {
-            this.__chatListUpdateUnreadMessages(chatID);
-            return;
-        }
-
-        this.__chatListAddNewChat(chatID);
-    }
-
+    /***
+     * New message
+     * @param {Object} data - new message
+     * @private
+     */
     __chatMessageNewMessage(data) {
         console.log('presenter new message', data);
 
+        this.__chatModel.addNewMessage(data);
         this.__view.addNewMessage(data);
     }
 
+    /***
+     * Update chat last data
+     * @param {number} chatID - id chat
+     * @param {Object} data - last data
+     * @private
+     */
     __chatListUpdateLastDate(chatID, data) {
         console.log('presenter last date', chatID, data);
 
@@ -120,6 +119,11 @@ export class UserChatsPresenter extends BasePresenter {
         this.__view.updateChatLastDate(chatID, data);
     }
 
+    /***
+     * Update unread messages
+     * @param {number} chatID - id chat
+     * @private
+     */
     __chatListUpdateUnreadMessages(chatID) {
         console.log('presenter unread messages', chatID);
 
@@ -127,9 +131,12 @@ export class UserChatsPresenter extends BasePresenter {
         this.__view.updateChatUnreadMessages(chatID, {count: count});
     }
 
+    /***
+     * Add new chat
+     * @param {number} chatID - id chat
+     * @private
+     */
     __chatListAddNewChat(chatID) {
-        console.log('presenter new chat', chatID);
-
         this.__chatModel.chatListNewChat(chatID)
             .then((data) => {
                 this.__view.addNewChat(data);
@@ -142,14 +149,58 @@ export class UserChatsPresenter extends BasePresenter {
         });
     }
 
+    /***
+     * Message error callback
+     * @param {Error} err
+     * @private
+     */
+    __chatMessageErrorCallback(err) {
+        console.log('presenter err', err);
+    }
+
+    /***
+     * New message callback
+     * @param {number} chatID - id chat
+     * @param {Object} data - new message
+     * @private
+     */
+    __chatMessageNewMessageCallback(chatID, data) {
+        console.log('presenter add new message', data);
+
+        if (chatID === this.__chatModel.getChatMessageData().chatID) {
+            this.__chatMessageNewMessage(data);
+            this.__chatListUpdateLastDate(chatID, data);
+            return;
+        }
+
+        if (this.__chatModel.getChatListOneChatData(chatID)) {
+            this.__chatListUpdateUnreadMessages(chatID);
+            this.__chatListUpdateLastDate(chatID, data);
+            return;
+        }
+
+        this.__chatListAddNewChat(chatID);
+    }
+
+    /***
+     * New message list callback
+     * @param {Object} data - new message list
+     * @private
+     */
     __chatMessageNewMessageListCallback(data) {
         console.log('presenter add new message list', data);
 
         this.__view.addNewMessageList(data);
     }
 
+    /***
+     * Create webSocket callbacks
+     * @returns {{chatMessageError: *, chatMessageNewMessageList: *, chatMessageNewMessage: *}}
+     * @private
+     */
     __createCallbacks() {
         return {
+            chatMessageError: this.__chatMessageErrorCallback.bind(this),
             chatMessageNewMessage: this.__chatMessageNewMessageCallback.bind(this),
             chatMessageNewMessageList: this.__chatMessageNewMessageListCallback.bind(this)
         };
@@ -190,7 +241,7 @@ export class UserChatsPresenter extends BasePresenter {
 
     /***
      * Create listeners
-     * @returns {{}}
+     * @returns {{list: {listClick: {listener: *, type: string}}, message: {submitForm: {listener: *, type: string}, messageClick: {listener: *, type: string}}}}
      * @private
      */
     __createListeners() {
@@ -214,6 +265,12 @@ export class UserChatsPresenter extends BasePresenter {
         };
     }
 
+    /***
+     * Chat click action
+     * @param {string} id - id chat
+     * @returns {Promise<void>}
+     * @private
+     */
     async __chatClick(id) {
         const numberId = parseInt(id, 10);
         if (!numberId || this.__chatID === numberId) {
@@ -227,14 +284,15 @@ export class UserChatsPresenter extends BasePresenter {
         this.__chatID = numberId;
         router.replaceState(frontUrls.userChat(this.__chatID));
 
-        await this.__checkChatView();
+        await this.__updateChatMessage();
         this.__view.rerenderChatMessage(this.__makeContext().chats.message);
         this.__view.selectChat(this.__chatID);
+        this.__view.deleteChatUnreadMessages(this.__chatID);
     }
 
     /***
      * Get actions
-     * @returns {{}}
+     * @returns {{chats: {list: {chatClick: {open: any}}}}}
      * @private
      */
     __getActions() {

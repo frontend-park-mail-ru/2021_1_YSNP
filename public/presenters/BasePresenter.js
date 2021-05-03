@@ -9,6 +9,7 @@ import {YandexMap} from '../modules/layout/yandexMap.js';
 
 import {OfflineError} from '../modules/http/httpError.js';
 import {mobile} from '../modules/mobile';
+import {ChatModel} from '../models/ChatModel';
 
 /***
  * Base presenter
@@ -21,11 +22,13 @@ export class BasePresenter {
     constructor(view) {
         this.__view = view;
         this.__userModel = user;
-        this.__authModel = new AuthUserModel();
         this.__isShownMap = false;
         this.__isShownAuth = false;
         this.__yaMap = new YandexMap();
         mobile.start(this.__resizeCallback.bind(this));
+
+        this.__authModel = new AuthUserModel();
+        this.__chatModel = new ChatModel();
     }
 
     /***
@@ -36,6 +39,13 @@ export class BasePresenter {
         return this.__userModel.update()
             .then(() => {
                 this.__view.baseContext = this.__makeBaseContext();
+
+                if (this.__userModel.isAuth) {
+                    this.__chatModel.updateUserID(this.__userModel.getData().id);
+                    return this.__chatModel.connect();
+                }
+
+                return Promise.resolve();
             })
             .catch((err) => {
                 this.__view.baseContext = this.__makeBaseContext();

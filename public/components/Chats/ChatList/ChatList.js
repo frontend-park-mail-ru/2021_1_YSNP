@@ -68,13 +68,31 @@ export class ChatList {
         this.__addChat(list, data);
     }
 
+    /***
+     * Update chat list last data
+     * @param {number} chatID - id chat
+     * @param {Object} data - last date and last message
+     */
     updateLastData(chatID, data) {
         this.__chatList.get(chatID).updateChatDate(data.date);
         this.__chatList.get(chatID).updateChatMessage(data.text);
     }
 
+    /***
+     * Update unread messages
+     * @param {number} chatID - id chat
+     * @param {Object} data - count unread message
+     */
     updateUnreadMessages(chatID, data) {
         this.__chatList.get(chatID).updateUnreadMessages(data.count);
+    }
+
+    /***
+     * Delete unread messages
+     * @param {number} chatID - id chat
+     */
+    deleteUnreadMessages(chatID) {
+        this.__chatList.get(chatID).deactivateChatUnread();
     }
 
     /***

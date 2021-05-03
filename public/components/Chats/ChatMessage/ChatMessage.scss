@@ -24,6 +24,7 @@
     }
 
     &-avatar {
+      display: flex;
       margin-right: 1vh;
 
       &__img {
@@ -45,21 +46,15 @@
       }
 
       &-product {
-        width: 100%;
+        width: fit-content;
         margin-top: 0.5vh;
 
-        display: flex;
-        flex-direction: row;
-
+        @include menu-link;
         color: $mainColor;
         font-size: 1.6vh;
 
         &__link {
-          @include menu-link;
-          color: $mainColor;
-
           @include overflow-text-width;
-
           max-width: 75%;
         }
 

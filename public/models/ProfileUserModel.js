@@ -76,7 +76,7 @@ export class ProfileUserModel extends PasswordUserModel {
 
     /***
      * Get user Data for settings
-     * @returns {{isAuth: boolean, address, linkImage, surname, sex, latitude, name, telephone, dateBirth, radius, email, longitude}}
+     * @returns {{address: (*|string), sex, latitude, telephone, isAuth: boolean, linkImage, surname, name, id, dateBirth, radius, email, longitude}}
      */
     getData() {
         return {

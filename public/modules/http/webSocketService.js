@@ -1,4 +1,11 @@
+/***
+ * WebSocket Service
+ */
 export class WebSocketService {
+    /***
+     * Class constructor
+     * @param {string} url - webSocket connection url
+     */
     constructor(url) {
         this.__connectionUrl = url;
         this.__isOpen = false;
@@ -7,10 +14,18 @@ export class WebSocketService {
         this.__listeners = this.__createListeners();
     }
 
+    /***
+     * Is open webSocket
+     * @returns {boolean}
+     */
     isOpen() {
         return this.__isOpen;
     }
 
+    /***
+     * Connect websocket
+     * @returns {Promise<void>}
+     */
     async connect() {
         return new Promise((resolve, reject) => {
             this.__ws = new WebSocket(this.__connectionUrl);
@@ -31,12 +46,61 @@ export class WebSocketService {
         });
     }
 
+    /***
+     * Close webSocket
+     */
     close() {
         this.__ws.close();
         this.__isOpen = false;
         this.__removeListeners();
     }
 
+    /***
+     * Add message webSocket callback
+     * @param {string} type - message type
+     * @param {Function} callback - message callback
+     */
+    subscribeMessage(type, callback) {
+        this.__subcribedMessagesList.set(type, callback);
+    }
+
+    /***
+     * Add error webSocket callback
+     * @param {Function} callback
+     */
+    subscribeError(callback) {
+        this.__errorCallback = callback;
+    }
+
+    /***
+     * Add error message callback
+     * @param {Function} callback
+     */
+    subscribeErrorMessage(callback) {
+        this.__errorMessageCallback = callback;
+    }
+
+    /***
+     * Add error send callback
+     * @param {Function} callback
+     */
+    subscribeErrorSend(callback) {
+        this.__errorSendCallback = callback;
+    }
+
+    /***
+     * Add close callback
+     * @param {Function} callback
+     */
+    subscribeClose(callback) {
+        this.__closeCallback = callback;
+    }
+
+    /***
+     * Send data to server
+     * @param {string} type - message type
+     * @param {Object} data - message data
+     */
     send(type, data) {
         try {
             this.__ws.send(JSON.stringify({
@@ -44,43 +108,51 @@ export class WebSocketService {
                 data: data
             }));
         } catch (err) {
-            console.log(err.message);
+            this.__errorSendCallback(type, data, err);
         }
     }
 
-    subscribeMessage(type, callback) {
-        this.__subcribedMessagesList.set(type, callback);
-    }
-
-    subscribeError(callback) {
-        this.__errorCallback = callback;
-    }
-
-    subscribeClose(callback) {
-        this.__closeCallback = callback;
-    }
-
+    /***
+     * On message webSocket callback
+     * @param {Event} ev
+     * @private
+     */
     __onMessage(ev) {
-        // console.log('message', ev);
-
-        const response = JSON.parse(ev.data);
-        this.__subcribedMessagesList.get(response.type)(response.data);
+        try {
+            const response = JSON.parse(ev.data);
+            this.__subcribedMessagesList.get(response.type)(response.status, response.data);
+        } catch (err) {
+            this.__errorMessageCallback(ev, err);
+        }
     }
 
+    /***
+     * On error webSocket callback
+     * @param {Event} ev
+     * @private
+     */
     __onError(ev) {
         if (!this.__isOpen) {
             return;
         }
 
-        // console.log('error', ev);
-        this.__errorCallback();
+        this.__errorCallback(ev);
     }
 
+    /***
+     * On close webSocket callback
+     * @param {Event} ev
+     * @private
+     */
     __onClose(ev) {
-        // console.log('close', ev);
-        this.__closeCallback();
+        this.__closeCallback(ev);
     }
 
+    /***
+     * Create webSocket listeners
+     * @returns {{message: {listener: *, type: string}, error: {listener: *, type: string}, close: {listener: *, type: string}}}
+     * @private
+     */
     __createListeners() {
         return {
             message: {
@@ -98,12 +170,20 @@ export class WebSocketService {
         };
     }
 
+    /***
+     * Add webSocket listeners
+     * @private
+     */
     __addListeners() {
         this.__ws.addEventListener(this.__listeners.message.type, this.__listeners.message.listener);
         this.__ws.addEventListener(this.__listeners.error.type, this.__listeners.error.listener);
         this.__ws.addEventListener(this.__listeners.close.type, this.__listeners.close.listener);
     }
 
+    /***
+     * Remove webSocket listeners
+     * @private
+     */
     __removeListeners() {
         this.__ws.removeEventListener(this.__listeners.message.type, this.__listeners.message.listener);
         this.__ws.removeEventListener(this.__listeners.error.type, this.__listeners.error.listener);

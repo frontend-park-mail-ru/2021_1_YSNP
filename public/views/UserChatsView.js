@@ -28,21 +28,33 @@ export class UserChatsView extends BaseView {
     }
 
     /***
-     * Add new message
+     * Add chat message new message
      * @param {Object} data - new message
      */
     addNewMessage(data) {
         this.__chats.addNewMessage(data);
     }
 
+    /***
+     * Add chat message new message list
+     * @param {Object} data - new message list
+     */
     addNewMessageList(data) {
         this.__chats.addNewMessageList(data);
     }
 
+    /***
+     * Get chat message input
+     * @returns {HTMLElement}
+     */
     getChatMessageInput() {
         return this.__chats.getChatMessageInput();
     }
 
+    /***
+     * Rerender chat message component
+     * @param {Object} context - new chat message
+     */
     rerenderChatMessage(context) {
         this.__chats.rerenderChatMessage(context);
     }
@@ -55,12 +67,30 @@ export class UserChatsView extends BaseView {
         this.__chats.addNewChat(data);
     }
 
+    /***
+     * Update chat list last date
+     * @param {number} chatID
+     * @param {Object} data - last date and last message
+     */
     updateChatLastDate(chatID, data) {
         this.__chats.updateChatListLastDate(chatID, data);
     }
 
+    /***
+     * Update chat list unread messages
+     * @param {number} chatID - id chat
+     * @param {Object} data - count unread messages
+     */
     updateChatUnreadMessages(chatID, data) {
         this.__chats.updateChatListUnreadMessages(chatID, data);
+    }
+
+    /***
+     * Delete chat list unread messages
+     * @param {number} chatID - id chat
+     */
+    deleteChatUnreadMessages(chatID) {
+        this.__chats.deleteChatListUnreadMessages(chatID);
     }
 
     /***

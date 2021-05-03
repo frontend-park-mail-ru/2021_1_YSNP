@@ -80,10 +80,18 @@ export class Chats {
         this.__chatMessage.addNewMessage(data);
     }
 
+    /***
+     * Add chat message new message list
+     * @param {Object} data - new message list
+     */
     addNewMessageList(data) {
         this.__chatMessage.addNewMessageList(data);
     }
 
+    /***
+     * Rerender chat message
+     * @param {Object} context - chat message context
+     */
     rerenderChatMessage(context) {
         this.__getChatsMessage().remove();
         this.renderChatsMessage(context);
@@ -97,12 +105,30 @@ export class Chats {
         this.__chatList.addNewChat(data);
     }
 
+    /***
+     * Update chat list last date
+     * @param {number} chatID - id chat
+     * @param {Object} data - last message and last date
+     */
     updateChatListLastDate(chatID, data) {
         this.__chatList.updateLastData(chatID, data);
     }
 
+    /***
+     * Update chat list unread messages
+     * @param {number} chatID - id chat
+     * @param {Object} data - count unread messages
+     */
     updateChatListUnreadMessages(chatID, data) {
         this.__chatList.updateUnreadMessages(chatID, data);
+    }
+
+    /***
+     * Delete chat list unread messages
+     * @param {number} chatID - id chat
+     */
+    deleteChatListUnreadMessages(chatID) {
+        this.__chatList.deleteUnreadMessages(chatID);
     }
 
     /***
@@ -121,10 +147,17 @@ export class Chats {
         this.__chatList.unselectChat(chatID);
     }
 
+    /***
+     * Get chat message input
+     * @returns {HTMLElement}
+     */
     getChatMessageInput() {
         return this.__chatMessage.getInput();
     }
 
+    /***
+     * Render empty chat component
+     */
     renderEmptyChat() {
         const emptyChat = new EmptyChat(this.__getChatsContent());
         emptyChat.render();
