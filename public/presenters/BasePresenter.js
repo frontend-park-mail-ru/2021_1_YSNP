@@ -9,7 +9,7 @@ import {YandexMap} from '../modules/layout/yandexMap.js';
 
 import {OfflineError} from '../modules/http/httpError.js';
 import {mobile} from '../modules/mobile';
-import {ChatModel} from '../models/ChatModel';
+import {chat} from '../models/ChatModel';
 
 /***
  * Base presenter
@@ -28,7 +28,7 @@ export class BasePresenter {
         mobile.start(this.__resizeCallback.bind(this));
 
         this.__authModel = new AuthUserModel();
-        this.__chatModel = new ChatModel();
+        this.__chatModel = chat;
     }
 
     /***

@@ -120,7 +120,12 @@ export class UserChatsView extends BaseView {
         const parent = layout.parent;
 
         this.__chats = new Chats(parent);
-        this.__chats.render(this.__context.chats);
+        if (!isNaN(this.__context.chats.chatID)) {
+            this.__chats.render(this.__context.chats, false, true);
+            return;
+        }
+
+        this.__chats.render(this.__context.chats, true, false);
     }
 
     /***

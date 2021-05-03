@@ -3,8 +3,10 @@ import {checkIsAuth} from '../modules/checkAuth';
 
 import {router} from '../modules/router';
 import {frontUrls} from '../modules/urls/frontUrls';
+
 import {eventChatListHandler} from '../modules/handlers/eventHandler';
 import {NotFoundError} from '../modules/http/httpError';
+import {mobile} from '../modules/mobile';
 
 /***
  * User chats presenter
@@ -48,17 +50,19 @@ export class UserChatsPresenter extends BasePresenter {
         if (!this.isRenderView()) {
             return;
         }
-
         checkIsAuth();
 
         await this.__updateChatMessage();
         if (this.__notFoundChat) {
-            this.__notFoundChat = undefined;
-            this.__chatID = undefined;
-            router.replaceState(frontUrls.userChats);
+            router.redirect(frontUrls.userChats);
+            return;
         }
 
         this.__view.render(this.__makeContext());
+
+        if (!isNaN(this.__chatID) && !mobile.isMobile()) {
+            this.__view.deleteChatUnreadMessages(this.__chatID);
+        }
     }
 
     /***
@@ -67,7 +71,7 @@ export class UserChatsPresenter extends BasePresenter {
     removePageListeners() {
         super.removePageListeners();
 
-        this.__chatModel.close();
+        // this.__chatModel.close();
     }
 
     /***
@@ -155,7 +159,7 @@ export class UserChatsPresenter extends BasePresenter {
      * @private
      */
     __chatMessageErrorCallback(err) {
-        console.log('presenter err', err);
+        console.log('chat error', err);
     }
 
     /***
@@ -282,12 +286,7 @@ export class UserChatsPresenter extends BasePresenter {
         }
 
         this.__chatID = numberId;
-        router.replaceState(frontUrls.userChat(this.__chatID));
-
-        await this.__updateChatMessage();
-        this.__view.rerenderChatMessage(this.__makeContext().chats.message);
-        this.__view.selectChat(this.__chatID);
-        this.__view.deleteChatUnreadMessages(this.__chatID);
+        router.redirect(frontUrls.userChat(this.__chatID));
     }
 
     /***
@@ -315,6 +314,7 @@ export class UserChatsPresenter extends BasePresenter {
     __makeContext() {
         return {
             chats: {
+                chatID: this.__chatID,
                 list: {
                     selectNumber: this.__chatID,
                     data: this.__chatModel.getChatListData(),

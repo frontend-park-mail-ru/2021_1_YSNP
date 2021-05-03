@@ -118,12 +118,17 @@ export class WebSocketService {
      * @private
      */
     __onMessage(ev) {
+        let type = undefined, status = undefined, data = undefined;
         try {
             const response = JSON.parse(ev.data);
-            this.__subcribedMessagesList.get(response.type)(response.status, response.data);
+            type = response.type;
+            status = response.status;
+            data = response.data;
         } catch (err) {
             this.__errorMessageCallback(ev, err);
         }
+
+        this.__subcribedMessagesList.get(type)(status, data);
     }
 
     /***

@@ -184,8 +184,10 @@ export class Chats {
     /***
      * Add component to parent
      * @param {Object} context - component context
+     * @param {boolean} renderChatList - render chat list component
+     * @param {boolean} renderChatMessage - render chat message component
      */
-    render(context) {
+    render(context, renderChatList = true, renderChatMessage = true) {
         try {
             this.__context = context;
 
@@ -196,11 +198,13 @@ export class Chats {
                 return;
             }
 
-            this.renderChatsList(this.__context.list);
-            if (!mobile.isMobile()) {
-                this.renderChatsMessage(this.__context.message);
+            if (renderChatList) {
+                this.renderChatsList(this.__context.list);
             }
 
+            if (renderChatMessage) {
+                this.renderChatsMessage(this.__context.message);
+            }
         } catch (err) {
             console.log(err.message);
         }

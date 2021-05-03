@@ -5,11 +5,19 @@ import {WebSocketConnectError} from '../modules/http/webSocketServiceError';
 
 import {backUrls} from '../modules/urls/backUrls';
 import {http} from '../modules/http/http';
+import {
+    BadRequestError,
+    ForbiddenError, InternalServerError,
+    NotFoundError,
+    OfflineError,
+    UnauthorizedError
+} from '../modules/http/httpError';
+import {httpStatus} from '../modules/http/httpStatus';
 
 /***
  * Chat model
  */
-export class ChatModel extends BaseModel {
+class ChatModel extends BaseModel {
     /***
      * Class constructor
      */
@@ -179,8 +187,6 @@ export class ChatModel extends BaseModel {
         const oneChat = this.getChatListOneChatData(chatID);
         oneChat.lastMessage = data.text;
         oneChat.lastMessageDate = data.date;
-
-        console.log(this.__chatList);
     }
 
     /***
@@ -191,8 +197,6 @@ export class ChatModel extends BaseModel {
     updateChatListUnreadMessages(chatID) {
         const oneChat = this.getChatListOneChatData(chatID);
         oneChat.newMessages++;
-
-        console.log(this.__chatList);
 
         return oneChat.newMessages;
     }
@@ -433,7 +437,7 @@ export class ChatModel extends BaseModel {
     /***
      * Last message list callback
      * @param {number} status
-     * @param {Object} data
+     * @param {Object[]} data
      * @private
      */
     __callbackLastMessageList(status, data) {
@@ -445,7 +449,7 @@ export class ChatModel extends BaseModel {
     /***
      * Page message list callback
      * @param {number} status
-     * @param {Object} data
+     * @param {Object[]} data
      * @private
      */
     __callbackPageMessageList(status, data) {
@@ -550,3 +554,5 @@ export class ChatModel extends BaseModel {
         this.__wss.subscribeClose(callbacks.close);
     }
 }
+
+export const chat = new ChatModel();

@@ -108,6 +108,10 @@
 
       &__sbm {
         @include red-button(10vh, 4vh);
+
+        @media screen and (max-width: $breakMobile) {
+          @include red-button(12vh, 4vh);
+        }
       }
     }
   }

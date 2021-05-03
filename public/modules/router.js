@@ -123,7 +123,7 @@ class Router {
      * Redirect current page
      */
     redirectCurrent() {
-        this.redirect(this.__getCurrentPath());
+        this.start();
     }
 
     /***
