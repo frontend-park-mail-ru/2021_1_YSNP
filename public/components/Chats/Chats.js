@@ -3,7 +3,6 @@ import './Chats.scss';
 
 import {ChatList} from './ChatList/ChatList';
 import {ChatMessage} from './ChatMessage/ChatMessage';
-import {mobile} from '../../modules/mobile';
 import {EmptyChat} from './EmptyChat/EmptyChat';
 
 /***
@@ -153,6 +152,14 @@ export class Chats {
      */
     getChatMessageInput() {
         return this.__chatMessage.getInput();
+    }
+
+    /***
+     * Get chat message body
+     * @returns {HTMLElement}
+     */
+    getChatMessageBody() {
+        return this.__chatMessage.getChatMessageBody();
     }
 
     /***

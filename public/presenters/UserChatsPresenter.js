@@ -1,12 +1,14 @@
 import {BasePresenter} from './BasePresenter';
+
 import {checkIsAuth} from '../modules/checkAuth';
+import {EndlessScroll} from '../modules/handlers/endlessScroll';
+import {eventChatListHandler} from '../modules/handlers/eventHandler';
+import {NotFoundError} from '../modules/http/httpError';
 
 import {router} from '../modules/router';
 import {frontUrls} from '../modules/urls/frontUrls';
-
-import {eventChatListHandler} from '../modules/handlers/eventHandler';
-import {NotFoundError} from '../modules/http/httpError';
 import {mobile} from '../modules/mobile';
+
 
 /***
  * User chats presenter
@@ -23,6 +25,7 @@ export class UserChatsPresenter extends BasePresenter {
         this.__chatID = parseInt(chatID, 10);
         this.__notFoundChat = false;
 
+        this.__endlessScroll = new EndlessScroll(this.__createListeners().scroll, false);
         this.__chatModel.updateCallbackList(this.__createCallbacks());
     }
 
@@ -60,8 +63,12 @@ export class UserChatsPresenter extends BasePresenter {
 
         this.__view.render(this.__makeContext());
 
-        if (!isNaN(this.__chatID) && !mobile.isMobile()) {
-            this.__view.deleteChatUnreadMessages(this.__chatID);
+        if (!isNaN(this.__chatID)) {
+            this.__endlessScroll.startElement(this.__view.getChatMessageBody());
+
+            if (!mobile.isMobile()) {
+                this.__view.deleteChatUnreadMessages(this.__chatID);
+            }
         }
     }
 
@@ -70,6 +77,10 @@ export class UserChatsPresenter extends BasePresenter {
      */
     removePageListeners() {
         super.removePageListeners();
+
+        if (!isNaN(this.__chatID)) {
+            this.__endlessScroll.remove();
+        }
 
         // this.__chatModel.close();
     }
@@ -104,8 +115,6 @@ export class UserChatsPresenter extends BasePresenter {
      * @private
      */
     __chatMessageNewMessage(data) {
-        console.log('presenter new message', data);
-
         this.__chatModel.addNewMessage(data);
         this.__view.addNewMessage(data);
     }
@@ -117,8 +126,6 @@ export class UserChatsPresenter extends BasePresenter {
      * @private
      */
     __chatListUpdateLastDate(chatID, data) {
-        console.log('presenter last date', chatID, data);
-
         this.__chatModel.updateChatListLastDate(chatID, data);
         this.__view.updateChatLastDate(chatID, data);
     }
@@ -129,8 +136,6 @@ export class UserChatsPresenter extends BasePresenter {
      * @private
      */
     __chatListUpdateUnreadMessages(chatID) {
-        console.log('presenter unread messages', chatID);
-
         const count = this.__chatModel.updateChatListUnreadMessages(chatID);
         this.__view.updateChatUnreadMessages(chatID, {count: count});
     }
@@ -159,7 +164,7 @@ export class UserChatsPresenter extends BasePresenter {
      * @private
      */
     __chatMessageErrorCallback(err) {
-        console.log('chat error', err);
+        console.log('chat message error', err);
     }
 
     /***
@@ -169,8 +174,6 @@ export class UserChatsPresenter extends BasePresenter {
      * @private
      */
     __chatMessageNewMessageCallback(chatID, data) {
-        console.log('presenter add new message', data);
-
         if (chatID === this.__chatModel.getChatMessageData().chatID) {
             this.__chatMessageNewMessage(data);
             this.__chatListUpdateLastDate(chatID, data);
@@ -192,9 +195,27 @@ export class UserChatsPresenter extends BasePresenter {
      * @private
      */
     __chatMessageNewMessageListCallback(data) {
-        console.log('presenter add new message list', data);
+        this.__view.addNewMessageList({
+            isScrollDown: true,
+            messages: data
+        });
+    }
 
-        this.__view.addNewMessageList(data);
+    /***
+     * New message list page callback
+     * @param {Object} data - new message list
+     * @private
+     */
+    __chatMessageNewMessageListPageCallback(data) {
+        if (data.length === 0) {
+            this.__endlessScroll.remove();
+            return;
+        }
+
+        this.__view.addNewMessageList({
+            isScrollDown: false,
+            messages: data
+        });
     }
 
     /***
@@ -206,8 +227,17 @@ export class UserChatsPresenter extends BasePresenter {
         return {
             chatMessageError: this.__chatMessageErrorCallback.bind(this),
             chatMessageNewMessage: this.__chatMessageNewMessageCallback.bind(this),
-            chatMessageNewMessageList: this.__chatMessageNewMessageListCallback.bind(this)
+            chatMessageNewMessageList: this.__chatMessageNewMessageListCallback.bind(this),
+            chatMessageNewMessageListPage: this.__chatMessageNewMessageListPageCallback.bind(this)
         };
+    }
+
+    /***
+     * Listener on scroll end
+     * @private
+     */
+    __scrollEnd() {
+        this.__chatModel.getMessagesBefore(this.__chatModel.getLastMessage().messageID);
     }
 
     /***
@@ -245,7 +275,7 @@ export class UserChatsPresenter extends BasePresenter {
 
     /***
      * Create listeners
-     * @returns {{list: {listClick: {listener: *, type: string}}, message: {submitForm: {listener: *, type: string}, messageClick: {listener: *, type: string}}}}
+     * @returns {{scroll: {scrollEnd: *}, list: {listClick: {listener: *, type: string}}, message: {submitForm: {listener: *, type: string}, messageClick: {listener: *, type: string}}}}
      * @private
      */
     __createListeners() {
@@ -265,6 +295,9 @@ export class UserChatsPresenter extends BasePresenter {
                     type: 'submit',
                     listener: this.__listenerChatMessageSubmit.bind(this)
                 }
+            },
+            scroll: {
+                scrollEnd: this.__scrollEnd.bind(this)
             }
         };
     }
@@ -285,8 +318,7 @@ export class UserChatsPresenter extends BasePresenter {
             this.__view.unselectChat(this.__chatID);
         }
 
-        this.__chatID = numberId;
-        router.redirect(frontUrls.userChat(this.__chatID));
+        router.redirect(frontUrls.userChat(numberId));
     }
 
     /***

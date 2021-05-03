@@ -52,6 +52,14 @@ export class UserChatsView extends BaseView {
     }
 
     /***
+     * Get chat message body
+     * @returns {HTMLElement}
+     */
+    getChatMessageBody() {
+        return this.__chats.getChatMessageBody();
+    }
+
+    /***
      * Rerender chat message component
      * @param {Object} context - new chat message
      */

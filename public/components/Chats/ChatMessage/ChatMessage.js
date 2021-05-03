@@ -29,9 +29,8 @@ export class ChatMessage {
     /***
      * Get chat message body
      * @returns {HTMLElement}
-     * @private
      */
-    __getChatMessageBody() {
+    getChatMessageBody() {
         return document.getElementById('chat-message-body');
     }
 
@@ -58,7 +57,7 @@ export class ChatMessage {
      * @private
      */
     __scrollEnd() {
-        this.__getChatMessageBody().scrollTo(0, this.__getChatMessageContent().scrollHeight);
+        this.getChatMessageBody().scrollTo(0, this.__getChatMessageContent().scrollHeight);
     }
 
     /***
@@ -95,10 +94,13 @@ export class ChatMessage {
     addNewMessageList(data) {
         const list = this.__getChatMessageContent();
 
-        data.forEach((el) => {
+        data.messages.forEach((el) => {
             this.__addMessage(list, el);
         });
-        this.__scrollEnd();
+
+        if (data.isScrollDown) {
+            this.__scrollEnd();
+        }
     }
 
     /***

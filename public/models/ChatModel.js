@@ -5,6 +5,7 @@ import {WebSocketConnectError} from '../modules/http/webSocketServiceError';
 
 import {backUrls} from '../modules/urls/backUrls';
 import {http} from '../modules/http/http';
+import {httpStatus} from '../modules/http/httpStatus';
 import {
     BadRequestError,
     ForbiddenError, InternalServerError,
@@ -12,7 +13,9 @@ import {
     OfflineError,
     UnauthorizedError
 } from '../modules/http/httpError';
-import {httpStatus} from '../modules/http/httpStatus';
+import {CustomError} from '../modules/customError';
+
+/* eslint-disable camelcase */
 
 /***
  * Chat model
@@ -128,11 +131,10 @@ class ChatModel extends BaseModel {
         return {
             chatID: data.id,
             userName: `${data.partner_surname} ${data.partner_name}`,
-            // userImg: data.partner_avatar,
-            userImg: '/img/search-background.webp',
+            userImg: data.partner_avatar,
+            productID: data.product_id,
             productName: data.product_name,
-            // productImg: data.product_avatar_link,
-            productImg: '/img/search-background.webp',
+            productImg: data.product_avatar_link,
             productAmount: data.product_amount,
             lastMessageDate: this.__getDate(data.last_msg_time),
             lastMessage: data.last_msg_content,
@@ -258,10 +260,9 @@ class ChatModel extends BaseModel {
         return {
             chatID: data.id,
             userName: `${data.partner_surname} ${data.partner_name}`,
-            productID: 826,
+            productID: data.product_id,
             productName: data.product_name,
-            // productImg: data.product_avatar_link,
-            productImg: '/img/search-background.webp',
+            productImg: data.product_avatar_link,
             productAmount: this.__getAmount(data.product_amount),
             partnerID: data.partner_id
         };
@@ -286,6 +287,15 @@ class ChatModel extends BaseModel {
      */
     getChatMessageData() {
         return this.__chatMessage;
+    }
+
+    /***
+     * Get first message
+     * @returns {Object}
+     */
+    getLastMessage() {
+        const messages = this.__chatMessage.messages;
+        return messages[messages.length - 1];
     }
 
     /***
@@ -384,6 +394,7 @@ class ChatModel extends BaseModel {
      */
     parseOneMessage(data, isDown = false) {
         return {
+            messageID: data.id,
             isUser: data.user_id === this.__userID,
             isDown: isDown,
             text: data.content,
@@ -421,7 +432,19 @@ class ChatModel extends BaseModel {
      */
     parseNewMessageList(data) {
         const messageList = this.parseMessageList(data);
-        this.__chatMessage.messages.push(messageList);
+        this.__chatMessage.messages = messageList;
+
+        return messageList;
+    }
+
+    /***
+     * Parse new message list page
+     * @param {Object[]} data
+     * @returns {Object[]}
+     */
+    parseNewMessageListPage(data) {
+        const messageList = this.parseMessageList(data);
+        this.__chatMessage.messages = this.__chatMessage.messages.concat(messageList);
 
         return messageList;
     }
@@ -431,7 +454,7 @@ class ChatModel extends BaseModel {
      * @param {Object} data - new message
      */
     addNewMessage(data) {
-        this.__chatMessage.messages.push(data);
+        this.__chatMessage.messages.unshift(data);
     }
 
     /***
@@ -441,7 +464,11 @@ class ChatModel extends BaseModel {
      * @private
      */
     __callbackLastMessageList(status, data) {
-        console.log('new message list', status, data);
+        const err = this.getError(status);
+        if (err instanceof CustomError) {
+            this.__callbackList.chatMessageError(err);
+            return;
+        }
 
         this.__callbackList.chatMessageNewMessageList(this.parseNewMessageList(data));
     }
@@ -453,9 +480,13 @@ class ChatModel extends BaseModel {
      * @private
      */
     __callbackPageMessageList(status, data) {
-        console.log('new page list message', status, data);
+        const err = this.getError(status);
+        if (err instanceof CustomError) {
+            this.__callbackList.chatMessageError(err);
+            return;
+        }
 
-        this.__callbackList.chatMessageNewMessageList(this.parseNewMessageList(data));
+        this.__callbackList.chatMessageNewMessageListPage(this.parseNewMessageListPage(data));
     }
 
     /***
@@ -465,7 +496,11 @@ class ChatModel extends BaseModel {
      * @private
      */
     __callbackNewMessage(status, data) {
-        console.log('new message', status, data);
+        const err = this.getError(status);
+        if (err instanceof CustomError) {
+            this.__callbackList.chatMessageError(err);
+            return;
+        }
 
         this.__callbackList.chatMessageNewMessage(data.chat_id, this.parseNewMessage(data));
     }
@@ -486,7 +521,7 @@ class ChatModel extends BaseModel {
      * @private
      */
     __callbackErrorMessage(ev, err) {
-        console.log('error message', ev, err);
+        this.__callbackList.chatMessageError(err);
     }
 
     /***
@@ -497,7 +532,7 @@ class ChatModel extends BaseModel {
      * @private
      */
     ___callbackErrorSend(type, data, err) {
-        console.log('error send', type, data, err);
+        this.__callbackList.chatMessageError(err);
     }
 
     /***
@@ -552,6 +587,39 @@ class ChatModel extends BaseModel {
         this.__wss.subscribeErrorMessage(callbacks.errorMessage);
         this.__wss.subscribeErrorSend(callbacks.errorSend);
         this.__wss.subscribeClose(callbacks.close);
+    }
+
+    /***
+     * Get error from status
+     * @param {number} status - status code
+     * @returns {undefined|InternalServerError|BadRequestError|UnauthorizedError|ForbiddenError|OfflineError|NotFoundError}
+     */
+    getError(status) {
+        if (status === httpStatus.StatusBadRequest) {
+            return new BadRequestError();
+        }
+
+        if (status === httpStatus.StatusUnauthorized) {
+            return new UnauthorizedError();
+        }
+
+        if (status === httpStatus.StatusForbidden) {
+            return new ForbiddenError();
+        }
+
+        if (status === httpStatus.StatusNotFound) {
+            return new NotFoundError();
+        }
+
+        if (status === httpStatus.StatusOffline) {
+            return new OfflineError();
+        }
+
+        if (status === httpStatus.StatusInternalServerError) {
+            return new InternalServerError();
+        }
+
+        return undefined;
     }
 }
 

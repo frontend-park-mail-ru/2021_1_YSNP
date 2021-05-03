@@ -7,7 +7,6 @@ import {eventHandlerWithDataType} from '../modules/handlers/eventHandler.js';
 import {NotFoundError} from '../modules/http/httpError';
 
 import {router} from '../modules/router.js';
-import {ChatModel} from '../models/ChatModel';
 import {frontUrls} from '../modules/urls/frontUrls';
 
 /***
@@ -30,7 +29,6 @@ export class ProductPresenter extends BasePresenter {
 
         this.__model = new ProductModel({id: this.__id});
         this.__user = new UserModel();
-        this.__chatModel = new ChatModel();
     }
 
     /***
