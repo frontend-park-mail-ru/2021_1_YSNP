@@ -22,6 +22,26 @@ export class OneChat {
         return document.getElementById(`one-chat-${this.__context.chatID}`);
     }
 
+    __getOneChatDate() {
+        return document.getElementById(`one-chat-${this.__context.chatID}-date`);
+    }
+
+    __getOneChatMessage() {
+        return document.getElementById(`one-chat-${this.__context.chatID}-message`);
+    }
+
+    updateChatDate(date) {
+        this.__getOneChatDate().innerText = date;
+    }
+
+    updateChatMessage(message) {
+        this.__getOneChatMessage().innerText = message;
+    }
+
+    updateUnreadMessages(count) {
+        console.log('unread messages = ', count);
+    }
+
     /***
      * Select chat
      */

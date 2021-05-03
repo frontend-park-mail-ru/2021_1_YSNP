@@ -3,6 +3,7 @@ import './ChatMessage.scss';
 
 import {OneUserMessage} from './OneUserMessage/OneUserMessage';
 import {OneOwnerMessage} from './OneOwnerMessage/OneOwnerMessage';
+import {EmptyChatMessage} from './EmptyChatMessage/EmptyChatMessage';
 
 /***
  * Chat message component
@@ -124,6 +125,16 @@ export class ChatMessage {
         this.__getChatMessageForm().removeEventListener(this.__context.listeners.submitForm.type, this.__context.listeners.submitForm.listener);
     }
 
+    __renderEmptyChatMessage() {
+        const emptyChatMessage = new EmptyChatMessage(this.__parent);
+        emptyChatMessage.render();
+    }
+
+    __renderChatMessage(context) {
+        this.__parent.insertAdjacentHTML('beforeend', chatMessageTemplate(context));
+        this.__addListeners();
+    }
+
     /***
      * Add component to parent
      * @param {Object} context - component context
@@ -132,8 +143,12 @@ export class ChatMessage {
         try {
             this.__context = context;
 
-            this.__parent.insertAdjacentHTML('beforeend', chatMessageTemplate(this.__context.data));
-            this.__addListeners();
+            if (Object.keys(this.__context.data).length === 0) {
+                this.__renderEmptyChatMessage();
+                return;
+            }
+
+            this.__renderChatMessage(this.__context.data);
         } catch (err) {
             console.log(err.message);
         }

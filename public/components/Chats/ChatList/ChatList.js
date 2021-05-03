@@ -47,12 +47,34 @@ export class ChatList {
     }
 
     /***
+     * Add chats to list
+     * @param {Object} data - chats
+     * @private
+     */
+    __addChatList(data) {
+        const list = this.__getChatListContent();
+
+        data.forEach((el) => {
+            this.__addChat(list, el);
+        });
+    }
+
+    /***
      * Add new chat
      * @param {Object} data - new chat
      */
     addNewChat(data) {
         const list = this.__getChatListContent();
         this.__addChat(list, data);
+    }
+
+    updateLastData(chatID, data) {
+        this.__chatList.get(chatID).updateChatDate(data.date);
+        this.__chatList.get(chatID).updateChatMessage(data.text);
+    }
+
+    updateUnreadMessages(chatID, data) {
+        this.__chatList.get(chatID).updateUnreadMessages(data.count);
     }
 
     /***
@@ -69,19 +91,6 @@ export class ChatList {
      */
     unselectChat(chatID) {
         this.__chatList.get(chatID).unselectChat();
-    }
-
-    /***
-     * Add chats to list
-     * @param {Object} data - chats
-     * @private
-     */
-    __addChatList(data) {
-        const list = this.__getChatListContent();
-
-        data.forEach((el) => {
-            this.__addChat(list, el);
-        });
     }
 
     /***

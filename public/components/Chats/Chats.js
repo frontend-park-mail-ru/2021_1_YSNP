@@ -4,6 +4,7 @@ import './Chats.scss';
 import {ChatList} from './ChatList/ChatList';
 import {ChatMessage} from './ChatMessage/ChatMessage';
 import {mobile} from '../../modules/mobile';
+import {EmptyChat} from './EmptyChat/EmptyChat';
 
 /***
  * Chats component
@@ -96,6 +97,13 @@ export class Chats {
         this.__chatList.addNewChat(data);
     }
 
+    updateChatListLastDate(chatID, data) {
+        this.__chatList.updateLastData(chatID, data);
+    }
+
+    updateChatListUnreadMessages(chatID, data) {
+        this.__chatList.updateUnreadMessages(chatID, data);
+    }
 
     /***
      * Select chat
@@ -115,6 +123,11 @@ export class Chats {
 
     getChatMessageInput() {
         return this.__chatMessage.getInput();
+    }
+
+    renderEmptyChat() {
+        const emptyChat = new EmptyChat(this.__getChatsContent());
+        emptyChat.render();
     }
 
     /***
@@ -144,6 +157,11 @@ export class Chats {
             this.__context = context;
 
             this.__parent.insertAdjacentHTML('beforeend', chatsTemplate());
+
+            if (Object.keys(this.__context.list.data).length === 0) {
+                this.renderEmptyChat();
+                return;
+            }
 
             this.renderChatsList(this.__context.list);
             if (!mobile.isMobile()) {
