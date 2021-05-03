@@ -55,6 +55,14 @@ export class UserChatsView extends BaseView {
         this.__chats.addNewChat(data);
     }
 
+    updateChatLastDate(chatID, data) {
+        this.__chats.updateChatListLastDate(chatID, data);
+    }
+
+    updateChatUnreadMessages(chatID, data) {
+        this.__chats.updateChatListUnreadMessages(chatID, data);
+    }
+
     /***
      * Select chat
      * @param {number} chatID

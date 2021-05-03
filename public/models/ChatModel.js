@@ -7,8 +7,10 @@ import {backUrls} from '../modules/urls/backUrls';
 import {http} from '../modules/http/http';
 
 export class ChatModel extends BaseModel {
-    constructor(callbackList) {
+    constructor(userID, callbackList) {
         super();
+
+        this.__userID = userID;
 
         this.__chatList = [];
         this.__chatMessage = {};
@@ -61,7 +63,7 @@ export class ChatModel extends BaseModel {
     parseOneChat(data) {
         return {
             chatID: data.id,
-            userName: data.partner_name + data.partner_surname,
+            userName: `${data.partner_surname} ${data.partner_name}`,
             userImg: data.partner_avatar,
             productImg: data.product_avatar_link,
             productName: data.product_name,
@@ -80,12 +82,42 @@ export class ChatModel extends BaseModel {
         }, []);
     }
 
+    parseOneChatData(data) {
+        const oneChat = this.parseOneChat(data);
+        this.__chatList.push(oneChat);
+
+        return oneChat;
+    }
+
     parseChatListData(data) {
         this.__chatList = this.parseChatList(data);
+
+        return this.__chatList;
+    }
+
+    updateChatListLastDate(chatID, data) {
+        const oneChat = this.getChatListOneChatData(chatID);
+        oneChat.lastMessage = data.text;
+        oneChat.lastMessageDate = data.date;
+
+        console.log(this.__chatList);
+    }
+
+    updateChatListUnreadMessages(chatID) {
+        const oneChat = this.getChatListOneChatData(chatID);
+        oneChat.newMessages++;
+
+        console.log(this.__chatList);
+
+        return oneChat.newMessages;
     }
 
     getChatListData() {
         return this.__chatList;
+    }
+
+    getChatListOneChatData(chatID) {
+        return this.__chatList.find((el) => el.chatID === chatID);
     }
 
     async chatList() {
@@ -99,29 +131,41 @@ export class ChatModel extends BaseModel {
             });
     }
 
+    async chatListNewChat(chatID) {
+        return http.get(backUrls.chat(chatID))
+            .then(({status, data}) => {
+                this.checkError(status, {
+                    message: data.message
+                });
+
+                return this.parseOneChatData(data);
+            });
+    }
+
     parseChatMessage(data) {
         return {
             chatID: data.id,
-            userName: data.partner_name + data.partner_surname,
+            userName: `${data.partner_surname} ${data.partner_name}`,
             userImg: data.partner_avatar,
             productName: data.product_name,
             productImg: data.product_avatar_link,
-            productAmount: this.__getAmount(data.product_amount)
+            productAmount: this.__getAmount(data.product_amount),
+            partnerID: data.partner_id
         };
     }
 
     parseChatMessageData(data) {
         this.__chatMessage = this.parseChatMessage(data);
         Object.assign(this.__chatMessage, {messages: []});
+
+        return this.__chatMessage;
     }
 
     getChatMessageData() {
         return this.__chatMessage;
     }
 
-    async chatMessage(chatID, userID) {
-        this.__userID = userID;
-
+    async chatMessage(chatID) {
         return http.get(backUrls.chat(chatID))
             .then(({status, data}) => {
                 this.checkError(status, {
@@ -148,28 +192,39 @@ export class ChatModel extends BaseModel {
     }
 
     close() {
-        this.__wss.close();
+        if (this.__wss.isOpen()) {
+            this.__wss.close();
+        }
     }
 
     createMessage(content) {
         this.__wss.send('CreateMessageReq', {
-            chat_id: this.__chatMessage.chatID,
-            content: content
+            request_data: {
+                chat_id: this.__chatMessage.chatID,
+                content: content
+            },
+            type_data: {
+                partner_id: this.__chatMessage.partnerID
+            }
         });
     }
 
     getLastMessages(count = 30) {
         this.__wss.send('GetLastNMessagesReq', {
-            chat_id: this.__chatMessage.chatID,
-            count: count
+            request_data: {
+                chat_id: this.__chatMessage.chatID,
+                count: count
+            }
         });
     }
 
     getMessagesBefore(lastMessageId, count = 30) {
         this.__wss.send('GetNMessagesBeforeReq', {
-            chat_id: this.__chatMessage.chatID,
-            count: count,
-            message_id: lastMessageId
+            request_data: {
+                chat_id: this.__chatMessage.chatID,
+                count: count,
+                message_id: lastMessageId
+            }
         });
     }
 
@@ -178,7 +233,8 @@ export class ChatModel extends BaseModel {
             isUser: data.user_id === this.__userID,
             isDown: isDown,
             text: data.content,
-            date: this.__getTime(data.time)
+            time: this.__getTime(data.time),
+            date: this.__getDate(data.time)
         };
     }
 
@@ -206,17 +262,18 @@ export class ChatModel extends BaseModel {
 
     __callbackLastMessageList(data) {
         // console.log('new message list', data);
-        this.__callbackList.newMessageList(this.parseNewMessageList(data));
+        this.__callbackList.chatMessageNewMessageList(this.parseNewMessageList(data));
     }
 
     __callbackPageMessageList(data) {
         // console.log('new message page', data);
-        this.__callbackList.newMessageList(this.parseNewMessageList(data));
+        this.__callbackList.chatMessageNewMessageList(this.parseNewMessageList(data));
     }
 
     __callbackNewMessage(data) {
         // console.log('new message', data);
-        this.__callbackList.newMessage(this.parseNewMessage(data));
+
+        this.__callbackList.chatMessageNewMessageList(data.chat_id, this.parseNewMessage(data));
     }
 
     __callbackError() {

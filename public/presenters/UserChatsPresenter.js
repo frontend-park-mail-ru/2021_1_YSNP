@@ -5,6 +5,7 @@ import {ChatModel} from '../models/ChatModel';
 import {router} from '../modules/router';
 import {frontUrls} from '../modules/urls/frontUrls';
 import {eventChatListHandler} from '../modules/handlers/eventHandler';
+import {NotFoundError} from '../modules/http/httpError';
 
 /***
  * User chats presenter
@@ -19,8 +20,9 @@ export class UserChatsPresenter extends BasePresenter {
         super(view);
         this.__view = view;
         this.__chatID = parseInt(chatID, 10);
+        this.__notFoundChat = false;
 
-        this.__chatModel = new ChatModel(this.__createCallbacks());
+        this.__chatModel = new ChatModel(this.__userModel.getData().id, this.__createCallbacks());
     }
 
     /***
@@ -50,6 +52,12 @@ export class UserChatsPresenter extends BasePresenter {
         checkIsAuth();
 
         await this.__checkChatView();
+
+        if (this.__notFoundChat) {
+            this.__chatID = undefined;
+            router.replaceState(frontUrls.userChats);
+        }
+
         this.__view.render(this.__makeContext());
     }
 
@@ -58,6 +66,8 @@ export class UserChatsPresenter extends BasePresenter {
      */
     removePageListeners() {
         super.removePageListeners();
+
+        this.__chatModel.close();
     }
 
     async __checkChatView() {
@@ -66,19 +76,73 @@ export class UserChatsPresenter extends BasePresenter {
         }
 
         return this.__chatModel.connect()
-            .then(() => this.__chatModel.chatMessage(this.__chatID, this.__userModel.getData().id))
+            .then(() => this.__chatModel.chatMessage(this.__chatID))
             .catch((err) => {
+                //TODO(Sergey) нормальная обработка ошибок
                 console.log(err.message);
+
+                this.checkOfflineStatus(err);
+                this.checkOffline();
+
+                if (err instanceof NotFoundError) {
+                    this.__notFoundChat = true;
+                }
             });
     }
 
-    __newMessageCallback(data) {
+    __chatMessageNewMessageCallback(chatID, data) {
         console.log('presenter add new message', data);
+
+        if (chatID === this.__chatModel.getChatMessageData().chatID) {
+            this.__chatMessageNewMessage(data);
+            this.__chatListUpdateLastDate(chatID, data);
+            return;
+        }
+
+        if (this.__chatModel.getChatListOneChatData(chatID)) {
+            this.__chatListUpdateUnreadMessages(chatID);
+            return;
+        }
+
+        this.__chatListAddNewChat(chatID);
+    }
+
+    __chatMessageNewMessage(data) {
+        console.log('presenter new message', data);
 
         this.__view.addNewMessage(data);
     }
 
-    __newMessageListCallback(data) {
+    __chatListUpdateLastDate(chatID, data) {
+        console.log('presenter last date', chatID, data);
+
+        this.__chatModel.updateChatListLastDate(chatID, data);
+        this.__view.updateChatLastDate(chatID, data);
+    }
+
+    __chatListUpdateUnreadMessages(chatID) {
+        console.log('presenter unread messages', chatID);
+
+        const count = this.__chatModel.updateChatListUnreadMessages(chatID);
+        this.__view.updateChatUnreadMessages(chatID, {count: count});
+    }
+
+    __chatListAddNewChat(chatID) {
+        console.log('presenter new chat', chatID);
+
+        this.__chatModel.chatListNewChat(chatID)
+            .then((data) => {
+                this.__view.addNewChat(data);
+            }).catch((err) => {
+            //TODO(Sergey) нормальная обработка ошибок
+            console.log(err.message);
+
+            this.checkOfflineStatus(err);
+            this.checkOffline();
+        });
+    }
+
+    __chatMessageNewMessageListCallback(data) {
         console.log('presenter add new message list', data);
 
         this.__view.addNewMessageList(data);
@@ -86,8 +150,8 @@ export class UserChatsPresenter extends BasePresenter {
 
     __createCallbacks() {
         return {
-            newMessage: this.__newMessageCallback.bind(this),
-            newMessageList: this.__newMessageListCallback.bind(this)
+            chatMessageNewMessage: this.__chatMessageNewMessageCallback.bind(this),
+            chatMessageNewMessageList: this.__chatMessageNewMessageListCallback.bind(this)
         };
     }
 
@@ -156,11 +220,16 @@ export class UserChatsPresenter extends BasePresenter {
             return;
         }
 
+        if (!isNaN(this.__chatID)) {
+            this.__view.unselectChat(this.__chatID);
+        }
+
         this.__chatID = numberId;
         router.replaceState(frontUrls.userChat(this.__chatID));
 
         await this.__checkChatView();
         this.__view.rerenderChatMessage(this.__makeContext().chats.message);
+        this.__view.selectChat(this.__chatID);
     }
 
     /***
@@ -182,7 +251,7 @@ export class UserChatsPresenter extends BasePresenter {
 
     /***
      * Make view context
-     * @returns {{profileSettings: {data: {isAuth: boolean, address, linkImage, surname, sex, latitude, name, telephone, dateBirth, radius, email, longitude}}, chats: {list: {data: [{date: string, img: string, name: string, message: string}, {date: string, img: string, name: string, message: string}, {date: string, img: string, name: string, message: string}, {date: string, img: string, name: string, message: string}, {date: string, img: string, name: string, message: string}, null, null]}, message: {data: {img: string, product: string, amount: number, name: string, messages: [{date: string, text: string, user: boolean}, {date: string, text: string, user: boolean}, {date: string, text: string, user: boolean}]}}}}}
+     * @returns {{profileSettings: {data: {isAuth: boolean, address, linkImage, surname, sex, latitude, name, telephone, dateBirth, radius, email, longitude}}, chats: {list: {data: [], listeners: *, selectNumber: number}, message: {data: {}, listeners}}}}
      * @private
      */
     __makeContext() {
