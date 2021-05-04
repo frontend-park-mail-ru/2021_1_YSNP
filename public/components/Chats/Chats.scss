@@ -17,6 +17,10 @@
       @include set-size(40%, 100%);
     }
 
+    @media screen and (max-width: $breakDesktop) {
+      @include set-size(50%, 100%);
+    }
+
     @media screen and (max-width: $breakMobile) {
       @include set-size(100%, 100%);
     }
@@ -27,6 +31,10 @@
 
     @media screen and (max-width: 1400px) {
       @include set-size(60%, 100%);
+    }
+
+    @media screen and (max-width: $breakDesktop) {
+      @include set-size(50%, 100%);
     }
 
     @media screen and (max-width: $breakMobile) {

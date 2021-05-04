@@ -121,6 +121,7 @@ class Router {
      * Redirect current page
      */
     redirectCurrent() {
+        this.__removePageListeners();
         this.start();
     }
 
