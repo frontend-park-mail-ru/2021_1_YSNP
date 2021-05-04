@@ -178,7 +178,7 @@ class BackUrls {
     }
 
     /***
-     *
+     * Get categories
      * @return {string}
      */
     get categories() {
@@ -186,6 +186,22 @@ class BackUrls {
     }
 
     /***
+     * Get trends
+     * @return {string}
+     */
+    get recStat() {
+        return `${this.__url}${this.__api}/stat`;
+    }
+
+    /***
+     * Get trends products
+     * @return {string}
+     */
+    get recProducts() {
+        return `${this.__url}${this.__api}/product/trends`;
+    }
+
+     /***
      *
      * @return {string}
      */

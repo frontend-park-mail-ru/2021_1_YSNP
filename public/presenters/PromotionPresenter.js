@@ -156,7 +156,8 @@ export class PromotionPresenter extends BasePresenter {
         if (s.status === 'nothing') {
             this.__view.removeListeners();
             ev.preventDefault();
-            router.redirect(frontUrls.main);
+            const numberId = router.getState().id;
+            router.redirect(frontUrls.product(numberId), '', {title: 'Koya'});
         } else if (s.status === 'send') {
             this.__view.removeListeners();
         } else {

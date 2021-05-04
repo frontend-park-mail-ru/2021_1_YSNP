@@ -403,4 +403,17 @@ export class ProductModel extends BaseModel {
             });
     }
 
+    /***
+     * Set stat
+     * @param {string} productName - product name
+     * @returns {Promise<{data: *, status: number}>}
+     */
+    async setStat(productName) {
+        return http.post(backUrls.recStat, {text: productName})
+            .then(({status, data}) => {
+                this.checkError(status, {
+                    message: data.message
+                });
+            });
+    }
 }

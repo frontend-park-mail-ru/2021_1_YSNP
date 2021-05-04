@@ -43,6 +43,28 @@ export class ProductListModel extends BaseModel {
     }
 
     /***
+     * Set like
+     * @param {number} id - product id
+     */
+    setLike(id) {
+        const product = this.__getProduct(id);
+        if (product) {
+            product.setLike();
+        }
+    }
+
+    /***
+     * Set dislike
+     * @param {number} id - product id
+     */
+    sedDislike(id) {
+        const product = this.__getProduct(id);
+        if (product) {
+            product.setDislike();
+        }
+    }
+
+    /***
      * Vote product
      * @param {number} id - product id
      * @returns {Promise<{status: string} | void>}
@@ -139,7 +161,8 @@ export class ProductListModel extends BaseModel {
 
                 product.setLike();
                 return {status: 'like'};
-            });
+            })
+            .then((data) => this.setStat(data, product.getData().name));
     }
 
     /***
@@ -158,6 +181,26 @@ export class ProductListModel extends BaseModel {
 
                 product.setDislike();
                 return {status: 'dislike'};
+            })
+            .then((data) => this.setStat(data, product.getData().name));
+    }
+
+    /***
+     * Set stat
+     * @param {Object} voteData - vote data
+     * @param {string} productName - product name
+     * @returns {Promise<{data: *, status: number}>}
+     */
+    async setStat(voteData, productName) {
+        return http.post(backUrls.recStat, {text: productName})
+            .then(({status, data}) => {
+                this.checkError(status, {
+                    message: data.message
+                });
+
+                console.log(data);
+
+                return voteData;
             });
     }
 }

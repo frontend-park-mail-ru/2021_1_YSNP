@@ -186,7 +186,7 @@
       cursor: default;
       border-radius: 100%;
       overflow: hidden;
-      @include set-size(9vw, 9vw);
+      @include set-size(16vh, 16vh);
       border: 1px solid rgba(0, 0, 0, 0.1);
       @media screen and (max-width: $breakDesktop) {
         @include set-size(15vh, 15vh);
@@ -202,7 +202,7 @@
     &__pic {
       display: block;
       @include circle;
-      @include set-size(9vw, 9vw);
+      @include set-size(16vh, 16vh);
       @media screen and (max-width: $breakDesktop) {
         @include set-size(15vh, 15vh);
       }

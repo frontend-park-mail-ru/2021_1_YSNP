@@ -35,6 +35,7 @@ export class ProductPresenter extends BasePresenter {
     async update() {
         return super.update()
             .then(() => this.__model.update())
+            .then(() => this.__model.setStat(this.__model.getData().name))
             .catch((err) => {
                 //TODO(Sergey) нормальная обработка ошибок
                 console.log(err.message);
