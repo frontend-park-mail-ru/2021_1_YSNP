@@ -1,7 +1,8 @@
 import searchBarTemplate from './SearchBar.hbs';
 import './SearchBar.scss';
+
 import {ProductTable} from '../ProductTable/ProductTable';
-import {Switch} from '../Switch/Switch';
+import {EmptySearch} from './EmptySearch/EmptySearch';
 
 /***
  * SearchBar box on profile page
@@ -54,11 +55,8 @@ export class SearchBar {
     deleteProductList() {
         const product = document.getElementById('product-content');
         product.innerText = '';
-        (new Switch(product)).render({
-            data: {
-                text: 'Нет объявлений по такому запросу'
-            }
-        });
+
+        (new EmptySearch(product)).render({text: 'Нет объявлений по такому запросу'});
     }
 
     /***
@@ -124,6 +122,7 @@ export class SearchBar {
 
         this.__productList = new ProductTable(document.getElementById('product-content'));
         this.__productList.render(context.productList);
+
         this.__addListeners();
     }
 }

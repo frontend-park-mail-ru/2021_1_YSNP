@@ -174,6 +174,7 @@ export class Settings {
         gender.removeAttribute('disabled');
         birthday.removeAttribute('readonly');
         mail.removeAttribute('readonly');
+        document.getElementById('settings-avatar').style.cursor = 'pointer';
     }
 
     /***
@@ -213,6 +214,7 @@ export class Settings {
         if (document.getElementById(this.getInputErrorId(mail))) {
             mail.parentNode.removeChild(mail.nextSibling);
         }
+        document.getElementById('settings-avatar').style.cursor = 'default';
     }
 
     /***

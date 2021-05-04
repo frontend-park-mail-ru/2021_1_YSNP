@@ -4,7 +4,7 @@ import './scss/style.scss';
 import './scss/main.scss';
 
 import {router} from './modules/router.js';
-import {frontUrls} from './modules/frontUrls.js';
+import {frontUrls} from './modules/urls/frontUrls.js';
 
 import {UserFavoriteView} from './views/UserFavoriteView.js';
 import {MainView} from './views/MainView.js';
@@ -42,7 +42,6 @@ if ('serviceWorker' in navigator) {
         console.log(`Error while register service worker:${error}`);
     });
 }
-
 
 const app = document.getElementById('app');
 

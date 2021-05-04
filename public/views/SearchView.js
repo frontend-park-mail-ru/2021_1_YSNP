@@ -1,10 +1,10 @@
 import {BaseView} from './BaseView.js';
 import {Layout} from '../components/Layout/Layout';
 import {Navigation} from '../components/Navigation/Navigation';
-import {Switch} from '../components/Switch/Switch';
 import {SearchBar} from '../components/SearchBar/SearchBar.js';
 
 import {router} from '../modules/router';
+import {mobile} from '../modules/mobile';
 
 /***
  *  SearchView
@@ -40,17 +40,6 @@ export class SearchView extends BaseView {
      */
     dislikeProduct(id) {
         this.__searchBar.dislikeProduct(id);
-    }
-
-    /***
-     * @author Ivan Gorshkov
-     *
-     * get HTMLElement of layout
-     * @return {HTMLElement}
-     * @this {SearchView}
-     */
-    getLayoutParent() {
-        return this.layout.parent;
     }
 
     /***
@@ -131,16 +120,20 @@ export class SearchView extends BaseView {
      * @this {SearchView}
      */
     async render(context) {
-        super.render();
-        this.__setTitle();
-        this.layout = new Layout(this.__app, true);
-        this.layout.render();
         this.__makeContext(context);
+        super.render();
 
-        this.__navSubView = new Navigation(this.getLayoutParent(), router.getPreviousTitle(), {route: ['Поиск объявлений']});
-        this.__navSubView.render(context);
+        const layout = new Layout(this.__app, true);
+        layout.render();
 
-        this.__searchBar = new SearchBar(this.getLayoutParent());
+        const parent = layout.parent;
+
+        if (!mobile.isMobile()) {
+            this.__navSubView = new Navigation(parent, router.getPreviousTitle(), {route: ['Поиск объявлений']});
+            this.__navSubView.render(context);
+        }
+
+        this.__searchBar = new SearchBar(parent);
         this.__searchBar.render(this.__context);
 
         super.renderFooter();

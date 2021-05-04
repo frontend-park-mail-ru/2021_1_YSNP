@@ -3,6 +3,8 @@ import {Layout} from '../components/Layout/Layout';
 import {ProfileMenu} from '../components/ProfileMenu/ProfileMenu';
 import {Settings} from '../components/Settings/Settings';
 
+import {mobile} from '../modules/mobile';
+
 /***
  * Profile view
  */
@@ -144,18 +146,27 @@ export class UserProfileView extends BaseView {
     }
 
     /***
-     * Render view
-     * @this {UserProfileView}
+     * Render mobile components
+     * @private
      */
-    render(context) {
-        super.render();
-        this.__setTitle();
-        this.__makeContext(context);
-
+    __renderMobile() {
         const layout = new Layout(this.__app, true);
-        layout.render({
-            layoutCount: 'two'
-        });
+        layout.render();
+
+        const parent = layout.parent;
+
+        this.__settings = new Settings(parent);
+        this.__settings.render(this.__context.profileSettings);
+    }
+
+    /***
+     * Render desktop components
+     * @private
+     */
+    __renderDesktop() {
+        const layout = new Layout(this.__app, true);
+        layout.render({layoutCount: 'two'});
+
         const leftParent = layout.leftParent;
         const rightParent = layout.rightParent;
 
@@ -164,6 +175,21 @@ export class UserProfileView extends BaseView {
 
         this.__settings = new Settings(rightParent);
         this.__settings.render(this.__context.profileSettings);
+    }
+
+    /***
+     * Render view
+     * @this {UserProfileView}
+     */
+    render(context) {
+        this.__makeContext(context);
+        super.render();
+
+        if (mobile.isMobile()) {
+            this.__renderMobile();
+        } else {
+            this.__renderDesktop();
+        }
 
         super.renderFooter();
     }

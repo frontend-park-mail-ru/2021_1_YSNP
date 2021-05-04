@@ -1,6 +1,6 @@
 import {BasePresenter} from './BasePresenter.js';
 import {router} from '../modules/router';
-import {frontUrls} from '../modules/frontUrls';
+import {frontUrls} from '../modules/urls/frontUrls';
 import {checkIsAuth} from '../modules/checkAuth.js';
 
 /***

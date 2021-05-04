@@ -1,34 +1,62 @@
+@import "../../scss/main.scss";
+
 .layout {
-  height: 100%;
-  width: 100%;
+  @include set-size(100%, 100%);
 
   &__main {
     margin-top: 9vh;
+
     display: flex;
     flex-direction: column;
     justify-content: center;
   }
 
   &-inner {
-    margin-left: 15vw;
-    margin-right: 15vw;
+    margin: 0 15vw;
+
+    @media screen and (max-width: $breakDesktop) {
+      margin: 0 10vw;
+    }
+
+    @media screen and (max-width: $breakTablet) {
+      margin: 0 5vw;
+    }
+
+    @media screen and (max-width: $breakMobile) {
+      margin: 0;
+    }
   }
 
   &-block {
     display: flex;
     flex-direction: row;
     justify-content: center;
+
     margin-top: 3vh;
+
+    @media screen and (max-width: $breakTablet) {
+      flex-direction: column;
+    }
   }
 
   &-left {
-    height: 100%;
-    width: 30%;
+    @include set-size(30%, 100%);
+
+    @media screen and (max-width: $breakTablet) {
+      @include set-size(100%, 100%);
+    }
   }
 
   &-right {
-    height: 100%;
-    width: 70%;
+    @include set-size(70%, 100%);
+
     margin-left: 2vw;
+
+    @media screen and (max-width: $breakTablet) {
+      @include set-size(100%, 100%);
+
+      margin-top: 2vh;
+      margin-left: 0;
+    }
   }
 }

@@ -9,6 +9,14 @@
 
   &-inner {
     margin: 0 10vw;
+
+    @media screen and (max-width: $breakTablet) {
+      margin: 0 5vw;
+    }
+
+    @media screen and (max-width: $breakMobile) {
+      margin: 0;
+    }
   }
 
   &-urls {
@@ -17,12 +25,30 @@
       display: flex;
       flex-direction: row;
       justify-content: space-between;
+
+      @media screen and (max-width: $breakDesktop) {
+        margin: 2vh 10vh;
+      }
+
+      @media screen and (max-width: $breakTablet) {
+        margin: 2vh 5vh;
+      }
+
+      @media screen and (max-width: $breakMobile) {
+        margin: 2vh 3vh;
+      }
     }
 
 
-    &__logo {
-      height: 11vh;
-      width: 20vh;
+    &-logo {
+      @media screen and (max-width: $breakMobile) {
+        display: none;
+        position: absolute;
+      }
+
+      &__img {
+        @include set-size(20vh, 11vh);
+      }
     }
 
     &-container {
@@ -33,6 +59,10 @@
         margin-bottom: 0.7vh;
 
         font-size: 2vh;
+
+        @media screen and (max-width: $breakMobile) {
+          font-size: 2.5vh;
+        }
       }
 
       &__elem {
@@ -42,11 +72,19 @@
         font-size: 1.3vh;
 
         color: #666666;
+
+        @media screen and (max-width: $breakMobile) {
+          font-size: 1.7vh;
+        }
       }
 
       &__address {
         max-width: 30vh;
         @include overflow-text-width;
+
+        @media screen and (max-width: $breakMobile) {
+          max-width: 25vh;
+        }
       }
     }
   }

@@ -2,8 +2,8 @@ import {BaseModel} from './BaseModel.js';
 
 import {ProductModel} from './ProductModel.js';
 
-import {http} from '../modules/http';
-import {backUrls} from '../modules/backUrls';
+import {http} from '../modules/http/http';
+import {backUrls} from '../modules/urls/backUrls';
 
 /***
  * Product list model

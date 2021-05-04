@@ -1,4 +1,4 @@
-import {PageUp} from '../components/PageUp/PageUp.js';
+import {PageUp} from '../../components/PageUp/PageUp.js';
 
 /***
  * Page up / down component handler

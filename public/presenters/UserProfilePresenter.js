@@ -9,10 +9,10 @@ import {
     hideError,
     validateError,
     showSuccessMessage
-} from '../modules/validationStates.js';
+} from '../modules/layout/validationStates.js';
 
 import {router} from '../modules/router';
-import {frontUrls} from '../modules/frontUrls';
+import {frontUrls} from '../modules/urls/frontUrls';
 import {user} from '../models/ProfileUserModel.js';
 import {checkIsAuth} from '../modules/checkAuth';
 

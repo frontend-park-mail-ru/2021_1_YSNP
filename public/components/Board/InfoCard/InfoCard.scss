@@ -10,79 +10,149 @@
   font-style: normal;
   font-weight: normal;
 
+  @media screen and  (max-width: $breakMobile) {
+    position: inherit;
+    border: none;
+  }
+
+  &-mobile-separator {
+    display: none;
+    @include separator;
+    @media screen and  (max-width: $breakMobile) {
+      margin: 2vh 0;
+      display: flex;
+    }
+  }
+
   &__price {
     font-size: 2vw;
     text-align: center;
     margin-top: 2vh;
     margin-bottom: 1vh;
+
+    @media screen and (max-width: $breakDesktop) {
+      font-size: 3vh;
+    }
+    @media screen and (max-width: $breakMobile) {
+      font-size: 4.5vh;
+      text-align: left;
+    }
   }
 
   &-profile {
     display: flex;
     margin: 0 0 0 1vw;
+    align-items: center;
+
+    @media screen and (max-width: $breakMobile) {
+      margin-top: 2vh;
+    }
   }
 
   &__image {
     @include circle;
     @include set-size(4vw, 4vw);
+
+    @media screen and (max-width: $breakDesktop) {
+      @include set-size(6vh, 6vh);
+    }
+    @media screen and (max-width: $breakMobile) {
+      @include set-size(7vh, 7vh);
+    }
   }
 
   &-container {
-    display: block;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    padding-left: 1vh;
   }
 
   &__name {
-    font-size: 1.5vw;
+    font-size: 3vh;
     line-height: 2vh;
-    margin: 0 0 0 1vh;
+
+    @media screen and (max-width: $breakMobile) {
+      font-size: 4vh;
+      line-height: 3vh;
+    }
   }
 
   &-rating {
     line-height: 1.5vw;
-    margin: 1vw 0 0 1vw;
+    margin-top: 1vh;
     display: flex;
     align-items: center;
 
-    &__text {
-      font-size: 1.5vw;
+    @media screen and (max-width: $breakMobile) {
+      line-height: 2vh;
+    }
+
+      &__text {
+      font-size: 2vh;
       margin-right: 0.3vw;
+      @media screen and (max-width: $breakMobile) {
+        font-size: 3vh;
+      }
+    }
+
+    &__stars {
+      width: 1.3vw;
+      height: 1.3vw;
+      @media screen and (max-width: $breakMobile) {
+        width: 1.5vh;
+        height: 1.5vh;
+      }
     }
   }
 
   &-btn {
-    text-align: center;
-    line-height: 2vh;
+    flex-direction: column;
+    align-items: center;
+    display: flex;
 
-    &__change {
-      @include red-button(75%, 3vw);
+    @media screen and  (max-width: $breakMobile) {
+      flex-direction: row;
+      justify-content: center;
+    }
+
+      &__massage {
+      @include red-button(80%, 4vh);
       margin-top: 2vh;
-      font-size: 1vw;
-    }
 
-    &__close {
-      @include white-button(75%, 3vw);
-      margin-top: 1vh;
-      box-shadow: 0 0 1vh rgba(0, 0, 0, 0.1);
-      font-size: 1vw;
-    }
-
-    &__closed {
-      @include disable-button(75%, 3vw);
-      margin-top: 5vh;
-      font-size: 1vw;
-    }
-
-    &__massage {
-      @include red-button(75%, 3vw);
-      margin-top: 2vh;
-      font-size: 1vw;
+      @media screen and (max-width: $breakTablet){
+        width: 18vh;
+      }
+      @media screen and (max-width: $breakMobile){
+        @include set-size(23vh, 5vh);
+        margin-right: 2vh;
+      }
     }
 
     &__number {
-      @include white-button(75%, 3vw);
+      @include white-button(80%, 4vh);
       margin-top: 1vh;
       box-shadow: 0 0 1vh rgba(0, 0, 0, 0.1);
-      font-size: 1vw;
+
+      @media screen and (max-width: $breakTablet){
+        width: 18vh;
+      }
+      @media screen and (max-width: $breakMobile){
+        @include set-size(23vh, 5vh);
+        margin-top: 2vh;
+      }
+    }
+  }
+
+  &-about {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+
+    @media screen and (max-width: $breakMobile){
+      flex-direction: row;
+      align-items: center;
+      justify-content: space-evenly;
     }
   }
 
@@ -91,6 +161,14 @@
     margin-top: 4vw;
     font-size: 1vw;
     margin-bottom: 1vh;
+
+    @media screen and (max-width: $breakDesktop){
+      font-size: 1.5vh;
+    }
+    @media screen and (max-width: $breakMobile){
+      font-size: 2.3vh;
+      margin: 0;
+    }
   }
 
   &-statistic {
@@ -98,6 +176,10 @@
     justify-content: center;
     align-items: center;
 
+    @media screen and (max-width: $breakMobile){
+      font-size: 2.5vh;
+      margin-top: 0;
+    }
     &-views {
       display: flex;
       align-items: center;
@@ -105,6 +187,10 @@
       &__text {
         margin-left: 1vh;
         font-size: 1vw;
+
+        @media screen and (max-width: $breakDesktop){
+          font-size: 1.5vh;
+        }
       }
     }
 
@@ -116,6 +202,10 @@
       &__text {
         margin-left: 1vh;
         font-size: 1vw;
+
+        @media screen and (max-width: $breakDesktop){
+          font-size: 1.5vh;
+        }
       }
     }
   }

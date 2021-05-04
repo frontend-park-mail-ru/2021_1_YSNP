@@ -1,6 +1,6 @@
 import './Map.scss';
 import mapTemplate from './Map.hbs';
-import {YandexMap} from '../../../modules/yandexMap';
+import {YandexMap} from '../../../modules/layout/yandexMap';
 
 /***
  * @author Ivan Gorshkov

@@ -1,3 +1,5 @@
+@import './main.scss';
+
 @font-face {
   font-family: Roboto;
   src: url(../fonts/Roboto-Regular.woff2);
@@ -22,6 +24,16 @@ body {
   min-height: 88%;
 
   padding-bottom: 25vh;
+
+  @media screen and (max-width: $breakMobile) {
+    padding-bottom: 30vh;
+  }
+}
+
+.overflow-hidden {
+  @media screen and (max-width: $breakMobile) {
+    overflow: hidden;
+  }
 }
 
 select:disabled {

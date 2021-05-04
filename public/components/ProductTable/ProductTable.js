@@ -2,6 +2,7 @@ import productTableTemplate from './ProductTable.hbs';
 import './ProductTable.scss';
 
 import {ProductCard} from './ProductCard/ProductCard.js';
+import {EmptyMessage} from './EmptyMessage/EmptyMessage';
 
 /***
  * Product List - table of components Product Card
@@ -42,12 +43,27 @@ export class ProductTable {
     }
 
     /***
+     * Render empty message
+     * @param {HTMLElement} parent
+     * @private
+     */
+    __addEmptyMessage(parent) {
+        const emptyMessage = new EmptyMessage(parent);
+        emptyMessage.render(this.__context);
+    }
+
+    /***
      * Add cards to table
      * @param {Object[]} data - cards
      * @private
      */
     __addCards(data) {
         const table = this.__getParent();
+        if (data.length === 0) {
+            this.__addEmptyMessage(table);
+            return;
+        }
+
         data.forEach((el) => {
             const productCard = new ProductCard(table);
             productCard.render(el);
@@ -69,7 +85,7 @@ export class ProductTable {
      * @private
      */
     __getParent() {
-        return this.__parent.querySelector('[class="product-table-inner"]');
+        return this.__parent.querySelector('[id="product-table-body"]');
     }
 
     /***
@@ -78,7 +94,7 @@ export class ProductTable {
     render(context) {
         try {
             this.__context = context;
-            this.__parent.insertAdjacentHTML('beforeend', productTableTemplate());
+            this.__parent.insertAdjacentHTML('beforeend', productTableTemplate(this.__context));
             this.__addCards(this.__context.data);
             this.__addListeners();
         } catch (err) {

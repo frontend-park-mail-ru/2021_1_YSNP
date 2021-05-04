@@ -1,0 +1,20 @@
+@import "../../../scss/main.scss";
+
+.empty-search {
+  width: 100%;
+
+  &-inner {
+    display: flex;
+    flex-direction: column;
+
+    @media screen and (max-width: $breakMobile) {
+      margin: 0 2vh;
+    }
+
+    &__text {
+      font-size: 2vh;
+      color: #666666;
+      opacity: 0.7;
+    }
+  }
+}

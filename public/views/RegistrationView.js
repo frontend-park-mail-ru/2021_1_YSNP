@@ -3,6 +3,7 @@ import {Layout} from '../components/Layout/Layout.js';
 import {Navigation} from '../components/Navigation/Navigation.js';
 import {RegistrationPanel} from '../components/RegistrationPanel/RegistrationPanel.js';
 import {router} from '../modules/router';
+import {mobile} from '../modules/mobile';
 
 /***
  * class RegistrationView extends BaseView
@@ -154,17 +155,6 @@ export class RegistrationView extends BaseView {
     /***
      * @author Ivan Gorshkov
      *
-     * get HTMLElement of layout
-     * @return {HTMLElement}
-     * @this {RegistrationView}
-     */
-    getLayoutParent() {
-        return this.layout.parent;
-    }
-
-    /***
-     * @author Ivan Gorshkov
-     *
      * remove listeners from components
      * @this {RegistrationView}
      */
@@ -189,16 +179,20 @@ export class RegistrationView extends BaseView {
      * @this {RegistrationView}
      */
     render(context) {
-        super.render();
-        this.__setTitle();
-        this.layout = new Layout(this.__app, true);
-        this.layout.render();
         this.__makeContext(context);
+        super.render();
 
+        const layout = new Layout(this.__app, true);
+        layout.render();
 
-        this.__navSubView = new Navigation(this.getLayoutParent(), router.getPreviousTitle(), {route: ['Регистрация профиля']});
-        this.__regSubView = new RegistrationPanel(this.getLayoutParent());
-        this.__navSubView.render(this.__context);
+        const parent = layout.parent;
+
+        if (!mobile.isMobile()) {
+            this.__navSubView = new Navigation(parent, router.getPreviousTitle(), {route: ['Регистрация профиля']});
+            this.__navSubView.render(this.__context);
+        }
+
+        this.__regSubView = new RegistrationPanel(parent);
         this.__regSubView.render(this.__context);
 
         super.renderFooter();

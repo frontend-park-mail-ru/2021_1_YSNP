@@ -2,9 +2,9 @@ import './ProductCreateForm.scss';
 import productCreateFormTemplate from './ProductCreateForm.hbs';
 import productPhotoTemplate from './ProductPhoto.hbs';
 import productFileTemplate from './ProductFile.hbs';
-import {createMessageError} from '../../modules/validationStates.js';
+import {createMessageError} from '../../modules/layout/validationStates.js';
 import {Field} from '../RegistrationPanel/Fields/Field';
-import {YandexMap} from '../../modules/yandexMap';
+import {YandexMap} from '../../modules/layout/yandexMap';
 
 /***
  * @author Max Torzhkov

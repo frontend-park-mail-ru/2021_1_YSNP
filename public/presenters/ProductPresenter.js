@@ -1,6 +1,6 @@
 import {BasePresenter} from './BasePresenter.js';
 import {router} from '../modules/router.js';
-import {eventHandlerWithDataType} from '../modules/eventHandler.js';
+import {eventHandlerWithDataType} from '../modules/handlers/eventHandler.js';
 import {ProductModel} from '../models/ProductModel.js';
 import {UserModel} from '../models/UserModel';
 import {frontUrls} from '../modules/frontUrls';
@@ -160,16 +160,22 @@ export class ProductPresenter extends BasePresenter {
         };
     }
 
-
     __listenerEditProduct() {
         router.redirect(frontUrls.editProduct(this.__model.id), '', {title: document.title});
     }
     
-    
     __listenerCloseProduct() {
         if (confirm('Вы уверены, что хотите закрыть объявление')) {
-            this.__model.close(this.__model.getData().id).then(() => {
+            this.__model.close(this.__model.getData().id)
+            .then(() => {
                 router.redirectCurrent();
+            })
+            .catch((err) => {
+                //TODO(Sergey) нормальная обработка ошибок
+                console.log(err.message);
+
+                this.checkOfflineStatus(err);
+                this.checkOffline();
             });
         }
     }
@@ -229,7 +235,7 @@ export class ProductPresenter extends BasePresenter {
                 .catch((err) => {
                     console.log(err.message);
                     this.__view.showNumber(err.message);
-                   this.__numberIsShowed = false;
+                    this.__numberIsShowed = false;
                     this.checkOfflineStatus(err);
                     this.checkOffline();
                 });

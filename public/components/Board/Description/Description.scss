@@ -14,6 +14,10 @@
       min-width: 18%;
       margin-top: 1vh;
 
+      @media screen and (max-width: $breakDesktop) {
+        width: 12vh;
+      }
+
       &__title {
         @include description-label;
         font-family: SF Pro Display, sans-serif;

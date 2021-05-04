@@ -1,9 +1,9 @@
 import {BaseModel} from './BaseModel.js';
 
-import {http} from '../modules/http.js';
-import {backUrls} from '../modules/backUrls.js';
+import {http} from '../modules/http/http.js';
+import {backUrls} from '../modules/urls/backUrls.js';
 
-import {YandexMap} from '../modules/yandexMap.js';
+import {YandexMap} from '../modules/layout/yandexMap.js';
 
 
 /***
@@ -315,7 +315,7 @@ export class ProductModel extends BaseModel {
             userLiked: this.__userLiked,
             linkImage: this.__getFirstImage(),
             tariff: this.__tariff,
-            status: 'открыто'
+            status: this.__close ? 'закрыто' : 'открыто'
         };
     }
 
@@ -359,10 +359,12 @@ export class ProductModel extends BaseModel {
             });
     }
 
-    async close(idProduct) {
-        return http.post(backUrls.closeProduct, {
-            id: idProduct
-        })
+    /***
+     * Post close product
+     * @returns {Promise<{data: *, status: number}>}
+     */
+    async close() {
+        return http.post(backUrls.closeProduct(this.__id), null)
             .then(({status, data}) => {
                 this.checkError(status, {
                     message: data.message
