@@ -11,6 +11,54 @@ export class Header {
      */
     constructor(parent) {
         this.__parent = parent;
+        this.__isUnread = false;
+    }
+
+    /***
+     * Get unread
+     * @returns {HTMLElement}
+     * @private
+     */
+    __getUnread() {
+        return document.getElementById('header-right-unread');
+    }
+
+    /***
+     * Get unread count
+     * @returns {HTMLElement}
+     * @private
+     */
+    __getUnreadCount() {
+        return document.getElementById('header-right-unread-count');
+    }
+
+    /***
+     * Activate unread
+     * @private
+     */
+    __activateChatUnread() {
+        this.__isUnread = true;
+        this.__getUnread().classList.add('header-right-avatar-unread_active');
+    }
+
+    /***
+     * Deactivate unread
+     */
+    deactivateChatUnread() {
+        this.__isUnread = false;
+        this.__getUnread().classList.remove('header-right-avatar-unread_active');
+    }
+
+    /***
+     * Update unread count
+     * @param {number} count
+     */
+    updateUnreadMessages(count) {
+        if (!this.__isUnread) {
+            this.__activateChatUnread();
+        }
+
+        this.__getUnreadCount().innerText = count.toString();
     }
 
     /***

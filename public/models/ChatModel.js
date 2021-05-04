@@ -30,6 +30,7 @@ class ChatModel extends BaseModel {
         this.__chatList = [];
         this.__chatMessage = {};
 
+        this.__isActive = false;
         this.__wss = new WebSocketService(backUrls.chatWs);
     }
 
@@ -46,7 +47,25 @@ class ChatModel extends BaseModel {
      * @param {Object} callbackList
      */
     updateCallbackList(callbackList) {
+        this.__isActive = true;
         this.__callbackList = callbackList;
+    }
+
+    /***
+     * Delete callback list
+     */
+    deleteCallbackList() {
+        this.__isActive = false;
+        this.__callbackList = undefined;
+    }
+
+    /***
+     * Update header callback list
+     * @param callbackList
+     */
+    updateHeaderCallbackList(callbackList) {
+        this.__unreadMessageCount = 0;
+        this.__headerCallbackList = callbackList;
     }
 
     /***
@@ -502,7 +521,9 @@ class ChatModel extends BaseModel {
             return;
         }
 
-        this.__callbackList.chatMessageNewMessage(data.chat_id, this.parseNewMessage(data));
+        if (this.__isActive) {
+            this.__callbackList.chatMessageNewMessage(data.chat_id, this.parseNewMessage(data));
+        }
     }
 
     /***

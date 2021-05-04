@@ -29,6 +29,7 @@ export class BasePresenter {
 
         this.__authModel = new AuthUserModel();
         this.__chatModel = chat;
+        this.__chatModel.updateHeaderCallbackList(this.__createBaseCallbacks());
     }
 
     /***
@@ -86,8 +87,38 @@ export class BasePresenter {
         }
 
         mobile.remove();
-
         this.__view.removeHeaderListeners();
+    }
+
+    /***
+     * Update unread message count
+     * @param count
+     * @private
+     */
+    __updateUnreadMessageCountCallback(count) {
+        console.log('update', count);
+        // this.__view.updateHeaderUnreadMessages(count);
+    }
+
+    /***
+     * Delete unread message count
+     * @private
+     */
+    __deleteUnreadMessageCountCallback() {
+        console.log('delete');
+        // this.__view.deleteHeaderUnreadMessages();
+    }
+
+    /***
+     * Create base callback list
+     * @returns {{deleteUnreadMessageCount: *, updateUnreadMessage: *}}
+     * @private
+     */
+    __createBaseCallbacks() {
+        return {
+            updateUnreadMessage: this.__updateUnreadMessageCountCallback.bind(this),
+            deleteUnreadMessageCount: this.__deleteUnreadMessageCountCallback.bind(this)
+        };
     }
 
     /***

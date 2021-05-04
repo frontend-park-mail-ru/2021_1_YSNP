@@ -82,6 +82,8 @@ export class UserChatsPresenter extends BasePresenter {
             this.__endlessScroll.remove();
         }
 
+        this.__chatModel.deleteCallbackList();
+
         // this.__chatModel.close();
     }
 

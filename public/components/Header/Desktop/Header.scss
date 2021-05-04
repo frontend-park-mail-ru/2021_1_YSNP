@@ -66,6 +66,41 @@
     display: flex;
     align-items: center;
 
+    &-avatar {
+      display: flex;
+      position: relative;
+
+      &__img {
+        @include set-size(4vh, 4vh);
+        @include circle;
+        cursor: pointer;
+      }
+
+      &-unread {
+        position: absolute;
+        top: 0;
+        right: 0;
+
+        height: 17px;
+        width: 17px;
+        border-radius: 50%;
+
+        font-size: 1.2vh;
+        font-weight: 300;
+
+        color: white;
+        background: $mainColor;
+
+        display: none;
+        align-items: center;
+        justify-content: center;
+
+        &_active {
+          display: flex;
+        }
+      }
+    }
+
     &__search-button {
       height: 2vh;
       width: 2vh;
@@ -91,12 +126,6 @@
 
       display: flex;
       align-items: center;
-    }
-
-    &__dropdown {
-      @include set-size(4vh, 4vh);
-      @include circle;
-      cursor: pointer;
     }
   }
 

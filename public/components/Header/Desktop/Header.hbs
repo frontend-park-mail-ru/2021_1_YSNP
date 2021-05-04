@@ -25,7 +25,13 @@
 
             {{#if isAuth}}
 
-                <img class="header-right__dropdown" data-action="dropdownClick" src="{{linkImage}}" alt="avatar"/>
+                <div class="header-right-avatar">
+                    <img src="{{linkImage}}" alt="avatar" class="header-right-avatar__img" data-action="dropdownClick"/>
+
+                    <div class="header-right-avatar-unread" id="header-right-unread">
+                        <span id="header-right-unread-count">{{newMessages}}</span>
+                    </div>
+                </div>
 
                 <div class="header-dropdown" id="header-dropdown">
                     <div class="header-dropdown-content header-dropdown-content_hidden" id="header-dropdown-content">
