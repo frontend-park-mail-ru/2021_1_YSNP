@@ -11,6 +11,7 @@ import {PageUpHandler} from '../modules/handlers/pageUpHandler.js';
 
 import {customSessionStorage} from '../modules/customSessionStorage.js';
 import {CreateButtonHandler} from '../modules/handlers/createButtonHandler';
+import {RecListModel} from '../models/RecListModel.js';
 
 /***
  * Main presenter
@@ -24,6 +25,8 @@ export class MainPresenter extends BasePresenter {
         super(view);
         this.__view = view;
         this.__mainListModel = new MainListModel();
+        this.__recListModel = new RecListModel();
+
         this.__endlessScroll = new EndlessScroll(this.__createListeners().scroll);
         this.__pageUp = new PageUpHandler();
         this.__createButton = new CreateButtonHandler(this.openCreateProduct.bind(this));
@@ -36,6 +39,7 @@ export class MainPresenter extends BasePresenter {
     async update() {
         return super.update()
             .then(() => this.__mainListModel.update())
+            .then(() => this.__recListModel.update())
             .catch((err) => {
                 //TODO(Sergey) нормальная обработка ошибок
                 console.log(err.message);
@@ -72,12 +76,22 @@ export class MainPresenter extends BasePresenter {
     }
 
     /***
-     * Product List click event
+     * Product List main click event
      * @param {MouseEvent} ev - event
      */
     __listenerMainListClick(ev) {
         ev.stopPropagation();
         eventProductListHandler(ev, this.__getActions().mainList);
+    }
+
+    /***
+     * Product list rec click event
+     * @param {MouseEvent} ev - event
+     * @private
+     */
+    __listenerRecListClick(ev) {
+        ev.stopPropagation();
+        eventProductListHandler(ev, this.__getActions().recList);
     }
 
     /***
@@ -119,7 +133,7 @@ export class MainPresenter extends BasePresenter {
 
     /***
      * Get view listeners
-     * @returns {{scroll: {scrollEnd: any}, mainList: {productCardClick: {listener: *, type: string}}}}
+     * @returns {{search: {searchClick: {listener: *, type: string}}, scroll: {scrollEnd: any}, recList: {productCardClick: {listener: *, type: string}}, mainList: {productCardClick: {listener: *, type: string}}}}
      * @private
      */
     __createListeners() {
@@ -128,6 +142,12 @@ export class MainPresenter extends BasePresenter {
                 productCardClick: {
                     type: 'click',
                     listener: this.__listenerMainListClick.bind(this)
+                }
+            },
+            recList: {
+                productCardClick: {
+                    type: 'click',
+                    listener: this.__listenerRecListClick.bind(this)
                 }
             },
             search: {
@@ -143,13 +163,22 @@ export class MainPresenter extends BasePresenter {
     }
 
     /***
-     * Like card callback
+     * Open card main callback
      * @param {string} id - product card id
      * @private
      */
-    __likeCard(id) {
+    __openCardMain(id) {
         const numberId = parseInt(id, 10);
+        router.redirect(frontUrls.product(numberId), '', {title: 'Koya'});
+    }
 
+    /***
+     * Like card main callback
+     * @param {string} id - product card id
+     * @private
+     */
+    __likeCardMain(id) {
+        const numberId = parseInt(id, 10);
         if (!this.__userModel.isAuth) {
             super.openAuth();
             return;
@@ -158,10 +187,12 @@ export class MainPresenter extends BasePresenter {
         this.__mainListModel.voteProduct(numberId)
             .then(({status}) => {
                 if (status === 'dislike') {
+                    this.__recListModel.sedDislike(numberId);
                     this.__view.dislikeProduct(numberId);
                     return;
                 }
 
+                this.__recListModel.setLike(numberId);
                 this.__view.likeProduct(numberId);
             })
             .catch((err) => {
@@ -174,28 +205,68 @@ export class MainPresenter extends BasePresenter {
     }
 
     /***
-     * Open card callback
+     * Open card rec callback
      * @param {string} id - product card id
      * @private
      */
-    __openCard(id) {
+    __openCardRec(id) {
         const numberId = parseInt(id, 10);
         router.redirect(frontUrls.product(numberId), '', {title: 'Koya'});
     }
 
     /***
+     * Like card rec callback
+     * @param {string} id - product card id
+     * @private
+     */
+    __likeCardRec(id) {
+        const numberId = parseInt(id, 10);
+        if (!this.__userModel.isAuth) {
+            super.openAuth();
+            return;
+        }
+
+        this.__recListModel.voteProduct(numberId)
+            .then(({status}) => {
+                if (status === 'dislike') {
+                    this.__mainListModel.sedDislike(numberId);
+                    this.__view.dislikeProduct(numberId);
+                    return;
+                }
+
+                this.__mainListModel.setLike(numberId);
+                this.__view.likeProduct(numberId);
+            })
+            .catch((err) => {
+                //TODO(Sergey) нормальная обработка ошибок
+                console.log(err.message);
+
+                this.checkOfflineStatus(err);
+                this.checkOffline();
+            });
+    }
+
+    /***
      * Get product list actions
-     * @returns {{mainList: {likeClick: {open: *}, cardClick: {open: *}}}}
+     * @returns {{search: {searchButtonClick: {open: *}, categoryClick: {open: *}}, recList: {likeClick: {open: *}, cardClick: {open: *}}, mainList: {likeClick: {open: *}, cardClick: {open: *}}}}
      * @private
      */
     __getActions() {
         return {
             mainList: {
                 cardClick: {
-                    open: this.__openCard.bind(this)
+                    open: this.__openCardMain.bind(this)
                 },
                 likeClick: {
-                    open: this.__likeCard.bind(this)
+                    open: this.__likeCardMain.bind(this)
+                }
+            },
+            recList: {
+                cardClick: {
+                    open: this.__openCardRec.bind(this)
+                },
+                likeClick: {
+                    open: this.__likeCardRec.bind(this)
                 }
             },
             search: {
@@ -245,6 +316,10 @@ export class MainPresenter extends BasePresenter {
             search: {
                 data: null,
                 listeners: this.__createListeners().search
+            },
+            recList: {
+                data: this.__recListModel.getData(),
+                listeners: this.__createListeners().recList
             },
             mainList: {
                 data: this.__mainListModel.getData(),

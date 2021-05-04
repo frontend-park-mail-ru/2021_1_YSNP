@@ -22,7 +22,7 @@ export class ProductTable {
      */
     __addListeners() {
         document
-            .getElementById('product-table')
+            .getElementById(`product-table${this.__context.id}`)
             .addEventListener(this.__context.listeners.productCardClick.type, this.__context.listeners.productCardClick.listener);
     }
 
@@ -31,7 +31,10 @@ export class ProductTable {
      * @param {number} id - product card id
      */
     like(id) {
-        this.__productTable.get(id).like();
+        const product = this.__productTable.get(id);
+        if (product) {
+            product.like();
+        }
     }
 
     /***
@@ -39,7 +42,10 @@ export class ProductTable {
      * @param {number} id - product card id
      */
     dislike(id) {
-        this.__productTable.get(id).dislike();
+        const product = this.__productTable.get(id);
+        if (product) {
+            product.dislike();
+        }
     }
 
     /***
@@ -85,7 +91,7 @@ export class ProductTable {
      * @private
      */
     __getParent() {
-        return this.__parent.querySelector('[id="product-table-body"]');
+        return this.__parent.querySelector(`[id="product-table-body${this.__context.id}"]`);
     }
 
     /***
