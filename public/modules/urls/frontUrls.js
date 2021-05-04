@@ -84,11 +84,24 @@ class FrontUrls {
     }
 
     /***
-     * Get chat page
+     * Get chats page
      * @returns {string}
      */
     get userChats() {
         return '/user/chats';
+    }
+
+    /***
+     * Get user chat page
+     * @param {number} id - chat id
+     * @returns {string}
+     */
+    userChat(id = undefined) {
+        if (id !== undefined) {
+            return `/user/chat/${id}`;
+        }
+
+        return '/user/chat/{id}';
     }
 
     /***

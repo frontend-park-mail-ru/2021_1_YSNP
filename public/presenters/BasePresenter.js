@@ -9,6 +9,7 @@ import {YandexMap} from '../modules/layout/yandexMap.js';
 
 import {OfflineError} from '../modules/http/httpError.js';
 import {mobile} from '../modules/mobile';
+import {chat} from '../models/ChatModel';
 
 /***
  * Base presenter
@@ -21,11 +22,14 @@ export class BasePresenter {
     constructor(view) {
         this.__view = view;
         this.__userModel = user;
-        this.__authModel = new AuthUserModel();
         this.__isShownMap = false;
         this.__isShownAuth = false;
         this.__yaMap = new YandexMap();
         mobile.start(this.__resizeCallback.bind(this));
+
+        this.__authModel = new AuthUserModel();
+        this.__chatModel = chat;
+        this.__chatModel.updateHeaderCallbackList(this.__createBaseCallbacks());
     }
 
     /***
@@ -36,6 +40,13 @@ export class BasePresenter {
         return this.__userModel.update()
             .then(() => {
                 this.__view.baseContext = this.__makeBaseContext();
+
+                if (this.__userModel.isAuth) {
+                    this.__chatModel.updateUserID(this.__userModel.getData().id);
+                    return this.__chatModel.connect();
+                }
+
+                return Promise.resolve();
             })
             .catch((err) => {
                 this.__view.baseContext = this.__makeBaseContext();
@@ -55,6 +66,15 @@ export class BasePresenter {
     }
 
     /***
+     * Prerender control
+     * @returns {boolean}
+     */
+    isRenderView() {
+        this.scrollUp();
+        return !this.checkOffline();
+    }
+
+    /***
      * Remove page listeners
      */
     removePageListeners() {
@@ -67,8 +87,38 @@ export class BasePresenter {
         }
 
         mobile.remove();
-
         this.__view.removeHeaderListeners();
+    }
+
+    /***
+     * Update unread message count
+     * @param count
+     * @private
+     */
+    __updateUnreadMessageCountCallback(count) {
+        console.log('update', count);
+        // this.__view.updateHeaderUnreadMessages(count);
+    }
+
+    /***
+     * Delete unread message count
+     * @private
+     */
+    __deleteUnreadMessageCountCallback() {
+        console.log('delete');
+        // this.__view.deleteHeaderUnreadMessages();
+    }
+
+    /***
+     * Create base callback list
+     * @returns {{deleteUnreadMessageCount: *, updateUnreadMessage: *}}
+     * @private
+     */
+    __createBaseCallbacks() {
+        return {
+            updateUnreadMessage: this.__updateUnreadMessageCountCallback.bind(this),
+            deleteUnreadMessageCount: this.__deleteUnreadMessageCountCallback.bind(this)
+        };
     }
 
     /***

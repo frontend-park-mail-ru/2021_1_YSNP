@@ -1,6 +1,5 @@
 import {CustomError} from '../customError.js';
 
-
 /***
  * Bad request error class
  */

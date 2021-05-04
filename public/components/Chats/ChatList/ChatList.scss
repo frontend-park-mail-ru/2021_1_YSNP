@@ -1,0 +1,11 @@
+@import "../../../scss/main.scss";
+
+.chat-list {
+  height: 60vh;
+
+  &-inner {
+    height: 100%;
+    overflow: scroll;
+    overflow-x: hidden;
+  }
+}

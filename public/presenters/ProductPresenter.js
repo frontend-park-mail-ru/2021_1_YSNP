@@ -1,8 +1,13 @@
 import {BasePresenter} from './BasePresenter.js';
-import {router} from '../modules/router.js';
-import {eventHandlerWithDataType} from '../modules/handlers/eventHandler.js';
+
 import {ProductModel} from '../models/ProductModel.js';
 import {UserModel} from '../models/UserModel';
+import {frontUrls} from '../modules/urls/frontUrls';
+
+import {eventHandlerWithDataType} from '../modules/handlers/eventHandler.js';
+import {NotFoundError} from '../modules/http/httpError';
+
+import {router} from '../modules/router.js';
 import {frontUrls} from '../modules/urls/frontUrls';
 
 /***
@@ -19,10 +24,12 @@ export class ProductPresenter extends BasePresenter {
     constructor(view, id) {
         super(view);
         this.__view = view;
-        this.__id = id;
+        this.__id = parseInt(id, 10);
+        this.__numberIsShowed = false;
+        this.__notFound = false;
+
         this.__model = new ProductModel({id: this.__id});
         this.__user = new UserModel();
-        this.__numberIsShowed = false;
     }
 
     /***
@@ -40,6 +47,10 @@ export class ProductPresenter extends BasePresenter {
                 //TODO(Sergey) нормальная обработка ошибок
                 console.log(err.message);
                 this.checkOfflineStatus(err);
+
+                if (err instanceof NotFoundError) {
+                    this.__notFound = true;
+                }
             });
     }
 
@@ -52,8 +63,12 @@ export class ProductPresenter extends BasePresenter {
      */
     async control() {
         await this.update();
-        this.scrollUp();
-        if (this.checkOffline()) {
+        if (!this.isRenderView()) {
+            return;
+        }
+
+        if (this.__notFound) {
+            router.redirectNotFound();
             return;
         }
 
@@ -257,8 +272,18 @@ export class ProductPresenter extends BasePresenter {
             return;
         }
 
-        // TODO(Ivan) release __listenerWriteMassage
-        console.log('massage');
+        this.__chatModel.createChat(this.__id, this.__model.getData().ownerId)
+            .then((data) => {
+                console.log(data);
+                router.redirect(frontUrls.userChat(data.id));
+            })
+            .catch((err) => {
+                //TODO(Sergey) нормальная обработка ошибок
+                console.log(err.message);
+
+                this.checkOfflineStatus(err);
+                this.checkOffline();
+            });
     }
 
     /***

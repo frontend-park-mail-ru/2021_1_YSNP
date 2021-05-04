@@ -8,6 +8,7 @@ import {router} from '../modules/router';
 import {frontUrls} from '../modules/urls/frontUrls';
 
 import {eventProductListHandler} from '../modules/handlers/eventHandler.js';
+import {checkIsAuth} from '../modules/checkAuth';
 
 /***
  * favorite presenter
@@ -45,10 +46,11 @@ export class UserFavoritePresenter extends BasePresenter {
      */
     async control() {
         await this.update();
-        this.scrollUp();
-        if (this.checkOffline()) {
+        if (!this.isRenderView()) {
             return;
         }
+
+        checkIsAuth();
 
         this.__view.render(this.__makeContext());
         this.__endlessScroll.start();

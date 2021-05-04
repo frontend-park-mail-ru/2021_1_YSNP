@@ -6,10 +6,12 @@ export class EndlessScroll {
      * Class constructor
      * @param {Object} callbackList - scroll listeners
      * @param {number} offset - page offset %
+     * @param {boolean} isDown - scroll direction
      */
-    constructor(callbackList, offset = 30) {
+    constructor(callbackList, isDown = true, offset = 20) {
         this.__callbackList = callbackList;
         this.__offset = offset;
+        this.__isDown = isDown;
 
         this.__scrollTimeout = null;
         this.__listener = this.__scrollThrottler.bind(this);
@@ -19,6 +21,18 @@ export class EndlessScroll {
      * Start endless scroll
      */
     start() {
+        this.__element = window;
+        this.__checkScrollCallback();
+        this.__addListeners();
+    }
+
+    /***
+     * Start endless scroll with element
+     * @param {HTMLElement} element
+     */
+    startElement(element) {
+        this.__element = element;
+        this.__checkScrollElementCallback();
         this.__addListeners();
     }
 
@@ -30,16 +44,71 @@ export class EndlessScroll {
     }
 
     /***
-     * Add scroll listener
+     * Scroll callback up
      * @private
      */
-    __scrollListener() {
+    __scrollCallbackUp() {
+        console.log('release __scrollCallbackUp');
+    }
+
+    /***
+     * Scroll callback down
+     * @private
+     */
+    __scrollCallbackDown() {
         const clientRect = document.documentElement.getBoundingClientRect();
         const clientHeight = document.documentElement.clientHeight;
 
         if (clientRect.bottom < clientHeight * (this.__offset / 100 + 1)) {
             this.__callbackList.scrollEnd(clientRect);
         }
+    }
+
+    /***
+     * Check scroll callback
+     * @private
+     */
+    __checkScrollCallback() {
+        if (this.__isDown) {
+            this.__scrollCallbackHandler = this.__scrollCallbackDown.bind(this);
+            return;
+        }
+
+        this.__scrollCallbackHandler = this.__scrollCallbackUp.bind(this);
+    }
+
+    /***
+     * Scroll element callback up
+     * @private
+     */
+    __scrollElementCallbackUp() {
+        const scrollTop = this.__element.scrollTop;
+        const scrollHeight = this.__element.scrollHeight;
+
+        if (scrollTop < scrollHeight * (this.__offset / 100)) {
+            this.__callbackList.scrollEnd();
+        }
+    }
+
+    /***
+     * Scroll element callback down
+     * @private
+     */
+    __scrollElementCallbackDown() {
+        console.log('release __scrollElementCallbackDown');
+    }
+
+    /***
+     * Check scroll element callback
+     * @private
+     */
+    __checkScrollElementCallback() {
+        if (this.__isDown) {
+            this.__scrollCallbackHandler = this.__scrollElementCallbackDown.bind(this);
+            return;
+        }
+
+        this.__scrollCallbackHandler = this.__scrollElementCallbackUp.bind(this);
     }
 
     /***
@@ -51,7 +120,7 @@ export class EndlessScroll {
             this.__scrollTimeout = setTimeout(() => {
                 this.__scrollTimeout = null;
 
-                this.__scrollListener();
+                this.__scrollCallbackHandler();
             }, 1000 / 60);
         }
     }
@@ -61,7 +130,7 @@ export class EndlessScroll {
      * @private
      */
     __addListeners() {
-        window.addEventListener('scroll', this.__listener);
+        this.__element.addEventListener('scroll', this.__listener);
     }
 
     /***
@@ -69,6 +138,6 @@ export class EndlessScroll {
      * @private
      */
     __removeListeners() {
-        window.removeEventListener('scroll', this.__listener);
+        this.__element.removeEventListener('scroll', this.__listener);
     }
 }

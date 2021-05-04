@@ -50,8 +50,7 @@ export class RegistrationPresenter extends BasePresenter {
      */
     async control() {
         await this.update();
-        this.scrollUp();
-        if (this.checkOffline()) {
+        if (!this.isRenderView()) {
             return;
         }
 

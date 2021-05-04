@@ -1,4 +1,5 @@
 $textColorDefault: #000000;
+$textGrayColor: rgb(122, 122, 122);
 $linkColor: rgb(112, 146, 254);
 $mainColor: rgb(211, 30, 30);
 
@@ -59,7 +60,7 @@ $breakMobile: 576px;
   font-size: 1.5vh;
   text-align: center;
   color: #666666;
-  background-color:  rgb(255, 255, 255);;
+  background-color: rgb(255, 255, 255);;
 
   outline: none;
 }
@@ -115,7 +116,7 @@ $breakMobile: 576px;
   &:focus {
     outline: none;
   }
-  
+
   @media screen and (max-width: $breakMobile) {
     font-size: 2vh;
     height: 4.5vh;
