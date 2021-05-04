@@ -45,7 +45,6 @@ if ('serviceWorker' in navigator) {
 
 const app = document.getElementById('app');
 
-
 const chatsView = new UserChatsView(app);
 const favoriteView = new UserFavoriteView(app);
 const mainView = new MainView(app);
@@ -147,6 +146,11 @@ const doChats = () => {
     return chatsPresenter.removePageListeners.bind(chatsPresenter);
 };
 
+/***
+ * Open user chat page
+ * @param {Object} val - page params
+ * @returns {Function}
+ */
 const doChat = (val) => {
     const chatsPresenter = new UserChatsPresenter(chatsView, val.parameters.id);
     chatsPresenter.control();
@@ -167,6 +171,7 @@ const doFavorite = () => {
 
 /***
  * Open search page with text
+ * @param {Object} val - page params
  */
 const doSearchWithText = (val) => {
     const searchPresenter = new SearchPresenter(searchView, val.parameters.text);
