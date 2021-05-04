@@ -11,7 +11,7 @@ import {checkIsAuth} from '../modules/checkAuth.js';
 /***
  *  ProductCreatePresenter class, extends from BasePresenter
  */
-export class EditProductPresenter extends BasePresenter {
+export class ProductEditPresenter extends BasePresenter {
 
     /***
      * Class constructor

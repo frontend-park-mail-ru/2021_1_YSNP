@@ -29,7 +29,7 @@ import {SearchPresenter} from './presenters/SearchPresenter.js';
 import {PromotionPresenter} from './presenters/PromotionPresenter.js';
 import {NotFoundPresenter} from './presenters/NotFoundPresenter.js';
 import {baseCreateProduct, baseRegistration} from './modules/layout/fields.js';
-import {EditProductPresenter} from './presenters/EditProductPresenter';
+import {ProductEditPresenter} from './presenters/ProductEditPresenter';
 
 /***
  * Register service worker
@@ -91,7 +91,7 @@ const doProductCreate = () => {
  * Open product editing page
  */
 const doProductEdit = (val) => {
-    const editProductPresenter = new EditProductPresenter(productEditView, val.parameters.id);
+    const editProductPresenter = new ProductEditPresenter(productEditView, val.parameters.id);
     editProductPresenter.control();
 
     return editProductPresenter.removePageListeners.bind(editProductPresenter);

@@ -247,11 +247,11 @@ export class ProductCreateView extends BaseView {
         const parent = layout.parent;
 
         if (!mobile.isMobile()) {
-            this.__navSubView = new Navigation(this.getLayoutParent(), router.getPreviousTitle(), {route: ['Редактирование товара']});
+            this.__navSubView = new Navigation(parent, router.getPreviousTitle(), {route: ['Создание товара']});
             this.__navSubView.render(this.__context);
         }
 
-        this.__productCreate = new ProductCreateForm(this.getLayoutParent());
+        this.__productCreate = new ProductCreateForm(parent);
         this.__productCreate.render(this.__context.productCreate);
 
         super.renderFooter();

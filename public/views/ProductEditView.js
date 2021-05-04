@@ -259,10 +259,12 @@ export class ProductEditView extends BaseView {
         this.layout.render();
         this.__makeContext(context);
 
-        this.__navSubView = new Navigation(this.getLayoutParent(), router.getPreviousTitle(), {route: ['Создание товара']});
+        this.__navSubView = new Navigation(this.getLayoutParent(), router.getPreviousTitle(), {route: ['Редактирование товара']});
         this.__navSubView.render(this.__context);
+
         this.__productCreate = new ProductCreateForm(this.getLayoutParent());
         this.__productCreate.render(this.__context.productEdit);
+
         document.getElementById('board-title').textContent = 'Реадктирование объявление';
         document.getElementById('textareaInput').value = this.__context.productEdit.data.getData().description;
         document.getElementById('priceInput').value = this.__context.productEdit.data.getData().amount;
