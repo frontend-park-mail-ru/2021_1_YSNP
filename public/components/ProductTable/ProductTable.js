@@ -31,7 +31,10 @@ export class ProductTable {
      * @param {number} id - product card id
      */
     like(id) {
-        this.__productTable.get(id).like();
+        const product = this.__productTable.get(id);
+        if (product) {
+            product.like();
+        }
     }
 
     /***
@@ -39,7 +42,10 @@ export class ProductTable {
      * @param {number} id - product card id
      */
     dislike(id) {
-        this.__productTable.get(id).dislike();
+        const product = this.__productTable.get(id);
+        if (product) {
+            product.dislike();
+        }
     }
 
     /***

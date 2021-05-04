@@ -6,7 +6,7 @@ import {backUrls} from '../modules/urls/backUrls.js';
 /***
  * Favorite list model
  */
-export class TrendProductListModel extends ProductListModel {
+export class RecListModel extends ProductListModel {
 
     /***
      * Get data from backend
@@ -14,7 +14,7 @@ export class TrendProductListModel extends ProductListModel {
      * @private
      */
     async __updateNewDataPage() {
-        return http.get(backUrls.trendsProducts)
+        return http.get(backUrls.recProducts)
             .then(({status, data}) => {
                 this.checkError(status, {
                     message: data.message
