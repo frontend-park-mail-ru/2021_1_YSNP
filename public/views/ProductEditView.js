@@ -3,7 +3,6 @@ import {Navigation} from '../components/Navigation/Navigation.js';
 import {Layout} from '../components/Layout/Layout.js';
 import {ProductCreateForm} from '../components/ProductCreateForm/ProductCreateForm.js';
 import {router} from '../modules/router';
-import {YandexMap} from '../modules/yandexMap';
 
 /***
  * class ProductCreateView extends BaseView

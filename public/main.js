@@ -28,7 +28,7 @@ import {RegistrationPresenter} from './presenters/RegistrationPresenter.js';
 import {SearchPresenter} from './presenters/SearchPresenter.js';
 import {PromotionPresenter} from './presenters/PromotionPresenter.js';
 import {NotFoundPresenter} from './presenters/NotFoundPresenter.js';
-import {baseCreateProduct, baseRegistration} from './modules/fields.js';
+import {baseCreateProduct, baseRegistration} from './modules/layout/fields.js';
 import {EditProductPresenter} from './presenters/EditProductPresenter';
 
 /***

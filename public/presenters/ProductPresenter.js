@@ -3,7 +3,7 @@ import {router} from '../modules/router.js';
 import {eventHandlerWithDataType} from '../modules/handlers/eventHandler.js';
 import {ProductModel} from '../models/ProductModel.js';
 import {UserModel} from '../models/UserModel';
-import {frontUrls} from '../modules/frontUrls';
+import {frontUrls} from '../modules/urls/frontUrls';
 
 /***
  *  ProductPresenter class, extends from BasePresenter

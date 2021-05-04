@@ -380,7 +380,6 @@ export class ProductModel extends BaseModel {
         return this.__sendData(form, backUrls.productCreate, this.__jsonData());
     }
 
-
     async edit(form) {
         return this.__sendData(form, backUrls.editPage, this.__jsonDataWithUrls());
     }
