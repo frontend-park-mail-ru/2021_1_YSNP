@@ -18,10 +18,10 @@ export class InfoCard {
      * @this {InfoCard}
      * @public
      */
-    constructor(parent, data) {
+    constructor(parent, data, owner) {
         this.__parent = parent;
         this.__data = data;
-        this.__owener = data.owner;
+        this.__owener = owner;
     }
 
     /***

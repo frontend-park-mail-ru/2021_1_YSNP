@@ -200,6 +200,14 @@ class BackUrls {
     get recProducts() {
         return `${this.__url}${this.__api}/product/trends`;
     }
+
+     /***
+     *
+     * @return {string}
+     */
+    get editPage() {
+        return `${this.__url}${this.__api}/product/edit`;
+    }
 }
 
 export const backUrls = new BackUrls();
