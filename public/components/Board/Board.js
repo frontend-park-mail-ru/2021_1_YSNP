@@ -179,7 +179,7 @@ export class Board {
         this.__carousel.render();
 
         if (mobile.isMobile()) {
-            this.__infoCard = new InfoCard(parentLeftSide, this.__context.data);
+            this.__infoCard = new InfoCard(parentLeftSide, this.__context.data, this.__context.owner);
             this.__infoCard.render();
         }
 
@@ -187,7 +187,7 @@ export class Board {
         this.__description.render();
 
         if (!mobile.isMobile()) {
-            this.__infoCard = new InfoCard(parentRightSide, this.__context.data);
+            this.__infoCard = new InfoCard(parentRightSide, this.__context.data, this.__context.owner);
             this.__infoCard.render();
         }
 
