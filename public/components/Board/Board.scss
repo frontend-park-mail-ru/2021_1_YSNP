@@ -46,7 +46,11 @@
   &-title__product-name {
     font-size: 4vh;
     margin: 0;
-  }
+
+    @media screen and (max-width: $breakMobile) {
+      display: none;
+    }
+    }
   &-map {
     height: 50vh;
     display: flex;

@@ -6,8 +6,8 @@ class BackUrls {
      * Class constructor
      */
     constructor() {
-        this.__url = 'https://ykoya.ru';
-        // this.__url = 'http://localhost:8080';
+        // this.__url = 'https://ykoya.ru';
+        this.__url = 'http://localhost:8080';
         this.__api = '/api/v1';
 
         this.__wsUrl = 'wss://ykoya.ru';
@@ -215,11 +215,35 @@ class BackUrls {
     }
 
     /***
-     *
+     * Get categories
      * @return {string}
      */
     get categories() {
         return `${this.__url}${this.__api}/categories`;
+    }
+
+    /***
+     * Get trends
+     * @return {string}
+     */
+    get recStat() {
+        return `${this.__url}${this.__api}/stat`;
+    }
+
+    /***
+     * Get trends products
+     * @return {string}
+     */
+    get recProducts() {
+        return `${this.__url}${this.__api}/product/trends`;
+    }
+
+     /***
+     *
+     * @return {string}
+     */
+    get editPage() {
+        return `${this.__url}${this.__api}/product/edit`;
     }
 }
 

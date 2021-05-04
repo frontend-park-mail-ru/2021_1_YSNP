@@ -18,10 +18,10 @@ export class InfoCard {
      * @this {InfoCard}
      * @public
      */
-    constructor(parent, data) {
+    constructor(parent, data, owner) {
         this.__parent = parent;
         this.__data = data;
-        this.__owener = data.owner;
+        this.__owener = owner;
     }
 
     /***
@@ -89,6 +89,15 @@ export class InfoCard {
      */
     get __getViews() {
         return this.__data.__views;
+    }
+
+    /***
+     * Return product name
+     * @returns {string}
+     * @private
+     */
+    get __getProductName() {
+        return this.__data.__name;
     }
 
     /***
@@ -174,7 +183,8 @@ export class InfoCard {
             likes: this.__getLikes,
             avatar: this.__getAvatar,
             owner: this.__owener,
-            close: this.__getClose
+            close: this.__getClose,
+            productName: this.__getProductName
         };
     }
 

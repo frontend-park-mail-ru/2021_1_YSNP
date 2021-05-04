@@ -111,6 +111,18 @@ class FrontUrls {
     get userFavorite() {
         return '/user/favorite';
     }
+
+    /***
+     * Get edit product page
+     * @returns {string}
+     */
+    editProduct(id = undefined) {
+        if (id !== undefined) {
+            return `/product/${id}/edit`;
+        }
+
+        return '/product/{id}/edit';
+    }
 }
 
 export const frontUrls = new FrontUrls();

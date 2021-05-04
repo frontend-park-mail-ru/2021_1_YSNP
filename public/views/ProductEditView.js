@@ -3,12 +3,11 @@ import {Navigation} from '../components/Navigation/Navigation.js';
 import {Layout} from '../components/Layout/Layout.js';
 import {ProductCreateForm} from '../components/ProductCreateForm/ProductCreateForm.js';
 import {router} from '../modules/router';
-import {mobile} from '../modules/mobile';
 
 /***
  * class ProductCreateView extends BaseView
  */
-export class ProductCreateView extends BaseView {
+export class ProductEditView extends BaseView {
 
     /***
      * @author Ivan Gorshkov
@@ -20,6 +19,7 @@ export class ProductCreateView extends BaseView {
      */
     constructor(app, baseProductCreate) {
         super(app);
+        this.layout = new Layout(this.__app, true);
         this.__baseProductCreate = baseProductCreate;
     }
 
@@ -47,12 +47,23 @@ export class ProductCreateView extends BaseView {
                 data: context.navigation.data,
                 listeners: context.navigation.listeners
             },
-            productCreate: {
-                data: context.productCreate.data,
-                listeners: context.productCreate.listeners,
+            productEdit: {
+                data: context.productEdit.data,
+                listeners: context.productEdit.listeners,
                 fields: this.__baseProductCreate
             }
         };
+    }
+
+    /***
+     * @author Ivan Gorshkov
+     *
+     * get HTMLElement of layout
+     * @return {Element}
+     * @this {ProductCreateView}
+     */
+    getLayoutParent() {
+        return this.layout.parent;
     }
 
     /***
@@ -230,6 +241,11 @@ export class ProductCreateView extends BaseView {
         this.__productCreate.errorText(message);
     }
 
+
+    getPicCount() {
+        return this.__count;
+    }
+
     /***
      * @author Ivan Gorshkov
      *
@@ -238,22 +254,39 @@ export class ProductCreateView extends BaseView {
      * @this {ProductCreateView}
      */
     render(context) {
-        this.__makeContext(context);
         super.render();
+        this.__setTitle();
+        this.layout.render();
+        this.__makeContext(context);
 
-        const layout = new Layout(this.__app, true);
-        layout.render();
+        this.__navSubView = new Navigation(this.getLayoutParent(), router.getPreviousTitle(), {route: ['Редактирование товара']});
+        this.__navSubView.render(this.__context);
 
-        const parent = layout.parent;
+        this.__productCreate = new ProductCreateForm(this.getLayoutParent());
+        this.__productCreate.render(this.__context.productEdit);
 
-        if (!mobile.isMobile()) {
-            this.__navSubView = new Navigation(parent, router.getPreviousTitle(), {route: ['Создание товара']});
-            this.__navSubView.render(this.__context);
+        document.getElementById('board-title').textContent = 'Реадктирование объявление';
+        document.getElementById('textareaInput').value = this.__context.productEdit.data.getData().description;
+        document.getElementById('priceInput').value = this.__context.productEdit.data.getData().amount;
+        document.getElementById('nameInput').value = this.__context.productEdit.data.getData().name;
+
+        for (const amount of document.getElementById('categorySelect').options) {
+            if (amount.innerText === this.__context.productEdit.data.getData().category) {
+                amount.selected = true;
+            }
         }
 
-        this.__productCreate = new ProductCreateForm(parent);
-        this.__productCreate.render(this.__context.productCreate);
+        this.__count = 0;
+        for (const img of this.__context.productEdit.data.getData().linkImages.reverse()) {
+            this.__productCreate.insertPhoto(img, this.__count);
+            this.__count += 1;
+        }
 
+
+        this.__productCreate.setLocation({
+            latitude: this.__context.productEdit.data.getData().latitude,
+            longitude: this.__context.productEdit.data.getData().longitude
+        });
         super.renderFooter();
     }
 }

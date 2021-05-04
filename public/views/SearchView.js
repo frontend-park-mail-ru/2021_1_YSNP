@@ -53,6 +53,7 @@ export class SearchView extends BaseView {
         this.__context = {
             productList: {
                 data: context.productList.data,
+                id: 'search',
                 listeners: context.productList.listeners
             },
             navigation: {
