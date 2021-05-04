@@ -1,0 +1,89 @@
+@import "../../scss/main.scss";
+
+.notification {
+    position: fixed;
+
+    display: flex;
+    flex-direction: column;
+    bottom: 3vh;
+    right: 1vh;
+    width: 25vh;
+    height: 7.5vh;
+    padding: 0.5vh;
+    z-index: 101;
+
+    @include shadow-block;
+    border: 1px solid $mainColor;
+
+    &-line {
+        flex-direction: column;
+        display: flex;
+    }
+
+    &__close {
+        @include set-size(1.5vh, 1.5vh);
+
+        position: absolute;
+        fill: rgb(120, 120, 120);
+
+        top: 0.5vh;
+        right: 0.5vh;
+
+        &:hover {
+            cursor: pointer;
+        }
+    }
+
+    &-inner {
+        display: flex;
+        flex-direction: row;
+    }
+
+    &-avatar {
+        display: flex;
+        align-items: center;
+        &__img {
+            @include set-size(5vh, 5vh);
+            object-fit: cover;
+            border-radius: 8px;
+        }
+    }
+
+    &-info {
+        width: calc(100% - 6vh);
+
+        display: flex;
+        flex-direction: column;
+        margin-left: 0.5vh;
+
+        &-title {
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            width: 93%;
+
+            &__name {
+                @include overflow-text-width;
+                max-width: 100%;
+                font-size: 1.5vh;
+                font-weight: 600;
+            }
+        }
+
+        &-message {
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            width: 100%;
+            cursor: pointer;
+
+            &__last {
+                max-width: 100%;
+                @include overflow-text-height(6vh);
+                line-height: 2vh;
+                font-size: 1.4vh;
+                color: #2B2B2BFF;
+            }
+        }
+    }
+}
