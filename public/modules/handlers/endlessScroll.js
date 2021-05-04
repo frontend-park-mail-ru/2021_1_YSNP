@@ -8,7 +8,7 @@ export class EndlessScroll {
      * @param {number} offset - page offset %
      * @param {boolean} isDown - scroll direction
      */
-    constructor(callbackList, isDown = true, offset = 20) {
+    constructor(callbackList, isDown = true, offset = 30) {
         this.__callbackList = callbackList;
         this.__offset = offset;
         this.__isDown = isDown;
@@ -59,7 +59,7 @@ export class EndlessScroll {
         const clientRect = document.documentElement.getBoundingClientRect();
         const clientHeight = document.documentElement.clientHeight;
 
-        if (clientRect.bottom < clientHeight * (this.__offset / 100 + 1)) {
+        if (clientRect.bottom < clientHeight * (this.__offset / 100)) {
             this.__callbackList.scrollEnd(clientRect);
         }
     }
@@ -130,7 +130,9 @@ export class EndlessScroll {
      * @private
      */
     __addListeners() {
-        this.__element.addEventListener('scroll', this.__listener);
+        if (this.__element) {
+            this.__element.addEventListener('scroll', this.__listener);
+        }
     }
 
     /***
@@ -138,6 +140,8 @@ export class EndlessScroll {
      * @private
      */
     __removeListeners() {
-        this.__element.removeEventListener('scroll', this.__listener);
+        if (this.__element) {
+            this.__element.removeEventListener('scroll', this.__listener);
+        }
     }
 }

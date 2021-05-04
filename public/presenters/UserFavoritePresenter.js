@@ -93,6 +93,10 @@ export class UserFavoritePresenter extends BasePresenter {
                 this.__view.addNewCards(newData);
             })
             .catch((err) => {
+                if (err.message === 'isUpdate') {
+                    return;
+                }
+
                 //TODO(Sergey) нормальная обработка ошибок
                 console.log(err.message);
             });

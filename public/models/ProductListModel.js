@@ -16,6 +16,7 @@ export class ProductListModel extends BaseModel {
     constructor(pageCount = 30) {
         super();
         this.__productList = [];
+        this.__isUpdate = false;
         this.__page = 0;
         this.__pageCount = pageCount;
     }
@@ -26,6 +27,7 @@ export class ProductListModel extends BaseModel {
      * @param {boolean} isLiked - product like
      */
     parseData(data, isLiked = false) {
+        this.__isUpdate = false;
         if (!Array.isArray(data)) {
             throw new Error('no data');
         }
@@ -132,8 +134,13 @@ export class ProductListModel extends BaseModel {
      * @returns {Promise<void>}
      */
     async updateNewData() {
-        this.__page++;
-        return this.__updateNewDataPage();
+        if (!this.__isUpdate) {
+            this.__isUpdate = true;
+            this.__page++;
+            return this.__updateNewDataPage();
+        }
+
+        return Promise.reject({message: 'isUpdate'});
     }
 
     /***

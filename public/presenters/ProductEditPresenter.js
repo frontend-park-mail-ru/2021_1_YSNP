@@ -298,8 +298,6 @@ export class ProductEditPresenter extends BasePresenter {
             });
             this.__view.changeDisableButton();
 
-            console.log(this.__productId);
-
             this.__model.edit(this.__view.getForm())
                 .then(({id}) => {
                     this.closeAllComponents();
@@ -386,7 +384,6 @@ export class ProductEditPresenter extends BasePresenter {
         const tmpCount = this.__view.deletePicture(ev.target, this.__count -= 1);
         if (ev.target.id.length === 9) {
             this.__countAlreadyPhoto -= 1;
-            console.log('asd');
         }
         this.__count = tmpCount;
     }

@@ -268,8 +268,6 @@ export class UserChatsPresenter extends BasePresenter {
     __listenerChatMessageSubmit(ev) {
         ev.preventDefault();
 
-        console.log('message submit', ev);
-
         const input = this.__view.getChatMessageInput();
         this.__chatModel.createMessage(input.value);
         input.value = '';

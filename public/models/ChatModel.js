@@ -77,7 +77,7 @@ class ChatModel extends BaseModel {
     __getDate(date) {
         const localDate = new Date(date);
         return localDate.toLocaleDateString('ru-RU', {
-            timeZone: 'UTC',
+            timeZone: 'Europe/Moscow',
             day: 'numeric',
             month: 'numeric',
             year: 'numeric'
@@ -93,7 +93,7 @@ class ChatModel extends BaseModel {
     __getTime(time) {
         const localTime = new Date(time);
         return localTime.toLocaleTimeString('ru-RU', {
-            timeZone: 'UTC',
+            timeZone: 'Europe/Moscow',
             minute: 'numeric',
             hour: 'numeric'
         });
