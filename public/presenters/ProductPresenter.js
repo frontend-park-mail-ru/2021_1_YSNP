@@ -2,7 +2,6 @@ import {BasePresenter} from './BasePresenter.js';
 
 import {ProductModel} from '../models/ProductModel.js';
 import {UserModel} from '../models/UserModel';
-import {frontUrls} from '../modules/urls/frontUrls';
 
 import {eventHandlerWithDataType} from '../modules/handlers/eventHandler.js';
 import {NotFoundError} from '../modules/http/httpError';

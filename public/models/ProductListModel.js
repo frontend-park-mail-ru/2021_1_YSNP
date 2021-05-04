@@ -149,7 +149,7 @@ export class ProductListModel extends BaseModel {
      * Like product
      * @param {number} id - product id
      *  @param {ProductModel} product - product
-     * @returns {Promise<{status: string}>}
+     * @returns {Promise<{data: *, status: number}>}
      * @private
      */
     async __likeProduct(id, product) {
@@ -181,8 +181,7 @@ export class ProductListModel extends BaseModel {
 
                 product.setDislike();
                 return {status: 'dislike'};
-            })
-            .then((data) => this.setStat(data, product.getData().name));
+            });
     }
 
     /***
@@ -197,8 +196,6 @@ export class ProductListModel extends BaseModel {
                 this.checkError(status, {
                     message: data.message
                 });
-
-                console.log(data);
 
                 return voteData;
             });
