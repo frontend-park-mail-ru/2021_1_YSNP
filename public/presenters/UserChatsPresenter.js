@@ -342,7 +342,7 @@ export class UserChatsPresenter extends BasePresenter {
 
     /***
      * Make view context
-     * @returns {{profileSettings: {data: {isAuth: boolean, address, linkImage, surname, sex, latitude, name, telephone, dateBirth, radius, email, longitude}}, chats: {list: {data: [], listeners: *, selectNumber: number}, message: {data: {}, listeners}}}}
+     * @returns {{profileSettings: {data: {address: (*|string), sex, latitude, telephone, isAuth: boolean, linkImage, surname, name, id, dateBirth, radius, email, longitude}}, chats: {chatID: number, list: {data: Object[], listeners: {listClick: {listener: *, type: string}}, selectNumber: number}, message: {chatID: number, data: {}, listeners: {submitForm: {listener: *, type: string}, messageClick: {listener: *, type: string}}}}}}
      * @private
      */
     __makeContext() {
@@ -355,6 +355,7 @@ export class UserChatsPresenter extends BasePresenter {
                     listeners: this.__createListeners().list
                 },
                 message: {
+                    chatID: this.__chatID,
                     data: this.__chatModel.getChatMessageData(),
                     listeners: this.__createListeners().message
                 }

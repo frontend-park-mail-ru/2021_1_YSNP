@@ -158,7 +158,7 @@ export class ChatMessage {
         try {
             this.__context = context;
 
-            if (Object.keys(this.__context.data).length === 0) {
+            if (isNaN(this.__context.chatID)) {
                 this.__renderEmptyChatMessage();
                 return;
             }
