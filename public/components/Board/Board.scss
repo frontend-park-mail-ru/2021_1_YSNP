@@ -4,8 +4,12 @@
   font-style: normal;
   font-weight: normal;
   @include shadow-block;
-  padding: 2vw 2vw 1vw 2vw;
+  padding: 2vh;
   margin: 1.5vw auto 0;
+
+  @media screen and (max-width: $breakDesktop){
+    padding: 0 1.5vh;
+  }
 
   &-inner {
     display: flex;
@@ -14,10 +18,24 @@
 
   &-left {
     width: 75%;
+
+    @media screen and  (max-width: $breakDesktop){
+      width: 65%;
+    }
+    @media screen and  (max-width: $breakMobile) {
+      width: 100%;
+    }
   }
 
   &-right {
     width: 25%;
+    @media screen and  (max-width: $breakDesktop){
+      width: 35%;
+    }
+
+    @media screen and  (max-width: $breakMobile) {
+      display: none;
+    }
   }
 
   &-title__product-id {
@@ -28,6 +46,20 @@
   &-title__product-name {
     font-size: 4vh;
     margin: 0;
+
+    @media screen and (max-width: $breakMobile) {
+      display: none;
+    }
+    }
+  &-map {
+    height: 50vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin: 1vw 2vw 1vw 1vw;
+    border-radius: 5px;
+    border: 1px solid rgba(0, 0, 0, 0.2);
   }
 }
 

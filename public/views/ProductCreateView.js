@@ -3,6 +3,7 @@ import {Navigation} from '../components/Navigation/Navigation.js';
 import {Layout} from '../components/Layout/Layout.js';
 import {ProductCreateForm} from '../components/ProductCreateForm/ProductCreateForm.js';
 import {router} from '../modules/router';
+import {mobile} from '../modules/mobile';
 
 /***
  * class ProductCreateView extends BaseView
@@ -19,7 +20,6 @@ export class ProductCreateView extends BaseView {
      */
     constructor(app, baseProductCreate) {
         super(app);
-        this.layout = new Layout(this.__app, true);
         this.__baseProductCreate = baseProductCreate;
     }
 
@@ -53,17 +53,6 @@ export class ProductCreateView extends BaseView {
                 fields: this.__baseProductCreate
             }
         };
-    }
-
-    /***
-     * @author Ivan Gorshkov
-     *
-     * get HTMLElement of layout
-     * @return {Element}
-     * @this {ProductCreateView}
-     */
-    getLayoutParent() {
-        return this.layout.parent;
     }
 
     /***
@@ -194,6 +183,12 @@ export class ProductCreateView extends BaseView {
         this.__productCreate.changeDisableButton(title);
     }
 
+    /***
+     * get class of cross element
+     */
+    getCrossClass() {
+        return this.__productCreate.getCrossClass();
+    }
 
     /***
      * make enable btn
@@ -243,15 +238,21 @@ export class ProductCreateView extends BaseView {
      * @this {ProductCreateView}
      */
     render(context) {
-        super.render();
-        this.__setTitle();
-        this.layout.render();
         this.__makeContext(context);
+        super.render();
 
-        this.__navSubView = new Navigation(this.getLayoutParent(), router.getPreviousTitle(), {route: ['Создание товара']});
-        this.__navSubView.render(this.__context);
-        this.__productCreate = new ProductCreateForm(this.getLayoutParent());
-        this.__productCreate.render(this.__context);
+        const layout = new Layout(this.__app, true);
+        layout.render();
+
+        const parent = layout.parent;
+
+        if (!mobile.isMobile()) {
+            this.__navSubView = new Navigation(parent, router.getPreviousTitle(), {route: ['Создание товара']});
+            this.__navSubView.render(this.__context);
+        }
+
+        this.__productCreate = new ProductCreateForm(parent);
+        this.__productCreate.render(this.__context.productCreate);
 
         super.renderFooter();
     }

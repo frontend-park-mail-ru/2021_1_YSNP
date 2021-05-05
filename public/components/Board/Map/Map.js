@@ -1,6 +1,6 @@
 import './Map.scss';
 import mapTemplate from './Map.hbs';
-import {YandexMap} from '../../../modules/yandexMap';
+import {YandexMap} from '../../../modules/layout/yandexMap';
 
 /***
  * @author Ivan Gorshkov
@@ -45,12 +45,12 @@ export class Map {
      * @this {Map}
      * @public
      */
-   async render(context) {
+    async render(context) {
         this.__parent.insertAdjacentHTML('beforeend', mapTemplate());
         this.__yaMap = new YandexMap();
         this.__yaMap.render({
             searchControl: false,
-            geolocationControl: true,
+            geolocationControl: false,
             listeners: false,
             id: 'ya-map-product'
         });

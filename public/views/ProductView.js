@@ -3,24 +3,12 @@ import {Layout} from '../components/Layout/Layout.js';
 import {Navigation} from '../components/Navigation/Navigation.js';
 import {Board} from '../components/Board/Board.js';
 import {router} from '../modules/router';
+import {mobile} from '../modules/mobile';
 
 /***
  * class ProductView extends BaseView
  */
 export class ProductView extends BaseView {
-
-    /***
-     * @author Ivan Gorshkov
-     *
-     * Class constructor
-     * @param {HTMLElement} app - parent element
-     * @this {ProductView}
-     */
-    constructor(app) {
-        super(app);
-        this.layout = new Layout(this.__app, true);
-    }
-
     /***
      * @author Ivan Gorshkov
      *
@@ -36,7 +24,8 @@ export class ProductView extends BaseView {
             },
             product: {
                 data: context.product.data,
-                listeners: context.product.listeners
+                listeners: context.product.listeners,
+                owner: context.product.owner
             }
         };
     }
@@ -49,17 +38,6 @@ export class ProductView extends BaseView {
      */
     removingSubViews() {
         this.__boardSubView.removeListeners();
-    }
-
-    /***
-     * @author Ivan Gorshkov
-     *
-     * get HTMLElement of layout
-     * @return {Element}
-     * @this {ProductView}
-     */
-    getLayoutParent() {
-        return this.layout.parent;
     }
 
     /***
@@ -102,8 +80,21 @@ export class ProductView extends BaseView {
         document.title = `${this.__context.product.data.__name}`;
     }
 
+    /***
+     * Show user number
+     * @param tel
+     */
     showNumber(tel) {
         this.__boardSubView.showNumber(tel);
+    }
+
+    /***
+     *
+     * get tel
+     * @return {string}
+     */
+    getTelNumber() {
+        return this.__boardSubView.getTelNumber();
     }
 
     /***
@@ -114,15 +105,20 @@ export class ProductView extends BaseView {
      * @this {ProductView}
      */
     render(context) {
-        super.render();
-        this.layout.render();
         this.__makeContext(context);
-        this.__setTitle();
+        super.render();
 
+        const layout = new Layout(this.__app, true);
+        layout.render();
 
-        this.__navSubView = new Navigation(this.getLayoutParent(), router.getPreviousTitle(), {route: [this.__context.product.data.__category, this.__context.product.data.__name]});
-        this.__navSubView.render(this.__context);
-        this.__boardSubView = new Board(this.getLayoutParent());
+        const parent = layout.parent;
+
+        if (!mobile.isMobile()) {
+            this.__navSubView = new Navigation(parent, router.getPreviousTitle(), {route: [this.__context.product.data.__category, this.__context.product.data.__name]});
+            this.__navSubView.render(this.__context);
+        }
+
+        this.__boardSubView = new Board(parent);
         this.__boardSubView.render(this.__context);
 
         super.renderFooter();

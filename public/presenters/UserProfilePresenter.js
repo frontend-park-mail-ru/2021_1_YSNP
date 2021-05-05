@@ -9,10 +9,10 @@ import {
     hideError,
     validateError,
     showSuccessMessage
-} from '../modules/validationStates.js';
+} from '../modules/layout/validationStates.js';
 
 import {router} from '../modules/router';
-import {frontUrls} from '../modules/frontUrls';
+import {frontUrls} from '../modules/urls/frontUrls';
 import {user} from '../models/ProfileUserModel.js';
 import {checkIsAuth} from '../modules/checkAuth';
 
@@ -50,8 +50,7 @@ export class UserProfilePresenter extends BasePresenter {
      */
     async control() {
         await this.update();
-        this.scrollUp();
-        if (this.checkOffline()) {
+        if (!this.isRenderView()) {
             return;
         }
 
@@ -344,8 +343,8 @@ export class UserProfilePresenter extends BasePresenter {
                         showBackendError(errorSettingsID, message);
                     }
                 })
-                .catch((error) => {
-                    showBackendError(errorSettingsID, error.message);
+                .catch((err) => {
+                    showBackendError(errorSettingsID, err.message);
 
                     this.checkOfflineStatus(err);
                     this.checkOffline();
@@ -426,11 +425,19 @@ export class UserProfilePresenter extends BasePresenter {
      * @private
      */
     __validateString(target) {
-        let error = true;
-        if (target.value !== '') {
-            error = false;
+        let error = false;
+        let message = '';
+        if (target.value === '') {
+            error = true;
+            message = 'Поле не должно быть пустым';
         }
-        return validateError(error, target, 'Поле не должно быть пустым');
+
+        if (target.value.length > 30) {
+            error = true;
+            message = 'Поле не должно превышать 30 знаков';
+        }
+
+        return validateError(error, target, message);
     }
 
     /***

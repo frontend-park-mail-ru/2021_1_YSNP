@@ -106,11 +106,11 @@ export class Slider {
             const image = images[i],
                 frame = document.createElement('div');
             frame.className = 'picture-frame';
-            image.style.width = frame.style.width = '5vw';
-            image.style.height = '4vw';
+            // image.style.width = frame.style.width = '5vw';
+            // image.style.height = '4vw';
             image.style.paddingTop = '1vh';
             image.style.paddingBottom = '1vh';
-            frame.style.height = '5vw';
+            // frame.style.height = '5vw';
             image.style.opacity = '0.3';
             carousel.insertBefore(frame, image);
             frame.appendChild(image);
@@ -123,8 +123,8 @@ export class Slider {
         const wrapper = this.__carousel.wrapper = document.createElement('div');
         wrapper.id = 'carousel-wrapper';
         wrapper.className = 'carousel-wrapper';
-        wrapper.style.width = '5vw';
-        wrapper.style.height = '43vh';
+        // wrapper.style.width = '5vw';
+        // wrapper.style.height = '43vh';
         carousel.parentNode.insertBefore(wrapper, carousel);
         wrapper.appendChild(carousel);
     }
@@ -139,7 +139,8 @@ export class Slider {
     __context() {
         return {
             firstPhoto: this.__data.__linkImages[0],
-            photos: this.__data.__linkImages
+            photos: this.__data.__linkImages,
+            hideCarousel: this.__data.__linkImages.length > 8
         };
     }
 

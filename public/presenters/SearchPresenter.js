@@ -1,15 +1,15 @@
 import {BasePresenter} from './BasePresenter.js';
-import {eventHandlerWithDataType, eventProductListHandler} from '../modules/eventHandler.js';
+import {eventHandlerWithDataType, eventProductListHandler} from '../modules/handlers/eventHandler.js';
 import {router} from '../modules/router.js';
-import {frontUrls} from '../modules/frontUrls.js';
+import {frontUrls} from '../modules/urls/frontUrls.js';
 import {SearchModel} from '../models/SearchModel.js';
-import {amountMask, parseAmount} from '../modules/mask.js';
-import {PageUpHandler} from '../modules/pageUpHandler.js';
-import {noop} from '../models/Noop';
-import {EndlessScroll} from '../modules/endlessScroll';
+import {amountMask, parseAmount} from '../modules/layout/mask.js';
+import {PageUpHandler} from '../modules/handlers/pageUpHandler.js';
+import {noop} from '../modules/noop';
+import {EndlessScroll} from '../modules/handlers/endlessScroll';
 
-import {localStorage} from '../modules/localStorage.js';
-import {categories} from '../modules/fields.js';
+import {customSessionStorage} from '../modules/customSessionStorage.js';
+import {categories} from '../modules/layout/fields.js';
 
 /***
  *  class SearchPresenter extends BasePresenter
@@ -56,8 +56,7 @@ export class SearchPresenter extends BasePresenter {
      */
     async control() {
         await this.update();
-        this.scrollUp();
-        if (this.checkOffline()) {
+        if (!this.isRenderView()) {
             return;
         }
 
@@ -121,6 +120,10 @@ export class SearchPresenter extends BasePresenter {
                 validateInput: {
                     type: 'input',
                     listener: this.__listenerSearch.bind(this, 'action', this.__getActions().search)
+                },
+                mapOpen: {
+                    type: 'click',
+                    listener: this.__openMapPopUp.bind(this)
                 }
             },
             productList: {
@@ -133,6 +136,15 @@ export class SearchPresenter extends BasePresenter {
                 scrollEnd: this.__scrollEnd.bind(this)
             }
         };
+    }
+
+    /***
+     * Open Map PopUp
+     * @param {MouseEvent} ev - event
+     */
+    __openMapPopUp(ev) {
+        ev.stopPropagation();
+        this.openMap();
     }
 
     /***
@@ -205,7 +217,7 @@ export class SearchPresenter extends BasePresenter {
      * @private
      */
     __sort(ev) {
-        localStorage.set('sort', ev.target.value);
+        customSessionStorage.set('sort', ev.target.value);
 
         this.__search().then(() => noop());
     }
@@ -217,8 +229,8 @@ export class SearchPresenter extends BasePresenter {
      * @private
      */
     __submitFilter() {
-        localStorage.set('category', this.__view.getAllFields().category.value);
-        localStorage.set('date', this.__view.getAllFields().date.value);
+        customSessionStorage.set('category', this.__view.getAllFields().category.value);
+        customSessionStorage.set('date', this.__view.getAllFields().date.value);
 
         this.__search().then(() => noop());
     }
@@ -245,9 +257,9 @@ export class SearchPresenter extends BasePresenter {
         });
 
         if (search.value !== '') {
-            router.replaceState(frontUrls.searchWithText(search.value));
+            router.replaceState(frontUrls.searchWithText(search.value), '', {title: router.getPreviousTitle()});
         } else {
-            router.replaceState(frontUrls.search);
+            router.replaceState(frontUrls.search, '', {title: router.getPreviousTitle()});
         }
 
         await this.__model.update()
@@ -276,13 +288,18 @@ export class SearchPresenter extends BasePresenter {
                 const newData = this.__model.newData;
                 if (!Array.isArray(newData) || newData.length === 0) {
                     this.__endlessScroll.remove();
+                    return;
                 }
 
                 this.__view.addNewCards(newData);
             })
             .catch((err) => {
+                if (err.message === 'isUpdate') {
+                    return;
+                }
+
+                //TODO(Sergey) нормальная обработка ошибок
                 console.log(err.message);
-                this.__endlessScroll.remove();
             });
     }
 
@@ -355,9 +372,9 @@ export class SearchPresenter extends BasePresenter {
             search: {
                 data: {
                     textSearch: this.__searchInitText,
-                    optionSort: localStorage.get('sort'),
-                    optionCategory: localStorage.get('category'),
-                    optionDate: localStorage.get('date'),
+                    optionSort: customSessionStorage.get('sort'),
+                    optionCategory: customSessionStorage.get('category'),
+                    optionDate: customSessionStorage.get('date'),
                     categories: categories
                 },
                 listeners: this.__createListeners().search

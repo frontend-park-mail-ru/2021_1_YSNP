@@ -4,6 +4,7 @@ import {InfoCard} from './InfoCard/InfoCard.js';
 import {Slider} from './Carousel/Slider.js';
 import {Description} from './Description/Description.js';
 import {Map} from './Map/Map.js';
+import {mobile} from '../../modules/mobile';
 
 /***
  * @author Ivan Gorshkov
@@ -36,7 +37,10 @@ export class Board {
      */
     addListeners() {
         document
-            .getElementById('board')
+            .getElementById('sliderPanel')
+            .addEventListener(this.listeners.product.type, this.listeners.product.listener);
+        document
+            .getElementById('info-card-btns')
             .addEventListener(this.listeners.product.type, this.listeners.product.listener);
     }
 
@@ -49,8 +53,11 @@ export class Board {
      */
     removeListeners() {
         document
-            .getElementById('board')
+            .getElementById('sliderPanel')
             .removeEventListener(this.listeners.product.type, this.listeners.product.listener);
+        document
+            .getElementById('info-card-btns')
+            .addEventListener(this.listeners.product.type, this.listeners.product.listener);
     }
 
     /***
@@ -136,8 +143,21 @@ export class Board {
     }
 
 
+    /***
+     * Show number
+     * @param tel
+     */
     showNumber(tel) {
         this.__infoCard.showNumber(tel);
+    }
+
+    /***
+     *
+     * get tel
+     * @return {string}
+     */
+    getTelNumber() {
+        return this.__infoCard.getTelNumber();
     }
 
     /***
@@ -151,16 +171,29 @@ export class Board {
         this.__context = ctx.product;
         this.listeners = ctx.product.listeners;
         this.__parent.insertAdjacentHTML('beforeend', boardTemplate(this.__context.data));
+
         const parentRightSide = document.getElementById('board-right-side');
         const parentLeftSide = document.getElementById('board-left-side');
+
         this.__carousel = new Slider(parentLeftSide, this.__context.data);
         this.__carousel.render();
+
+        if (mobile.isMobile()) {
+            this.__infoCard = new InfoCard(parentLeftSide, this.__context.data, this.__context.owner);
+            this.__infoCard.render();
+        }
+
         this.__description = new Description(parentLeftSide, this.__context.data);
         this.__description.render();
-        this.__infoCard = new InfoCard(parentRightSide, this.__context.data);
-        this.__infoCard.render();
+
+        if (!mobile.isMobile()) {
+            this.__infoCard = new InfoCard(parentRightSide, this.__context.data, this.__context.owner);
+            this.__infoCard.render();
+        }
+
         this.__map = new Map(parentLeftSide);
         this.__map.render(this.__context.data);
+
         this.addListeners();
     }
 }

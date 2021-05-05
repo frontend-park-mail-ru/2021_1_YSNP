@@ -2,6 +2,7 @@ import productTableTemplate from './ProductTable.hbs';
 import './ProductTable.scss';
 
 import {ProductCard} from './ProductCard/ProductCard.js';
+import {EmptyMessage} from './EmptyMessage/EmptyMessage';
 
 /***
  * Product List - table of components Product Card
@@ -21,7 +22,7 @@ export class ProductTable {
      */
     __addListeners() {
         document
-            .getElementById('product-table')
+            .getElementById(`product-table${this.__context.id}`)
             .addEventListener(this.__context.listeners.productCardClick.type, this.__context.listeners.productCardClick.listener);
     }
 
@@ -30,7 +31,10 @@ export class ProductTable {
      * @param {number} id - product card id
      */
     like(id) {
-        this.__productTable.get(id).like();
+        const product = this.__productTable.get(id);
+        if (product) {
+            product.like();
+        }
     }
 
     /***
@@ -38,7 +42,20 @@ export class ProductTable {
      * @param {number} id - product card id
      */
     dislike(id) {
-        this.__productTable.get(id).dislike();
+        const product = this.__productTable.get(id);
+        if (product) {
+            product.dislike();
+        }
+    }
+
+    /***
+     * Render empty message
+     * @param {HTMLElement} parent
+     * @private
+     */
+    __addEmptyMessage(parent) {
+        const emptyMessage = new EmptyMessage(parent);
+        emptyMessage.render(this.__context);
     }
 
     /***
@@ -48,6 +65,11 @@ export class ProductTable {
      */
     __addCards(data) {
         const table = this.__getParent();
+        if (data.length === 0) {
+            this.__addEmptyMessage(table);
+            return;
+        }
+
         data.forEach((el) => {
             const productCard = new ProductCard(table);
             productCard.render(el);
@@ -69,7 +91,7 @@ export class ProductTable {
      * @private
      */
     __getParent() {
-        return this.__parent.querySelector('[class="product-table-inner"]');
+        return this.__parent.querySelector(`[id="product-table-body${this.__context.id}"]`);
     }
 
     /***
@@ -78,7 +100,7 @@ export class ProductTable {
     render(context) {
         try {
             this.__context = context;
-            this.__parent.insertAdjacentHTML('beforeend', productTableTemplate());
+            this.__parent.insertAdjacentHTML('beforeend', productTableTemplate(this.__context));
             this.__addCards(this.__context.data);
             this.__addListeners();
         } catch (err) {

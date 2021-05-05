@@ -1,0 +1,146 @@
+@import "../../../../scss/main.scss";
+
+.one-chat {
+  width: 100%;
+
+  cursor: pointer;
+
+  &:hover {
+    background-color: rgb(255, 230, 230);
+  }
+
+  &_open {
+    background-color: rgb(255, 230, 230);
+  }
+
+  &-inner {
+    display: flex;
+    flex-direction: column;
+
+    padding-left: 1.5vh;
+    padding-right: 1.5vh;
+    padding-top: 1.5vh;
+  }
+
+  &-content {
+    width: 100%;
+
+    display: flex;
+    flex-direction: row;
+  }
+
+  &-avatars {
+    margin-right: 1vh;
+    position: relative;
+
+    &__product-img {
+      @include set-size(5vh, 5vh);
+      object-fit: cover;
+      border-radius: 8px;
+    }
+
+    &__user-img {
+      position: absolute;
+      top: -0.5vh;
+      left: -0.5vh;
+
+      @include set-size(2vh, 2vh);
+      box-shadow: 0 0 1vw rgba(0, 0, 0, 0.2);
+      @include circle;
+      object-fit: cover;
+
+      border: 2px solid white;
+    }
+  }
+
+  &-info {
+    width: calc(100% - 6vh);
+
+    display: flex;
+    flex-direction: column;
+
+    &-title {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      width: 100%;
+
+      &__user-name {
+        @include overflow-text-width;
+        max-width: 100%;
+
+        margin-right: 0.5vh;
+
+        font-size: 1.5vh;
+      }
+
+      &__date {
+        margin-left: auto;
+
+        white-space: nowrap;
+
+        font-size: 1.3vh;
+        color: $textGrayColor
+      }
+    }
+
+    &__product-name {
+      max-width: 100%;
+      @include overflow-text-width;
+
+      font-size: 1.3vh;
+      color: $textGrayColor
+    }
+
+    &-message {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      width: 100%;
+
+      &__last {
+        max-width: 100%;
+        @include overflow-text-width;
+
+        font-size: 1.3vh;
+        color: $textGrayColor;
+
+        &_active {
+          max-width: 85%;
+        }
+      }
+
+      &-unread {
+        margin-left: auto;
+
+        height: 15px;
+        width: 15px;
+        border-radius: 50%;
+
+        font-size: 1.2vh;
+        font-weight: 300;
+
+        color: white;
+        background: $mainColor;
+
+        display: none;
+        align-items: center;
+        justify-content: center;
+
+        &_active {
+          display: flex;
+        }
+      }
+    }
+  }
+
+  &__separator {
+    @include separator;
+    margin-bottom: 0;
+
+    width: calc(100% - 5vh);
+
+    margin-top: 1vh;
+    margin-left: auto;
+  }
+}

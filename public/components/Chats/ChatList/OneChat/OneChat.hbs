@@ -1,0 +1,31 @@
+<div class="one-chat" id="one-chat-{{chatID}}" data-chat-id="{{chatID}}">
+    <div class="one-chat-inner">
+
+        <div class="one-chat-content">
+            <div class="one-chat-avatars">
+                <img src="{{productImg}}" alt="product" class="one-chat-avatars__product-img">
+                <img src="{{userImg}}" alt="user" class="one-chat-avatars__user-img">
+            </div>
+
+            <div class="one-chat-info">
+                <div class="one-chat-info-title">
+                    <span class="one-chat-info-title__user-name">{{userName}}</span>
+                    <span class="one-chat-info-title__date" id="one-chat-{{chatID}}-date">{{lastMessageDate}}</span>
+                </div>
+
+                <span class="one-chat-info__product-name">{{productName}}</span>
+
+                <div class="one-chat-info-message">
+                    <span class="one-chat-info-message__last" id="one-chat-{{chatID}}-message">{{lastMessage}}</span>
+
+                    <div class="one-chat-info-message-unread" id="one-chat-{{chatID}}-unread">
+                        <span id="one-chat-{{chatID}}-unread-count">{{newMessages}}</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="one-chat__separator"></div>
+
+    </div>
+</div>

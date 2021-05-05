@@ -1,10 +1,10 @@
 import {BaseView} from './BaseView.js';
 import {Layout} from '../components/Layout/Layout';
 import {Navigation} from '../components/Navigation/Navigation';
-import {Switch} from '../components/Switch/Switch';
 import {SearchBar} from '../components/SearchBar/SearchBar.js';
 
 import {router} from '../modules/router';
+import {mobile} from '../modules/mobile';
 
 /***
  *  SearchView
@@ -45,17 +45,6 @@ export class SearchView extends BaseView {
     /***
      * @author Ivan Gorshkov
      *
-     * get HTMLElement of layout
-     * @return {HTMLElement}
-     * @this {SearchView}
-     */
-    getLayoutParent() {
-        return this.layout.parent;
-    }
-
-    /***
-     * @author Ivan Gorshkov
-     *
      * make new context from context presenter and view
      * @param{Object} context - context from Presenter
      * @private
@@ -64,6 +53,7 @@ export class SearchView extends BaseView {
         this.__context = {
             productList: {
                 data: context.productList.data,
+                id: 'search',
                 listeners: context.productList.listeners
             },
             navigation: {
@@ -73,11 +63,6 @@ export class SearchView extends BaseView {
             search: {
                 data: context.search.data,
                 listeners: context.search.listeners
-            },
-            switch: {
-                data: {
-                    title: 'Поиск объявлений'
-                }
             }
         };
     }
@@ -131,19 +116,20 @@ export class SearchView extends BaseView {
      * @this {SearchView}
      */
     async render(context) {
-        super.render();
-        this.__setTitle();
-        this.layout = new Layout(this.__app, true);
-        this.layout.render();
         this.__makeContext(context);
+        super.render();
 
-        this.__navSubView = new Navigation(this.getLayoutParent(), router.getPreviousTitle(), {route: ['Поиск объявлений']});
-        this.__navSubView.render(context);
+        const layout = new Layout(this.__app, true);
+        layout.render();
 
-        const adSwitch = new Switch(this.getLayoutParent());
-        adSwitch.render(this.__context.switch);
+        const parent = layout.parent;
 
-        this.__searchBar = new SearchBar(this.getLayoutParent());
+        if (!mobile.isMobile()) {
+            this.__navSubView = new Navigation(parent, router.getPreviousTitle(), {route: ['Поиск объявлений']});
+            this.__navSubView.render(context);
+        }
+
+        this.__searchBar = new SearchBar(parent);
         this.__searchBar.render(this.__context);
 
         super.renderFooter();

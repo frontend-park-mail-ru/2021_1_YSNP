@@ -1,4 +1,4 @@
-import offlineTempate from './PageOffline.hbs';
+import offlineTemplate from './PageOffline.hbs';
 import './PageOffline.scss';
 
 /***
@@ -18,7 +18,7 @@ export class PageOffline {
      */
     render() {
         try {
-            this.__parent.insertAdjacentHTML('beforeend', offlineTempate());
+            this.__parent.insertAdjacentHTML('beforeend', offlineTemplate());
         } catch (err) {
             console.log(err.message);
         }

@@ -18,9 +18,10 @@ export class InfoCard {
      * @this {InfoCard}
      * @public
      */
-    constructor(parent, data) {
+    constructor(parent, data, owner) {
         this.__parent = parent;
         this.__data = data;
+        this.__owener = owner;
     }
 
     /***
@@ -30,6 +31,15 @@ export class InfoCard {
      */
     showNumber(tel) {
         document.querySelector('.info-card-btn__number').value = tel;
+    }
+
+    /***
+     *
+     * get tel
+     * @return {string}
+     */
+    getTelNumber() {
+        return document.querySelector('.info-card-btn__number').value;
     }
 
     /***
@@ -82,6 +92,15 @@ export class InfoCard {
     }
 
     /***
+     * Return product name
+     * @returns {string}
+     * @private
+     */
+    get __getProductName() {
+        return this.__data.__name;
+    }
+
+    /***
      * @author Ivan Gorshkov
      *
      * getter for number of likes
@@ -103,7 +122,7 @@ export class InfoCard {
      */
     get __getDate() {
         const date = new Date(this.__data.__date);
-        return date.toLocaleDateString('ru-RU', { weekday: 'short', day: 'numeric', month: 'short', year: 'numeric' });
+        return date.toLocaleDateString('ru-RU', {weekday: 'short', day: 'numeric', month: 'short', year: 'numeric'});
     }
 
     /***
@@ -122,7 +141,7 @@ export class InfoCard {
 
         // eslint-disable-next-line no-magic-numbers
         Array(roundedCount).fill(1).forEach(() => {
-            stars += '<svg width="1.3vw" height="1.3vw" viewBox="0 0 20 21" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M10 0.895218L12.7861 7.42562L19.5106 8.21429L14.508 13.039L15.8779 20.0568L10 16.5082L4.12215 20.0568L5.49199 13.039L0.489435 8.21429L7.2139 7.42562L10 0.895218Z" fill="#F3DD14"/></svg>';
+            stars += '<svg width="1.8vh" height="1.8vh" viewBox="0 0 20 21" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M10 0.895218L12.7861 7.42562L19.5106 8.21429L14.508 13.039L15.8779 20.0568L10 16.5082L4.12215 20.0568L5.49199 13.039L0.489435 8.21429L7.2139 7.42562L10 0.895218Z" fill="#F3DD14"/></svg>';
         });
 
         return stars;
@@ -135,6 +154,15 @@ export class InfoCard {
      */
     get __getAvatar() {
         return this.__data.__ownerLinkImages;
+    }
+
+    /***
+     * Get seller avatar
+     * @returns {string}
+     * @private
+     */
+    get __getClose() {
+        return this.__data.__close;
     }
 
     /***
@@ -153,7 +181,10 @@ export class InfoCard {
             date: this.__getDate,
             views: this.__getViews,
             likes: this.__getLikes,
-            avatar: this.__getAvatar
+            avatar: this.__getAvatar,
+            owner: this.__owener,
+            close: this.__getClose,
+            productName: this.__getProductName
         };
     }
 

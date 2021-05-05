@@ -1,0 +1,39 @@
+@import "../../../../scss/main.scss";
+
+.user-message {
+  width: 100%;
+
+  &-inner {
+    padding: 1vh;
+  }
+
+  &-block {
+    width: fit-content;
+    word-break: break-all;
+    max-width: 60%;
+
+    margin-left: auto;
+    margin-bottom: 0.5vh;
+
+    color: white;
+    background-color: $mainColor;
+    border-radius: 2vh;
+
+    &-inner {
+      padding: 1vh;
+    }
+
+    &__text {
+      font-size: 1.5vh;
+    }
+  }
+
+  &__date {
+    display: flex;
+    justify-content: flex-end;
+
+    font-size: 1.2vh;
+    font-weight: 400;
+    color: $textGrayColor;
+  }
+}

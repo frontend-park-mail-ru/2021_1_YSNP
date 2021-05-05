@@ -7,7 +7,7 @@ const cacheUrls = [
     '/sw.js',
 
     '/img/favicon.svg',
-    '/img/profile.png',
+    '/img/profile.webp',
     '/img/search-background.webp',
 
     '/img/svg/cancel.svg',

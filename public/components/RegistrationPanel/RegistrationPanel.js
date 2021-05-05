@@ -3,7 +3,7 @@ import '../Board/Description/Description.scss';
 import '../Settings/Settings.scss';
 import './RegistrationPanel.scss';
 import registrationPanelTemplate from './RegistrationPanel.hbs';
-import {createMessageError} from '../../modules/validationStates.js';
+import {createMessageError} from '../../modules/layout/validationStates.js';
 import {Field} from './Fields/Field.js';
 
 /***
@@ -236,7 +236,7 @@ export class RegistrationPanel {
      * @this {RegistrationPanel}
      */
     addErrorAvatar() {
-        document.getElementById('circle-avatar').classList.add('reg-panel__input-error');
+        document.getElementById('circle-avatar').classList.add('input-error');
     }
 
     /***
@@ -247,8 +247,8 @@ export class RegistrationPanel {
      * @this {RegistrationPanel}
      */
     removeErrorAvatar() {
-        document.getElementById('circle-avatar').classList.remove('reg-panel__input-error');
-        document.getElementById('circle-avatar').classList.add('reg-panel__input-susses');
+        document.getElementById('circle-avatar').classList.remove('input-error');
+        document.getElementById('circle-avatar').classList.add('input-susses');
     }
 
     /***

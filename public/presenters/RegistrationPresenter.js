@@ -1,11 +1,11 @@
 import {BasePresenter} from './BasePresenter.js';
-import {addSuccesses, hideError, insertError, showError} from '../modules/validationStates.js';
-import {eventHandlerWithDataType} from '../modules/eventHandler.js';
-import {parseTelNumber, telMask} from '../modules/mask.js';
+import {addSuccesses, hideError, insertError, showError} from '../modules/layout/validationStates.js';
+import {eventHandlerWithDataType} from '../modules/handlers/eventHandler.js';
+import {parseTelNumber, telMask} from '../modules/layout/mask.js';
 import {router} from '../modules/router.js';
-import {frontUrls} from '../modules/frontUrls.js';
-import {RegUserData} from '../models/RegUserData.js';
-import {noop} from '../models/Noop.js';
+import {frontUrls} from '../modules/urls/frontUrls.js';
+import {RegUserModel} from '../models/RegUserModel.js';
+import {noop} from '../modules/noop.js';
 import {checkIsNotAuth} from '../modules/checkAuth.js';
 
 
@@ -20,7 +20,7 @@ export class RegistrationPresenter extends BasePresenter {
      */
     constructor(view) {
         super(view);
-        this.__model = new RegUserData();
+        this.__model = new RegUserModel();
         this.__view = view;
         this.__isPicAdd = false;
     }
@@ -50,8 +50,7 @@ export class RegistrationPresenter extends BasePresenter {
      */
     async control() {
         await this.update();
-        this.scrollUp();
-        if (this.checkOffline()) {
+        if (!this.isRenderView()) {
             return;
         }
 
@@ -431,6 +430,7 @@ export class RegistrationPresenter extends BasePresenter {
                     //TODO(Sergey) нормальная обработка ошибок
                     console.log(err.message);
 
+                    this.scrollUp();
                     this.__view.errorText(err.message);
 
                     this.checkOfflineStatus(err);

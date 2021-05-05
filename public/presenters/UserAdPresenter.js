@@ -1,13 +1,14 @@
 import {BasePresenter} from './BasePresenter.js';
 import {AdListModel} from '../models/AdListModel.js';
 
-import {EndlessScroll} from '../modules/endlessScroll.js';
-import {PageUpHandler} from '../modules/pageUpHandler.js';
+import {EndlessScroll} from '../modules/handlers/endlessScroll.js';
+import {PageUpHandler} from '../modules/handlers/pageUpHandler.js';
 
 import {router} from '../modules/router';
-import {frontUrls} from '../modules/frontUrls';
+import {frontUrls} from '../modules/urls/frontUrls';
 
-import {eventProductListHandler} from '../modules/eventHandler.js';
+import {eventProductListHandler} from '../modules/handlers/eventHandler.js';
+import {checkIsAuth} from '../modules/checkAuth';
 
 /***
  * favorite presenter
@@ -45,10 +46,11 @@ export class UserAdPresenter extends BasePresenter {
      */
     async control() {
         await this.update();
-        this.scrollUp();
-        if (this.checkOffline()) {
+        if (!this.isRenderView()) {
             return;
         }
+
+        checkIsAuth();
 
         this.__view.render(this.__makeContext());
         this.__endlessScroll.start();
@@ -82,14 +84,19 @@ export class UserAdPresenter extends BasePresenter {
     __scrollEnd() {
         this.__adListModel.updateNewData()
             .then(() => {
-                const newData = this.__mainListModel.newData;
+                const newData = this.__adListModel.newData;
                 if (newData.length === 0) {
                     this.__endlessScroll.remove();
+                    return;
                 }
 
                 this.__view.addNewCards(newData);
             })
             .catch((err) => {
+                if (err.message === 'isUpdate') {
+                    return;
+                }
+
                 //TODO(Sergey) нормальная обработка ошибок
                 console.log(err.message);
             });

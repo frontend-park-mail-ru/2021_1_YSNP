@@ -1,13 +1,15 @@
 import {router} from '../modules/router.js';
-import {frontUrls} from '../modules/frontUrls.js';
-import {eventHandler} from '../modules/eventHandler.js';
-import {parseTelNumber, telMask} from '../modules/mask.js';
+import {frontUrls} from '../modules/urls/frontUrls.js';
+import {eventHandler} from '../modules/handlers/eventHandler.js';
+import {parseTelNumber, telMask} from '../modules/layout/mask.js';
 
 import {user} from '../models/ProfileUserModel.js';
 import {AuthUserModel} from '../models/AuthUserModel.js';
-import {YandexMap} from '../modules/yandexMap';
+import {YandexMap} from '../modules/layout/yandexMap.js';
 
-import {OfflineError} from '../modules/customError';
+import {OfflineError} from '../modules/http/httpError.js';
+import {mobile} from '../modules/mobile';
+import {chat} from '../models/ChatModel';
 
 /***
  * Base presenter
@@ -20,10 +22,14 @@ export class BasePresenter {
     constructor(view) {
         this.__view = view;
         this.__userModel = user;
-        this.__authModel = new AuthUserModel();
         this.__isShownMap = false;
         this.__isShownAuth = false;
         this.__yaMap = new YandexMap();
+        mobile.start(this.__resizeCallback.bind(this));
+
+        this.__authModel = new AuthUserModel();
+        this.__chatModel = chat;
+        this.__chatModel.updateHeaderCallbackList(this.__createBaseCallbacks());
     }
 
     /***
@@ -34,6 +40,13 @@ export class BasePresenter {
         return this.__userModel.update()
             .then(() => {
                 this.__view.baseContext = this.__makeBaseContext();
+
+                if (this.__userModel.isAuth) {
+                    this.__chatModel.updateUserID(this.__userModel.getData().id);
+                    return this.__chatModel.connect();
+                }
+
+                return Promise.resolve();
             })
             .catch((err) => {
                 this.__view.baseContext = this.__makeBaseContext();
@@ -53,6 +66,15 @@ export class BasePresenter {
     }
 
     /***
+     * Prerender control
+     * @returns {boolean}
+     */
+    isRenderView() {
+        this.scrollUp();
+        return !this.checkOffline();
+    }
+
+    /***
      * Remove page listeners
      */
     removePageListeners() {
@@ -64,7 +86,47 @@ export class BasePresenter {
             this.__view.removeMap();
         }
 
+        mobile.remove();
         this.__view.removeHeaderListeners();
+    }
+
+    /***
+     * Update unread message count
+     * @param count
+     * @private
+     */
+    __updateUnreadMessageCountCallback(count) {
+        console.log('update', count);
+        // this.__view.updateHeaderUnreadMessages(count);
+    }
+
+    /***
+     * Delete unread message count
+     * @private
+     */
+    __deleteUnreadMessageCountCallback() {
+        console.log('delete');
+        // this.__view.deleteHeaderUnreadMessages();
+    }
+
+    /***
+     * Create base callback list
+     * @returns {{deleteUnreadMessageCount: *, updateUnreadMessage: *}}
+     * @private
+     */
+    __createBaseCallbacks() {
+        return {
+            updateUnreadMessage: this.__updateUnreadMessageCountCallback.bind(this),
+            deleteUnreadMessageCount: this.__deleteUnreadMessageCountCallback.bind(this)
+        };
+    }
+
+    /***
+     * Resize callback
+     * @private
+     */
+    __resizeCallback() {
+        router.redirectCurrent();
     }
 
     /***
@@ -167,6 +229,7 @@ export class BasePresenter {
 
         this.__authModel.auth()
             .then(() => {
+                this.__view.removeOverflowHidden();
                 router.redirectCurrent();
             })
             .catch((err) => {
@@ -270,9 +333,8 @@ export class BasePresenter {
 
     /***
      * Open create product view
-     * @private
      */
-    __openCreateProduct() {
+    openCreateProduct() {
         if (this.__userModel.isAuth) {
             router.redirect(frontUrls.productCreate, '', {title: document.title});
         } else {
@@ -282,12 +344,12 @@ export class BasePresenter {
 
     /***
      * Open map
-     * @private
      */
-    __openMap() {
+    openMap() {
         this.closeAllComponents();
         this.__isShownMap = true;
         this.__view.updateMapContext(this.__getUserPosition());
+        this.__view.addOverflowHidden();
         this.__view.renderMap();
         this.__yaMap.render({
             searchControl: true,
@@ -297,7 +359,7 @@ export class BasePresenter {
         });
 
         if (this.__userModel.isAuth) {
-            this.__yaMap.setPosition(this.__getUserPosition().pos, this.__getUserPosition().radius * 1000);
+            this.__yaMap.setInitialData(this.__getUserPosition().pos, this.__getUserPosition().radius * 1000, this.__getUserPosition().address);
         }
     }
 
@@ -308,6 +370,7 @@ export class BasePresenter {
     __closeMap() {
         if (this.__isShownMap) {
             this.__isShownMap = false;
+            this.__view.removeOverflowHidden();
             this.__view.removeMap();
         }
     }
@@ -318,6 +381,7 @@ export class BasePresenter {
     openAuth() {
         this.closeAllComponents();
         this.__isShownAuth = true;
+        this.__view.addOverflowHidden();
         this.__view.renderAuth();
     }
 
@@ -328,6 +392,7 @@ export class BasePresenter {
     __closeAuth() {
         if (this.__isShownAuth) {
             this.__isShownAuth = false;
+            this.__view.removeOverflowHidden();
             this.__view.removeAuth();
         }
     }
@@ -374,6 +439,30 @@ export class BasePresenter {
     }
 
     /***
+     * Go back
+     * @private
+     */
+    __backClick() {
+        router.navigateBack();
+    }
+
+    /***
+     * Open user menu
+     * @private
+     */
+    __openUserMenu() {
+        this.__view.renderUserMenu();
+    }
+
+    /***
+     * Close user menu
+     * @private
+     */
+    __closeUserMenu() {
+        this.__view.removeUserMenu();
+    }
+
+    /***
      * Group button click
      * @param {HTMLElement} el - element click
      * @private
@@ -403,7 +492,8 @@ export class BasePresenter {
 
         this.__userModel.position()
             .then(() => {
-                this.__closeMap();
+                this.__view.removeOverflowHidden();
+                router.redirectCurrent();
                 this.__view.updateAddress(this.__userModel.getData().address);
             })
             .catch((err) => {
@@ -422,10 +512,10 @@ export class BasePresenter {
         return {
             header: {
                 locationClick: {
-                    open: this.__openMap.bind(this)
+                    open: this.openMap.bind(this)
                 },
                 createProductClick: {
-                    open: this.__openCreateProduct.bind(this)
+                    open: this.openCreateProduct.bind(this)
                 },
                 authClick: {
                     open: this.openAuth.bind(this)
@@ -435,6 +525,15 @@ export class BasePresenter {
                 },
                 logoutClick: {
                     open: this.__logout.bind(this)
+                },
+                userMenuClick: {
+                    open: this.__openUserMenu.bind(this)
+                },
+                backClick: {
+                    open: this.__backClick.bind(this)
+                },
+                closeClick: {
+                    open: this.__closeUserMenu.bind(this)
                 }
             },
             auth: {
@@ -458,7 +557,7 @@ export class BasePresenter {
 
     /***
      * Get user position
-     * @returns {{pos: {latitude: number, longitude: number}, radius: number}}
+     * @returns {{pos: {latitude: number, longitude: number}, radius: number, address: string}}
      * @private
      */
     __getUserPosition() {
@@ -467,7 +566,8 @@ export class BasePresenter {
                 latitude: this.__userModel.getData().latitude,
                 longitude: this.__userModel.getData().longitude
             },
-            radius: this.__userModel.getData().radius
+            radius: this.__userModel.getData().radius,
+            address: this.__userModel.getData().address
         };
     }
 

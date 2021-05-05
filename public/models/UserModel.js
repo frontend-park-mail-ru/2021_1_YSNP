@@ -1,24 +1,18 @@
-import {http} from '../modules/http.js';
-import {backUrls} from '../modules/backUrls.js';
-import {httpStatus} from '../modules/httpStatus.js';
+import {BaseModel} from './BaseModel.js';
 
-import {
-    UnauthorizedError,
-    BadRequestError,
-    NotFoundError,
-    OfflineError,
-    InternalServerError
-} from '../modules/customError.js';
+import {http} from '../modules/http/http.js';
+import {backUrls} from '../modules/urls/backUrls.js';
 
 /***
  * User model
  */
-export class UserModel {
+export class UserModel extends BaseModel {
     /***
      * Class constructor
      * @param {Object} data - user object
      */
     constructor(data = {}) {
+        super();
         this.fillUserData(data);
     }
 
@@ -225,30 +219,10 @@ export class UserModel {
     async getUser(id) {
         return http.get(backUrls.getUser(id))
             .then(({status, data}) => {
-                if (status === httpStatus.StatusBadRequest) {
-                    throw new BadRequestError();
-                    // throw new BadRequestError(data.message);
-                }
-
-                if (status === httpStatus.StatusUnauthorized) {
-                    throw new UnauthorizedError();
-                    // throw new UnauthorizedError(data.message);
-                }
-
-                if (status === httpStatus.StatusNotFound) {
-                    throw new NotFoundError(NotFoundError.defaultUserMessage);
-                    // throw new NotFoundError(data.message);
-                }
-
-                if (status === httpStatus.StatusOffline) {
-                    throw new OfflineError();
-                    // throw new OfflineError(data.message);
-                }
-
-                if (status === httpStatus.StatusInternalServerError) {
-                    throw new InternalServerError();
-                    // throw new InternalServerError(data.message);
-                }
+                this.checkError(status, {
+                    message: data.message,
+                    notFound: 'Нет такого пользователя'
+                });
 
                 this.fillUserData(data);
             });

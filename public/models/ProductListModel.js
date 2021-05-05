@@ -1,26 +1,22 @@
-import {ProductModel} from './ProductModel.js';
-import {http} from '../modules/http';
-import {backUrls} from '../modules/backUrls';
-import {httpStatus} from '../modules/httpStatus';
+import {BaseModel} from './BaseModel.js';
 
-import {
-    UnauthorizedError,
-    ForbiddenError,
-    BadRequestError,
-    OfflineError,
-    InternalServerError
-} from '../modules/customError.js';
+import {ProductModel} from './ProductModel.js';
+
+import {http} from '../modules/http/http';
+import {backUrls} from '../modules/urls/backUrls';
 
 /***
  * Product list model
  */
-export class ProductListModel {
+export class ProductListModel extends BaseModel {
     /***
      * Class constructor
      * @param {number} pageCount - count of products in page
      */
     constructor(pageCount = 30) {
+        super();
         this.__productList = [];
+        this.__isUpdate = false;
         this.__page = 0;
         this.__pageCount = pageCount;
     }
@@ -31,6 +27,7 @@ export class ProductListModel {
      * @param {boolean} isLiked - product like
      */
     parseData(data, isLiked = false) {
+        this.__isUpdate = false;
         if (!Array.isArray(data)) {
             throw new Error('no data');
         }
@@ -45,6 +42,28 @@ export class ProductListModel {
             return accum;
         }, []);
         this.__productList = this.__productList.concat(this.__newData);
+    }
+
+    /***
+     * Set like
+     * @param {number} id - product id
+     */
+    setLike(id) {
+        const product = this.__getProduct(id);
+        if (product) {
+            product.setLike();
+        }
+    }
+
+    /***
+     * Set dislike
+     * @param {number} id - product id
+     */
+    sedDislike(id) {
+        const product = this.__getProduct(id);
+        if (product) {
+            product.setDislike();
+        }
     }
 
     /***
@@ -115,8 +134,13 @@ export class ProductListModel {
      * @returns {Promise<void>}
      */
     async updateNewData() {
-        this.__page++;
-        return this.__updateNewDataPage();
+        if (!this.__isUpdate) {
+            this.__isUpdate = true;
+            this.__page++;
+            return this.__updateNewDataPage();
+        }
+
+        return Promise.reject({message: 'isUpdate'});
     }
 
     /***
@@ -132,40 +156,20 @@ export class ProductListModel {
      * Like product
      * @param {number} id - product id
      *  @param {ProductModel} product - product
-     * @returns {Promise<{status: string}>}
+     * @returns {Promise<{data: *, status: number}>}
      * @private
      */
     async __likeProduct(id, product) {
         return http.post(backUrls.userLikeProduct(id), null)
-            .then(({status}) => {
-                if (status === httpStatus.StatusBadRequest) {
-                    throw new BadRequestError();
-                    // throw new BadRequestError(data.message);
-                }
-
-                if (status === httpStatus.StatusUnauthorized) {
-                    throw new UnauthorizedError();
-                    // throw new UnauthorizedError(data.message);
-                }
-
-                if (status === httpStatus.StatusForbidden) {
-                    throw new ForbiddenError();
-                    // throw new ForbiddenError(data.message);
-                }
-
-                if (status === httpStatus.StatusOffline) {
-                    throw new OfflineError();
-                    // throw new OfflineError(data.message);
-                }
-
-                if (status === httpStatus.StatusInternalServerError) {
-                    throw new InternalServerError();
-                    // throw new InternalServerError(data.message);
-                }
+            .then(({status, data}) => {
+                this.checkError(status, {
+                    message: data.message
+                });
 
                 product.setLike();
                 return {status: 'like'};
-            });
+            })
+            .then((data) => this.setStat(data, product.getData().name));
     }
 
     /***
@@ -177,34 +181,30 @@ export class ProductListModel {
      */
     async __dislikeProduct(id, product) {
         return http.post(backUrls.userDislikeProduct(id), null)
-            .then(({status}) => {
-                if (status === httpStatus.StatusBadRequest) {
-                    throw new BadRequestError();
-                    // throw new BadRequestError(data.message);
-                }
-
-                if (status === httpStatus.StatusUnauthorized) {
-                    throw new UnauthorizedError();
-                    // throw new UnauthorizedError(data.message);
-                }
-
-                if (status === httpStatus.StatusForbidden) {
-                    throw new ForbiddenError();
-                    // throw new ForbiddenError(data.message);
-                }
-
-                if (status === httpStatus.StatusOffline) {
-                    throw new OfflineError();
-                    // throw new OfflineError(data.message);
-                }
-
-                if (status === httpStatus.StatusInternalServerError) {
-                    throw new InternalServerError();
-                    // throw new InternalServerError(data.message);
-                }
+            .then(({status, data}) => {
+                this.checkError(status, {
+                    message: data.message
+                });
 
                 product.setDislike();
                 return {status: 'dislike'};
+            });
+    }
+
+    /***
+     * Set stat
+     * @param {Object} voteData - vote data
+     * @param {string} productName - product name
+     * @returns {Promise<{data: *, status: number}>}
+     */
+    async setStat(voteData, productName) {
+        return http.post(backUrls.recStat, {text: productName})
+            .then(({status, data}) => {
+                this.checkError(status, {
+                    message: data.message
+                });
+
+                return voteData;
             });
     }
 }

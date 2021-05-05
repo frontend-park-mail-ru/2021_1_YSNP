@@ -1,6 +1,5 @@
 import {BaseView} from './BaseView.js';
 import {SearchBox} from '../components/SearchBox/SearchBox.js';
-import {Switch} from '../components/Switch/Switch.js';
 import {Layout} from '../components/Layout/Layout.js';
 import {ProductTable} from '../components/ProductTable/ProductTable.js';
 
@@ -14,6 +13,7 @@ export class MainView extends BaseView {
      */
     likeProduct(id) {
         this.__mainList.like(id);
+        this.__trendsList.like(id);
     }
 
     /***
@@ -22,6 +22,7 @@ export class MainView extends BaseView {
      */
     dislikeProduct(id) {
         this.__mainList.dislike(id);
+        this.__trendsList.dislike(id);
     }
 
     /***
@@ -40,17 +41,22 @@ export class MainView extends BaseView {
     __makeContext(context) {
         this.__context = {
             mainList: {
+                title: 'Все объявления',
+                text: 'Товары закончились',
+                id: 'main',
                 data: context.mainList.data,
                 listeners: context.mainList.listeners
+            },
+            trendsList: {
+                title: 'Рекомендации',
+                text: 'Пока нет новых рекомендаций',
+                id: 'trends',
+                data: context.recList.data,
+                listeners: context.recList.listeners
             },
             search: {
                 data: context.search.data,
                 listeners: context.search.listeners
-            },
-            switch: {
-                data: {
-                    title: 'Все объявления'
-                }
             }
         };
     }
@@ -85,20 +91,21 @@ export class MainView extends BaseView {
      * @param {Object} context - view context
      */
     render(context) {
-        super.render();
-        this.__setTitle();
         this.__makeContext(context);
-
+        super.render();
+        this.removeBackButton();
 
         this.__searchBox = new SearchBox(this.__app);
         this.__searchBox.render(this.__context.search);
 
-        const layout = new Layout(this.__app, true);
+        const layout = new Layout(this.__app);
         layout.render();
+
         const parent = layout.parent;
 
-        const adSwitch = new Switch(parent);
-        adSwitch.render(this.__context.switch);
+        this.__trendsList = new ProductTable(parent);
+        this.__trendsList.render(this.__context.trendsList);
+
         this.__mainList = new ProductTable(parent);
         this.__mainList.render(this.__context.mainList);
 

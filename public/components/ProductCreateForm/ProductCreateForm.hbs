@@ -1,6 +1,6 @@
 <div class="board">
     <div class="board-title">
-        <p class="reg-panel-title__product-name">Создание объявления</p>
+        <p class="reg-panel-title__product-name" id="board-title">Создание объявления</p>
     </div>
     <div class="auth-content-inner__error reg-error" id="create-error">
         <span></span>
@@ -8,7 +8,7 @@
     <form method="post" id="createProductForm" name="create" enctype="multipart/form-data">
         <div id="files">
             <input id="file-upload0" name="photos" data-id="0" data-action="readURL" class="file-upload" type="file"
-                   accept="image/*"/>
+                   accept="image/jpeg,image/png"/>
         </div>
         <div id="ProductForm">
 
@@ -18,9 +18,9 @@
                     Какие-то проблемы с картой
                 </span>
         </div>
-        <div class="product-des">
-            <div class="product-des-topic"></div>
-            <div class="form-inner" id="submitBtn">
+        <div class="product-create">
+            <div class="product-create-topic"></div>
+            <div class="product-create-submit" id="submitBtn">
                 <input class="reg__button" data-action="submitClick" type="submit"
                        id="submitProduct" value="Продолжить"/>
             </div>

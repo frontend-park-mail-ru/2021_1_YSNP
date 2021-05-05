@@ -1,6 +1,6 @@
 import {BasePresenter} from './BasePresenter.js';
 import {router} from '../modules/router';
-import {frontUrls} from '../modules/frontUrls';
+import {frontUrls} from '../modules/urls/frontUrls';
 import {checkIsAuth} from '../modules/checkAuth.js';
 
 /***
@@ -35,8 +35,7 @@ export class PromotionPresenter extends BasePresenter {
      */
     async control() {
         await this.update();
-        this.scrollUp();
-        if (this.checkOffline()) {
+        if (!this.isRenderView()) {
             return;
         }
 
@@ -156,7 +155,8 @@ export class PromotionPresenter extends BasePresenter {
         if (s.status === 'nothing') {
             this.__view.removeListeners();
             ev.preventDefault();
-            router.redirect(frontUrls.main);
+            const numberId = router.getState().id;
+            router.redirect(frontUrls.product(numberId), '', {title: 'Koya'});
         } else if (s.status === 'send') {
             this.__view.removeListeners();
         } else {

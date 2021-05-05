@@ -1,27 +1,21 @@
-import {http} from '../modules/http.js';
-import {backUrls} from '../modules/backUrls.js';
-import {httpStatus} from '../modules/httpStatus.js';
+import {BaseModel} from './BaseModel.js';
 
-import {YandexMap} from '../modules/yandexMap.js';
+import {http} from '../modules/http/http.js';
+import {backUrls} from '../modules/urls/backUrls.js';
 
-import {
-    UnauthorizedError,
-    ForbiddenError,
-    BadRequestError,
-    NotFoundError,
-    OfflineError,
-    InternalServerError
-} from '../modules/customError.js';
+import {YandexMap} from '../modules/layout/yandexMap.js';
+
 
 /***
  * Product model
  */
-export class ProductModel {
+export class ProductModel extends BaseModel {
     /***
      * Class constructor
      * @param data
      */
     constructor(data = {}) {
+        super();
         this.fillProductModel(data);
     }
 
@@ -235,6 +229,7 @@ export class ProductModel {
         this.__ownerSurname = data.ownerSurname;
         this.__ownerLinkImages = data.ownerLinkImages;
         this.__ownerStars = 4.8;
+        this.__close = data.close;
     }
 
     /***
@@ -247,12 +242,19 @@ export class ProductModel {
             name: this.__name,
             description: this.__description,
             amount: this.__amount,
-            linkImages: this.__linkImages,
             category: this.__category,
             latitude: this.__latitude,
             longitude: this.__longitude,
             address: this.__adress
         };
+    }
+
+    __jsonDataWithUrls() {
+        return Object.assign({}, this.__jsonData(), {
+            id: this.__id,
+            linkImages: this.__linkImages,
+            ownerId: this.__ownerId
+        });
     }
 
     /***
@@ -279,7 +281,8 @@ export class ProductModel {
             ownerName: this.__ownerName,
             ownerSurname: this.__ownerSurname,
             ownerLinkImages: this.__ownerLinkImages,
-            ownerStars: this.__ownerStars
+            ownerStars: this.__ownerStars,
+            close: this.__close
         };
     }
 
@@ -312,7 +315,7 @@ export class ProductModel {
             userLiked: this.__userLiked,
             linkImage: this.__getFirstImage(),
             tariff: this.__tariff,
-            status: 'открыто'
+            status: this.__close ? 'закрыто' : 'открыто'
         };
     }
 
@@ -347,27 +350,25 @@ export class ProductModel {
     async update() {
         return http.get(backUrls.product(this.__id))
             .then(({status, data}) => {
-                if (status === httpStatus.StatusBadRequest) {
-                    throw new BadRequestError();
-                    // throw new BadRequestError(data.message);
-                }
-
-                if (status === httpStatus.StatusNotFound) {
-                    throw new NotFoundError(NotFoundError.defaultProductMessage);
-                    // throw new NotFoundError(data.message);
-                }
-
-                if (status === httpStatus.StatusOffline) {
-                    throw new OfflineError();
-                    // throw new OfflineError(data.message);
-                }
-
-                if (status === httpStatus.StatusInternalServerError) {
-                    throw new InternalServerError();
-                    // throw new InternalServerError(data.message);
-                }
+                this.checkError(status, {
+                    message: data.message,
+                    notFound: 'Нет такого товара'
+                });
 
                 this.fillProductModel(data);
+            });
+    }
+
+    /***
+     * Post close product
+     * @returns {Promise<{data: *, status: number}>}
+     */
+    async close() {
+        return http.post(backUrls.closeProduct(this.__id), null)
+            .then(({status, data}) => {
+                this.checkError(status, {
+                    message: data.message
+                });
             });
     }
 
@@ -376,63 +377,43 @@ export class ProductModel {
      * @returns {Promise<{id: *}>}
      */
     async create(form) {
-        return http.post(backUrls.productCreate, this.__jsonData())
+        return this.__sendData(form, backUrls.productCreate, this.__jsonData());
+    }
+
+    async edit(form) {
+        return this.__sendData(form, backUrls.editPage, this.__jsonDataWithUrls());
+    }
+
+    __sendData(form, url, data) {
+        return http.post(url, data)
             .then(({status, data}) => {
-                if (status === httpStatus.StatusBadRequest) {
-                    throw new BadRequestError();
-                    // throw new BadRequestError(data.message);
-                }
-
-                if (status === httpStatus.StatusUnauthorized) {
-                    throw new UnauthorizedError();
-                    // throw new UnauthorizedError(data.message);
-                }
-
-                if (status === httpStatus.StatusForbidden) {
-                    throw new ForbiddenError();
-                    // throw new ForbiddenError(data.message);
-                }
-
-                if (status === httpStatus.StatusOffline) {
-                    throw new OfflineError();
-                    // throw new OfflineError(data.message);
-                }
-
-                if (status === httpStatus.StatusInternalServerError) {
-                    throw new InternalServerError();
-                    // throw new InternalServerError(data.message);
-                }
+                this.checkError(status, {
+                    message: data.message
+                });
 
                 this.__id = data.id;
                 return http.post(backUrls.productUploadPhotos(this.__id), new FormData(form), true)
-                    .then(({status}) => {
-                        if (status === httpStatus.StatusBadRequest) {
-                            throw new BadRequestError();
-                            // throw new BadRequestError(data.message);
-                        }
-
-                        if (status === httpStatus.StatusUnauthorized) {
-                            throw new UnauthorizedError();
-                            // throw new UnauthorizedError(data.message);
-                        }
-
-                        if (status === httpStatus.StatusForbidden) {
-                            throw new ForbiddenError();
-                            // throw new ForbiddenError(data.message);
-                        }
-
-                        if (status === httpStatus.StatusOffline) {
-                            throw new OfflineError();
-                            // throw new OfflineError(data.message);
-                        }
-
-                        if (status === httpStatus.StatusInternalServerError) {
-                            throw new InternalServerError();
-                            // throw new InternalServerError(data.message);
-                        }
+                    .then(({status, data}) => {
+                        this.checkError(status, {
+                            message: data.message
+                        });
 
                         return {id: this.__id};
                     });
+            });
+    }
+
+    /***
+     * Set stat
+     * @param {string} productName - product name
+     * @returns {Promise<{data: *, status: number}>}
+     */
+    async setStat(productName) {
+        return http.post(backUrls.recStat, {text: productName})
+            .then(({status, data}) => {
+                this.checkError(status, {
+                    message: data.message
+                });
             });
     }
 }

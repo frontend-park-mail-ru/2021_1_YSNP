@@ -1,0 +1,44 @@
+@import "../../scss/main.scss";
+
+.chats {
+  @include set-size(100%, 60vh);
+  @include shadow-block;
+  overflow: hidden;
+
+  &-inner {
+    display: flex;
+    flex-direction: row;
+  }
+
+  &-list {
+    @include set-size(30%, 100%);
+
+    @media screen and (max-width: 1400px) {
+      @include set-size(40%, 100%);
+    }
+
+    @media screen and (max-width: $breakDesktop) {
+      @include set-size(50%, 100%);
+    }
+
+    @media screen and (max-width: $breakMobile) {
+      @include set-size(100%, 100%);
+    }
+  }
+
+  &-message {
+    @include set-size(70%, 100%);
+
+    @media screen and (max-width: 1400px) {
+      @include set-size(60%, 100%);
+    }
+
+    @media screen and (max-width: $breakDesktop) {
+      @include set-size(50%, 100%);
+    }
+
+    @media screen and (max-width: $breakMobile) {
+      @include set-size(100%, 100%);
+    }
+  }
+}
