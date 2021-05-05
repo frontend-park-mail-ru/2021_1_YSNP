@@ -54,6 +54,10 @@
 
     &__title {
       margin-top: 0;
+
+      @media screen and (max-width: $breakMobile){
+        margin-top: revert;
+      }
     }
 
     &-elem {

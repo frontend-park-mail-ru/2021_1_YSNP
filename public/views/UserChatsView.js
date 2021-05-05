@@ -147,7 +147,7 @@ export class UserChatsView extends BaseView {
         const left = layout.leftParent;
         const right = layout.rightParent;
 
-        const profileMenu = new ProfileMenu(left, {page: 'favorites'});
+        const profileMenu = new ProfileMenu(left, {page: 'messages'});
         profileMenu.render(this.__context.profileSettings);
 
         this.__chats = new Chats(right);
