@@ -34,8 +34,19 @@
       font-size: 3vh;
     }
     @media screen and (max-width: $breakMobile) {
-      font-size: 4.5vh;
+      font-size: 3vh;
       text-align: left;
+      margin-top: 0.8vh;
+    }
+  }
+
+  &__product {
+    display: none;
+    @media screen and (max-width: $breakMobile) {
+      display: inline;
+      font-family: Roboto-Thin, sans-serif;
+      font-size: 4vh;
+      font-weight: 600;
     }
   }
 

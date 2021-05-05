@@ -134,20 +134,30 @@ export class ProductCreateForm {
     deletePicture(target, handler) {
         document.getElementById(`_profile-pic${target.dataset.id}`).remove();
         document.getElementById(`file-upload${target.dataset.id}`).remove();
+        if (target.id.length === 9) {
+            return handler + 1;
+        }
         const crosses = document.getElementsByClassName('cross');
         const pictures = document.getElementsByClassName('product__pic');
         const pictureFrames = document.getElementsByClassName('form-row');
         const filesInput = document.getElementsByClassName('file-upload');
         const labelPhoto = document.getElementsByClassName('form-row__photolabel');
-        for (let i = 0; i <= handler; i++) {
-            crosses[i].id = `delete${i}`;
-            crosses[i].dataset.id = i.toString();
-            pictures[i].id = `product__pic${i}`;
-            pictures[i].dataset.id = i.toString();
-            pictureFrames[i].id = `_profile-pic${i}`;
-            filesInput[i].dataset.id = i.toString();
-            filesInput[i].id = `file-upload${i}`;
-            labelPhoto[i].dataset.id = i.toString();
+        let tmpHandler = handler;
+        for (let i = 0, j = 0; i <= tmpHandler; i++) {
+            if (pictures[i].id.length === 15) {
+                tmpHandler++;
+                continue;
+            }
+
+            crosses[i].id = `delete${j}`;
+            crosses[i].dataset.id = j.toString();
+            pictures[i].id = `product__pic${j}`;
+            pictures[i].dataset.id = j.toString();
+            pictureFrames[i].id = `_profile-pic${j}`;
+            filesInput[i].dataset.id = j.toString();
+            filesInput[i].id = `file-upload${j}`;
+            labelPhoto[i].dataset.id = j.toString();
+            j++;
         }
         return handler;
     }
@@ -174,6 +184,16 @@ export class ProductCreateForm {
             const idfile = document.getElementById('files');
             idfile.insertAdjacentHTML('beforeend', productFileTemplate(incCount));
         }
+    }
+
+    insertPhoto(url, count) {
+        const idPhoto = document.getElementById('productPhoto');
+        idPhoto.insertAdjacentHTML('afterbegin', productPhotoTemplate(count + 100));
+        const elem = document.getElementById(`product__pic${count + 100}`);
+        elem.src = url;
+        elem.classList.add('product__pic_fullsize');
+        const idfile = document.getElementById('files');
+        idfile.insertAdjacentHTML('beforeend', productFileTemplate(count + 100));
     }
 
     /***
@@ -335,17 +355,30 @@ export class ProductCreateForm {
             .textContent = message;
     }
 
+
+    setLocation(pos) {
+        this.__yaMap.addPoint({
+            latitude: pos.latitude,
+            longitude: pos.longitude
+        });
+
+        this.__yaMap.setCenter({
+            latitude: pos.latitude,
+            longitude: pos.longitude
+        }, 11);
+    }
+
     /***
      * @author Max Torzhkov
      * Add component to parent
      * @this {ProductCreateForm}
      */
     async render(ctx) {
-        this.listeners = ctx.productCreate.listeners;
-        this.__parent.insertAdjacentHTML('beforeend', productCreateFormTemplate(ctx.productCreate));
+        this.listeners = ctx.listeners;
+        this.__parent.insertAdjacentHTML('beforeend', productCreateFormTemplate(ctx));
 
-        for (const fields in ctx.productCreate.fields) {
-            const field = new Field(document.getElementById('ProductForm'), ctx.productCreate.fields[fields]);
+        for (const fields in ctx.fields) {
+            const field = new Field(document.getElementById('ProductForm'), ctx.fields[fields]);
             field.render();
         }
 

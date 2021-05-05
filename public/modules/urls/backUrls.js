@@ -6,9 +6,46 @@ class BackUrls {
      * Class constructor
      */
     constructor() {
-        this.__url = 'https://ykoya.ru';
-        // this.__url = 'http://localhost:8080';
+        // this.__url = 'https://ykoya.ru';
+        this.__url = 'http://localhost:8080';
         this.__api = '/api/v1';
+
+        // this.__wsUrl = 'wss://ykoya.ru';
+        this.__wsUrl = 'ws://localhost:8080';
+        this.__wsApi = '/api/v1';
+    }
+
+    /***
+     * Get chat create url
+     * @returns {string}
+     */
+    get chatCreate() {
+        return `${this.__url}${this.__api}/chat/new`;
+    }
+
+    /***
+     * Get chat list url
+     * @returns {string}
+     */
+    get chatList() {
+        return `${this.__url}${this.__api}/chat/list`;
+    }
+
+    /***
+     * Get chat url
+     * @param {number} id - chat id
+     * @returns {string}
+     */
+    chat(id) {
+        return `${this.__url}${this.__api}/chat/${id}`;
+    }
+
+    /***
+     * Get chat webSocket url
+     * @returns {string}
+     */
+    get chatWs() {
+        return `${this.__wsUrl}${this.__wsApi}/chat/ws`;
     }
 
     /***
@@ -178,11 +215,35 @@ class BackUrls {
     }
 
     /***
-     *
+     * Get categories
      * @return {string}
      */
     get categories() {
         return `${this.__url}${this.__api}/categories`;
+    }
+
+    /***
+     * Get trends
+     * @return {string}
+     */
+    get recStat() {
+        return `${this.__url}${this.__api}/stat`;
+    }
+
+    /***
+     * Get trends products
+     * @return {string}
+     */
+    get recProducts() {
+        return `${this.__url}${this.__api}/product/trends`;
+    }
+
+     /***
+     *
+     * @return {string}
+     */
+    get editPage() {
+        return `${this.__url}${this.__api}/product/edit`;
     }
 }
 

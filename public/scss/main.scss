@@ -1,4 +1,5 @@
 $textColorDefault: #000000;
+$textGrayColor: rgb(122, 122, 122);
 $linkColor: rgb(112, 146, 254);
 $mainColor: rgb(211, 30, 30);
 
@@ -59,7 +60,7 @@ $breakMobile: 576px;
   font-size: 1.5vh;
   text-align: center;
   color: #666666;
-  background-color:  rgb(255, 255, 255);;
+  background-color: rgb(255, 255, 255);;
 
   outline: none;
 }
@@ -115,7 +116,7 @@ $breakMobile: 576px;
   &:focus {
     outline: none;
   }
-  
+
   @media screen and (max-width: $breakMobile) {
     font-size: 2vh;
     height: 4.5vh;
@@ -237,6 +238,13 @@ $breakMobile: 576px;
   right: 0;
   top: 0;
   z-index: 1000;
+
+  @media screen and (max-width: $breakMobile){
+    //top: -150px;
+    flex-direction: row-reverse;
+    transform: translateY(-111%);
+    align-items: flex-end;
+  }
   &-arrow {
     width: 12px;
     height: 20px;
@@ -246,6 +254,11 @@ $breakMobile: 576px;
     top: 6px;
     right: -1px;
 
+    @media screen and (max-width: $breakMobile) {
+      top: 15px;
+      right: 265px;
+      transform: rotate(270deg);
+    }
     &-outer {
       width: 0;
       height: 0;

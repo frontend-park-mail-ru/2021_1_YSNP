@@ -16,6 +16,7 @@ export class ProductListModel extends BaseModel {
     constructor(pageCount = 30) {
         super();
         this.__productList = [];
+        this.__isUpdate = false;
         this.__page = 0;
         this.__pageCount = pageCount;
     }
@@ -26,6 +27,7 @@ export class ProductListModel extends BaseModel {
      * @param {boolean} isLiked - product like
      */
     parseData(data, isLiked = false) {
+        this.__isUpdate = false;
         if (!Array.isArray(data)) {
             throw new Error('no data');
         }
@@ -40,6 +42,28 @@ export class ProductListModel extends BaseModel {
             return accum;
         }, []);
         this.__productList = this.__productList.concat(this.__newData);
+    }
+
+    /***
+     * Set like
+     * @param {number} id - product id
+     */
+    setLike(id) {
+        const product = this.__getProduct(id);
+        if (product) {
+            product.setLike();
+        }
+    }
+
+    /***
+     * Set dislike
+     * @param {number} id - product id
+     */
+    sedDislike(id) {
+        const product = this.__getProduct(id);
+        if (product) {
+            product.setDislike();
+        }
     }
 
     /***
@@ -110,8 +134,13 @@ export class ProductListModel extends BaseModel {
      * @returns {Promise<void>}
      */
     async updateNewData() {
-        this.__page++;
-        return this.__updateNewDataPage();
+        if (!this.__isUpdate) {
+            this.__isUpdate = true;
+            this.__page++;
+            return this.__updateNewDataPage();
+        }
+
+        return Promise.reject({message: 'isUpdate'});
     }
 
     /***
@@ -127,7 +156,7 @@ export class ProductListModel extends BaseModel {
      * Like product
      * @param {number} id - product id
      *  @param {ProductModel} product - product
-     * @returns {Promise<{status: string}>}
+     * @returns {Promise<{data: *, status: number}>}
      * @private
      */
     async __likeProduct(id, product) {
@@ -139,7 +168,8 @@ export class ProductListModel extends BaseModel {
 
                 product.setLike();
                 return {status: 'like'};
-            });
+            })
+            .then((data) => this.setStat(data, product.getData().name));
     }
 
     /***
@@ -158,6 +188,23 @@ export class ProductListModel extends BaseModel {
 
                 product.setDislike();
                 return {status: 'dislike'};
+            });
+    }
+
+    /***
+     * Set stat
+     * @param {Object} voteData - vote data
+     * @param {string} productName - product name
+     * @returns {Promise<{data: *, status: number}>}
+     */
+    async setStat(voteData, productName) {
+        return http.post(backUrls.recStat, {text: productName})
+            .then(({status, data}) => {
+                this.checkError(status, {
+                    message: data.message
+                });
+
+                return voteData;
             });
     }
 }

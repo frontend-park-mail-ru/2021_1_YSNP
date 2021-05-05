@@ -37,6 +37,25 @@ export class BaseView {
     }
 
     /***
+     * Delete unread count
+     */
+    deleteHeaderUnreadMessages() {
+        if (!mobile.isMobile()) {
+            this.__header.deactivateChatUnread();
+        }
+    }
+
+    /***
+     * Update unread count
+     * @param count
+     */
+    updateHeaderUnreadMessages(count) {
+        if (!mobile.isMobile()) {
+            this.__header.updateUnreadMessages(count);
+        }
+    }
+
+    /***
      * add overflow hidden
      */
     addOverflowHidden() {

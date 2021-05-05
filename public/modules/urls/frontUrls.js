@@ -84,11 +84,24 @@ class FrontUrls {
     }
 
     /***
-     * Get chat page
+     * Get chats page
      * @returns {string}
      */
     get userChats() {
         return '/user/chats';
+    }
+
+    /***
+     * Get user chat page
+     * @param {number} id - chat id
+     * @returns {string}
+     */
+    userChat(id = undefined) {
+        if (id !== undefined) {
+            return `/user/chat/${id}`;
+        }
+
+        return '/user/chat/{id}';
     }
 
     /***
@@ -97,6 +110,18 @@ class FrontUrls {
      */
     get userFavorite() {
         return '/user/favorite';
+    }
+
+    /***
+     * Get edit product page
+     * @returns {string}
+     */
+    editProduct(id = undefined) {
+        if (id !== undefined) {
+            return `/product/${id}/edit`;
+        }
+
+        return '/product/{id}/edit';
     }
 }
 

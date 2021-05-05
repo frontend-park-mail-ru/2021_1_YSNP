@@ -252,7 +252,7 @@ export class ProductCreateView extends BaseView {
         }
 
         this.__productCreate = new ProductCreateForm(parent);
-        this.__productCreate.render(this.__context);
+        this.__productCreate.render(this.__context.productCreate);
 
         super.renderFooter();
     }

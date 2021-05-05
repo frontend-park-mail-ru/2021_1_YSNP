@@ -76,7 +76,7 @@ export class ProfileUserModel extends PasswordUserModel {
 
     /***
      * Get user Data for settings
-     * @returns {{isAuth: boolean, address, linkImage, surname, sex, latitude, name, telephone, dateBirth, radius, email, longitude}}
+     * @returns {{address: (*|string), sex, latitude, telephone, isAuth: boolean, linkImage, surname, name, id, dateBirth, radius, email, longitude}}
      */
     getData() {
         return {
@@ -88,7 +88,8 @@ export class ProfileUserModel extends PasswordUserModel {
             sex: this.__sex,
             email: this.__email,
             telephone: this.__telephone,
-            linkImage: this.__linkImages,
+            linkImage: '/img/search-background.webp',
+            // linkImage: this.__linkImages,
             latitude: this.__latitude,
             longitude: this.__longitude,
             radius: this.__radius,

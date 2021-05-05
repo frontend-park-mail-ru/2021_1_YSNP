@@ -43,6 +43,7 @@ export class UserAdView extends BaseView {
             adList: {
                 title: 'Мои объявления',
                 text: 'У вас еще нет объявлений',
+                id: 'ad',
                 data: context.adList.data,
                 listeners: context.adList.listeners
             },

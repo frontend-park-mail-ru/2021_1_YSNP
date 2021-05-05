@@ -56,8 +56,7 @@ export class SearchPresenter extends BasePresenter {
      */
     async control() {
         await this.update();
-        this.scrollUp();
-        if (this.checkOffline()) {
+        if (!this.isRenderView()) {
             return;
         }
 
@@ -295,8 +294,12 @@ export class SearchPresenter extends BasePresenter {
                 this.__view.addNewCards(newData);
             })
             .catch((err) => {
+                if (err.message === 'isUpdate') {
+                    return;
+                }
+
+                //TODO(Sergey) нормальная обработка ошибок
                 console.log(err.message);
-                this.__endlessScroll.remove();
             });
     }
 

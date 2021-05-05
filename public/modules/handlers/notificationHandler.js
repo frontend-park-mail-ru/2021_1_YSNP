@@ -14,6 +14,7 @@ export class NotificationHandler {
             return;
         }
 
+        this.__isWorking = true;
         this.__notificationList.render(this.__makeContext());
     }
 
@@ -23,35 +24,36 @@ export class NotificationHandler {
     }
 
     addNotification(data) {
-        this.__notificationList.addNotification({
-            notificationID: 4,
-            img: '/img/search-background.webp',
-            title: 'Владимир',
-            message: 'Рш'
-        });
-
         if (this.__notifications) {
-            this.__removeNotificationFromList(this.__notifications.notificationID);
+            this.__remove(this.__notifications.notificationID);
             this.__notifications = undefined;
             return;
         }
 
         this.__notifications = {
-            notificationID: 5,
-            data: data
+            notificationID: data.messageID,
+            data: {
+                notificationID: data.messageID,
+                img: data.
+            }
         };
-        this.__addNotificationToList(this.__notifications);
+
+        this.__add(this.__notifications);
     }
 
     __timerEnd(notificationID) {
-        this.__removeNotificationFromList(notificationID);
+        this.__remove(notificationID);
     }
 
-    __addNotificationToList(data) {
+    __add(data) {
         this.__notificationList.addNotification(data);
+
+        this.__timer = setTimeout(() => {
+            this.__timerEnd(data.notificationID);
+        }, 4000);
     }
 
-    __removeNotificationFromList(notificationID) {
+    __remove(notificationID) {
         this.__notificationList.removeNotification(notificationID);
     }
 

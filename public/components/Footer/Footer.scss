@@ -27,15 +27,11 @@
       justify-content: space-between;
 
       @media screen and (max-width: $breakDesktop) {
-        margin: 2vh 10vh;
+        margin: 2vh 7vh;
       }
 
       @media screen and (max-width: $breakTablet) {
-        margin: 2vh 5vh;
-      }
-
-      @media screen and (max-width: $breakMobile) {
-        margin: 2vh 3vh;
+        margin: 2vh 2vh;
       }
     }
 
