@@ -211,6 +211,7 @@ export class BaseView {
      */
     render() {
         this.__app.innerHTML = '';
+        this.removeOverflowHidden();
         this.__setTitle();
 
         if (!mobile.isMobile()) {

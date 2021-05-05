@@ -9,6 +9,7 @@ import {YandexMap} from '../modules/layout/yandexMap.js';
 
 import {OfflineError} from '../modules/http/httpError.js';
 import {mobile} from '../modules/mobile';
+import {notificationManager} from '../modules/handlers/notificationHandler';
 
 /***
  * Base presenter
@@ -25,6 +26,8 @@ export class BasePresenter {
         this.__isShownMap = false;
         this.__isShownAuth = false;
         this.__yaMap = new YandexMap();
+        this.__notificationManager = notificationManager;
+
         mobile.start(this.__resizeCallback.bind(this));
     }
 

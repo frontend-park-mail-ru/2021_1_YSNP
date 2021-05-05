@@ -12,6 +12,9 @@ import {PageUpHandler} from '../modules/handlers/pageUpHandler.js';
 import {customSessionStorage} from '../modules/customSessionStorage.js';
 import {CreateButtonHandler} from '../modules/handlers/createButtonHandler';
 
+import {Notification} from '../components/Notification/Notification/Notification';
+import {NotificationHandler} from '../modules/handlers/notificationHandler';
+
 /***
  * Main presenter
  */
@@ -24,6 +27,7 @@ export class MainPresenter extends BasePresenter {
         super(view);
         this.__view = view;
         this.__mainListModel = new MainListModel();
+
         this.__endlessScroll = new EndlessScroll(this.__createListeners().scroll);
         this.__pageUp = new PageUpHandler();
         this.__createButton = new CreateButtonHandler(this.openCreateProduct.bind(this));
@@ -58,6 +62,7 @@ export class MainPresenter extends BasePresenter {
         this.__endlessScroll.start();
         this.__pageUp.start();
         this.__createButton.start();
+        this.__notificationManager.addNotification();
     }
 
     /***

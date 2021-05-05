@@ -1,0 +1,94 @@
+@import "../../../scss/main.scss";
+
+.notification {
+  @include set-size(30vh, 10vh);
+  @include shadow-block;
+
+  position: fixed;
+
+  display: flex;
+  align-items: center;
+
+  bottom: 2vh;
+  right: 2vh;
+
+  z-index: 1;
+
+  &-inner {
+    @include set-size(100%, 100%);
+
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: flex-start;
+
+    padding: 1vh;
+  }
+
+  &-line {
+    display: flex;
+    flex-direction: column;
+  }
+
+  &__close {
+    @include set-size(2vh, 2vh);
+
+    position: absolute;
+    fill: rgb(120, 120, 120);
+
+    top: 0.5vh;
+    right: 0.5vh;
+
+    cursor: pointer;
+  }
+
+  &-avatar {
+    display: flex;
+    align-items: center;
+
+    margin-right: 1vh;
+
+    &__img {
+      @include set-size(6vh, 6vh);
+      object-fit: cover;
+      border-radius: 8px;
+    }
+  }
+
+  &-info {
+    width: calc(100% - 7vh);
+
+    display: flex;
+    flex-direction: column;
+
+    &-title {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+
+      &__name {
+        @include overflow-text-width;
+        max-width: 100%;
+        font-size: 1.5vh;
+        font-weight: 600;
+      }
+    }
+
+    &-message {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+
+      margin-top: 0.5vh;
+
+      cursor: pointer;
+
+      &__last {
+        @include overflow-text-height(4vh);
+        line-height: 2vh;
+        font-size: 1.4vh;
+        color: #2B2B2BFF;
+      }
+    }
+  }
+}
