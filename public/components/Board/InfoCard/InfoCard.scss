@@ -127,7 +127,7 @@
       justify-content: center;
     }
 
-      &__massage {
+      &__massage, &__change {
       @include red-button(80%, 4vh);
       margin-top: 2vh;
 
@@ -140,7 +140,7 @@
       }
     }
 
-    &__number {
+    &__number, &__close {
       @include white-button(80%, 4vh);
       margin-top: 1vh;
       box-shadow: 0 0 1vh rgba(0, 0, 0, 0.1);
