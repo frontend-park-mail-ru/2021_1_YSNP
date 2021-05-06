@@ -4,6 +4,7 @@ import {Navigation} from '../components/Navigation/Navigation.js';
 import {Board} from '../components/Board/Board.js';
 import {router} from '../modules/router';
 import {mobile} from '../modules/mobile';
+import {ProductTable} from '../components/ProductTable/ProductTable';
 
 /***
  * class ProductView extends BaseView
@@ -26,9 +27,33 @@ export class ProductView extends BaseView {
                 data: context.product.data,
                 listeners: context.product.listeners,
                 owner: context.product.owner
+            },
+            trendsList: {
+                title: 'Похожие товары',
+                text: 'Пока нет новых рекомендаций',
+                id: 'trends',
+                data: context.recList.data,
+                listeners: context.recList.listeners
             }
         };
     }
+
+    /***
+     * Like product
+     * @param {number} id - product id
+     */
+    likeProduct(id) {
+        this.__trendsList.like(id);
+    }
+
+    /***
+     * Dislike product
+     * @param {number} id - product id
+     */
+    dislikeProduct(id) {
+        this.__trendsList.dislike(id);
+    }
+
 
     /***
      * @author Ivan Gorshkov
@@ -121,6 +146,8 @@ export class ProductView extends BaseView {
         this.__boardSubView = new Board(parent);
         this.__boardSubView.render(this.__context);
 
+        this.__trendsList = new ProductTable(parent);
+        this.__trendsList.render(this.__context.trendsList);
         super.renderFooter();
     }
 }

@@ -238,6 +238,14 @@ class BackUrls {
         return `${this.__url}${this.__api}/product/trends`;
     }
 
+    /***
+     * Get one product recommendation
+     * @return {string}
+     */
+    recForProduct(id) {
+        return `${this.__url}${this.__api}/product/recommendation/${id}`;
+    }
+
      /***
      *
      * @return {string}
