@@ -175,10 +175,18 @@ export class ProductPresenter extends BasePresenter {
         };
     }
 
+    /***
+     * Listener edit product
+     * @private
+     */
     __listenerEditProduct() {
         router.redirect(frontUrls.editProduct(this.__model.id), '', {title: document.title});
     }
-    
+
+    /***
+     * Listener close product
+     * @private
+     */
     __listenerCloseProduct() {
         if (confirm('Вы уверены, что хотите закрыть объявление')) {
             this.__model.close(this.__model.getData().id)

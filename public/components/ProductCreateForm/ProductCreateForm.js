@@ -186,6 +186,11 @@ export class ProductCreateForm {
         }
     }
 
+    /***
+     * Insert photo
+     * @param {string} url
+     * @param {number} count
+     */
     insertPhoto(url, count) {
         const idPhoto = document.getElementById('productPhoto');
         idPhoto.insertAdjacentHTML('afterbegin', productPhotoTemplate(count + 100));
@@ -355,7 +360,10 @@ export class ProductCreateForm {
             .textContent = message;
     }
 
-
+    /***
+     * Set location
+     * @param {Object} pos
+     */
     setLocation(pos) {
         this.__yaMap.addPoint({
             latitude: pos.latitude,
