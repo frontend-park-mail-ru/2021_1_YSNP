@@ -79,9 +79,23 @@ export function hideError(ev) {
  * @private
  */
 export function showError(ev) {
+    if (ev.target.value.length === 0) {
+        return;
+    }
     if (ev.target.nextSibling.className === 'error-hidden') {
         ev.target.nextElementSibling.classList.remove('error-hidden');
     }
+}
+
+/****
+ * @author Ivan Gorshkov
+ *
+ * action for remove all modify classes from textfield
+ * @param{HTMLElement} target - input target
+ */
+export function removeModifyClasses(target) {
+    target.classList.remove('input-error');
+    target.classList.remove('input-susses');
 }
 
 /***
