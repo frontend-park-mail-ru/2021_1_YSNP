@@ -34,6 +34,7 @@
 
   &-block {
     display: flex;
+    flex-direction: row;
 
     @media screen and (max-width: $breakMobile) {
       flex-direction: column;
@@ -41,6 +42,69 @@
 
     &__search-field {
 
+    }
+  }
+
+  &-left {
+    display: flex;
+    flex-direction: column;
+
+    @media screen and (max-width: $breakMobile) {
+      flex-direction: column;
+    }
+  }
+
+  &-radius {
+    margin-bottom: 1vh;
+
+    @media screen and (max-width: $breakMobile) {
+      @include shadow-block;
+
+      padding: 0 2vh 1vh;
+      margin-bottom: 2vh;
+    }
+
+    &__title {
+      margin-top: 0;
+
+      @media screen and (max-width: $breakMobile) {
+        margin-top: revert;
+      }
+    }
+
+    &-elem {
+      margin-bottom: 1vh;
+
+      @media screen and (max-width: $breakMobile) {
+        width: 100%;
+        margin-bottom: 1.5vh;
+
+        display: flex;
+        justify-content: center;
+      }
+
+      &__text-field {
+        @include set-size(27vh, 4vh);
+        @include input;
+
+        font-size: 1.5vh;
+
+        background-color: whitesmoke;
+
+        cursor: pointer;
+
+        &:hover {
+          border: 2px solid $mainColor;
+        }
+
+        &:focus {
+          outline: none;
+        }
+
+        @media screen and (max-width: $breakMobile) {
+          @include set-size(100%, 5vh);
+        }
+      }
     }
   }
 
@@ -55,7 +119,7 @@
     &__title {
       margin-top: 0;
 
-      @media screen and (max-width: $breakMobile){
+      @media screen and (max-width: $breakMobile) {
         margin-top: revert;
       }
     }
