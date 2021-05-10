@@ -50,13 +50,15 @@ export class RegistrationPresenter extends BasePresenter {
      */
     async control() {
         await this.update();
-        if (!this.isRenderView()) {
+        if (this.checkOffline()) {
             return;
         }
 
         checkIsNotAuth();
 
         this.__view.render(this.__makeContext());
+
+        this.checkScrollOffset();
     }
 
     /***
@@ -64,6 +66,8 @@ export class RegistrationPresenter extends BasePresenter {
      */
     removePageListeners() {
         super.removePageListeners();
+
+        this.__view.removePage();
     }
 
     /***

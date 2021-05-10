@@ -66,15 +66,6 @@ export class BasePresenter {
     }
 
     /***
-     * Prerender control
-     * @returns {boolean}
-     */
-    isRenderView() {
-        this.scrollUp();
-        return !this.checkOffline();
-    }
-
-    /***
      * Remove page listeners
      */
     removePageListeners() {
@@ -134,6 +125,21 @@ export class BasePresenter {
      */
     scrollUp() {
         window.scrollTo(0, 0);
+    }
+
+    checkScrollOffset() {
+        const {x, y} = router.getState();
+
+        if (x !== undefined && y !== undefined) {
+            window.scrollTo(x, y);
+            return;
+        }
+
+        window.scrollTo(0, 0);
+    }
+
+    saveScrollOffset() {
+        router.setState({x: window.scrollX, y: window.scrollY});
     }
 
     /***
