@@ -40,6 +40,7 @@
                 </div>
                 <div class="settings-input-inner">
                     <select id="settings-gender" class="settings-components__input__gender" disabled>
+                        <option value="choose" name="choose">Не выбрано</option>
                         <option value="female" name="female">Женский</option>
                         <option value="male" name="male">Мужской</option>
                     </select>
@@ -54,7 +55,7 @@
                            type="tel" value="{{telephone}}" data-move="showError" data-moveout="hideError" readonly>
                 </div>
                 <div class="settings-input-inner">
-                    <input id="settings-email" data-action="inputMail" required class="settings-components__input"
+                    <input id="settings-email" data-action="inputMail" class="settings-components__input"
                            type="email" value="{{email}}" data-move="showError" data-moveout="hideError" readonly>
                 </div>
 
