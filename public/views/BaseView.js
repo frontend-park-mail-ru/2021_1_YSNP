@@ -36,6 +36,10 @@ export class BaseView {
         this.__baseContext = baseContext;
     }
 
+    removePage() {
+        this.__app.innerHTML = '';
+    }
+
     /***
      * Delete unread count
      */

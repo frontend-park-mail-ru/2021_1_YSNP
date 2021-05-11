@@ -62,7 +62,7 @@ export class ProductPresenter extends BasePresenter {
      */
     async control() {
         await this.update();
-        if (!this.isRenderView()) {
+        if (this.checkOffline()) {
             return;
         }
 
@@ -72,6 +72,8 @@ export class ProductPresenter extends BasePresenter {
         }
 
         this.__view.render(this.__makeContext());
+
+        this.checkScrollOffset();
     }
 
     /***
@@ -79,6 +81,8 @@ export class ProductPresenter extends BasePresenter {
      */
     removePageListeners() {
         super.removePageListeners();
+
+        this.__view.removePage();
     }
 
     /***
