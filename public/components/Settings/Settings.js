@@ -166,7 +166,7 @@ export class Settings {
      * Open form settings for editing
      */
     enableEditing() {
-        const {name, surname, gender, birthday, mail, buttonSaveProfile, buttonUploadImg} = this.getSettingsFields();
+        const {name, surname, gender, birthday, phone, mail, buttonSaveProfile, buttonUploadImg} = this.getSettingsFields();
         buttonSaveProfile.style.visibility = 'visible';
         buttonUploadImg.style.visibility = 'visible';
         surname.removeAttribute('readonly');
@@ -175,6 +175,14 @@ export class Settings {
         birthday.removeAttribute('readonly');
         mail.removeAttribute('readonly');
         document.getElementById('settings-avatar').style.cursor = 'pointer';
+
+        if (this.__context.data.telephone === '') {
+            phone.removeAttribute('readonly');
+        }
+        if (this.__context.data.dateBirth === '') {
+            const { birthday } = this.getSettingsFields();
+            birthday.style.visibility = 'visible';
+        }
     }
 
     /***
@@ -214,6 +222,10 @@ export class Settings {
         if (document.getElementById(this.getInputErrorId(mail))) {
             mail.parentNode.removeChild(mail.nextSibling);
         }
+        if (this.__context.data.dateBirth === '') {
+            const { birthday } = this.getSettingsFields();
+            birthday.style.visibility = 'hidden';
+        }
         document.getElementById('settings-avatar').style.cursor = 'default';
     }
 
@@ -250,11 +262,23 @@ export class Settings {
     render(context) {
         this.__context = context;
         this.__parent.insertAdjacentHTML('beforeend', settingsTemplate(this.__context.data));
-        const chPass = new ChangePassword(document.getElementById('settings'));
-        chPass.render();
-        document
-            .getElementById('settings-gender').options[this.__context.data.sex]
-            .setAttribute('selected', 'true');
+        if (this.__context.data.telephone !== '') {
+            const chPass = new ChangePassword(document.getElementById('settings'));
+            chPass.render();
+        }
+        if (this.__context.data.sex === '') {
+            document
+                .getElementById('settings-gender').options['choose']
+                .setAttribute('selected', 'true');
+        } else {
+            document
+                .getElementById('settings-gender').options[this.__context.data.sex]
+                .setAttribute('selected', 'true');
+        }
+        if (this.__context.data.dateBirth === '') {
+            const { birthday } = this.getSettingsFields();
+            birthday.style.visibility = 'hidden';
+        }
         this.__addListeners();
     }
 }
