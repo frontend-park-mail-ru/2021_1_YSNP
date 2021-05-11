@@ -42,15 +42,6 @@ export const baseRegistration = {
         params: '',
         template: fieldPhoneTemplate.bind()
     },
-    mail: {
-        title: 'Почта*',
-        placeholder: 'Почта',
-        inputType: 'email',
-        id: 'mail',
-        dataAction: 'inputMail',
-        params: '',
-        template: fieldTemplate.bind()
-    },
     password: {
         title: 'Пароль*',
         placeholder: 'Пароль',
@@ -69,8 +60,17 @@ export const baseRegistration = {
         params: '',
         template: fieldTemplate.bind()
     },
+    mail: {
+        title: 'Почта',
+        placeholder: 'Почта',
+        inputType: 'email',
+        id: 'mail',
+        dataAction: 'inputMail',
+        params: '',
+        template: fieldTemplate.bind()
+    },
     date: {
-        title: 'Дата рождения*',
+        title: 'Дата рождения',
         placeholder: 'дд-мм-гггг',
         inputType: 'date',
         id: 'date',
@@ -83,6 +83,9 @@ export const baseRegistration = {
         id: 'sex',
         template: fieldSelectTemplate.bind(),
         options: [{
+            value: 'notstated',
+            title: 'Не указано'
+        }, {
             value: 'female',
             title: 'Женский'
         }, {
