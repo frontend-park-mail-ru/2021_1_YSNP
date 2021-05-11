@@ -1,6 +1,7 @@
 import {BasePresenter} from './BasePresenter.js';
 
 import {ProductModel} from '../models/ProductModel.js';
+import {ProdRecListModel} from '../models/ProdRecListModel';
 import {UserModel} from '../models/UserModel';
 
 import {eventHandlerWithDataType, eventProductListHandler} from '../modules/handlers/eventHandler.js';
@@ -8,7 +9,6 @@ import {NotFoundError} from '../modules/http/httpError';
 
 import {router} from '../modules/router.js';
 import {frontUrls} from '../modules/urls/frontUrls';
-import {ProdRecListModel} from '../models/ProdRecListModel';
 
 /***
  *  ProductPresenter class, extends from BasePresenter
@@ -106,7 +106,6 @@ export class ProductPresenter extends BasePresenter {
      */
     __listenerRecListClick(ev) {
         ev.stopPropagation();
-        console.log('smth');
         eventProductListHandler(ev, this.__getActions().recList);
     }
 
@@ -246,20 +245,20 @@ export class ProductPresenter extends BasePresenter {
     __listenerEditProduct() {
         router.redirect(frontUrls.editProduct(this.__model.id), '', {title: document.title});
     }
-    
+
     __listenerCloseProduct() {
         if (confirm('Вы уверены, что хотите закрыть объявление')) {
             this.__model.close(this.__model.getData().id)
-            .then(() => {
-                router.redirectCurrent();
-            })
-            .catch((err) => {
-                //TODO(Sergey) нормальная обработка ошибок
-                console.log(err.message);
+                .then(() => {
+                    router.redirectCurrent();
+                })
+                .catch((err) => {
+                    //TODO(Sergey) нормальная обработка ошибок
+                    console.log(err.message);
 
-                this.checkOfflineStatus(err);
-                this.checkOffline();
-            });
+                    this.checkOfflineStatus(err);
+                    this.checkOffline();
+                });
         }
     }
 

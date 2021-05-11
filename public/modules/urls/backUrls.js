@@ -198,6 +198,14 @@ class BackUrls {
     }
 
     /***
+     * Get edit product
+     * @return {string}
+     */
+    get editPage() {
+        return `${this.__url}${this.__api}/product/edit`;
+    }
+
+    /***
      * Get product upload photo url
      *  @param {number} id - product id
      * @returns {string}
@@ -244,14 +252,6 @@ class BackUrls {
      */
     recForProduct(id) {
         return `${this.__url}${this.__api}/product/recommendation/${id}`;
-    }
-
-     /***
-     *
-     * @return {string}
-     */
-    get editPage() {
-        return `${this.__url}${this.__api}/product/edit`;
     }
 }
 
