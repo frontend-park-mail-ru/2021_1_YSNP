@@ -1,9 +1,10 @@
 import {BasePresenter} from './BasePresenter.js';
 
 import {ProductModel} from '../models/ProductModel.js';
+import {ProdRecListModel} from '../models/ProdRecListModel';
 import {UserModel} from '../models/UserModel';
 
-import {eventHandlerWithDataType} from '../modules/handlers/eventHandler.js';
+import {eventHandlerWithDataType, eventProductListHandler} from '../modules/handlers/eventHandler.js';
 import {NotFoundError} from '../modules/http/httpError';
 
 import {router} from '../modules/router.js';
@@ -27,6 +28,7 @@ export class ProductPresenter extends BasePresenter {
         this.__numberIsShowed = false;
         this.__notFound = false;
 
+        this.__recListModel = new ProdRecListModel(this.__id);
         this.__model = new ProductModel({id: this.__id});
         this.__user = new UserModel();
     }
@@ -41,6 +43,7 @@ export class ProductPresenter extends BasePresenter {
     async update() {
         return super.update()
             .then(() => this.__model.update())
+            .then(() => this.__recListModel.update())
             .then(() => this.__model.setStat(this.__model.getData().name))
             .catch((err) => {
                 //TODO(Sergey) нормальная обработка ошибок
@@ -101,6 +104,16 @@ export class ProductPresenter extends BasePresenter {
     }
 
     /***
+     * Product list rec click event
+     * @param {MouseEvent} ev - event
+     * @private
+     */
+    __listenerRecListClick(ev) {
+        ev.stopPropagation();
+        eventProductListHandler(ev, this.__getActions().recList);
+    }
+
+    /***
      * @author Ivan Gorshkov
      *
      * function witch return Object of listeners
@@ -121,6 +134,12 @@ export class ProductPresenter extends BasePresenter {
                     type: 'click',
                     listener: this.__listenerProduct.bind(this, 'action', this.__getActions().product)
                 }
+            },
+            recList: {
+                productCardClick: {
+                    type: 'click',
+                    listener: this.__listenerRecListClick.bind(this)
+                }
             }
         };
     }
@@ -136,6 +155,46 @@ export class ProductPresenter extends BasePresenter {
         this.closeAllComponents();
         this.__view.removingSubViews();
         router.navigateBack();
+    }
+
+    /***
+     * Open card rec callback
+     * @param {string} id - product card id
+     * @private
+     */
+    __openCardRec(id) {
+        const numberId = parseInt(id, 10);
+        router.redirect(frontUrls.product(numberId), '', {title: 'Koya'});
+    }
+
+    /***
+     * Like card rec callback
+     * @param {string} id - product card id
+     * @private
+     */
+    __likeCardRec(id) {
+        const numberId = parseInt(id, 10);
+        if (!this.__userModel.isAuth) {
+            super.openAuth();
+            return;
+        }
+
+        this.__recListModel.voteProduct(numberId)
+            .then(({status}) => {
+                if (status === 'dislike') {
+                    this.__view.dislikeProduct(numberId);
+                    return;
+                }
+
+                this.__view.likeProduct(numberId);
+            })
+            .catch((err) => {
+                //TODO(Sergey) нормальная обработка ошибок
+                console.log(err.message);
+
+                this.checkOfflineStatus(err);
+                this.checkOffline();
+            });
     }
 
     /***
@@ -175,6 +234,14 @@ export class ProductPresenter extends BasePresenter {
                 editProduct: {
                     open: this.__listenerEditProduct.bind(this)
                 }
+            },
+            recList: {
+                cardClick: {
+                    open: this.__openCardRec.bind(this)
+                },
+                likeClick: {
+                    open: this.__likeCardRec.bind(this)
+                }
             }
         };
     }
@@ -194,16 +261,16 @@ export class ProductPresenter extends BasePresenter {
     __listenerCloseProduct() {
         if (confirm('Вы уверены, что хотите закрыть объявление')) {
             this.__model.close(this.__model.getData().id)
-            .then(() => {
-                router.redirectCurrent();
-            })
-            .catch((err) => {
-                //TODO(Sergey) нормальная обработка ошибок
-                console.log(err.message);
+                .then(() => {
+                    router.redirectCurrent();
+                })
+                .catch((err) => {
+                    //TODO(Sergey) нормальная обработка ошибок
+                    console.log(err.message);
 
-                this.checkOfflineStatus(err);
-                this.checkOffline();
-            });
+                    this.checkOfflineStatus(err);
+                    this.checkOffline();
+                });
         }
     }
 
@@ -319,6 +386,10 @@ export class ProductPresenter extends BasePresenter {
                 data: this.__model,
                 listeners: this.__createListeners().product,
                 owner: this.__userModel.getData().id === this.__model.getData().ownerId
+            },
+            recList: {
+                data: this.__recListModel.getData(),
+                listeners: this.__createListeners().recList
             }
         };
     }

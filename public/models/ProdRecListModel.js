@@ -4,9 +4,18 @@ import {http} from '../modules/http/http.js';
 import {backUrls} from '../modules/urls/backUrls.js';
 
 /***
- * Trends list model
+ * Product recommendation list model
  */
-export class RecListModel extends ProductListModel {
+export class ProdRecListModel extends ProductListModel {
+    /***
+     * Constructor
+     * @param id
+     */
+    constructor(id) {
+        super();
+        this.__id = id;
+    }
+
 
     /***
      * Get data from backend
@@ -14,7 +23,7 @@ export class RecListModel extends ProductListModel {
      * @private
      */
     async __updateNewDataPage() {
-        return http.get(backUrls.recProductList)
+        return http.get(backUrls.recForProductList(this.__id))
             .then(({status, data}) => {
                 this.checkError(status, {
                     message: data.message
