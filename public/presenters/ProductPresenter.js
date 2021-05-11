@@ -62,7 +62,7 @@ export class ProductPresenter extends BasePresenter {
      */
     async control() {
         await this.update();
-        if (!this.isRenderView()) {
+        if (this.checkOffline()) {
             return;
         }
 
@@ -72,6 +72,8 @@ export class ProductPresenter extends BasePresenter {
         }
 
         this.__view.render(this.__makeContext());
+
+        this.checkScrollOffset();
     }
 
     /***
@@ -79,6 +81,8 @@ export class ProductPresenter extends BasePresenter {
      */
     removePageListeners() {
         super.removePageListeners();
+
+        this.__view.removePage();
     }
 
     /***
@@ -252,8 +256,13 @@ export class ProductPresenter extends BasePresenter {
         if (!this.__numberIsShowed) {
             this.__user.getUser(this.__model.getData().ownerId)
                 .then(() => {
-                    this.__view.showNumber(this.__user.getData().telephone);
-                    this.__numberIsShowed = true;
+                    if (this.__user.getData().telephone === '') {
+                        this.__view.showNumber('Нет телефона');
+                        this.__numberIsShowed = false;
+                    } else {
+                        this.__view.showNumber(this.__user.getData().telephone);
+                        this.__numberIsShowed = true;
+                    }
                 })
                 .catch((err) => {
                     console.log(err.message);

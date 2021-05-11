@@ -56,7 +56,7 @@ export class SearchPresenter extends BasePresenter {
      */
     async control() {
         await this.update();
-        if (!this.isRenderView()) {
+        if (this.checkOffline()) {
             return;
         }
 
@@ -65,6 +65,8 @@ export class SearchPresenter extends BasePresenter {
 
         this.__endlessScroll.start();
         this.__pageUp.start();
+
+        this.checkScrollOffset();
     }
 
     /***
@@ -75,6 +77,8 @@ export class SearchPresenter extends BasePresenter {
 
         this.__endlessScroll.remove();
         this.__pageUp.remove();
+
+        this.__view.removePage();
     }
 
     /***
@@ -184,6 +188,7 @@ export class SearchPresenter extends BasePresenter {
      * @private
      */
     __openCard(id) {
+        this.saveScrollOffset();
         const numberId = parseInt(id, 10);
         router.redirect(frontUrls.product(numberId), '', {title: 'Поиск'});
     }
