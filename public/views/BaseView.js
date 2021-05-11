@@ -36,6 +36,9 @@ export class BaseView {
         this.__baseContext = baseContext;
     }
 
+    /***
+     * Remove page
+     */
     removePage() {
         this.__app.innerHTML = '';
     }

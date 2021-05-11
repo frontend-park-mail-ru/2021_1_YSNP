@@ -127,6 +127,9 @@ export class BasePresenter {
         window.scrollTo(0, 0);
     }
 
+    /***
+     * Check scroll offset
+     */
     checkScrollOffset() {
         const state = router.getState();
 
@@ -138,6 +141,9 @@ export class BasePresenter {
         window.scrollTo(0, 0);
     }
 
+    /***
+     * Save scroll offset
+     */
     saveScrollOffset() {
         router.setState({x: window.scrollX, y: window.scrollY});
     }

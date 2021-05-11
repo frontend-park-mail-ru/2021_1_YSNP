@@ -15,7 +15,7 @@ import {router} from '../modules/router';
 import {frontUrls} from '../modules/urls/frontUrls';
 import {user} from '../models/ProfileUserModel.js';
 import {checkIsAuth} from '../modules/checkAuth';
-import {parseTelNumber, telMask} from '../modules/layout/mask';
+import {parseTelMask, parseTelNumber, telMask} from '../modules/layout/mask';
 
 /***
  * Profile settings presenter
@@ -60,6 +60,8 @@ export class UserProfilePresenter extends BasePresenter {
         this.__view.render(this.__makeContext());
 
         this.checkScrollOffset();
+
+
     }
 
     /***
@@ -296,7 +298,7 @@ export class UserProfilePresenter extends BasePresenter {
                     surname: modelData.surname,
                     sex: modelData.sex,
                     dateBirth: modelData.dateBirth,
-                    telephone: modelData.telephone,
+                    telephone: parseTelMask(modelData.telephone),
                     email: modelData.email,
                     imageSrc: modelData.linkImage
                 };

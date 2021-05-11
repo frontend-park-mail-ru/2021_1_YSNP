@@ -21,15 +21,16 @@ function setCursorPosition(elem, pos) {
 }
 
 /***
- *
- * @param tel
+ * Add mask to telephone
+ * @param {string} tel
+ * @returns {string}
  */
 export function parseTelMask(tel) {
     const mask = '(___) ___ __ __';
-    const val = tel.replace(/\D/g, '');
+    const val = tel.replace(/\D/g, '').slice(1);
     let i = 0;
 
-// Add mask to input data
+    // Add mask to input data
     return mask.replace(/./g, (a) => {
         if (/[_\d]/.test(a) && i < val.length) {
             return val.charAt(i++);
