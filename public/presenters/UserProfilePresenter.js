@@ -333,14 +333,14 @@ export class UserProfilePresenter extends BasePresenter {
         const {surname, name, birthday, phone, mail, gender, img} = this.__view.getSettingsInputs();
         const {errorSettingsID} = this.__view.getErrorID();
         const telephone = parseTelNumber(phone.value);
+
         const isValidSurname = this.__validateString(surname);
         const isValidName = this.__validateString(name);
         const isValidBirthday = true;
-        const isValidPhone = telephone.length === 12;
+        const isValidPhone = this.__validateTelephone(phone);
         const isValidMail = this.__validateEmail(mail);
         const sex = gender.options[gender.selectedIndex];
 
-        console.log(isValidPhone);
         if (isValidSurname && isValidName && isValidBirthday && isValidPhone && isValidMail) {
             this.__model.fillUserData({
                 name: name.value,
@@ -348,7 +348,7 @@ export class UserProfilePresenter extends BasePresenter {
                 dateBirth: birthday.value,
                 sex: sex.value,
                 email: mail.value,
-                telephone: telephone,
+                telephone: telephone.length === 2 ? '' : telephone,
                 password: 'password',
                 linkImages: img.src
             });
@@ -375,15 +375,14 @@ export class UserProfilePresenter extends BasePresenter {
 
     /***
      * Validate phone
-     * @param target
+     * @param {HTMLInputElement} target
      * @returns {boolean}
      * @private
      */
     __validateTelephone(target) {
-        if (target.value.length === 0) {
-            return true;
-        }
-        const {error, message} = this.__model.validationTelephone(target.value);
+        const phone = parseTelNumber(target.value);
+
+        const {error, message} = this.__model.validationTelephone(phone, true);
         return validateError(error, target, message);
     }
 

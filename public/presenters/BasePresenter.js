@@ -128,10 +128,10 @@ export class BasePresenter {
     }
 
     checkScrollOffset() {
-        const {x, y} = router.getState();
+        const state = router.getState();
 
-        if (x !== undefined && y !== undefined) {
-            window.scrollTo(x, y);
+        if (state.x !== undefined && state.y !== undefined) {
+            window.scrollTo(state.x, state.y);
             return;
         }
 
