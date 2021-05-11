@@ -140,7 +140,7 @@
       }
     }
 
-    &__number, &__close {
+    &__number, &__close, &__closed {
       @include white-button(80%, 4vh);
       margin-top: 1vh;
       box-shadow: 0 0 1vh rgba(0, 0, 0, 0.1);
@@ -152,6 +152,9 @@
         @include set-size(23vh, 5vh);
         margin-top: 2vh;
       }
+    }
+    &__closed {
+      margin-top: 4vh;
     }
   }
 

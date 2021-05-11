@@ -15,6 +15,7 @@ import {router} from '../modules/router';
 import {frontUrls} from '../modules/urls/frontUrls';
 import {user} from '../models/ProfileUserModel.js';
 import {checkIsAuth} from '../modules/checkAuth';
+import {parseTelNumber, telMask} from '../modules/layout/mask';
 
 /***
  * Profile settings presenter
@@ -121,6 +122,18 @@ export class UserProfilePresenter extends BasePresenter {
             blurInput: {
                 type: 'blur',
                 listener: this.__listenerSettingsClick.bind(this, 'moveout')
+            },
+            telFocus: {
+                type: 'focus',
+                listener: telMask
+            },
+            telInput: {
+                type: 'input',
+                listener: telMask
+            },
+            telBlur: {
+                type: 'blur',
+                listener: telMask
             }
         };
     }
@@ -315,14 +328,15 @@ export class UserProfilePresenter extends BasePresenter {
     __validateSettings() {
         const {surname, name, birthday, phone, mail, gender, img} = this.__view.getSettingsInputs();
         const {errorSettingsID} = this.__view.getErrorID();
-
+        const telephone = parseTelNumber(phone.value);
         const isValidSurname = this.__validateString(surname);
         const isValidName = this.__validateString(name);
-        const isValidBirthday = this.__validateString(birthday);
-        const isValidPhone = this.__validateTelephone(phone);
+        const isValidBirthday = true;
+        const isValidPhone = telephone.length === 12;
         const isValidMail = this.__validateEmail(mail);
         const sex = gender.options[gender.selectedIndex];
 
+        console.log(isValidPhone);
         if (isValidSurname && isValidName && isValidBirthday && isValidPhone && isValidMail) {
             this.__model.fillUserData({
                 name: name.value,
@@ -330,7 +344,7 @@ export class UserProfilePresenter extends BasePresenter {
                 dateBirth: birthday.value,
                 sex: sex.value,
                 email: mail.value,
-                telephone: phone.value,
+                telephone: telephone,
                 password: 'password',
                 linkImages: img.src
             });
@@ -362,6 +376,9 @@ export class UserProfilePresenter extends BasePresenter {
      * @private
      */
     __validateTelephone(target) {
+        if (target.value.length === 0) {
+            return true;
+        }
         const {error, message} = this.__model.validationTelephone(target.value);
         return validateError(error, target, message);
     }
@@ -374,6 +391,7 @@ export class UserProfilePresenter extends BasePresenter {
      * @private
      */
     __validatePassword(target) {
+        this.__enablePasswordChange(target);
         const {passwordConfirm} = this.__view.getPasswordsInfo();
         if (target.value !== '') {
             const {error, message} = this.__model.validationPassword(target.value);
