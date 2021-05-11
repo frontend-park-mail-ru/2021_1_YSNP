@@ -76,17 +76,21 @@ export class ProductEditPresenter extends BasePresenter {
      */
     async control() {
         await this.update();
-        this.scrollUp();
         if (this.checkOffline()) {
             return;
         }
+
         checkIsAuth();
+
         if (this.__model.getData().ownerId !== this.__userModel.getData().id) {
             router.redirect(frontUrls.main);
             return; 
         }
+
         this.__view.render(this.__makeContext());
         this.__countAlreadyPhoto = this.__view.getPicCount();
+
+        this.checkScrollOffset();
     }
 
     /***
@@ -94,6 +98,8 @@ export class ProductEditPresenter extends BasePresenter {
      */
     removePageListeners() {
         super.removePageListeners();
+
+        this.__view.removePage();
     }
 
     /***

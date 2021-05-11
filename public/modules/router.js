@@ -304,6 +304,7 @@ class Router {
         });
 
         window.addEventListener('popstate', () => {
+            this.__removePageListeners();
             this.start();
         });
     }

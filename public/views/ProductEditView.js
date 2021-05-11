@@ -241,7 +241,10 @@ export class ProductEditView extends BaseView {
         this.__productCreate.errorText(message);
     }
 
-
+    /***
+     * Get pic count
+     * @returns {number}
+     */
     getPicCount() {
         return this.__count;
     }

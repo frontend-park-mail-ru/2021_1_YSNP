@@ -66,15 +66,6 @@ export class BasePresenter {
     }
 
     /***
-     * Prerender control
-     * @returns {boolean}
-     */
-    isRenderView() {
-        this.scrollUp();
-        return !this.checkOffline();
-    }
-
-    /***
      * Remove page listeners
      */
     removePageListeners() {
@@ -134,6 +125,21 @@ export class BasePresenter {
      */
     scrollUp() {
         window.scrollTo(0, 0);
+    }
+
+    checkScrollOffset() {
+        const {x, y} = router.getState();
+
+        if (x !== undefined && y !== undefined) {
+            window.scrollTo(x, y);
+            return;
+        }
+
+        window.scrollTo(0, 0);
+    }
+
+    saveScrollOffset() {
+        router.setState({x: window.scrollX, y: window.scrollY});
     }
 
     /***
@@ -201,7 +207,6 @@ export class BasePresenter {
     __listenerAuthClick(ev) {
         ev.stopPropagation();
 
-        router.redirectEvent(ev);
         eventHandler(ev, this.__getBaseActions().auth);
     }
 
@@ -398,6 +403,14 @@ export class BasePresenter {
     }
 
     /***
+     * Registration click
+     * @private
+     */
+    __regClick() {
+        router.redirect(frontUrls.registration);
+    }
+
+    /***
      * Open / close dropdown menu
      * @private
      */
@@ -539,6 +552,9 @@ export class BasePresenter {
             auth: {
                 closeClick: {
                     open: this.__closeAuth.bind(this)
+                },
+                regClick: {
+                    open: this.__regClick.bind(this)
                 }
             },
             map: {

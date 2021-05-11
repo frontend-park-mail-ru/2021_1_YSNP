@@ -84,7 +84,7 @@
       align-items: center;
       flex-direction: column;
 
-      margin-bottom: 4vh;
+      margin-bottom: 2vh;
 
       &__input {
         margin: 1vh 0;
@@ -140,6 +140,45 @@
           text-decoration: underline;
           color: $linkColor;
         }
+      }
+    }
+
+    &-text {
+      width: 100%;
+
+      margin-bottom: 2vh;
+
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      justify-content: center;
+
+      &__separator {
+        width: 30%;
+        @include separator;
+        margin: 0;
+      }
+
+      &__or {
+        margin: 0 3vh;
+      }
+    }
+
+    &-vk {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+
+      margin-bottom: 2vh;
+
+      padding: 1vh 5vh;
+      background-color: transparent;
+      color: rgb(70, 128, 194);
+      border-radius: 1vh;
+      border: 1px solid rgb(70, 128, 194);
+
+      &__logo {
+        @include set-size(2.5vh, 2.5vh);
       }
     }
   }

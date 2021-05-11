@@ -49,6 +49,10 @@ module.exports = {
                 {
                     from: 'public/sw.js',
                     to: ''
+                },
+                {
+                    from: 'public/fonts/',
+                    to: 'fonts/'
                 }
             ]
         }),
