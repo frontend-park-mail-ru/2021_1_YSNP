@@ -51,11 +51,16 @@
                            data-moveout="hideError" onkeydown="return false" readonly>
                 </div>
                 <div class="settings-input-inner">
-                    <input id="settings-telephone" data-action="inputPhone" class="settings-components__input"
-                           type="tel" value="{{telephone}}" data-move="showError" data-moveout="hideError" readonly>
+                    <div id="settings-telephone-block">
+                        <input class="settings-components__input__country settings-components__input" id="settings-telephone-country" readonly value="+7">
+                        <input data-action="inputPhone" class="settings-components__input__tel settings-components__input" id="settings-telephone" type="tel"
+                               placeholder="(999) 999 99 99" value="{{telephone}}"  data-move="showError" data-moveout="hideError" readonly>
+                    </div>
+<!--                    <input id="settings-telephone" data-action="inputPhone" class="settings-components__input"-->
+<!--                           type="tel" value="{{telephone}}" data-move="showError" data-moveout="hideError" readonly>-->
                 </div>
                 <div class="settings-input-inner">
-                    <input id="settings-email" data-action="inputMail" required class="settings-components__input"
+                    <input id="settings-email" data-action="inputMail" class="settings-components__input"
                            type="email" value="{{email}}" data-move="showError" data-moveout="hideError" readonly>
                 </div>
 
