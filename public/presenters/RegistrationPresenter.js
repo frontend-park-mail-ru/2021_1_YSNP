@@ -1,5 +1,5 @@
 import {BasePresenter} from './BasePresenter.js';
-import {addSuccesses, hideError, insertError, showError} from '../modules/layout/validationStates.js';
+import {addSuccesses, hideError, insertError, showError, removeModifyClasses} from '../modules/layout/validationStates.js';
 import {eventHandlerWithDataType} from '../modules/handlers/eventHandler.js';
 import {parseTelNumber, telMask} from '../modules/layout/mask.js';
 import {router} from '../modules/router.js';
@@ -333,6 +333,10 @@ export class RegistrationPresenter extends BasePresenter {
      * @private
      */
     __validateMail(target) {
+        if (target.value.length === 0) {
+            removeModifyClasses(target);
+            return false;
+        }
         const {error, message} = this.__model.validationEmail(target.value);
         return this.__handlingErrors(error, target, message);
     }
@@ -381,6 +385,9 @@ export class RegistrationPresenter extends BasePresenter {
      * @private
      */
     __validatePhoto() {
+        if (!this.__isPicAdd) {
+            return true;
+        }
         const {error, message} = this.__model.validationImage(this.__view.getForm());
         if (this.__isPicAdd && !error) {
             this.__view.removeErrorAvatar();
@@ -406,13 +413,13 @@ export class RegistrationPresenter extends BasePresenter {
         const isValidpwdConfirm = this.__validateConfirmPwd(passwordConfirm);
         const isValidPhone = this.__validatePhone(phone);
         const isValidPwd = this.__validatePas(password);
-        const isValidMail = this.__validateMail(mail);
+      //  const isValidMail = this.__validateMail(mail);
         const isValidName = this.__validateEmpty(name);
         const isValidSurname = this.__validateEmpty(surname);
-        const isValidDate = this.__validateEmpty(date);
+     //   const isValidDate = this.__validateEmpty(date);
         const isPhoto = this.__validatePhoto();
 
-        if (isPhoto && isValidDate && isValidMail && isValidName && isValidPhone && isValidPwd && isValidpwdConfirm && isValidSurname) {
+        if (isPhoto && isValidName && isValidPhone && isValidPwd && isValidpwdConfirm && isValidSurname) {
             this.__model.fillUserData({
                 name: name.value,
                 surname: surname.value,

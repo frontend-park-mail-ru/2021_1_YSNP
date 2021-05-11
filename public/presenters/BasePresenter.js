@@ -207,7 +207,6 @@ export class BasePresenter {
     __listenerAuthClick(ev) {
         ev.stopPropagation();
 
-        router.redirectEvent(ev);
         eventHandler(ev, this.__getBaseActions().auth);
     }
 
@@ -404,6 +403,14 @@ export class BasePresenter {
     }
 
     /***
+     * Registration click
+     * @private
+     */
+    __regClick() {
+        router.redirect(frontUrls.registration);
+    }
+
+    /***
      * Open / close dropdown menu
      * @private
      */
@@ -545,6 +552,9 @@ export class BasePresenter {
             auth: {
                 closeClick: {
                     open: this.__closeAuth.bind(this)
+                },
+                regClick: {
+                    open: this.__regClick.bind(this)
                 }
             },
             map: {
