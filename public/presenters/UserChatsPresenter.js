@@ -50,9 +50,10 @@ export class UserChatsPresenter extends BasePresenter {
      */
     async control() {
         await this.update();
-        if (!this.isRenderView()) {
+        if (this.checkOffline()) {
             return;
         }
+
         checkIsAuth();
 
         await this.__updateChatMessage();
@@ -70,6 +71,8 @@ export class UserChatsPresenter extends BasePresenter {
                 this.__view.deleteChatUnreadMessages(this.__chatID);
             }
         }
+
+        this.checkScrollOffset();
     }
 
     /***
@@ -85,6 +88,7 @@ export class UserChatsPresenter extends BasePresenter {
         this.__chatModel.deleteCallbackList();
 
         // this.__chatModel.close();
+        this.__view.removePage();
     }
 
     /***

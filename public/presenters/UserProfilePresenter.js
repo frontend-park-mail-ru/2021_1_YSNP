@@ -15,6 +15,7 @@ import {router} from '../modules/router';
 import {frontUrls} from '../modules/urls/frontUrls';
 import {user} from '../models/ProfileUserModel.js';
 import {checkIsAuth} from '../modules/checkAuth';
+import {parseTelMask, parseTelNumber, telMask} from '../modules/layout/mask';
 
 /***
  * Profile settings presenter
@@ -50,13 +51,17 @@ export class UserProfilePresenter extends BasePresenter {
      */
     async control() {
         await this.update();
-        if (!this.isRenderView()) {
+        if (this.checkOffline()) {
             return;
         }
 
         checkIsAuth();
 
         this.__view.render(this.__makeContext());
+
+        this.checkScrollOffset();
+
+
     }
 
     /***
@@ -64,6 +69,8 @@ export class UserProfilePresenter extends BasePresenter {
      */
     removePageListeners() {
         super.removePageListeners();
+
+        this.__view.removePage();
     }
 
     /***
@@ -121,6 +128,18 @@ export class UserProfilePresenter extends BasePresenter {
             blurInput: {
                 type: 'blur',
                 listener: this.__listenerSettingsClick.bind(this, 'moveout')
+            },
+            telFocus: {
+                type: 'focus',
+                listener: telMask
+            },
+            telInput: {
+                type: 'input',
+                listener: telMask
+            },
+            telBlur: {
+                type: 'blur',
+                listener: telMask
             }
         };
     }
@@ -279,7 +298,7 @@ export class UserProfilePresenter extends BasePresenter {
                     surname: modelData.surname,
                     sex: modelData.sex,
                     dateBirth: modelData.dateBirth,
-                    telephone: modelData.telephone,
+                    telephone: parseTelMask(modelData.telephone),
                     email: modelData.email,
                     imageSrc: modelData.linkImage
                 };
@@ -315,10 +334,11 @@ export class UserProfilePresenter extends BasePresenter {
     __validateSettings() {
         const {surname, name, birthday, phone, mail, gender, img} = this.__view.getSettingsInputs();
         const {errorSettingsID} = this.__view.getErrorID();
+        const telephone = parseTelNumber(phone.value);
 
         const isValidSurname = this.__validateString(surname);
         const isValidName = this.__validateString(name);
-        const isValidBirthday = this.__validateString(birthday);
+        const isValidBirthday = true;
         const isValidPhone = this.__validateTelephone(phone);
         const isValidMail = this.__validateEmail(mail);
         const sex = gender.options[gender.selectedIndex];
@@ -330,7 +350,7 @@ export class UserProfilePresenter extends BasePresenter {
                 dateBirth: birthday.value,
                 sex: sex.value,
                 email: mail.value,
-                telephone: phone.value,
+                telephone: telephone.length === 2 ? '' : telephone,
                 password: 'password',
                 linkImages: img.src
             });
@@ -357,12 +377,14 @@ export class UserProfilePresenter extends BasePresenter {
 
     /***
      * Validate phone
-     * @param target
+     * @param {HTMLInputElement} target
      * @returns {boolean}
      * @private
      */
     __validateTelephone(target) {
-        const {error, message} = this.__model.validationTelephone(target.value);
+        const phone = parseTelNumber(target.value);
+
+        const {error, message} = this.__model.validationTelephone(phone, true);
         return validateError(error, target, message);
     }
 
@@ -374,6 +396,7 @@ export class UserProfilePresenter extends BasePresenter {
      * @private
      */
     __validatePassword(target) {
+        this.__enablePasswordChange(target);
         const {passwordConfirm} = this.__view.getPasswordsInfo();
         if (target.value !== '') {
             const {error, message} = this.__model.validationPassword(target.value);

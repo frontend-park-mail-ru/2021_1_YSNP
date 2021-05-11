@@ -37,6 +37,13 @@ export class BaseView {
     }
 
     /***
+     * Remove page
+     */
+    removePage() {
+        this.__app.innerHTML = '';
+    }
+
+    /***
      * Delete unread count
      */
     deleteHeaderUnreadMessages() {

@@ -22,9 +22,22 @@
                 </div>
                 <button class="auth-content-form__button" type="submit">Войти</button>
             </form>
+
+            <div class="auth-content-text">
+                <div class="auth-content-text__separator"></div>
+                <span class="auth-content-text__or">или</span>
+                <div class="auth-content-text__separator"></div>
+            </div>
+
+            <a href="https://oauth.vk.com/authorize?client_id=7848246&display=page&redirect_uri=https://ykoya.ru/api/v1/oauth/vk&response_type=code"
+               data-action="vkClick" class="auth-content-vk">
+                <img src="/img/svg/vk.svg" class="auth-content-vk__logo">
+            </a>
+
             <div class="auth-content-form-registration">
                 <span>Еще не зарегистрировались?</span>
-                <a href="/signup" class="auth-content-form-registration__link">Создайте аккаунт.</a>
+                <a href="/signup" class="auth-content-form-registration__link"
+                   data-action="regClick">Создайте аккаунт.</a>
             </div>
         </div>
     </div>

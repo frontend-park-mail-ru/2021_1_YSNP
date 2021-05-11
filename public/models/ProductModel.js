@@ -249,6 +249,11 @@ export class ProductModel extends BaseModel {
         };
     }
 
+    /***
+     * JSon data with urls
+     * @returns {{amount: (Object.amount|number|*), name: (Object.name|string|*), description: (Object.description|string|*)} & {linkImages, id: (*), ownerId}}
+     * @private
+     */
     __jsonDataWithUrls() {
         return Object.assign({}, this.__jsonData(), {
             id: this.__id,
@@ -380,10 +385,23 @@ export class ProductModel extends BaseModel {
         return this.__sendData(form, backUrls.productCreate, this.__jsonData());
     }
 
+    /***
+     * Edit product
+     * @param {FormData} form
+     * @returns {Promise<{id: *}>}
+     */
     async edit(form) {
         return this.__sendData(form, backUrls.editPage, this.__jsonDataWithUrls());
     }
 
+    /***
+     * Send data
+     * @param {FormData} form
+     * @param {string} url
+     * @param {Object} data
+     * @returns {Promise<{id: *}>}
+     * @private
+     */
     __sendData(form, url, data) {
         return http.post(url, data)
             .then(({status, data}) => {

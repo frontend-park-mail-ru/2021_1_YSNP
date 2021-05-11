@@ -87,6 +87,27 @@
                     cursor: default;
                 }
             }
+            &__country {
+                @include set-size(4.8vh, 4vh);
+
+                &:focus {
+                    outline: none;
+                }
+
+                @media screen and (max-width: $breakMobile) {
+                    @include set-size(5.4vh, 5vh);
+                }
+            }
+
+            &__tel {
+                @include set-size(80%, 4vh);
+                @media screen and (max-width: $breakDesktop) {
+                    @include set-size(calc(100% - 5.3vh), 4vh);
+                }
+                @media screen and (max-width: $breakMobile) {
+                    @include set-size(calc(100% - 6vh), 5vh);
+                }
+            }
             &:read-only {
                 outline: 0;
                 outline-offset: 0;

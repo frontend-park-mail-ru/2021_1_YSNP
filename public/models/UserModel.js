@@ -107,7 +107,7 @@ export class UserModel extends BaseModel {
      */
     validationEmail(email) {
         const re = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-        if (re.test(email)) {
+        if (re.test(email) || email.length === 0) {
             return {
                 message: [''],
                 error: false
@@ -137,9 +137,17 @@ export class UserModel extends BaseModel {
     /***
      * Validate user telephone
      * @param {string} telephone - user telephone
+     * @param {boolean} isOptional - optional user phone
      * @returns {{message: [string], error: boolean}}
      */
-    validationTelephone(telephone) {
+    validationTelephone(telephone, isOptional = false) {
+        if (isOptional && telephone.length === 2) {
+            return {
+                message: [''],
+                error: false
+            };
+        }
+
         const telSize = 12;
         if (telephone.length === telSize && this.__isValidPhone(telephone)) {
             return {
