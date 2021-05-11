@@ -23,7 +23,7 @@ export class ProdRecListModel extends ProductListModel {
      * @private
      */
     async __updateNewDataPage() {
-        return http.get(backUrls.recForProduct(this.__id))
+        return http.get(backUrls.recForProductList(this.__id))
             .then(({status, data}) => {
                 this.checkError(status, {
                     message: data.message

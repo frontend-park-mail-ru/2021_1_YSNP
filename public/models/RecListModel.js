@@ -14,7 +14,7 @@ export class RecListModel extends ProductListModel {
      * @private
      */
     async __updateNewDataPage() {
-        return http.get(backUrls.recProducts)
+        return http.get(backUrls.recProductList)
             .then(({status, data}) => {
                 this.checkError(status, {
                     message: data.message

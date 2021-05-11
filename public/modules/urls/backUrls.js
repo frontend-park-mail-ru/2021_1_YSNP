@@ -24,20 +24,20 @@ class BackUrls {
     }
 
     /***
-     * Get chat list url
-     * @returns {string}
-     */
-    get chatList() {
-        return `${this.__url}${this.__api}/chat/list`;
-    }
-
-    /***
      * Get chat url
      * @param {number} id - chat id
      * @returns {string}
      */
     chat(id) {
         return `${this.__url}${this.__api}/chat/${id}`;
+    }
+
+    /***
+     * Get chat list url
+     * @returns {string}
+     */
+    get chatList() {
+        return `${this.__url}${this.__api}/chat/list`;
     }
 
     /***
@@ -115,16 +115,6 @@ class BackUrls {
     }
 
     /***
-     * Get product list url
-     * @param {number} from - page number paginator
-     * @param {number} count - count product per page
-     * @returns {string}
-     */
-    productList(from, count) {
-        return `${this.__url}${this.__api}/product/list?from=${from}&count=${count}`;
-    }
-
-    /***
      * Get product create url
      * Get position user url
      * @returns {string}
@@ -189,6 +179,15 @@ class BackUrls {
     }
 
     /***
+     * Get product upload photo url
+     *  @param {number} id - product id
+     * @returns {string}
+     */
+    productUploadPhotos(id) {
+        return `${this.__url}${this.__api}/product/upload/${id}`;
+    }
+
+    /***
      * Post close product
      * @param {number} id - product id
      * @returns {string}
@@ -206,20 +205,13 @@ class BackUrls {
     }
 
     /***
-     * Get product upload photo url
-     *  @param {number} id - product id
+     * Get product list url
+     * @param {number} from - page number paginator
+     * @param {number} count - count product per page
      * @returns {string}
      */
-    productUploadPhotos(id) {
-        return `${this.__url}${this.__api}/product/upload/${id}`;
-    }
-
-    /***
-     * Get find products url
-     * @returns {string}
-     */
-    search(data) {
-        return `${this.__url}${this.__api}/search?category=${data.category}&fromAmount=${data.fromAmount}&toAmount=${data.toAmount}&date=${data.date}&radius=${data.radius}&latitude=${data.latitude}&longitude=${data.longitude}&sorting=${data.sorting}&search=${data.search}&from=${data.from}&count=${data.count}`;
+    productList(from, count) {
+        return `${this.__url}${this.__api}/product/list?from=${from}&count=${count}`;
     }
 
     /***
@@ -228,6 +220,14 @@ class BackUrls {
      */
     get categories() {
         return `${this.__url}${this.__api}/categories`;
+    }
+
+    /***
+     * Get find products url
+     * @returns {string}
+     */
+    search(data) {
+        return `${this.__url}${this.__api}/search?category=${data.category}&fromAmount=${data.fromAmount}&toAmount=${data.toAmount}&date=${data.date}&radius=${data.radius}&latitude=${data.latitude}&longitude=${data.longitude}&sorting=${data.sorting}&search=${data.search}&from=${data.from}&count=${data.count}`;
     }
 
     /***
@@ -242,16 +242,16 @@ class BackUrls {
      * Get trends products
      * @return {string}
      */
-    get recProducts() {
-        return `${this.__url}${this.__api}/product/trends`;
+    get recProductList() {
+        return `${this.__url}${this.__api}/product/trend/list`;
     }
 
     /***
-     * Get one product recommendation
+     * Get trends for product
      * @return {string}
      */
-    recForProduct(id) {
-        return `${this.__url}${this.__api}/product/recommendation/${id}`;
+    recForProductList(id) {
+        return `${this.__url}${this.__api}/product/${id}/trend/list`;
     }
 }
 
