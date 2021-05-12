@@ -30,7 +30,7 @@ export class ProductView extends BaseView {
             },
             trendsList: {
                 title: 'Похожие товары',
-                text: 'Пока нет новых рекомендаций',
+                text: 'Пока нет похожих товаров',
                 id: 'trends',
                 data: context.recList.data,
                 listeners: context.recList.listeners
