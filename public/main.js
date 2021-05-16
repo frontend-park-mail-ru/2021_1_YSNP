@@ -18,6 +18,7 @@ import {PromotionView} from './views/PromotionView.js';
 import {NotFoundView} from './views/NotFoundView.js';
 import {ProductEditView} from './views/ProductEditView.js';
 import {UserChatsView} from './views/UserChatsView';
+import {AchievementView} from './views/AchievementView';
 
 import {UserFavoritePresenter} from './presenters/UserFavoritePresenter.js';
 import {MainPresenter} from './presenters/MainPresenter.js';
@@ -32,6 +33,7 @@ import {NotFoundPresenter} from './presenters/NotFoundPresenter.js';
 import {baseCreateProduct, baseRegistration} from './modules/layout/fields.js';
 import {ProductEditPresenter} from './presenters/ProductEditPresenter';
 import {UserChatsPresenter} from './presenters/UserChatsPresenter';
+import {AchievementPresenter} from './presenters/AchievementPresenter';
 
 /***
  * Register service worker
@@ -49,6 +51,7 @@ const app = document.getElementById('app');
 
 const chatsView = new UserChatsView(app);
 const favoriteView = new UserFavoriteView(app);
+const achievementView = new AchievementView(app);
 const mainView = new MainView(app);
 const adView = new UserAdView(app);
 const productCreateView = new ProductCreateView(app, baseCreateProduct);
@@ -183,6 +186,17 @@ const doFavorite = () => {
 };
 
 /***
+ * Open user achievements page
+ * @returns {Function}
+ */
+const doAchievements = () => {
+    const achievementPresenter = new AchievementPresenter(achievementView);
+    achievementPresenter.control();
+
+    return achievementPresenter.removePageListeners.bind(achievementPresenter);
+};
+
+/***
  * Open search page with text
  * @param {Object} val - page params
  */
@@ -228,6 +242,7 @@ router.add(frontUrls.userChats, doChats);
 router.add(frontUrls.userChat(), doChat);
 router.add(frontUrls.userFavorite, doFavorite);
 router.add(frontUrls.editProduct(), doProductEdit);
+router.add(frontUrls.achievements, doAchievements);
 
 router.addNotFound(doNotFound);
 

@@ -112,6 +112,16 @@ class FrontUrls {
         return '/user/favorite';
     }
 
+
+    /***
+     * Get achievements page
+     * @returns {string}
+     */
+    get achievements() {
+        return '/user/achievements';
+    }
+
+
     /***
      * Get edit product page
      * @returns {string}
