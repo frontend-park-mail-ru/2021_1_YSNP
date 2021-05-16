@@ -1,5 +1,4 @@
 import {BaseView} from './BaseView.js';
-
 import {Layout} from '../components/Layout/Layout.js';
 import {AchievementTable} from '../components/AchievementsList/AchievementTable';
 import {ProfileMenu} from '../components/ProfileMenu/ProfileMenu.js';
@@ -9,29 +8,6 @@ import {mobile} from '../modules/mobile';
  * Favorite view
  */
 export class AchievementView extends BaseView {
-    /***
-     * Like product
-     * @param {number} id - product id
-     */
-    likeProduct(id) {
-        this.__favoriteList.like(id);
-    }
-
-    /***
-     * Dislike product
-     * @param {number} id - product id
-     */
-    dislikeProduct(id) {
-        this.__favoriteList.dislike(id);
-    }
-
-    /***
-     * Add new cards to view
-     * @param {Object[]} context - new cards
-     */
-    addNewCards(context) {
-        this.__favoriteList.addNewCards(context);
-    }
 
     /***
      * Get view context
@@ -40,12 +16,12 @@ export class AchievementView extends BaseView {
      */
     __makeContext(context) {
         this.__context = {
-            favoriteList: {
+            achievementList: {
                 title: 'Достижения',
                 text: 'Достижений пока нет',
                 id: 'achieve',
-                data: context.favoriteList.data,
-                listeners: context.favoriteList.listeners
+                data: context.achievementList.data,
+                listeners: context.achievementList.listeners
             },
             profileSettings: {
                 data: context.profileSettings.data
@@ -71,8 +47,8 @@ export class AchievementView extends BaseView {
 
         const parent = layout.parent;
 
-        this.__favoriteList = new AchievementTable(parent);
-        this.__favoriteList.render(this.__context.favoriteList);
+        this.__achievementList = new AchievementTable(parent);
+        this.__achievementList.render(this.__context.achievementList);
     }
 
     /***
@@ -89,8 +65,8 @@ export class AchievementView extends BaseView {
         const profileMenu = new ProfileMenu(left, {page: 'achievements'});
         profileMenu.render(this.__context.profileSettings);
 
-        this.__favoriteList = new AchievementTable(right);
-        this.__favoriteList.render(this.__context.favoriteList);
+        this.__achievementList = new AchievementTable(right);
+        this.__achievementList.render(this.__context.achievementList);
     }
 
     /***
