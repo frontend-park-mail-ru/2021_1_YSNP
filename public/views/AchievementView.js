@@ -69,6 +69,7 @@ export class AchievementView extends BaseView {
         this.__achievementList.render(this.__context.achievementList);
     }
 
+
     /***
      * Render view
      * @param {Object} context - view context
