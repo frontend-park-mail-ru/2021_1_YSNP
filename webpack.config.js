@@ -7,8 +7,6 @@ const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 const SentryWebpackPlugin = require('@sentry/webpack-plugin');
 
-console.log(process.env.DEBUG !== undefined ? process.env.DEBUG : true);
-
 module.exports = {
     entry: './public/main.js',
     output: {

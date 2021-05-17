@@ -10,7 +10,6 @@ class SentryManager {
     constructor(debug = true) {
         const env = debug === true ? 'development' : 'production';
 
-        console.log(process.env.DEBUG);
         console.log('Init Sentry', env);
 
         Sentry.onLoad(() => {

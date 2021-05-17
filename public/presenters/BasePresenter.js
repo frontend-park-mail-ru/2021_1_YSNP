@@ -417,7 +417,8 @@ export class BasePresenter {
      * Registration click
      * @private
      */
-    __regClick() {
+    __regClick(ev) {
+        ev.preventDefault();
         router.redirect(frontUrls.registration);
     }
 
