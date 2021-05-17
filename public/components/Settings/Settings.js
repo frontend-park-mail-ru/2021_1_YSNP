@@ -1,7 +1,10 @@
-import './Settings.scss';
 import settingsTemplate from './Settings.hbs';
+import './Settings.scss';
+
 import {ChangePassword} from './ChangePassword/ChangePassword.js';
 import {parseTelMask} from '../../modules/layout/mask';
+
+import {sentryManager} from '../../modules/sentry';
 
 /***
  * Settings box on profile page
@@ -185,7 +188,17 @@ export class Settings {
      * Open form settings for editing
      */
     enableEditing() {
-        const {name, surname, gender, birthday, phone, phoneCountry, mail, buttonSaveProfile, buttonUploadImg} = this.getSettingsFields();
+        const {
+            name,
+            surname,
+            gender,
+            birthday,
+            phone,
+            phoneCountry,
+            mail,
+            buttonSaveProfile,
+            buttonUploadImg
+        } = this.getSettingsFields();
         buttonSaveProfile.style.visibility = 'visible';
         buttonUploadImg.style.visibility = 'visible';
         surname.removeAttribute('readonly');
@@ -201,7 +214,7 @@ export class Settings {
             phoneCountry.removeAttribute('readonly');
         }
         if (this.__context.data.dateBirth === '') {
-            const { birthday } = this.getSettingsFields();
+            const {birthday} = this.getSettingsFields();
             birthday.style.visibility = 'visible';
         }
         document.getElementById('settings-telephone-block')
@@ -248,7 +261,7 @@ export class Settings {
             mail.parentNode.removeChild(mail.nextSibling);
         }
         if (this.__context.data.dateBirth === '') {
-            const { birthday } = this.getSettingsFields();
+            const {birthday} = this.getSettingsFields();
             birthday.style.visibility = 'hidden';
         }
         document.getElementById('settings-avatar').style.cursor = 'default';
@@ -274,7 +287,7 @@ export class Settings {
                 .setAttribute('selected', 'true');
         }
         if (this.__context.data.dateBirth === '') {
-            const { birthday } = this.getSettingsFields();
+            const {birthday} = this.getSettingsFields();
             birthday.style.visibility = 'hidden';
         }
     }
@@ -311,12 +324,19 @@ export class Settings {
      * Add component to parent
      */
     render(context) {
-        this.__context = context;
-        this.__context.data.telephone = parseTelMask(this.__context.data.telephone);
-        this.__parent.insertAdjacentHTML('beforeend', settingsTemplate(this.__context.data));
-        const chPass = new ChangePassword(document.getElementById('settings'));
-        chPass.render();
-        this.disableEditing();
-        this.__addListeners();
+        try {
+            this.__context = context;
+            this.__context.data.telephone = parseTelMask(this.__context.data.telephone);
+            this.__parent.insertAdjacentHTML('beforeend', settingsTemplate(this.__context.data));
+
+            const chPass = new ChangePassword(document.getElementById('settings'));
+            chPass.render();
+
+            this.disableEditing();
+            this.__addListeners();
+        } catch (err) {
+            sentryManager.captureException(err);
+            console.log(err.message);
+        }
     }
 }

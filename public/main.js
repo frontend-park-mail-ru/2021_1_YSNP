@@ -32,6 +32,7 @@ import {NotFoundPresenter} from './presenters/NotFoundPresenter.js';
 import {baseCreateProduct, baseRegistration} from './modules/layout/fields.js';
 import {ProductEditPresenter} from './presenters/ProductEditPresenter';
 import {UserChatsPresenter} from './presenters/UserChatsPresenter';
+import {sentryManager} from './modules/sentry';
 
 /***
  * Register service worker
@@ -41,6 +42,7 @@ if ('serviceWorker' in navigator) {
         .then(() => {
             console.log('Service Worker registered.');
         }).catch((error) => {
+        sentryManager.captureException(error);
         console.log(`Error while register service worker:${error}`);
     });
 }

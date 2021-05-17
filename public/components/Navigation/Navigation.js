@@ -1,5 +1,7 @@
-import './Navigation.scss';
 import navigationTemplate from './Navigation.hbs';
+import './Navigation.scss';
+
+import {sentryManager} from '../../modules/sentry';
 
 /***
  * @author Ivan Gorshkov
@@ -113,8 +115,13 @@ export class Navigation {
      * @public
      */
     render(ctx) {
-        this.listeners = ctx.navigation.listeners;
-        this.__parent.insertAdjacentHTML('beforeend', navigationTemplate(this.__context()));
-        this.addListeners();
+        try {
+            this.listeners = ctx.navigation.listeners;
+            this.__parent.insertAdjacentHTML('beforeend', navigationTemplate(this.__context()));
+            this.addListeners();
+        } catch (err) {
+            sentryManager.captureException(err);
+            console.log(err.message);
+        }
     }
 }

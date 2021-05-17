@@ -5,6 +5,8 @@ import {OneUserMessage} from './OneUserMessage/OneUserMessage';
 import {OneOwnerMessage} from './OneOwnerMessage/OneOwnerMessage';
 import {EmptyChatMessage} from './EmptyChatMessage/EmptyChatMessage';
 
+import {sentryManager} from '../../../modules/sentry';
+
 /***
  * Chat message component
  */
@@ -165,6 +167,7 @@ export class ChatMessage {
 
             this.__renderChatMessage(this.__context.data);
         } catch (err) {
+            sentryManager.captureException(err);
             console.log(err.message);
         }
     }

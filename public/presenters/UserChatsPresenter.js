@@ -1,13 +1,15 @@
 import {BasePresenter} from './BasePresenter';
 
-import {checkIsAuth} from '../modules/checkAuth';
-import {EndlessScroll} from '../modules/handlers/endlessScroll';
 import {eventChatListHandler} from '../modules/handlers/eventHandler';
+import {EndlessScroll} from '../modules/handlers/endlessScroll';
 import {NotFoundError} from '../modules/http/httpError';
+import {checkIsAuth} from '../modules/checkAuth';
 
 import {router} from '../modules/router';
 import {frontUrls} from '../modules/urls/frontUrls';
 import {mobile} from '../modules/mobile';
+
+import {sentryManager} from '../modules/sentry';
 
 
 /***
@@ -38,6 +40,8 @@ export class UserChatsPresenter extends BasePresenter {
             .then(() => this.__chatModel.chatList())
             .catch((err) => {
                 //TODO(Serge) нормальная обработка ошибок
+
+                sentryManager.captureException(err);
                 console.log(err.message);
 
                 this.checkOfflineStatus(err);
@@ -104,6 +108,8 @@ export class UserChatsPresenter extends BasePresenter {
         return this.__chatModel.chatMessage(this.__chatID)
             .catch((err) => {
                 //TODO(Sergey) нормальная обработка ошибок
+
+                sentryManager.captureException(err);
                 console.log(err.message);
 
                 this.checkOfflineStatus(err);
@@ -157,6 +163,8 @@ export class UserChatsPresenter extends BasePresenter {
                 this.__view.addNewChat(data);
             }).catch((err) => {
             //TODO(Sergey) нормальная обработка ошибок
+
+            sentryManager.captureException(err);
             console.log(err.message);
 
             this.checkOfflineStatus(err);

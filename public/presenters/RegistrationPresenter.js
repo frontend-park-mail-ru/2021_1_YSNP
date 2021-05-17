@@ -1,13 +1,23 @@
 import {BasePresenter} from './BasePresenter.js';
-import {addSuccesses, hideError, insertError, showError, removeModifyClasses} from '../modules/layout/validationStates.js';
+
+import {RegUserModel} from '../models/RegUserModel.js';
+
+import {
+    addSuccesses,
+    hideError,
+    insertError,
+    showError,
+    removeModifyClasses
+} from '../modules/layout/validationStates.js';
 import {eventHandlerWithDataType} from '../modules/handlers/eventHandler.js';
 import {parseTelNumber, telMask} from '../modules/layout/mask.js';
-import {router} from '../modules/router.js';
-import {frontUrls} from '../modules/urls/frontUrls.js';
-import {RegUserModel} from '../models/RegUserModel.js';
 import {noop} from '../modules/noop.js';
 import {checkIsNotAuth} from '../modules/checkAuth.js';
 
+import {router} from '../modules/router.js';
+import {frontUrls} from '../modules/urls/frontUrls.js';
+
+import {sentryManager} from '../modules/sentry';
 
 /***
  *  RegistrationPresenter class
@@ -36,7 +46,10 @@ export class RegistrationPresenter extends BasePresenter {
         return super.update()
             .catch((err) => {
                 //TODO(Sergey) нормальная обработка ошибок
+
+                sentryManager.captureException(err);
                 console.log(err.message);
+
                 this.checkOfflineStatus(err);
             });
     }
@@ -413,10 +426,10 @@ export class RegistrationPresenter extends BasePresenter {
         const isValidpwdConfirm = this.__validateConfirmPwd(passwordConfirm);
         const isValidPhone = this.__validatePhone(phone);
         const isValidPwd = this.__validatePas(password);
-      //  const isValidMail = this.__validateMail(mail);
+        //  const isValidMail = this.__validateMail(mail);
         const isValidName = this.__validateEmpty(name);
         const isValidSurname = this.__validateEmpty(surname);
-     //   const isValidDate = this.__validateEmpty(date);
+        //   const isValidDate = this.__validateEmpty(date);
         const isPhoto = this.__validatePhoto();
 
         if (isPhoto && isValidName && isValidPhone && isValidPwd && isValidpwdConfirm && isValidSurname) {
@@ -439,6 +452,8 @@ export class RegistrationPresenter extends BasePresenter {
                 })
                 .catch((err) => {
                     //TODO(Sergey) нормальная обработка ошибок
+
+                    sentryManager.captureException(err);
                     console.log(err.message);
 
                     this.scrollUp();

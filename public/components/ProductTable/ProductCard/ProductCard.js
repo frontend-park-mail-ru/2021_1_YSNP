@@ -1,6 +1,8 @@
 import productCardTemplate from './ProductCard.hbs';
 import './ProductCard.scss';
 
+import {sentryManager} from '../../../modules/sentry';
+
 /***
  * Product card component with img, name, date, amount and like
  */
@@ -141,6 +143,7 @@ export class ProductCard {
             this.__setStatus();
             this.__checkLike();
         } catch (err) {
+            sentryManager.captureException(err);
             console.log(err.message);
         }
     }

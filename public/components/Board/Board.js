@@ -1,10 +1,13 @@
-import './Board.scss';
 import boardTemplate from './Board.hbs';
+import './Board.scss';
+
 import {InfoCard} from './InfoCard/InfoCard.js';
 import {Slider} from './Carousel/Slider.js';
 import {Description} from './Description/Description.js';
 import {Map} from './Map/Map.js';
+
 import {mobile} from '../../modules/mobile';
+import {sentryManager} from '../../modules/sentry';
 
 /***
  * @author Ivan Gorshkov
@@ -168,32 +171,38 @@ export class Board {
      * @public
      */
     render(ctx) {
-        this.__context = ctx.product;
-        this.listeners = ctx.product.listeners;
-        this.__parent.insertAdjacentHTML('beforeend', boardTemplate(this.__context.data));
+        try {
+            this.__context = ctx.product;
+            this.listeners = ctx.product.listeners;
 
-        const parentRightSide = document.getElementById('board-right-side');
-        const parentLeftSide = document.getElementById('board-left-side');
+            this.__parent.insertAdjacentHTML('beforeend', boardTemplate(this.__context.data));
 
-        this.__carousel = new Slider(parentLeftSide, this.__context.data);
-        this.__carousel.render();
+            const parentRightSide = document.getElementById('board-right-side');
+            const parentLeftSide = document.getElementById('board-left-side');
 
-        if (mobile.isMobile()) {
-            this.__infoCard = new InfoCard(parentLeftSide, this.__context.data, this.__context.owner);
-            this.__infoCard.render();
+            this.__carousel = new Slider(parentLeftSide, this.__context.data);
+            this.__carousel.render();
+
+            if (mobile.isMobile()) {
+                this.__infoCard = new InfoCard(parentLeftSide, this.__context.data, this.__context.owner);
+                this.__infoCard.render();
+            }
+
+            this.__description = new Description(parentLeftSide, this.__context.data);
+            this.__description.render();
+
+            if (!mobile.isMobile()) {
+                this.__infoCard = new InfoCard(parentRightSide, this.__context.data, this.__context.owner);
+                this.__infoCard.render();
+            }
+
+            this.__map = new Map(parentLeftSide);
+            this.__map.render(this.__context.data);
+
+            this.addListeners();
+        } catch (err) {
+            sentryManager.captureException(err);
+            console.log(err.message);
         }
-
-        this.__description = new Description(parentLeftSide, this.__context.data);
-        this.__description.render();
-
-        if (!mobile.isMobile()) {
-            this.__infoCard = new InfoCard(parentRightSide, this.__context.data, this.__context.owner);
-            this.__infoCard.render();
-        }
-
-        this.__map = new Map(parentLeftSide);
-        this.__map.render(this.__context.data);
-
-        this.addListeners();
     }
 }

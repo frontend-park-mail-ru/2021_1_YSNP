@@ -1,4 +1,7 @@
 import {BasePresenter} from './BasePresenter.js';
+
+import {user} from '../models/ProfileUserModel.js';
+
 import {
     insertError,
     addSuccesses,
@@ -10,12 +13,13 @@ import {
     validateError,
     showSuccessMessage
 } from '../modules/layout/validationStates.js';
+import {parseTelMask, parseTelNumber, telMask} from '../modules/layout/mask';
+import {checkIsAuth} from '../modules/checkAuth';
 
 import {router} from '../modules/router';
 import {frontUrls} from '../modules/urls/frontUrls';
-import {user} from '../models/ProfileUserModel.js';
-import {checkIsAuth} from '../modules/checkAuth';
-import {parseTelMask, parseTelNumber, telMask} from '../modules/layout/mask';
+
+import {sentryManager} from '../modules/sentry';
 
 /***
  * Profile settings presenter
@@ -40,7 +44,10 @@ export class UserProfilePresenter extends BasePresenter {
         return super.update()
             .catch((err) => {
                 //TODO(Sergey) нормальная обработка ошибок
+
+                sentryManager.captureException(err);
                 console.log(err.message);
+
                 this.checkOfflineStatus(err);
             });
     }
@@ -60,8 +67,6 @@ export class UserProfilePresenter extends BasePresenter {
         this.__view.render(this.__makeContext());
 
         this.checkScrollOffset();
-
-
     }
 
     /***
@@ -231,7 +236,12 @@ export class UserProfilePresenter extends BasePresenter {
                     }
                 })
                 .catch((err) => {
+                    //TODO(Sergey) нормальная обработка ошибок
+
                     showBackendError(errorPasswordID, err.message);
+
+                    sentryManager.captureException(err);
+                    console.log(err.message);
 
                     this.checkOfflineStatus(err);
                     this.checkOffline();
@@ -364,7 +374,12 @@ export class UserProfilePresenter extends BasePresenter {
                     }
                 })
                 .catch((err) => {
+                    //TODO(Sergey) нормальная обработка ошибок
+
                     showBackendError(errorSettingsID, err.message);
+
+                    sentryManager.captureException(err);
+                    console.log(err.message);
 
                     this.checkOfflineStatus(err);
                     this.checkOffline();

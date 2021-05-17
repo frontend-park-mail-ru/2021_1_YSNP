@@ -1,6 +1,8 @@
 import changePasswordTemplate from './ChangePassword.hbs';
 import './ChangePassword.scss';
 
+import {sentryManager} from '../../../modules/sentry';
+
 /***
  * Change password box on profile page
  */
@@ -17,6 +19,11 @@ export class ChangePassword {
      * Add component to parent
      */
     render() {
-        this.__parent.insertAdjacentHTML('beforeend', changePasswordTemplate());
+        try {
+            this.__parent.insertAdjacentHTML('beforeend', changePasswordTemplate());
+        } catch (err) {
+            sentryManager.captureException(err);
+            console.log(err.message);
+        }
     }
 }

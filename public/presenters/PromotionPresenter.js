@@ -1,7 +1,11 @@
 import {BasePresenter} from './BasePresenter.js';
+
+import {checkIsAuth} from '../modules/checkAuth.js';
+
 import {router} from '../modules/router';
 import {frontUrls} from '../modules/urls/frontUrls';
-import {checkIsAuth} from '../modules/checkAuth.js';
+
+import {sentryManager} from '../modules/sentry';
 
 /***
  * Profile settings presenter
@@ -24,7 +28,10 @@ export class PromotionPresenter extends BasePresenter {
         return super.update()
             .catch((err) => {
                 //TODO(Sergey) нормальная обработка ошибок
+
+                sentryManager.captureException(err);
                 console.log(err.message);
+
                 this.checkOfflineStatus(err);
             });
     }

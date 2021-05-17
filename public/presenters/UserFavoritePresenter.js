@@ -1,14 +1,16 @@
 import {BasePresenter} from './BasePresenter.js';
+
 import {FavoriteListModel} from '../models/FavoriteListModel.js';
 
+import {eventProductListHandler} from '../modules/handlers/eventHandler.js';
 import {EndlessScroll} from '../modules/handlers/endlessScroll.js';
 import {PageUpHandler} from '../modules/handlers/pageUpHandler.js';
+import {checkIsAuth} from '../modules/checkAuth';
 
 import {router} from '../modules/router';
 import {frontUrls} from '../modules/urls/frontUrls';
 
-import {eventProductListHandler} from '../modules/handlers/eventHandler.js';
-import {checkIsAuth} from '../modules/checkAuth';
+import {sentryManager} from '../modules/sentry';
 
 /***
  * favorite presenter
@@ -35,7 +37,10 @@ export class UserFavoritePresenter extends BasePresenter {
             .then(() => this.__favoriteListModel.update())
             .catch((err) => {
                 //TODO(Sergey) нормальная обработка ошибок
+
+                sentryManager.captureException(err);
                 console.log(err.message);
+
                 this.checkOfflineStatus(err);
             });
     }
@@ -102,7 +107,12 @@ export class UserFavoritePresenter extends BasePresenter {
                 }
 
                 //TODO(Sergey) нормальная обработка ошибок
+
+                sentryManager.captureException(err);
                 console.log(err.message);
+
+                this.checkOfflineStatus(err);
+                this.checkOffline();
             });
     }
 
@@ -138,6 +148,8 @@ export class UserFavoritePresenter extends BasePresenter {
             })
             .catch((err) => {
                 //TODO(Sergey) нормальная обработка ошибок
+
+                sentryManager.captureException(err);
                 console.log(err.message);
 
                 this.checkOfflineStatus(err);

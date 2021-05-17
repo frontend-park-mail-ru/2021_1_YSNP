@@ -1,6 +1,8 @@
 import oneUserMessageTemplate from './OneUserMessage.hbs';
 import './OneUserMessage.scss';
 
+import {sentryManager} from '../../../../modules/sentry';
+
 /***
  * One user message component
  */
@@ -28,6 +30,7 @@ export class OneUserMessage {
 
             this.__parent.insertAdjacentHTML('afterbegin', oneUserMessageTemplate(this.__context));
         } catch (err) {
+            sentryManager.captureException(err);
             console.log(err.message);
         }
     }

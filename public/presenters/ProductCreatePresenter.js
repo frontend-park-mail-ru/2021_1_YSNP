@@ -1,12 +1,17 @@
 import {BasePresenter} from './BasePresenter.js';
-import {addSuccesses, hideError, insertError, showError} from '../modules/layout/validationStates.js';
-import {amountMask} from '../modules/layout/mask.js';
+
+import {ProductModel} from '../models/ProductModel.js';
+
 import {router} from '../modules/router.js';
 import {frontUrls} from '../modules/urls/frontUrls.js';
-import {ProductModel} from '../models/ProductModel.js';
+
 import {eventHandlerWithDataType} from '../modules/handlers/eventHandler';
+import {addSuccesses, hideError, insertError, showError} from '../modules/layout/validationStates.js';
+import {amountMask} from '../modules/layout/mask.js';
 import {noop} from '../modules/noop.js';
 import {checkIsAuth} from '../modules/checkAuth.js';
+
+import {sentryManager} from '../modules/sentry';
 
 /***
  *  ProductCreatePresenter class, extends from BasePresenter
@@ -59,7 +64,10 @@ export class ProductCreatePresenter extends BasePresenter {
         return super.update()
             .catch((err) => {
                 //TODO(Sergey) нормальная обработка ошибок
+
+                sentryManager.captureException(err);
                 console.log(err.message);
+
                 this.checkOfflineStatus(err);
             });
     }
@@ -294,6 +302,8 @@ export class ProductCreatePresenter extends BasePresenter {
                 })
                 .catch((err) => {
                     //TODO(Sergey) нормальная обработка ошибок
+
+                    sentryManager.captureException(err);
                     console.log(err.message);
 
                     this.__view.changeEnableButton('Продолжить');

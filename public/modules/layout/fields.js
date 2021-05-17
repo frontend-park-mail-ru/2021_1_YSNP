@@ -4,9 +4,9 @@ import fieldSelectTemplate from '../../components/RegistrationPanel/Fields/Field
 import fieldAvatarTemplate from '../../components/RegistrationPanel/Fields/FieldAvatar.hbs';
 import fieldTextAreaTemplate from '../../components/RegistrationPanel/Fields/FieldTextArea.hbs';
 import fieldMultiPhotoTemplate from '../../components/RegistrationPanel/Fields/FieldMultiPhoto.hbs';
+
 import {http} from '../http/http.js';
 import {backUrls} from '../urls/backUrls.js';
-
 
 /***
  * @author Max Torzhkov, Ivan Gorshkov

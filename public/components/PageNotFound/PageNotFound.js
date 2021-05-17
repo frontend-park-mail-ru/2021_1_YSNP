@@ -1,6 +1,8 @@
 import notFoundTemplate from './PageNotFound.hbs';
 import './PageNotFound.scss';
 
+import {sentryManager} from '../../modules/sentry';
+
 /***
  * Page not found component
  */
@@ -23,6 +25,7 @@ export class PageNotFound {
 
             this.__parent.insertAdjacentHTML('beforeend', notFoundTemplate(context));
         } catch (err) {
+            sentryManager.captureException(err);
             console.log(err.message);
         }
     }

@@ -4,6 +4,8 @@ import './ProductTable.scss';
 import {ProductCard} from './ProductCard/ProductCard.js';
 import {EmptyMessage} from './EmptyMessage/EmptyMessage';
 
+import {sentryManager} from '../../modules/sentry';
+
 /***
  * Product List - table of components Product Card
  */
@@ -104,6 +106,7 @@ export class ProductTable {
             this.__addCards(this.__context.data);
             this.__addListeners();
         } catch (err) {
+            sentryManager.captureException(err);
             console.log(err.message);
         }
     }

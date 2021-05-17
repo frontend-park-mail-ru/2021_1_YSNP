@@ -1,17 +1,18 @@
 import {BasePresenter} from './BasePresenter.js';
+
+import {RecListModel} from '../models/RecListModel.js';
 import {MainListModel} from '../models/MainListModel.js';
 
-import {router} from '../modules/router';
-import {frontUrls} from '../modules/urls/frontUrls';
-
 import {eventProductListHandler, eventHandlerWithDataType} from '../modules/handlers/eventHandler.js';
-
+import {CreateButtonHandler} from '../modules/handlers/createButtonHandler';
 import {EndlessScroll} from '../modules/handlers/endlessScroll.js';
 import {PageUpHandler} from '../modules/handlers/pageUpHandler.js';
 
+import {router} from '../modules/router';
+import {frontUrls} from '../modules/urls/frontUrls';
 import {customSessionStorage} from '../modules/customSessionStorage.js';
-import {CreateButtonHandler} from '../modules/handlers/createButtonHandler';
-import {RecListModel} from '../models/RecListModel.js';
+
+import {sentryManager} from '../modules/sentry';
 
 /***
  * Main presenter
@@ -42,7 +43,10 @@ export class MainPresenter extends BasePresenter {
             .then(() => this.__recListModel.update())
             .catch((err) => {
                 //TODO(Sergey) нормальная обработка ошибок
+
+                sentryManager.captureException(err);
                 console.log(err.message);
+
                 this.checkOfflineStatus(err);
             });
     }
@@ -120,7 +124,12 @@ export class MainPresenter extends BasePresenter {
                 }
 
                 //TODO(Sergey) нормальная обработка ошибок
+
+                sentryManager.captureException(err);
                 console.log(err.message);
+
+                this.checkOfflineStatus(err);
+                this.checkOffline();
             });
     }
 
@@ -206,6 +215,8 @@ export class MainPresenter extends BasePresenter {
             })
             .catch((err) => {
                 //TODO(Sergey) нормальная обработка ошибок
+
+                sentryManager.captureException(err);
                 console.log(err.message);
 
                 this.checkOfflineStatus(err);
@@ -249,6 +260,8 @@ export class MainPresenter extends BasePresenter {
             })
             .catch((err) => {
                 //TODO(Sergey) нормальная обработка ошибок
+
+                sentryManager.captureException(err);
                 console.log(err.message);
 
                 this.checkOfflineStatus(err);

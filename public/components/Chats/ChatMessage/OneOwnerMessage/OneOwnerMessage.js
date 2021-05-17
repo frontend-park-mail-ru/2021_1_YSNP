@@ -1,6 +1,8 @@
 import oneOwnerMessageTemplate from './OneOwnerMessage.hbs';
 import './OneOwnerMessage.scss';
 
+import {sentryManager} from '../../../../modules/sentry';
+
 /***
  * One owner message
  */
@@ -28,6 +30,7 @@ export class OneOwnerMessage {
 
             this.__parent.insertAdjacentHTML('afterbegin', oneOwnerMessageTemplate(this.__context));
         } catch (err) {
+            sentryManager.captureException(err);
             console.log(err.message);
         }
     }
