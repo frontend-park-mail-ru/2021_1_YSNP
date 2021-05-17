@@ -39,8 +39,12 @@ jobs:
       - name: Install deps
         run: npm ci
 
-      - name: Export Sentry Token
-        run: export SENTRY_AUTH_TOKEN=${{ secrets.SENTRY_TOKEN }}
+      - name: Login Sentry
+        uses: getsentry/action-release@v1
+        env:
+          SENTRY_AUTH_TOKEN: ${{ secrets.SENTRY_AUTH_TOKEN }}
+        with:
+          environment: production
 
       - name: Build
         run: npm run build
