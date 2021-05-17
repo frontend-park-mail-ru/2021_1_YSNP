@@ -17,7 +17,7 @@ module.exports = {
     devtool: 'source-map',
     plugins: [
         new webpack.EnvironmentPlugin({
-            DEBUG: process.env.DEBUG ? process.env.DEBUG : true
+            DEBUG: process.env.DEBUG !== undefined ? process.env.DEBUG : true
         }),
         new WebpackPwaManifest({
             name: 'KOYA',
