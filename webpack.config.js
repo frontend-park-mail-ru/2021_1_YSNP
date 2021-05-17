@@ -1,4 +1,5 @@
 const path = require('path');
+const webpack = require('webpack');
 
 const WebpackPwaManifest = require('webpack-pwa-manifest');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
@@ -15,6 +16,9 @@ module.exports = {
     },
     devtool: 'source-map',
     plugins: [
+        new webpack.EnvironmentPlugin({
+            DEBUG: process.env.DEBUG ? process.env.DEBUG : true
+        }),
         new WebpackPwaManifest({
             name: 'KOYA',
             short_name: 'KOYA',
