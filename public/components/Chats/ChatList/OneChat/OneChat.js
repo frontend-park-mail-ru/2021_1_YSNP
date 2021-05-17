@@ -1,6 +1,8 @@
 import oneChatTemplate from './OneChat.hbs';
 import './OneChat.scss';
 
+import {sentryManager} from '../../../../modules/sentry';
+
 /***
  * One chat component
  */
@@ -138,6 +140,7 @@ export class OneChat {
                 this.__activateChatUnread();
             }
         } catch (err) {
+            sentryManager.captureException(err);
             console.log(err.message);
         }
     }

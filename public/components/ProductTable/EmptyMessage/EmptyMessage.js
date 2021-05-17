@@ -1,6 +1,8 @@
 import emptyMessageTemplate from './EmptyMessage.hbs';
 import './EmptyMessage.scss';
 
+import {sentryManager} from '../../../modules/sentry';
+
 /***
  * Empty message component
  */
@@ -22,6 +24,7 @@ export class EmptyMessage {
             this.__context = context;
             this.__parent.insertAdjacentHTML('beforeend', emptyMessageTemplate(this.__context));
         } catch (err) {
+            sentryManager.captureException(err);
             console.log(err.message);
         }
     }

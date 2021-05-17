@@ -10,6 +10,8 @@ import {NotFoundError} from '../modules/http/httpError';
 import {router} from '../modules/router.js';
 import {frontUrls} from '../modules/urls/frontUrls';
 
+import {sentryManager} from '../modules/sentry';
+
 /***
  *  ProductPresenter class, extends from BasePresenter
  */
@@ -18,7 +20,7 @@ export class ProductPresenter extends BasePresenter {
     /***
      * Class constructor
      * @param {ProductView} view - view
-     * @param {number} id - id of product
+     * @param {string} id - id of product
      * @this {ProductPresenter}
      */
     constructor(view, id) {
@@ -47,7 +49,10 @@ export class ProductPresenter extends BasePresenter {
             .then(() => this.__model.setStat(this.__model.getData().name))
             .catch((err) => {
                 //TODO(Sergey) нормальная обработка ошибок
+
+                sentryManager.captureException(err);
                 console.log(err.message);
+
                 this.checkOfflineStatus(err);
 
                 if (err instanceof NotFoundError) {
@@ -190,6 +195,8 @@ export class ProductPresenter extends BasePresenter {
             })
             .catch((err) => {
                 //TODO(Sergey) нормальная обработка ошибок
+
+                sentryManager.captureException(err);
                 console.log(err.message);
 
                 this.checkOfflineStatus(err);
@@ -266,6 +273,8 @@ export class ProductPresenter extends BasePresenter {
                 })
                 .catch((err) => {
                     //TODO(Sergey) нормальная обработка ошибок
+
+                    sentryManager.captureException(err);
                     console.log(err.message);
 
                     this.checkOfflineStatus(err);
@@ -332,9 +341,14 @@ export class ProductPresenter extends BasePresenter {
                     }
                 })
                 .catch((err) => {
+                    //TODO(Sergey) нормальная обработка ошибок
+
+                    sentryManager.captureException(err);
                     console.log(err.message);
+
                     this.__view.showNumber(err.message);
                     this.__numberIsShowed = false;
+
                     this.checkOfflineStatus(err);
                     this.checkOffline();
                 });
@@ -361,6 +375,8 @@ export class ProductPresenter extends BasePresenter {
             })
             .catch((err) => {
                 //TODO(Sergey) нормальная обработка ошибок
+
+                sentryManager.captureException(err);
                 console.log(err.message);
 
                 this.checkOfflineStatus(err);

@@ -1,6 +1,8 @@
 import './ProfileMenu.scss';
 import profileMenuTemplate from './ProfileMenu.hbs';
 
+import {sentryManager} from '../../modules/sentry';
+
 /***
  * Profile menu
  */
@@ -19,9 +21,14 @@ export class ProfileMenu {
      * Add component to parent
      */
     render(context) {
-        this.__context = context;
+        try {
+            this.__context = context;
 
-        this.__parent.insertAdjacentHTML('beforeend', profileMenuTemplate(this.__context.data));
-        document.getElementById(`profile-menu-${this.__page.page}`).classList.add('profile-menu__selected');
+            this.__parent.insertAdjacentHTML('beforeend', profileMenuTemplate(this.__context.data));
+            document.getElementById(`profile-menu-${this.__page.page}`).classList.add('profile-menu__selected');
+        } catch (err) {
+            sentryManager.captureException(err);
+            console.log(err.message);
+        }
     }
 }

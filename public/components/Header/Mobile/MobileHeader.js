@@ -1,6 +1,8 @@
 import mobileHeaderTemplate from './MobileHeader.hbs';
 import './MobileHeader.scss';
 
+import {sentryManager} from '../../../modules/sentry';
+
 /***
  * Header component
  */
@@ -64,6 +66,7 @@ export class MobileHeader {
             this.__parent.insertAdjacentHTML('beforeend', mobileHeaderTemplate(this.__context.data));
             this.__addListeners();
         } catch (err) {
+            sentryManager.captureException(err);
             console.log(err.message);
         }
     }

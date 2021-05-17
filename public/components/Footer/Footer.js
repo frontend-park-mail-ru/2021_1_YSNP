@@ -1,6 +1,8 @@
 import footerTemplate from './Footer.hbs';
 import './Footer.scss';
 
+import {sentryManager} from '../../modules/sentry';
+
 /***
  * Header component
  */
@@ -35,8 +37,13 @@ export class Footer {
      * Add component to parent
      */
     render(context) {
-        this.__context = context;
-        this.__parent.insertAdjacentHTML('beforeend', footerTemplate(this.__context.data));
-        this.__addListeners();
+        try {
+            this.__context = context;
+            this.__parent.insertAdjacentHTML('beforeend', footerTemplate(this.__context.data));
+            this.__addListeners();
+        } catch (err) {
+            sentryManager.captureException(err);
+            console.log(err.message);
+        }
     }
 }

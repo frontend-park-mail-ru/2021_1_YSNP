@@ -1,6 +1,8 @@
 import emptyChat from './EmptyChat.hbs';
 import './EmptyChat.scss';
 
+import {sentryManager} from '../../../modules/sentry';
+
 /***
  * One user message component
  */
@@ -23,6 +25,7 @@ export class EmptyChat {
 
             this.__parent.insertAdjacentHTML('beforeend', emptyChat(this.__context));
         } catch (err) {
+            sentryManager.captureException(err);
             console.log(err.message);
         }
     }

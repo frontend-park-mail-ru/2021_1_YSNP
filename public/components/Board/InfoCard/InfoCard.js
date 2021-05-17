@@ -1,5 +1,7 @@
-import './InfoCard.scss';
 import infoCardTemplate from './InfoCard.hbs';
+import './InfoCard.scss';
+
+import {sentryManager} from '../../../modules/sentry';
 
 /***
  * @author Ivan Gorshkov
@@ -196,6 +198,11 @@ export class InfoCard {
      * @public
      */
     render() {
-        this.__parent.insertAdjacentHTML('beforeend', infoCardTemplate(this.__context()));
+        try {
+            this.__parent.insertAdjacentHTML('beforeend', infoCardTemplate(this.__context()));
+        } catch (err) {
+            sentryManager.captureException(err);
+            console.log(err.message);
+        }
     }
 }

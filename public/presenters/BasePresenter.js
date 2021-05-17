@@ -1,15 +1,17 @@
-import {router} from '../modules/router.js';
-import {frontUrls} from '../modules/urls/frontUrls.js';
+import {AuthUserModel} from '../models/AuthUserModel.js';
+import {user} from '../models/ProfileUserModel.js';
+
 import {eventHandler} from '../modules/handlers/eventHandler.js';
 import {parseTelNumber, telMask} from '../modules/layout/mask.js';
-
-import {user} from '../models/ProfileUserModel.js';
-import {AuthUserModel} from '../models/AuthUserModel.js';
 import {YandexMap} from '../modules/layout/yandexMap.js';
-
 import {OfflineError} from '../modules/http/httpError.js';
+
+import {router} from '../modules/router.js';
+import {frontUrls} from '../modules/urls/frontUrls.js';
 import {mobile} from '../modules/mobile';
 import {chat} from '../models/ChatModel';
+
+import {sentryManager} from '../modules/sentry';
 
 /***
  * Base presenter
@@ -52,7 +54,10 @@ export class BasePresenter {
                 this.__view.baseContext = this.__makeBaseContext();
 
                 //TODO(Sergey) нормальная обработка ошибок
+
+                sentryManager.captureException(err);
                 console.log(err.message);
+
                 this.checkOfflineStatus(err);
             });
     }
@@ -453,7 +458,12 @@ export class BasePresenter {
             })
             .catch((err) => {
                 //TODO(Sergey) нормальная обработка ошибок
+
+                sentryManager.captureException(err);
                 console.log(err.message);
+
+                this.checkOfflineStatus(err);
+                this.checkOffline();
             });
     }
 
@@ -517,7 +527,13 @@ export class BasePresenter {
             })
             .catch((err) => {
                 //TODO(Sergey) нормальная обработка ошибок
+
+                sentryManager.captureException(err);
                 console.log(err.message);
+
+                this.checkOfflineStatus(err);
+                this.checkOffline();
+
                 this.__closeMap();
             });
     }

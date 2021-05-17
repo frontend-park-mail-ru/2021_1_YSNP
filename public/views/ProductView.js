@@ -1,10 +1,12 @@
 import {BaseView} from './BaseView.js';
+
 import {Layout} from '../components/Layout/Layout.js';
 import {Navigation} from '../components/Navigation/Navigation.js';
 import {Board} from '../components/Board/Board.js';
+import {ProductTable} from '../components/ProductTable/ProductTable';
+
 import {router} from '../modules/router';
 import {mobile} from '../modules/mobile';
-import {ProductTable} from '../components/ProductTable/ProductTable';
 
 /***
  * class ProductView extends BaseView

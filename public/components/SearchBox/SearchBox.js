@@ -1,6 +1,9 @@
-import './SearchBox.scss';
 import searchBoxTemplate from './SearchBox.hbs';
+import './SearchBox.scss';
+
 import {categories} from '../../modules/layout/fields.js';
+
+import {sentryManager} from '../../modules/sentry';
 
 /***
  * class for SearchBox component (Main page)
@@ -59,8 +62,13 @@ export class SearchBox {
      * Add component to parent
      */
     render(ctx) {
-        this.listeners = ctx.listeners;
-        this.__parent.insertAdjacentHTML('beforeend', searchBoxTemplate(categories));
-        this.__addListeners();
+        try {
+            this.listeners = ctx.listeners;
+            this.__parent.insertAdjacentHTML('beforeend', searchBoxTemplate(categories));
+            this.__addListeners();
+        } catch (err) {
+            sentryManager.captureException(err);
+            console.log(err.message);
+        }
     }
 }

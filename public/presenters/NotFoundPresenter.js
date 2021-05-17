@@ -1,5 +1,7 @@
 import {BasePresenter} from './BasePresenter.js';
 
+import {sentryManager} from '../modules/sentry';
+
 /***
  * Not found presenter
  */
@@ -23,7 +25,10 @@ export class NotFoundPresenter extends BasePresenter {
         return super.update()
             .catch((err) => {
                 //TODO(Sergey) нормальная обработка ошибок
+
+                sentryManager.captureException(err);
                 console.log(err.message);
+
                 this.checkOfflineStatus(err);
             });
     }

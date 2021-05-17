@@ -1,15 +1,19 @@
 import {BasePresenter} from './BasePresenter.js';
-import {eventHandlerWithDataType, eventProductListHandler} from '../modules/handlers/eventHandler.js';
-import {router} from '../modules/router.js';
-import {frontUrls} from '../modules/urls/frontUrls.js';
+
 import {SearchModel} from '../models/SearchModel.js';
+
+import {eventHandlerWithDataType, eventProductListHandler} from '../modules/handlers/eventHandler.js';
 import {amountMask, parseAmount} from '../modules/layout/mask.js';
+import {EndlessScroll} from '../modules/handlers/endlessScroll';
 import {PageUpHandler} from '../modules/handlers/pageUpHandler.js';
 import {noop} from '../modules/noop';
-import {EndlessScroll} from '../modules/handlers/endlessScroll';
 
+import {router} from '../modules/router.js';
+import {frontUrls} from '../modules/urls/frontUrls.js';
 import {customSessionStorage} from '../modules/customSessionStorage.js';
 import {categories} from '../modules/layout/fields.js';
+
+import {sentryManager} from '../modules/sentry';
 
 /***
  *  class SearchPresenter extends BasePresenter
@@ -43,7 +47,10 @@ export class SearchPresenter extends BasePresenter {
         return super.update()
             .catch((err) => {
                 //TODO(Serge) нормальная обработка ошибок
+
+                sentryManager.captureException(err);
                 console.log(err.message);
+
                 this.checkOfflineStatus(err);
             });
     }
@@ -175,6 +182,8 @@ export class SearchPresenter extends BasePresenter {
             })
             .catch((err) => {
                 //TODO(Sergey) нормальная обработка ошибок
+
+                sentryManager.captureException(err);
                 console.log(err.message);
 
                 this.checkOfflineStatus(err);
@@ -273,6 +282,8 @@ export class SearchPresenter extends BasePresenter {
             })
             .catch((err) => {
                 //TODO(Sergey) нормальная обработка ошибок
+
+                sentryManager.captureException(err);
                 console.log(err.message);
 
                 this.__view.deleteProductList();
@@ -304,7 +315,12 @@ export class SearchPresenter extends BasePresenter {
                 }
 
                 //TODO(Sergey) нормальная обработка ошибок
+
+                sentryManager.captureException(err);
                 console.log(err.message);
+
+                this.checkOfflineStatus(err);
+                this.checkOffline();
             });
     }
 
