@@ -33,22 +33,15 @@ export class AchievementTable {
      */
     __addAchievement(data) {
         const table = this.__getParent();
-     /**   if (data.length === 0) {
+        if (data.length === 0) {
             this.__addEmptyMessage(table);
             return;
         }
 
-        data.forEach((el) => {
+       data.forEach((el) => {
             const productCard = new Achievement(table);
             productCard.render(el);
-            this.__productTable.set(el.id, productCard);
-        }); **/
-     const productCard = new Achievement(table);
-     productCard.render();
-     const productCard2 = new Achievement(table);
-     productCard2.render();
-     const productCard3 = new Achievement(table);
-     productCard3.render();
+        });
 
     }
 

@@ -2,6 +2,7 @@ import {BasePresenter} from './BasePresenter.js';
 import {EndlessScroll} from '../modules/handlers/endlessScroll.js';
 import {PageUpHandler} from '../modules/handlers/pageUpHandler.js';
 import {checkIsAuth} from '../modules/checkAuth';
+import {AchievementsModel} from '../models/AchievementsModel';
 
 /***
  * favorite presenter
@@ -14,7 +15,7 @@ export class AchievementPresenter extends BasePresenter {
     constructor(view) {
         super(view);
         this.__view = view;
-
+        this.__achievementsModel = new AchievementsModel();
         this.__endlessScroll = new EndlessScroll(this.__createListeners().scroll);
         this.__pageUp = new PageUpHandler();
     }
@@ -25,7 +26,7 @@ export class AchievementPresenter extends BasePresenter {
      */
     async update() {
         return super.update()
-            .then(() => this.__favoriteListModel.update())
+            .then(() => this.__achievementsModel.update())
             .catch((err) => {
                 //TODO(Sergey) нормальная обработка ошибок
                 console.log(err.message);
@@ -111,7 +112,7 @@ export class AchievementPresenter extends BasePresenter {
     __makeContext() {
         return {
             achievementList: {
-                data: null,
+                data: this.__achievementsModel.getData(),
                 listeners: null
             },
             profileSettings: {

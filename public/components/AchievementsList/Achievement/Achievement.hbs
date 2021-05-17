@@ -1,16 +1,16 @@
 <div class="achievement">
     <div class="achievement-info">
-        <div class="achievement-info__title">Новичок</div>
-        <div class="achievement-info__des">Первое созданное объявление</div>
+        <div class="achievement-info__title">{{this.title}}</div>
+        <div class="achievement-info__des">{{this.description}}</div>
         <div class="achievement-unlcok">
             <img src="/img/svg/achieved.svg" alt="logout" class="achieved">
             <div class="achievement-unlcok-info">
                 <span>Разблокировано</span>
-                <span>16 мая 2020 г.</span>
+                <span>{{this.date}}</span>
             </div>
         </div>
     </div>
     <div class="achievement-hero">
-        <img class="achievement-hero__img" alt="JavaScript Arrays and Loops" src="https://achievement-images.teamtreehouse.com/badge_javascript-array-iteration-methods_stage01.png">
+        <img class="achievement-hero__img" alt="" src="{{this.linkPic}}">
     </div>
 </div>

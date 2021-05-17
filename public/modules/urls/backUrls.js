@@ -253,6 +253,14 @@ class BackUrls {
     recForProductList(id) {
         return `${this.__url}${this.__api}/product/${id}/trend/list`;
     }
+
+    /***
+     * Get achievements
+     * @return {string}
+     */
+    get achievements() {
+        return `${this.__url}${this.__api}/achievements`;
+    }
 }
 
 export const backUrls = new BackUrls();
