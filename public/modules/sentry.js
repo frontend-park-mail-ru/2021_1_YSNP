@@ -10,6 +10,8 @@ class SentryManager {
     constructor(debug = false) {
         const env = debug ? 'development' : 'production';
 
+        console.log('Init Sentry', env);
+
         Sentry.onLoad(() => {
             Sentry.init({
                 dsn: 'https://21ee1510d38c4e8ea55e5d36183a85c7@o658380.ingest.sentry.io/5763656',
