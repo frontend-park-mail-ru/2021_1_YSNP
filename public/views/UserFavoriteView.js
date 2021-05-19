@@ -49,7 +49,8 @@ export class UserFavoriteView extends BaseView {
                 listeners: context.favoriteList.listeners
             },
             profileSettings: {
-                data: context.profileSettings.data
+                data: context.profileSettings.data,
+                owner: context.profileSettings.owner
             }
         };
     }

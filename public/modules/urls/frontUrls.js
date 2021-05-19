@@ -113,6 +113,58 @@ class FrontUrls {
     }
 
     /***
+     * Get achievements page
+     * @returns {string}
+     */
+    get userAchievements() {
+        return '/user/achievements';
+    }
+
+    /***
+     * Get comments page
+     * @returns {string}
+     */
+    get userComments() {
+        return '/user/comments';
+    }
+
+    /***
+     * Get user landing page
+     * @returns {string}
+     */
+    sellerProfile(id = undefined) {
+        if (id !== undefined) {
+            return `/user/${id}/ads`;
+        }
+
+        return '/user/{id}/ads';
+    }
+
+    /***
+     * Get user achievements page
+     * @returns {string}
+     */
+    sellerAchievements(id = undefined) {
+        if (id !== undefined) {
+            return `/user/${id}/achievements`;
+        }
+
+        return '/user/{id}/achievements';
+    }
+
+    /***
+     * Get user comments page
+     * @returns {string}
+     */
+    sellerComments(id = undefined) {
+        if (id !== undefined) {
+            return `/user/${id}/comments`;
+        }
+
+        return '/user/{id}/comments';
+    }
+
+    /***
      * Get edit product page
      * @returns {string}
      */

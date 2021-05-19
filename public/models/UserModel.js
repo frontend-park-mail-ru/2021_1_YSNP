@@ -235,4 +235,27 @@ export class UserModel extends BaseModel {
                 this.fillUserData(data);
             });
     }
+
+    /***
+     * Get user without login
+     * @param {number} id - user id
+     * @returns {Promise<{surname: *, name: *, telephone: *, linkImages: *, id: *}>}
+     */
+    async getUserMinInfo(id) {
+        return http.get(backUrls.getUserMinInfo(id))
+            .then(({status, data}) => {
+                this.checkError(status, {
+                    message: data.message,
+                    notFound: 'Нет такого пользователя'
+                });
+
+                return {
+                    id: data.id,
+                    name: data.name,
+                    surname: data.surname,
+                    telephone: data.telephone,
+                    linkImages: data.linkImages
+                };
+            });
+    }
 }
