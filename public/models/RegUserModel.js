@@ -47,7 +47,16 @@ export class RegUserModel extends PasswordUserModel {
                     badRequest: 'Пользователь уже существует'
                 });
 
-                return http.post(backUrls.upload, new FormData(form), true)
+                const formData = new FormData(form);
+
+                if (formData.get('file-upload').size === 0) {
+                    return {
+                        status: status,
+                        data: data
+                    };
+                }
+
+                return http.post(backUrls.upload, formData, true)
                     .then(({status, data}) => {
                         this.checkError(status, {
                             message: data.message
