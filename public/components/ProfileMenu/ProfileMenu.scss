@@ -11,10 +11,18 @@
 
   &-menu {
     width: 100%;
-    height: 35vh;
+    height: 45vh;
     display: flex;
     flex-direction: row;
     margin-right: 1vh;
+
+    &-small {
+      width: 100%;
+      height: 30vh;
+      display: flex;
+      flex-direction: row;
+      margin-right: 1vh;
+    }
 
     &-inner {
       @include shadow-block;

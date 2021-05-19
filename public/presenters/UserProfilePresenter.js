@@ -487,7 +487,8 @@ export class UserProfilePresenter extends BasePresenter {
         return {
             profileSettings: {
                 data: this.__model.getData(),
-                listeners: this.__createListeners()
+                listeners: this.__createListeners(),
+                owner: true
             }
         };
     }

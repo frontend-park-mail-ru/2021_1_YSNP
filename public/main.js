@@ -18,6 +18,7 @@ import {PromotionView} from './views/PromotionView.js';
 import {NotFoundView} from './views/NotFoundView.js';
 import {ProductEditView} from './views/ProductEditView.js';
 import {UserChatsView} from './views/UserChatsView';
+import {UserLandingView} from './views/UserLandingView.js';
 
 import {UserFavoritePresenter} from './presenters/UserFavoritePresenter.js';
 import {MainPresenter} from './presenters/MainPresenter.js';
@@ -33,6 +34,7 @@ import {baseCreateProduct, baseRegistration} from './modules/layout/fields.js';
 import {ProductEditPresenter} from './presenters/ProductEditPresenter';
 import {UserChatsPresenter} from './presenters/UserChatsPresenter';
 import {sentryManager} from './modules/sentry';
+import {UserLandingPresenter} from './presenters/UserLandingPresenter';
 
 /***
  * Register service worker
@@ -61,6 +63,7 @@ const searchView = new SearchView(app);
 const promotionView = new PromotionView(app);
 const notFoundView = new NotFoundView(app);
 const productEditView = new ProductEditView(app, baseCreateProduct);
+const userLandingView = new UserLandingView(app);
 
 /***
  * Open main page
@@ -217,6 +220,18 @@ const doNotFound = () => {
     return notFoundPresenter.removePageListeners.bind(notFoundPresenter);
 };
 
+/***
+ * Open product page
+ * @param {Object} val - page params
+ * @returns {Function}
+ */
+const doUserLanding = (val) => {
+    const userLandingPresenter = new UserLandingPresenter(userLandingView, val.parameters.id);
+    userLandingPresenter.control();
+
+    return userLandingPresenter.removePageListeners.bind(userLandingPresenter);
+};
+
 router.add(frontUrls.main, doMain);
 router.add(frontUrls.registration, doRegistration);
 router.add(frontUrls.productCreate, doProductCreate);
@@ -230,6 +245,7 @@ router.add(frontUrls.userChats, doChats);
 router.add(frontUrls.userChat(), doChat);
 router.add(frontUrls.userFavorite, doFavorite);
 router.add(frontUrls.editProduct(), doProductEdit);
+router.add(frontUrls.userLanding(), doUserLanding);
 
 router.addNotFound(doNotFound);
 

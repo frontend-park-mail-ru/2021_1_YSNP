@@ -223,6 +223,9 @@ export class ProductPresenter extends BasePresenter {
                 nextClick: {
                     open: this.__listenerToNext.bind(this)
                 },
+                userClick: {
+                    open: this.__listenerUserClick.bind(this)
+                },
                 backClick: {
                     open: this.__listenerToBack.bind(this)
                 },
@@ -281,6 +284,14 @@ export class ProductPresenter extends BasePresenter {
                     this.checkOffline();
                 });
         }
+    }
+
+    /***
+     * User Click action
+     */
+    __listenerUserClick() {
+        this.removePageListeners();
+        router.redirect(frontUrls.userLanding(this.__model.getData().ownerId), '', {title: 'Koya'});
     }
 
     /***

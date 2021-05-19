@@ -18,13 +18,27 @@ export class ProfileMenu {
     }
 
     /***
+     * Make context
+     * @param {Object} context - context
+     * @private
+     */
+    __makeContext(context) {
+        this.__context = {
+            linkImage: context.data.linkImage,
+            surname: context.data.surname,
+            name: context.data.name,
+            owner: context.owner,
+            id: context.data.id
+        };
+    }
+
+    /***
      * Add component to parent
      */
     render(context) {
         try {
-            this.__context = context;
-
-            this.__parent.insertAdjacentHTML('beforeend', profileMenuTemplate(this.__context.data));
+            this.__makeContext(context);
+            this.__parent.insertAdjacentHTML('beforeend', profileMenuTemplate(this.__context));
             document.getElementById(`profile-menu-${this.__page.page}`).classList.add('profile-menu__selected');
         } catch (err) {
             sentryManager.captureException(err);

@@ -45,6 +45,10 @@ export class Board {
         document
             .getElementById('info-card-btns')
             .addEventListener(this.listeners.product.type, this.listeners.product.listener);
+        document
+            .getElementById('card-profile')
+            .addEventListener(this.listeners.product.type, this.listeners.product.listener);
+
     }
 
     /***
@@ -61,6 +65,9 @@ export class Board {
         document
             .getElementById('info-card-btns')
             .addEventListener(this.listeners.product.type, this.listeners.product.listener);
+        document
+            .getElementById('card-profile')
+            .removeEventListener(this.listeners.product.type, this.listeners.product.listener);
     }
 
     /***

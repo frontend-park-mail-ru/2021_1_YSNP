@@ -371,7 +371,8 @@ export class UserChatsPresenter extends BasePresenter {
                 }
             },
             profileSettings: {
-                data: this.__userModel.getData()
+                data: this.__userModel.getData(),
+                owner: true
             }
         };
     }

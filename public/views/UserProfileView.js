@@ -20,7 +20,8 @@ export class UserProfileView extends BaseView {
         this.__context = {
             profileSettings: {
                 data: context.profileSettings.data,
-                listeners: context.profileSettings.listeners
+                listeners: context.profileSettings.listeners,
+                owner: context.profileSettings.owner
             }
         };
     }

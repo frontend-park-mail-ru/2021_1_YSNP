@@ -198,7 +198,8 @@ export class UserFavoritePresenter extends BasePresenter {
                 listeners: this.__createListeners().favoriteList
             },
             profileSettings: {
-                data: this.__userModel.getData()
+                data: this.__userModel.getData(),
+                owner: true
             }
         };
     }

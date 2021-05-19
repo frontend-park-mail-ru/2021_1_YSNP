@@ -9,7 +9,7 @@ import {mobile} from '../modules/mobile';
 /***
  * Favorite view
  */
-export class UserAdView extends BaseView {
+export class UserLandingView extends BaseView {
     /***
      * Like product
      * @param {number} id - product id
@@ -42,8 +42,8 @@ export class UserAdView extends BaseView {
     __makeContext(context) {
         this.__context = {
             adList: {
-                title: 'Мои объявления',
-                text: 'У вас еще нет объявлений',
+                title: 'Все объявления',
+                text: 'У пользователя еще нет объявлений',
                 id: 'ad',
                 data: context.adList.data,
                 listeners: context.adList.listeners
@@ -60,7 +60,7 @@ export class UserAdView extends BaseView {
      * @private
      */
     __setTitle() {
-        document.title = 'Мои объявления';
+        document.title = 'Все объявления';
     }
 
     /***
@@ -88,7 +88,7 @@ export class UserAdView extends BaseView {
         const left = layout.leftParent;
         const right = layout.rightParent;
 
-        const profileMenu = new ProfileMenu(left, {page: 'posts'});
+        const profileMenu = new ProfileMenu(left, {page: 'landing'});
         profileMenu.render(this.__context.profileSettings);
 
         this.__adList = new ProductTable(right);
