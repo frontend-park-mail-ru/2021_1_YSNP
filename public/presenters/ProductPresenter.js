@@ -291,7 +291,7 @@ export class ProductPresenter extends BasePresenter {
      */
     __listenerUserClick() {
         this.removePageListeners();
-        router.redirect(frontUrls.userLanding(this.__model.getData().ownerId), '', {title: 'Koya'});
+        router.redirect(frontUrls.sellerProfile(this.__model.getData().ownerId), '', {title: 'Koya'});
     }
 
     /***

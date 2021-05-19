@@ -1,7 +1,5 @@
 import {BasePresenter} from './BasePresenter.js';
 
-import {AdListModel} from '../models/AdListModel.js';
-
 import {eventProductListHandler} from '../modules/handlers/eventHandler.js';
 import {EndlessScroll} from '../modules/handlers/endlessScroll.js';
 import {PageUpHandler} from '../modules/handlers/pageUpHandler.js';
@@ -15,7 +13,7 @@ import {UserListProduct} from '../models/UserListProduct';
 /***
  * favorite presenter
  */
-export class UserLandingPresenter extends BasePresenter {
+export class SellerProfilePresenter extends BasePresenter {
     /***
      * Class constructor
      * @param view

@@ -22,7 +22,7 @@ export class UserListProduct extends ProductListModel {
      * @private
      */
     async __updateNewDataPage() {
-        return http.get(backUrls.userAdsListByID(this.__page, this.__pageCount, this.__id))
+        return http.get(backUrls.sellerAdList(this.__page, this.__pageCount, this.__id))
             .then(({status, data}) => {
                 this.checkError(status, {
                     message: data.message

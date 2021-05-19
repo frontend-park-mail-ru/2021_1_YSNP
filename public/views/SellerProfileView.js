@@ -9,7 +9,7 @@ import {mobile} from '../modules/mobile';
 /***
  * Favorite view
  */
-export class UserLandingView extends BaseView {
+export class SellerProfileView extends BaseView {
     /***
      * Like product
      * @param {number} id - product id

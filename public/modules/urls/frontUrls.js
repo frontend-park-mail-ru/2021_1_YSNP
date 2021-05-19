@@ -132,7 +132,7 @@ class FrontUrls {
      * Get user landing page
      * @returns {string}
      */
-    userLanding(id = undefined) {
+    sellerProfile(id = undefined) {
         if (id !== undefined) {
             return `/user/${id}/ads`;
         }
@@ -144,7 +144,7 @@ class FrontUrls {
      * Get user achievements page
      * @returns {string}
      */
-    userAchieveByID(id = undefined) {
+    sellerAchievements(id = undefined) {
         if (id !== undefined) {
             return `/user/${id}/achievements`;
         }
@@ -156,7 +156,7 @@ class FrontUrls {
      * Get user comments page
      * @returns {string}
      */
-    userCommentsByID(id = undefined) {
+    sellerComments(id = undefined) {
         if (id !== undefined) {
             return `/user/${id}/comments`;
         }

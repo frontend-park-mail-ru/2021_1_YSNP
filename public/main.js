@@ -18,7 +18,7 @@ import {PromotionView} from './views/PromotionView.js';
 import {NotFoundView} from './views/NotFoundView.js';
 import {ProductEditView} from './views/ProductEditView.js';
 import {UserChatsView} from './views/UserChatsView';
-import {UserLandingView} from './views/UserLandingView.js';
+import {SellerProfileView} from './views/SellerProfileView.js';
 
 import {UserFavoritePresenter} from './presenters/UserFavoritePresenter.js';
 import {MainPresenter} from './presenters/MainPresenter.js';
@@ -34,7 +34,7 @@ import {baseCreateProduct, baseRegistration} from './modules/layout/fields.js';
 import {ProductEditPresenter} from './presenters/ProductEditPresenter';
 import {UserChatsPresenter} from './presenters/UserChatsPresenter';
 import {sentryManager} from './modules/sentry';
-import {UserLandingPresenter} from './presenters/UserLandingPresenter';
+import {SellerProfilePresenter} from './presenters/SellerProfilePresenter';
 
 /***
  * Register service worker
@@ -63,7 +63,7 @@ const searchView = new SearchView(app);
 const promotionView = new PromotionView(app);
 const notFoundView = new NotFoundView(app);
 const productEditView = new ProductEditView(app, baseCreateProduct);
-const userLandingView = new UserLandingView(app);
+const userLandingView = new SellerProfileView(app);
 
 /***
  * Open main page
@@ -226,7 +226,7 @@ const doNotFound = () => {
  * @returns {Function}
  */
 const doUserLanding = (val) => {
-    const userLandingPresenter = new UserLandingPresenter(userLandingView, val.parameters.id);
+    const userLandingPresenter = new SellerProfilePresenter(userLandingView, val.parameters.id);
     userLandingPresenter.control();
 
     return userLandingPresenter.removePageListeners.bind(userLandingPresenter);
@@ -245,7 +245,7 @@ router.add(frontUrls.userChats, doChats);
 router.add(frontUrls.userChat(), doChat);
 router.add(frontUrls.userFavorite, doFavorite);
 router.add(frontUrls.editProduct(), doProductEdit);
-router.add(frontUrls.userLanding(), doUserLanding);
+router.add(frontUrls.sellerProfile(), doUserLanding);
 
 router.addNotFound(doNotFound);
 

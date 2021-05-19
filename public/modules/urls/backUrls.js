@@ -149,7 +149,7 @@ class BackUrls {
      * @param {number} id - user id
      * @returns {string}
      */
-    userAdsListByID(from, count, id) {
+    sellerAdList(from, count, id) {
         return `${this.__url}${this.__api}/user/${id}/ad/list?from=${from}&count=${count}`;
     }
 

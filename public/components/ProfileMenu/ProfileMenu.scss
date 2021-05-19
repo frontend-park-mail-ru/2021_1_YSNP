@@ -76,18 +76,27 @@
       }
     }
 
-    &-content-item {
-      @include menu-link;
-      @include set-size(100%, 5vh);
-      padding-left: 0.3vw;
-      display: flex;
-      justify-content: left;
-      align-items: center;
-      opacity: 0.7;
+    &-content {
+      &-item {
+        @include menu-link;
+        @include set-size(100%, 5vh);
+        padding-left: 0.3vw;
+        display: flex;
+        justify-content: left;
+        align-items: center;
+        opacity: 0.7;
+      }
+
+      &__logo {
+        margin-right: 1vh;
+        width: 2vh;
+        height: 2vh;
+      }
     }
 
     &__selected {
       color: $linkColor;
     }
   }
+
 }
