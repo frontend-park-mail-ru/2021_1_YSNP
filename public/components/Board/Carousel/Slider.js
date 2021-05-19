@@ -1,5 +1,7 @@
-import './Slider.scss';
 import CarouselTemplate from './Slider.hbs';
+import './Slider.scss';
+
+import {sentryManager} from '../../../modules/sentry';
 
 /* eslint-disable no-magic-numbers */
 
@@ -152,7 +154,12 @@ export class Slider {
      * @public
      */
     render() {
-        this.__parent.insertAdjacentHTML('beforeend', CarouselTemplate(this.__context()));
-        this.createCarousel();
+        try {
+            this.__parent.insertAdjacentHTML('beforeend', CarouselTemplate(this.__context()));
+            this.createCarousel();
+        } catch (err) {
+            sentryManager.captureException(err);
+            console.log(err.message);
+        }
     }
 }

@@ -1,4 +1,5 @@
 import {BaseView} from './BaseView.js';
+
 import {Layout} from '../components/Layout/Layout';
 import {ProfileMenu} from '../components/ProfileMenu/ProfileMenu';
 import {Settings} from '../components/Settings/Settings';
@@ -19,7 +20,8 @@ export class UserProfileView extends BaseView {
         this.__context = {
             profileSettings: {
                 data: context.profileSettings.data,
-                listeners: context.profileSettings.listeners
+                listeners: context.profileSettings.listeners,
+                owner: context.profileSettings.owner
             }
         };
     }

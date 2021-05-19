@@ -1,7 +1,9 @@
 import {BaseView} from './BaseView.js';
+
 import {Layout} from '../components/Layout/Layout.js';
 import {Navigation} from '../components/Navigation/Navigation.js';
 import {RegistrationPanel} from '../components/RegistrationPanel/RegistrationPanel.js';
+
 import {router} from '../modules/router';
 import {mobile} from '../modules/mobile';
 

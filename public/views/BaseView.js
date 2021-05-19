@@ -4,9 +4,9 @@ import {Map} from '../components/Map/Map.js';
 import {Footer} from '../components/Footer/Footer';
 import {PageOffline} from '../components/PageOffline/PageOffline';
 import {MobileHeader} from '../components/Header/Mobile/MobileHeader';
+import {UserMenu} from '../components/Header/Mobile/UserMenu/UserMenu';
 
 import {mobile} from '../modules/mobile';
-import {UserMenu} from '../components/Header/Mobile/UserMenu/UserMenu';
 
 /***
  * Application base view

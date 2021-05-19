@@ -1,6 +1,6 @@
 import {BaseView} from './BaseView';
-import {Layout} from '../components/Layout/Layout';
 
+import {Layout} from '../components/Layout/Layout';
 import {ProfileMenu} from '../components/ProfileMenu/ProfileMenu';
 import {Chats} from '../components/Chats/Chats';
 

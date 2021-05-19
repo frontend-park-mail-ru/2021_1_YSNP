@@ -1,10 +1,11 @@
-/* eslint-disable */
-
 const path = require('path');
+const webpack = require('webpack');
+
+const WebpackPwaManifest = require('webpack-pwa-manifest');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
-const WebpackPwaManifest = require('webpack-pwa-manifest');
+const SentryWebpackPlugin = require('@sentry/webpack-plugin');
 
 module.exports = {
     entry: './public/main.js',
@@ -13,7 +14,11 @@ module.exports = {
         path: path.resolve(__dirname, 'dist'),
         publicPath: '/'
     },
+    devtool: 'source-map',
     plugins: [
+        new webpack.EnvironmentPlugin({
+            DEBUG: process.env.DEBUG !== undefined ? process.env.DEBUG : true
+        }),
         new WebpackPwaManifest({
             name: 'KOYA',
             short_name: 'KOYA',
@@ -28,6 +33,9 @@ module.exports = {
             display: 'fullscreen',
             theme_color: '#d31e1e',
             background_color: 'white'
+        }),
+        new HtmlWebpackPlugin({
+            template: './public/index.html'
         }),
         new MiniCssExtractPlugin({
             filename: 'bundle.css'
@@ -56,9 +64,14 @@ module.exports = {
                 }
             ]
         }),
-        new HtmlWebpackPlugin({
-            template: './public/index.html'
-        }),
+        // new SentryWebpackPlugin({
+        //     authToken: process.env.SENTRY_AUTH_TOKEN,
+        //     org: 'ysnp',
+        //     project: 'ysnp',
+        //
+        //     include: './dist',
+        //     ignore: ['node_modules', 'webpack.config.js', 'all.js', 'sw.js']
+        // }),
         require('autoprefixer')
     ],
     module: {

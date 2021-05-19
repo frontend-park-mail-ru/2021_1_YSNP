@@ -99,6 +99,15 @@ class BackUrls {
     }
 
     /***
+     * Get user min info url
+     * @param {number} id - user id
+     * @returns {string}
+     */
+    getUserMinInfo(id) {
+        return `${this.__url}${this.__api}/user/landing/${id}`;
+    }
+
+    /***
      * Get change user url
      * @returns {string}
      */
@@ -131,6 +140,17 @@ class BackUrls {
      */
     userAdList(from, count) {
         return `${this.__url}${this.__api}/user/ad/list?from=${from}&count=${count}`;
+    }
+
+    /***
+     * Get another user ads list
+     * @param {number} from - page number paginator
+     * @param {number} count - count product per page
+     * @param {number} id - user id
+     * @returns {string}
+     */
+    sellerAdList(from, count, id) {
+        return `${this.__url}${this.__api}/user/${id}/ad/list?from=${from}&count=${count}`;
     }
 
     /***

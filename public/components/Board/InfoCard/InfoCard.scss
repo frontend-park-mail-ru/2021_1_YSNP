@@ -54,6 +54,7 @@
     display: flex;
     margin: 0 0 0 1vw;
     align-items: center;
+    cursor: pointer;
 
     @media screen and (max-width: $breakMobile) {
       margin-top: 2vh;

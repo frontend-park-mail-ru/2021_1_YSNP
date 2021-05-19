@@ -1,6 +1,8 @@
 import adSwitchTemplate from './Switch.hbs';
 import './Switch.scss';
 
+import {sentryManager} from '../../modules/sentry';
+
 /***
  * Ad switch component
  */
@@ -65,6 +67,7 @@ export class Switch {
             this.__parent.insertAdjacentHTML('beforeend', adSwitchTemplate(this.__context.data));
             this.__addListeners();
         } catch (err) {
+            sentryManager.captureException(err);
             console.log(err.message);
         }
     }

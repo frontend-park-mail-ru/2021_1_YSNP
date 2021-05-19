@@ -153,6 +153,9 @@ export class YandexMap {
     __init(config, callback = noop) {
         this.callback = callback;
         document.getElementById(config.id).innerHTML = '';
+
+        console.log('Init Yandex Maps');
+
         this.__myMap = new ymaps.Map(config.id, {
             center: [this.__initPos.latitude, this.__initPos.longitude],
             zoom: 10,

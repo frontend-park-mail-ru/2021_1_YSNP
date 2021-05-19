@@ -1,6 +1,8 @@
 import createButtonTemplate from './CreateButton.hbs';
 import './CreateButton.scss';
 
+import {sentryManager} from '../../../../modules/sentry';
+
 /***
  * Create button component
  */
@@ -62,6 +64,7 @@ export class CreateButton {
             this.__parent.insertAdjacentHTML('beforeend', createButtonTemplate());
             this.__addListeners();
         } catch (err) {
+            sentryManager.captureException(err);
             console.log(err.message);
         }
     }
@@ -74,6 +77,7 @@ export class CreateButton {
             this.__removeListeners();
             this.__getCreateButton().remove();
         } catch (err) {
+            sentryManager.captureException(err);
             console.log(err.message);
         }
     }

@@ -1,10 +1,13 @@
+import registrationPanelTemplate from './RegistrationPanel.hbs';
 import '../Board/Board.scss';
 import '../Board/Description/Description.scss';
 import '../Settings/Settings.scss';
 import './RegistrationPanel.scss';
-import registrationPanelTemplate from './RegistrationPanel.hbs';
+
 import {createMessageError} from '../../modules/layout/validationStates.js';
 import {Field} from './Fields/Field.js';
+
+import {sentryManager} from '../../modules/sentry';
 
 /***
  * @author Ivan Gorshkov
@@ -259,15 +262,20 @@ export class RegistrationPanel {
      * @public
      */
     render(ctx) {
-        this.listeners = ctx.registrationPanel.listeners;
-        this.__parent.insertAdjacentHTML('beforeend', registrationPanelTemplate(ctx.registrationPanel));
+        try {
+            this.listeners = ctx.registrationPanel.listeners;
+            this.__parent.insertAdjacentHTML('beforeend', registrationPanelTemplate(ctx.registrationPanel));
 
-        for (const fields in ctx.registrationPanel.fields) {
-            const field = new Field(document.getElementById('registrationForm'), ctx.registrationPanel.fields[fields]);
-            field.render();
+            for (const fields in ctx.registrationPanel.fields) {
+                const field = new Field(document.getElementById('registrationForm'), ctx.registrationPanel.fields[fields]);
+                field.render();
+            }
+
+            this.__addListeners();
+            document.getElementById('date').max = new Date().toISOString().split('T')[0];
+        } catch (err) {
+            sentryManager.captureException(err);
+            console.log(err.message);
         }
-
-        this.__addListeners();
-        document.getElementById('date').max = new Date().toISOString().split('T')[0];
     }
 }

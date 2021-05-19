@@ -1,6 +1,8 @@
 import headerTemplate from './Header.hbs';
 import './Header.scss';
 
+import {sentryManager} from '../../../modules/sentry';
+
 /***
  * Header component
  */
@@ -72,6 +74,7 @@ export class Header {
                     .classList
                     .toggle('header-dropdown-content_hidden');
             } catch (err) {
+                sentryManager.captureException(err);
                 console.log(err.message);
             }
         }
@@ -88,6 +91,7 @@ export class Header {
                     .classList
                     .add('header-dropdown-content_hidden');
             } catch (err) {
+                sentryManager.captureException(err);
                 console.log(err.message);
             }
         }
@@ -131,6 +135,7 @@ export class Header {
                     .removeEventListener(this.__context.listeners.dropdownClick.type, this.__context.listeners.dropdownClick.listener);
             }
         } catch (err) {
+            sentryManager.captureException(err);
             console.log(err.message);
         }
     }
@@ -155,6 +160,7 @@ export class Header {
             this.__parent.insertAdjacentHTML('beforeend', headerTemplate(this.__context.data));
             this.__addListeners();
         } catch (err) {
+            sentryManager.captureException(err);
             console.log(err.message);
         }
     }

@@ -1,7 +1,10 @@
-import './AdPromotion.scss';
-import './Tariff/Tariff.scss';
 import adPromotionTemplate from './AdPromotion.hbs';
+import './AdPromotion.scss';
+
 import tariffTemplate from './Tariff/Tariff.hbs';
+import './Tariff/Tariff.scss';
+
+import {sentryManager} from '../../modules/sentry';
 
 /***
  * Promotion component
@@ -267,8 +270,13 @@ export class AdPromotion {
      * Add component to parent
      */
     render(context) {
-        this.__makeContext(context);
-        this.__parent.insertAdjacentHTML('beforeend', adPromotionTemplate(this.__context.data));
-        this.__addListeners();
+        try {
+            this.__makeContext(context);
+            this.__parent.insertAdjacentHTML('beforeend', adPromotionTemplate(this.__context.data));
+            this.__addListeners();
+        } catch (err) {
+            sentryManager.captureException(err);
+            console.log(err.message);
+        }
     }
 }

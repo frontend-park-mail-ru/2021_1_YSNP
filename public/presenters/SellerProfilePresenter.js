@@ -1,31 +1,31 @@
 import {BasePresenter} from './BasePresenter.js';
 
-import {AdListModel} from '../models/AdListModel.js';
-
 import {eventProductListHandler} from '../modules/handlers/eventHandler.js';
 import {EndlessScroll} from '../modules/handlers/endlessScroll.js';
 import {PageUpHandler} from '../modules/handlers/pageUpHandler.js';
-import {checkIsAuth} from '../modules/checkAuth';
 
 import {router} from '../modules/router';
 import {frontUrls} from '../modules/urls/frontUrls';
 
 import {sentryManager} from '../modules/sentry';
+import {UserListProduct} from '../models/UserListProduct';
 
 /***
  * favorite presenter
  */
-export class UserAdPresenter extends BasePresenter {
+export class SellerProfilePresenter extends BasePresenter {
     /***
      * Class constructor
      * @param view
+     * @param id - user id
      */
-    constructor(view) {
+    constructor(view, id) {
         super(view);
         this.__view = view;
-        this.__adListModel = new AdListModel();
+        this.__adListModel = new UserListProduct(id);
         this.__endlessScroll = new EndlessScroll(this.__createListeners().scroll);
         this.__pageUp = new PageUpHandler();
+        this.__userID = id;
     }
 
     /***
@@ -54,9 +54,13 @@ export class UserAdPresenter extends BasePresenter {
         if (this.checkOffline()) {
             return;
         }
-
-        checkIsAuth();
-
+        await this.__userModel.getUserMinInfo(this.__userID)
+            .then((data) => {
+                this.__userInfo = data;
+            })
+            .catch((err) => {
+                console.log(err);
+            });
         this.__view.render(this.__makeContext());
         this.__endlessScroll.start();
         this.__pageUp.start();
@@ -173,8 +177,8 @@ export class UserAdPresenter extends BasePresenter {
                 listeners: this.__createListeners().adList
             },
             profileSettings: {
-                data: this.__userModel.getData(),
-                owner: true
+                data: this.__userInfo,
+                owner: false
             }
         };
     }

@@ -1,6 +1,8 @@
 import emptySearchTemplate from './EmptySearch.hbs';
 import './EmptySearch.scss';
 
+import {sentryManager} from '../../../modules/sentry';
+
 /***
  * Info text component
  */
@@ -22,6 +24,7 @@ export class EmptySearch {
             this.__context = context;
             this.__parent.insertAdjacentHTML('beforeend', emptySearchTemplate(this.__context));
         } catch (err) {
+            sentryManager.captureException(err);
             console.log(err.message);
         }
     }

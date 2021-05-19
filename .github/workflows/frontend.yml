@@ -36,10 +36,20 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v2
 
+      - name: Login Sentry
+        uses: mathieu-bour/setup-sentry-cli@1.1.0
+        with:
+          token: ${{ secrets.SENTRY_AUTH_TOKEN }}
+          organization: ${{ secrets.SENTRY_ORG }}
+          project: ${{ secrets.SENTRY_PROJECT }}
+
       - name: Install deps
         run: npm ci
 
       - name: Build
+        env:
+          DEBUG: false
+          SENTRY_AUTH_TOKEN: ${{ secrets.SENTRY_AUTH_TOKEN }}
         run: npm run build
 
       - name: Upload build result
