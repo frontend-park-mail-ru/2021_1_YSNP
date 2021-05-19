@@ -17,8 +17,8 @@ import {SearchView} from './views/SearchView.js';
 import {PromotionView} from './views/PromotionView.js';
 import {NotFoundView} from './views/NotFoundView.js';
 import {ProductEditView} from './views/ProductEditView.js';
-import {UserChatsView} from './views/UserChatsView';
-import {AchievementView} from './views/AchievementView';
+import {UserChatsView} from './views/UserChatsView.js';
+import {AchievementView} from './views/AchievementView.js';
 import {SellerProfileView} from './views/SellerProfileView.js';
 
 import {UserFavoritePresenter} from './presenters/UserFavoritePresenter.js';
@@ -32,12 +32,12 @@ import {SearchPresenter} from './presenters/SearchPresenter.js';
 import {PromotionPresenter} from './presenters/PromotionPresenter.js';
 import {NotFoundPresenter} from './presenters/NotFoundPresenter.js';
 import {baseCreateProduct, baseRegistration} from './modules/layout/fields.js';
-import {ProductEditPresenter} from './presenters/ProductEditPresenter';
-import {UserChatsPresenter} from './presenters/UserChatsPresenter';
-import {AchievementPresenter} from './presenters/AchievementPresenter';
-import {SellerProfilePresenter} from './presenters/SellerProfilePresenter';
+import {ProductEditPresenter} from './presenters/ProductEditPresenter.js';
+import {UserChatsPresenter} from './presenters/UserChatsPresenter.js';
+import {AchievementPresenter} from './presenters/AchievementPresenter.js';
+import {SellerProfilePresenter} from './presenters/SellerProfilePresenter.js';
 
-import {sentryManager} from './modules/sentry';
+import {sentryManager} from './modules/sentry.js';
 
 /***
  * Register service worker
