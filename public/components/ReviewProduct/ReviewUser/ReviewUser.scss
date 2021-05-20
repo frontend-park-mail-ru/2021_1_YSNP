@@ -1,0 +1,227 @@
+@import "../../../scss/main.scss";
+
+.review-user {
+  @include set-size(100vw, 100vh);
+  position: fixed;
+  top: 0;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: rgba(0, 0, 0, 0.5);
+
+  z-index: 101;
+
+  &-content {
+    position: relative;
+    width: 40vh;
+
+    @include block;
+
+    z-index: 102;
+
+    @media screen and (max-width: $breakMobile) {
+      @include set-size(100vw, 100vh);
+
+      display: flex;
+      justify-content: center;
+
+      border-radius: 0;
+    }
+
+    &-inner {
+      margin: 2vh;
+
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+
+      @media screen and (max-width: $breakMobile) {
+        width: 80%;
+      }
+
+      &__close {
+        @include set-size(2vh, 2vh);
+
+        position: absolute;
+        fill: rgb(120, 120, 120);
+
+        top: 1vh;
+        right: 1vh;
+
+        &:hover {
+          cursor: pointer;
+        }
+
+        @media screen and (max-width: $breakMobile) {
+          top: 2vh;
+          right: 2vh;
+
+          @include set-size(3vh, 3vh);
+        }
+      }
+
+      &-head {
+        width: 100%;
+
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+
+        &__back {
+          margin-right: 1vh;
+
+          cursor: pointer;
+          @include set-size(2vh, 2vh);
+        }
+
+        &__avatar {
+          margin-right: 1vh;
+
+          @include set-size(4vh, 4vh);
+          @include circle;
+        }
+
+        &__user {
+          font-size: 2vh;
+
+          @media screen and (max-width: $breakMobile) {
+            font-size: 2.5vh;
+          }
+        }
+      }
+
+      &-body {
+        width: 100%;
+        margin-top: 1vh;
+
+        display: flex;
+        flex-direction: column;
+
+        &__info {
+          font-size: 1.5vh;
+          color: $textGrayColor;
+
+          @media screen and (max-width: $breakMobile) {
+            font-size: 2vh;
+          }
+        }
+
+        &__error {
+          @include set-size(100%, 2vh);
+
+          font-size: 1.5vh;
+          font-style: italic;
+          color: rgb(170, 0, 0);
+
+          @include overflow-text-width;
+
+          @media screen and (max-width: $breakMobile) {
+            font-size: 2vh;
+            @include set-size(100%, 3vh);
+          }
+        }
+
+        &-review {
+          &-info {
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            justify-content: space-between;
+
+            &__text {
+              font-size: 1.5vh;
+
+              @media screen and (max-width: $breakMobile) {
+                font-size: 2vh;
+              }
+            }
+
+            &__start {
+              overflow: hidden;
+              width: 265px;
+              margin: 0 auto;
+            }
+          }
+
+          &__text {
+            margin-top: 1vh;
+            padding: 1vh;
+
+            @include input;
+            @include set-size(100%, 8vh);
+
+            resize: none;
+
+            font-size: 1.5vh;
+
+            @media screen and (max-width: $breakMobile) {
+              font-size: 2vh;
+              @include set-size(100%, 8vh);
+            }
+          }
+        }
+
+        &-button {
+          margin-top: 2vh;
+          width: 100%;
+
+          display: flex;
+          justify-content: space-between;
+
+          &__skip {
+            @include white-button(49%, 4vh);
+          }
+
+          &__review {
+            @include red-button(49%, 4vh);
+          }
+        }
+      }
+    }
+  }
+}
+
+.review-user-content-inner-body-review-info__star:not(:checked) > input {
+  display: none;
+}
+
+.review-user-content-inner-body-review-info__star:not(:checked) > label {
+  margin-left: 0.5vh;
+  padding: 0;
+
+  float: right;
+  cursor: pointer;
+  font-size: 2vh;
+  color: rgb(220, 220, 220);
+
+  @media screen and (max-width: $breakMobile) {
+    font-size: 2.5vh;
+  }
+}
+
+.review-user-content-inner-body-review-info__star:not(:checked) > label:before {
+  content: '★';
+}
+
+.review-user-content-inner-body-review-info__star > input:checked ~ label {
+  color: gold;
+}
+
+.review-user-content-inner-body-review-info__star:not(:checked) > label:hover,
+.review-user-content-inner-body-review-info__star:not(:checked) > label:hover ~ label {
+  color: gold;
+}
+
+.review-user-content-inner-body-review-info__star > input:checked + label:hover,
+.review-user-content-inner-body-review-info__star > input:checked + label:hover ~ label,
+.review-user-content-inner-body-review-info__star > input:checked ~ label:hover,
+.review-user-content-inner-body-review-info__star > input:checked ~ label:hover ~ label,
+.review-user-content-inner-body-review-info__star > label:hover ~ input:checked ~ label {
+  color: gold;
+}
+
+.review-user-content-inner-body-review-info__star > label:active {
+  position: relative;
+}

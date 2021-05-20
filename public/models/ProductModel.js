@@ -325,6 +325,72 @@ export class ProductModel extends BaseModel {
     }
 
     /***
+     * Fill one buyer
+     * @param {Object} data - one user
+     */
+    fillOneBuyer(data) {
+        const buyer = {
+            isBuyer: true,
+            id: data.id,
+            userAvatar: data.linkImages,
+            userName: data.name
+        };
+
+        this.__buyerList.push(buyer);
+    }
+
+    /***
+     * Fill buyer data
+     * @param {Object[]} data - buyer list
+     */
+    fillBuyerData(data) {
+        this.__buyerList = [];
+
+        data.forEach((user) => {
+            this.fillOneBuyer(user);
+        });
+    }
+
+    /***
+     * Get buyer list
+     * @returns {Object[]}
+     */
+    getBuyerList() {
+        return this.__buyerList;
+    }
+
+    /***
+     * Get buyer
+     * @returns {{}|Object}
+     */
+    getBuyer() {
+        if (this.__buyerList) {
+            return this.__buyerList.find((el) => el.id === this.__buyerId);
+        }
+
+        return {};
+    }
+
+    /***
+     * Json review
+     * @param {string} content - review text
+     * @param {number} rating - review rating
+     * @param {number} targetId - user review id
+     * @param {string} type - review type
+     * @returns {{product_id, rating, target_id, type, content}}
+     * @private
+     */
+    __jsonReview(content, rating, targetId, type) {
+        return {
+            content: content,
+            rating: rating,
+            product_id: this.__id,
+            target_id: targetId,
+            type: type
+        };
+    }
+
+    /***
      * Get locale date
      * @returns {string}
      * @private
@@ -370,6 +436,40 @@ export class ProductModel extends BaseModel {
      */
     async close() {
         return http.post(backUrls.closeProduct(this.__id), null)
+            .then(({status, data}) => {
+                this.checkError(status, {
+                    message: data.message
+                });
+
+                this.fillBuyerData(data);
+            });
+    }
+
+    /***
+     * Set product buyer
+     * @param {number} id - product buyer
+     * @returns {Promise<{data: *, status: number}>}
+     */
+    async setBuyer(id) {
+        this.__buyerId = id;
+
+        return http.post(backUrls.setProductBuyer(this.__id), {
+            buyer_id: this.__buyerId
+        }).then(({status, data}) => {
+            this.checkError(status, {
+                message: data.message
+            });
+        });
+    }
+
+    /***
+     * Review seller
+     * @param {string} text - review context
+     * @param {number} rating - review rating
+     * @returns {Promise<{data: *, status: number}>}
+     */
+    async reviewSeller(text, rating) {
+        return http.post(backUrls.setProductReview(this.__id), this.__jsonReview(text, rating, this.__buyerId, 'seller'))
             .then(({status, data}) => {
                 this.checkError(status, {
                     message: data.message

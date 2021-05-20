@@ -6,8 +6,8 @@ class BackUrls {
      * Class constructor
      */
     constructor() {
-        this.__url = 'https://ykoya.ru';
-        // this.__url = 'http://localhost:8080';
+        // this.__url = 'https://ykoya.ru';
+        this.__url = 'http://localhost:8080';
         this.__api = '/api/v1';
 
         this.__wsUrl = 'wss://ykoya.ru';
@@ -214,6 +214,24 @@ class BackUrls {
      */
     closeProduct(id) {
         return `${this.__url}${this.__api}/product/close/${id}`;
+    }
+
+    /***
+     * Set product buyer
+     * @param {number} id - product id
+     * @returns {string}
+     */
+    setProductBuyer(id) {
+        return `${this.__url}${this.__api}/product/buyer/${id}`;
+    }
+
+    /***
+     * Set product review
+     * @param {number} id - product id
+     * @returns {string}
+     */
+    setProductReview(id) {
+        return `${this.__url}${this.__api}/product/review/${id}`;
     }
 
     /***
