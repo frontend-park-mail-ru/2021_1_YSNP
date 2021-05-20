@@ -24,7 +24,8 @@ export class AchievementView extends BaseView {
                 listeners: context.achievementList.listeners
             },
             profileSettings: {
-                data: context.profileSettings.data
+                data: context.profileSettings.data,
+                owner: context.profileSettings.owner
             }
         };
     }

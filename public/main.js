@@ -47,7 +47,7 @@ if ('serviceWorker' in navigator) {
         .then(() => {
             console.log('Service Worker registered.');
         }).catch((error) => {
-        sentryManager.captureException(error);
+       // sentryManager.captureException(error);
         console.log(`Error while register service worker:${error}`);
     });
 }
@@ -195,8 +195,8 @@ const doFavorite = () => {
  * Open user achievements page
  * @returns {Function}
  */
-const doAchievements = () => {
-    const achievementPresenter = new AchievementPresenter(achievementView);
+const doAchievements = (val) => {
+    const achievementPresenter = new AchievementPresenter(achievementView, val.parameters.id);
     achievementPresenter.control();
 
     return achievementPresenter.removePageListeners.bind(achievementPresenter);
@@ -260,7 +260,7 @@ router.add(frontUrls.userChats, doChats);
 router.add(frontUrls.userChat(), doChat);
 router.add(frontUrls.userFavorite, doFavorite);
 router.add(frontUrls.editProduct(), doProductEdit);
-router.add(frontUrls.userAchievements, doAchievements);
+router.add(frontUrls.sellerAchievements(), doAchievements);
 router.add(frontUrls.sellerProfile(), doUserLanding);
 
 router.addNotFound(doNotFound);

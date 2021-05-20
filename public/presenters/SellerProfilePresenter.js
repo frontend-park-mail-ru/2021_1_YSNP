@@ -6,6 +6,8 @@ import {PageUpHandler} from '../modules/handlers/pageUpHandler.js';
 
 import {router} from '../modules/router';
 import {frontUrls} from '../modules/urls/frontUrls';
+import {user} from '../models/ProfileUserModel.js';
+
 
 import {sentryManager} from '../modules/sentry';
 import {UserListProduct} from '../models/UserListProduct';
@@ -38,10 +40,17 @@ export class SellerProfilePresenter extends BasePresenter {
             .catch((err) => {
                 //TODO(Sergey) нормальная обработка ошибок
 
-                sentryManager.captureException(err);
+            sentryManager.captureException(err);
                 console.log(err.message);
 
                 this.checkOfflineStatus(err);
+            })
+            .then(() => this.__userModel.getUserMinInfo(this.__userID))
+            .then((data) => {
+                this.__userInfo = data;
+            })
+            .catch((err) => {
+                console.log(err);
             });
     }
 
@@ -54,13 +63,10 @@ export class SellerProfilePresenter extends BasePresenter {
         if (this.checkOffline()) {
             return;
         }
-        await this.__userModel.getUserMinInfo(this.__userID)
-            .then((data) => {
-                this.__userInfo = data;
-            })
-            .catch((err) => {
-                console.log(err);
-            });
+        if (this.__userInfo.id === user.getData().id) {
+            router.redirect(frontUrls.userProfile);
+        }
+
         this.__view.render(this.__makeContext());
         this.__endlessScroll.start();
         this.__pageUp.start();
@@ -112,7 +118,7 @@ export class SellerProfilePresenter extends BasePresenter {
 
                 //TODO(Sergey) нормальная обработка ошибок
 
-                sentryManager.captureException(err);
+            sentryManager.captureException(err);
                 console.log(err.message);
 
                 this.checkOfflineStatus(err);

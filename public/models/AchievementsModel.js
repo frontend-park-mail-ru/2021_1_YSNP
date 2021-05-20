@@ -12,13 +12,14 @@ export class AchievementsModel extends BaseModel {
     }
 
     /***
-     * Get auth user model Json
+     * Get achievements model Json
      * @returns {Array}
      * @public
      */
     getData() {
         return this.__achievements;
     }
+
 
     __parseData(data) {
         this.__achievements = data.reduce((accum, el) => {
@@ -33,8 +34,9 @@ export class AchievementsModel extends BaseModel {
      * Post auth user data to backend
      * @returns {Promise<{data: *, status: number}>}
      */
-    async update() {
-        return http.get(backUrls.achievements)
+    async update(idSeller, idUser) {
+        const url = idSeller === idUser ? backUrls.achievements : backUrls.achievementsSeller(idSeller);
+        return http.get(url)
             .then(({status, data}) => {
                 this.checkError(status, {
                     message: data.message
@@ -52,8 +54,17 @@ export class AchievementModel {
     fillData(data) {
         this.__title = data.title;
         this.__des = data.description;
-        this.__data = data.date;
+        this.__data = this.__datePrepare(data.date);
         this.__pic = data.link_pic;
+    }
+
+    __datePrepare(data) {
+        const date = new Date(data);
+        return date.toLocaleDateString('ru-RU', {
+            day: 'numeric',
+            month: 'short',
+            year: 'numeric'
+        });
     }
 
     jsonData() {

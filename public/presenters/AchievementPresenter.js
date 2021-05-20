@@ -3,6 +3,7 @@ import {EndlessScroll} from '../modules/handlers/endlessScroll.js';
 import {PageUpHandler} from '../modules/handlers/pageUpHandler.js';
 import {checkIsAuth} from '../modules/checkAuth';
 import {AchievementsModel} from '../models/AchievementsModel';
+import {user} from '../models/ProfileUserModel';
 
 /***
  * favorite presenter
@@ -12,12 +13,13 @@ export class AchievementPresenter extends BasePresenter {
      * Class constructor
      * @param view
      */
-    constructor(view) {
+    constructor(view, id) {
         super(view);
         this.__view = view;
         this.__achievementsModel = new AchievementsModel();
         this.__endlessScroll = new EndlessScroll(this.__createListeners().scroll);
         this.__pageUp = new PageUpHandler();
+        this.__userID = id;
     }
 
     /***
@@ -26,7 +28,14 @@ export class AchievementPresenter extends BasePresenter {
      */
     async update() {
         return super.update()
-            .then(() => this.__achievementsModel.update())
+            .then(() => this.__userModel.getUserMinInfo(this.__userID))
+            .then((data) => {
+                this.__userInfo = data;
+            })
+            .catch((err) => {
+                console.log(err);
+            })
+            .then(() => this.__achievementsModel.update(this.__userID, user.getData().id))
             .catch((err) => {
                 //TODO(Sergey) нормальная обработка ошибок
                 console.log(err.message);
@@ -116,7 +125,8 @@ export class AchievementPresenter extends BasePresenter {
                 listeners: null
             },
             profileSettings: {
-                data: this.__userModel.getData()
+                data: this.__userInfo,
+                owner: this.__userInfo.id === user.getData().id
             }
         };
     }

@@ -303,7 +303,7 @@ export class ProductCreatePresenter extends BasePresenter {
                 .catch((err) => {
                     //TODO(Sergey) нормальная обработка ошибок
 
-                    sentryManager.captureException(err);
+  sentryManager.captureException(err);
                     console.log(err.message);
 
                     this.__view.changeEnableButton('Продолжить');

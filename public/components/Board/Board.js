@@ -208,7 +208,7 @@ export class Board {
 
             this.addListeners();
         } catch (err) {
-            sentryManager.captureException(err);
+           // sentryManager.captureException(err);
             console.log(err.message);
         }
     }

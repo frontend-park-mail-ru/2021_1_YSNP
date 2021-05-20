@@ -7,7 +7,7 @@ class BackUrls {
      */
     constructor() {
         //this.__url = 'https://ykoya.ru';
-         this.__url = 'http://localhost:8080';
+        this.__url = 'http://localhost:8080';
         this.__api = '/api/v1';
 
         //this.__wsUrl = 'wss://ykoya.ru';
@@ -280,6 +280,14 @@ class BackUrls {
      */
     get achievements() {
         return `${this.__url}${this.__api}/achievements`;
+    }
+
+    /***
+     * Get achievements seller
+     * @return {string}
+     */
+    achievementsSeller(id) {
+        return `${this.__url}${this.__api}/achievements/${id}`;
     }
 }
 
