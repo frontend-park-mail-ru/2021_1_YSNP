@@ -1,52 +1,29 @@
 import {BaseView} from './BaseView.js';
 
 import {Layout} from '../components/Layout/Layout.js';
-import {ProductTable} from '../components/ProductTable/ProductTable.js';
 import {ProfileMenu} from '../components/ProfileMenu/ProfileMenu.js';
 
 import {mobile} from '../modules/mobile';
+import {CommentsBlock} from '../components/CommentsBlock/CommentsBlock';
 
 /***
- * Seller profile view
+ * Comments view
  */
-export class SellerProfileView extends BaseView {
-    /***
-     * Like product
-     * @param {number} id - product id
-     */
-    likeProduct(id) {
-        this.__adList.like(id);
-    }
+export class UserCommentsView extends BaseView {
 
     /***
-     * Dislike product
-     * @param {number} id - product id
-     */
-    dislikeProduct(id) {
-        this.__adList.dislike(id);
-    }
-
-    /***
-     * Add new cards to view
-     * @param {Object[]} context - new cards
-     */
-    addNewCards(context) {
-        this.__adList.addNewCards(context);
-    }
-
-    /***
-     * Get view context
-     * @param {Object} context - presenter context
+     * Make context
+     * @param context
      * @private
      */
     __makeContext(context) {
         this.__context = {
-            adList: {
-                title: 'Все объявления',
-                text: 'У пользователя еще нет объявлений',
+            comments: {
+                title: 'Отзывы',
+                text: 'У пользователя еще нет отзывов',
                 id: 'ad',
-                data: context.adList.data,
-                listeners: context.adList.listeners
+                data: context.comments.data,
+                listeners: context.comments.listeners
             },
             profileSettings: {
                 data: context.profileSettings.data,
@@ -60,7 +37,7 @@ export class SellerProfileView extends BaseView {
      * @private
      */
     __setTitle() {
-        document.title = 'Все объявления';
+        document.title = 'Отзывы';
     }
 
     /***
@@ -73,8 +50,8 @@ export class SellerProfileView extends BaseView {
 
         const parent = layout.parent;
 
-        this.__adList = new ProductTable(parent);
-        this.__adList.render(this.__context.adList);
+        this.__comments = new CommentsBlock(parent);
+        this.__comments.render(this.__context.comments);
     }
 
     /***
@@ -88,11 +65,11 @@ export class SellerProfileView extends BaseView {
         const left = layout.leftParent;
         const right = layout.rightParent;
 
-        const profileMenu = new ProfileMenu(left, {page: 'landing'});
+        const profileMenu = new ProfileMenu(left, {page: 'comments'});
         profileMenu.render(this.__context.profileSettings);
 
-        this.__adList = new ProductTable(right);
-        this.__adList.render(this.__context.adList);
+        this.__comments = new CommentsBlock(right);
+        this.__comments.render(this.__context.comments);
     }
 
     /***

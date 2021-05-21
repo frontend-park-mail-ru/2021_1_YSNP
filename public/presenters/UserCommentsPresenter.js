@@ -1,20 +1,14 @@
 import {BasePresenter} from './BasePresenter.js';
 
-import {eventProductListHandler} from '../modules/handlers/eventHandler.js';
 import {EndlessScroll} from '../modules/handlers/endlessScroll.js';
-import {PageUpHandler} from '../modules/handlers/pageUpHandler.js';
-
-import {router} from '../modules/router';
-import {frontUrls} from '../modules/urls/frontUrls';
 
 import {sentryManager} from '../modules/sentry';
-import {UserListProduct} from '../models/UserListProduct';
 import {user} from '../models/ProfileUserModel.js';
 
 /***
- * Seller profile presenter
+ * Comments presenter
  */
-export class SellerProfilePresenter extends BasePresenter {
+export class UserCommentsPresenter extends BasePresenter {
     /***
      * Class constructor
      * @param view
@@ -23,9 +17,7 @@ export class SellerProfilePresenter extends BasePresenter {
     constructor(view, id) {
         super(view);
         this.__view = view;
-        this.__adListModel = new UserListProduct(id);
         this.__endlessScroll = new EndlessScroll(this.__createListeners().scroll);
-        this.__pageUp = new PageUpHandler();
         this.__userID = id;
         this.__user = user;
     }
@@ -36,15 +28,6 @@ export class SellerProfilePresenter extends BasePresenter {
      */
     async update() {
         return super.update()
-            .then(() => this.__adListModel.update())
-            .catch((err) => {
-                //TODO(Sergey) нормальная обработка ошибок
-
-                sentryManager.captureException(err);
-                console.log(err.message);
-
-                this.checkOfflineStatus(err);
-            })
             .then(() => this.__userModel.getUserMinInfo(this.__userID))
             .then((data) => {
                 this.__userInfo = data;
@@ -66,12 +49,8 @@ export class SellerProfilePresenter extends BasePresenter {
         if (this.checkOffline()) {
             return;
         }
-        if (this.__userInfo.id === this.__user.getData().id) {
-            router.redirect(frontUrls.userProfile);
-        }
         this.__view.render(this.__makeContext());
         this.__endlessScroll.start();
-        this.__pageUp.start();
 
         this.checkScrollOffset();
     }
@@ -83,19 +62,10 @@ export class SellerProfilePresenter extends BasePresenter {
         super.removePageListeners();
 
         this.__endlessScroll.remove();
-        this.__pageUp.remove();
 
         this.__view.removePage();
     }
 
-    /***
-     * Product List click event
-     * @param {MouseEvent} ev
-     * @private
-     */
-    __listenerAdListClick(ev) {
-        eventProductListHandler(ev, this.__getActions().adList);
-    }
 
     /***
      * Listener on scroll end
@@ -105,13 +75,13 @@ export class SellerProfilePresenter extends BasePresenter {
     __scrollEnd() {
         this.__adListModel.updateNewData()
             .then(() => {
-                const newData = this.__adListModel.newData;
-                if (newData.length === 0) {
-                    this.__endlessScroll.remove();
-                    return;
-                }
-
-                this.__view.addNewCards(newData);
+                // const newData = this.__adListModel.newData;
+                // if (newData.length === 0) {
+                //     this.__endlessScroll.remove();
+                //     return;
+                // }
+                //
+                // this.__view.addNewCards(newData);
             })
             .catch((err) => {
                 if (err.message === 'isUpdate') {
@@ -130,16 +100,13 @@ export class SellerProfilePresenter extends BasePresenter {
 
     /***
      * Get view listeners
-     * @returns {{scroll: {scrollEnd: any}, adList: {productCardClick: {listener: *, type: string}}}}
+     * @returns {{comments: {}, scroll: {scrollEnd: any}}}
      * @private
      */
     __createListeners() {
         return {
-            adList: {
-                productCardClick: {
-                    type: 'click',
-                    listener: this.__listenerAdListClick.bind(this)
-                }
+            comments: {
+
             },
             scroll: {
                 scrollEnd: this.__scrollEnd.bind(this)
@@ -147,16 +114,6 @@ export class SellerProfilePresenter extends BasePresenter {
         };
     }
 
-    /***
-     * Open card callback
-     * @param {string} id - card id
-     * @private
-     */
-    __openCard(id) {
-        this.saveScrollOffset();
-        const numberId = parseInt(id, 10);
-        router.redirect(frontUrls.product(numberId), '', {title: 'Мои объявления'});
-    }
 
     /***
      * Get presenter actions
@@ -165,13 +122,26 @@ export class SellerProfilePresenter extends BasePresenter {
      */
     __getActions() {
         return {
-            adList: {
-                cardClick: {
-                    open: this.__openCard.bind(this)
-                }
-            }
+
         };
     }
+
+    renderData() {
+        const data = [];
+        for (let i = 0; i < 10; i++) {
+            data.push({
+                commentID: i,
+                userName: 'User Name',
+                productName: 'Product name',
+                date: '2 march 2020',
+                productImg: './img',
+                userImg: './img',
+                text: 'New comment, such ag good text. Good product.',
+                rate: 4
+            });
+        }
+    }
+
 
     /***
      * Get view context
@@ -180,13 +150,13 @@ export class SellerProfilePresenter extends BasePresenter {
      */
     __makeContext() {
         return {
-            adList: {
-                data: this.__adListModel.getData(),
-                listeners: this.__createListeners().adList
+            comments: {
+                data: 'заглушка',
+                listeners: this.__createListeners().comments
             },
             profileSettings: {
                 data: this.__userInfo,
-                owner: false
+                owner: this.__userInfo.id === this.__user.getData().id
             }
         };
     }

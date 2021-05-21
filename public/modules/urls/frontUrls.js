@@ -113,22 +113,6 @@ class FrontUrls {
     }
 
     /***
-     * Get achievements page
-     * @returns {string}
-     */
-    get userAchievements() {
-        return '/user/achievements';
-    }
-
-    /***
-     * Get comments page
-     * @returns {string}
-     */
-    get userComments() {
-        return '/user/comments';
-    }
-
-    /***
      * Get user landing page
      * @returns {string}
      */
@@ -144,7 +128,7 @@ class FrontUrls {
      * Get user achievements page
      * @returns {string}
      */
-    sellerAchievements(id = undefined) {
+    userAchievements(id = undefined) {
         if (id !== undefined) {
             return `/user/${id}/achievements`;
         }
@@ -156,7 +140,7 @@ class FrontUrls {
      * Get user comments page
      * @returns {string}
      */
-    sellerComments(id = undefined) {
+    userComments(id = undefined) {
         if (id !== undefined) {
             return `/user/${id}/comments`;
         }

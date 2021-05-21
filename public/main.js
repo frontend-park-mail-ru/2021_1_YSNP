@@ -35,6 +35,8 @@ import {ProductEditPresenter} from './presenters/ProductEditPresenter';
 import {UserChatsPresenter} from './presenters/UserChatsPresenter';
 import {sentryManager} from './modules/sentry';
 import {SellerProfilePresenter} from './presenters/SellerProfilePresenter';
+import {UserCommentsView} from './views/UserCommentsView';
+import {UserCommentsPresenter} from './presenters/UserCommentsPresenter';
 
 /***
  * Register service worker
@@ -64,6 +66,7 @@ const promotionView = new PromotionView(app);
 const notFoundView = new NotFoundView(app);
 const productEditView = new ProductEditView(app, baseCreateProduct);
 const userLandingView = new SellerProfileView(app);
+const userCommentsView = new UserCommentsView(app);
 
 /***
  * Open main page
@@ -221,7 +224,7 @@ const doNotFound = () => {
 };
 
 /***
- * Open product page
+ * Open seller profile page
  * @param {Object} val - page params
  * @returns {Function}
  */
@@ -230,6 +233,18 @@ const doUserLanding = (val) => {
     userLandingPresenter.control();
 
     return userLandingPresenter.removePageListeners.bind(userLandingPresenter);
+};
+
+/***
+ * Open user comments page
+ * @param {Object} val - page params
+ * @returns {Function}
+ */
+const doUserComments = (val) => {
+    const userCommentsPresenter = new UserCommentsPresenter(userCommentsView, val.parameters.id);
+    userCommentsPresenter.control();
+
+    return userCommentsPresenter.removePageListeners.bind(userCommentsPresenter);
 };
 
 router.add(frontUrls.main, doMain);
@@ -246,6 +261,7 @@ router.add(frontUrls.userChat(), doChat);
 router.add(frontUrls.userFavorite, doFavorite);
 router.add(frontUrls.editProduct(), doProductEdit);
 router.add(frontUrls.sellerProfile(), doUserLanding);
+router.add(frontUrls.userComments(), doUserComments);
 
 router.addNotFound(doNotFound);
 
