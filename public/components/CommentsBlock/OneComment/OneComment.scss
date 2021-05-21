@@ -1,0 +1,117 @@
+@import "../../../scss/style.scss";
+
+.one-comment {
+  margin-bottom: 2vh;
+
+  &-inner {
+    padding: 1vh 1vh 0;
+  }
+
+  &-title {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    width: 100%;
+  }
+
+  &-avatars {
+    position: relative;
+    margin-right: 1vh;
+    margin-left: 1vh;
+
+    &__product-img {
+      @include set-size(5.5vh, 5.5vh);
+      object-fit: cover;
+      border-radius: 8px;
+      @include circle;
+      border: 2px solid white;
+    }
+
+    &__user-img {
+      position: absolute;
+      top: -0.5vh;
+      left: -1vh;
+
+      @include set-size(3vh, 3vh);
+      box-shadow: 0 0 1vw rgba(0, 0, 0, 0.2);
+      object-fit: cover;
+
+    }
+  }
+
+  &-info {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    position: relative;
+    width: 100%;
+
+    &__user {
+      @include overflow-text-width;
+      max-width: calc(100% - 20vh);
+      margin-right: 0.5vh;
+      font-size: 2vh;
+      text-decoration: none;
+      color: $textColorDefault;
+    }
+   
+    &-stat {
+      right: 1vh;
+      position: absolute;
+      &__rate {
+        width: 12vh;
+        margin: 0 auto;
+      }
+      &__rate span {
+        padding: 0;
+        font-size: 2vh;
+        margin: -2px;
+        line-height: 1;
+        color: lightgrey;
+        text-shadow: 1px 1px #bbb;
+      }
+      &__rate > span:before {
+        content: '★';
+      }
+      &__rate > span.star-active {
+        color: gold;
+      }
+
+      &__date {
+        margin-left: auto;
+
+        white-space: nowrap;
+
+        font-size: 1.3vh;
+        color: $textGrayColor
+      }
+    }
+  }
+
+  &-product {
+    margin-top: 1vh;
+    margin-bottom: 1vh;
+
+    &__name {
+      font-size: 1.5vh;
+      color: $mainColor;
+      text-decoration: none;
+    }
+  }
+
+  &-message {
+    width: calc(100% - 10vh);
+    height: 6.5vh;
+    overflow: hidden;
+
+    &:hover {
+      height: auto;
+      cursor: pointer;
+    }
+
+    &__text {
+      font-family: Roboto-Thin, sans-serif;
+      line-height: 2.3vh;
+    }
+  }
+}

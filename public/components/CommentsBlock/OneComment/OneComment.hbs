@@ -1,32 +1,35 @@
 <div class="one-comment" id="one-comment-{{commentID}}">
+    <div class="separator"></div>
     <div class="one-comment-inner">
 
         <div class="one-comment-title">
             <div class="one-comment-avatars">
-                <img src="{{productImg}}" alt="product" class="one-comment-avatars__product-img">
-                <img src="{{userImg}}" alt="user" class="one-comment-avatars__user-img">
+                <img src="{{userImg}}" alt="product" class="one-comment-avatars__product-img">
+                <img src="{{productImg}}" alt="user" class="one-comment-avatars__user-img">
             </div>
 
             <div class="one-comment-info">
-                <span class="one-comment-info__user">{{userName}}</span>
+                <a href="/user/{{userID}}/ads" class="one-comment-info__user">{{userName}}</a>
                 <div class="one-comment-info-stat">
                     <div class="one-comment-info-stat__rate" id="comment-rating">
-                        <!--                        <span class="one-comment-info-stat-rate__num" id="one-comment-{commentID}}-rate">{rating}}</span>-->
+                        {{rate}}
+                        <span id="star-{{commentID}}-1"></span>
+                        <span id="star-{{commentID}}-2"></span>
+                        <span id="star-{{commentID}}-3"></span>
+                        <span id="star-{{commentID}}-4"></span>
+                        <span id="star-{{commentID}}-5"></span>
                     </div>
-                    <span class="one-comment-info-stat__date" id="one-comment-{{commentID}}-date">{{date}}</span>
+                    <span class="one-comment-info-stat__date">{{date}}</span>
                 </div>
             </div>
         </div>
 
         <div class="one-comment-product">
-            <span class="one-comment-product__name">{{productName}}</span>
+            <a href="/product/{{productID}}" class="one-comment-product__name">{{productName}}</a>
         </div>
 
         <div class="one-comment-message">
             <span class="one-comment-message__text" id="one-comment-{{commentID}}-message">{{text}}</span>
         </div>
-
-        <div class="one-comment__separator"></div>
-
     </div>
 </div>

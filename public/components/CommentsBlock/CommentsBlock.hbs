@@ -1,24 +1,26 @@
-<div class="comments">
+<div class="comments" id="comments">
+    <span class="product-table__title">{{title}}</span>
     <div class="comments-block">
         <div class="comments-block-inner">
             <div class="comments-block-title">
                 <span class="comments-block-title__text">О продавце</span>
                 <div class="comments-block-title-sort">
                     Сортировать по:
-                    <label class="comments-block-title-sort__label" for="comments-seller-date" data-action="sortSellerByDate">
-                        <input class="comments-block-title-sort__button" type="radio" value="date" id="comments-seller-date"
-                           name="sort-seller">
+                    <label class="comments-block-title-sort__label" for="comments-seller-date">
+                        <input class="comments-block-title-sort__button" type="radio" value="date"
+                               id="comments-seller-date"
+                               name="sort-seller" data-action="sortSellerByDate">
                         дате
                     </label>
-                    <label class="comments-block-title-sort__label" for="comments-seller-rate" data-action="sortSellerByRate">
-                        <input class="comments-block-title-sort__button" type="radio" value="rate" id="comments-seller-rate"
-                           name="sort-seller">
+                    <label class="comments-block-title-sort__label" for="comments-seller-rate">
+                        <input class="comments-block-title-sort__button" type="radio" value="rate"
+                               id="comments-seller-rate"
+                               name="sort-seller" data-action="sortSellerByRate">
                         рейтингу
                     </label>
                 </div>
             </div>
-            <div class="separator"></div>
-            <div class="comments-block-content"></div>
+            <div class="comments-block-content" id="comments-sellers"></div>
         </div>
     </div>
     <div class="comments-block">
@@ -27,20 +29,19 @@
                 <span class="comments-block-title__text">О покупателе</span>
                 <div class="comments-block-title-sort">
                     Сортировать по:
-                    <label class="comments-block-title-sort__label" for="comments-buyer-date" data-action="sortBuyerByDate">
-                        <input class="comments-block-title-sort__button" type="radio" value="date" id="comments-buyer-date"
-                           name="sort-buyer">
+                    <label class="comments-block-title-sort__label" for="comments-buyer-date">
+                        <input class="comments-block-title-sort__button" type="radio" value="date"
+                               id="comments-buyer-date" data-action="sortBuyerByDate" name="sort-buyer">
                         дате
                     </label>
-                    <label class="comments-block-title-sort__label" for="comments-buyer-rate" data-action="sortBuyerByRate">
-                        <input class="comments-block-title-sort__button" type="radio" value="rate" id="comments-buyer-rate"
-                           name="sort-buyer">
+                    <label class="comments-block-title-sort__label" for="comments-buyer-rate">
+                        <input class="comments-block-title-sort__button" type="radio" value="rate"
+                               id="comments-buyer-rate" data-action="sortBuyerByRate" name="sort-buyer">
                         рейтингу
                     </label>
                 </div>
             </div>
-            <div class="separator"></div>
-            <div class="comments-block-content">
+            <div class="comments-block-content" id="comments-buyers">
 
             </div>
         </div>

@@ -17,7 +17,8 @@ export class UserCommentsPresenter extends BasePresenter {
     constructor(view, id) {
         super(view);
         this.__view = view;
-        this.__endlessScroll = new EndlessScroll(this.__createListeners().scroll);
+        this.__endlessScrollSeller = new EndlessScroll(this.__createListeners().scrollSeller);
+        this.__endlessScrollBuyer = new EndlessScroll(this.__createListeners().scrollBuyer);
         this.__userID = id;
         this.__user = user;
     }
@@ -50,7 +51,10 @@ export class UserCommentsPresenter extends BasePresenter {
             return;
         }
         this.__view.render(this.__makeContext());
-        this.__endlessScroll.start();
+        const {buyerBlock, sellerBlock} = this.__view.getCommentsBlock();
+        this.__endlessScrollSeller.startElement(sellerBlock);
+        this.__endlessScrollBuyer.startElement(buyerBlock);
+
 
         this.checkScrollOffset();
     }
@@ -73,57 +77,121 @@ export class UserCommentsPresenter extends BasePresenter {
      * @private
      */
     __scrollEnd() {
-        this.__adListModel.updateNewData()
-            .then(() => {
-                // const newData = this.__adListModel.newData;
-                // if (newData.length === 0) {
-                //     this.__endlessScroll.remove();
-                //     return;
-                // }
-                //
-                // this.__view.addNewCards(newData);
-            })
-            .catch((err) => {
-                if (err.message === 'isUpdate') {
-                    return;
-                }
-
-                //TODO(Sergey) нормальная обработка ошибок
-
-                sentryManager.captureException(err);
-                console.log(err.message);
-
-                this.checkOfflineStatus(err);
-                this.checkOffline();
-            });
+        console.log('SOMTHEING');
     }
 
     /***
      * Get view listeners
-     * @returns {{comments: {}, scroll: {scrollEnd: any}}}
+     * @returns {{scrollBuyer: {scrollEnd: any}, comments: {listener: *, type: string}, scrollSeller: {scrollEnd: any}}}
      * @private
      */
     __createListeners() {
         return {
             comments: {
-
+                type: 'click',
+                listener: this.__listenerCommentsClick.bind(this, 'action')
             },
-            scroll: {
+            scrollSeller: {
+                scrollEnd: this.__scrollEnd.bind(this)
+            },
+            scrollBuyer: {
                 scrollEnd: this.__scrollEnd.bind(this)
             }
         };
     }
 
+    /***
+     * Settings click event
+     * @param {Event} ev - event
+     * @param {string} type - type action
+     * @private
+     */
+    __listenerCommentsClick(type, ev) {
+        const actions = this.__getActions();
+        Object
+            .entries(ev.composedPath())
+            .forEach(([, el]) => {
+
+                if (el.dataset !== undefined && type in el.dataset) {
+                     actions[el.dataset[type]].open(ev);
+                }
+            });
+    }
+
 
     /***
      * Get presenter actions
-     * @returns {{adList: {cardClick: {open: *}}}}
+     * @returns {{sortSellerByDate: {open: *}, sortSellerByRate: {open: *}, sortBuyerByDate: {open: *}, sortBuyerByRate: {open: *}}}
      * @private
      */
     __getActions() {
         return {
-
+            sortSellerByDate: {
+                open: this.__sortSellerByDate.bind(this)
+            },
+            sortSellerByRate: {
+                open: this.__sortSellerByRate.bind(this)
+            },
+            sortBuyerByDate: {
+                open: this.__sortBuyerByDate.bind(this)
+            },
+            sortBuyerByRate: {
+                open: this.__sortBuyerByRate.bind(this)
+            }
         };
+    }
+
+    /***
+     * Sort comments for seller by date
+     * @private
+     */
+    __sortSellerByDate() {
+        //TODO request to sort
+        console.log('Sort by date SELLERS');
+    }
+
+    /***
+     * Sort comments for seller by rate
+     * @private
+     */
+    __sortSellerByRate() {
+        //TODO request to sort
+        console.log('Sort by rate SELLERS');
+    }
+
+    /***
+     * Sort comments for seller by date
+     * @private
+     */
+    __sortBuyerByDate() {
+        //TODO request to sort
+        console.log('Sort by date BUYERS');
+    }
+
+    /***
+     * Sort comments for seller by rate
+     * @private
+     */
+    __sortBuyerByRate() {
+        //TODO request to sort
+        console.log('Sort by rate BUYERS');
+    }
+
+    randomDate() {
+        function getRandomArbitrary(min, max) {
+            return Math.random() * (max - min) + min;
+        }
+
+        let date1 = '01-01-2000';
+        let date2 = new Date().toLocaleDateString();
+        date1 = new Date(date1).getTime();
+        date2 = new Date(date2).getTime();
+        if (date1 > date2) {
+            return new Date(getRandomArbitrary(date2, date1)).toLocaleDateString();
+        }
+        return new Date(getRandomArbitrary(date1, date2)).toLocaleDateString();
+
+
     }
 
     renderData() {
@@ -133,13 +201,15 @@ export class UserCommentsPresenter extends BasePresenter {
                 commentID: i,
                 userName: 'User Name',
                 productName: 'Product name',
-                date: '2 march 2020',
-                productImg: './img',
-                userImg: './img',
-                text: 'New comment, such ag good text. Good product.',
-                rate: 4
+                date: this.randomDate(),
+                userImg: '../../img/svg/checked.svg',
+                productImg: '../../img/profile.webp',
+                text: 'New comment, such ag good text. Good product. New comment, such ag good text. Good product.New comment, such ag good text. Good product.New comment, such ag good text. Good product.New comment, such ag good text. Good product.New comment, such ag good text. Good product.',
+                rate: (Math.random() * 5).toFixed(1),
+                belongs: Math.round(Math.random() * 2)
             });
         }
+        return data;
     }
 
 
@@ -151,7 +221,7 @@ export class UserCommentsPresenter extends BasePresenter {
     __makeContext() {
         return {
             comments: {
-                data: 'заглушка',
+                data: this.renderData(),
                 listeners: this.__createListeners().comments
             },
             profileSettings: {

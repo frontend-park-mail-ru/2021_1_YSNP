@@ -20,8 +20,6 @@ export class UserCommentsView extends BaseView {
         this.__context = {
             comments: {
                 title: 'Отзывы',
-                text: 'У пользователя еще нет отзывов',
-                id: 'ad',
                 data: context.comments.data,
                 listeners: context.comments.listeners
             },
@@ -38,6 +36,21 @@ export class UserCommentsView extends BaseView {
      */
     __setTitle() {
         document.title = 'Отзывы';
+    }
+
+    /***
+     * Returns comments block
+     * @returns {{sellerBlock: HTMLElement, buyerBlock: HTMLElement}}
+     */
+    getCommentsBlock() {
+        return this.__comments.getCommentsElements();
+    }
+
+    /***
+     * Remove component listeners
+     */
+    removeListeners() {
+        this.__comments.removeListeners();
     }
 
     /***

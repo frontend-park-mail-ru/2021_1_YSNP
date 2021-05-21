@@ -95,7 +95,12 @@ export class EndlessScroll {
      * @private
      */
     __scrollElementCallbackDown() {
-        console.log('release __scrollElementCallbackDown');
+        const scrollTop = this.__element.scrollTop;
+        const scrollHeight = this.__element.scrollHeight;
+
+        if (scrollTop > scrollHeight * (1 - this.__offset / 100)) {
+            this.__callbackList.scrollEnd();
+        }
     }
 
     /***

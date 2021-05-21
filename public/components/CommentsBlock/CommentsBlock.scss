@@ -7,6 +7,7 @@
   &-block {
     @include shadow-block;
     width: 100%;
+    height: 70vh;
     margin-bottom: 3vh;
 
     &-inner {
@@ -42,8 +43,12 @@
         }
       }
     }
-    &-contetnt {
+    &-content {
       margin-bottom: 2vh;
+      height: 57vh;
+      //text-align: center;
+      overflow: scroll;
+      overflow-x: hidden;
     }
 
   }
