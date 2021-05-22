@@ -684,7 +684,7 @@ export class ProductPresenter extends BasePresenter {
         }
 
         if (!this.__numberIsShowed) {
-            this.__user.getUser(this.__model.getData().ownerId)
+            this.__user.getUserTelephone(this.__model.getData().ownerId)
                 .then(() => {
                     if (this.__user.getData().telephone === '') {
                         this.__view.showNumber('Нет телефона');

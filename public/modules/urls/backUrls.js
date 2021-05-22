@@ -94,8 +94,8 @@ class BackUrls {
      * @param {number} id - user id
      * @returns {string}
      */
-    getUser(id) {
-        return `${this.__url}${this.__api}/user/${id}`;
+    getUserTelephone(id) {
+        return `${this.__url}${this.__api}/user/${id}/telephone`;
     }
 
     /***
@@ -103,8 +103,8 @@ class BackUrls {
      * @param {number} id - user id
      * @returns {string}
      */
-    getUserMinInfo(id) {
-        return `${this.__url}${this.__api}/user/landing/${id}`;
+    getUser(id) {
+        return `${this.__url}${this.__api}/user/${id}`;
     }
 
     /***

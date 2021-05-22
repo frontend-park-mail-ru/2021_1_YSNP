@@ -4,12 +4,10 @@ import {Layout} from '../components/Layout/Layout.js';
 import {ProductTable} from '../components/ProductTable/ProductTable.js';
 import {ProfileMenu} from '../components/ProfileMenu/ProfileMenu.js';
 
-import {mobile} from '../modules/mobile';
-
 /***
  * Favorite view
  */
-export class SellerProfileView extends BaseView {
+export class SellerAdView extends BaseView {
     /***
      * Like product
      * @param {number} id - product id
@@ -64,24 +62,13 @@ export class SellerProfileView extends BaseView {
     }
 
     /***
-     * Render mobile components
-     * @private
+     * Render view
+     * @param {Object} context - view context
      */
-    __renderMobile() {
-        const layout = new Layout(this.__app, true);
-        layout.render();
+    render(context) {
+        this.__makeContext(context);
+        super.render();
 
-        const parent = layout.parent;
-
-        this.__adList = new ProductTable(parent);
-        this.__adList.render(this.__context.adList);
-    }
-
-    /***
-     * Render desktop components
-     * @private
-     */
-    __renderDesktop() {
         const layout = new Layout(this.__app, true);
         layout.render({layoutCount: 'two'});
 
@@ -93,21 +80,6 @@ export class SellerProfileView extends BaseView {
 
         this.__adList = new ProductTable(right);
         this.__adList.render(this.__context.adList);
-    }
-
-    /***
-     * Render view
-     * @param {Object} context - view context
-     */
-    render(context) {
-        this.__makeContext(context);
-        super.render();
-
-        if (mobile.isMobile()) {
-            this.__renderMobile();
-        } else {
-            this.__renderDesktop();
-        }
 
         super.renderFooter();
     }

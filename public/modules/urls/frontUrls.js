@@ -140,12 +140,12 @@ class FrontUrls {
      * Get user landing page
      * @returns {string}
      */
-    sellerProfile(id = undefined) {
+    sellerAd(id = undefined) {
         if (id !== undefined) {
             return `/user/${id}/ads`;
         }
 
-        return '/user/{id}/ads';
+        return '/user/{id}/ad';
     }
 
     /***
