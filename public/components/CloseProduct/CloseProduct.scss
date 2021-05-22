@@ -1,39 +1,16 @@
 @import "../../scss/main.scss";
 
 .close-product {
-  @include set-size(100vw, 100vh);
-  position: fixed;
-  top: 0;
-
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background-color: rgba(0, 0, 0, 0.5);
-
-  z-index: 101;
+  @include popup(35vh);
 
   &-content {
-    position: relative;
-    width: 35vh;
-    z-index: 102;
-    @include block;
-
     @media screen and (max-width: $breakMobile) {
-      @include set-size(100vw, 100vh);
-
       display: flex;
       justify-content: center;
-
-      border-radius: 0;
     }
 
     &-inner {
       padding: 4vh 2vh;
-
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
 
       @media screen and (max-width: $breakMobile) {
         width: 80%;
@@ -82,27 +59,6 @@
           @media screen and (max-width: $breakMobile) {
             @include white-button(100%, 4vh);
           }
-        }
-      }
-
-      &__close {
-        @include set-size(2vh, 2vh);
-
-        position: absolute;
-        fill: rgb(120, 120, 120);
-
-        top: 1vh;
-        right: 1vh;
-
-        &:hover {
-          cursor: pointer;
-        }
-
-        @media screen and (max-width: $breakMobile) {
-          top: 2vh;
-          right: 2vh;
-
-          @include set-size(3vh, 3vh);
         }
       }
     }
