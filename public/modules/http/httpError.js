@@ -19,6 +19,10 @@ export class BadRequestError extends CustomError {
     static get defaultMessage() {
         return 'Неправильные данные';
     }
+
+    static isError(err) {
+        return err instanceof BadRequestError;
+    }
 }
 
 /***
@@ -39,6 +43,10 @@ export class UnauthorizedError extends CustomError {
      */
     static get defaultMessage() {
         return 'Пользователь не авторизован';
+    }
+
+    static isError(err) {
+        return err instanceof UnauthorizedError;
     }
 }
 
@@ -61,6 +69,10 @@ export class ForbiddenError extends CustomError {
     static get defaultMessage() {
         return 'Доступ запрещен';
     }
+
+    static isError(err) {
+        return err instanceof ForbiddenError;
+    }
 }
 
 /***
@@ -81,6 +93,10 @@ export class NotFoundError extends CustomError {
      */
     static get defaultMessage() {
         return 'Ничего не найдено';
+    }
+
+    static isError(err) {
+        return err instanceof NotFoundError;
     }
 }
 
@@ -103,6 +119,10 @@ export class OfflineError extends CustomError {
     static get defaultMessage() {
         return 'Нет интернета';
     }
+
+    static isError(err) {
+        return err instanceof OfflineError;
+    }
 }
 
 /***
@@ -123,5 +143,9 @@ export class InternalServerError extends CustomError {
      */
     static get defaultMessage() {
         return 'Ошибка сервера';
+    }
+
+    static isError(err) {
+        return err instanceof InternalServerError;
     }
 }

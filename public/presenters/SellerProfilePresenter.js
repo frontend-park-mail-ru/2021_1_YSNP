@@ -1,14 +1,16 @@
 import {BasePresenter} from './BasePresenter.js';
 
+import {UserListProduct} from '../models/UserListProduct';
+
 import {eventProductListHandler} from '../modules/handlers/eventHandler.js';
 import {EndlessScroll} from '../modules/handlers/endlessScroll.js';
 import {PageUpHandler} from '../modules/handlers/pageUpHandler.js';
+import {NotFoundError, UnauthorizedError} from '../modules/http/httpError';
 
 import {router} from '../modules/router';
 import {frontUrls} from '../modules/urls/frontUrls';
 
 import {sentryManager} from '../modules/sentry';
-import {UserListProduct} from '../models/UserListProduct';
 
 /***
  * favorite presenter
@@ -22,10 +24,11 @@ export class SellerProfilePresenter extends BasePresenter {
     constructor(view, id) {
         super(view);
         this.__view = view;
-        this.__adListModel = new UserListProduct(id);
-        this.__endlessScroll = new EndlessScroll(this.__createListeners().scroll);
-        this.__pageUp = new PageUpHandler();
         this.__userID = id;
+        this.__adListModel = new UserListProduct(id);
+
+        this.__pageUp = new PageUpHandler();
+        this.__endlessScroll = new EndlessScroll(this.__createListeners().scroll);
     }
 
     /***
@@ -38,8 +41,10 @@ export class SellerProfilePresenter extends BasePresenter {
             .catch((err) => {
                 //TODO(Sergey) нормальная обработка ошибок
 
-                sentryManager.captureException(err);
                 console.log(err.message);
+                if (!UnauthorizedError.isError(err)) {
+                    sentryManager.captureException(err);
+                }
 
                 this.checkOfflineStatus(err);
             });
@@ -112,8 +117,10 @@ export class SellerProfilePresenter extends BasePresenter {
 
                 //TODO(Sergey) нормальная обработка ошибок
 
-                sentryManager.captureException(err);
                 console.log(err.message);
+                if (!NotFoundError.isError(err)) {
+                    sentryManager.captureException(err);
+                }
 
                 this.checkOfflineStatus(err);
                 this.checkOffline();

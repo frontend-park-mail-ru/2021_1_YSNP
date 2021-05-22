@@ -7,12 +7,13 @@ import {amountMask, parseAmount} from '../modules/layout/mask.js';
 import {EndlessScroll} from '../modules/handlers/endlessScroll';
 import {PageUpHandler} from '../modules/handlers/pageUpHandler.js';
 import {noop} from '../modules/noop';
+import {NotFoundError, UnauthorizedError} from '../modules/http/httpError';
 
 import {router} from '../modules/router.js';
 import {frontUrls} from '../modules/urls/frontUrls.js';
 import {customSessionStorage} from '../modules/customSessionStorage.js';
-import {categories} from '../modules/layout/fields.js';
 
+import {categories} from '../modules/layout/fields.js';
 import {sentryManager} from '../modules/sentry';
 
 /***
@@ -48,8 +49,10 @@ export class SearchPresenter extends BasePresenter {
             .catch((err) => {
                 //TODO(Serge) нормальная обработка ошибок
 
-                sentryManager.captureException(err);
                 console.log(err.message);
+                if (!UnauthorizedError.isError(err)) {
+                    sentryManager.captureException(err);
+                }
 
                 this.checkOfflineStatus(err);
             });
@@ -283,8 +286,10 @@ export class SearchPresenter extends BasePresenter {
             .catch((err) => {
                 //TODO(Sergey) нормальная обработка ошибок
 
-                sentryManager.captureException(err);
                 console.log(err.message);
+                if (!NotFoundError.isError(err)) {
+                    sentryManager.captureException(err);
+                }
 
                 this.__view.deleteProductList();
 

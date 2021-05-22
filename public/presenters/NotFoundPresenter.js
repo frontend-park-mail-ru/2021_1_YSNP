@@ -1,5 +1,7 @@
 import {BasePresenter} from './BasePresenter.js';
 
+import {UnauthorizedError} from '../modules/http/httpError';
+
 import {sentryManager} from '../modules/sentry';
 
 /***
@@ -26,8 +28,10 @@ export class NotFoundPresenter extends BasePresenter {
             .catch((err) => {
                 //TODO(Sergey) нормальная обработка ошибок
 
-                sentryManager.captureException(err);
                 console.log(err.message);
+                if (!UnauthorizedError.isError(err)) {
+                    sentryManager.captureException(err);
+                }
 
                 this.checkOfflineStatus(err);
             });

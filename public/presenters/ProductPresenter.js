@@ -10,7 +10,7 @@ import {
     eventProductListHandler,
     eventSelectUserHandler
 } from '../modules/handlers/eventHandler.js';
-import {NotFoundError} from '../modules/http/httpError';
+import {NotFoundError, UnauthorizedError} from '../modules/http/httpError';
 
 import {router} from '../modules/router.js';
 import {frontUrls} from '../modules/urls/frontUrls';
@@ -55,8 +55,10 @@ export class ProductPresenter extends BasePresenter {
             .catch((err) => {
                 //TODO(Sergey) нормальная обработка ошибок
 
-                sentryManager.captureException(err);
                 console.log(err.message);
+                if (!UnauthorizedError.isError(err)) {
+                    sentryManager.captureException(err);
+                }
 
                 this.checkOfflineStatus(err);
 

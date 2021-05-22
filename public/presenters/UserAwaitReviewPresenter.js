@@ -4,11 +4,12 @@ import {ReviewModel} from '../models/ReviewModel';
 
 import {EndlessScroll} from '../modules/handlers/endlessScroll';
 import {eventHandler, eventReviewAwaitHandler} from '../modules/handlers/eventHandler';
+import {checkIsAuth} from '../modules/checkAuth';
+import {NotFoundError, UnauthorizedError} from '../modules/http/httpError';
 
 import {router} from '../modules/router';
 
 import {sentryManager} from '../modules/sentry';
-import {checkIsAuth} from '../modules/checkAuth';
 
 /***
  * Await review presenter
@@ -39,8 +40,10 @@ export class UserAwaitReviewPresenter extends BasePresenter {
             .catch((err) => {
                 //TODO(Sergey) нормальная обработка ошибок
 
-                sentryManager.captureException(err);
                 console.log(err.message);
+                if (!UnauthorizedError.isError(err)) {
+                    sentryManager.captureException(err);
+                }
 
                 this.checkOfflineStatus(err);
             });
@@ -122,8 +125,10 @@ export class UserAwaitReviewPresenter extends BasePresenter {
 
                 //TODO(Sergey) нормальная обработка ошибок
 
-                sentryManager.captureException(err);
                 console.log(err.message);
+                if (!NotFoundError.isError(err)) {
+                    sentryManager.captureException(err);
+                }
 
                 this.checkOfflineStatus(err);
                 this.checkOffline();
@@ -152,8 +157,10 @@ export class UserAwaitReviewPresenter extends BasePresenter {
 
                 //TODO(Sergey) нормальная обработка ошибок
 
-                sentryManager.captureException(err);
                 console.log(err.message);
+                if (!NotFoundError.isError(err)) {
+                    sentryManager.captureException(err);
+                }
 
                 this.checkOfflineStatus(err);
                 this.checkOffline();
