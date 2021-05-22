@@ -1,10 +1,11 @@
+/* eslint-disable camelcase */
+
 import {BaseModel} from './BaseModel.js';
 
 import {http} from '../modules/http/http.js';
 import {backUrls} from '../modules/urls/backUrls.js';
 
 import {YandexMap} from '../modules/layout/yandexMap.js';
-
 
 /***
  * Product model
@@ -330,9 +331,10 @@ export class ProductModel extends BaseModel {
      */
     fillOneBuyer(data) {
         const buyer = {
+            isBack: true,
             isBuyer: true,
             id: data.id,
-            userAvatar: data.linkImages,
+            userImg: data.linkImages,
             userName: data.name
         };
 
@@ -372,22 +374,11 @@ export class ProductModel extends BaseModel {
     }
 
     /***
-     * Json review
-     * @param {string} content - review text
-     * @param {number} rating - review rating
-     * @param {number} targetId - user review id
-     * @param {string} type - review type
-     * @returns {{product_id, rating, target_id, type, content}}
-     * @private
+     * Get buyer id
+     * @returns {number}
      */
-    __jsonReview(content, rating, targetId, type) {
-        return {
-            content: content,
-            rating: rating,
-            product_id: this.__id,
-            target_id: targetId,
-            type: type
-        };
+    get buyerId() {
+        return this.__buyerId;
     }
 
     /***
@@ -460,21 +451,6 @@ export class ProductModel extends BaseModel {
                 message: data.message
             });
         });
-    }
-
-    /***
-     * Review seller
-     * @param {string} text - review context
-     * @param {number} rating - review rating
-     * @returns {Promise<{data: *, status: number}>}
-     */
-    async reviewSeller(text, rating) {
-        return http.post(backUrls.setProductReview(this.__id), this.__jsonReview(text, rating, this.__buyerId, 'seller'))
-            .then(({status, data}) => {
-                this.checkError(status, {
-                    message: data.message
-                });
-            });
     }
 
     /***

@@ -10,8 +10,8 @@ class BackUrls {
         this.__url = 'http://localhost:8080';
         this.__api = '/api/v1';
 
-        this.__wsUrl = 'wss://ykoya.ru';
-        // this.__wsUrl = 'ws://localhost:8080';
+        // this.__wsUrl = 'wss://ykoya.ru';
+        this.__wsUrl = 'ws://localhost:8080';
         this.__wsApi = '/api/v1';
     }
 
@@ -232,6 +232,26 @@ class BackUrls {
      */
     setProductReview(id) {
         return `${this.__url}${this.__api}/product/review/${id}`;
+    }
+
+    /***
+     * Seller review await
+     * @param {number} from - page number paginator
+     * @param {number} count - count product per page
+     * @returns {string}
+     */
+    getSellerReviewAwait(from, count) {
+        return `${this.__url}${this.__api}/user/reviews/await/seller?from=${from}&count=${count}`;
+    }
+
+    /***
+     * Buyer review await
+     * @param {number} from - page number paginator
+     * @param {number} count - count product per page
+     * @returns {string}
+     */
+    getBuyerReviewAwait(from, count) {
+        return `${this.__url}${this.__api}/user/reviews/await/buyer?from=${from}&count=${count}`;
     }
 
     /***

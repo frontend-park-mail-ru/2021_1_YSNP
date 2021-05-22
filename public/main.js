@@ -5,6 +5,9 @@ import './scss/main.scss';
 
 import {router} from './modules/router.js';
 import {frontUrls} from './modules/urls/frontUrls.js';
+import {baseCreateProduct, baseRegistration} from './modules/layout/fields.js';
+
+import {sentryManager} from './modules/sentry';
 
 import {UserFavoriteView} from './views/UserFavoriteView.js';
 import {MainView} from './views/MainView.js';
@@ -30,11 +33,11 @@ import {RegistrationPresenter} from './presenters/RegistrationPresenter.js';
 import {SearchPresenter} from './presenters/SearchPresenter.js';
 import {PromotionPresenter} from './presenters/PromotionPresenter.js';
 import {NotFoundPresenter} from './presenters/NotFoundPresenter.js';
-import {baseCreateProduct, baseRegistration} from './modules/layout/fields.js';
 import {ProductEditPresenter} from './presenters/ProductEditPresenter';
 import {UserChatsPresenter} from './presenters/UserChatsPresenter';
-import {sentryManager} from './modules/sentry';
 import {SellerProfilePresenter} from './presenters/SellerProfilePresenter';
+import {UserAwaitReviewView} from './views/UserAwaitReviewView';
+import {UserAwaitReviewPresenter} from './presenters/UserAwaitReviewPresenter';
 
 /***
  * Register service worker
@@ -64,6 +67,7 @@ const promotionView = new PromotionView(app);
 const notFoundView = new NotFoundView(app);
 const productEditView = new ProductEditView(app, baseCreateProduct);
 const userLandingView = new SellerProfileView(app);
+const userAwaitReview = new UserAwaitReviewView(app);
 
 /***
  * Open main page
@@ -188,6 +192,17 @@ const doFavorite = () => {
 };
 
 /***
+ * Open user await review page
+ * @returns {Function}
+ */
+const doAwaitReview = () => {
+    const awaitReviewPresenter = new UserAwaitReviewPresenter(userAwaitReview);
+    awaitReviewPresenter.control();
+
+    return awaitReviewPresenter.removePageListeners.bind(awaitReviewPresenter);
+};
+
+/***
  * Open search page with text
  * @param {Object} val - page params
  */
@@ -244,6 +259,7 @@ router.add(frontUrls.userAd, doAd);
 router.add(frontUrls.userChats, doChats);
 router.add(frontUrls.userChat(), doChat);
 router.add(frontUrls.userFavorite, doFavorite);
+router.add(frontUrls.userAwaitReview, doAwaitReview);
 router.add(frontUrls.editProduct(), doProductEdit);
 router.add(frontUrls.sellerProfile(), doUserLanding);
 

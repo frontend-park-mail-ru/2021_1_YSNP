@@ -16,6 +16,7 @@ import {router} from '../modules/router.js';
 import {frontUrls} from '../modules/urls/frontUrls';
 
 import {sentryManager} from '../modules/sentry';
+import {ReviewModel} from '../models/ReviewModel';
 
 /***
  *  ProductPresenter class, extends from BasePresenter
@@ -505,7 +506,9 @@ export class ProductPresenter extends BasePresenter {
             return;
         }
 
-        this.__model.reviewSeller(text, star)
+        const reviewModel = new ReviewModel();
+        reviewModel.setBuyerData(this.__model.id, this.__model.buyerId);
+        reviewModel.review(text, star)
             .then(() => {
                 router.redirectCurrent();
             })

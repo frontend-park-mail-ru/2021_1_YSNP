@@ -113,6 +113,14 @@ class FrontUrls {
     }
 
     /***
+     * Get await review page
+     * @returns {string}
+     */
+    get userAwaitReview() {
+        return '/user/review/await';
+    }
+
+    /***
      * Get achievements page
      * @returns {string}
      */
