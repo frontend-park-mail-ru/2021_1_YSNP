@@ -127,6 +127,7 @@ export class ReviewUser {
     render(context) {
         try {
             this.__context = context;
+            console.log(this.__context);
             this.__parent.insertAdjacentHTML('beforeend', reviewUserTemplate(this.__context.data));
             this.__addListeners();
         } catch (err) {
