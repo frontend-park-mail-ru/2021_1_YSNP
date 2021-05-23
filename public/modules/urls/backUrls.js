@@ -6,12 +6,12 @@ class BackUrls {
      * Class constructor
      */
     constructor() {
-        // this.__url = 'https://ykoya.ru';
-        this.__url = 'http://localhost:8080';
+        this.__url = 'https://ykoya.ru';
+        // this.__url = 'http://localhost:8080';
         this.__api = '/api/v1';
 
-        // this.__wsUrl = 'wss://ykoya.ru';
-        this.__wsUrl = 'ws://localhost:8080';
+        this.__wsUrl = 'wss://ykoya.ru';
+        // this.__wsUrl = 'ws://localhost:8080';
         this.__wsApi = '/api/v1';
     }
 
@@ -186,10 +186,11 @@ class BackUrls {
      * @param {number} id - user id
      * @param {number} from - page number paginator
      * @param {number} count - count product per page
+     * @param {string} sort - sort type
      * @returns {string}
      */
-    userSellerReviews(id, from, count) {
-        return `${this.__url}${this.__api}/user/${id}/reviews/seller?from=${from}&count=${count}`;
+    userSellerReviews(id, from, count, sort) {
+        return `${this.__url}${this.__api}/user/${id}/reviews/seller?from=${from}&count=${count}&sort=${sort}`;
     }
 
     /***
@@ -197,10 +198,11 @@ class BackUrls {
      * @param {number} id - user id
      * @param {number} from - page number paginator
      * @param {number} count - count product per page
+     * @param {string} sort - sort type
      * @returns {string}
      */
-    userBuyerReviews(id, from, count) {
-        return `${this.__url}${this.__api}/user/${id}/reviews/buyer?from=${from}&count=${count}`;
+    userBuyerReviews(id, from, count, sort) {
+        return `${this.__url}${this.__api}/user/${id}/reviews/buyer?from=${from}&count=${count}&sort=${sort}`;
     }
 
     /***

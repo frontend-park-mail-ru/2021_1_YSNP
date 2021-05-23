@@ -108,7 +108,7 @@ export class UserReviewsView extends BaseView {
      * @param {Object[]} context - buyer review list
      */
     rerenderBuyerReviews(context) {
-        this.__sellerReviews.rerenderReviews(context);
+        this.__buyerReviews.rerenderReviews(context);
     }
 
     /***

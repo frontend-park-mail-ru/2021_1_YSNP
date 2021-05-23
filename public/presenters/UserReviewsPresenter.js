@@ -27,6 +27,9 @@ export class UserReviewsPresenter extends BasePresenter {
 
         this.__sellerEndlessScroll = new EndlessScroll(this.__createListeners().scrollSeller);
         this.__buyerEndlessScroll = new EndlessScroll(this.__createListeners().scrollBuyer);
+
+        this.__sortSeller = 'date';
+        this.__sortBuyer = 'date';
     }
 
     /***
@@ -43,8 +46,8 @@ export class UserReviewsPresenter extends BasePresenter {
 
                 this.__sellerModel.getUser(this.__userID);
             })
-            .then(() => this.__userReviews.updateSellerReview())
-            .then(() => this.__userReviews.updateBuyerReview())
+            .then(() => this.__userReviews.updateSellerReview(this.__sortSeller))
+            .then(() => this.__userReviews.updateBuyerReview(this.__sortBuyer))
             .catch((err) => {
                 //TODO(Sergey) нормальная обработка ошибок
 
@@ -111,7 +114,7 @@ export class UserReviewsPresenter extends BasePresenter {
      * @private
      */
     __scrollSellerEnd() {
-        this.__userReviews.updateSellerReviewNewData()
+        this.__userReviews.updateSellerReviewNewData(this.__sortSeller)
             .then(() => {
                 const newData = this.__userReviews.sellerReviewNewData;
                 if (newData.length === 0) {
@@ -143,7 +146,7 @@ export class UserReviewsPresenter extends BasePresenter {
      * @private
      */
     __scrollBuyerEnd() {
-        this.__userReviews.updateBuyerReviewNewData()
+        this.__userReviews.updateBuyerReviewNewData(this.__sortBuyer)
             .then(() => {
                 const newData = this.__userReviews.buyerReviewNewData;
                 if (newData.length === 0) {
@@ -202,18 +205,42 @@ export class UserReviewsPresenter extends BasePresenter {
      * Sort reviews for seller by date
      * @private
      */
-    __sortSellerByDate() {
+    async __sortSellerByDate() {
         //TODO request to sort
-        console.log('Sort by date SELLERS');
+        this.__sortSeller = 'date';
+        await this.__userReviews.updateSellerReview(this.__sortSeller)
+            .catch((err) => {
+                //TODO(Sergey) нормальная обработка ошибок
+
+                console.log(err.message);
+                // if (!UnauthorizedError.isError(err)) {
+                //     sentryManager.captureException(err);
+                // }
+
+                this.checkOfflineStatus(err);
+            });
+        this.__view.rerenderSellerReviews(this.__userReviews.sellerReviewData);
     }
 
     /***
      * Sort reviews for seller by rate
      * @private
      */
-    __sortSellerByRate() {
+    async __sortSellerByRate() {
         //TODO request to sort
-        console.log('Sort by rate SELLERS');
+        this.__sortSeller = 'rate';
+        await this.__userReviews.updateSellerReview(this.__sortSeller)
+            .catch((err) => {
+                //TODO(Sergey) нормальная обработка ошибок
+
+                console.log(err.message);
+                // if (!UnauthorizedError.isError(err)) {
+                //     sentryManager.captureException(err);
+                // }
+
+                this.checkOfflineStatus(err);
+            });
+        this.__view.rerenderSellerReviews(this.__userReviews.sellerReviewData);
     }
 
     /***
@@ -231,18 +258,50 @@ export class UserReviewsPresenter extends BasePresenter {
      * Sort reviews for seller by date
      * @private
      */
-    __sortBuyerByDate() {
+    async __sortBuyerByDate() {
         //TODO request to sort
-        console.log('Sort by date BUYERS');
+        this.__sortBuyer = 'date';
+        await this.__userReviews.updateBuyerReview(this.__sortBuyer)
+            .catch((err) => {
+                //TODO(Sergey) нормальная обработка ошибок
+
+                console.log(err.message);
+                // if (!UnauthorizedError.isError(err)) {
+                //     sentryManager.captureException(err);
+                // }
+
+                this.checkOfflineStatus(err);
+            });
+        this.__view.rerenderBuyerReviews({
+            data: {
+                list: this.__userReviews.buyerReviewData
+            }
+        });
     }
 
     /***
      * Sort reviews for seller by rate
      * @private
      */
-    __sortBuyerByRate() {
+    async __sortBuyerByRate() {
         //TODO request to sort
-        console.log('Sort by rate BUYERS');
+        this.__sortBuyer = 'rate';
+        await this.__userReviews.updateBuyerReview(this.__sortBuyer)
+            .catch((err) => {
+                //TODO(Sergey) нормальная обработка ошибок
+
+                console.log(err.message);
+                // if (!UnauthorizedError.isError(err)) {
+                //     sentryManager.captureException(err);
+                // }
+
+                this.checkOfflineStatus(err);
+            });
+        this.__view.rerenderBuyerReviews({
+            data: {
+                list: this.__userReviews.buyerReviewData
+            }
+        });
     }
 
     /***

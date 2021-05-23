@@ -112,7 +112,7 @@ export class ReviewsBlock {
 
         this.__getReviewsBlockBody().innerHTML = '';
 
-        if (this.__context.data.list.length === 0) {
+        if (this.__context.data.list.length === 0 || this.__context.data.list.length === undefined) {
             this.__renderEmptyReviews();
             return;
         }

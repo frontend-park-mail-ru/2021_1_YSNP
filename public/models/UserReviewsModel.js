@@ -105,24 +105,26 @@ export class UserReviewsModel extends BaseModel {
 
     /***
      * Update seller review
+     * @param {string} sortType - sort type
      * @returns {Promise<void>}
      */
-    async updateSellerReview() {
+    async updateSellerReview(sortType) {
         this.__sellerReviewsList = [];
         this.__sellerPage = 0;
 
-        return this.__updateSellerReviewNewDataPage();
+        return this.__updateSellerReviewNewDataPage(sortType);
     }
 
     /***
      * Update seller review new data
+     * @param {string} sortType - sort type
      * @returns {Promise<void>}
      */
-    async updateSellerReviewNewData() {
+    async updateSellerReviewNewData(sortType) {
         if (!this.__isUpdateSeller) {
             this.__isUpdateSeller = true;
             this.__sellerPage++;
-            return this.__updateSellerReviewNewDataPage();
+            return this.__updateSellerReviewNewDataPage(sortType);
         }
 
         return Promise.reject({message: 'isUpdate'});
@@ -130,11 +132,12 @@ export class UserReviewsModel extends BaseModel {
 
     /***
      * Update seller review data page
+     * @param {string} sortType - sort type
      * @returns {Promise<{data: *, status: number}>}
      * @private
      */
-    async __updateSellerReviewNewDataPage() {
-        return http.get(backUrls.userSellerReviews(this.__userId, this.__sellerPage, this.__sellerPageCount))
+    async __updateSellerReviewNewDataPage(sortType) {
+        return http.get(backUrls.userSellerReviews(this.__userId, this.__sellerPage, this.__sellerPageCount, sortType))
             .then(({status, data}) => {
                 this.checkError(status, {
                     message: data.message
@@ -204,24 +207,26 @@ export class UserReviewsModel extends BaseModel {
 
     /***
      * Update buyer review
+     * @param {string} sortType - sort type
      * @returns {Promise<void>}
      */
-    async updateBuyerReview() {
+    async updateBuyerReview(sortType) {
         this.__buyerReviewList = [];
         this.__buyerPage = 0;
 
-        return this.__updateBuyerReviewNewDataPage();
+        return this.__updateBuyerReviewNewDataPage(sortType);
     }
 
     /***
      * Update buyer review new data
+     * @param {string} sortType - sort type
      * @returns {Promise<void>}
      */
-    async updateBuyerReviewNewData() {
+    async updateBuyerReviewNewData(sortType) {
         if (!this.__isUpdateBuyer) {
             this.__isUpdateBuyer = true;
             this.__buyerPage++;
-            return this.__updateBuyerReviewNewDataPage();
+            return this.__updateBuyerReviewNewDataPage(sortType);
         }
 
         return Promise.reject({message: 'isUpdate'});
@@ -229,11 +234,12 @@ export class UserReviewsModel extends BaseModel {
 
     /***
      * Update buyer review page data
+     * @param {string} sortType - sort type
      * @returns {Promise<{data: *, status: number}>}
      * @private
      */
-    async __updateBuyerReviewNewDataPage() {
-        return http.get(backUrls.userBuyerReviews(this.__userId, this.__buyerPage, this.__buyerPageCount))
+    async __updateBuyerReviewNewDataPage(sortType) {
+        return http.get(backUrls.userBuyerReviews(this.__userId, this.__buyerPage, this.__buyerPageCount, sortType))
             .then(({status, data}) => {
                 this.checkError(status, {
                     message: data.message

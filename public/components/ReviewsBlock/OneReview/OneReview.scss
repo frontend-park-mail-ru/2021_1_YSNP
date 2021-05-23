@@ -19,6 +19,7 @@
 
     &-avatars {
       margin-right: 1vh;
+      margin-left: 1vh;
       position: relative;
 
       display: flex;
@@ -74,6 +75,10 @@
       display: flex;
       flex-direction: column;
 
+      &__rate {
+        margin-left: auto;
+      }
+
       &__date {
         margin-left: auto;
 
@@ -85,6 +90,8 @@
 
   &-content {
     margin-bottom: 1vh;
+    padding-left: 1vh;
+    padding-right: 3vh;
 
     display: flex;
     flex-direction: column;
