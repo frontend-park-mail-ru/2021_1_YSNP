@@ -4,12 +4,12 @@ import {UserModel} from '../models/UserModel';
 import {UserReviewsModel} from '../models/UserReviewsModel';
 
 import {EndlessScroll} from '../modules/handlers/endlessScroll.js';
-import {eventHandler} from '../modules/handlers/eventHandler';
+import {eventReviewListHandler} from '../modules/handlers/eventHandler';
 
 import {sentryManager} from '../modules/sentry';
 
 /***
- * Comments presenter
+ * User reviews presenter
  */
 export class UserReviewsPresenter extends BasePresenter {
     /***
@@ -88,21 +88,33 @@ export class UserReviewsPresenter extends BasePresenter {
         this.__view.removePage();
     }
 
+    /***
+     * Listener seller review click
+     * @param {MouseEvent} ev - event
+     * @private
+     */
     __listenerSellerReviewClick(ev) {
         ev.stopPropagation();
 
-        eventHandler(ev, this.__getActions().sellerReview);
+        eventReviewListHandler(ev, this.__getActions().sellerReview);
     }
 
+    /***
+     * Listener buyer review click
+     * @param {MouseEvent} ev - event
+     * @private
+     */
     __listenerBuyerReviewClick(ev) {
         ev.stopPropagation();
 
-        eventHandler(ev, this.__getActions().buyerReview);
+        eventReviewListHandler(ev, this.__getActions().buyerReview);
     }
 
+    /***
+     * Scroll seller end
+     * @private
+     */
     __scrollSellerEnd() {
-        console.log('seller end');
-
         this.__userReviews.updateSellerReviewNewData()
             .then(() => {
                 const newData = this.__userReviews.sellerReviewNewData;
@@ -130,9 +142,11 @@ export class UserReviewsPresenter extends BasePresenter {
             });
     }
 
+    /***
+     * Scroll buyer end
+     * @private
+     */
     __scrollBuyerEnd() {
-        console.log('buyer end');
-
         this.__userReviews.updateBuyerReviewNewData()
             .then(() => {
                 const newData = this.__userReviews.buyerReviewNewData;
@@ -160,7 +174,7 @@ export class UserReviewsPresenter extends BasePresenter {
             });
     }
 
-    /****
+    /***
      * Get view listeners
      * @returns {{scrollBuyer: {scrollEnd: *}, buyerReviews: {reviewsClick: {listener: *, type: string}}, sellerReviews: {reviewsClick: {listener: *, type: string}}, scrollSeller: {scrollEnd: *}}}
      * @private
@@ -189,7 +203,7 @@ export class UserReviewsPresenter extends BasePresenter {
     }
 
     /***
-     * Sort comments for seller by date
+     * Sort reviews for seller by date
      * @private
      */
     __sortSellerByDate() {
@@ -198,7 +212,7 @@ export class UserReviewsPresenter extends BasePresenter {
     }
 
     /***
-     * Sort comments for seller by rate
+     * Sort reviews for seller by rate
      * @private
      */
     __sortSellerByRate() {
@@ -207,7 +221,18 @@ export class UserReviewsPresenter extends BasePresenter {
     }
 
     /***
-     * Sort comments for seller by date
+     * Seller content click
+     * @param {string} id - review id
+     * @private
+     */
+    __contentSellerClick(id) {
+        const numberId = parseInt(id, 10);
+
+        this.__view.toggleSellerReviewContent(numberId);
+    }
+
+    /***
+     * Sort reviews for seller by date
      * @private
      */
     __sortBuyerByDate() {
@@ -216,7 +241,7 @@ export class UserReviewsPresenter extends BasePresenter {
     }
 
     /***
-     * Sort comments for seller by rate
+     * Sort reviews for seller by rate
      * @private
      */
     __sortBuyerByRate() {
@@ -224,9 +249,20 @@ export class UserReviewsPresenter extends BasePresenter {
         console.log('Sort by rate BUYERS');
     }
 
-    /****
+    /***
+     * Buyer content click
+     * @param {string} id - review id
+     * @private
+     */
+    __contentBuyerClick(id) {
+        const numberId = parseInt(id, 10);
+
+        this.__view.toggleBuyerReviewContent(numberId);
+    }
+
+    /***
      * Get presenter actions
-     * @returns {{sellerReview: {sortByDateClick: {open: *}, sortByRateClick: {open: *}}, buyerReview: {sortByDateClick: {open: *}, sortByRateClick: {open: *}}}}
+     * @returns {{sellerReview: {contentClick: {open: *}, sortByDateClick: {open: *}, sortByRateClick: {open: *}}, buyerReview: {contentClick: {open: *}, sortByDateClick: {open: *}, sortByRateClick: {open: *}}}}
      * @private
      */
     __getActions() {
@@ -237,6 +273,9 @@ export class UserReviewsPresenter extends BasePresenter {
                 },
                 sortByRateClick: {
                     open: this.__sortSellerByRate.bind(this)
+                },
+                contentClick: {
+                    open: this.__contentSellerClick.bind(this)
                 }
             },
             buyerReview: {
@@ -245,6 +284,9 @@ export class UserReviewsPresenter extends BasePresenter {
                 },
                 sortByRateClick: {
                     open: this.__sortBuyerByRate.bind(this)
+                },
+                contentClick: {
+                    open: this.__contentBuyerClick.bind(this)
                 }
             }
         };
@@ -252,7 +294,7 @@ export class UserReviewsPresenter extends BasePresenter {
 
     /***
      * Get view context
-     * @returns {any}
+     * @returns {{buyerReviews: {data: {list: Object[]}, listeners: {reviewsClick: {listener: *, type: string}}}, profileSettings: {owner: boolean, data: {linkImage, surname, sex, name, telephone, id, dateBirth, email}}, sellerReviews: {data: {list: Object[]}, listeners: {reviewsClick: {listener: *, type: string}}}}}
      * @private
      */
     __makeContext() {

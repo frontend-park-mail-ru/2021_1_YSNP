@@ -20,14 +20,28 @@ export class ReviewsBlock {
         this.__reviewList = new Map();
     }
 
+    /***
+     * Get reviews block
+     * @returns {HTMLElement}
+     * @private
+     */
     __getReviewsBlock() {
         return document.getElementById(`reviews-${this.__context.data.type}`);
     }
 
+    /***
+     * Get reviews body
+     * @returns {HTMLElement}
+     * @private
+     */
     __getReviewsBlockBody() {
         return document.getElementById(`reviews-${this.__context.data.type}-body`);
     }
 
+    /***
+     * Get review scroll
+     * @returns {HTMLElement}
+     */
     getReviewsBlockScroll() {
         return document.getElementById(`reviews-${this.__context.data.type}-scroll`);
     }
@@ -50,21 +64,48 @@ export class ReviewsBlock {
             .removeEventListener(this.__context.listeners.reviewsClick.type, this.__context.listeners.reviewsClick.listener);
     }
 
+    /***
+     * Add one review
+     * @param {Object} data - review data
+     * @private
+     */
     __addOneReview(data) {
         const oneReview = new OneReview(this.__getReviewsBlockBody());
         oneReview.render(data);
+
+        this.__reviewList.set(data.reviewId, oneReview);
     }
 
+    /***
+     * Add reviews
+     * @private
+     */
     __addReviews() {
         this.__context.data.list.forEach((el) => {
             this.__addOneReview(el);
         });
     }
 
+    /***
+     * Add new reviews
+     * @param {Object[]} data - reviews list
+     */
     addNewReviews(data) {
         this.__addReviews(data);
     }
 
+    /***
+     * Toggle review
+     * @param {number} id - review id
+     */
+    toggleReviewContent(id) {
+        this.__reviewList.get(id).toggleContent();
+    }
+
+    /***
+     * Render empty reviews
+     * @private
+     */
     __renderEmptyReviews() {
         const emptyReviews = new EmptyReviews(this.__getReviewsBlockBody());
         emptyReviews.render();

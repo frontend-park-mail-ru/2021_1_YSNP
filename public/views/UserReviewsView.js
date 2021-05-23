@@ -7,7 +7,7 @@ import {ReviewsBlock} from '../components/ReviewsBlock/ReviewsBlock';
 import {mobile} from '../modules/mobile';
 
 /***
- * Comments view
+ * User reviews view
  */
 export class UserReviewsView extends BaseView {
 
@@ -47,20 +47,52 @@ export class UserReviewsView extends BaseView {
         document.title = 'Отзывы';
     }
 
+    /***
+     * Get seller scroll
+     * @returns {HTMLElement}
+     */
     getSellerScroll() {
         return this.__sellerReviews.getReviewsBlockScroll();
     }
 
-    getBuyerScroll() {
-        return this.__buyerReviews.getReviewsBlockScroll();
-    }
-
+    /***
+     * Add seller new reviews
+     * @param {Object[]} data - reviews data
+     */
     addSellerNewReviews(data) {
         this.__sellerReviews.addNewReviews(data);
     }
 
+    /***
+     * Toggle review content
+     * @param {number} id - review id
+     */
+    toggleSellerReviewContent(id) {
+        this.__sellerReviews.toggleReviewContent(id);
+    }
+
+    /***
+     * Get buyer scroll
+     * @returns {HTMLElement}
+     */
+    getBuyerScroll() {
+        return this.__buyerReviews.getReviewsBlockScroll();
+    }
+
+    /***
+     * Add buyer new reviews
+     * @param {Object[]} data - reviews data
+     */
     addBuyerNewReviews(data) {
         this.__buyerReviews.addNewReviews(data);
+    }
+
+    /***
+     * Toggle review content
+     * @param {number} id - review id
+     */
+    toggleBuyerReviewContent(id) {
+        this.__buyerReviews.toggleReviewContent(id);
     }
 
     /***

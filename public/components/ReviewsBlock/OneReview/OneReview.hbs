@@ -1,4 +1,4 @@
-<div class="one-review">
+<div class="one-review" data-review-id="{{reviewId}}">
     <div class="one-review-inner">
 
         <div class="one-review-head">
@@ -27,8 +27,9 @@
             </div>
         </div>
 
-        <div class="one-review-content">
-            <div class="one-review-content__text">{{content}}</div>
+        <div class="one-review-content" data-action="contentClick">
+            <div class="one-review-content__text" id="one-review-{{reviewId}}-text">{{content}}</div>
+            <span class="one-review-content__more" id="one-review-{{reviewId}}-more">читать дальше</span>
         </div>
 
         <div class="one-review__separator"></div>

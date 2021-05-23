@@ -78,3 +78,12 @@ export function eventProductListHandler(ev, actions) {
 export function eventChatListHandler(ev, actions) {
     eventHandlerWithId(ev, actions, 'chatId');
 }
+
+/***
+ * Release review list click event
+ * @param {MouseEvent} ev - user event
+ * @param {Object} actions - actions on this event
+ */
+export function eventReviewListHandler(ev, actions) {
+    eventHandlerWithId(ev, actions, 'reviewId');
+}

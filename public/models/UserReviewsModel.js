@@ -29,6 +29,12 @@ export class UserReviewsModel extends BaseModel {
         this.__buyerPageCount = buyerPageCount;
     }
 
+    /***
+     * Get locale date
+     * @param {string} date - date
+     * @returns {string}
+     * @private
+     */
     __getDate(date) {
         const localDate = new Date(date);
         return localDate.toLocaleDateString('ru-RU', {

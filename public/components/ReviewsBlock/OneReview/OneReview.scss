@@ -45,42 +45,34 @@
     }
 
     &-info {
+      width: calc(100% - 20vh);
+
       display: flex;
       flex-direction: column;
 
-      @include overflow-text-width;
-
       &__user {
+        @include overflow-text-width;
+
         font-size: 2vh;
         color: $textColorDefault;
       }
 
       &__product {
+        @include overflow-text-width;
+
         font-size: 1.5vh;
         color: $mainColor;
       }
     }
 
     &-stat {
+      @include star;
+
       margin-left: auto;
       width: 12vh;
 
       display: flex;
       flex-direction: column;
-
-      &__rate span {
-        font-size: 2vh;
-
-        color: lightgrey;
-      }
-
-      &__rate > span:before {
-        content: '★';
-      }
-
-      &__rate > span.star-active {
-        color: gold;
-      }
 
       &__date {
         margin-left: auto;
@@ -94,17 +86,35 @@
   &-content {
     margin-bottom: 1vh;
 
-    @include set-size(calc(100% - 10vh), 6.5vh);
-    overflow: hidden;
-
-    &:hover {
-      height: auto;
-      cursor: pointer;
-    }
+    display: flex;
+    flex-direction: column;
 
     &__text {
+      max-height: 7vh;
+      overflow: hidden;
+
       font-family: Roboto-Thin, sans-serif;
       line-height: 2.3vh;
+
+      &_show {
+        max-height: max-content;
+      }
+    }
+
+    &__more {
+      margin-left: auto;
+      display: none;
+
+      color: $textGrayColor;
+      font-size: 1.5vh;
+
+      &:hover {
+        cursor: pointer;
+      }
+
+      &_active {
+        display: block;
+      }
     }
   }
 
