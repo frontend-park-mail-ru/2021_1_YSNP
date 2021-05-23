@@ -103,6 +103,24 @@ export class ReviewsBlock {
     }
 
     /***
+     * Rerender reviews
+     * @param {Object[]} context - review list
+     */
+    rerenderReviews(context) {
+        this.__context.data.list = context;
+        this.__reviewList = new Map();
+
+        this.__getReviewsBlockBody().innerHTML = '';
+
+        if (this.__context.data.list.length === 0) {
+            this.__renderEmptyReviews();
+            return;
+        }
+
+        this.__addReviews();
+    }
+
+    /***
      * Render empty reviews
      * @private
      */
@@ -118,13 +136,13 @@ export class ReviewsBlock {
         try {
             this.__context = context;
             this.__parent.insertAdjacentHTML('beforeend', reviewsBlockTemplate(this.__context.data));
+            this.__addListeners();
 
             if (this.__context.data.list.length === 0) {
                 this.__renderEmptyReviews();
                 return;
             }
 
-            this.__addListeners();
             this.__addReviews();
         } catch (err) {
             sentryManager.captureException(err);

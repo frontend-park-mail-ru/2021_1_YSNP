@@ -94,8 +94,6 @@ export class UserReviewsPresenter extends BasePresenter {
      * @private
      */
     __listenerSellerReviewClick(ev) {
-        ev.stopPropagation();
-
         eventReviewListHandler(ev, this.__getActions().sellerReview);
     }
 
@@ -105,8 +103,6 @@ export class UserReviewsPresenter extends BasePresenter {
      * @private
      */
     __listenerBuyerReviewClick(ev) {
-        ev.stopPropagation();
-
         eventReviewListHandler(ev, this.__getActions().buyerReview);
     }
 

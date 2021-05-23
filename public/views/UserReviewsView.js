@@ -72,6 +72,14 @@ export class UserReviewsView extends BaseView {
     }
 
     /***
+     * Rerender seller reviews
+     * @param {Object[]} context - seller review list
+     */
+    rerenderSellerReviews(context) {
+        this.__sellerReviews.rerenderReviews(context);
+    }
+
+    /***
      * Get buyer scroll
      * @returns {HTMLElement}
      */
@@ -93,6 +101,14 @@ export class UserReviewsView extends BaseView {
      */
     toggleBuyerReviewContent(id) {
         this.__buyerReviews.toggleReviewContent(id);
+    }
+
+    /***
+     * Rerender buyer reviews
+     * @param {Object[]} context - buyer review list
+     */
+    rerenderBuyerReviews(context) {
+        this.__sellerReviews.rerenderReviews(context);
     }
 
     /***
