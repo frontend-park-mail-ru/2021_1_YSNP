@@ -1,14 +1,14 @@
-import './CommentsBlock.scss';
-import commentBlockTemplate from './CommentsBlock.hbs';
-import oneCommentTemplate from './OneComment/OneComment.hbs';
+import reviewsBlockTemplate from './ReviewsBlock.hbs';
+import './ReviewsBlock.scss';
+
+import {OneReview} from './OneReview/OneReview';
 
 import {sentryManager} from '../../modules/sentry';
-import {OneComment} from './OneComment/OneComment';
 
 /***
  * Profile menu
  */
-export class CommentsBlock {
+export class ReviewsBlock {
     /***
      * Class constructor
      * @param {Element} parent - element where the component will be inserted
@@ -72,11 +72,11 @@ export class CommentsBlock {
             buyerBlock.innerText = 'У пользователя еще нет отзывов';
         }
         for (let i = 0; i < sellerComments.length; i++) {
-            const oneComment = new OneComment(sellerBlock);
+            const oneComment = new OneReview(sellerBlock);
             oneComment.render(sellerComments[i]);
         }
         for (let i = 0; i < buyerComments.length; i++) {
-            const oneComment = new OneComment(buyerBlock);
+            const oneComment = new OneReview(buyerBlock);
             oneComment.render(buyerComments[i]);
         }
     }
@@ -107,7 +107,7 @@ export class CommentsBlock {
     render(context) {
         try {
             this.__makeContext(context);
-            this.__parent.insertAdjacentHTML('beforeend', commentBlockTemplate(this.__context));
+            this.__parent.insertAdjacentHTML('beforeend', reviewsBlockTemplate(this.__context));
             this.__drawComments();
             this.__addListeners();
         } catch (err) {

@@ -6,6 +6,8 @@ import './scss/main.scss';
 import {router} from './modules/router.js';
 import {frontUrls} from './modules/urls/frontUrls.js';
 
+import {sentryManager} from './modules/sentry';
+
 import {UserFavoriteView} from './views/UserFavoriteView.js';
 import {MainView} from './views/MainView.js';
 import {UserAdView} from './views/UserAdView.js';
@@ -19,6 +21,7 @@ import {NotFoundView} from './views/NotFoundView.js';
 import {ProductEditView} from './views/ProductEditView.js';
 import {UserChatsView} from './views/UserChatsView';
 import {SellerProfileView} from './views/SellerProfileView.js';
+import {UserReviewsView} from './views/UserReviewsView';
 
 import {UserFavoritePresenter} from './presenters/UserFavoritePresenter.js';
 import {MainPresenter} from './presenters/MainPresenter.js';
@@ -33,23 +36,21 @@ import {NotFoundPresenter} from './presenters/NotFoundPresenter.js';
 import {baseCreateProduct, baseRegistration} from './modules/layout/fields.js';
 import {ProductEditPresenter} from './presenters/ProductEditPresenter';
 import {UserChatsPresenter} from './presenters/UserChatsPresenter';
-import {sentryManager} from './modules/sentry';
 import {SellerProfilePresenter} from './presenters/SellerProfilePresenter';
-import {UserCommentsView} from './views/UserCommentsView';
-import {UserCommentsPresenter} from './presenters/UserCommentsPresenter';
+import {UserReviewsPresenter} from './presenters/UserReviewsPresenter';
 
 /***
  * Register service worker
  *  */
-if ('serviceWorker' in navigator) {
-    navigator.serviceWorker.register('./sw.js', {scope: '/'})
-        .then(() => {
-            console.log('Service Worker registered.');
-        }).catch((error) => {
-        sentryManager.captureException(error);
-        console.log(`Error while register service worker:${error}`);
-    });
-}
+// if ('serviceWorker' in navigator) {
+//     navigator.serviceWorker.register('./sw.js', {scope: '/'})
+//         .then(() => {
+//             console.log('Service Worker registered.');
+//         }).catch((error) => {
+//         sentryManager.captureException(error);
+//         console.log(`Error while register service worker:${error}`);
+//     });
+// }
 
 const app = document.getElementById('app');
 
@@ -66,7 +67,7 @@ const promotionView = new PromotionView(app);
 const notFoundView = new NotFoundView(app);
 const productEditView = new ProductEditView(app, baseCreateProduct);
 const userLandingView = new SellerProfileView(app);
-const userCommentsView = new UserCommentsView(app);
+const userReviewsView = new UserReviewsView(app);
 
 /***
  * Open main page
@@ -240,11 +241,11 @@ const doUserLanding = (val) => {
  * @param {Object} val - page params
  * @returns {Function}
  */
-const doUserComments = (val) => {
-    const userCommentsPresenter = new UserCommentsPresenter(userCommentsView, val.parameters.id);
-    userCommentsPresenter.control();
+const doUserReviews = (val) => {
+    const userReviewsPresenter = new UserReviewsPresenter(userReviewsView, val.parameters.id);
+    userReviewsPresenter.control();
 
-    return userCommentsPresenter.removePageListeners.bind(userCommentsPresenter);
+    return userReviewsPresenter.removePageListeners.bind(userReviewsPresenter);
 };
 
 router.add(frontUrls.main, doMain);
@@ -261,7 +262,7 @@ router.add(frontUrls.userChat(), doChat);
 router.add(frontUrls.userFavorite, doFavorite);
 router.add(frontUrls.editProduct(), doProductEdit);
 router.add(frontUrls.sellerProfile(), doUserLanding);
-router.add(frontUrls.userComments(), doUserComments);
+router.add(frontUrls.userReviews(), doUserReviews);
 
 router.addNotFound(doNotFound);
 

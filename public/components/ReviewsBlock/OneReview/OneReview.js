@@ -1,12 +1,12 @@
-import oneCommentTemplate from './OneComment.hbs';
-import './OneComment.scss';
+import oneCommentTemplate from './OneReview.hbs';
+import './OneReview.scss';
 
 import {sentryManager} from '../../../modules/sentry';
 
 /***
  * Change password box on profile page
  */
-export class OneComment {
+export class OneReview {
     /***
      * Class constructor
      * @param {HTMLElement} parent - element where the component will be inserted

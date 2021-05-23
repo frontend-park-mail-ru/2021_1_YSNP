@@ -1,14 +1,17 @@
 import {BasePresenter} from './BasePresenter.js';
 
+import {UserModel} from '../models/UserModel';
+import {UserReviewsModel} from '../models/UserReviewsModel';
+
 import {EndlessScroll} from '../modules/handlers/endlessScroll.js';
 
 import {sentryManager} from '../modules/sentry';
-import {user} from '../models/ProfileUserModel.js';
+
 
 /***
  * Comments presenter
  */
-export class UserCommentsPresenter extends BasePresenter {
+export class UserReviewsPresenter extends BasePresenter {
     /***
      * Class constructor
      * @param view
@@ -17,10 +20,13 @@ export class UserCommentsPresenter extends BasePresenter {
     constructor(view, id) {
         super(view);
         this.__view = view;
-        this.__endlessScrollSeller = new EndlessScroll(this.__createListeners().scrollSeller);
-        this.__endlessScrollBuyer = new EndlessScroll(this.__createListeners().scrollBuyer);
-        this.__userID = id;
-        this.__user = user;
+
+        this.__userID = parseInt(id, 10);
+        this.__sellerModel = new UserModel();
+        this.__userReviews = new UserReviewsModel(this.__userID);
+
+        this.__sellerEndlessScroll = new EndlessScroll(this.__createListeners().scrollSeller);
+        this.__buyerEndlessScroll = new EndlessScroll(this.__createListeners().scrollBuyer);
     }
 
     /***
@@ -29,13 +35,23 @@ export class UserCommentsPresenter extends BasePresenter {
      */
     async update() {
         return super.update()
-            .then(() => this.__userModel.getUserMinInfo(this.__userID))
-            .then((data) => {
-                this.__userInfo = data;
+            .then(() => {
+                if (this.__userModel.getData().id === this.__userID) {
+                    this.__sellerModel.fillUserData(this.__userModel.getData());
+                    return;
+                }
+
+                this.__sellerModel.getUser(this.__userID);
             })
+            .then(() => this.__userReviews.updateSellerReview())
+            .then(() => this.__userReviews.updateBuyerReview())
             .catch((err) => {
-                sentryManager.captureException(err);
+                //TODO(Sergey) нормальная обработка ошибок
+
                 console.log(err.message);
+                // if (!UnauthorizedError.isError(err)) {
+                //     sentryManager.captureException(err);
+                // }
 
                 this.checkOfflineStatus(err);
             });
@@ -50,10 +66,12 @@ export class UserCommentsPresenter extends BasePresenter {
         if (this.checkOffline()) {
             return;
         }
+
         this.__view.render(this.__makeContext());
+
         const {buyerBlock, sellerBlock} = this.__view.getCommentsBlock();
-        this.__endlessScrollSeller.startElement(sellerBlock);
-        this.__endlessScrollBuyer.startElement(buyerBlock);
+        this.__sellerEndlessScroll.startElement(sellerBlock);
+        this.__buyerEndlessScroll.startElement(buyerBlock);
 
 
         this.checkScrollOffset();
@@ -65,19 +83,70 @@ export class UserCommentsPresenter extends BasePresenter {
     removePageListeners() {
         super.removePageListeners();
 
-        this.__endlessScroll.remove();
+        this.__sellerEndlessScroll.remove();
+        this.__buyerEndlessScroll.remove();
 
         this.__view.removePage();
     }
 
+    __scrollSellerEnd() {
+        console.log('seller end');
 
-    /***
-     * Listener on scroll end
-     * @returns {Promise<void>}
-     * @private
-     */
-    __scrollEnd() {
-        console.log('SOMTHEING');
+        this.__userReviews.updateSellerReviewNewData()
+            .then(() => {
+                const newData = this.__userReviews.sellerReviewNewData;
+                if (newData.length === 0) {
+                    this.__sellerEndlessScroll.remove();
+                    return;
+                }
+
+                this.__view.addSellerNewAwaitReview(newData);
+            })
+            .catch((err) => {
+                if (err.message === 'isUpdate') {
+                    return;
+                }
+
+                //TODO(Sergey) нормальная обработка ошибок
+
+                console.log(err.message);
+                // if (!NotFoundError.isError(err)) {
+                //     sentryManager.captureException(err);
+                // }
+
+                this.checkOfflineStatus(err);
+                this.checkOffline();
+            });
+    }
+
+    __scrollBuyerEnd() {
+        console.log('buyer end');
+
+        this.__userReviews.updateBuyerReviewNewData()
+            .then(() => {
+                const newData = this.__userReviews.buyerReviewNewData;
+                if (newData.length === 0) {
+                    this.__buyerEndlessScroll.remove();
+                    return;
+                }
+
+                this.__view.addBuyerNewAwaitReview(newData);
+            })
+            .catch((err) => {
+                if (err.message === 'isUpdate') {
+                    return;
+                }
+
+                //TODO(Sergey) нормальная обработка ошибок
+
+                console.log(err.message);
+                // if (!NotFoundError.isError(err)) {
+                //     sentryManager.captureException(err);
+                // }
+
+                this.checkOfflineStatus(err);
+                this.checkOffline();
+            });
     }
 
     /***
@@ -92,10 +161,10 @@ export class UserCommentsPresenter extends BasePresenter {
                 listener: this.__listenerCommentsClick.bind(this, 'action')
             },
             scrollSeller: {
-                scrollEnd: this.__scrollEnd.bind(this)
+                scrollEnd: this.__scrollSellerEnd.bind(this)
             },
             scrollBuyer: {
-                scrollEnd: this.__scrollEnd.bind(this)
+                scrollEnd: this.__scrollBuyerEnd.bind(this)
             }
         };
     }
@@ -113,7 +182,7 @@ export class UserCommentsPresenter extends BasePresenter {
             .forEach(([, el]) => {
 
                 if (el.dataset !== undefined && type in el.dataset) {
-                     actions[el.dataset[type]].open(ev);
+                    actions[el.dataset[type]].open(ev);
                 }
             });
     }
@@ -212,7 +281,6 @@ export class UserCommentsPresenter extends BasePresenter {
         return data;
     }
 
-
     /***
      * Get view context
      * @returns {any}
@@ -225,8 +293,8 @@ export class UserCommentsPresenter extends BasePresenter {
                 listeners: this.__createListeners().comments
             },
             profileSettings: {
-                data: this.__userInfo,
-                owner: this.__userInfo.id === this.__user.getData().id
+                data: this.__sellerModel.getData(),
+                owner: this.__sellerModel.getData().id === this.__userModel.getData().id
             }
         };
     }

@@ -140,12 +140,12 @@ class FrontUrls {
      * Get user comments page
      * @returns {string}
      */
-    userComments(id = undefined) {
+    userReviews(id = undefined) {
         if (id !== undefined) {
-            return `/user/${id}/comments`;
+            return `/user/${id}/reviews`;
         }
 
-        return '/user/{id}/comments';
+        return '/user/{id}/reviews';
     }
 
     /***

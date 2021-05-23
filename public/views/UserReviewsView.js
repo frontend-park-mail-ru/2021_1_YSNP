@@ -2,14 +2,14 @@ import {BaseView} from './BaseView.js';
 
 import {Layout} from '../components/Layout/Layout.js';
 import {ProfileMenu} from '../components/ProfileMenu/ProfileMenu.js';
+import {ReviewsBlock} from '../components/ReviewsBlock/ReviewsBlock';
 
 import {mobile} from '../modules/mobile';
-import {CommentsBlock} from '../components/CommentsBlock/CommentsBlock';
 
 /***
  * Comments view
  */
-export class UserCommentsView extends BaseView {
+export class UserReviewsView extends BaseView {
 
     /***
      * Make context
@@ -63,7 +63,7 @@ export class UserCommentsView extends BaseView {
 
         const parent = layout.parent;
 
-        this.__comments = new CommentsBlock(parent);
+        this.__comments = new ReviewsBlock(parent);
         this.__comments.render(this.__context.comments);
     }
 
@@ -81,7 +81,7 @@ export class UserCommentsView extends BaseView {
         const profileMenu = new ProfileMenu(left, {page: 'comments'});
         profileMenu.render(this.__context.profileSettings);
 
-        this.__comments = new CommentsBlock(right);
+        this.__comments = new ReviewsBlock(right);
         this.__comments.render(this.__context.comments);
     }
 
