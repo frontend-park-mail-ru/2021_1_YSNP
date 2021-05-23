@@ -157,6 +157,11 @@ export class SellerAdPresenter extends BasePresenter {
         router.redirect(frontUrls.product(numberId), '', {title: 'Мои объявления'});
     }
 
+    /***
+     * Like card callback
+     * @param {string} id - card id
+     * @private
+     */
     __likeCard(id) {
         const numberId = parseInt(id, 10);
         if (!this.__userModel.isAuth) {

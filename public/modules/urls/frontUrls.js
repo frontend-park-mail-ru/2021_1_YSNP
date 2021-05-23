@@ -142,7 +142,7 @@ class FrontUrls {
      */
     sellerAd(id = undefined) {
         if (id !== undefined) {
-            return `/user/${id}/ads`;
+            return `/user/${id}/ad`;
         }
 
         return '/user/{id}/ad';

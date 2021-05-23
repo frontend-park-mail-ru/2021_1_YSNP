@@ -20,6 +20,11 @@ export class BadRequestError extends CustomError {
         return 'Неправильные данные';
     }
 
+    /***
+     * Check is BadRequestError
+     * @param {CustomError} err
+     * @returns {boolean}
+     */
     static isError(err) {
         return err instanceof BadRequestError;
     }
@@ -45,6 +50,11 @@ export class UnauthorizedError extends CustomError {
         return 'Пользователь не авторизован';
     }
 
+    /***
+     * Check is UnauthorizedError
+     * @param {CustomError} err
+     * @returns {boolean}
+     */
     static isError(err) {
         return err instanceof UnauthorizedError;
     }
@@ -70,6 +80,11 @@ export class ForbiddenError extends CustomError {
         return 'Доступ запрещен';
     }
 
+    /***
+     * Check is ForbiddenError
+     * @param {CustomError} err
+     * @returns {boolean}
+     */
     static isError(err) {
         return err instanceof ForbiddenError;
     }
@@ -95,6 +110,11 @@ export class NotFoundError extends CustomError {
         return 'Ничего не найдено';
     }
 
+    /***
+     * Check is NotFoundError
+     * @param {CustomError} err
+     * @returns {boolean}
+     */
     static isError(err) {
         return err instanceof NotFoundError;
     }
@@ -120,6 +140,11 @@ export class OfflineError extends CustomError {
         return 'Нет интернета';
     }
 
+    /***
+     * Check is OfflineError
+     * @param {CustomError} err
+     * @returns {boolean}
+     */
     static isError(err) {
         return err instanceof OfflineError;
     }
@@ -145,6 +170,11 @@ export class InternalServerError extends CustomError {
         return 'Ошибка сервера';
     }
 
+    /***
+     * Check is InternalServerError
+     * @param {CustomError} err
+     * @returns {boolean}
+     */
     static isError(err) {
         return err instanceof InternalServerError;
     }
