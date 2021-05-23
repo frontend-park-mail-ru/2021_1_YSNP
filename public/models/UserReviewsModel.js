@@ -29,6 +29,16 @@ export class UserReviewsModel extends BaseModel {
         this.__buyerPageCount = buyerPageCount;
     }
 
+    __getDate(date) {
+        const localDate = new Date(date);
+        return localDate.toLocaleDateString('ru-RU', {
+            timeZone: 'Europe/Moscow',
+            day: 'numeric',
+            month: 'numeric',
+            year: 'numeric'
+        });
+    }
+
     /***
      * Get seller review data
      * @returns {Object[]}
@@ -52,7 +62,18 @@ export class UserReviewsModel extends BaseModel {
      * @private
      */
     __parseOneSellerReview(data) {
-        return {};
+        return {
+            reviewId: data.id,
+            content: data.content,
+            rating: data.rating,
+            date: this.__getDate(data.creation_time),
+            userId: data.reviewer_id,
+            userName: data.reviewer_name,
+            userImg: data.reviewer_avatar,
+            productId: data.product_id,
+            productName: data.product_name,
+            productImg: data.product_image
+        };
     }
 
     /***
@@ -140,7 +161,18 @@ export class UserReviewsModel extends BaseModel {
      * @private
      */
     __parseOneBuyerReviewData(data) {
-        return {};
+        return {
+            reviewId: data.id,
+            content: data.content,
+            rating: data.rating,
+            date: this.__getDate(data.creation_time),
+            userId: data.reviewer_id,
+            userName: data.reviewer_name,
+            userImg: data.reviewer_avatar,
+            productId: data.product_id,
+            productName: data.product_name,
+            productImg: data.product_image
+        };
     }
 
     /***

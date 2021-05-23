@@ -16,29 +16,13 @@ export class OneReview {
     }
 
     /***
-     * Make context
-     * @param context
+     * Get star element
+     * @param id
+     * @returns {HTMLElement}
      * @private
      */
-    __makeContext(context) {
-        this.__context = context;
-    }
-
-    /***
-     * Render stars in comment
-     * @private
-     */
-    __renderStars(ctx) {
-        const rate = Math.round(ctx.rate);
-        switch (rate) {
-            case 0: break;
-            case 1: this.__makeStarsActive(1); break;
-            case 2: this.__makeStarsActive(2); break;
-            case 3: this.__makeStarsActive(3); break;
-            case 4: this.__makeStarsActive(4); break;
-            case 5: this.__makeStarsActive(5); break;
-            default: break;
-        }
+    __getStarElement(id) {
+        return document.getElementById(`star-${this.__context.reviewId}-${id}`);
     }
 
     /***
@@ -53,13 +37,32 @@ export class OneReview {
     }
 
     /***
-     * Get star element
-     * @param id
-     * @returns {HTMLElement}
+     * Render stars in comment
      * @private
      */
-    __getStarElement(id) {
-        return document.getElementById(`star-${this.__context.commentID}-${id}`);
+    __renderStars(ctx) {
+        const rate = Math.round(ctx.rating);
+        switch (rate) {
+            case 0:
+                break;
+            case 1:
+                this.__makeStarsActive(1);
+                break;
+            case 2:
+                this.__makeStarsActive(2);
+                break;
+            case 3:
+                this.__makeStarsActive(3);
+                break;
+            case 4:
+                this.__makeStarsActive(4);
+                break;
+            case 5:
+                this.__makeStarsActive(5);
+                break;
+            default:
+                break;
+        }
     }
 
     /***
@@ -67,7 +70,7 @@ export class OneReview {
      */
     render(context) {
         try {
-            this.__makeContext(context);
+            this.__context = context;
             this.__parent.insertAdjacentHTML('beforeend', oneCommentTemplate(this.__context));
             this.__renderStars(this.__context);
         } catch (err) {

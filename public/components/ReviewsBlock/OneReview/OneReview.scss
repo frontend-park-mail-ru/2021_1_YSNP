@@ -1,78 +1,83 @@
 @import "../../../scss/style.scss";
 
-.one-comment {
-  margin-bottom: 2vh;
+.one-review {
 
   &-inner {
-    padding: 1vh 1vh 0;
+    padding: 1vh;
   }
 
-  &-title {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    width: 100%;
-  }
-
-  &-avatars {
-    position: relative;
-    margin-right: 1vh;
-    margin-left: 1vh;
-
-    &__product-img {
-      @include set-size(5.5vh, 5.5vh);
-      object-fit: cover;
-      border-radius: 8px;
-      @include circle;
-      border: 2px solid white;
-    }
-
-    &__user-img {
-      position: absolute;
-      top: -0.5vh;
-      left: -1vh;
-
-      @include set-size(3vh, 3vh);
-      box-shadow: 0 0 1vw rgba(0, 0, 0, 0.2);
-      object-fit: cover;
-
-    }
-  }
-
-  &-info {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    position: relative;
+  &-head {
     width: 100%;
 
-    &__user {
+    margin-bottom: 1vh;
+
+    &-inner {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+    }
+
+    &-avatars {
+      margin-right: 1vh;
+      position: relative;
+
+      display: flex;
+      align-items: center;
+
+      &__product {
+        @include set-size(5vh, 5vh);
+        object-fit: cover;
+        border-radius: 8px;
+      }
+
+      &__user {
+        position: absolute;
+        top: -0.5vh;
+        left: -0.5vh;
+
+        @include set-size(2vh, 2vh);
+        box-shadow: 0 0 1vw rgba(0, 0, 0, 0.2);
+        @include circle;
+        object-fit: cover;
+
+        border: 2px solid white;
+      }
+    }
+
+    &-info {
+      display: flex;
+      flex-direction: column;
+
       @include overflow-text-width;
-      max-width: calc(100% - 20vh);
-      margin-right: 0.5vh;
-      font-size: 2vh;
-      text-decoration: none;
-      color: $textColorDefault;
-    }
-   
-    &-stat {
-      right: 1vh;
-      position: absolute;
-      &__rate {
-        width: 12vh;
-        margin: 0 auto;
-      }
-      &__rate span {
-        padding: 0;
+
+      &__user {
         font-size: 2vh;
-        margin: -2px;
-        line-height: 1;
-        color: lightgrey;
-        text-shadow: 1px 1px #bbb;
+        color: $textColorDefault;
       }
+
+      &__product {
+        font-size: 1.5vh;
+        color: $mainColor;
+      }
+    }
+
+    &-stat {
+      margin-left: auto;
+      width: 12vh;
+
+      display: flex;
+      flex-direction: column;
+
+      &__rate span {
+        font-size: 2vh;
+
+        color: lightgrey;
+      }
+
       &__rate > span:before {
         content: '★';
       }
+
       &__rate > span.star-active {
         color: gold;
       }
@@ -80,28 +85,16 @@
       &__date {
         margin-left: auto;
 
-        white-space: nowrap;
-
         font-size: 1.3vh;
         color: $textGrayColor
       }
     }
   }
 
-  &-product {
-    margin-top: 1vh;
+  &-content {
     margin-bottom: 1vh;
 
-    &__name {
-      font-size: 1.5vh;
-      color: $mainColor;
-      text-decoration: none;
-    }
-  }
-
-  &-message {
-    width: calc(100% - 10vh);
-    height: 6.5vh;
+    @include set-size(calc(100% - 10vh), 6.5vh);
     overflow: hidden;
 
     &:hover {
@@ -113,5 +106,10 @@
       font-family: Roboto-Thin, sans-serif;
       line-height: 2.3vh;
     }
+  }
+
+  &__separator {
+    @include separator;
+    margin-bottom: 0;
   }
 }

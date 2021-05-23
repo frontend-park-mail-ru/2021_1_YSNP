@@ -18,10 +18,19 @@ export class UserReviewsView extends BaseView {
      */
     __makeContext(context) {
         this.__context = {
-            comments: {
-                title: 'Отзывы',
-                data: context.comments.data,
-                listeners: context.comments.listeners
+            sellerReviews: {
+                data: {
+                    type: 'seller',
+                    list: context.sellerReviews.data.list
+                },
+                listeners: context.sellerReviews.listeners
+            },
+            buyerReviews: {
+                data: {
+                    type: 'buyer',
+                    list: context.buyerReviews.data.list
+                },
+                listeners: context.buyerReviews.listeners
             },
             profileSettings: {
                 data: context.profileSettings.data,
@@ -38,19 +47,20 @@ export class UserReviewsView extends BaseView {
         document.title = 'Отзывы';
     }
 
-    /***
-     * Returns comments block
-     * @returns {{sellerBlock: HTMLElement, buyerBlock: HTMLElement}}
-     */
-    getCommentsBlock() {
-        return this.__comments.getCommentsElements();
+    getSellerScroll() {
+        return this.__sellerReviews.getReviewsBlockScroll();
     }
 
-    /***
-     * Remove component listeners
-     */
-    removeListeners() {
-        this.__comments.removeListeners();
+    getBuyerScroll() {
+        return this.__buyerReviews.getReviewsBlockScroll();
+    }
+
+    addSellerNewReviews(data) {
+        this.__sellerReviews.addNewReviews(data);
+    }
+
+    addBuyerNewReviews(data) {
+        this.__buyerReviews.addNewReviews(data);
     }
 
     /***
@@ -63,8 +73,11 @@ export class UserReviewsView extends BaseView {
 
         const parent = layout.parent;
 
-        this.__comments = new ReviewsBlock(parent);
-        this.__comments.render(this.__context.comments);
+        this.__sellerReviews = new ReviewsBlock(parent);
+        this.__sellerReviews.render(this.__context.sellerReviews);
+
+        this.__buyerReviews = new ReviewsBlock(parent);
+        this.__buyerReviews.render(this.__context.buyerReviews);
     }
 
     /***
@@ -81,8 +94,11 @@ export class UserReviewsView extends BaseView {
         const profileMenu = new ProfileMenu(left, {page: 'comments'});
         profileMenu.render(this.__context.profileSettings);
 
-        this.__comments = new ReviewsBlock(right);
-        this.__comments.render(this.__context.comments);
+        this.__sellerReviews = new ReviewsBlock(right);
+        this.__sellerReviews.render(this.__context.sellerReviews);
+
+        this.__buyerReviews = new ReviewsBlock(right);
+        this.__buyerReviews.render(this.__context.buyerReviews);
     }
 
     /***

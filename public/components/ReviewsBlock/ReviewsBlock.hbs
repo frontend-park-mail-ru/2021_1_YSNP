@@ -1,48 +1,36 @@
-<div class="comments" id="comments">
-    <div class="comments-block">
-        <div class="comments-block-inner">
-            <div class="comments-block-title">
-                <span class="comments-block-title__text">О продавце</span>
-                <div class="comments-block-title-sort">
-                    Сортировать по:
-                    <label class="comments-block-title-sort__label" for="comments-seller-date">
-                        <input class="comments-block-title-sort__button" type="radio" value="date"
-                               id="comments-seller-date"
-                               name="sort-seller" data-action="sortSellerByDate">
-                        дате
-                    </label>
-                    <label class="comments-block-title-sort__label" for="comments-seller-rate">
-                        <input class="comments-block-title-sort__button" type="radio" value="rate"
-                               id="comments-seller-rate"
-                               name="sort-seller" data-action="sortSellerByRate">
-                        рейтингу
-                    </label>
-                </div>
-            </div>
-            <div class="comments-block-content" id="comments-sellers"></div>
-        </div>
-    </div>
-    <div class="comments-block">
-        <div class="comments-block-inner">
-            <div class="comments-block-title">
-                <span class="comments-block-title__text">О покупателе</span>
-                <div class="comments-block-title-sort">
-                    Сортировать по:
-                    <label class="comments-block-title-sort__label" for="comments-buyer-date">
-                        <input class="comments-block-title-sort__button" type="radio" value="date"
-                               id="comments-buyer-date" data-action="sortBuyerByDate" name="sort-buyer">
-                        дате
-                    </label>
-                    <label class="comments-block-title-sort__label" for="comments-buyer-rate">
-                        <input class="comments-block-title-sort__button" type="radio" value="rate"
-                               id="comments-buyer-rate" data-action="sortBuyerByRate" name="sort-buyer">
-                        рейтингу
-                    </label>
-                </div>
-            </div>
-            <div class="comments-block-content" id="comments-buyers">
+<div class="reviews" id="reviews-{{type}}">
+    <div class="reviews-inner">
+        <div class="reviews-head">
 
+            {{#if_eq type 'seller'}}
+                <span class="reviews-head__title">Отзывы как о продавце</span>
+            {{else}}
+                <span class="reviews-head__title">Отзывы как о покупателе</span>
+            {{/if_eq}}
+
+            <div class="reviews-head-sort">
+                <span>Сортировать по:</span>
+
+                <label class="reviews-head-sort__label" for="reviews-seller-date">
+                    <input class="reviews-head-sort__button" type="radio" value="date"
+                           id="reviews-seller-date"
+                           name="sort-seller" data-action="sortByDateClick">
+                    дате
+                </label>
+
+                <label class="reviews-head-sort__label" for="reviews-seller-rate">
+                    <input class="reviews-head-sort__button" type="radio" value="rate"
+                           id="reviews-seller-rate"
+                           name="sort-seller" data-action="sortByRateClick">
+                    рейтингу
+                </label>
             </div>
+
+            <div class="reviews-head__separator"></div>
+        </div>
+
+        <div class="reviews-body" id="reviews-{{type}}-scroll">
+            <div class="reviews-body-inner" id="reviews-{{type}}-body"></div>
         </div>
     </div>
 </div>
