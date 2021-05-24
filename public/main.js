@@ -5,6 +5,9 @@ import './scss/main.scss';
 
 import {router} from './modules/router.js';
 import {frontUrls} from './modules/urls/frontUrls.js';
+import {baseCreateProduct, baseRegistration} from './modules/layout/fields.js';
+
+import {sentryManager} from './modules/sentry';
 
 import {UserFavoriteView} from './views/UserFavoriteView.js';
 import {MainView} from './views/MainView.js';
@@ -18,7 +21,7 @@ import {PromotionView} from './views/PromotionView.js';
 import {NotFoundView} from './views/NotFoundView.js';
 import {ProductEditView} from './views/ProductEditView.js';
 import {UserChatsView} from './views/UserChatsView';
-import {SellerProfileView} from './views/SellerProfileView.js';
+import {SellerAdView} from './views/SellerAdView';
 
 import {UserFavoritePresenter} from './presenters/UserFavoritePresenter.js';
 import {MainPresenter} from './presenters/MainPresenter.js';
@@ -30,11 +33,11 @@ import {RegistrationPresenter} from './presenters/RegistrationPresenter.js';
 import {SearchPresenter} from './presenters/SearchPresenter.js';
 import {PromotionPresenter} from './presenters/PromotionPresenter.js';
 import {NotFoundPresenter} from './presenters/NotFoundPresenter.js';
-import {baseCreateProduct, baseRegistration} from './modules/layout/fields.js';
 import {ProductEditPresenter} from './presenters/ProductEditPresenter';
 import {UserChatsPresenter} from './presenters/UserChatsPresenter';
-import {sentryManager} from './modules/sentry';
-import {SellerProfilePresenter} from './presenters/SellerProfilePresenter';
+import {SellerAdPresenter} from './presenters/SellerAdPresenter';
+import {UserAwaitReviewView} from './views/UserAwaitReviewView';
+import {UserAwaitReviewPresenter} from './presenters/UserAwaitReviewPresenter';
 
 /***
  * Register service worker
@@ -63,7 +66,8 @@ const searchView = new SearchView(app);
 const promotionView = new PromotionView(app);
 const notFoundView = new NotFoundView(app);
 const productEditView = new ProductEditView(app, baseCreateProduct);
-const userLandingView = new SellerProfileView(app);
+const sellerAdView = new SellerAdView(app);
+const userAwaitReview = new UserAwaitReviewView(app);
 
 /***
  * Open main page
@@ -188,6 +192,17 @@ const doFavorite = () => {
 };
 
 /***
+ * Open user await review page
+ * @returns {Function}
+ */
+const doAwaitReview = () => {
+    const awaitReviewPresenter = new UserAwaitReviewPresenter(userAwaitReview);
+    awaitReviewPresenter.control();
+
+    return awaitReviewPresenter.removePageListeners.bind(awaitReviewPresenter);
+};
+
+/***
  * Open search page with text
  * @param {Object} val - page params
  */
@@ -225,11 +240,11 @@ const doNotFound = () => {
  * @param {Object} val - page params
  * @returns {Function}
  */
-const doUserLanding = (val) => {
-    const userLandingPresenter = new SellerProfilePresenter(userLandingView, val.parameters.id);
-    userLandingPresenter.control();
+const doSellerAd = (val) => {
+    const sellerAdPresenter = new SellerAdPresenter(sellerAdView, val.parameters.id);
+    sellerAdPresenter.control();
 
-    return userLandingPresenter.removePageListeners.bind(userLandingPresenter);
+    return sellerAdPresenter.removePageListeners.bind(sellerAdPresenter);
 };
 
 router.add(frontUrls.main, doMain);
@@ -244,8 +259,9 @@ router.add(frontUrls.userAd, doAd);
 router.add(frontUrls.userChats, doChats);
 router.add(frontUrls.userChat(), doChat);
 router.add(frontUrls.userFavorite, doFavorite);
+router.add(frontUrls.userAwaitReview, doAwaitReview);
 router.add(frontUrls.editProduct(), doProductEdit);
-router.add(frontUrls.sellerProfile(), doUserLanding);
+router.add(frontUrls.sellerAd(), doSellerAd);
 
 router.addNotFound(doNotFound);
 

@@ -6,10 +6,11 @@ import {eventProductListHandler} from '../modules/handlers/eventHandler.js';
 import {EndlessScroll} from '../modules/handlers/endlessScroll.js';
 import {PageUpHandler} from '../modules/handlers/pageUpHandler.js';
 import {checkIsAuth} from '../modules/checkAuth';
+import {NotFoundError, UnauthorizedError} from '../modules/http/httpError';
 
 import {router} from '../modules/router';
-import {frontUrls} from '../modules/urls/frontUrls';
 
+import {frontUrls} from '../modules/urls/frontUrls';
 import {sentryManager} from '../modules/sentry';
 
 /***
@@ -38,8 +39,10 @@ export class UserAdPresenter extends BasePresenter {
             .catch((err) => {
                 //TODO(Sergey) нормальная обработка ошибок
 
-                sentryManager.captureException(err);
                 console.log(err.message);
+                if (!UnauthorizedError.isError(err)) {
+                    sentryManager.captureException(err);
+                }
 
                 this.checkOfflineStatus(err);
             });
@@ -108,8 +111,10 @@ export class UserAdPresenter extends BasePresenter {
 
                 //TODO(Sergey) нормальная обработка ошибок
 
-                sentryManager.captureException(err);
                 console.log(err.message);
+                if (!NotFoundError.isError(err)) {
+                    sentryManager.captureException(err);
+                }
 
                 this.checkOfflineStatus(err);
                 this.checkOffline();

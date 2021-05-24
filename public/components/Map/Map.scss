@@ -1,25 +1,9 @@
 @import "../../scss/main.scss";
 
 .map {
-  @include set-size(100vw, 100vh);
-
-  position: fixed;
-  top: 0;
-
-  display: flex;
-
-  align-items: center;
-  justify-content: center;
-  background-color: rgba(0, 0, 0, 0.5);
-
-  z-index: 101;
+  @include popup(110vh);
 
   &-content {
-    width: 110vh;
-    position: relative;
-    z-index: 2;
-    @include block;
-
     @media screen and (max-width: $breakDesktop) {
       width: 90vw;
     }
@@ -28,13 +12,6 @@
       @include set-size(100vw, 100vh);
 
       border-radius: 0;
-    }
-
-    &-inner {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
     }
   }
 
@@ -58,27 +35,6 @@
         justify-content: center;
 
         font-size: 2.5vh;
-      }
-    }
-
-    &__close {
-      @include set-size(2vh, 2vh);
-      position: absolute;
-
-      fill: rgb(120, 120, 120);
-
-      top: 1vh;
-      right: 1vh;
-
-      &:hover {
-        cursor: pointer;
-      }
-
-      @media screen and (max-width: $breakMobile) {
-        top: 2vh;
-        right: 2vh;
-
-        @include set-size(3vh, 3vh);
       }
     }
   }

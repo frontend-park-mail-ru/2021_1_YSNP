@@ -185,6 +185,8 @@
       }
 
       &__logo {
+        @include set-size(2vh, 2vh);
+
         margin-right: 1vh;
       }
     }

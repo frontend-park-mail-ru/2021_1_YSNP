@@ -113,6 +113,14 @@ class FrontUrls {
     }
 
     /***
+     * Get await review page
+     * @returns {string}
+     */
+    get userAwaitReview() {
+        return '/user/review/await';
+    }
+
+    /***
      * Get achievements page
      * @returns {string}
      */
@@ -132,12 +140,12 @@ class FrontUrls {
      * Get user landing page
      * @returns {string}
      */
-    sellerProfile(id = undefined) {
+    sellerAd(id = undefined) {
         if (id !== undefined) {
-            return `/user/${id}/ads`;
+            return `/user/${id}/ad`;
         }
 
-        return '/user/{id}/ads';
+        return '/user/{id}/ad';
     }
 
     /***

@@ -19,11 +19,9 @@ export class EmptyChatMessage {
      * Add component to parent
      * @param {Object} context - component context
      */
-    render(context) {
+    render() {
         try {
-            this.__context = context;
-
-            this.__parent.insertAdjacentHTML('beforeend', emptyChatMessage(this.__context));
+            this.__parent.insertAdjacentHTML('beforeend', emptyChatMessage());
         } catch (err) {
             sentryManager.captureException(err);
             console.log(err.message);
