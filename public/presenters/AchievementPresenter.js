@@ -27,9 +27,11 @@ export class AchievementPresenter extends BasePresenter {
      * @returns {Promise<void>}
      */
     async update() {
+        console.log(this.__userID);
         return super.update()
             .then(() => this.__userModel.getUser(this.__userID))
             .then((data) => {
+                console.log(data);
                 this.__userInfo = data;
                 console.log(this.__userInfo);
             })
