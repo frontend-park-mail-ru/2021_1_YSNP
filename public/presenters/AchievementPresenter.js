@@ -4,6 +4,7 @@ import {PageUpHandler} from '../modules/handlers/pageUpHandler.js';
 import {checkIsAuth} from '../modules/checkAuth';
 import {AchievementsModel} from '../models/AchievementsModel';
 import {user} from '../models/ProfileUserModel';
+import {UserModel} from '../models/UserModel';
 
 /***
  * favorite presenter
@@ -20,6 +21,7 @@ export class AchievementPresenter extends BasePresenter {
         this.__endlessScroll = new EndlessScroll(this.__createListeners().scroll);
         this.__pageUp = new PageUpHandler();
         this.__userID = id;
+        this.__userInfo = new UserModel();
     }
 
     /***
@@ -29,12 +31,7 @@ export class AchievementPresenter extends BasePresenter {
     async update() {
 
         return super.update()
-            .then(() => this.__userModel.getUser(this.__userID))
-            .then((data) => {
-                console.log(data);
-                this.__userInfo = this.__userModel;
-                console.log(this.__userInfo);
-            })
+            .then(() => this.__userInfo.getUser(this.__userID))
             .catch((err) => {
                 console.log(err);
             })
