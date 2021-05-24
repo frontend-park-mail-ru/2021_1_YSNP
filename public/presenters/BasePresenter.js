@@ -625,7 +625,8 @@ export class BasePresenter {
                     surname: this.__userModel.getData().surname,
                     name: this.__userModel.getData().name,
                     address: this.__userModel.getData().address,
-                    linkImage: this.__userModel.getData().linkImage
+                    linkImage: this.__userModel.getData().linkImage,
+                    id: this.__userModel.getData().id
                 },
                 listeners: this.__createBaseListeners().header
             },
