@@ -10,7 +10,6 @@ import {NotFoundError, UnauthorizedError} from '../modules/http/httpError';
 
 import {router} from '../modules/router';
 import {frontUrls} from '../modules/urls/frontUrls';
-import {user} from '../models/ProfileUserModel.js';
 
 
 import {sentryManager} from '../modules/sentry';
@@ -52,7 +51,7 @@ export class SellerAdPresenter extends BasePresenter {
                 }
 
                 this.checkOfflineStatus(err);
-            })
+            });
     }
 
     /***

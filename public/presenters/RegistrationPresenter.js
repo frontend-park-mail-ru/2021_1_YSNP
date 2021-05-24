@@ -456,10 +456,6 @@ export class RegistrationPresenter extends BasePresenter {
                 .catch((err) => {
                     //TODO(Sergey) нормальная обработка ошибок
 
-<<<<<<< HEAD
-                sentryManager.captureException(err);
-=======
->>>>>>> origin/dev
                     console.log(err.message);
                     if (!BadRequestError.isError(err)) {
                         sentryManager.captureException(err);

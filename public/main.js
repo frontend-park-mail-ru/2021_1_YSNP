@@ -26,7 +26,6 @@ import {UserReviewsView} from './views/UserReviewsView';
 import {SellerAdView} from './views/SellerAdView';
 import {UserAwaitReviewView} from './views/UserAwaitReviewView';
 
-
 import {UserFavoritePresenter} from './presenters/UserFavoritePresenter.js';
 import {MainPresenter} from './presenters/MainPresenter.js';
 import {UserAdPresenter} from './presenters/UserAdPresenter.js';
@@ -37,7 +36,6 @@ import {RegistrationPresenter} from './presenters/RegistrationPresenter.js';
 import {SearchPresenter} from './presenters/SearchPresenter.js';
 import {PromotionPresenter} from './presenters/PromotionPresenter.js';
 import {NotFoundPresenter} from './presenters/NotFoundPresenter.js';
-import {baseCreateProduct, baseRegistration} from './modules/layout/fields.js';
 import {AchievementPresenter} from './presenters/AchievementPresenter.js';
 import {ProductEditPresenter} from './presenters/ProductEditPresenter';
 import {UserChatsPresenter} from './presenters/UserChatsPresenter';
@@ -209,7 +207,7 @@ const doAchievements = (val) => {
     achievementPresenter.control();
 
     return achievementPresenter.removePageListeners.bind(achievementPresenter);
-}
+};
 
 /***
  * Open user await review page
@@ -293,7 +291,7 @@ router.add(frontUrls.userChat(), doChat);
 router.add(frontUrls.userFavorite, doFavorite);
 router.add(frontUrls.userAwaitReview, doAwaitReview);
 router.add(frontUrls.editProduct(), doProductEdit);
-router.add(frontUrls.sellerAchievements(), doAchievements);
+router.add(frontUrls.userAchievements(), doAchievements);
 router.add(frontUrls.userReviews(), doUserReviews);
 router.add(frontUrls.sellerAd(), doSellerAd);
 
