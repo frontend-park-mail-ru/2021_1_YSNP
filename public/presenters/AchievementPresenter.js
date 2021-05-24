@@ -125,7 +125,7 @@ export class AchievementPresenter extends BasePresenter {
                 listeners: null
             },
             profileSettings: {
-                data: this.__userInfo,
+                data: this.__userInfo.getData(),
                 owner: this.__userInfo.getData().id === this.__userModel.getData().id
             }
         };
