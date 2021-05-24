@@ -10,6 +10,8 @@ import {NotFoundError, UnauthorizedError} from '../modules/http/httpError';
 
 import {router} from '../modules/router';
 import {frontUrls} from '../modules/urls/frontUrls';
+import {user} from '../models/ProfileUserModel.js';
+
 
 import {sentryManager} from '../modules/sentry';
 
@@ -51,16 +53,6 @@ export class SellerAdPresenter extends BasePresenter {
 
                 this.checkOfflineStatus(err);
             })
-            .then(() => this.__userModel.getUserMinInfo(this.__userID))
-            .then((data) => {
-                this.__userInfo = data;
-            })
-            .catch((err) => {
-                sentryManager.captureException(err);
-                console.log(err.message);
-
-                this.checkOfflineStatus(err);
-            });
     }
 
     /***

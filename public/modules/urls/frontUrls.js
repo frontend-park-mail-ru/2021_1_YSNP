@@ -112,6 +112,7 @@ class FrontUrls {
         return '/user/favorite';
     }
 
+
     /***
      * Get await review page
      * @returns {string}

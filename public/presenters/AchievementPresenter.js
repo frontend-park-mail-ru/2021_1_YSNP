@@ -1,32 +1,25 @@
 import {BasePresenter} from './BasePresenter.js';
-
-import {FavoriteListModel} from '../models/FavoriteListModel.js';
-
-import {eventProductListHandler} from '../modules/handlers/eventHandler.js';
 import {EndlessScroll} from '../modules/handlers/endlessScroll.js';
 import {PageUpHandler} from '../modules/handlers/pageUpHandler.js';
 import {checkIsAuth} from '../modules/checkAuth';
-import {NotFoundError, UnauthorizedError} from '../modules/http/httpError';
-
-import {router} from '../modules/router';
-
-import {frontUrls} from '../modules/urls/frontUrls';
-import {sentryManager} from '../modules/sentry';
+import {AchievementsModel} from '../models/AchievementsModel';
+import {user} from '../models/ProfileUserModel';
 
 /***
  * favorite presenter
  */
-export class UserFavoritePresenter extends BasePresenter {
+export class AchievementPresenter extends BasePresenter {
     /***
      * Class constructor
      * @param view
      */
-    constructor(view) {
+    constructor(view, id) {
         super(view);
         this.__view = view;
-        this.__favoriteListModel = new FavoriteListModel();
+        this.__achievementsModel = new AchievementsModel();
         this.__endlessScroll = new EndlessScroll(this.__createListeners().scroll);
         this.__pageUp = new PageUpHandler();
+        this.__userID = id;
     }
 
     /***
@@ -35,15 +28,17 @@ export class UserFavoritePresenter extends BasePresenter {
      */
     async update() {
         return super.update()
-            .then(() => this.__favoriteListModel.update())
+            .then(() => this.__userModel.getUserMinInfo(this.__userID))
+            .then((data) => {
+                this.__userInfo = data;
+            })
+            .catch((err) => {
+                console.log(err);
+            })
+            .then(() => this.__achievementsModel.update(this.__userID, user.getData().id))
             .catch((err) => {
                 //TODO(Sergey) нормальная обработка ошибок
-
                 console.log(err.message);
-                if (!UnauthorizedError.isError(err)) {
-                    sentryManager.captureException(err);
-                }
-
                 this.checkOfflineStatus(err);
             });
     }
@@ -80,15 +75,6 @@ export class UserFavoritePresenter extends BasePresenter {
     }
 
     /***
-     * Product List click event
-     * @param {MouseEvent} ev
-     * @private
-     */
-    __listenerFavoriteListClick(ev) {
-        eventProductListHandler(ev, this.__getActions().favoriteList);
-    }
-
-    /***
      * Listener on scroll end
      * @returns {Promise<void>}
      * @private
@@ -110,14 +96,7 @@ export class UserFavoritePresenter extends BasePresenter {
                 }
 
                 //TODO(Sergey) нормальная обработка ошибок
-
                 console.log(err.message);
-                if (!NotFoundError.isError(err)) {
-                    sentryManager.captureException(err);
-                }
-
-                this.checkOfflineStatus(err);
-                this.checkOffline();
             });
     }
 
@@ -128,65 +107,8 @@ export class UserFavoritePresenter extends BasePresenter {
      */
     __createListeners() {
         return {
-            favoriteList: {
-                productCardClick: {
-                    type: 'click',
-                    listener: this.__listenerFavoriteListClick.bind(this)
-                }
-            },
             scroll: {
                 scrollEnd: this.__scrollEnd.bind(this)
-            }
-        };
-    }
-
-    /***
-     *  Like card callback
-     * @param {string} id - card id
-     * @private
-     */
-    __likeCard(id) {
-        const numberId = parseInt(id, 10);
-        this.__favoriteListModel.voteProduct(numberId)
-            .then(() => {
-                router.redirect(frontUrls.userFavorite);
-            })
-            .catch((err) => {
-                //TODO(Sergey) нормальная обработка ошибок
-
-            sentryManager.captureException(err);
-                console.log(err.message);
-
-                this.checkOfflineStatus(err);
-                this.checkOffline();
-            });
-    }
-
-    /***
-     * Open card callback
-     * @param {string} id - card id
-     * @private
-     */
-    __openCard(id) {
-        this.saveScrollOffset();
-        const numberId = parseInt(id, 10);
-        router.redirect(frontUrls.product(numberId), '', {title: 'Избранное'});
-    }
-
-    /***
-     * Get presenter actions
-     * @returns {{favoriteList: {likeClick: {open: *}, cardClick: {open: *}}}}
-     * @private
-     */
-    __getActions() {
-        return {
-            favoriteList: {
-                cardClick: {
-                    open: this.__openCard.bind(this)
-                },
-                likeClick: {
-                    open: this.__likeCard.bind(this)
-                }
             }
         };
     }
@@ -198,13 +120,13 @@ export class UserFavoritePresenter extends BasePresenter {
      */
     __makeContext() {
         return {
-            favoriteList: {
-                data: this.__favoriteListModel.getData(),
-                listeners: this.__createListeners().favoriteList
+            achievementList: {
+                data: this.__achievementsModel.getData(),
+                listeners: null
             },
             profileSettings: {
-                data: this.__userModel.getData(),
-                owner: true
+                data: this.__userInfo,
+                owner: this.__userInfo.id === user.getData().id
             }
         };
     }

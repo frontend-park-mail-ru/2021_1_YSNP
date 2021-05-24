@@ -20,10 +20,12 @@ import {SearchView} from './views/SearchView.js';
 import {PromotionView} from './views/PromotionView.js';
 import {NotFoundView} from './views/NotFoundView.js';
 import {ProductEditView} from './views/ProductEditView.js';
+import {AchievementView} from './views/AchievementView.js';
 import {UserChatsView} from './views/UserChatsView';
 import {UserReviewsView} from './views/UserReviewsView';
 import {SellerAdView} from './views/SellerAdView';
 import {UserAwaitReviewView} from './views/UserAwaitReviewView';
+
 
 import {UserFavoritePresenter} from './presenters/UserFavoritePresenter.js';
 import {MainPresenter} from './presenters/MainPresenter.js';
@@ -35,12 +37,13 @@ import {RegistrationPresenter} from './presenters/RegistrationPresenter.js';
 import {SearchPresenter} from './presenters/SearchPresenter.js';
 import {PromotionPresenter} from './presenters/PromotionPresenter.js';
 import {NotFoundPresenter} from './presenters/NotFoundPresenter.js';
+import {baseCreateProduct, baseRegistration} from './modules/layout/fields.js';
+import {AchievementPresenter} from './presenters/AchievementPresenter.js';
 import {ProductEditPresenter} from './presenters/ProductEditPresenter';
 import {UserChatsPresenter} from './presenters/UserChatsPresenter';
 import {UserReviewsPresenter} from './presenters/UserReviewsPresenter';
 import {SellerAdPresenter} from './presenters/SellerAdPresenter';
 import {UserAwaitReviewPresenter} from './presenters/UserAwaitReviewPresenter';
-
 
 /***
  * Register service worker
@@ -59,6 +62,7 @@ const app = document.getElementById('app');
 
 const chatsView = new UserChatsView(app);
 const favoriteView = new UserFavoriteView(app);
+const achievementView = new AchievementView(app);
 const mainView = new MainView(app);
 const adView = new UserAdView(app);
 const productCreateView = new ProductCreateView(app, baseCreateProduct);
@@ -197,6 +201,17 @@ const doFavorite = () => {
 };
 
 /***
+ * Open user achievements page
+ * @returns {Function}
+ */
+const doAchievements = (val) => {
+    const achievementPresenter = new AchievementPresenter(achievementView, val.parameters.id);
+    achievementPresenter.control();
+
+    return achievementPresenter.removePageListeners.bind(achievementPresenter);
+}
+
+/***
  * Open user await review page
  * @returns {Function}
  */
@@ -278,6 +293,7 @@ router.add(frontUrls.userChat(), doChat);
 router.add(frontUrls.userFavorite, doFavorite);
 router.add(frontUrls.userAwaitReview, doAwaitReview);
 router.add(frontUrls.editProduct(), doProductEdit);
+router.add(frontUrls.sellerAchievements(), doAchievements);
 router.add(frontUrls.userReviews(), doUserReviews);
 router.add(frontUrls.sellerAd(), doSellerAd);
 

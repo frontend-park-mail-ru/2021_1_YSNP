@@ -29,7 +29,7 @@ export class PromotionPresenter extends BasePresenter {
         return super.update()
             .catch((err) => {
                 //TODO(Sergey) нормальная обработка ошибок
-
+                
                 console.log(err.message);
                 if (!UnauthorizedError.isError(err)) {
                     sentryManager.captureException(err);

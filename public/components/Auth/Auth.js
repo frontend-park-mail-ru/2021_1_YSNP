@@ -107,7 +107,7 @@ export class Auth {
             this.__parent.insertAdjacentHTML('beforeend', authTemplate());
             this.__addListeners();
         } catch (err) {
-            sentryManager.captureException(err);
+           // sentryManager.captureException(err);
             console.log(err.message);
         }
     }

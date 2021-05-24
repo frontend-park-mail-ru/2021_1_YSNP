@@ -1,0 +1,75 @@
+@import "../../../scss/main.scss";
+
+.achievement {
+  user-select: none;
+  display: flex;
+  border-radius: 7px;
+  width: 45%;
+  min-height: 10vw;
+  background: white;
+  margin: 1vw;
+  @media screen and (max-width: $breakMobile), (max-width: $breakTablet) {
+    width: 100%;
+  }
+  align-content: space-between;
+  align-items: center;
+
+  box-shadow: 0 0 1vw rgba(0, 0, 0,  0.2);
+
+  &-info {
+    width: 80%;
+    padding: 1vw;
+    @media screen and (max-width: $breakMobile), (max-width: $breakTablet)  {
+      padding: 3vw;
+    }
+
+    &__title {
+      font-size: x-large;
+    }
+
+    &__des {
+      padding-top: 1vw;
+      font-size: large;
+      line-height: 3vh;
+    }
+  }
+
+  &-unlcok {
+    margin-top: 1vw;
+    display: flex;
+    align-content: space-between;
+    align-items: center;
+
+    &-info {
+      margin-left: 0.5vw;
+      @media screen and (max-width: $breakMobile), (max-width: $breakTablet)  {
+        margin-left: 3vw;
+      }
+      display: block;
+    }
+  }
+  &-hero {
+    margin-right: 1vw;
+    &__img {
+      height: 5vw;
+      width: 5vw;
+      @media screen and (max-width: $breakMobile), (max-width: $breakTablet)  {
+        height: 10vw;
+        width: 10vw;
+      }
+      object-fit: contain;
+    }
+  }
+}
+
+
+
+.achieved {
+  height: 2vw;
+  width: 2vw;
+  @media screen and (max-width: $breakMobile), (max-width: $breakTablet)  {
+    height: 5vw;
+    width: 5vw;
+  }
+}
+

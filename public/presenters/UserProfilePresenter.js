@@ -243,7 +243,7 @@ export class UserProfilePresenter extends BasePresenter {
 
                     showBackendError(errorPasswordID, err.message);
 
-                    sentryManager.captureException(err);
+                sentryManager.captureException(err);
                     console.log(err.message);
 
                     this.checkOfflineStatus(err);
