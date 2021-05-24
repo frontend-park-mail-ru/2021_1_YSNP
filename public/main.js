@@ -9,8 +9,6 @@ import {baseCreateProduct, baseRegistration} from './modules/layout/fields.js';
 
 import {sentryManager} from './modules/sentry';
 
-import {sentryManager} from './modules/sentry';
-
 import {UserFavoriteView} from './views/UserFavoriteView.js';
 import {MainView} from './views/MainView.js';
 import {UserAdView} from './views/UserAdView.js';

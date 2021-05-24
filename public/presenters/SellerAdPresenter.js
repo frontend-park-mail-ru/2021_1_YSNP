@@ -30,7 +30,7 @@ export class SellerAdPresenter extends BasePresenter {
         this.__sellerModel = new UserModel();
 
         this.__pageUp = new PageUpHandler();
-        this.__endlessScroll = new EndlessScroll(this.__createListeners().scroll);er.js
+        this.__endlessScroll = new EndlessScroll(this.__createListeners().scroll);
     }
 
     /***

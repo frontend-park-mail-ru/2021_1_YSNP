@@ -3,6 +3,7 @@ import {BasePresenter} from './BasePresenter.js';
 import {UserModel} from '../models/UserModel';
 import {UserReviewsModel} from '../models/UserReviewsModel';
 
+import {UnauthorizedError, NotFoundError} from '../modules/http/httpError';
 import {EndlessScroll} from '../modules/handlers/endlessScroll.js';
 import {eventReviewListHandler} from '../modules/handlers/eventHandler';
 
@@ -52,9 +53,9 @@ export class UserReviewsPresenter extends BasePresenter {
                 //TODO(Sergey) нормальная обработка ошибок
 
                 console.log(err.message);
-                // if (!UnauthorizedError.isError(err)) {
-                //     sentryManager.captureException(err);
-                // }
+                if (!UnauthorizedError.isError(err)) {
+                    sentryManager.captureException(err);
+                }
 
                 this.checkOfflineStatus(err);
             });
@@ -132,9 +133,9 @@ export class UserReviewsPresenter extends BasePresenter {
                 //TODO(Sergey) нормальная обработка ошибок
 
                 console.log(err.message);
-                // if (!NotFoundError.isError(err)) {
-                //     sentryManager.captureException(err);
-                // }
+                if (!NotFoundError.isError(err)) {
+                    sentryManager.captureException(err);
+                }
 
                 this.checkOfflineStatus(err);
                 this.checkOffline();
@@ -164,9 +165,9 @@ export class UserReviewsPresenter extends BasePresenter {
                 //TODO(Sergey) нормальная обработка ошибок
 
                 console.log(err.message);
-                // if (!NotFoundError.isError(err)) {
-                //     sentryManager.captureException(err);
-                // }
+                if (!NotFoundError.isError(err)) {
+                    sentryManager.captureException(err);
+                }
 
                 this.checkOfflineStatus(err);
                 this.checkOffline();
@@ -213,9 +214,7 @@ export class UserReviewsPresenter extends BasePresenter {
                 //TODO(Sergey) нормальная обработка ошибок
 
                 console.log(err.message);
-                // if (!UnauthorizedError.isError(err)) {
-                //     sentryManager.captureException(err);
-                // }
+                sentryManager.captureException(err);
 
                 this.checkOfflineStatus(err);
             });
@@ -235,9 +234,7 @@ export class UserReviewsPresenter extends BasePresenter {
                 //TODO(Sergey) нормальная обработка ошибок
 
                 console.log(err.message);
-                // if (!UnauthorizedError.isError(err)) {
-                //     sentryManager.captureException(err);
-                // }
+                sentryManager.captureException(err);
 
                 this.checkOfflineStatus(err);
             });
@@ -268,9 +265,7 @@ export class UserReviewsPresenter extends BasePresenter {
                 //TODO(Sergey) нормальная обработка ошибок
 
                 console.log(err.message);
-                // if (!UnauthorizedError.isError(err)) {
-                //     sentryManager.captureException(err);
-                // }
+                sentryManager.captureException(err);
 
                 this.checkOfflineStatus(err);
             });
@@ -290,9 +285,7 @@ export class UserReviewsPresenter extends BasePresenter {
                 //TODO(Sergey) нормальная обработка ошибок
 
                 console.log(err.message);
-                // if (!UnauthorizedError.isError(err)) {
-                //     sentryManager.captureException(err);
-                // }
+                sentryManager.captureException(err);
 
                 this.checkOfflineStatus(err);
             });
