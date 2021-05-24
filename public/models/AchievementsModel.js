@@ -6,6 +6,9 @@ import {BaseModel} from './BaseModel';
  * Auth user model
  */
 export class AchievementsModel extends BaseModel {
+    /***
+     * constructor of AchievementsModel
+     */
     constructor() {
         super();
         this.__achievements = [];
@@ -21,8 +24,14 @@ export class AchievementsModel extends BaseModel {
     }
 
 
+    /***
+     * parse data Achievements from backend
+     * @param{Object} data
+     * @private
+     */
     __parseData(data) {
         this.__achievements = data.reduce((accum, el) => {
+            // eslint-disable-next-line no-use-before-define
                 const achievement = new AchievementModel();
                 achievement.fillData(el);
                 accum.push(achievement.jsonData());
@@ -31,7 +40,7 @@ export class AchievementsModel extends BaseModel {
     }
 
     /***
-     * Post auth user data to backend
+     * get data from backend
      * @returns {Promise<{data: *, status: number}>}
      */
     async update(idSeller, idUser) {
@@ -51,6 +60,10 @@ export class AchievementsModel extends BaseModel {
  *  model for one Achievement
  */
 export class AchievementModel {
+    /***
+     * fill model
+     * @param{Object} data
+     */
     fillData(data) {
         this.__title = data.title;
         this.__des = data.description;
@@ -58,6 +71,12 @@ export class AchievementModel {
         this.__pic = data.link_pic;
     }
 
+    /***
+     *  make format date
+     * @param {string} data
+     * @return {string}
+     * @private
+     */
     __datePrepare(data) {
         const date = new Date(data);
         return date.toLocaleDateString('ru-RU', {
@@ -67,6 +86,10 @@ export class AchievementModel {
         });
     }
 
+    /***
+     * json data for AchievementModel
+     * @return {{date: string, description, title, linkPic}}
+     */
     jsonData() {
         return {
             title: this.__title,

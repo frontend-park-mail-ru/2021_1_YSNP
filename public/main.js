@@ -47,7 +47,7 @@ if ('serviceWorker' in navigator) {
         .then(() => {
             console.log('Service Worker registered.');
         }).catch((error) => {
-       // sentryManager.captureException(error);
+        sentryManager.captureException(error);
         console.log(`Error while register service worker:${error}`);
     });
 }
