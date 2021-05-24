@@ -21,7 +21,9 @@ import {PromotionView} from './views/PromotionView.js';
 import {NotFoundView} from './views/NotFoundView.js';
 import {ProductEditView} from './views/ProductEditView.js';
 import {UserChatsView} from './views/UserChatsView';
+import {UserReviewsView} from './views/UserReviewsView';
 import {SellerAdView} from './views/SellerAdView';
+import {UserAwaitReviewView} from './views/UserAwaitReviewView';
 
 import {UserFavoritePresenter} from './presenters/UserFavoritePresenter.js';
 import {MainPresenter} from './presenters/MainPresenter.js';
@@ -35,9 +37,10 @@ import {PromotionPresenter} from './presenters/PromotionPresenter.js';
 import {NotFoundPresenter} from './presenters/NotFoundPresenter.js';
 import {ProductEditPresenter} from './presenters/ProductEditPresenter';
 import {UserChatsPresenter} from './presenters/UserChatsPresenter';
+import {UserReviewsPresenter} from './presenters/UserReviewsPresenter';
 import {SellerAdPresenter} from './presenters/SellerAdPresenter';
-import {UserAwaitReviewView} from './views/UserAwaitReviewView';
 import {UserAwaitReviewPresenter} from './presenters/UserAwaitReviewPresenter';
+
 
 /***
  * Register service worker
@@ -66,8 +69,10 @@ const searchView = new SearchView(app);
 const promotionView = new PromotionView(app);
 const notFoundView = new NotFoundView(app);
 const productEditView = new ProductEditView(app, baseCreateProduct);
+const userReviewsView = new UserReviewsView(app);
 const sellerAdView = new SellerAdView(app);
 const userAwaitReview = new UserAwaitReviewView(app);
+
 
 /***
  * Open main page
@@ -236,7 +241,7 @@ const doNotFound = () => {
 };
 
 /***
- * Open product page
+ * Open seller profile page
  * @param {Object} val - page params
  * @returns {Function}
  */
@@ -245,6 +250,18 @@ const doSellerAd = (val) => {
     sellerAdPresenter.control();
 
     return sellerAdPresenter.removePageListeners.bind(sellerAdPresenter);
+};
+
+/***
+ * Open user comments page
+ * @param {Object} val - page params
+ * @returns {Function}
+ */
+const doUserReviews = (val) => {
+    const userReviewsPresenter = new UserReviewsPresenter(userReviewsView, val.parameters.id);
+    userReviewsPresenter.control();
+
+    return userReviewsPresenter.removePageListeners.bind(userReviewsPresenter);
 };
 
 router.add(frontUrls.main, doMain);
@@ -261,6 +278,7 @@ router.add(frontUrls.userChat(), doChat);
 router.add(frontUrls.userFavorite, doFavorite);
 router.add(frontUrls.userAwaitReview, doAwaitReview);
 router.add(frontUrls.editProduct(), doProductEdit);
+router.add(frontUrls.userReviews(), doUserReviews);
 router.add(frontUrls.sellerAd(), doSellerAd);
 
 router.addNotFound(doNotFound);

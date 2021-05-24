@@ -38,6 +38,7 @@ class SentryManager {
         }
 
         Sentry.captureException(err);
+
     }
 
     /***
@@ -50,6 +51,7 @@ class SentryManager {
         }
 
         Sentry.captureMessage(msg);
+
     }
 }
 

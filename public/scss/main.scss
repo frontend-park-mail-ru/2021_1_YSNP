@@ -2,9 +2,11 @@ $textColorDefault: #000000;
 $textGrayColor: rgb(122, 122, 122);
 $linkColor: rgb(112, 146, 254);
 $mainColor: rgb(211, 30, 30);
+
 $breakDesktop: 1024px;
 $breakTablet: 768px;
 $breakMobile: 576px;
+
 @mixin overflow-text-width {
   white-space: nowrap;
   overflow: hidden;
@@ -200,6 +202,24 @@ $breakMobile: 576px;
   border-bottom: 1px solid rgb(227, 227, 227);
 }
 
+@mixin star() {
+  width: 12vh;
+
+  &__rate span {
+    font-size: 2vh;
+
+    color: lightgrey;
+  }
+
+  &__rate > span:before {
+    content: '★';
+  }
+
+  &__rate > span.star-active {
+    color: gold;
+  }
+}
+
 @mixin popup($w) {
   @include set-size(100vw, 100vh);
   top: 0;
@@ -254,7 +274,6 @@ $breakMobile: 576px;
     }
   }
 }
-
 
 @mixin message-container() {
   clear: both;

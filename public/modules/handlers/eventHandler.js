@@ -80,6 +80,15 @@ export function eventChatListHandler(ev, actions) {
 }
 
 /***
+ * Release review list click event
+ * @param {MouseEvent} ev - user event
+ * @param {Object} actions - actions on this event
+ */
+export function eventReviewListHandler(ev, actions) {
+    eventHandlerWithId(ev, actions, 'reviewId');
+}
+
+/***
  * Release select user click event
  * @param {MouseEvent} ev - user event
  * @param {Object} actions - actions on this event

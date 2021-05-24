@@ -143,17 +143,6 @@ class BackUrls {
     }
 
     /***
-     * Get another user ads list
-     * @param {number} from - page number paginator
-     * @param {number} count - count product per page
-     * @param {number} id - user id
-     * @returns {string}
-     */
-    sellerAdList(from, count, id) {
-        return `${this.__url}${this.__api}/user/${id}/ad/list?from=${from}&count=${count}`;
-    }
-
-    /***
      * Get user favorite list
      * @param {number} from - page number paginator
      * @param {number} count - count product per page
@@ -179,6 +168,41 @@ class BackUrls {
      */
     userDislikeProduct(id) {
         return `${this.__url}${this.__api}/user/favorite/dislike/${id}`;
+    }
+
+    /***
+     * Get another user ads list
+     * @param {number} from - page number paginator
+     * @param {number} count - count product per page
+     * @param {number} id - user id
+     * @returns {string}
+     */
+    sellerAdList(from, count, id) {
+        return `${this.__url}${this.__api}/user/${id}/ad/list?from=${from}&count=${count}`;
+    }
+
+    /***
+     * Get user seller review
+     * @param {number} id - user id
+     * @param {number} from - page number paginator
+     * @param {number} count - count product per page
+     * @param {string} sort - sort type
+     * @returns {string}
+     */
+    userSellerReviews(id, from, count, sort) {
+        return `${this.__url}${this.__api}/user/${id}/reviews/seller?from=${from}&count=${count}&sort=${sort}`;
+    }
+
+    /***
+     * Get user buyer reviews
+     * @param {number} id - user id
+     * @param {number} from - page number paginator
+     * @param {number} count - count product per page
+     * @param {string} sort - sort type
+     * @returns {string}
+     */
+    userBuyerReviews(id, from, count, sort) {
+        return `${this.__url}${this.__api}/user/${id}/reviews/buyer?from=${from}&count=${count}&sort=${sort}`;
     }
 
     /***

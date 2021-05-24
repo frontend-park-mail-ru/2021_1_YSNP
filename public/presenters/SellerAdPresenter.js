@@ -14,7 +14,7 @@ import {frontUrls} from '../modules/urls/frontUrls';
 import {sentryManager} from '../modules/sentry';
 
 /***
- * favorite presenter
+ * Seller profile presenter
  */
 export class SellerAdPresenter extends BasePresenter {
     /***
@@ -50,6 +50,16 @@ export class SellerAdPresenter extends BasePresenter {
                 }
 
                 this.checkOfflineStatus(err);
+            })
+            .then(() => this.__userModel.getUserMinInfo(this.__userID))
+            .then((data) => {
+                this.__userInfo = data;
+            })
+            .catch((err) => {
+                sentryManager.captureException(err);
+                console.log(err.message);
+
+                this.checkOfflineStatus(err);
             });
     }
 
@@ -61,6 +71,10 @@ export class SellerAdPresenter extends BasePresenter {
         await this.update();
         if (this.checkOffline()) {
             return;
+        }
+
+        if (this.__sellerModel.getData().id === this.__userModel.getData().id) {
+            router.redirect(frontUrls.userProfile);
         }
 
         this.__view.render(this.__makeContext());

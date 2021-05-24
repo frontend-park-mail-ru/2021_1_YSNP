@@ -5,7 +5,7 @@ import {ProductTable} from '../components/ProductTable/ProductTable.js';
 import {ProfileMenu} from '../components/ProfileMenu/ProfileMenu.js';
 
 /***
- * Favorite view
+ * Seller profile view
  */
 export class SellerAdView extends BaseView {
     /***
