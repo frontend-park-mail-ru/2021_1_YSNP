@@ -4,6 +4,9 @@ import {Layout} from '../components/Layout/Layout.js';
 import {Navigation} from '../components/Navigation/Navigation.js';
 import {Board} from '../components/Board/Board.js';
 import {ProductTable} from '../components/ProductTable/ProductTable';
+import {CloseProduct} from '../components/CloseProduct/CloseProduct';
+import {SelectUser} from '../components/ReviewProduct/SelectUser/SelectUser';
+import {ReviewUser} from '../components/ReviewProduct/ReviewUser/ReviewUser';
 
 import {router} from '../modules/router';
 import {mobile} from '../modules/mobile';
@@ -38,6 +41,81 @@ export class ProductView extends BaseView {
                 listeners: context.recList.listeners
             }
         };
+    }
+
+    /***
+     * Render close product component
+     * @param {Object} context
+     */
+    renderCloseProduct(context) {
+        this.__closeProduct = new CloseProduct(this.__app);
+        this.__closeProduct.render(context);
+    }
+
+    /***
+     * Remove close product component
+     */
+    removeCloseProduct() {
+        this.__closeProduct.remove();
+        this.__closeProduct = undefined;
+    }
+
+    /***
+     * Render select user component
+     * @param {Object} context
+     */
+    renderSelectUser(context) {
+        this.__selectUser = new SelectUser(this.__app);
+        this.__selectUser.render(context);
+    }
+
+    /***
+     * Remove select user component
+     */
+    removeSelectUser() {
+        this.__selectUser.remove();
+        this.__selectUser = undefined;
+    }
+
+    /***
+     * Render review user component
+     * @param context
+     */
+    renderReviewUser(context) {
+        this.__reviewUser = new ReviewUser(this.__app);
+        this.__reviewUser.render(context);
+    }
+
+    /***
+     * Set review user error
+     * @param {string} msg - message
+     */
+    reviewUserError(msg) {
+        this.__reviewUser.setReviewError(msg);
+    }
+
+    /***
+     * Get review user text
+     * @returns {string}
+     */
+    reviewUserText() {
+        return this.__reviewUser.getReviewText();
+    }
+
+    /***
+     * Get review user star
+     * @returns {number}
+     */
+    reviewUserStar() {
+        return this.__reviewUser.getReviewStar();
+    }
+
+    /***
+     * Remove review user component
+     */
+    removeReviewUser() {
+        this.__reviewUser.remove();
+        this.__reviewUser = undefined;
     }
 
     /***

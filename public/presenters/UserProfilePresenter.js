@@ -15,10 +15,11 @@ import {
 } from '../modules/layout/validationStates.js';
 import {parseTelMask, parseTelNumber, telMask} from '../modules/layout/mask';
 import {checkIsAuth} from '../modules/checkAuth';
+import {UnauthorizedError} from '../modules/http/httpError';
 
 import {router} from '../modules/router';
-import {frontUrls} from '../modules/urls/frontUrls';
 
+import {frontUrls} from '../modules/urls/frontUrls';
 import {sentryManager} from '../modules/sentry';
 
 /***
@@ -45,8 +46,10 @@ export class UserProfilePresenter extends BasePresenter {
             .catch((err) => {
                 //TODO(Sergey) нормальная обработка ошибок
 
-            sentryManager.captureException(err);
                 console.log(err.message);
+                if (!UnauthorizedError.isError(err)) {
+                    sentryManager.captureException(err);
+                }
 
                 this.checkOfflineStatus(err);
             });

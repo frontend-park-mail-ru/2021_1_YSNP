@@ -47,23 +47,28 @@
                 <img src="/img/svg/badge.svg" alt="profile" class="profile-menu-content__logo">
                 <span>Достижения</span>
             </a>
-            <a href="/user/comments" class="profile-menu-content-item" id="profile-menu-comments"
+            <a href="/user/{{id}}/reviews" class="profile-menu-content-item" id="profile-menu-comments"
                data-action="favoritesClick">
                 <img src="/img/svg/comments.svg" alt="profile" class="profile-menu-content__logo">
                 <span>Отзывы</span>
             </a>
+            <a href="/user/review/await" class="profile-menu-content-item" id="profile-menu-review-await"
+               data-action="awaitReviewClick">
+                <img src="/img/svg/comments.svg" alt="profile" class="profile-menu-content__logo">
+                <span>Ожидает отзыв</span>
+            </a>
         {{else}}
-            <a href="/user/{{id}}/ads" class="profile-menu-content-item" id="profile-menu-landing"
+            <a href="/user/{{id}}/ad" class="profile-menu-content-item" id="profile-menu-landing"
                data-action="favoritesClick">
                 <img src="/img/svg/list.svg" alt="ad" class="profile-menu-content__logo">
                 <span>Все объявления</span>
             </a>
-            <a href="/user/{{id}}/achievements" class="profile-menu-content-item" id="profile-menu-user-achievements"
+            <a href="/user/{{id}}/achievements" class="profile-menu-content-item" id="profile-menu-achievements"
                data-action="favoritesClick">
                 <img src="/img/svg/badge.svg" alt="profile" class="profile-menu-content__logo">
                 <span>Достижения</span>
             </a>
-            <a href="/user/{{id}}/comments" class="profile-menu-content-item" id="profile-menu-user-comments"
+            <a href="/user/{{id}}/reviews" class="profile-menu-content-item" id="profile-menu-comments"
                data-action="favoritesClick">
                 <img src="/img/svg/comments.svg" alt="profile" class="profile-menu-content__logo">
                 <span>Отзывы</span>

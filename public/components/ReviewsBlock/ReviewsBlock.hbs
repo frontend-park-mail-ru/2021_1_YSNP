@@ -1,0 +1,34 @@
+<div class="reviews" id="reviews-{{type}}">
+    <div class="reviews-inner">
+        <div class="reviews-head">
+
+            {{#if_eq type 'seller'}}
+                <span class="reviews-head__title">Отзывы как о продавце</span>
+            {{else}}
+                <span class="reviews-head__title">Отзывы как о покупателе</span>
+            {{/if_eq}}
+
+            <div class="reviews-head-sort">
+                <span>Сортировать по:</span>
+
+                <label class="reviews-head-sort__label" for="reviews-{{type}}-date" data-action="sortByDateClick">
+                    <input class="reviews-head-sort__button" type="radio" value="date"
+                           id="reviews-{{type}}-date" name="sort-{{type}}" checked>
+                    дате
+                </label>
+
+                <label class="reviews-head-sort__label" for="reviews-{{type}}-rate" data-action="sortByRateClick">
+                    <input class="reviews-head-sort__button" type="radio" value="rate"
+                           id="reviews-{{type}}-rate" name="sort-{{type}}">
+                    рейтингу
+                </label>
+            </div>
+
+            <div class="reviews-head__separator"></div>
+        </div>
+
+        <div class="reviews-body" id="reviews-{{type}}-scroll">
+            <div class="reviews-body-inner" id="reviews-{{type}}-body"></div>
+        </div>
+    </div>
+</div>

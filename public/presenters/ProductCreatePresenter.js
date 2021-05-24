@@ -10,6 +10,7 @@ import {addSuccesses, hideError, insertError, showError} from '../modules/layout
 import {amountMask} from '../modules/layout/mask.js';
 import {noop} from '../modules/noop.js';
 import {checkIsAuth} from '../modules/checkAuth.js';
+import {BadRequestError, UnauthorizedError} from '../modules/http/httpError';
 
 import {sentryManager} from '../modules/sentry';
 
@@ -65,8 +66,10 @@ export class ProductCreatePresenter extends BasePresenter {
             .catch((err) => {
                 //TODO(Sergey) нормальная обработка ошибок
 
-                sentryManager.captureException(err);
                 console.log(err.message);
+                if (!UnauthorizedError.isError(err)) {
+                    sentryManager.captureException(err);
+                }
 
                 this.checkOfflineStatus(err);
             });
@@ -303,8 +306,10 @@ export class ProductCreatePresenter extends BasePresenter {
                 .catch((err) => {
                     //TODO(Sergey) нормальная обработка ошибок
 
-  sentryManager.captureException(err);
                     console.log(err.message);
+                    if (!BadRequestError.isError(err)) {
+                        sentryManager.captureException(err);
+                    }
 
                     this.__view.changeEnableButton('Продолжить');
                     this.__view.errorText(err.message);

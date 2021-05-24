@@ -1,8 +1,12 @@
 import {BasePresenter} from './BasePresenter.js';
 
+import {UserModel} from '../models/UserModel';
+import {SellerAdListProduct} from '../models/SellerAdListProduct';
+
 import {eventProductListHandler} from '../modules/handlers/eventHandler.js';
 import {EndlessScroll} from '../modules/handlers/endlessScroll.js';
 import {PageUpHandler} from '../modules/handlers/pageUpHandler.js';
+import {NotFoundError, UnauthorizedError} from '../modules/http/httpError';
 
 import {router} from '../modules/router';
 import {frontUrls} from '../modules/urls/frontUrls';
@@ -10,12 +14,11 @@ import {user} from '../models/ProfileUserModel.js';
 
 
 import {sentryManager} from '../modules/sentry';
-import {UserListProduct} from '../models/UserListProduct';
 
 /***
- * favorite presenter
+ * Seller profile presenter
  */
-export class SellerProfilePresenter extends BasePresenter {
+export class SellerAdPresenter extends BasePresenter {
     /***
      * Class constructor
      * @param view
@@ -24,10 +27,12 @@ export class SellerProfilePresenter extends BasePresenter {
     constructor(view, id) {
         super(view);
         this.__view = view;
-        this.__adListModel = new UserListProduct(id);
-        this.__endlessScroll = new EndlessScroll(this.__createListeners().scroll);
-        this.__pageUp = new PageUpHandler();
         this.__userID = id;
+        this.__adListModel = new SellerAdListProduct(id);
+        this.__sellerModel = new UserModel();
+
+        this.__pageUp = new PageUpHandler();
+        this.__endlessScroll = new EndlessScroll(this.__createListeners().scroll);
     }
 
     /***
@@ -36,22 +41,18 @@ export class SellerProfilePresenter extends BasePresenter {
      */
     async update() {
         return super.update()
+            .then(() => this.__sellerModel.getUser(this.__userID))
             .then(() => this.__adListModel.update())
             .catch((err) => {
                 //TODO(Sergey) нормальная обработка ошибок
 
-            sentryManager.captureException(err);
                 console.log(err.message);
+                if (!UnauthorizedError.isError(err)) {
+                    sentryManager.captureException(err);
+                }
 
                 this.checkOfflineStatus(err);
             })
-            .then(() => this.__userModel.getUserMinInfo(this.__userID))
-            .then((data) => {
-                this.__userInfo = data;
-            })
-            .catch((err) => {
-                console.log(err);
-            });
     }
 
     /***
@@ -63,11 +64,13 @@ export class SellerProfilePresenter extends BasePresenter {
         if (this.checkOffline()) {
             return;
         }
-        if (this.__userInfo.id === user.getData().id) {
+
+        if (this.__sellerModel.getData().id === this.__userModel.getData().id) {
             router.redirect(frontUrls.userProfile);
         }
 
         this.__view.render(this.__makeContext());
+
         this.__endlessScroll.start();
         this.__pageUp.start();
 
@@ -92,6 +95,8 @@ export class SellerProfilePresenter extends BasePresenter {
      * @private
      */
     __listenerAdListClick(ev) {
+        ev.stopPropagation();
+
         eventProductListHandler(ev, this.__getActions().adList);
     }
 
@@ -118,8 +123,10 @@ export class SellerProfilePresenter extends BasePresenter {
 
                 //TODO(Sergey) нормальная обработка ошибок
 
-            sentryManager.captureException(err);
                 console.log(err.message);
+                if (!NotFoundError.isError(err)) {
+                    sentryManager.captureException(err);
+                }
 
                 this.checkOfflineStatus(err);
                 this.checkOffline();
@@ -157,6 +164,38 @@ export class SellerProfilePresenter extends BasePresenter {
     }
 
     /***
+     * Like card callback
+     * @param {string} id - card id
+     * @private
+     */
+    __likeCard(id) {
+        const numberId = parseInt(id, 10);
+        if (!this.__userModel.isAuth) {
+            super.openAuth();
+            return;
+        }
+
+        this.__adListModel.voteProduct(numberId)
+            .then(({status}) => {
+                if (status === 'dislike') {
+                    this.__view.dislikeProduct(numberId);
+                    return;
+                }
+
+                this.__view.likeProduct(numberId);
+            })
+            .catch((err) => {
+                //TODO(Sergey) нормальная обработка ошибок
+
+                sentryManager.captureException(err);
+                console.log(err.message);
+
+                this.checkOfflineStatus(err);
+                this.checkOffline();
+            });
+    }
+
+    /***
      * Get presenter actions
      * @returns {{adList: {cardClick: {open: *}}}}
      * @private
@@ -166,6 +205,9 @@ export class SellerProfilePresenter extends BasePresenter {
             adList: {
                 cardClick: {
                     open: this.__openCard.bind(this)
+                },
+                likeClick: {
+                    open: this.__likeCard.bind(this)
                 }
             }
         };
@@ -183,7 +225,7 @@ export class SellerProfilePresenter extends BasePresenter {
                 listeners: this.__createListeners().adList
             },
             profileSettings: {
-                data: this.__userInfo,
+                data: this.__sellerModel.getData(),
                 owner: false
             }
         };

@@ -1,10 +1,11 @@
 import {BasePresenter} from './BasePresenter.js';
 
 import {checkIsAuth} from '../modules/checkAuth.js';
+import {UnauthorizedError} from '../modules/http/httpError';
 
 import {router} from '../modules/router';
-import {frontUrls} from '../modules/urls/frontUrls';
 
+import {frontUrls} from '../modules/urls/frontUrls';
 import {sentryManager} from '../modules/sentry';
 
 /***
@@ -28,9 +29,11 @@ export class PromotionPresenter extends BasePresenter {
         return super.update()
             .catch((err) => {
                 //TODO(Sergey) нормальная обработка ошибок
-
-            sentryManager.captureException(err);
+                
                 console.log(err.message);
+                if (!UnauthorizedError.isError(err)) {
+                    sentryManager.captureException(err);
+                }
 
                 this.checkOfflineStatus(err);
             });

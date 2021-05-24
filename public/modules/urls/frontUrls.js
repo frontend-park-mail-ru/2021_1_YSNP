@@ -114,38 +114,30 @@ class FrontUrls {
 
 
     /***
-     * Get achievements page
+     * Get await review page
      * @returns {string}
      */
-    get userAchievements() {
-        return '/user/achievements';
-    }
-
-    /***
-     * Get comments page
-     * @returns {string}
-     */
-    get userComments() {
-        return '/user/comments';
+    get userAwaitReview() {
+        return '/user/review/await';
     }
 
     /***
      * Get user landing page
      * @returns {string}
      */
-    sellerProfile(id = undefined) {
+    sellerAd(id = undefined) {
         if (id !== undefined) {
-            return `/user/${id}/ads`;
+            return `/user/${id}/ad`;
         }
 
-        return '/user/{id}/ads';
+        return '/user/{id}/ad';
     }
 
     /***
      * Get user achievements page
      * @returns {string}
      */
-    sellerAchievements(id = undefined) {
+    userAchievements(id = undefined) {
         if (id !== undefined) {
             return `/user/${id}/achievements`;
         }
@@ -157,12 +149,12 @@ class FrontUrls {
      * Get user comments page
      * @returns {string}
      */
-    sellerComments(id = undefined) {
+    userReviews(id = undefined) {
         if (id !== undefined) {
-            return `/user/${id}/comments`;
+            return `/user/${id}/reviews`;
         }
 
-        return '/user/{id}/comments';
+        return '/user/{id}/reviews';
     }
 
     /***

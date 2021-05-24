@@ -1,0 +1,68 @@
+<div class="review-user" id="review-user">
+    <div class="review-user-content" id="review-user-content">
+        <div class="review-user-content-inner">
+
+            <img src="/img/svg/cancel.svg" alt="close" class="review-user-content-inner__close"
+                 data-action="closeClick">
+
+            <div class="review-user-content-inner-head">
+                {{#if isBack}}
+                    <img src="/img/svg/back.svg" alt="back" class="review-user-content-inner-head__back"
+                         data-action="backClick">
+                {{/if}}
+
+                <img src="{{userImg}}" alt="avatar" class="review-user-content-inner-head__avatar">
+
+                <span class="review-user-content-inner-head__user">{{userName}}</span>
+            </div>
+
+            <div class="review-user-content-inner-body">
+
+                {{#if isBuyer}}
+                    <span class="review-user-content-inner-body__info">Оцените покупателя</span>
+                {{else}}
+                    <span class="review-user-content-inner-body__info">Оцените продавца</span>
+                {{/if}}
+
+                <span class="review-user-content-inner-body__error" id="review-user-error"></span>
+
+                <div class="review-user-content-inner-body-review">
+                    <div class="review-user-content-inner-body-review-info">
+                        <span class="review-user-content-inner-body-review-info__text">Отзыв</span>
+
+                        <div class="review-user-content-inner-body-review-info__star">
+                            <input type="radio" id="review-user-star-5" name="rating" value="5">
+                            <label for="review-user-star-5" title="Оценка «5»"></label>
+                            <input type="radio" id="review-user-star-4" name="rating" value="4">
+                            <label for="review-user-star-4" title="Оценка «4»"></label>
+                            <input type="radio" id="review-user-star-3" name="rating" value="3">
+                            <label for="review-user-star-3" title="Оценка «3»"></label>
+                            <input type="radio" id="review-user-star-2" name="rating" value="2">
+                            <label for="review-user-star-2" title="Оценка «2»"></label>
+                            <input type="radio" id="review-user-star-1" name="rating" value="1">
+                            <label for="review-user-star-1" title="Оценка «1»"></label>
+                        </div>
+                    </div>
+
+                    {{#if isBuyer}}
+                        <textarea class="review-user-content-inner-body-review__text" id="review-user-textarea"
+                                  placeholder="Оставьте отзыв о покупателе"></textarea>
+                    {{else}}
+                        <textarea class="review-user-content-inner-body-review__text" id="review-user-textarea"
+                                  placeholder="Оставьте отзыв о продавце"></textarea>
+                    {{/if}}
+
+                </div>
+
+                <div class="review-user-content-inner-body-button">
+                    <button class="review-user-content-inner-body-button__skip"
+                            data-action="skipClick">Пропустить
+                    </button>
+                    <button class="review-user-content-inner-body-button__review"
+                            data-action="reviewClick">Оценить
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

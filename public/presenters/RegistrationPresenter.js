@@ -13,10 +13,11 @@ import {eventHandlerWithDataType} from '../modules/handlers/eventHandler.js';
 import {parseTelNumber, telMask} from '../modules/layout/mask.js';
 import {noop} from '../modules/noop.js';
 import {checkIsNotAuth} from '../modules/checkAuth.js';
+import {BadRequestError, UnauthorizedError} from '../modules/http/httpError';
 
 import {router} from '../modules/router.js';
-import {frontUrls} from '../modules/urls/frontUrls.js';
 
+import {frontUrls} from '../modules/urls/frontUrls.js';
 import {sentryManager} from '../modules/sentry';
 
 /***
@@ -47,8 +48,10 @@ export class RegistrationPresenter extends BasePresenter {
             .catch((err) => {
                 //TODO(Sergey) нормальная обработка ошибок
 
-            sentryManager.captureException(err);
                 console.log(err.message);
+                if (!UnauthorizedError.isError(err)) {
+                    sentryManager.captureException(err);
+                }
 
                 this.checkOfflineStatus(err);
             });
@@ -453,8 +456,14 @@ export class RegistrationPresenter extends BasePresenter {
                 .catch((err) => {
                     //TODO(Sergey) нормальная обработка ошибок
 
+<<<<<<< HEAD
                 sentryManager.captureException(err);
+=======
+>>>>>>> origin/dev
                     console.log(err.message);
+                    if (!BadRequestError.isError(err)) {
+                        sentryManager.captureException(err);
+                    }
 
                     this.scrollUp();
                     this.__view.errorText(err.message);
