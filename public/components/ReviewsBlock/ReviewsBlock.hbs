@@ -11,17 +11,15 @@
             <div class="reviews-head-sort">
                 <span>Сортировать по:</span>
 
-                <label class="reviews-head-sort__label" for="reviews-seller-date">
+                <label class="reviews-head-sort__label" for="reviews-{{type}}-date" data-action="sortByDateClick">
                     <input class="reviews-head-sort__button" type="radio" value="date"
-                           id="reviews-seller-date"
-                           name="sort-seller" data-action="sortByDateClick">
+                           id="reviews-{{type}}-date" name="sort-{{type}}" checked>
                     дате
                 </label>
 
-                <label class="reviews-head-sort__label" for="reviews-seller-rate">
+                <label class="reviews-head-sort__label" for="reviews-{{type}}-rate" data-action="sortByRateClick">
                     <input class="reviews-head-sort__button" type="radio" value="rate"
-                           id="reviews-seller-rate"
-                           name="sort-seller" data-action="sortByRateClick">
+                           id="reviews-{{type}}-rate" name="sort-{{type}}">
                     рейтингу
                 </label>
             </div>

@@ -112,6 +112,15 @@ export class UserReviewsView extends BaseView {
     }
 
     /***
+     * Set radio button checked
+     * @param type
+     * @param sort
+     */
+    setCheckedButton(type, sort) {
+        this.__buyerReviews.setCheckedRadioButton(type, sort);
+    }
+
+    /***
      * Render mobile components
      * @private
      */

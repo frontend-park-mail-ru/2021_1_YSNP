@@ -130,6 +130,15 @@ export class ReviewsBlock {
     }
 
     /***
+     * Set radio button checked
+     * @param type
+     * @param sort
+     */
+    setCheckedRadioButton(type, sort) {
+        document.getElementById(`reviews-${type}-${sort}`).checked = true;
+    }
+
+    /***
      * Add component to parent
      */
     render(context) {

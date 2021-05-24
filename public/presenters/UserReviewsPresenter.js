@@ -219,6 +219,7 @@ export class UserReviewsPresenter extends BasePresenter {
 
                 this.checkOfflineStatus(err);
             });
+        this.__view.setCheckedButton('seller', 'date');
         this.__view.rerenderSellerReviews(this.__userReviews.sellerReviewData);
     }
 
@@ -240,6 +241,7 @@ export class UserReviewsPresenter extends BasePresenter {
 
                 this.checkOfflineStatus(err);
             });
+        this.__view.setCheckedButton('seller', 'rate');
         this.__view.rerenderSellerReviews(this.__userReviews.sellerReviewData);
     }
 
@@ -272,11 +274,8 @@ export class UserReviewsPresenter extends BasePresenter {
 
                 this.checkOfflineStatus(err);
             });
-        this.__view.rerenderBuyerReviews({
-            data: {
-                list: this.__userReviews.buyerReviewData
-            }
-        });
+        this.__view.setCheckedButton('buyer', 'date');
+        this.__view.rerenderBuyerReviews(this.__userReviews.buyerReviewData);
     }
 
     /***
@@ -297,11 +296,8 @@ export class UserReviewsPresenter extends BasePresenter {
 
                 this.checkOfflineStatus(err);
             });
-        this.__view.rerenderBuyerReviews({
-            data: {
-                list: this.__userReviews.buyerReviewData
-            }
-        });
+        this.__view.setCheckedButton('buyer', 'rate');
+        this.__view.rerenderBuyerReviews(this.__userReviews.buyerReviewData);
     }
 
     /***
