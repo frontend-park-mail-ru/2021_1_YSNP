@@ -4,19 +4,24 @@ import {ProductModel} from '../models/ProductModel.js';
 import {ProdRecListModel} from '../models/ProdRecListModel';
 import {UserModel} from '../models/UserModel';
 
-import {eventHandlerWithDataType, eventProductListHandler} from '../modules/handlers/eventHandler.js';
-import {NotFoundError} from '../modules/http/httpError';
+import {
+    eventHandler,
+    eventHandlerWithDataType,
+    eventProductListHandler,
+    eventSelectUserHandler
+} from '../modules/handlers/eventHandler.js';
+import {NotFoundError, UnauthorizedError} from '../modules/http/httpError';
 
 import {router} from '../modules/router.js';
 import {frontUrls} from '../modules/urls/frontUrls';
 
 import {sentryManager} from '../modules/sentry';
+import {ReviewModel} from '../models/ReviewModel';
 
 /***
  *  ProductPresenter class, extends from BasePresenter
  */
 export class ProductPresenter extends BasePresenter {
-
     /***
      * Class constructor
      * @param {ProductView} view - view
@@ -50,8 +55,10 @@ export class ProductPresenter extends BasePresenter {
             .catch((err) => {
                 //TODO(Sergey) нормальная обработка ошибок
 
-                sentryManager.captureException(err);
                 console.log(err.message);
+                if (!UnauthorizedError.isError(err)) {
+                    sentryManager.captureException(err);
+                }
 
                 this.checkOfflineStatus(err);
 
@@ -119,6 +126,107 @@ export class ProductPresenter extends BasePresenter {
     }
 
     /***
+     * Listener Close Product page click
+     * @private
+     */
+    __listenerCloseProductPageClick() {
+        this.__closeProductClose();
+    }
+
+    /***
+     * Listener Close Product key click
+     * @param {KeyboardEvent} ev - event
+     * @private
+     */
+    __listenerCloseProductKeyClick(ev) {
+        if (ev.key === 'Escape') {
+            this.__closeProductClose();
+        }
+    }
+
+    /***
+     * Listener Close Product click
+     * @param {MouseEvent} ev - event
+     * @private
+     */
+    __listenerCloseProductClick(ev) {
+        ev.stopPropagation();
+
+        eventHandler(ev, this.__getActions().closeProduct);
+    }
+
+    /***
+     * Select user key click
+     * @param {KeyboardEvent} ev - event
+     * @private
+     */
+    __listenerSelectUserKeyClick(ev) {
+        if (ev.key === 'Escape') {
+            this.__selectUserClose();
+        }
+    }
+
+    /***
+     * Select user page click
+     * @private
+     */
+    __listenerSelectUserPageClick() {
+        this.__selectUserClose();
+    }
+
+    /***
+     * Select user click
+     * @param {MouseEvent} ev - event
+     * @private
+     */
+    __listenerSelectUserClick(ev) {
+        ev.stopPropagation();
+
+        eventHandler(ev, this.__getActions().selectUser);
+    }
+
+    /***
+     * Listener select user body click
+     * @param {MouseEvent} ev - event
+     * @private
+     */
+    __listenerSelectUserBodyClick(ev) {
+        ev.stopPropagation();
+
+        eventSelectUserHandler(ev, this.__getActions().selectUser);
+    }
+
+    /***
+     * Listener review user key click
+     * @param {KeyboardEvent} ev - event
+     * @private
+     */
+    __listenerReviewUserKeyClick(ev) {
+        if (ev.key === 'Escape') {
+            this.__reviewUserClose();
+        }
+    }
+
+    /***
+     * Listener review user page click
+     * @private
+     */
+    __listenerReviewUserPageClick() {
+        this.__reviewUserClose();
+    }
+
+    /***
+     * Listener review user click
+     * @param {MouseEvent} ev - event
+     * @private
+     */
+    __listenerReviewUserClick(ev) {
+        ev.stopPropagation();
+
+        eventHandler(ev, this.__getActions().reviewUser);
+    }
+
+    /***
      * @author Ivan Gorshkov
      *
      * function witch return Object of listeners
@@ -144,6 +252,52 @@ export class ProductPresenter extends BasePresenter {
                 productCardClick: {
                     type: 'click',
                     listener: this.__listenerRecListClick.bind(this)
+                }
+            },
+            closeProduct: {
+                pageClick: {
+                    type: 'click',
+                    listener: this.__listenerCloseProductPageClick.bind(this)
+                },
+                closeProductClick: {
+                    type: 'click',
+                    listener: this.__listenerCloseProductClick.bind(this)
+                },
+                keyClick: {
+                    type: 'keydown',
+                    listener: this.__listenerCloseProductKeyClick.bind(this)
+                }
+            },
+            selectUser: {
+                keyClick: {
+                    type: 'keydown',
+                    listener: this.__listenerSelectUserKeyClick.bind(this)
+                },
+                pageClick: {
+                    type: 'click',
+                    listener: this.__listenerSelectUserPageClick.bind(this)
+                },
+                selectUserClick: {
+                    type: 'click',
+                    listener: this.__listenerSelectUserClick.bind(this)
+                },
+                selectUserBodyClick: {
+                    type: 'click',
+                    listener: this.__listenerSelectUserBodyClick.bind(this)
+                }
+            },
+            reviewUser: {
+                keyClick: {
+                    type: 'keydown',
+                    listener: this.__listenerReviewUserKeyClick.bind(this)
+                },
+                pageClick: {
+                    type: 'click',
+                    listener: this.__listenerReviewUserPageClick.bind(this)
+                },
+                reviewUserClick: {
+                    type: 'click',
+                    listener: this.__listenerReviewUserClick.bind(this)
                 }
             }
         };
@@ -205,6 +359,173 @@ export class ProductPresenter extends BasePresenter {
     }
 
     /***
+     * Close product open
+     * @private
+     */
+    __closeProductOpen() {
+        this.__view.renderCloseProduct(this.__makeContext().closeProduct);
+    }
+
+    /***
+     * Close product close
+     * @private
+     */
+    __closeProductClose() {
+        this.__view.removeCloseProduct();
+    }
+
+    /***
+     * Sell product click
+     * @private
+     */
+    __closeProductSellProductClick() {
+        this.__model.close()
+            .then(() => {
+                this.__closeProductClose();
+                this.__selectUserOpen();
+            })
+            .catch((err) => {
+                //TODO(Sergey) нормальная обработка ошибок
+
+                sentryManager.captureException(err);
+                console.log(err.message);
+
+                this.checkOfflineStatus(err);
+                this.checkOffline();
+            });
+    }
+
+    /***
+     * Close product click
+     * @private
+     */
+    __closeProductCloseProductClick() {
+        this.__model.close()
+            .then(() => {
+                router.redirectCurrent();
+            })
+            .catch((err) => {
+                //TODO(Sergey) нормальная обработка ошибок
+
+                sentryManager.captureException(err);
+                console.log(err.message);
+
+                this.checkOfflineStatus(err);
+                this.checkOffline();
+            });
+    }
+
+    /***
+     * Select user open
+     * @private
+     */
+    __selectUserOpen() {
+        this.__view.renderSelectUser(this.__makeContext().selectUser);
+    }
+
+    /***
+     * Select user close
+     * @private
+     */
+    __selectUserClose() {
+        this.__view.removeSelectUser();
+    }
+
+    /***
+     * Skip Select User click
+     * @private
+     */
+    __selectUserSkipClick() {
+        router.redirectCurrent();
+    }
+
+    /***
+     * Select one user click
+     * @param {string} id - user id
+     * @private
+     */
+    __selectUserOneUserClick(id) {
+        const numberId = parseInt(id, 10);
+        this.__model.setBuyer(numberId)
+            .then(() => {
+                this.__selectUserClose();
+                this.__reviewUserOpen();
+            })
+            .catch((err) => {
+                //TODO(Sergey) нормальная обработка ошибок
+
+                sentryManager.captureException(err);
+                console.log(err.message);
+
+                this.checkOfflineStatus(err);
+                this.checkOffline();
+            });
+    }
+
+    /***
+     * Review user open
+     * @private
+     */
+    __reviewUserOpen() {
+        this.__view.renderReviewUser(this.__makeContext().reviewUser);
+    }
+
+    /***
+     * Review user close
+     * @private
+     */
+    __reviewUserClose() {
+        this.__view.removeReviewUser();
+    }
+
+    /***
+     * Review user back button click
+     * @private
+     */
+    __reviewUserBackClick() {
+        this.__reviewUserClose();
+        this.__selectUserOpen();
+    }
+
+    /***
+     * Review user skip button click
+     * @private
+     */
+    __reviewUserSkipClick() {
+        router.redirectCurrent();
+    }
+
+    /***
+     * Review user review button click
+     * @private
+     */
+    __reviewUserReviewClick() {
+        const text = this.__view.reviewUserText();
+        const star = this.__view.reviewUserStar();
+
+        if (text === '' || star === 0) {
+            this.__view.reviewUserError('Оставьте отзыв и комментарий');
+            return;
+        }
+
+        const reviewModel = new ReviewModel();
+        reviewModel.setBuyerData(this.__model.id, this.__model.buyerId);
+        reviewModel.review(text, star)
+            .then(() => {
+                router.redirectCurrent();
+            })
+            .catch((err) => {
+                //TODO(Sergey) нормальная обработка ошибок
+
+                sentryManager.captureException(err);
+                console.log(err.message);
+
+                this.checkOfflineStatus(err);
+                this.checkOffline();
+            });
+    }
+
+    /***
      * @author Ivan Gorshkov
      *
      * Get product actions
@@ -252,6 +573,42 @@ export class ProductPresenter extends BasePresenter {
                 likeClick: {
                     open: this.__likeCardRec.bind(this)
                 }
+            },
+            closeProduct: {
+                closeClick: {
+                    open: this.__closeProductClose.bind(this)
+                },
+                sellProductClick: {
+                    open: this.__closeProductSellProductClick.bind(this)
+                },
+                closeProductClick: {
+                    open: this.__closeProductCloseProductClick.bind(this)
+                }
+            },
+            selectUser: {
+                closeClick: {
+                    open: this.__selectUserClose.bind(this)
+                },
+                skipClick: {
+                    open: this.__selectUserSkipClick.bind(this)
+                },
+                oneUserClick: {
+                    open: this.__selectUserOneUserClick.bind(this)
+                }
+            },
+            reviewUser: {
+                closeClick: {
+                    open: this.__reviewUserClose.bind(this)
+                },
+                backClick: {
+                    open: this.__reviewUserBackClick.bind(this)
+                },
+                skipClick: {
+                    open: this.__reviewUserSkipClick.bind(this)
+                },
+                reviewClick: {
+                    open: this.__reviewUserReviewClick.bind(this)
+                }
             }
         };
     }
@@ -269,21 +626,7 @@ export class ProductPresenter extends BasePresenter {
      * @private
      */
     __listenerCloseProduct() {
-        if (confirm('Вы уверены, что хотите закрыть объявление')) {
-            this.__model.close(this.__model.getData().id)
-                .then(() => {
-                    router.redirectCurrent();
-                })
-                .catch((err) => {
-                    //TODO(Sergey) нормальная обработка ошибок
-
-                    sentryManager.captureException(err);
-                    console.log(err.message);
-
-                    this.checkOfflineStatus(err);
-                    this.checkOffline();
-                });
-        }
+        this.__closeProductOpen();
     }
 
     /***
@@ -291,7 +634,7 @@ export class ProductPresenter extends BasePresenter {
      */
     __listenerUserClick() {
         this.removePageListeners();
-        router.redirect(frontUrls.sellerProfile(this.__model.getData().ownerId), '', {title: 'Koya'});
+        router.redirect(frontUrls.sellerAd(this.__model.getData().ownerId), '', {title: 'Koya'});
     }
 
     /***
@@ -341,7 +684,7 @@ export class ProductPresenter extends BasePresenter {
         }
 
         if (!this.__numberIsShowed) {
-            this.__user.getUser(this.__model.getData().ownerId)
+            this.__user.getUserTelephone(this.__model.getData().ownerId)
                 .then(() => {
                     if (this.__user.getData().telephone === '') {
                         this.__view.showNumber('Нет телефона');
@@ -417,6 +760,17 @@ export class ProductPresenter extends BasePresenter {
             recList: {
                 data: this.__recListModel.getData(),
                 listeners: this.__createListeners().recList
+            },
+            closeProduct: {
+                listeners: this.__createListeners().closeProduct
+            },
+            selectUser: {
+                data: this.__model.getBuyerList(),
+                listeners: this.__createListeners().selectUser
+            },
+            reviewUser: {
+                data: this.__model.getBuyer(),
+                listeners: this.__createListeners().reviewUser
             }
         };
     }

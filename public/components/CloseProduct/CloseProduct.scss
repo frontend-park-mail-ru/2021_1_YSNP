@@ -1,0 +1,66 @@
+@import "../../scss/main.scss";
+
+.close-product {
+  @include popup(35vh);
+
+  &-content {
+    @media screen and (max-width: $breakMobile) {
+      display: flex;
+      justify-content: center;
+    }
+
+    &-inner {
+      padding: 4vh 2vh;
+
+      @media screen and (max-width: $breakMobile) {
+        width: 80%;
+      }
+
+      &__title {
+        font-size: 2.5vh;
+
+        @media screen and (max-width: $breakMobile) {
+          font-size: 3vh;
+        }
+      }
+
+      &__info {
+        margin-top: 0.5vh;
+
+        font-size: 1.5vh;
+        color: $textGrayColor;
+
+        @media screen and (max-width: $breakMobile) {
+          font-size: 2vh;
+        }
+      }
+
+      &-button {
+        margin-top: 5vh;
+        width: 100%;
+
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+
+        &__sell {
+          margin-bottom: 1vh;
+
+          @include red-button(70%, 4vh);
+
+          @media screen and (max-width: $breakMobile) {
+            @include red-button(100%, 4vh);
+          }
+        }
+
+        &__close {
+          @include white-button(70%, 4vh);
+
+          @media screen and (max-width: $breakMobile) {
+            @include white-button(100%, 4vh);
+          }
+        }
+      }
+    }
+  }
+}

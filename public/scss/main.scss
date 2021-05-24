@@ -198,6 +198,10 @@ $breakMobile: 576px;
   margin-bottom: 1vh;
 }
 
+@mixin separator-bottom {
+  border-bottom: 1px solid rgb(227, 227, 227);
+}
+
 @mixin star() {
   width: 12vh;
 
@@ -213,6 +217,61 @@ $breakMobile: 576px;
 
   &__rate > span.star-active {
     color: gold;
+  }
+}
+
+@mixin popup($w) {
+  @include set-size(100vw, 100vh);
+  top: 0;
+  position: fixed;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 101;
+
+  background-color: rgba(0, 0, 0, 0.5);
+
+  &-content {
+    position: relative;
+    @include block;
+    z-index: 102;
+
+    width: $w;
+
+    @media screen and (max-width: $breakMobile) {
+      @include set-size(100vw, 100vh);
+
+      border-radius: 0;
+    }
+
+    &-inner {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+
+      &__close {
+        @include set-size(2vh, 2vh);
+
+        position: absolute;
+        fill: rgb(120, 120, 120);
+
+        top: 1vh;
+        right: 1vh;
+
+        &:hover {
+          cursor: pointer;
+        }
+
+        @media screen and (max-width: $breakMobile) {
+          top: 2vh;
+          right: 2vh;
+
+          @include set-size(3vh, 3vh);
+        }
+      }
+    }
   }
 }
 

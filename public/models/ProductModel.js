@@ -1,10 +1,11 @@
+/* eslint-disable camelcase */
+
 import {BaseModel} from './BaseModel.js';
 
 import {http} from '../modules/http/http.js';
 import {backUrls} from '../modules/urls/backUrls.js';
 
 import {YandexMap} from '../modules/layout/yandexMap.js';
-
 
 /***
  * Product model
@@ -325,6 +326,62 @@ export class ProductModel extends BaseModel {
     }
 
     /***
+     * Fill one buyer
+     * @param {Object} data - one user
+     */
+    fillOneBuyer(data) {
+        const buyer = {
+            isBack: true,
+            isBuyer: true,
+            id: data.id,
+            userImg: data.linkImages,
+            userName: data.name
+        };
+
+        this.__buyerList.push(buyer);
+    }
+
+    /***
+     * Fill buyer data
+     * @param {Object[]} data - buyer list
+     */
+    fillBuyerData(data) {
+        this.__buyerList = [];
+
+        data.forEach((user) => {
+            this.fillOneBuyer(user);
+        });
+    }
+
+    /***
+     * Get buyer list
+     * @returns {Object[]}
+     */
+    getBuyerList() {
+        return this.__buyerList;
+    }
+
+    /***
+     * Get buyer
+     * @returns {{}|Object}
+     */
+    getBuyer() {
+        if (this.__buyerList) {
+            return this.__buyerList.find((el) => el.id === this.__buyerId);
+        }
+
+        return {};
+    }
+
+    /***
+     * Get buyer id
+     * @returns {number}
+     */
+    get buyerId() {
+        return this.__buyerId;
+    }
+
+    /***
      * Get locale date
      * @returns {string}
      * @private
@@ -374,7 +431,26 @@ export class ProductModel extends BaseModel {
                 this.checkError(status, {
                     message: data.message
                 });
+
+                this.fillBuyerData(data);
             });
+    }
+
+    /***
+     * Set product buyer
+     * @param {number} id - product buyer
+     * @returns {Promise<{data: *, status: number}>}
+     */
+    async setBuyer(id) {
+        this.__buyerId = id;
+
+        return http.post(backUrls.setProductBuyer(this.__id), {
+            buyer_id: this.__buyerId
+        }).then(({status, data}) => {
+            this.checkError(status, {
+                message: data.message
+            });
+        });
     }
 
     /***

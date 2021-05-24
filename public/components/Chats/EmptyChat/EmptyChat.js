@@ -17,13 +17,10 @@ export class EmptyChat {
 
     /***
      * Add component to parent
-     * @param {Object} context - component context
      */
-    render(context) {
+    render() {
         try {
-            this.__context = context;
-
-            this.__parent.insertAdjacentHTML('beforeend', emptyChat(this.__context));
+            this.__parent.insertAdjacentHTML('beforeend', emptyChat());
         } catch (err) {
             sentryManager.captureException(err);
             console.log(err.message);

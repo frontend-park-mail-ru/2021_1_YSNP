@@ -1,0 +1,15 @@
+<div class="await-review-list">
+    <div class="await-review-list-inner">
+        <div class="await-review-list-inner-head">
+            {{#if_eq type 'seller'}}
+                <span class="await-review-list-inner-head__title">Оставьте отзыв о продавце</span>
+            {{else}}
+                <span class="await-review-list-inner-head__title">Оставьте отзыв о покупателе</span>
+            {{/if_eq}}
+        </div>
+
+        <div class="await-review-list-inner-body" id="await-review-list-{{type}}-scroll">
+            <div class="await-review-list-inner-body-inner" id="await-review-list-{{type}}-body"></div>
+        </div>
+    </div>
+</div>

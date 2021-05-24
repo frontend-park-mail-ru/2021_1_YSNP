@@ -87,3 +87,57 @@ export function eventChatListHandler(ev, actions) {
 export function eventReviewListHandler(ev, actions) {
     eventHandlerWithId(ev, actions, 'reviewId');
 }
+
+/***
+ * Release select user click event
+ * @param {MouseEvent} ev - user event
+ * @param {Object} actions - actions on this event
+ */
+export function eventSelectUserHandler(ev, actions) {
+    eventHandlerWithId(ev, actions, 'userId');
+}
+
+/***
+ * Release event with two id
+ * @param {MouseEvent} ev - event
+ * @param {Object} actions - event actions
+ * @param {string} idNameOne - id name in dataset
+ * @param {string} idNameTwo - id name in dataset
+ */
+export function eventHandlerWithTwoId(ev, actions, idNameOne, idNameTwo) {
+    ev.preventDefault();
+
+    let idOne = undefined;
+    let idTwo = undefined;
+    let action = undefined;
+    Object
+        .entries(ev.composedPath())
+        .forEach(([, el]) => {
+            if (el.dataset !== undefined) {
+                if ('action' in el.dataset && action === undefined) {
+                    action = el.dataset.action;
+                }
+
+                if (idNameOne in el.dataset) {
+                    idOne = el.dataset[idNameOne];
+                }
+
+                if (idNameTwo in el.dataset) {
+                    idTwo = el.dataset[idNameTwo];
+                }
+            }
+        });
+
+    if (action !== undefined) {
+        actions[action].open(parseInt(idOne, 10), parseInt(idTwo, 10));
+    }
+}
+
+/***
+ * Release await review
+ * @param {MouseEvent} ev - event
+ * @param {Object} actions - event actions
+ */
+export function eventReviewAwaitHandler(ev, actions) {
+    eventHandlerWithTwoId(ev, actions, 'productId', 'userId');
+}
