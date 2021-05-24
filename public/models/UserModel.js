@@ -239,7 +239,7 @@ export class UserModel extends BaseModel {
     /***
      * Get user without login
      * @param {number} id - user id
-     * @returns {Promise<{surname: *, name: *, telephone: *, linkImages: *, id: *}>}
+     * @return {Promise<{data: *, status: number}>}
      */
     async getUser(id) {
         return http.get(backUrls.getUser(id))

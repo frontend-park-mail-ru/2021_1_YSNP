@@ -32,7 +32,7 @@ export class AchievementPresenter extends BasePresenter {
             .then(() => this.__userModel.getUser(this.__userID))
             .then((data) => {
                 console.log(data);
-                this.__userInfo = data;
+                this.__userInfo = this.__userModel;
                 console.log(this.__userInfo);
             })
             .catch((err) => {
