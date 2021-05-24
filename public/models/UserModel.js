@@ -248,7 +248,7 @@ export class UserModel extends BaseModel {
                     message: data.message,
                     notFound: 'Нет такого пользователя'
                 });
-
+                console.log(data);
                 this.fillUserData(data);
             });
     }
