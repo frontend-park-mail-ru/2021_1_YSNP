@@ -28,7 +28,7 @@ export class AchievementPresenter extends BasePresenter {
      */
     async update() {
         return super.update()
-            .then(() => this.__userModel.getUserMinInfo(this.__userID))
+            .then(() => this.__userModel.getUser(this.__userID))
             .then((data) => {
                 this.__userInfo = data;
             })
