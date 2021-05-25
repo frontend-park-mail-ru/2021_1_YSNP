@@ -71,8 +71,7 @@ module.exports = {
 
             include: './dist',
             ignore: ['node_modules', 'webpack.config.js', 'all.js', 'sw.js']
-        }),
-        require('autoprefixer')
+        })
     ],
     module: {
         rules: [
