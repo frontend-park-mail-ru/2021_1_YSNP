@@ -56,6 +56,15 @@ if ('serviceWorker' in navigator) {
     });
 }
 
+Notification.requestPermission()
+    .then((permission) => {
+        console.log('Notification:', permission);
+    })
+    .catch((err) => {
+        console.log('Notification:', err);
+        sentryManager.captureException(err);
+    });
+
 const app = document.getElementById('app');
 
 const chatsView = new UserChatsView(app);
