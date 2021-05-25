@@ -521,8 +521,15 @@ class ChatModel extends BaseModel {
             return;
         }
 
+        const parseData = this.parseNewMessage(data);
+
         if (this.__isActive) {
-            this.__callbackList.chatMessageNewMessage(data.chat_id, this.parseNewMessage(data));
+            this.__callbackList.chatMessageNewMessage(data.chat_id, parseData);
+        } else {
+            new Notification('Чаты', {
+                icon: '/img/favicon.png',
+                body: parseData.text
+            });
         }
     }
 
