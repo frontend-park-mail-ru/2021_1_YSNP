@@ -15,6 +15,10 @@ import {
 } from '../modules/http/httpError';
 import {CustomError} from '../modules/customError';
 
+import {frontUrls} from '../modules/urls/frontUrls';
+import {router} from '../modules/router';
+import {sentryManager} from '../modules/sentry';
+
 /* eslint-disable camelcase */
 
 /***
@@ -528,10 +532,20 @@ class ChatModel extends BaseModel {
         if (this.__isActive) {
             this.__callbackList.chatMessageNewMessage(data.chat_id, parseData);
         } else {
-            new Notification('Чаты', {
+            const not = new Notification('Чаты', {
                 icon: '/img/favicon.png',
-                body: parseData.text
+                body: parseData.text,
+                data: frontUrls.userChat(data.chat_id)
             });
+
+            not.onclick = (event) => {
+                try {
+                    router.redirect(event.target.data);
+                } catch (err) {
+                    console.log(err.message);
+                    sentryManager.captureException(err);
+                }
+            };
         }
     }
 
