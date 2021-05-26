@@ -6,7 +6,7 @@
   border-radius: 7px;
   width: 45%;
   min-height: 10vw;
-  background: white;
+  @include shadow-block;
   margin: 1vw;
   @media screen and (max-width: $breakMobile), (max-width: $breakTablet) {
     width: 100%;
@@ -42,6 +42,10 @@
 
     &-info {
       margin-left: 0.5vw;
+
+      @include themify($themes){
+        color: themed('textGrayColor');
+      }
       @media screen and (max-width: $breakMobile), (max-width: $breakTablet)  {
         margin-left: 3vw;
       }

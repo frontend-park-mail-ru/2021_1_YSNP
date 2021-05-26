@@ -52,12 +52,12 @@
   object-fit: contain;
   transition: all .3s cubic-bezier(.175, .885, .32, 1.275);
   opacity: 0.6;
-
-  &::before {
+  border: none;
     @include themify($themes) {
-      content: themed('addPhotoSvg');
+      background-image: themed('addPhotoSvg');
     }
-  }
+  background-repeat: no-repeat;
+  background-position: center;
 
   &:hover {
     opacity: 1;
