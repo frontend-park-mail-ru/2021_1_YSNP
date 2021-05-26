@@ -70,7 +70,7 @@ module.exports = {
             project: 'ysnp',
 
             include: './dist',
-            ignore: ['node_modules', 'webpack.config.js', 'all.js', 'firebase-messaging-sw.js']
+            ignore: ['node_modules', 'webpack.config.js', 'all.js', 'sw.js']
         })
     ],
     module: {
