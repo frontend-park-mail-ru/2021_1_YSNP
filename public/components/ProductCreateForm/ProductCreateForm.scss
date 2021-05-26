@@ -23,10 +23,10 @@
 
   &__photolabel {
     @include border-block;
-    @include themify($themes){
+    @include themify($themes) {
       background-color: themed('inputBackground');
     }
-    @include themify($themes){
+    @include themify($themes) {
       border-color: themed('borderColor');
     }
     font-size: 1vh;
@@ -52,6 +52,12 @@
   object-fit: contain;
   transition: all .3s cubic-bezier(.175, .885, .32, 1.275);
   opacity: 0.6;
+
+  &::before {
+    @include themify($themes) {
+      content: themed('addPhotoSvg');
+    }
+  }
 
   &:hover {
     opacity: 1;
@@ -101,7 +107,7 @@
 }
 
 .map-product {
-  @include themify($themes){
+  @include themify($themes) {
     filter: themed('mapTheme');
   }
   height: 50vh;

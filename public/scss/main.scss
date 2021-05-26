@@ -32,7 +32,7 @@ $themes: (
                 linkColor: rgb(112, 146, 254),
                 mainColor: rgb(211, 30, 30),
                 errorBlockColor: #ffffff,
-                errorBorderColor: #000000,
+                errorBorderColor: #ffffff,
                 svgFilter: none,
                 logoPath: url(../../../img/svg/koya.svg),
                 inputBackground: #ffffff,
@@ -41,7 +41,9 @@ $themes: (
                 dropdownColor: #ffffff,
                 lightButton: snow,
                 mapTheme: none,
-                selectUrl: url(../../../img/svg/selectDark.svg)
+                selectUrl: url(../../../img/svg/selectDark.svg),
+                placeHolderColor: #909090,
+                addPhotoSvg: url(../../../img/svg/photo.svg)
         ),
         dark: (
                 backgroundColor: #121212,
@@ -63,7 +65,9 @@ $themes: (
                 dropdownColor: #171717,
                 lightButton: #272727,
                 mapTheme: invert(1) hue-rotate(180deg),
-                selectUrl: url(../../../img/svg/selectLight.svg)
+                selectUrl: url(../../../img/svg/selectLight.svg),
+                placeHolderColor: #c1c1c1,
+                addPhotoSvg: url(../../../img/svg/photoLight.svg)
         ),
 );
 
@@ -89,6 +93,7 @@ $themes: (
   text-align: center;
   cursor: pointer;
   color: rgb(255, 255, 255);
+
   @include themify($themes) {
     background-color: themed('mainColor');
   }
@@ -157,6 +162,7 @@ $themes: (
   font-size: 1.5vh;
   text-align: center;
   cursor: pointer;
+
   @include themify($themes) {
     color: themed('textColorDefault');
   }
@@ -180,6 +186,7 @@ $themes: (
 
 @mixin menu-link() {
   text-decoration: none;
+
   @include themify($themes) {
     color: themed('textColorDefault');
   }
@@ -222,7 +229,7 @@ $themes: (
   }
   &::placeholder {
     @include themify($themes) {
-      color: themed('textColorDefault');
+      color: themed('placeHolderColor');
     }
   }
 }
@@ -371,6 +378,83 @@ $themes: (
     border-radius: 5px;
     @media screen and (max-width: $breakDesktop) {
       width: 90%;
+    }
+  }
+}
+
+@mixin separator-bottom {
+  border-bottom: 1px solid rgb(227, 227, 227);
+}
+
+@mixin star() {
+  width: 12vh;
+
+  &__rate span {
+    font-size: 2vh;
+
+    color: lightgrey;
+  }
+
+  &__rate > span:before {
+    content: '★';
+  }
+
+  &__rate > span.star-active {
+    color: gold;
+  }
+}
+
+@mixin popup($w) {
+  @include set-size(100vw, 100vh);
+  top: 0;
+  position: fixed;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 101;
+
+  background-color: rgba(0, 0, 0, 0.5);
+
+  &-content {
+    position: relative;
+    @include block;
+    z-index: 102;
+
+    width: $w;
+
+    @media screen and (max-width: $breakMobile) {
+      @include set-size(100vw, 100vh);
+
+      border-radius: 0;
+    }
+
+    &-inner {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+
+      &__close {
+        @include set-size(2vh, 2vh);
+
+        position: absolute;
+        fill: rgb(120, 120, 120);
+
+        top: 1vh;
+        right: 1vh;
+
+        &:hover {
+          cursor: pointer;
+        }
+
+        @media screen and (max-width: $breakMobile) {
+          top: 2vh;
+          right: 2vh;
+
+          @include set-size(3vh, 3vh);
+        }
+      }
     }
   }
 }

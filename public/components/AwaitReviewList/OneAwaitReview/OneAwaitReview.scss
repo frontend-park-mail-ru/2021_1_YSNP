@@ -1,0 +1,95 @@
+@import "../../../scss/main.scss";
+
+.one-await-review {
+  cursor: pointer;
+
+  width: 30%;
+  @include shadow-block;
+
+  margin: 1vh;
+
+  &:hover {
+    background-color: rgb(240, 240, 240);
+  }
+
+  @media screen and (max-width: $breakDesktop) {
+    width: 45%;
+  }
+
+  @media screen and (max-width: $breakMobile) {
+    width: 95%;
+    border-radius: 1vh;
+  }
+
+  &-inner {
+    display: flex;
+    flex-direction: column;
+
+    padding: 1vh;
+
+    &__separator {
+      @include separator-bottom;
+      width: calc(100% - 6vh);
+      margin-left: auto;
+    }
+  }
+
+  &-content {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+
+    &-avatars {
+      margin-right: 1vh;
+      position: relative;
+
+      display: flex;
+      align-items: center;
+
+      &__product {
+        @include set-size(5vh, 5vh);
+        object-fit: cover;
+        border-radius: 8px;
+      }
+
+      &__user {
+        position: absolute;
+        top: -0.5vh;
+        left: -0.5vh;
+
+        @include set-size(2vh, 2vh);
+        box-shadow: 0 0 1vw rgba(0, 0, 0, 0.2);
+        @include circle;
+        object-fit: cover;
+
+        border: 2px solid white;
+      }
+    }
+
+    &-info {
+      width: calc(100% - 7vh);
+
+      &-inner {
+        display: flex;
+        flex-direction: column;
+      }
+
+      &__user {
+        font-size: 2vh;
+
+        width: 100%;
+        @include overflow-text-width;
+      }
+
+      &__product {
+        width: 100%;
+        @include overflow-text-width;
+
+        font-size: 1.5vh;
+        @include themify($themes) {
+          color: themed('textGrayColor');
+        }
+      }
+    }
+  }
+}

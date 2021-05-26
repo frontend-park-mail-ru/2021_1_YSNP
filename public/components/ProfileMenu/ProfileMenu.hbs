@@ -1,73 +1,88 @@
-{{#if owner}}
-    <div class="profile-menu" id="profile-menu">
-{{else}}
-    <div class="profile-menu-small" id="profile-menu">
-{{/if}}
+<div class="profile-menu" id="profile-menu">
     <div class="profile-menu-inner">
         <div class="profile-menu-user">
-            <div class="profile-menu-user__avatar">
-                <img class="profile-menu-user__avatar" src="{{linkImage}}" alt="avatar"/>
-            </div>
             <div class="profile-menu-user-inner">
-                <a class="profile-menu-user__name">{{surname}} {{name}}</a>
-                <a class="profile-menu-user__rating">
-                    4.8
-                    <svg width="2vh" height="2.1vh" viewBox="0 0 20 21" fill="none"
-                         xmlns="http://www.w3.org/2000/svg">
-                        <path d="M10 0.895203L12.7861 7.4256L19.5106 8.21427L14.508 13.0389L15.8779 20.0568L10 16.5082L4.12215 20.0568L5.49199 13.0389L0.489435 8.21427L7.2139 7.4256L10 0.895203Z"
-                              fill="#F3DD14"/>
-                    </svg>
-                </a>
+                <div class="profile-menu-user-avatar">
+                    <img src="{{linkImage}}" alt="avatar" class="profile-menu-user-avatar__img"/>
+                </div>
+
+                <div class="profile-menu-user-info">
+                    <span class="profile-menu-user-info__name">{{name}} {{surname}}</span>
+
+                    <div class="profile-menu-user-info-rating">
+                        <div class="profile-menu-user-info-rating__text">{{rating}}</div>
+
+                        <div class="profile-menu-user-info-rating__rate">
+                            <span id="star-1"></span>
+                            <span id="star-2"></span>
+                            <span id="star-3"></span>
+                            <span id="star-4"></span>
+                            <span id="star-5"></span>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
+
         <div class="profile-menu__separator"></div>
-        {{#if owner}}
-            <a href="/user/profile" class="profile-menu-content-item" id="profile-menu-settings"
-               data-action="settingsClick">
-                <img src="/img/svg/gear.svg" alt="profile" class="profile-menu-content__logo">
-                <span>Настройки</span>
-            </a>
-            <a href="/user/ad" class="profile-menu-content-item" id="profile-menu-posts" data-action="myPostsClick">
-                <img src="/img/svg/list.svg" alt="ad" class="profile-menu-content__logo">
-                <span>Мои объявления</span>
-            </a>
-            <a href="/user/chats" class="profile-menu-content-item" id="profile-menu-messages"
-               data-action="messagesClick">
-                <img src="/img/svg/email.svg" alt="message" class="profile-menu-content__logo">
-                <span>Мои сообщения</span>
-            </a>
-            <a href="/user/favorite" class="profile-menu-content-item" id="profile-menu-favorites"
-               data-action="favoritesClick">
-                <img src="/img/svg/like_light.svg" alt="favorite"
-                     class="profile-menu-content__logo">
-                <span>Избранное</span>
-            </a>
-            <a href="/user/achievements" class="profile-menu-content-item" id="profile-menu-achievements"
-               data-action="favoritesClick">
-                <img src="/img/svg/badge.svg" alt="profile" class="profile-menu-content__logo">
-                <span>Достижения</span>
-            </a>
-            <a href="/user/comments" class="profile-menu-content-item" id="profile-menu-comments"
-               data-action="favoritesClick">
-                <img src="/img/svg/comments.svg" alt="profile" class="profile-menu-content__logo">
-                <span>Отзывы</span>
-            </a>
-        {{else}}
-            <a href="/user/{{id}}/ads" class="profile-menu-content-item" id="profile-menu-landing"
-               data-action="favoritesClick">
-                <img src="/img/svg/list.svg" alt="ad" class="profile-menu-content__logo">
-                <span>Все объявления</span>
-            </a>
-            <a href="/user/{{id}}/achievements" class="profile-menu-content-item" id="profile-menu-user-achievements"
-               data-action="favoritesClick">
-                <img src="/img/svg/badge.svg" alt="profile" class="profile-menu-content__logo">
-                <span>Достижения</span>
-            </a>
-            <a href="/user/{{id}}/comments" class="profile-menu-content-item" id="profile-menu-user-comments"
-               data-action="favoritesClick">
-                <img src="/img/svg/comments.svg" alt="profile" class="profile-menu-content__logo">
-                <span>Отзывы</span>
-            </a>
-        {{/if}}
+
+        <div class="profile-menu-buttons">
+            <div class="profile-menu-buttons-inner">
+                {{#if owner}}
+                    <a href="/user/profile" class="profile-menu-buttons-item" id="profile-menu-settings">
+                        <img src="/img/svg/gear.svg" alt="profile" class="profile-menu-buttons-item__logo">
+                        <span class="profile-menu-buttons-item__text">Настройки</span>
+                    </a>
+
+                    <a href="/user/ad" class="profile-menu-buttons-item" id="profile-menu-posts">
+                        <img src="/img/svg/list.svg" alt="ad" class="profile-menu-buttons-item__logo">
+                        <span class="profile-menu-buttons-item__text">Мои объявления</span>
+                    </a>
+
+                    <a href="/user/chats" class="profile-menu-buttons-item" id="profile-menu-messages">
+                        <img src="/img/svg/email.svg" alt="message" class="profile-menu-buttons-item__logo">
+                        <span class="profile-menu-buttons-item__text">Мои сообщения</span>
+                    </a>
+
+                    <a href="/user/favorite" class="profile-menu-buttons-item" id="profile-menu-favorites">
+                        <img src="/img/svg/like_light.svg" alt="favorite"
+                             class="profile-menu-buttons-item__logo">
+                        <span class="profile-menu-buttons-item__text">Избранное</span>
+                    </a>
+
+                    <a href="/user/{{id}}/achievements" class="profile-menu-buttons-item"
+                       id="profile-menu-achievements">
+                        <img src="/img/svg/badge.svg" alt="profile" class="profile-menu-buttons-item__logo">
+                        <span class="profile-menu-buttons-item__text">Достижения</span>
+                    </a>
+
+                    <a href="/user/{{id}}/reviews" class="profile-menu-buttons-item" id="profile-menu-comments">
+                        <img src="/img/svg/comments.svg" alt="profile" class="profile-menu-buttons-item__logo">
+                        <span class="profile-menu-buttons-item__text">Отзывы</span>
+                    </a>
+
+                    <a href="/user/review/await" class="profile-menu-buttons-item" id="profile-menu-review-await">
+                        <img src="/img/svg/comment-await.svg" alt="profile" class="profile-menu-buttons-item__logo">
+                        <span class="profile-menu-buttons-item__text">Ожидает отзыв</span>
+                    </a>
+                {{else}}
+                    <a href="/user/{{id}}/ad" class="profile-menu-buttons-item" id="profile-menu-landing">
+                        <img src="/img/svg/list.svg" alt="ad" class="profile-menu-buttons-item__logo">
+                        <span class="profile-menu-buttons-item__text">Все объявления</span>
+                    </a>
+
+                    <a href="/user/{{id}}/achievements" class="profile-menu-buttons-item"
+                       id="profile-menu-achievements">
+                        <img src="/img/svg/badge.svg" alt="profile" class="profile-menu-buttons-item__logo">
+                        <span class="profile-menu-buttons-item__text">Достижения</span>
+                    </a>
+
+                    <a href="/user/{{id}}/reviews" class="profile-menu-buttons-item" id="profile-menu-comments">
+                        <img src="/img/svg/comments.svg" alt="profile" class="profile-menu-buttons-item__logo">
+                        <span class="profile-menu-buttons-item__text">Отзывы</span>
+                    </a>
+                {{/if}}
+            </div>
+        </div>
     </div>
 </div>

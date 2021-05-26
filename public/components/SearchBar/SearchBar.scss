@@ -237,6 +237,12 @@
           @include set-size(25%, 5vh);
         }
       }
+
+      &-product {
+        @include themify($themes){
+          color: themed('textGrayColor');
+        }
+      }
     }
 
     &__sort {

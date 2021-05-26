@@ -1,0 +1,37 @@
+<div class="one-review" data-review-id="{{reviewId}}">
+    <div class="one-review-inner">
+
+        <div class="one-review-head">
+            <div class="one-review-head-inner">
+                <div class="one-review-head-avatars">
+                    <img src="{{userImg}}" alt="product" class="one-review-head-avatars__product">
+                    <img src="{{productImg}}" alt="user" class="one-review-head-avatars__user">
+                </div>
+
+                <div class="one-review-head-info">
+                    <a href="/user/{{userId}}/ad" class="one-review-head-info__user">{{userName}}</a>
+                    <a href="/product/{{productId}}" class="one-review-head-info__product">{{productName}}</a>
+                </div>
+
+                <div class="one-review-head-stat">
+                    <div class="one-review-head-stat__rate">
+                        <span id="star-{{reviewId}}-1"></span>
+                        <span id="star-{{reviewId}}-2"></span>
+                        <span id="star-{{reviewId}}-3"></span>
+                        <span id="star-{{reviewId}}-4"></span>
+                        <span id="star-{{reviewId}}-5"></span>
+                    </div>
+
+                    <span class="one-review-head-stat__date">{{date}}</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="one-review-content" data-action="contentClick">
+            <div class="one-review-content__text" id="one-review-{{reviewId}}-text">{{content}}</div>
+            <span class="one-review-content__more" id="one-review-{{reviewId}}-more">читать дальше</span>
+        </div>
+
+        <div class="one-review__separator"></div>
+    </div>
+</div>

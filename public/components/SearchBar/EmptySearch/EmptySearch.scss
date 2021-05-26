@@ -13,7 +13,9 @@
 
     &__text {
       font-size: 2vh;
-      color: #666666;
+      @include themify($themes){
+        color: themed('textGrayColor');
+      }
       opacity: 0.7;
     }
   }

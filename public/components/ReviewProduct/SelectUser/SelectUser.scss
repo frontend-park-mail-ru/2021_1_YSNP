@@ -1,0 +1,62 @@
+@import "../../../scss/main.scss";
+
+.select-user {
+  @include popup(40vh);
+
+  &-content {
+    @media screen and (max-width: $breakMobile) {
+      display: flex;
+      justify-content: center;
+    }
+
+    &-inner {
+      margin: 2vh;
+
+      @media screen and (max-width: $breakMobile) {
+        width: 80%;
+      }
+
+      &__title {
+        font-size: 2.5vh;
+
+        @media screen and (max-width: $breakMobile) {
+          font-size: 3vh;
+        }
+      }
+
+      &__info {
+        margin-top: 0.5vh;
+
+        font-size: 1.5vh;
+        @include themify($themes) {
+          color: themed('textGrayColor');
+        }
+
+        @media screen and (max-width: $breakMobile) {
+          font-size: 2vh;
+        }
+      }
+
+      &-body {
+        margin: 2vh 0;
+
+        @include set-size(100%, 20vh);
+
+        &-inner {
+          @include set-size(100%, 100%);
+
+          overflow: scroll;
+          overflow-x: hidden;
+
+          &::-webkit-scrollbar {
+            display: none;
+          }
+        }
+      }
+
+      &__skip-button {
+        @include red-button(100%, 4vh);
+      }
+    }
+  }
+}

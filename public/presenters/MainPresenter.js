@@ -7,6 +7,7 @@ import {eventProductListHandler, eventHandlerWithDataType} from '../modules/hand
 import {CreateButtonHandler} from '../modules/handlers/createButtonHandler';
 import {EndlessScroll} from '../modules/handlers/endlessScroll.js';
 import {PageUpHandler} from '../modules/handlers/pageUpHandler.js';
+import {NotFoundError, UnauthorizedError} from '../modules/http/httpError';
 
 import {router} from '../modules/router';
 import {frontUrls} from '../modules/urls/frontUrls';
@@ -44,8 +45,10 @@ export class MainPresenter extends BasePresenter {
             .catch((err) => {
                 //TODO(Sergey) нормальная обработка ошибок
 
-                sentryManager.captureException(err);
                 console.log(err.message);
+                if (!UnauthorizedError.isError(err)) {
+                    sentryManager.captureException(err);
+                }
 
                 this.checkOfflineStatus(err);
             });
@@ -125,8 +128,10 @@ export class MainPresenter extends BasePresenter {
 
                 //TODO(Sergey) нормальная обработка ошибок
 
-                sentryManager.captureException(err);
                 console.log(err.message);
+                if (!NotFoundError.isError(err)) {
+                    sentryManager.captureException(err);
+                }
 
                 this.checkOfflineStatus(err);
                 this.checkOffline();
@@ -216,7 +221,7 @@ export class MainPresenter extends BasePresenter {
             .catch((err) => {
                 //TODO(Sergey) нормальная обработка ошибок
 
-                sentryManager.captureException(err);
+                 sentryManager.captureException(err);
                 console.log(err.message);
 
                 this.checkOfflineStatus(err);
@@ -261,7 +266,7 @@ export class MainPresenter extends BasePresenter {
             .catch((err) => {
                 //TODO(Sergey) нормальная обработка ошибок
 
-                sentryManager.captureException(err);
+             sentryManager.captureException(err);
                 console.log(err.message);
 
                 this.checkOfflineStatus(err);

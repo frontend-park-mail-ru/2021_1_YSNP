@@ -5,6 +5,9 @@ import './scss/main.scss';
 
 import {router} from './modules/router.js';
 import {frontUrls} from './modules/urls/frontUrls.js';
+import {baseCreateProduct, baseRegistration} from './modules/layout/fields.js';
+
+import {sentryManager} from './modules/sentry';
 
 import {UserFavoriteView} from './views/UserFavoriteView.js';
 import {MainView} from './views/MainView.js';
@@ -17,8 +20,11 @@ import {SearchView} from './views/SearchView.js';
 import {PromotionView} from './views/PromotionView.js';
 import {NotFoundView} from './views/NotFoundView.js';
 import {ProductEditView} from './views/ProductEditView.js';
+import {UserAchievementView} from './views/UserAchievementView.js';
 import {UserChatsView} from './views/UserChatsView';
-import {SellerProfileView} from './views/SellerProfileView.js';
+import {UserReviewsView} from './views/UserReviewsView';
+import {SellerAdView} from './views/SellerAdView';
+import {UserAwaitReviewView} from './views/UserAwaitReviewView';
 
 import {UserFavoritePresenter} from './presenters/UserFavoritePresenter.js';
 import {MainPresenter} from './presenters/MainPresenter.js';
@@ -30,11 +36,13 @@ import {RegistrationPresenter} from './presenters/RegistrationPresenter.js';
 import {SearchPresenter} from './presenters/SearchPresenter.js';
 import {PromotionPresenter} from './presenters/PromotionPresenter.js';
 import {NotFoundPresenter} from './presenters/NotFoundPresenter.js';
-import {baseCreateProduct, baseRegistration} from './modules/layout/fields.js';
+import {UserAchievementPresenter} from './presenters/UserAchievementPresenter.js';
 import {ProductEditPresenter} from './presenters/ProductEditPresenter';
 import {UserChatsPresenter} from './presenters/UserChatsPresenter';
-import {sentryManager} from './modules/sentry';
-import {SellerProfilePresenter} from './presenters/SellerProfilePresenter';
+import {UserReviewsPresenter} from './presenters/UserReviewsPresenter';
+import {SellerAdPresenter} from './presenters/SellerAdPresenter';
+import {UserAwaitReviewPresenter} from './presenters/UserAwaitReviewPresenter';
+
 import {customSessionStorage} from './modules/customSessionStorage';
 
 /***
@@ -50,7 +58,6 @@ if ('serviceWorker' in navigator) {
     });
 }
 
-
 const html = document.getElementsByTagName('html').item(0);
 let theme = customSessionStorage.get('theme');
 if (theme === null) {
@@ -64,11 +71,24 @@ if (theme === null) {
 }
 html.className = `theme-${theme}`;
 
+try {
+    Notification.requestPermission()
+        .then((permission) => {
+            console.log('Notification:', permission);
+        })
+        .catch((err) => {
+            console.log('Notification:', err);
+            sentryManager.captureException(err);
+        });
+} catch (err) {
+    console.log(err.message);
+}
 
 const app = document.getElementById('app');
 
 const chatsView = new UserChatsView(app);
 const favoriteView = new UserFavoriteView(app);
+const achievementView = new UserAchievementView(app);
 const mainView = new MainView(app);
 const adView = new UserAdView(app);
 const productCreateView = new ProductCreateView(app, baseCreateProduct);
@@ -79,7 +99,10 @@ const searchView = new SearchView(app);
 const promotionView = new PromotionView(app);
 const notFoundView = new NotFoundView(app);
 const productEditView = new ProductEditView(app, baseCreateProduct);
-const userLandingView = new SellerProfileView(app);
+const userReviewsView = new UserReviewsView(app);
+const sellerAdView = new SellerAdView(app);
+const userAwaitReview = new UserAwaitReviewView(app);
+
 
 /***
  * Open main page
@@ -204,6 +227,28 @@ const doFavorite = () => {
 };
 
 /***
+ * Open user achievements page
+ * @returns {Function}
+ */
+const doAchievements = (val) => {
+    const achievementPresenter = new UserAchievementPresenter(achievementView, val.parameters.id);
+    achievementPresenter.control();
+
+    return achievementPresenter.removePageListeners.bind(achievementPresenter);
+};
+
+/***
+ * Open user await review page
+ * @returns {Function}
+ */
+const doAwaitReview = () => {
+    const awaitReviewPresenter = new UserAwaitReviewPresenter(userAwaitReview);
+    awaitReviewPresenter.control();
+
+    return awaitReviewPresenter.removePageListeners.bind(awaitReviewPresenter);
+};
+
+/***
  * Open search page with text
  * @param {Object} val - page params
  */
@@ -237,15 +282,27 @@ const doNotFound = () => {
 };
 
 /***
- * Open product page
+ * Open seller profile page
  * @param {Object} val - page params
  * @returns {Function}
  */
-const doUserLanding = (val) => {
-    const userLandingPresenter = new SellerProfilePresenter(userLandingView, val.parameters.id);
-    userLandingPresenter.control();
+const doSellerAd = (val) => {
+    const sellerAdPresenter = new SellerAdPresenter(sellerAdView, val.parameters.id);
+    sellerAdPresenter.control();
 
-    return userLandingPresenter.removePageListeners.bind(userLandingPresenter);
+    return sellerAdPresenter.removePageListeners.bind(sellerAdPresenter);
+};
+
+/***
+ * Open user comments page
+ * @param {Object} val - page params
+ * @returns {Function}
+ */
+const doUserReviews = (val) => {
+    const userReviewsPresenter = new UserReviewsPresenter(userReviewsView, val.parameters.id);
+    userReviewsPresenter.control();
+
+    return userReviewsPresenter.removePageListeners.bind(userReviewsPresenter);
 };
 
 router.add(frontUrls.main, doMain);
@@ -260,8 +317,11 @@ router.add(frontUrls.userAd, doAd);
 router.add(frontUrls.userChats, doChats);
 router.add(frontUrls.userChat(), doChat);
 router.add(frontUrls.userFavorite, doFavorite);
+router.add(frontUrls.userAwaitReview, doAwaitReview);
 router.add(frontUrls.editProduct(), doProductEdit);
-router.add(frontUrls.sellerProfile(), doUserLanding);
+router.add(frontUrls.userAchievements(), doAchievements);
+router.add(frontUrls.userReviews(), doUserReviews);
+router.add(frontUrls.sellerAd(), doSellerAd);
 
 router.addNotFound(doNotFound);
 

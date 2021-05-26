@@ -8,10 +8,11 @@ import {frontUrls} from './urls/frontUrls.js';
  */
 export function checkIsAuth() {
     if (user.isAuth) {
-        return;
+        return true;
     }
 
     router.redirect(frontUrls.registration);
+    return false;
 }
 
 /***
@@ -19,8 +20,9 @@ export function checkIsAuth() {
  */
 export function checkIsNotAuth() {
     if (!user.isAuth) {
-        return;
+        return true;
     }
 
     router.redirect(frontUrls.userProfile);
+    return false;
 }

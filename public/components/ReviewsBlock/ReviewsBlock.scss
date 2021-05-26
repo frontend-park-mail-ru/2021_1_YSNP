@@ -1,0 +1,90 @@
+@import "../../scss/style.scss";
+
+.reviews {
+  @include shadow-block;
+  @include set-size(100%, 60vh);
+  margin-bottom: 2vh;
+
+  &-inner {
+    display: flex;
+    flex-direction: column;
+  }
+
+  &-head {
+    display: flex;
+    flex-direction: column;
+
+    &__title {
+      padding: 1vh 1.5vh;
+      font-size: 2.5vh;
+      @include themify($themes) {
+        color: themed('textColorDefault');
+      }
+    }
+
+    &-sort {
+      margin: 0 1.5vh;
+      font-size: 1.5vh;
+      @include themify($themes) {
+        color: themed('textColorDefault');
+      }
+
+      &__button {
+        margin-left: 2vh;
+        margin-right: 1vh;
+        cursor: pointer;
+      }
+
+      &__label {
+        cursor: pointer;
+      }
+    }
+
+    &__separator {
+      margin-top: 1vh;
+      @include separator;
+    }
+  }
+
+  &-body {
+    overflow: scroll;
+    overflow-x: hidden;
+    height: 50vh;
+
+    &-inner {
+
+    }
+  }
+}
+
+
+input[type='radio']:after {
+  width: 15px;
+  height: 15px;
+  border-radius: 15px;
+  top: -2px;
+  left: -1px;
+  position: relative;
+  background-color: #d1d3d1;
+  content: '';
+  display: inline-block;
+  visibility: visible;
+  border: 2px solid white;
+}
+
+input[type='radio']:checked:after {
+  width: 15px;
+  height: 15px;
+  border-radius: 15px;
+  top: -2px;
+  left: -1px;
+  position: relative;
+  @include themify($themes) {
+    background-color: themed('mainColor');
+  }
+  content: '';
+  display: inline-block;
+  visibility: visible;
+  border: 2px solid white;
+  outline: none;
+}

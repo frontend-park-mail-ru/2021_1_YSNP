@@ -1,0 +1,56 @@
+@import "../../../../scss/main.scss";
+
+.one-user {
+  display: flex;
+  cursor: pointer;
+
+  margin-bottom: 1vh;
+
+  border: 0;
+  border-radius: 1vh;
+  box-shadow: 0 5px 5px -5px rgba(0, 0, 0, 0.2);
+
+  transition-duration: 0.5s;
+  transition-property: box-shadow;
+
+  &:hover {
+    box-shadow: 0 5px 10px -6px rgba(0, 0, 0, 0.5);
+  }
+
+  &-inner {
+    margin: 1vh;
+
+    width: 100%;
+
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+
+    &-info {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+
+      &__avatar {
+        @include set-size(4vh, 4vh);
+        @include circle;
+      }
+
+      &__user {
+        margin-left: 1vh;
+
+        font-size: 1.5vh;
+
+        @media screen and (max-width: $breakMobile) {
+          font-size: 2vh;
+        }
+      }
+    }
+
+    &__select {
+      margin-left: auto;
+
+      @include set-size(2vh, 2vh);
+    }
+  }
+}

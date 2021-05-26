@@ -2,7 +2,7 @@ import {BasePresenter} from './BasePresenter';
 
 import {eventChatListHandler} from '../modules/handlers/eventHandler';
 import {EndlessScroll} from '../modules/handlers/endlessScroll';
-import {NotFoundError} from '../modules/http/httpError';
+import {NotFoundError, UnauthorizedError} from '../modules/http/httpError';
 import {checkIsAuth} from '../modules/checkAuth';
 
 import {router} from '../modules/router';
@@ -41,8 +41,10 @@ export class UserChatsPresenter extends BasePresenter {
             .catch((err) => {
                 //TODO(Serge) нормальная обработка ошибок
 
-                sentryManager.captureException(err);
                 console.log(err.message);
+                if (!UnauthorizedError.isError(err)) {
+                    sentryManager.captureException(err);
+                }
 
                 this.checkOfflineStatus(err);
             });
@@ -281,6 +283,11 @@ export class UserChatsPresenter extends BasePresenter {
         ev.preventDefault();
 
         const input = this.__view.getChatMessageInput();
+        if (input.value.length > 1000) {
+            input.value = '';
+            return;
+        }
+
         this.__chatModel.createMessage(input.value);
         input.value = '';
     }

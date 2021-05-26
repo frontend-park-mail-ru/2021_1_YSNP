@@ -1,25 +1,9 @@
 @import "../../scss/main.scss";
 
 .map {
-  @include set-size(100vw, 100vh);
-
-  position: fixed;
-  top: 0;
-
-  display: flex;
-
-  align-items: center;
-  justify-content: center;
-  background-color: rgba(0, 0, 0, 0.5);
-
-  z-index: 101;
+  @include popup(110vh);
 
   &-content {
-    width: 110vh;
-    position: relative;
-    z-index: 2;
-    @include block;
-
     @media screen and (max-width: $breakDesktop) {
       width: 90vw;
     }
@@ -31,10 +15,11 @@
     }
 
     &-inner {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
+      &__close {
+        @include themify($themes){
+          filter: themed('svgFilter');
+        }
+      }
     }
   }
 
@@ -89,6 +74,9 @@
     @include set-size(100%, 60vh);
     @include themify($themes){
       filter: themed('mapTheme');
+    }
+    @include themify($themes){
+      color: themed('textColorDefault');
     }
     display: flex;
     flex-direction: column;

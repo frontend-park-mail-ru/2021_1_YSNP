@@ -4,7 +4,7 @@ import {user} from '../models/ProfileUserModel.js';
 import {eventHandler} from '../modules/handlers/eventHandler.js';
 import {parseTelNumber, telMask} from '../modules/layout/mask.js';
 import {YandexMap} from '../modules/layout/yandexMap.js';
-import {OfflineError} from '../modules/http/httpError.js';
+import {OfflineError, UnauthorizedError} from '../modules/http/httpError.js';
 
 import {router} from '../modules/router.js';
 import {frontUrls} from '../modules/urls/frontUrls.js';
@@ -55,8 +55,10 @@ export class BasePresenter {
 
                 //TODO(Sergey) нормальная обработка ошибок
 
-                sentryManager.captureException(err);
                 console.log(err.message);
+                if (!UnauthorizedError.isError(err)) {
+                    sentryManager.captureException(err);
+                }
 
                 this.checkOfflineStatus(err);
             });
@@ -623,7 +625,8 @@ export class BasePresenter {
                     surname: this.__userModel.getData().surname,
                     name: this.__userModel.getData().name,
                     address: this.__userModel.getData().address,
-                    linkImage: this.__userModel.getData().linkImage
+                    linkImage: this.__userModel.getData().linkImage,
+                    id: this.__userModel.getData().id
                 },
                 listeners: this.__createBaseListeners().header
             },

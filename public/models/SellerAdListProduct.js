@@ -6,7 +6,7 @@ import {backUrls} from '../modules/urls/backUrls.js';
 /***
  * Trends list model
  */
-export class UserListProduct extends ProductListModel {
+export class SellerAdListProduct extends ProductListModel {
     /***
      * Constructor
      * @param id

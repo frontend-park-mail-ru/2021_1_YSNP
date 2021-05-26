@@ -1,0 +1,20 @@
+@import "../../../scss/main.scss";
+
+.empty-reviews {
+  @include set-size(100%, 50vh);
+
+  &-inner {
+    @include set-size(100%, 100%);
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  &__text {
+    font-size: 1.5vh;
+    @include themify($themes) {
+      color: themed('textGrayColor');
+    }
+  }
+}

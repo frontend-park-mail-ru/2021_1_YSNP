@@ -200,6 +200,7 @@ export class UserModel extends BaseModel {
         this.__radius = data.radius;
         this.__address = data.address;
         this.__linkImages = data.linkImages;
+        this.__rating = data.rating;
     }
 
     /***
@@ -215,7 +216,8 @@ export class UserModel extends BaseModel {
             dateBirth: this.__dateBirth,
             email: this.__email,
             telephone: this.__telephone,
-            linkImage: this.__linkImages
+            linkImage: this.__linkImages,
+            rating: this.__rating
         };
     }
 
@@ -224,8 +226,8 @@ export class UserModel extends BaseModel {
      * @param {number} id - user id
      * @returns {Promise<{data: *, status: number}>}
      */
-    async getUser(id) {
-        return http.get(backUrls.getUser(id))
+    async getUserTelephone(id) {
+        return http.get(backUrls.getUserTelephone(id))
             .then(({status, data}) => {
                 this.checkError(status, {
                     message: data.message,
@@ -239,23 +241,17 @@ export class UserModel extends BaseModel {
     /***
      * Get user without login
      * @param {number} id - user id
-     * @returns {Promise<{surname: *, name: *, telephone: *, linkImages: *, id: *}>}
+     * @return {Promise<{data: *, status: number}>}
      */
-    async getUserMinInfo(id) {
-        return http.get(backUrls.getUserMinInfo(id))
+    async getUser(id) {
+        return http.get(backUrls.getUser(id))
             .then(({status, data}) => {
                 this.checkError(status, {
                     message: data.message,
                     notFound: 'Нет такого пользователя'
                 });
 
-                return {
-                    id: data.id,
-                    name: data.name,
-                    surname: data.surname,
-                    telephone: data.telephone,
-                    linkImages: data.linkImages
-                };
+                this.fillUserData(data);
             });
     }
 }

@@ -1,38 +1,15 @@
 @import "../../scss/main.scss";
 
 .auth {
-  @include set-size(100vw, 100vh);
-  position: fixed;
-  top: 0;
-
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background-color: rgba(0, 0, 0, 0.5);
-
-  z-index: 101;
+  @include popup(50vh);
 
   &-content {
-    position: relative;
-    width: 50vh;
-    z-index: 102;
-    @include block;
-
     @media screen and (max-width: $breakMobile) {
-      @include set-size(100vw, 100vh);
-
       display: flex;
       justify-content: center;
-
-      border-radius: 0;
     }
 
     &-inner {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-
       &__title {
         margin: 4vh 0 2vh;
         font-size: 3vh;
@@ -56,7 +33,6 @@
 
         overflow: hidden;
       }
-
       &__close {
         @include set-size(2vh, 2vh);
 
