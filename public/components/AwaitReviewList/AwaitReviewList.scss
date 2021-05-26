@@ -26,7 +26,7 @@
 
       overflow: scroll;
       overflow-x: hidden;
-
+      @include scrollbar;
       &-inner {
         display: flex;
         flex-direction: row;

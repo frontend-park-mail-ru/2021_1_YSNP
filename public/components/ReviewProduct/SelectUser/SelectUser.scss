@@ -52,6 +52,8 @@
           @include set-size(100%, 100%);
 
           overflow: scroll;
+          @include scrollbar;
+
           overflow-x: hidden;
 
           &::-webkit-scrollbar {

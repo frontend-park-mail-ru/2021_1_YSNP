@@ -49,7 +49,12 @@
   &-body {
     overflow: scroll;
     overflow-x: hidden;
+    @include scrollbar;
+
     height: 50vh;
+    &::-webkit-scrollbar {
+      background-color: green;
+    }
 
     &-inner {
 
