@@ -9,11 +9,12 @@ class SentryManager {
      */
     constructor(debug = true) {
         this.__debug = debug;
-        const env = debug === true ? 'development' : 'production';
+        // const env = debug === true ? 'development' : 'production';
+        const env = 'production';
 
-        if (this.__debug) {
-            return;
-        }
+        // if (this.__debug) {
+        //     return;
+        // }
 
         console.log('Init Sentry', env);
 
@@ -33,9 +34,9 @@ class SentryManager {
      * @param {Error} err - error
      */
     captureException(err) {
-        if (this.__debug) {
-            return;
-        }
+        // if (this.__debug) {
+        //     return;
+        // }
 
         Sentry.captureException(err);
 
@@ -46,13 +47,13 @@ class SentryManager {
      * @param {string} msg - message
      */
     captureMessage(msg) {
-        if (this.__debug) {
-            return;
-        }
+        // if (this.__debug) {
+        //     return;
+        // }
 
         Sentry.captureMessage(msg);
 
     }
 }
 
-export const sentryManager = new SentryManager(process.env.DEBUG);
+export const sentryManager = new SentryManager(false);
