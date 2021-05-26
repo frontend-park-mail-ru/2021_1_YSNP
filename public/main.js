@@ -36,7 +36,6 @@ import {UserChatsPresenter} from './presenters/UserChatsPresenter';
 import {sentryManager} from './modules/sentry';
 import {SellerProfilePresenter} from './presenters/SellerProfilePresenter';
 import {customSessionStorage} from './modules/customSessionStorage';
-import {mobile} from './modules/mobile';
 
 /***
  * Register service worker
