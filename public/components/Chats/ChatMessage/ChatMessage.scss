@@ -84,8 +84,10 @@
 
     height: 100%;
     overflow: scroll;
-    overflow-x: hidden;
+    @include scrollbar;
 
+    overflow-x: hidden;
+    @include scrollbar;
     &-inner {
     }
   }
