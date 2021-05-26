@@ -283,6 +283,11 @@ export class UserChatsPresenter extends BasePresenter {
         ev.preventDefault();
 
         const input = this.__view.getChatMessageInput();
+        if (input.value.length > 1000) {
+            input.value = '';
+            return;
+        }
+
         this.__chatModel.createMessage(input.value);
         input.value = '';
     }

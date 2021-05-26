@@ -9,7 +9,7 @@ import {UserModel} from '../models/UserModel';
 /***
  * favorite presenter
  */
-export class AchievementPresenter extends BasePresenter {
+export class UserAchievementPresenter extends BasePresenter {
     /***
      * Class constructor
      * @param view

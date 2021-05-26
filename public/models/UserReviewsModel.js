@@ -137,7 +137,7 @@ export class UserReviewsModel extends BaseModel {
      * @private
      */
     async __updateSellerReviewNewDataPage(sortType) {
-        return http.get(backUrls.userSellerReviews(this.__userId, this.__sellerPage, this.__sellerPageCount, sortType))
+        return http.get(backUrls.userBuyerReviews(this.__userId, this.__sellerPage, this.__sellerPageCount, sortType))
             .then(({status, data}) => {
                 this.checkError(status, {
                     message: data.message
@@ -239,7 +239,7 @@ export class UserReviewsModel extends BaseModel {
      * @private
      */
     async __updateBuyerReviewNewDataPage(sortType) {
-        return http.get(backUrls.userBuyerReviews(this.__userId, this.__buyerPage, this.__buyerPageCount, sortType))
+        return http.get(backUrls.userSellerReviews(this.__userId, this.__buyerPage, this.__buyerPageCount, sortType))
             .then(({status, data}) => {
                 this.checkError(status, {
                     message: data.message

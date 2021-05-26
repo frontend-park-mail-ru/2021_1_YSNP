@@ -10,7 +10,7 @@
   font-style: normal;
   font-weight: normal;
 
-  @media screen and  (max-width: $breakMobile) {
+  @media screen and (max-width: $breakMobile) {
     position: inherit;
     border: none;
   }
@@ -18,7 +18,7 @@
   &-mobile-separator {
     display: none;
     @include separator;
-    @media screen and  (max-width: $breakMobile) {
+    @media screen and (max-width: $breakMobile) {
       margin: 2vh 0;
       display: flex;
     }
@@ -91,29 +91,42 @@
   }
 
   &-rating {
-    line-height: 1.5vw;
+    @include star;
+    width: 15vh;
+
     margin-top: 1vh;
+
     display: flex;
     align-items: center;
 
     @media screen and (max-width: $breakMobile) {
-      line-height: 2vh;
+      width: 19vh;
     }
 
-      &__text {
+    &__text {
       font-size: 2vh;
-      margin-right: 0.3vw;
+      margin-right: 0.5vh;
+
+      @media screen and (max-width: $breakDesktop) {
+        font-size: 1.5vh;
+      }
+
       @media screen and (max-width: $breakMobile) {
-        font-size: 3vh;
+        font-size: 2.5vh;
       }
     }
 
-    &__stars {
-      width: 1.3vw;
-      height: 1.3vw;
+    &__rate span {
+      @media screen and (max-width: 1400px) {
+        font-size: 1.7vh;
+      }
+
+      @media screen and (max-width: $breakDesktop) {
+        font-size: 1.5vh;
+      }
+
       @media screen and (max-width: $breakMobile) {
-        width: 1.5vh;
-        height: 1.5vh;
+        font-size: 2.5vh;
       }
     }
   }
@@ -123,19 +136,19 @@
     align-items: center;
     display: flex;
 
-    @media screen and  (max-width: $breakMobile) {
+    @media screen and (max-width: $breakMobile) {
       flex-direction: row;
       justify-content: center;
     }
 
-      &__massage, &__change {
+    &__massage, &__change {
       @include red-button(80%, 4vh);
       margin-top: 2vh;
 
-      @media screen and (max-width: $breakTablet){
+      @media screen and (max-width: $breakTablet) {
         width: 18vh;
       }
-      @media screen and (max-width: $breakMobile){
+      @media screen and (max-width: $breakMobile) {
         @include set-size(23vh, 5vh);
         margin-right: 2vh;
       }
@@ -146,14 +159,15 @@
       margin-top: 1vh;
       box-shadow: 0 0 1vh rgba(0, 0, 0, 0.1);
 
-      @media screen and (max-width: $breakTablet){
+      @media screen and (max-width: $breakTablet) {
         width: 18vh;
       }
-      @media screen and (max-width: $breakMobile){
+      @media screen and (max-width: $breakMobile) {
         @include set-size(23vh, 5vh);
         margin-top: 2vh;
       }
     }
+
     &__closed {
       margin-top: 4vh;
     }
@@ -164,7 +178,7 @@
     flex-direction: column;
     justify-content: center;
 
-    @media screen and (max-width: $breakMobile){
+    @media screen and (max-width: $breakMobile) {
       flex-direction: row;
       align-items: center;
       justify-content: space-evenly;
@@ -177,10 +191,10 @@
     font-size: 1vw;
     margin-bottom: 1vh;
 
-    @media screen and (max-width: $breakDesktop){
+    @media screen and (max-width: $breakDesktop) {
       font-size: 1.5vh;
     }
-    @media screen and (max-width: $breakMobile){
+    @media screen and (max-width: $breakMobile) {
       font-size: 2.3vh;
       margin: 0;
     }
@@ -191,10 +205,11 @@
     justify-content: center;
     align-items: center;
 
-    @media screen and (max-width: $breakMobile){
+    @media screen and (max-width: $breakMobile) {
       font-size: 2.5vh;
       margin-top: 0;
     }
+
     &-views {
       display: flex;
       align-items: center;
@@ -203,7 +218,7 @@
         margin-left: 1vh;
         font-size: 1vw;
 
-        @media screen and (max-width: $breakDesktop){
+        @media screen and (max-width: $breakDesktop) {
           font-size: 1.5vh;
         }
       }
@@ -218,7 +233,7 @@
         margin-left: 1vh;
         font-size: 1vw;
 
-        @media screen and (max-width: $breakDesktop){
+        @media screen and (max-width: $breakDesktop) {
           font-size: 1.5vh;
         }
       }

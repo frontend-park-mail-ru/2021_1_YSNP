@@ -229,7 +229,7 @@ export class ProductModel extends BaseModel {
         this.__ownerName = data.ownerName;
         this.__ownerSurname = data.ownerSurname;
         this.__ownerLinkImages = data.ownerLinkImages;
-        this.__ownerStars = 4.8;
+        this.__ownerStars = data.owner_rating;
         this.__close = data.close;
     }
 

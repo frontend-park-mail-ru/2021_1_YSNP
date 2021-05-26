@@ -4,11 +4,15 @@
         <div class="chat-message-head">
             <div class="chat-message-head-inner">
                 <div class="chat-message-head-avatar">
-                    <img src="{{productImg}}" alt="product" class="chat-message-head-avatar__img">
+                    <a href="/product/{{productID}}" class="chat-message-head-avatar__href">
+                        <img src="{{productImg}}" alt="product" class="chat-message-head-avatar__img">
+                    </a>
                 </div>
 
                 <div class="chat-message-head-info">
-                    <span class="chat-message-head-info-name">{{userName}}</span>
+                    <a href="/user/{{userID}}/ad" class="chat-message-head-info-user">
+                        <span class="chat-message-head-info-user__name">{{userName}}</span>
+                    </a>
 
                     <a href="/product/{{productID}}" class="chat-message-head-info-product">
                         <span class="chat-message-head-info-product__link">{{productName}}</span>

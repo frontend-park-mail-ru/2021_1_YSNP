@@ -149,6 +149,7 @@ class ChatModel extends BaseModel {
     parseOneChat(data, isDown = true) {
         return {
             chatID: data.id,
+            userID: data.partner_id,
             userName: `${data.partner_surname} ${data.partner_name}`,
             userImg: data.partner_avatar,
             productID: data.product_id,
@@ -278,6 +279,7 @@ class ChatModel extends BaseModel {
     parseChatMessage(data) {
         return {
             chatID: data.id,
+            userID: data.partner_id,
             userName: `${data.partner_surname} ${data.partner_name}`,
             productID: data.product_id,
             productName: data.product_name,

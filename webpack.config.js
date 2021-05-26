@@ -63,15 +63,15 @@ module.exports = {
                     to: 'fonts/'
                 }
             ]
-        }),
-        new SentryWebpackPlugin({
-            authToken: process.env.SENTRY_AUTH_TOKEN,
-            org: 'ysnp',
-            project: 'ysnp',
-
-            include: './dist',
-            ignore: ['node_modules', 'webpack.config.js', 'all.js', 'sw.js']
         })
+        // new SentryWebpackPlugin({
+        //     authToken: process.env.SENTRY_AUTH_TOKEN,
+        //     org: 'ysnp',
+        //     project: 'ysnp',
+        //
+        //     include: './dist',
+        //     ignore: ['node_modules', 'webpack.config.js', 'all.js', 'firebase-messaging-sw.js']
+        // })
     ],
     module: {
         rules: [
