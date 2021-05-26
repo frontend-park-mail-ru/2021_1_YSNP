@@ -42,6 +42,10 @@
 
   &__main {
     font-size: 2vh;
+    text-decoration: none;
+    @include themify($themes){
+      color: themed('mainColor');
+    }
   }
 }
 

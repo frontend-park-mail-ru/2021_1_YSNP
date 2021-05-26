@@ -32,8 +32,13 @@ export class ProductEditView extends BaseView {
      * @this {ProductCreateView}
      */
     removingSubViews() {
-        this.__navSubView.removeListeners();
-        this.__productCreate.removeListeners();
+        if (this.__navSubView) {
+            this.__navSubView.removeListeners();
+        }
+
+        if (this.__productCreate) {
+            this.__productCreate.removeListeners();
+        }
     }
 
     /***

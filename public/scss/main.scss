@@ -54,7 +54,7 @@ $themes: (
                 borderColor: #232323,
                 borderBlock: rgba(255, 255, 255, 0.2),
                 hoverGrayColor: #333333,
-                textColorDefault: #e8e8e8,
+                textColorDefault: #e3e3e3,
                 textGrayColor: rgb(122, 122, 122),
                 linkColor: rgb(112, 146, 254),
                 mainColor: rgb(211, 30, 30),
@@ -66,7 +66,7 @@ $themes: (
                 labelColor: #cccaca,
                 mainPicture: rgba(31, 47, 47, 0.5),
                 dropdownColor: #171717,
-                lightButton: #272727,
+                lightButton: #2f2f2f,
                 mapTheme: invert(1) hue-rotate(180deg),
                 selectUrl: url(../../../img/svg/selectLight.svg),
                 placeHolderColor: #c1c1c1,
@@ -240,9 +240,18 @@ $themes: (
   }
 }
 
+@mixin calendar() {
+  &::-webkit-calendar-picker-indicator {
+    @include themify($themes) {
+      filter: themed('svgFilter');
+    }
+  }
+}
+
 @mixin input() {
   height: 4vh;
   font-size: 2vh;
+  @include calendar;
   @include themify($themes) {
     color: themed('textColorDefault');
   }

@@ -4,7 +4,7 @@
   width: 28%;
   flex-direction: column;
   justify-content: center;
-  padding: 1.5vw;
+  padding: calc(1.5vw + 2px);
   margin: 1vh 1vh 4vh;
   @include themify($themes){
     color: themed('textColorDefault');
@@ -21,6 +21,7 @@
 
   &_checked {
     border: 3px solid rgba(211, 30, 30, 0.8) !important;
+    padding: 1.5vw;
   }
 
   &-body {
