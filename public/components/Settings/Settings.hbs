@@ -4,7 +4,7 @@
             <div class="settings-title-left">
                 <span>Личные данные</span>
                 <span class="settings-title__edit" id="settings-edit" data-action="editClick">
-                    <svg width="2vh" height="2vh" viewBox="0 0 18 18" fill="none"
+                    <svg class="settings-title__edit__svg" width="2vh" height="2vh" viewBox="0 0 18 18" fill="none"
                          xmlns="http://www.w3.org/2000/svg">
                         <path opacity="0.3"
                               d="M5.52719 16.7477L14.5274 7.74753L10.2525 3.4726L1.25226 12.4728C1.12836 12.5969 1.04034 12.7522 0.997548 12.9222L0 18L5.07684 17.0025C5.2473 16.9598 5.40322 16.8717 5.52719 16.7477ZM17.4329 4.84205C17.796 4.47881 18 3.98622 18 3.4726C18 2.95898 17.796 2.46639 17.4329 2.10315L15.8968 0.567123C15.5336 0.203995 15.041 0 14.5274 0C14.0138 0 13.5212 0.203995 13.1579 0.567123L11.6219 2.10315L15.8968 6.37808L17.4329 4.84205Z"
@@ -95,4 +95,24 @@
             </div>
         </div>
     </form>
+</div>
+<div class="change-theme-block" id="change-theme">
+    <div class="change-theme">
+        <div class="settings-title">
+            <span class="settings-title-left">Настройки</span>
+        </div>
+        <div class="separator"></div>
+        Поменять тему:
+        <label class="reviews-head-sort__label" for="light-theme" data-action="setLightTheme">
+            <input class="reviews-head-sort__button" type="radio" value="light"
+                   id="light-theme" name="themes">
+            светлая
+        </label>
+
+        <label class="reviews-head-sort__label" for="dark-theme" data-action="setDarkTheme">
+            <input class="reviews-head-sort__button" type="radio" value="dark"
+                   id="dark-theme" name="themes">
+            темная
+        </label>
+    </div>
 </div>

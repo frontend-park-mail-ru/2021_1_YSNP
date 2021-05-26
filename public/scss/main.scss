@@ -1,10 +1,72 @@
-$textColorDefault: #000000;
-$textGrayColor: rgb(122, 122, 122);
-$linkColor: rgb(112, 146, 254);
-$mainColor: rgb(211, 30, 30);
 $breakDesktop: 1024px;
 $breakTablet: 768px;
 $breakMobile: 576px;
+
+@mixin themify($themes) {
+  @each $theme, $map in $themes {
+    .theme-#{$theme} & {
+      $theme-map: () !global;
+      @each $key, $submap in $map {
+        $value: map-get(map-get($themes, $theme), '#{$key}');
+        $theme-map: map-merge($theme-map, ($key: $value)) !global;
+      }
+      @content;
+      $theme-map: null !global;
+    }
+  }
+}
+
+@function themed($key) {
+  @return map-get($theme-map, $key);
+}
+
+$themes: (
+        light: (
+                backgroundColor: #ffffff,
+                blockBackground: #ffffff,
+                borderColor: #d0d0d0,
+                borderBlock: rgba(0, 0, 0, 0.2),
+                hoverGrayColor: rgb(229, 227, 227),
+                textColorDefault: #000000,
+                textGrayColor: rgb(122, 122, 122),
+                linkColor: rgb(112, 146, 254),
+                mainColor: rgb(211, 30, 30),
+                errorBlockColor: #ffffff,
+                errorBorderColor: #000000,
+                svgFilter: none,
+                logoPath: url(../../../img/svg/koya.svg),
+                inputBackground: #ffffff,
+                labelColor: #909090,
+                mainPicture: rgba(31, 47, 47, 0.8),
+                dropdownColor: #ffffff,
+                lightButton: snow,
+                mapTheme: none,
+                selectUrl: url(../../../img/svg/selectDark.svg)
+        ),
+        dark: (
+                backgroundColor: #121212,
+                blockBackground: #252525,
+                borderColor: #232323,
+                borderBlock: rgba(255, 255, 255, 0.2),
+                hoverGrayColor: #333333,
+                textColorDefault: #e8e8e8,
+                textGrayColor: rgb(122, 122, 122),
+                linkColor: rgb(112, 146, 254),
+                mainColor: rgb(211, 30, 30),
+                errorBlockColor: #1d1d1d,
+                errorBorderColor: #484848,
+                svgFilter: brightness(100) invert(1),
+                logoPath: url(../../../img/svg/koyaLight.svg),
+                inputBackground: #171616,
+                labelColor: #cccaca,
+                mainPicture: rgba(31, 47, 47, 0.5),
+                dropdownColor: #171717,
+                lightButton: #272727,
+                mapTheme: invert(1) hue-rotate(180deg),
+                selectUrl: url(../../../img/svg/selectLight.svg)
+        ),
+);
+
 @mixin overflow-text-width {
   white-space: nowrap;
   overflow: hidden;
@@ -27,7 +89,9 @@ $breakMobile: 576px;
   text-align: center;
   cursor: pointer;
   color: rgb(255, 255, 255);
-  background-color: $mainColor;
+  @include themify($themes) {
+    background-color: themed('mainColor');
+  }
   outline: none;
   &:hover {
     background-color: rgb(194, 23, 23);
@@ -44,7 +108,10 @@ $breakMobile: 576px;
 @mixin disable-button($w, $h) {
   width: $w;
   height: $h;
-  border: 1px solid #000000;
+  border: 1px solid;
+  @include themify($themes) {
+    border-color: themed('borderColor');
+  }
   border-radius: 3px;
   text-decoration: none;
   font-size: 1.5vh;
@@ -81,17 +148,26 @@ $breakMobile: 576px;
 @mixin white-button($w, $h) {
   height: $h;
   width: $w;
-  border: 1px solid #000000;
+  border: 1px solid;
+  @include themify($themes) {
+    border-color: themed('borderColor');
+  }
   border-radius: 3px;
   text-decoration: none;
   font-size: 1.5vh;
   text-align: center;
   cursor: pointer;
-  color: $textColorDefault;
-  background-color: snow;
+  @include themify($themes) {
+    color: themed('textColorDefault');
+  }
+  @include themify($themes) {
+    background-color: themed('lightButton');
+  }
   outline: none;
   &:hover {
-    background-color: rgb(229, 227, 227);
+    @include themify($themes) {
+      background-color: themed('hoverGrayColor');
+    }
   }
   &:focus {
     outline: none;
@@ -104,14 +180,20 @@ $breakMobile: 576px;
 
 @mixin menu-link() {
   text-decoration: none;
-  color: black;
+  @include themify($themes) {
+    color: themed('textColorDefault');
+  }
   cursor: pointer;
   font-size: 1.6vh;
   &:hover {
-    color: $linkColor;
+    @include themify($themes) {
+      color: themed('linkColor');
+    }
   }
   &:focus {
-    color: $linkColor;
+    @include themify($themes) {
+      color: themed('linkColor');
+    }
   }
   @media screen and (max-width: $breakMobile) {
     font-size: 2vh;
@@ -119,11 +201,18 @@ $breakMobile: 576px;
 }
 
 @mixin input() {
-  /*    background: none; */
   height: 4vh;
   font-size: 2vh;
-  color: black;
-  border: 1px solid rgba(0, 0, 0, 0.2);
+  @include themify($themes) {
+    color: themed('textColorDefault');
+  }
+  @include themify($themes) {
+    background-color: themed('inputBackground');
+  }
+  border: 1px solid;
+  @include themify($themes) {
+    border-color: themed('borderColor');
+  }
   box-sizing: border-box;
   border-radius: 0.5vh;
   padding-left: 10px;
@@ -131,20 +220,28 @@ $breakMobile: 576px;
     height: 5vh;
     font-size: 2.3vh;
   }
+  &::placeholder {
+    @include themify($themes) {
+      color: themed('textColorDefault');
+    }
+  }
 }
 
 @mixin description-label() {
   display: flex;
   font-size: 1.8vh;
-  color: #000000;
-  opacity: 0.5;
+  @include themify($themes) {
+    color: themed('labelColor');
+  }
   @media screen and (max-width: $breakMobile) {
     font-size: 2vh;
   }
 }
 
 @mixin block() {
-  background-color: white;
+  @include themify($themes) {
+    background-color: themed('blockBackground');
+  }
   border: 0;
   border-radius: 1vh;
 }
@@ -152,11 +249,16 @@ $breakMobile: 576px;
 @mixin border-block() {
   box-sizing: border-box;
   border-radius: 5px;
-  border: 1px solid rgba(0, 0, 0, 0.2);
+  border: 1px solid;
+  @include themify($themes) {
+    border-color: themed('borderBlock');
+  }
 }
 
 @mixin shadow-block() {
-  background-color: white;
+  @include themify($themes) {
+    background-color: themed('blockBackground');
+  }
   border: 0;
   border-radius: 1vh;
   box-shadow: 0 0 1vw rgba(0, 0, 0, 0.2);
@@ -166,7 +268,9 @@ $breakMobile: 576px;
 }
 
 @mixin product-block() {
-  background-color: white;
+  @include themify($themes) {
+    background-color: themed('blockBackground');
+  }
   border: 0;
   border-radius: 1vh;
   box-shadow: 0 0 1vw rgba(0, 0, 0, 0.2);
@@ -182,7 +286,9 @@ $breakMobile: 576px;
 
 @mixin circle() {
   object-fit: cover;
-  background: #C4C4C4;
+  @include themify($themes) {
+    background-color: themed('backgroundColor');
+  }
   border-radius: 50%;
 }
 
@@ -227,9 +333,12 @@ $breakMobile: 576px;
     &-outer {
       width: 0;
       height: 0;
-      border-right: 20px solid #000000;
-      border-top: 10px solid transparent;
-      border-bottom: 10px solid transparent;
+      border-top: 10px solid transparent !important;
+      border-bottom: 10px solid transparent !important;
+      border-right: 20px solid;
+      @include themify($themes) {
+        background-color: themed('errorBorderColor');
+      }
       position: absolute;
       top: 0;
       left: 0;
@@ -239,9 +348,12 @@ $breakMobile: 576px;
     &-inner {
       width: 0;
       height: 0;
+      border-top: 10px solid transparent !important;
+      border-bottom: 10px solid transparent !important;
       border-right: 20px solid #ffffff;
-      border-top: 10px solid transparent;
-      border-bottom: 10px solid transparent;
+      @include themify($themes) {
+        border-color: themed('errorBlockColor');
+      }
       position: absolute;
       top: 0;
       left: 2px;
@@ -251,7 +363,9 @@ $breakMobile: 576px;
     float: left;
     width: 300px;
     height: auto;
-    background-color: #ffffff;
+    @include themify($themes) {
+      background-color: themed('errorBlockColor');
+    }
     border: 1px solid rgba(0.0, 0.0, 0.0, 0.1);
     padding: 6px 8px;
     border-radius: 5px;
@@ -298,38 +412,3 @@ $breakMobile: 576px;
     padding-left: 30px;
   }
 }
-
-@mixin themify($themes) {
-  @each $theme, $map in $themes {
-    .theme-#{$theme} & {
-      $theme-map: () !global;
-      @each $key, $submap in $map {
-        $value: map-get(map-get($themes, $theme), '#{$key}');
-        $theme-map: map-merge($theme-map, ($key: $value)) !global;
-      }
-      @content;
-      $theme-map: null !global;
-    }
-  }
-}
-
-@function themed($key) {
-  @return map-get($theme-map, $key);
-}
-
-$themes: (
-        light: (
-                backgroundColor: #ffffff,
-                textColorDefault: #000000,
-                textGrayColor: rgb(122, 122, 122),
-                linkColor: rgb(112, 146, 254),
-                mainColor: rgb(211, 30, 30),
-        ),
-        dark: (
-                backgroundColor: #000000,
-                textColorDefault: #E2E2E2,
-                textGrayColor: rgb(122, 122, 122),
-                linkColor: rgb(112, 146, 254),
-                mainColor: rgb(211, 30, 30),
-        ),
-);

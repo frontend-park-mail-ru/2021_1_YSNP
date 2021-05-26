@@ -20,6 +20,7 @@ import {router} from '../modules/router';
 import {frontUrls} from '../modules/urls/frontUrls';
 
 import {sentryManager} from '../modules/sentry';
+import {customSessionStorage} from '../modules/customSessionStorage';
 
 /***
  * Profile settings presenter
@@ -197,8 +198,56 @@ export class UserProfilePresenter extends BasePresenter {
             },
             hideError: {
                 open: hideError.bind(this)
+            },
+            setLightTheme: {
+                open: this.__setLightTheme.bind(this)
+            },
+            setDarkTheme: {
+                open: this.__setDarkTheme.bind(this)
             }
         };
+    }
+
+    /***
+     * Set light theme
+     * @private
+     */
+    __setLightTheme() {
+        customSessionStorage.set('theme', 'light');
+        const app = document.getElementsByTagName('html').item(0);
+        app.className = 'theme-light';
+        // const root = document.documentElement;
+        // root.style.setProperty('--backgroundColor', '#ffffff');
+        // root.style.setProperty('--textColorDefault', '#000000');
+        // root.style.setProperty('--textGrayColor', 'rgb(122, 122, 122)');
+        // root.style.setProperty('--linkColor', 'rgb(112, 146, 254)');
+        // root.style.setProperty('--mainColor', 'rgb(211, 30, 30)');
+
+    }
+
+    /***
+     * Set light theme
+     * @private
+     */
+    __setDarkTheme() {
+        customSessionStorage.set('theme', 'dark');
+        const app = document.getElementsByTagName('html').item(0);
+        app.className = 'theme-dark';
+        // const root = document.documentElement;
+        // root.style.setProperty('--backgroundColor', '#000000');
+        // root.style.setProperty('--textColorDefault', '#ffffff');
+        // root.style.setProperty('--textGrayColor', 'rgb(122, 122, 122)');
+        // root.style.setProperty('--linkColor', 'rgb(112, 146, 254)');
+        // root.style.setProperty('--mainColor', 'rgb(211, 30, 30)');
+    }
+
+    /***
+     * Enable password change
+     * @param target
+     * @private
+     */
+    __enablePasswordChange(target) {
+        this.__view.enablePasswordChange(target);
     }
 
     /***

@@ -47,7 +47,9 @@
 
       &__close {
         @include set-size(3vh, 3vh);
-
+        @include themify($themes){
+          filter: themed('svgFilter');
+        }
         position: absolute;
         cursor: pointer;
 
@@ -75,7 +77,9 @@
         margin: 1vh 0;
 
         display: block;
-        color: $textColorDefault;
+        @include themify($themes){
+          color: themed('textColorDefault');
+        }
         font-size: 2.3vh;
 
         @include overflow-text-width;
@@ -101,6 +105,9 @@
           margin-right: 1vh;
           width: 30px;
           height: 30px;
+          @include themify($themes){
+            filter: themed('svgFilter');
+          }
         }
       }
     }

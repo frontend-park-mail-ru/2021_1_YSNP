@@ -6,7 +6,9 @@
   z-index: 100;
   top: 0;
   position: fixed;
-
+  @include themify($themes){
+    background: themed('blockBackground');
+  }
   display: flex;
   @include shadow-block;
   border-radius: 0;
@@ -29,6 +31,12 @@
     &__brand {
       margin-right: 1vw;
       cursor: pointer;
+
+      &__img {
+        @include themify($themes){
+          content: themed('logoPath');
+        }
+      }
     }
 
     &-location {
@@ -47,16 +55,22 @@
       &__icon {
         height: 1vh;
         width: 1vh;
-
+        @include themify($themes){
+          filter: themed('svgFilter');
+        }
         margin-right: 0.4vh;
       }
 
       &__name {
         font-size: 1.5vh;
-        color: rgb(71, 71, 71);
+        @include themify($themes){
+          color: themed('textGrayColor');
+        }
 
         &:hover {
-          color: $linkColor;
+          @include themify($themes){
+            color: themed('linkColor');
+          }
         }
       }
     }
@@ -89,7 +103,9 @@
         font-weight: 300;
 
         color: white;
-        background: $mainColor;
+        @include themify($themes){
+          background: themed('mainColor');
+        }
 
         display: none;
         align-items: center;
@@ -106,7 +122,9 @@
       width: 2vh;
 
       margin-right: 2vw;
-
+      @include themify($themes){
+        filter: themed('svgFilter');
+      }
       cursor: pointer;
     }
 
@@ -121,7 +139,9 @@
 
       border: 0;
       background: none;
-
+      @include themify($themes){
+        filter: themed('svgFilter');
+      }
       cursor: pointer;
 
       display: flex;
@@ -139,7 +159,13 @@
       width: 20vh;
       margin-top: 2.5vh;
       @include block;
-      border: 1px solid rgb(227, 227, 227);
+      border: 1px solid;
+      @include themify($themes) {
+        border-color: themed('borderColor');
+      }
+      @include themify($themes) {
+        background-color: themed('dropdownColor');
+      }
       border-radius: 3px;
 
       right: 0;
@@ -174,7 +200,9 @@
         margin: 1.3vh 0;
 
         display: block;
-        color: $textColorDefault;
+        @include themify($themes){
+          color: themed('textColorDefault');
+        }
         font-size: 1.7vh;
 
         @include overflow-text-width;
@@ -186,6 +214,9 @@
 
       &__logo {
         margin-right: 1vh;
+        @include themify($themes){
+          filter: themed('svgFilter');
+        }
       }
     }
   }

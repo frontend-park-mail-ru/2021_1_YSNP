@@ -15,7 +15,9 @@
 
     font-size: 3vh;
     line-height: 5vh;
-    color: $textColorDefault;
+    @include themify($themes){
+      color: themed('textColorDefault');
+    }
   }
 
   &-tariffs {
@@ -35,7 +37,9 @@
   &-no-tariff {
     padding-left: 3.3vw;
     margin-bottom: 5vh;
-    color: $textColorDefault;
+    @include themify($themes){
+      color: themed('textColorDefault');
+    }
     font-size: 1.5vh;
 
 
@@ -85,7 +89,9 @@
     &__text {
       font-size: 1.8vh;
       line-height: 2vh;
-      color: $textColorDefault;
+      @include themify($themes){
+        color: themed('textColorDefault');
+      }
 
       @media screen and (max-width: $breakTablet) {
         margin-left: 1vh;
@@ -109,7 +115,10 @@
   display: block;
   width: 2vh;
   height: 2vh;
-  border: 1px solid $textColorDefault;
+  border: 1px solid;
+  @include themify($themes){
+    border-color: themed('textColorDefault');
+  }
   border-radius: 3px;
   text-align: center;
   position: relative;

@@ -32,7 +32,9 @@
     &__text {
       font-family: Open Sans, sans-serif;
       line-height: 3vh;
-      color: #000000;
+      @include themify($themes){
+        color: themed('textColorDefault');
+      }
     }
   }
 }

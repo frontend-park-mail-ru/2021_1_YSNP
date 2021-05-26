@@ -6,7 +6,9 @@
   justify-content: center;
   padding: 1.5vw;
   margin: 1vh 1vh 4vh;
-  color: $textColorDefault;
+  @include themify($themes){
+    color: themed('textColorDefault');
+  }
   @include border-block;
 
   @media screen and (max-width: $breakTablet) {

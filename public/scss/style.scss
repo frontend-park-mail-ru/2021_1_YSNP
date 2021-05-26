@@ -18,11 +18,15 @@ body {
   font-family: Roboto, sans-serif;
   margin: 0;
   overflow-x: hidden;
+  position: relative;
+  min-height: 88%;
   @include themify($themes){
     background: themed('backgroundColor');
   }
-  position: relative;
-  min-height: 88%;
+
+  @include themify($themes){
+   color: themed('textColorDefault');
+  }
 
   padding-bottom: 25vh;
 
@@ -43,8 +47,15 @@ select:disabled {
 
 select:enabled {
   appearance: none;
-  background-image: url("../img/svg/select.svg");
+  @include themify($themes){
+    background-image: themed('selectUrl');
+  }
   background-position: calc(100% - 2vh) calc(100% + -1.5vh), calc(100% - 3vh) calc(1em + 1.5vh), 100% 0;
   background-size: 10px 10px, 10px 10px;
   background-repeat: no-repeat;
+}
+select option:hover {
+  @include themify($themes){
+    background-color: themed('mainColor');
+  }
 }

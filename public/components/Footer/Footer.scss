@@ -44,6 +44,9 @@
 
       &__img {
         @include set-size(20vh, 11vh);
+        @include themify($themes){
+          content: themed('logoPath');
+        }
       }
     }
 

@@ -8,6 +8,7 @@
 
   &__textarea {
     @include border-block;
+    @include input;
     width: 35vh;
     height: 20vh;
     padding: 0.5vh 0.7vh;
@@ -22,6 +23,12 @@
 
   &__photolabel {
     @include border-block;
+    @include themify($themes){
+      background-color: themed('inputBackground');
+    }
+    @include themify($themes){
+      border-color: themed('borderColor');
+    }
     font-size: 1vh;
     min-height: 15vh;
     max-height: 15vh;
@@ -94,6 +101,9 @@
 }
 
 .map-product {
+  @include themify($themes){
+    filter: themed('mapTheme');
+  }
   height: 50vh;
   margin-left: 1vw;
   display: flex;

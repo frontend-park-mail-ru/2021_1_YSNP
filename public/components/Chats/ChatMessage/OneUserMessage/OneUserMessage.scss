@@ -16,7 +16,9 @@
     margin-bottom: 0.5vh;
 
     color: white;
-    background-color: $mainColor;
+    @include themify($themes){
+      background-color: themed('mainColor');
+    }
     border-radius: 2vh;
 
     &-inner {
@@ -34,6 +36,8 @@
 
     font-size: 1.2vh;
     font-weight: 400;
-    color: $textGrayColor;
+    @include themify($themes){
+      color: themed('textGrayColor');
+    }
   }
 }

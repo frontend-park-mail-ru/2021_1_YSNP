@@ -35,6 +35,8 @@ import {ProductEditPresenter} from './presenters/ProductEditPresenter';
 import {UserChatsPresenter} from './presenters/UserChatsPresenter';
 import {sentryManager} from './modules/sentry';
 import {SellerProfilePresenter} from './presenters/SellerProfilePresenter';
+import {customSessionStorage} from './modules/customSessionStorage';
+import {mobile} from './modules/mobile';
 
 /***
  * Register service worker
@@ -48,6 +50,21 @@ if ('serviceWorker' in navigator) {
         console.log(`Error while register service worker:${error}`);
     });
 }
+
+
+const html = document.getElementsByTagName('html').item(0);
+let theme = customSessionStorage.get('theme');
+if (theme === null) {
+    if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        customSessionStorage.set('theme', 'dark');
+        theme = 'dark';
+    } else {
+        customSessionStorage.set('theme', 'light');
+        theme = 'light';
+    }
+}
+html.className = `theme-${theme}`;
+
 
 const app = document.getElementById('app');
 

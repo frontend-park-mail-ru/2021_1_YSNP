@@ -10,7 +10,9 @@
   transition-property: color, background-color;
 
   &:hover {
-    color: $linkColor;
+    @include themify($themes){
+      color: themed('linkColor');
+    }
     background-color: #ECECEC;
   }
 

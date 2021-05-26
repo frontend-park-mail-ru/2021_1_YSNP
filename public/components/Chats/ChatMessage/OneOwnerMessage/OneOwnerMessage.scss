@@ -29,6 +29,8 @@
   &__date {
     font-size: 1.2vh;
     font-weight: 400;
-    color: $textGrayColor;
+    @include themify($themes){
+      color: themed('textGrayColor');
+    }
   }
 }

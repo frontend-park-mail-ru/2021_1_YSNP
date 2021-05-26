@@ -91,11 +91,16 @@
         margin-right: 1vh;
         width: 2vh;
         height: 2vh;
+        @include themify($themes){
+          filter: themed('svgFilter');
+        }
       }
     }
 
     &__selected {
-      color: $linkColor;
+      @include themify($themes){
+        color: themed('linkColor');
+      }
     }
   }
 

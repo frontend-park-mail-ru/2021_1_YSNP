@@ -80,7 +80,9 @@
         white-space: nowrap;
 
         font-size: 1.3vh;
-        color: $textGrayColor
+        @include themify($themes){
+          color: themed('textGrayColor');
+        }
       }
     }
 
@@ -89,7 +91,9 @@
       @include overflow-text-width;
 
       font-size: 1.3vh;
-      color: $textGrayColor
+      @include themify($themes){
+        color: themed('textGrayColor');
+      }
     }
 
     &-message {
@@ -103,7 +107,9 @@
         @include overflow-text-width;
 
         font-size: 1.3vh;
-        color: $textGrayColor;
+        @include themify($themes){
+          color: themed('textGrayColor');
+        }
 
         &_active {
           max-width: 85%;
@@ -121,7 +127,9 @@
         font-weight: 300;
 
         color: white;
-        background: $mainColor;
+        @include themify($themes){
+          background-color: themed('mainColor');
+        }
 
         display: none;
         align-items: center;
