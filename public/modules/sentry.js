@@ -9,23 +9,24 @@ class SentryManager {
      */
     constructor(debug = true) {
         this.__debug = debug;
-        const env = debug === true ? 'development' : 'production';
+        // const env = debug === true ? 'development' : 'production';
+        const env = 'production';
 
-        if (this.__debug) {
-            return;
-        }
+        // if (this.__debug) {
+        //     return;
+        // }
 
         console.log('Init Sentry', env);
 
-        // Sentry.onLoad(() => {
-        //     Sentry.init({
-        //         dsn: 'https://21ee1510d38c4e8ea55e5d36183a85c7@o658380.ingest.sentry.io/5763656',
-        //         integrations: [new Sentry.Integrations.BrowserTracing()],
-        //         tracesSampleRate: 0.1,
-        //         environment: env,
-        //         debug: false
-        //     });
-        // });
+        Sentry.onLoad(() => {
+            Sentry.init({
+                dsn: 'https://21ee1510d38c4e8ea55e5d36183a85c7@o658380.ingest.sentry.io/5763656',
+                integrations: [new Sentry.Integrations.BrowserTracing()],
+                tracesSampleRate: 0.2,
+                environment: env,
+                debug: false
+            });
+        });
     }
 
     /***
@@ -33,9 +34,9 @@ class SentryManager {
      * @param {Error} err - error
      */
     captureException(err) {
-        if (this.__debug) {
-            return;
-        }
+        // if (this.__debug) {
+        //     return;
+        // }
 
         Sentry.captureException(err);
 
@@ -46,13 +47,13 @@ class SentryManager {
      * @param {string} msg - message
      */
     captureMessage(msg) {
-        if (this.__debug) {
-            return;
-        }
+        // if (this.__debug) {
+        //     return;
+        // }
 
         Sentry.captureMessage(msg);
 
     }
 }
 
-export const sentryManager = new SentryManager(process.env.DEBUG);
+export const sentryManager = new SentryManager(false);
