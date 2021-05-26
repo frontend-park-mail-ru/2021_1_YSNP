@@ -7,7 +7,7 @@ import {mobile} from '../modules/mobile';
 /***
  * Favorite view
  */
-export class AchievementView extends BaseView {
+export class UserAchievementView extends BaseView {
 
     /***
      * Get view context
@@ -80,7 +80,11 @@ export class AchievementView extends BaseView {
         super.render();
 
         if (mobile.isMobile()) {
-            this.__renderMobile();
+            if (this.__context.profileSettings.owner) {
+                this.__renderMobile();
+            } else {
+                this.__renderDesktop();
+            }
         } else {
             this.__renderDesktop();
         }

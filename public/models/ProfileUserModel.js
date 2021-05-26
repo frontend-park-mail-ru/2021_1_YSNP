@@ -92,6 +92,7 @@ export class ProfileUserModel extends PasswordUserModel {
             latitude: this.__latitude,
             longitude: this.__longitude,
             radius: this.__radius,
+            rating: this.__rating,
             address: this.__address ? this.__address : 'Москва'
         };
     }

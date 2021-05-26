@@ -40,10 +40,10 @@ export class UserReviewsPresenter extends BasePresenter {
     async update() {
         return super.update()
             .then(() => {
-                if (this.__userModel.getData().id === this.__userID) {
-                    this.__sellerModel.fillUserData(this.__userModel.getData());
-                    return;
-                }
+                // if (this.__userModel.getData().id === this.__userID) {
+                //     this.__sellerModel.fillUserData(this.__userModel.getData());
+                //     return;
+                // }
 
                 this.__sellerModel.getUser(this.__userID);
             })

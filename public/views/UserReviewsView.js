@@ -167,7 +167,11 @@ export class UserReviewsView extends BaseView {
         super.render();
 
         if (mobile.isMobile()) {
-            this.__renderMobile();
+            if (this.__context.profileSettings.owner) {
+                this.__renderMobile();
+            } else {
+                this.__renderDesktop();
+            }
         } else {
             this.__renderDesktop();
         }

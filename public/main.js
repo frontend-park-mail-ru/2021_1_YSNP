@@ -20,7 +20,7 @@ import {SearchView} from './views/SearchView.js';
 import {PromotionView} from './views/PromotionView.js';
 import {NotFoundView} from './views/NotFoundView.js';
 import {ProductEditView} from './views/ProductEditView.js';
-import {AchievementView} from './views/AchievementView.js';
+import {UserAchievementView} from './views/UserAchievementView.js';
 import {UserChatsView} from './views/UserChatsView';
 import {UserReviewsView} from './views/UserReviewsView';
 import {SellerAdView} from './views/SellerAdView';
@@ -36,7 +36,7 @@ import {RegistrationPresenter} from './presenters/RegistrationPresenter.js';
 import {SearchPresenter} from './presenters/SearchPresenter.js';
 import {PromotionPresenter} from './presenters/PromotionPresenter.js';
 import {NotFoundPresenter} from './presenters/NotFoundPresenter.js';
-import {AchievementPresenter} from './presenters/AchievementPresenter.js';
+import {UserAchievementPresenter} from './presenters/UserAchievementPresenter.js';
 import {ProductEditPresenter} from './presenters/ProductEditPresenter';
 import {UserChatsPresenter} from './presenters/UserChatsPresenter';
 import {UserReviewsPresenter} from './presenters/UserReviewsPresenter';
@@ -56,20 +56,25 @@ if ('serviceWorker' in navigator) {
     });
 }
 
-Notification.requestPermission()
-    .then((permission) => {
-        console.log('Notification:', permission);
-    })
-    .catch((err) => {
-        console.log('Notification:', err);
-        sentryManager.captureException(err);
-    });
+try {
+    Notification.requestPermission()
+        .then((permission) => {
+            console.log('Notification:', permission);
+        })
+        .catch((err) => {
+            console.log('Notification:', err);
+            sentryManager.captureException(err);
+        });
+} catch (err) {
+    console.log(err.message);
+}
+
 
 const app = document.getElementById('app');
 
 const chatsView = new UserChatsView(app);
 const favoriteView = new UserFavoriteView(app);
-const achievementView = new AchievementView(app);
+const achievementView = new UserAchievementView(app);
 const mainView = new MainView(app);
 const adView = new UserAdView(app);
 const productCreateView = new ProductCreateView(app, baseCreateProduct);
@@ -212,7 +217,7 @@ const doFavorite = () => {
  * @returns {Function}
  */
 const doAchievements = (val) => {
-    const achievementPresenter = new AchievementPresenter(achievementView, val.parameters.id);
+    const achievementPresenter = new UserAchievementPresenter(achievementView, val.parameters.id);
     achievementPresenter.control();
 
     return achievementPresenter.removePageListeners.bind(achievementPresenter);

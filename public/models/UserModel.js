@@ -200,6 +200,7 @@ export class UserModel extends BaseModel {
         this.__radius = data.radius;
         this.__address = data.address;
         this.__linkImages = data.linkImages;
+        this.__rating = data.rating;
     }
 
     /***
@@ -215,7 +216,8 @@ export class UserModel extends BaseModel {
             dateBirth: this.__dateBirth,
             email: this.__email,
             telephone: this.__telephone,
-            linkImage: this.__linkImages
+            linkImage: this.__linkImages,
+            rating: this.__rating
         };
     }
 
