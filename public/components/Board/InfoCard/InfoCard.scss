@@ -74,6 +74,7 @@
   }
 
   &-container {
+    width: calc(100% - 8vh);
     display: flex;
     justify-content: center;
     flex-direction: column;
@@ -81,12 +82,12 @@
   }
 
   &__name {
-    font-size: 3vh;
-    line-height: 2vh;
-
+    font-size: 2.5vh;
+    line-height: 3vh;
+    @include overflow-text-width;
     @media screen and (max-width: $breakMobile) {
       font-size: 4vh;
-      line-height: 3vh;
+      line-height: 5vh;
     }
   }
 

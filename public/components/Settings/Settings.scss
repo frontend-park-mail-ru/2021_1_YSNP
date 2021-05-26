@@ -1,7 +1,6 @@
 @import "../../scss/main.scss";
 .settings {
     width: 100%;
-    height: 106vh;
     display: flex;
     flex-direction: column;
     &-inner {
@@ -166,6 +165,7 @@
         display: flex;
         flex-direction: row;
         align-items: center;
+        margin-bottom: 10vh;
     }
     &-avatar {
         position: relative;

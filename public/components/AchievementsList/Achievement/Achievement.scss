@@ -71,6 +71,7 @@
 .achieved {
   height: 2vw;
   width: 2vw;
+  filter: brightness(0.9);
   @media screen and (max-width: $breakMobile), (max-width: $breakTablet)  {
     height: 5vw;
     width: 5vw;
