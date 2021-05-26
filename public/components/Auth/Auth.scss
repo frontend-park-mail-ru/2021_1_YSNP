@@ -33,6 +33,29 @@
 
         overflow: hidden;
       }
+      &__close {
+        @include set-size(2vh, 2vh);
+
+        position: absolute;
+        fill: rgb(120, 120, 120);
+        @include themify($themes){
+          filter: themed('svgFilter');
+        }
+
+        top: 1vh;
+        right: 1vh;
+
+        &:hover {
+          cursor: pointer;
+        }
+
+        @media screen and (max-width: $breakMobile) {
+          top: 2vh;
+          right: 2vh;
+
+          @include set-size(3vh, 3vh);
+        }
+      }
     }
 
     &-form {
@@ -94,7 +117,9 @@
         &__link {
           cursor: pointer;
           text-decoration: underline;
-          color: $linkColor;
+          @include themify($themes){
+            color: themed('linkColor');
+          }
         }
       }
     }

@@ -23,7 +23,10 @@
   }
 
   &_vip {
-    border: 2px solid $mainColor;
+    border: 2px solid;
+    @include themify($themes){
+      border-color: themed('mainColor');
+    }
   }
 
   &-inner {
@@ -81,7 +84,9 @@
     font-size: 1vw;
     border-radius: 7px;
     color: white;
-    background-color: $mainColor;
+    @include themify($themes){
+     background-color: themed('mainColor');
+    }
 
     @media screen and (max-width: $breakDesktop) {
       top: 0.7vw;
@@ -239,7 +244,9 @@
 
         border-radius: 7px;
         color: white;
-        background-color: $mainColor;
+        @include themify($themes){
+          background-color: themed('mainColor');
+        }
       }
     }
   }

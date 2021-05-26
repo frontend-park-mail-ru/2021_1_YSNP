@@ -205,6 +205,12 @@
     justify-content: center;
     align-items: center;
 
+    &__svg {
+      @include themify($themes){
+        filter: themed('svgFilter');
+      }
+    }
+
     @media screen and (max-width: $breakMobile) {
       font-size: 2.5vh;
       margin-top: 0;

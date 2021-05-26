@@ -25,7 +25,9 @@
       }
 
       &__map {
-        color: $mainColor;
+        @include themify($themes){
+          color: themed('mainColor');
+        }
 
         cursor: pointer;
       }
@@ -94,7 +96,10 @@
         cursor: pointer;
 
         &:hover {
-          border: 2px solid $mainColor;
+          border: 2px solid;
+          @include themify($themes){
+            border-color: themed('mainColor');
+          }
         }
 
         &:focus {
@@ -232,11 +237,23 @@
           @include set-size(25%, 5vh);
         }
       }
+
+      &-product {
+        @include themify($themes){
+          color: themed('textGrayColor');
+        }
+      }
     }
 
     &__sort {
       @include set-size(20vh, 4vh);
-      background: rgba(0, 0, 0, 0.0);
+      @include themify($themes){
+        color: themed('textColorDefault');
+      }
+      @include themify($themes){
+        background-color: themed('backgroundColor');
+      }
+      padding: 3px 0;
       border: 0;
 
       &:focus {

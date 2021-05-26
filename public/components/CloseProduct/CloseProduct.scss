@@ -16,6 +16,13 @@
         width: 80%;
       }
 
+      &__close {
+
+        @include themify($themes) {
+          filter: themed('svgFilter');
+        }
+      }
+
       &__title {
         font-size: 2.5vh;
 
@@ -28,7 +35,9 @@
         margin-top: 0.5vh;
 
         font-size: 1.5vh;
-        color: $textGrayColor;
+        @include themify($themes) {
+          color: themed('textGrayColor');
+        }
 
         @media screen and (max-width: $breakMobile) {
           font-size: 2vh;

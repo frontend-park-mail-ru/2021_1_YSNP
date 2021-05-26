@@ -57,7 +57,9 @@
         cursor: pointer;
 
         font-size: 2vh;
-        color: $textColorDefault;
+        @include themify($themes) {
+          color: themed('textColorDefault');
+        }
       }
 
       &__product {
@@ -66,7 +68,9 @@
         cursor: pointer;
 
         font-size: 1.5vh;
-        color: $mainColor;
+        @include themify($themes) {
+          color: themed('mainColor');
+        }
       }
     }
 
@@ -87,7 +91,9 @@
         margin-left: auto;
 
         font-size: 1.3vh;
-        color: $textGrayColor
+        @include themify($themes) {
+          color: themed('textGrayColor');
+        }
       }
     }
   }
@@ -116,7 +122,9 @@
       margin-left: auto;
       display: none;
 
-      color: $textGrayColor;
+      @include themify($themes) {
+        color: themed('textGrayColor');
+      }
       font-size: 1.5vh;
 
       &:hover {

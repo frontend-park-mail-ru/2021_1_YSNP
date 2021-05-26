@@ -10,7 +10,7 @@ const SentryWebpackPlugin = require('@sentry/webpack-plugin');
 module.exports = {
     entry: './public/main.js',
     output: {
-        filename: '[name].[contenthash:8].js',
+        filename: 'bundle.js',
         path: path.resolve(__dirname, 'dist'),
         publicPath: '/'
     },
@@ -38,7 +38,7 @@ module.exports = {
             template: './public/index.html'
         }),
         new MiniCssExtractPlugin({
-            filename: '[name].[contenthash:8].css'
+            filename: 'bundle.css'
         }),
         new CopyWebpackPlugin({
             patterns: [

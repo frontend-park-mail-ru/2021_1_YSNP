@@ -43,6 +43,8 @@ import {UserReviewsPresenter} from './presenters/UserReviewsPresenter';
 import {SellerAdPresenter} from './presenters/SellerAdPresenter';
 import {UserAwaitReviewPresenter} from './presenters/UserAwaitReviewPresenter';
 
+import {customSessionStorage} from './modules/customSessionStorage';
+
 /***
  * Register service worker
  *  */
@@ -56,6 +58,19 @@ if ('serviceWorker' in navigator) {
     });
 }
 
+const html = document.getElementsByTagName('html').item(0);
+let theme = customSessionStorage.get('theme');
+if (theme === null) {
+    if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        customSessionStorage.set('theme', 'dark');
+        theme = 'dark';
+    } else {
+        customSessionStorage.set('theme', 'light');
+        theme = 'light';
+    }
+}
+html.className = `theme-${theme}`;
+
 try {
     Notification.requestPermission()
         .then((permission) => {
@@ -68,7 +83,6 @@ try {
 } catch (err) {
     console.log(err.message);
 }
-
 
 const app = document.getElementById('app');
 

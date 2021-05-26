@@ -59,7 +59,9 @@
         margin-top: 0.5vh;
 
         @include menu-link;
-        color: $mainColor;
+        @include themify($themes){
+          color: themed('mainColor');
+        }
         font-size: 1.6vh;
 
         &__link {
@@ -96,7 +98,9 @@
     align-items: center;
     justify-content: center;
 
-    background-color: rgb(250, 250, 250);
+    @include themify($themes){
+      background-color: themed('blockBackground');
+    }
 
     &-inner {
       width: 100%;

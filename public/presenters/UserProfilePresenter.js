@@ -21,6 +21,7 @@ import {router} from '../modules/router';
 
 import {frontUrls} from '../modules/urls/frontUrls';
 import {sentryManager} from '../modules/sentry';
+import {customSessionStorage} from '../modules/customSessionStorage';
 
 /***
  * Profile settings presenter
@@ -200,8 +201,34 @@ export class UserProfilePresenter extends BasePresenter {
             },
             hideError: {
                 open: hideError.bind(this)
+            },
+            setLightTheme: {
+                open: this.__setLightTheme.bind(this)
+            },
+            setDarkTheme: {
+                open: this.__setDarkTheme.bind(this)
             }
         };
+    }
+
+    /***
+     * Set light theme
+     * @private
+     */
+    __setLightTheme() {
+        customSessionStorage.set('theme', 'light');
+        const app = document.getElementsByTagName('html').item(0);
+        app.className = 'theme-light';
+    }
+
+    /***
+     * Set light theme
+     * @private
+     */
+    __setDarkTheme() {
+        customSessionStorage.set('theme', 'dark');
+        const app = document.getElementsByTagName('html').item(0);
+        app.className = 'theme-dark';
     }
 
     /***

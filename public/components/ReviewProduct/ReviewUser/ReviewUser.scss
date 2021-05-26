@@ -11,6 +11,11 @@
 
     &-inner {
       margin: 2vh;
+      &__close {
+        @include themify($themes) {
+          filter: themed('svgFilter');
+        }
+      }
 
       @media screen and (max-width: $breakMobile) {
         width: 80%;
@@ -25,7 +30,9 @@
 
         &__back {
           margin-right: 1vh;
-
+          @include themify($themes) {
+            filter: themed('svgFilter');
+          }
           cursor: pointer;
           @include set-size(2vh, 2vh);
         }
@@ -55,7 +62,9 @@
 
         &__info {
           font-size: 1.5vh;
-          color: $textGrayColor;
+          @include themify($themes) {
+            color: themed('textGrayColor');
+          }
 
           @media screen and (max-width: $breakMobile) {
             font-size: 2vh;

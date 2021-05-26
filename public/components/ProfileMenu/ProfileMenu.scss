@@ -113,10 +113,16 @@
       @include menu-link;
 
       &__logo {
+        width: 2vh;
+        height: 2vh;
+        @include themify($themes){
+          filter: themed('svgFilter');
+        }
         @include set-size(2vh, 2vh);
 
         margin-right: 0.5vh;
       }
+
 
       &__text {
         opacity: 0.7;
@@ -128,7 +134,9 @@
       }
 
       &_selected {
-        color: $linkColor;
+        @include themify($themes) {
+          color: themed('linkColor');
+        }
       }
     }
   }

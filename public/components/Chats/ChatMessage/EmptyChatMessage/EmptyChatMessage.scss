@@ -13,6 +13,8 @@
 
   &__text {
     font-size: 1.5vh;
-    color: $textGrayColor;
+    @include themify($themes){
+      color: themed('textGrayColor');
+    }
   }
 }

@@ -8,6 +8,7 @@
 
   &__textarea {
     @include border-block;
+    @include input;
     width: 35vh;
     height: 20vh;
     padding: 0.5vh 0.7vh;
@@ -22,6 +23,12 @@
 
   &__photolabel {
     @include border-block;
+    @include themify($themes) {
+      background-color: themed('inputBackground');
+    }
+    @include themify($themes) {
+      border-color: themed('borderColor');
+    }
     font-size: 1vh;
     min-height: 15vh;
     max-height: 15vh;
@@ -45,6 +52,12 @@
   object-fit: contain;
   transition: all .3s cubic-bezier(.175, .885, .32, 1.275);
   opacity: 0.6;
+
+  &::before {
+    @include themify($themes) {
+      content: themed('addPhotoSvg');
+    }
+  }
 
   &:hover {
     opacity: 1;
@@ -94,6 +107,9 @@
 }
 
 .map-product {
+  @include themify($themes) {
+    filter: themed('mapTheme');
+  }
   height: 50vh;
   margin-left: 1vw;
   display: flex;

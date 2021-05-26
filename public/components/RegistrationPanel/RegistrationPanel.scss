@@ -7,6 +7,11 @@
             @media screen and (max-width: $breakTablet) {
                 width: 100%;
             }
+            &::placeholder {
+                @include themify($themes) {
+                    color: themed('placeholderColor');
+                }
+            }
         }
         &__coutry-code {
             margin: 0;

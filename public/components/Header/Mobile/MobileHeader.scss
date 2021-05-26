@@ -6,7 +6,9 @@
   z-index: 100;
   top: 0;
   position: fixed;
-
+  @include themify($themes){
+    background: themed('blockBackground');
+  }
   display: flex;
   @include shadow-block;
   border-radius: 0;
@@ -26,7 +28,9 @@
   &-left {
     &__back {
       @include set-size(3vh, 3vh);
-
+      @include themify($themes){
+        filter: themed('svgFilter');
+      }
       cursor: pointer;
 
       &_disabled {
@@ -44,6 +48,12 @@
       transform: translate(-50%, -50%);
 
       cursor: pointer;
+
+      &__svg {
+        @include themify($themes){
+          content: themed('logoPath');
+        }
+      }
     }
   }
 
@@ -62,6 +72,9 @@
 
       &__button {
         @include set-size(3vh, 3vh);
+        @include themify($themes){
+          filter: themed('svgFilter');
+        }
       }
     }
 
@@ -73,7 +86,9 @@
 
     &__account {
       @include set-size(4vh, 4vh);
-
+      @include themify($themes){
+        filter: themed('svgFilter');
+      }
       cursor: pointer;
     }
   }

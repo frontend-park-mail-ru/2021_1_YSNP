@@ -48,7 +48,10 @@
 
       &_selected {
         color: black;
-        border-bottom: 2px solid $linkColor;
+        border-bottom: 2px solid;
+        @include themify($themes){
+          border-color: themed('linkColor');
+        }
       }
     }
   }

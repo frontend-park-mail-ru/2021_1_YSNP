@@ -53,6 +53,9 @@
   }
 
   &-map {
+    @include themify($themes){
+      filter: themed('mapTheme');
+    }
     height: 50vh;
     display: flex;
     flex-direction: column;

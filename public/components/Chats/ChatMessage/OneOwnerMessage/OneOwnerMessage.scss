@@ -23,12 +23,15 @@
 
     &__text {
       font-size: 1.5vh;
+      color: #000000;
     }
   }
 
   &__date {
     font-size: 1.2vh;
     font-weight: 400;
-    color: $textGrayColor;
+    @include themify($themes){
+      color: themed('textGrayColor');
+    }
   }
 }
