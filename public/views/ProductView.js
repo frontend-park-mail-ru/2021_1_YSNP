@@ -1,7 +1,13 @@
 import {BaseView} from './BaseView.js';
+
 import {Layout} from '../components/Layout/Layout.js';
 import {Navigation} from '../components/Navigation/Navigation.js';
 import {Board} from '../components/Board/Board.js';
+import {ProductTable} from '../components/ProductTable/ProductTable';
+import {CloseProduct} from '../components/CloseProduct/CloseProduct';
+import {SelectUser} from '../components/ReviewProduct/SelectUser/SelectUser';
+import {ReviewUser} from '../components/ReviewProduct/ReviewUser/ReviewUser';
+
 import {router} from '../modules/router';
 import {mobile} from '../modules/mobile';
 
@@ -26,9 +32,108 @@ export class ProductView extends BaseView {
                 data: context.product.data,
                 listeners: context.product.listeners,
                 owner: context.product.owner
+            },
+            trendsList: {
+                title: 'Похожие товары',
+                text: 'Пока нет похожих товаров',
+                id: 'trends',
+                data: context.recList.data,
+                listeners: context.recList.listeners
             }
         };
     }
+
+    /***
+     * Render close product component
+     * @param {Object} context
+     */
+    renderCloseProduct(context) {
+        this.__closeProduct = new CloseProduct(this.__app);
+        this.__closeProduct.render(context);
+    }
+
+    /***
+     * Remove close product component
+     */
+    removeCloseProduct() {
+        this.__closeProduct.remove();
+        this.__closeProduct = undefined;
+    }
+
+    /***
+     * Render select user component
+     * @param {Object} context
+     */
+    renderSelectUser(context) {
+        this.__selectUser = new SelectUser(this.__app);
+        this.__selectUser.render(context);
+    }
+
+    /***
+     * Remove select user component
+     */
+    removeSelectUser() {
+        this.__selectUser.remove();
+        this.__selectUser = undefined;
+    }
+
+    /***
+     * Render review user component
+     * @param context
+     */
+    renderReviewUser(context) {
+        this.__reviewUser = new ReviewUser(this.__app);
+        this.__reviewUser.render(context);
+    }
+
+    /***
+     * Set review user error
+     * @param {string} msg - message
+     */
+    reviewUserError(msg) {
+        this.__reviewUser.setReviewError(msg);
+    }
+
+    /***
+     * Get review user text
+     * @returns {string}
+     */
+    reviewUserText() {
+        return this.__reviewUser.getReviewText();
+    }
+
+    /***
+     * Get review user star
+     * @returns {number}
+     */
+    reviewUserStar() {
+        return this.__reviewUser.getReviewStar();
+    }
+
+    /***
+     * Remove review user component
+     */
+    removeReviewUser() {
+        this.__reviewUser.remove();
+        this.__reviewUser = undefined;
+    }
+
+    /***
+     * Like product
+     * @param {number} id - product id
+     */
+    likeProduct(id) {
+        this.__trendsList.like(id);
+    }
+
+    /***
+     * Dislike product
+     * @param {number} id - product id
+     */
+    dislikeProduct(id) {
+        this.__trendsList.dislike(id);
+    }
+
 
     /***
      * @author Ivan Gorshkov
@@ -121,6 +226,8 @@ export class ProductView extends BaseView {
         this.__boardSubView = new Board(parent);
         this.__boardSubView.render(this.__context);
 
+        this.__trendsList = new ProductTable(parent);
+        this.__trendsList.render(this.__context.trendsList);
         super.renderFooter();
     }
 }

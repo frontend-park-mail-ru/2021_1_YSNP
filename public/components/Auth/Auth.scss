@@ -1,38 +1,15 @@
 @import "../../scss/main.scss";
 
 .auth {
-  @include set-size(100vw, 100vh);
-  position: fixed;
-  top: 0;
-
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background-color: rgba(0, 0, 0, 0.5);
-
-  z-index: 101;
+  @include popup(50vh);
 
   &-content {
-    position: relative;
-    width: 50vh;
-    z-index: 102;
-    @include block;
-
     @media screen and (max-width: $breakMobile) {
-      @include set-size(100vw, 100vh);
-
       display: flex;
       justify-content: center;
-
-      border-radius: 0;
     }
 
     &-inner {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-
       &__title {
         margin: 4vh 0 2vh;
         font-size: 3vh;
@@ -56,27 +33,6 @@
 
         overflow: hidden;
       }
-
-      &__close {
-        @include set-size(2vh, 2vh);
-
-        position: absolute;
-        fill: rgb(120, 120, 120);
-
-        top: 1vh;
-        right: 1vh;
-
-        &:hover {
-          cursor: pointer;
-        }
-
-        @media screen and (max-width: $breakMobile) {
-          top: 2vh;
-          right: 2vh;
-
-          @include set-size(3vh, 3vh);
-        }
-      }
     }
 
     &-form {
@@ -84,7 +40,7 @@
       align-items: center;
       flex-direction: column;
 
-      margin-bottom: 4vh;
+      margin-bottom: 2vh;
 
       &__input {
         margin: 1vh 0;
@@ -140,6 +96,45 @@
           text-decoration: underline;
           color: $linkColor;
         }
+      }
+    }
+
+    &-text {
+      width: 100%;
+
+      margin-bottom: 2vh;
+
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      justify-content: center;
+
+      &__separator {
+        width: 30%;
+        @include separator;
+        margin: 0;
+      }
+
+      &__or {
+        margin: 0 3vh;
+      }
+    }
+
+    &-vk {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+
+      margin-bottom: 2vh;
+
+      padding: 1vh 5vh;
+      background-color: transparent;
+      color: rgb(70, 128, 194);
+      border-radius: 1vh;
+      border: 1px solid rgb(70, 128, 194);
+
+      &__logo {
+        @include set-size(2.5vh, 2.5vh);
       }
     }
   }

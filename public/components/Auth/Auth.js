@@ -1,6 +1,8 @@
 import authTemplate from './Auth.hbs';
 import './Auth.scss';
 
+import {sentryManager} from '../../modules/sentry';
+
 /***
  * Auth component
  */
@@ -105,6 +107,7 @@ export class Auth {
             this.__parent.insertAdjacentHTML('beforeend', authTemplate());
             this.__addListeners();
         } catch (err) {
+           // sentryManager.captureException(err);
             console.log(err.message);
         }
     }
@@ -117,6 +120,7 @@ export class Auth {
             this.__removeListeners();
             document.getElementById('auth').remove();
         } catch (err) {
+            sentryManager.captureException(err);
             console.log(err.message);
         }
     }

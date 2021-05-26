@@ -107,7 +107,7 @@ export class UserModel extends BaseModel {
      */
     validationEmail(email) {
         const re = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-        if (re.test(email)) {
+        if (re.test(email) || email.length === 0) {
             return {
                 message: [''],
                 error: false
@@ -137,9 +137,17 @@ export class UserModel extends BaseModel {
     /***
      * Validate user telephone
      * @param {string} telephone - user telephone
+     * @param {boolean} isOptional - optional user phone
      * @returns {{message: [string], error: boolean}}
      */
-    validationTelephone(telephone) {
+    validationTelephone(telephone, isOptional = false) {
+        if (isOptional && telephone.length === 2) {
+            return {
+                message: [''],
+                error: false
+            };
+        }
+
         const telSize = 12;
         if (telephone.length === telSize && this.__isValidPhone(telephone)) {
             return {
@@ -192,6 +200,7 @@ export class UserModel extends BaseModel {
         this.__radius = data.radius;
         this.__address = data.address;
         this.__linkImages = data.linkImages;
+        this.__rating = data.rating;
     }
 
     /***
@@ -207,7 +216,8 @@ export class UserModel extends BaseModel {
             dateBirth: this.__dateBirth,
             email: this.__email,
             telephone: this.__telephone,
-            linkImage: this.__linkImages
+            linkImage: this.__linkImages,
+            rating: this.__rating
         };
     }
 
@@ -215,6 +225,23 @@ export class UserModel extends BaseModel {
      * Get user
      * @param {number} id - user id
      * @returns {Promise<{data: *, status: number}>}
+     */
+    async getUserTelephone(id) {
+        return http.get(backUrls.getUserTelephone(id))
+            .then(({status, data}) => {
+                this.checkError(status, {
+                    message: data.message,
+                    notFound: 'Нет такого пользователя'
+                });
+
+                this.fillUserData(data);
+            });
+    }
+
+    /***
+     * Get user without login
+     * @param {number} id - user id
+     * @return {Promise<{data: *, status: number}>}
      */
     async getUser(id) {
         return http.get(backUrls.getUser(id))

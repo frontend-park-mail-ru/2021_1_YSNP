@@ -22,27 +22,21 @@ $breakMobile: 576px;
 @mixin red-button($w, $h) {
   height: $h;
   width: $w;
-
   border: 0;
   border-radius: 3px;
-
   text-decoration: none;
   font-size: 1.5vh;
   text-align: center;
-
   cursor: pointer;
   color: rgb(255, 255, 255);
   background-color: $mainColor;
-
   outline: none;
   &:hover {
     background-color: rgb(194, 23, 23);
   }
-
   &:focus {
     outline: none;
   }
-
   @media screen and (max-width: $breakMobile) {
     font-size: 2vh;
     height: 4.5vh;
@@ -52,42 +46,34 @@ $breakMobile: 576px;
 @mixin disable-button($w, $h) {
   width: $w;
   height: $h;
-
   border: 1px solid #000000;
   border-radius: 3px;
-
   text-decoration: none;
   font-size: 1.5vh;
   text-align: center;
   color: #666666;
   background-color: rgb(255, 255, 255);;
-
   outline: none;
 }
 
 @mixin cancel-button($w, $h) {
   height: $h;
   width: $w;
-
   border: 0;
   border-radius: 3px;
-
   text-decoration: none;
   font-size: 1.5vh;
   text-align: center;
   cursor: pointer;
   color: rgb(255, 255, 255);
   background-color: #747474;
-
   outline: none;
   &:hover {
     background-color: #636363;
   }
-
   &:focus {
     outline: none;
   }
-
   @media screen and (max-width: $breakMobile) {
     font-size: 2vh;
     height: 4.5vh;
@@ -97,26 +83,21 @@ $breakMobile: 576px;
 @mixin white-button($w, $h) {
   height: $h;
   width: $w;
-
   border: 1px solid #000000;
   border-radius: 3px;
-
   text-decoration: none;
   font-size: 1.5vh;
   text-align: center;
   cursor: pointer;
   color: $textColorDefault;
   background-color: snow;
-
   outline: none;
   &:hover {
     background-color: rgb(229, 227, 227);
   }
-
   &:focus {
     outline: none;
   }
-
   @media screen and (max-width: $breakMobile) {
     font-size: 2vh;
     height: 4.5vh;
@@ -126,18 +107,14 @@ $breakMobile: 576px;
 @mixin menu-link() {
   text-decoration: none;
   color: black;
-
   cursor: pointer;
   font-size: 1.6vh;
-
   &:hover {
     color: $linkColor;
   }
-
   &:focus {
     color: $linkColor;
   }
-
   @media screen and (max-width: $breakMobile) {
     font-size: 2vh;
   }
@@ -151,9 +128,7 @@ $breakMobile: 576px;
   border: 1px solid rgba(0, 0, 0, 0.2);
   box-sizing: border-box;
   border-radius: 0.5vh;
-
   padding-left: 10px;
-
   @media screen and (max-width: $breakMobile) {
     height: 5vh;
     font-size: 2.3vh;
@@ -165,7 +140,6 @@ $breakMobile: 576px;
   font-size: 1.8vh;
   color: #000000;
   opacity: 0.5;
-
   @media screen and (max-width: $breakMobile) {
     font-size: 2vh;
   }
@@ -185,11 +159,9 @@ $breakMobile: 576px;
 
 @mixin shadow-block() {
   background-color: white;
-
   border: 0;
   border-radius: 1vh;
   box-shadow: 0 0 1vw rgba(0, 0, 0, 0.2);
-
   @media screen and (max-width: $breakMobile) {
     border-radius: 0;
   }
@@ -197,18 +169,14 @@ $breakMobile: 576px;
 
 @mixin product-block() {
   background-color: white;
-
   border: 0;
   border-radius: 1vh;
   box-shadow: 0 0 1vw rgba(0, 0, 0, 0.2);
   box-sizing: border-box;
-
   cursor: pointer;
-
   overflow: hidden;
   transition-duration: 0.5s;
   transition-property: box-shadow;
-
   &:hover {
     box-shadow: rgba(0, 0, 0, 0.5) 0 0 10px;
   }
@@ -230,6 +198,83 @@ $breakMobile: 576px;
   margin-bottom: 1vh;
 }
 
+@mixin separator-bottom {
+  border-bottom: 1px solid rgb(227, 227, 227);
+}
+
+@mixin star() {
+  width: 12vh;
+
+  &__rate span {
+    font-size: 2vh;
+
+    color: lightgrey;
+  }
+
+  &__rate > span:before {
+    content: '★';
+  }
+
+  &__rate > span.star-active {
+    color: gold;
+  }
+}
+
+@mixin popup($w) {
+  @include set-size(100vw, 100vh);
+  top: 0;
+  position: fixed;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 101;
+
+  background-color: rgba(0, 0, 0, 0.5);
+
+  &-content {
+    position: relative;
+    @include block;
+    z-index: 102;
+
+    width: $w;
+
+    @media screen and (max-width: $breakMobile) {
+      @include set-size(100vw, 100vh);
+
+      border-radius: 0;
+    }
+
+    &-inner {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+
+      &__close {
+        @include set-size(2vh, 2vh);
+
+        position: absolute;
+        fill: rgb(120, 120, 120);
+
+        top: 1vh;
+        right: 1vh;
+
+        &:hover {
+          cursor: pointer;
+        }
+
+        @media screen and (max-width: $breakMobile) {
+          top: 2vh;
+          right: 2vh;
+
+          @include set-size(3vh, 3vh);
+        }
+      }
+    }
+  }
+}
+
 @mixin message-container() {
   clear: both;
   position: absolute;
@@ -238,8 +283,7 @@ $breakMobile: 576px;
   right: 0;
   top: 0;
   z-index: 1000;
-
-  @media screen and (max-width: $breakMobile){
+  @media screen and (max-width: $breakDesktop) {
     //top: -150px;
     flex-direction: row-reverse;
     transform: translateY(-111%);
@@ -253,12 +297,12 @@ $breakMobile: 576px;
     float: left;
     top: 6px;
     right: -1px;
-
-    @media screen and (max-width: $breakMobile) {
+    @media screen and (max-width: $breakDesktop) {
       top: 15px;
-      right: 265px;
+      right: 150px;
       transform: rotate(270deg);
     }
+
     &-outer {
       width: 0;
       height: 0;
@@ -290,6 +334,9 @@ $breakMobile: 576px;
     border: 1px solid rgba(0.0, 0.0, 0.0, 0.1);
     padding: 6px 8px;
     border-radius: 5px;
+    @media screen and (max-width: $breakDesktop) {
+      width: 90%;
+    }
   }
 }
 
@@ -326,4 +373,7 @@ $breakMobile: 576px;
 .list-errors {
   font-size: 1.8vh;
   color: #D31E1E;
+  @media screen and (max-width: $breakDesktop) {
+    padding-left: 30px;
+  }
 }

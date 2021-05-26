@@ -2,14 +2,21 @@
     <span class="info-card__product">{{productName}}</span>
     <p class="info-card__price">{{price}} ₽</p>
     <div class="info-card-mobile-separator"></div>
-    <div class="info-card-profile">
+    <div class="info-card-profile" id="card-profile" data-action="userClick">
         <img src="{{avatar}}" alt="avatar" class="info-card__image"/>
         <div class="info-card-container">
             <span class="info-card__name">{{name}}</span>
-            <span class="info-card-rating">
-                              <span class="info-card-rating__text">{{rating}}</span>
-                {{{starts}}}
-                        </span>
+            <div class="info-card-rating">
+                <div class="info-card-rating__text">{{rating}}</div>
+
+                <div class="info-card-rating__rate">
+                    <span id="star-1"></span>
+                    <span id="star-2"></span>
+                    <span id="star-3"></span>
+                    <span id="star-4"></span>
+                    <span id="star-5"></span>
+                </div>
+            </div>
         </div>
     </div>
     <div class="info-card-btn" id="info-card-btns">
@@ -18,9 +25,11 @@
         {{else}}
             {{#if owner}}
                 <input class="info-card-btn__change" type="button" value="Редактировать" data-action="editProduct"/>
-                <input class="info-card-btn__close" type="button" value="Закрыть объявление" data-action="closeProduct"/>
+                <input class="info-card-btn__close" type="button" value="Закрыть объявление"
+                       data-action="closeProduct"/>
             {{else}}
-                <input class="info-card-btn__massage" type="button" value="Написать сообщение" data-action="massageClick"/>
+                <input class="info-card-btn__massage" type="button" value="Написать сообщение"
+                       data-action="massageClick"/>
                 <input class="info-card-btn__number" type="button" value="Показать номер" data-action="numberClick"/>
             {{/if}}
         {{/if}}

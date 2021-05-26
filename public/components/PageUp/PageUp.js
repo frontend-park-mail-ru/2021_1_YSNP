@@ -1,6 +1,8 @@
 import pageUpTemplate from './PageUp.hbs';
 import './PageUp.scss';
 
+import {sentryManager} from '../../modules/sentry';
+
 /***
  * Page up component
  */
@@ -101,6 +103,7 @@ export class PageUp {
             this.__parent.insertAdjacentHTML('beforeend', pageUpTemplate());
             this.__addListeners();
         } catch (err) {
+            sentryManager.captureException(err);
             console.log(err.message);
         }
     }
@@ -113,6 +116,7 @@ export class PageUp {
             this.__removeListeners();
             this.__getPageUp().remove();
         } catch (err) {
+            sentryManager.captureException(err);
             console.log(err.message);
         }
     }

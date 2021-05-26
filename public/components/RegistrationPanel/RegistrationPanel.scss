@@ -1,213 +1,186 @@
 @import "../../scss/main.scss";
-
 .reg {
-  &-panel {
-    &__textfield {
-      @include input;
-      width: 35vh;
-
-      @media screen and (max-width: $breakTablet) {
-        width: 100%;
-      }
-    }
-
-    &__coutry-code {
-      margin: 0;
-      min-width: 2.5vw;
-      @include input;
-      width: 5vh;
-
-      &:focus {
-        outline: none;
-      }
-
-      @media screen and (max-width: $breakTablet) {
-        width: 13%;
-      }
-
-      @media screen and (max-width: $breakMobile) {
-        width: 15%;
-      }
-    }
-
-    &__tel {
-      padding-left: 1vh;
-      @include input;
-      margin: 0;
-      width: 29.4vh;
-
-      @media screen and (max-width: $breakTablet) {
-        width: 85.5%;
-      }
-      @media screen and (max-width: $breakMobile) {
-        width: 83%;
-      }
-    }
-
-    &-title {
-      margin-bottom: 1vw;
-
-      &__product-name {
-        font-size: 3vh;
-        margin: 0;
-        line-height: 5vh;
-      }
-    }
-  }
-
-  &-form {
-    padding-left: 1vh;
-    padding-right: 1vh;
-
-    &-inner {
-      position: relative;
-      margin: auto 0;
-      @media screen and (max-width: $breakTablet) {
-        width: 70%;
-      }
-    }
-  }
-
-  &-des {
-    display: flex;
-    margin-bottom: 2vh;
-
-    &-topic {
-      width: 25%;
-      margin-top: 1vh;
-
-      @media screen and (max-width: $breakDesktop) {
-        width: 30%;
-      }
-
-      &-button {
-        width: 25%;
-        margin-top: 1vh;
-
-        @media screen and (max-width: $breakDesktop) {
-          width: 30%;
+    &-panel {
+        &__textfield {
+            @include input;
+            width: 35vh;
+            @media screen and (max-width: $breakTablet) {
+                width: 100%;
+            }
         }
-      }
-
-      &__title {
-        @include description-label;
-        margin-top: 1vh;
-        margin-bottom: 1vh;
-      }
+        &__coutry-code {
+            margin: 0;
+            min-width: 2.5vw;
+            @include input;
+            width: 5vh;
+            &:focus {
+                outline: none;
+            }
+            @media screen and (max-width: $breakTablet) {
+                width: 13%;
+            }
+            @media screen and (max-width: $breakMobile) {
+                width: 15%;
+            }
+        }
+        &__tel {
+            padding-left: 1vh;
+            @include input;
+            margin: 0;
+            width: 29.4vh;
+            @media screen and (max-width: $breakTablet) {
+                width: 85.5%;
+            }
+            @media screen and (max-width: $breakMobile) {
+                width: 83%;
+            }
+        }
+        &-title {
+            margin-bottom: 1vw;
+            &__product-name {
+                font-size: 3vh;
+                margin: 0;
+                line-height: 5vh;
+            }
+        }
     }
-  }
-
-  &-error {
-    text-align: left;
-  }
-
-  &__gender {
-    width: auto;
-  }
-
-  &-picture {
-    position: relative;
-    //transform: translate(5%, 0);
-  }
-
-  &__button {
-    @include red-button(17vh, 4vh);
-
-    @media screen and (max-width: $breakTablet) {
-      font-size: 1.6vh;
-      @include red-button(17vh, 4.5vh);
+    &-form {
+        padding-left: 1vh;
+        padding-right: 1vh;
+        &-inner {
+            position: relative;
+            margin: auto 0;
+            @media screen and (max-width: $breakTablet) {
+                width: 70%;
+            }
+        }
     }
-
-    @media screen and (max-width: $breakMobile) {
-      font-size: 1.6vh;
+    &-des {
+        display: flex;
+        margin-bottom: 2vh;
+        &-topic {
+            width: 25%;
+            margin-top: 1vh;
+            @media screen and (max-width: $breakDesktop) {
+                width: 30%;
+            }
+            &-button {
+                width: 25%;
+                margin-top: 1vh;
+                @media screen and (max-width: $breakDesktop) {
+                    width: 30%;
+                }
+            }
+            &__title {
+                @include description-label;
+                margin-top: 1vh;
+                margin-bottom: 1vh;
+            }
+        }
     }
-  }
+    &-error {
+        text-align: left;
+    }
+    &__gender {
+        width: auto;
+    }
+    &-picture {
+        position: relative;
+        //transform: translate(5%, 0);
+    }
+    &__button {
+        @include red-button(17vh, 4vh);
+        @media screen and (max-width: $breakTablet) {
+            font-size: 1.6vh;
+            @include red-button(17vh, 4.5vh);
+            margin-bottom: 2vh;
+        }
+        @media screen and (max-width: $breakMobile) {
+            font-size: 1.6vh;
+        }
+    }
 }
 
 .profile-pic {
-  display: block;
-  object-fit: cover;
-  @include set-size(9vw, 9vw);
-  @media screen and (max-width: $breakDesktop) {
-    @include set-size(15vh, 15vh);
-  }
-  @media screen and (max-width: $breakTablet) {
-    @include set-size(13vh, 13vh);
-  }
-  @media screen and (max-width: $breakMobile) {
-    @include set-size(16vh, 16vh);
-  }
+    display: block;
+    object-fit: cover;
+    @include set-size(9vw, 9vw);
+    @media screen and (max-width: $breakDesktop) {
+        @include set-size(15vh, 15vh);
+    }
+    @media screen and (max-width: $breakTablet) {
+        @include set-size(13vh, 13vh);
+    }
+    @media screen and (max-width: $breakMobile) {
+        @include set-size(16vh, 16vh);
+    }
 }
 
 .file-upload {
-  display: none;
+    display: none;
 }
 
 .circle {
-  cursor: pointer;
-  border-radius: 100%;
-  overflow: hidden;
-  @include set-size(9vw, 9vw);
-  border: 1px solid rgba(0, 0, 0, 0.1);
-  @media screen and (max-width: $breakDesktop) {
-    @include set-size(15vh, 15vh);
-  }
-  @media screen and (max-width: $breakTablet) {
-    @include set-size(13vh, 13vh);
-  }
-  @media screen and (max-width: $breakMobile) {
-    @include set-size(16vh, 16vh);
-  }
+    cursor: pointer;
+    border-radius: 100%;
+    overflow: hidden;
+    @include set-size(9vw, 9vw);
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    @media screen and (max-width: $breakDesktop) {
+        @include set-size(15vh, 15vh);
+    }
+    @media screen and (max-width: $breakTablet) {
+        @include set-size(13vh, 13vh);
+    }
+    @media screen and (max-width: $breakMobile) {
+        @include set-size(16vh, 16vh);
+    }
 }
 
 .p-image {
-  top: 167px;
-  right: 30px;
-  color: #666666;
-  opacity: 0.5;
-  transition: all .3s cubic-bezier(.175, .885, .32, 1.275);
-
-  &:hover {
-    opacity: 1;
-  }
+    top: 167px;
+    right: 30px;
+    color: #666666;
+    opacity: 0.5;
+    transition: all .3s cubic-bezier(.175, .885, .32, 1.275);
+    &:hover {
+        opacity: 1;
+    }
 }
 
 .upload-button {
-  cursor: pointer;
-  width: 1vw;
-  height: 1vw;
-  position: absolute;
-  top: 0;
-  left: 0;
-  transform: translate(7vw, 7vw);
-
-  &:hover {
-    transition: all .3s cubic-bezier(.175, .885, .32, 1.275);
-    color: #999;
-  }
-
-  & svg {
-    @media screen and (max-width: $breakDesktop) {
-      width: 3vh;
-      height: 3vh;
+    cursor: pointer;
+    width: 1vw;
+    height: 1vw;
+    position: absolute;
+    top: 0;
+    left: 0;
+    transform: translate(7vw, 7vw);
+    &:hover {
+        transition: all .3s cubic-bezier(.175, .885, .32, 1.275);
+        color: #999;
     }
-  }
-
-  @media screen and (max-width: $breakDesktop) {
-    top: 4vh;
-    left: 6vh;
-  }
-  @media screen and (max-width: $breakTablet) {
-    top: 5vh;
-    left: 5vh;
-  }
-  @media screen and (max-width: $breakMobile) {
-    top: 8vh;
-    left: 10vh;
-  }
+    & svg {
+        @media screen and (max-width: $breakDesktop) {
+            width: 3vh;
+            height: 3vh;
+        }
+    }
+    @media screen and (max-width: $breakDesktop) {
+        top: 4vh;
+        left: 6vh;
+    }
+    @media screen and (max-width: $breakTablet) {
+        top: 5vh;
+        left: 5vh;
+    }
+    @media screen and (max-width: $breakMobile) {
+        top: 8vh;
+        left: 10vh;
+    }
 }
 
 .form-inner {
-  position: relative;
-  margin: auto 0;
+    position: relative;
+    margin: auto 0;
 }

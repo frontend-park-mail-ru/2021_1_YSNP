@@ -1,3 +1,5 @@
+import {sentryManager} from './sentry';
+
 /***
  * Local storage
  */
@@ -11,7 +13,9 @@ class CustomSessionStorage {
         try {
             return sessionStorage.getItem(key);
         } catch (err) {
+            sentryManager.captureException(err);
             console.log(err.message);
+
             return undefined;
         }
     }
@@ -25,6 +29,7 @@ class CustomSessionStorage {
         try {
             sessionStorage.setItem(key, val);
         } catch (err) {
+            sentryManager.captureException(err);
             console.log(err.message);
         }
     }
@@ -38,7 +43,9 @@ class CustomSessionStorage {
         try {
             return JSON.parse(sessionStorage.getItem(key));
         } catch (err) {
+            sentryManager.captureException(err);
             console.log(err.message);
+
             return undefined;
         }
     }
@@ -52,6 +59,7 @@ class CustomSessionStorage {
         try {
             sessionStorage.setItem(key, JSON.stringify((val)));
         } catch (err) {
+            sentryManager.captureException(err);
             console.log(err.message);
         }
     }
@@ -64,6 +72,7 @@ class CustomSessionStorage {
         try {
             sessionStorage.removeItem(key);
         } catch (err) {
+            sentryManager.captureException(err);
             console.log(err.message);
         }
     }

@@ -1,7 +1,9 @@
 import {BaseView} from './BaseView.js';
+
 import {Navigation} from '../components/Navigation/Navigation.js';
 import {Layout} from '../components/Layout/Layout.js';
 import {ProductCreateForm} from '../components/ProductCreateForm/ProductCreateForm.js';
+
 import {router} from '../modules/router';
 import {mobile} from '../modules/mobile';
 

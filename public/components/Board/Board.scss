@@ -5,9 +5,9 @@
   font-weight: normal;
   @include shadow-block;
   padding: 2vh;
-  margin: 1.5vw auto 0;
+  margin: 1.5vw auto 3vh;
 
-  @media screen and (max-width: $breakDesktop){
+  @media screen and (max-width: $breakDesktop) {
     padding: 0 1.5vh;
   }
 
@@ -19,21 +19,21 @@
   &-left {
     width: 75%;
 
-    @media screen and  (max-width: $breakDesktop){
+    @media screen and (max-width: $breakDesktop) {
       width: 65%;
     }
-    @media screen and  (max-width: $breakMobile) {
+    @media screen and (max-width: $breakMobile) {
       width: 100%;
     }
   }
 
   &-right {
     width: 25%;
-    @media screen and  (max-width: $breakDesktop){
+    @media screen and (max-width: $breakDesktop) {
       width: 35%;
     }
 
-    @media screen and  (max-width: $breakMobile) {
+    @media screen and (max-width: $breakMobile) {
       display: none;
     }
   }
@@ -50,7 +50,8 @@
     @media screen and (max-width: $breakMobile) {
       display: none;
     }
-    }
+  }
+
   &-map {
     height: 50vh;
     display: flex;

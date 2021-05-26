@@ -1,7 +1,12 @@
 import {BasePresenter} from './BasePresenter.js';
-import {router} from '../modules/router';
-import {frontUrls} from '../modules/urls/frontUrls';
+
 import {checkIsAuth} from '../modules/checkAuth.js';
+import {UnauthorizedError} from '../modules/http/httpError';
+
+import {router} from '../modules/router';
+
+import {frontUrls} from '../modules/urls/frontUrls';
+import {sentryManager} from '../modules/sentry';
 
 /***
  * Profile settings presenter
@@ -24,7 +29,12 @@ export class PromotionPresenter extends BasePresenter {
         return super.update()
             .catch((err) => {
                 //TODO(Sergey) нормальная обработка ошибок
+                
                 console.log(err.message);
+                if (!UnauthorizedError.isError(err)) {
+                    sentryManager.captureException(err);
+                }
+
                 this.checkOfflineStatus(err);
             });
     }
@@ -35,13 +45,15 @@ export class PromotionPresenter extends BasePresenter {
      */
     async control() {
         await this.update();
-        if (!this.isRenderView()) {
+        if (this.checkOffline()) {
             return;
         }
 
         checkIsAuth();
 
         this.__view.render(this.__makeContext());
+
+        this.checkScrollOffset();
     }
 
     /***
@@ -49,6 +61,8 @@ export class PromotionPresenter extends BasePresenter {
      */
     removePageListeners() {
         super.removePageListeners();
+
+        this.__view.removePage();
     }
 
     /***

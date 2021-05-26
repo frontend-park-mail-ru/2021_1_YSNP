@@ -1,12 +1,18 @@
 import {BasePresenter} from './BasePresenter.js';
-import {addSuccesses, hideError, insertError, showError} from '../modules/layout/validationStates.js';
-import {amountMask} from '../modules/layout/mask.js';
+
+import {ProductModel} from '../models/ProductModel.js';
+
 import {router} from '../modules/router.js';
 import {frontUrls} from '../modules/urls/frontUrls.js';
-import {ProductModel} from '../models/ProductModel.js';
+
 import {eventHandlerWithDataType} from '../modules/handlers/eventHandler';
+import {addSuccesses, hideError, insertError, showError} from '../modules/layout/validationStates.js';
+import {amountMask} from '../modules/layout/mask.js';
 import {noop} from '../modules/noop.js';
 import {checkIsAuth} from '../modules/checkAuth.js';
+import {BadRequestError, UnauthorizedError} from '../modules/http/httpError';
+
+import {sentryManager} from '../modules/sentry';
 
 /***
  *  ProductCreatePresenter class, extends from BasePresenter
@@ -59,7 +65,12 @@ export class ProductCreatePresenter extends BasePresenter {
         return super.update()
             .catch((err) => {
                 //TODO(Sergey) нормальная обработка ошибок
+
                 console.log(err.message);
+                if (!UnauthorizedError.isError(err)) {
+                    sentryManager.captureException(err);
+                }
+
                 this.checkOfflineStatus(err);
             });
     }
@@ -73,12 +84,15 @@ export class ProductCreatePresenter extends BasePresenter {
      */
     async control() {
         await this.update();
-        if (!this.isRenderView()) {
+        if (this.checkOffline()) {
             return;
         }
 
         checkIsAuth();
+
         this.__view.render(this.__makeContext());
+
+        this.checkScrollOffset();
     }
 
     /***
@@ -86,6 +100,8 @@ export class ProductCreatePresenter extends BasePresenter {
      */
     removePageListeners() {
         super.removePageListeners();
+
+        this.__view.removePage();
     }
 
     /***
@@ -289,7 +305,11 @@ export class ProductCreatePresenter extends BasePresenter {
                 })
                 .catch((err) => {
                     //TODO(Sergey) нормальная обработка ошибок
+
                     console.log(err.message);
+                    if (!BadRequestError.isError(err)) {
+                        sentryManager.captureException(err);
+                    }
 
                     this.__view.changeEnableButton('Продолжить');
                     this.__view.errorText(err.message);

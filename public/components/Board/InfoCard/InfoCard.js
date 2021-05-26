@@ -1,5 +1,7 @@
-import './InfoCard.scss';
 import infoCardTemplate from './InfoCard.hbs';
+import './InfoCard.scss';
+
+import {sentryManager} from '../../../modules/sentry';
 
 /***
  * @author Ivan Gorshkov
@@ -76,7 +78,7 @@ export class InfoCard {
      * @readonly
      */
     get __getRating() {
-        return this.__data.__ownerStars;
+        return this.__data.__ownerStars.toFixed(1);
     }
 
     /***
@@ -126,28 +128,6 @@ export class InfoCard {
     }
 
     /***
-     * @author Ivan Gorshkov
-     *
-     * return html with stars
-     * @return {string}
-     * @private
-     * @readonly
-     * @this {InfoCard}
-     */
-    get __getStarts() {
-        const count = this.__data.__ownerStars;
-        const roundedCount = Math.round(count);
-        let stars = '';
-
-        // eslint-disable-next-line no-magic-numbers
-        Array(roundedCount).fill(1).forEach(() => {
-            stars += '<svg width="1.8vh" height="1.8vh" viewBox="0 0 20 21" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M10 0.895218L12.7861 7.42562L19.5106 8.21429L14.508 13.039L15.8779 20.0568L10 16.5082L4.12215 20.0568L5.49199 13.039L0.489435 8.21429L7.2139 7.42562L10 0.895218Z" fill="#F3DD14"/></svg>';
-        });
-
-        return stars;
-    }
-
-    /***
      * Get seller avatar
      * @returns {string}
      * @private
@@ -169,7 +149,7 @@ export class InfoCard {
      * @author Ivan Gorshkov
      *
      * context for template
-     * @return {{date: string, price: string, name: string, rating: number, starts: string, views: number, likes: number}}
+     * @return {{date: string, owner, price: string, name: string, rating: number, avatar: string, close: string, views: number, productName: string, likes: number}}
      * @private
      */
     __context() {
@@ -177,7 +157,6 @@ export class InfoCard {
             price: this.__getPrice,
             name: this.__getName,
             rating: this.__getRating,
-            starts: this.__getStarts,
             date: this.__getDate,
             views: this.__getViews,
             likes: this.__getLikes,
@@ -189,6 +168,56 @@ export class InfoCard {
     }
 
     /***
+     * Get star element
+     * @param id
+     * @returns {HTMLElement}
+     * @private
+     */
+    __getStarElement(id) {
+        return document.getElementById(`star-${id}`);
+    }
+
+    /***
+     * Make stars active
+     * @param {number} count - star count
+     * @private
+     */
+    __makeStarsActive(count) {
+        for (let i = 1; i <= count; i++) {
+            this.__getStarElement(i).classList.add('star-active');
+        }
+    }
+
+    /***
+     * Render stars in comment
+     * @private
+     */
+    __renderStars(ctx) {
+        const rate = Math.round(ctx);
+        switch (rate) {
+            case 0:
+                break;
+            case 1:
+                this.__makeStarsActive(1);
+                break;
+            case 2:
+                this.__makeStarsActive(2);
+                break;
+            case 3:
+                this.__makeStarsActive(3);
+                break;
+            case 4:
+                this.__makeStarsActive(4);
+                break;
+            case 5:
+                this.__makeStarsActive(5);
+                break;
+            default:
+                break;
+        }
+    }
+
+    /***
      * @author Ivan Gorshkov
      *
      * Add component to parent
@@ -196,6 +225,12 @@ export class InfoCard {
      * @public
      */
     render() {
-        this.__parent.insertAdjacentHTML('beforeend', infoCardTemplate(this.__context()));
+        try {
+            this.__parent.insertAdjacentHTML('beforeend', infoCardTemplate(this.__context()));
+            this.__renderStars(this.__data.__ownerStars);
+        } catch (err) {
+            sentryManager.captureException(err);
+            console.log(err.message);
+        }
     }
 }

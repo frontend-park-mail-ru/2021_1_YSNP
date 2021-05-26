@@ -1,17 +1,19 @@
 import {BasePresenter} from './BasePresenter.js';
+
+import {RecListModel} from '../models/RecListModel.js';
 import {MainListModel} from '../models/MainListModel.js';
+
+import {eventProductListHandler, eventHandlerWithDataType} from '../modules/handlers/eventHandler.js';
+import {CreateButtonHandler} from '../modules/handlers/createButtonHandler';
+import {EndlessScroll} from '../modules/handlers/endlessScroll.js';
+import {PageUpHandler} from '../modules/handlers/pageUpHandler.js';
+import {NotFoundError, UnauthorizedError} from '../modules/http/httpError';
 
 import {router} from '../modules/router';
 import {frontUrls} from '../modules/urls/frontUrls';
-
-import {eventProductListHandler, eventHandlerWithDataType} from '../modules/handlers/eventHandler.js';
-
-import {EndlessScroll} from '../modules/handlers/endlessScroll.js';
-import {PageUpHandler} from '../modules/handlers/pageUpHandler.js';
-
 import {customSessionStorage} from '../modules/customSessionStorage.js';
-import {CreateButtonHandler} from '../modules/handlers/createButtonHandler';
-import {RecListModel} from '../models/RecListModel.js';
+
+import {sentryManager} from '../modules/sentry';
 
 /***
  * Main presenter
@@ -42,7 +44,12 @@ export class MainPresenter extends BasePresenter {
             .then(() => this.__recListModel.update())
             .catch((err) => {
                 //TODO(Sergey) нормальная обработка ошибок
+
                 console.log(err.message);
+                if (!UnauthorizedError.isError(err)) {
+                    sentryManager.captureException(err);
+                }
+
                 this.checkOfflineStatus(err);
             });
     }
@@ -53,14 +60,17 @@ export class MainPresenter extends BasePresenter {
      */
     async control() {
         await this.update();
-        if (!this.isRenderView()) {
+        if (this.checkOffline()) {
             return;
         }
 
         this.__view.render(this.__makeContext());
+
         this.__endlessScroll.start();
         this.__pageUp.start();
         this.__createButton.start();
+
+        this.checkScrollOffset();
     }
 
     /***
@@ -72,6 +82,8 @@ export class MainPresenter extends BasePresenter {
         this.__endlessScroll.remove();
         this.__pageUp.remove();
         this.__createButton.remove();
+
+        this.__view.removePage();
     }
 
     /***
@@ -115,7 +127,14 @@ export class MainPresenter extends BasePresenter {
                 }
 
                 //TODO(Sergey) нормальная обработка ошибок
+
                 console.log(err.message);
+                if (!NotFoundError.isError(err)) {
+                    sentryManager.captureException(err);
+                }
+
+                this.checkOfflineStatus(err);
+                this.checkOffline();
             });
     }
 
@@ -171,6 +190,7 @@ export class MainPresenter extends BasePresenter {
      * @private
      */
     __openCardMain(id) {
+        this.saveScrollOffset();
         const numberId = parseInt(id, 10);
         router.redirect(frontUrls.product(numberId), '', {title: 'Koya'});
     }
@@ -200,6 +220,8 @@ export class MainPresenter extends BasePresenter {
             })
             .catch((err) => {
                 //TODO(Sergey) нормальная обработка ошибок
+
+                 sentryManager.captureException(err);
                 console.log(err.message);
 
                 this.checkOfflineStatus(err);
@@ -213,6 +235,7 @@ export class MainPresenter extends BasePresenter {
      * @private
      */
     __openCardRec(id) {
+        this.saveScrollOffset();
         const numberId = parseInt(id, 10);
         router.redirect(frontUrls.product(numberId), '', {title: 'Koya'});
     }
@@ -242,6 +265,8 @@ export class MainPresenter extends BasePresenter {
             })
             .catch((err) => {
                 //TODO(Sergey) нормальная обработка ошибок
+
+             sentryManager.captureException(err);
                 console.log(err.message);
 
                 this.checkOfflineStatus(err);

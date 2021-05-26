@@ -112,6 +112,51 @@ class FrontUrls {
         return '/user/favorite';
     }
 
+
+    /***
+     * Get await review page
+     * @returns {string}
+     */
+    get userAwaitReview() {
+        return '/user/review/await';
+    }
+
+    /***
+     * Get user landing page
+     * @returns {string}
+     */
+    sellerAd(id = undefined) {
+        if (id !== undefined) {
+            return `/user/${id}/ad`;
+        }
+
+        return '/user/{id}/ad';
+    }
+
+    /***
+     * Get user achievements page
+     * @returns {string}
+     */
+    userAchievements(id = undefined) {
+        if (id !== undefined) {
+            return `/user/${id}/achievements`;
+        }
+
+        return '/user/{id}/achievements';
+    }
+
+    /***
+     * Get user comments page
+     * @returns {string}
+     */
+    userReviews(id = undefined) {
+        if (id !== undefined) {
+            return `/user/${id}/reviews`;
+        }
+
+        return '/user/{id}/reviews';
+    }
+
     /***
      * Get edit product page
      * @returns {string}

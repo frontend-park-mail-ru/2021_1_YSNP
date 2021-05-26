@@ -1,6 +1,8 @@
 import mapTemplate from './Map.hbs';
 import './Map.scss';
 
+import {sentryManager} from '../../modules/sentry';
+
 /***
  * YandexMap component
  */
@@ -113,6 +115,7 @@ export class Map {
             this.__addListeners();
             this.__setRadius(this.__context.data.radius);
         } catch (err) {
+            sentryManager.captureException(err);
             console.log(err.message);
         }
     }
@@ -125,6 +128,7 @@ export class Map {
             this.__removeListeners();
             document.getElementById('map-popup').remove();
         } catch (err) {
+            sentryManager.captureException(err);
             console.log(err.message);
         }
     }

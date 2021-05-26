@@ -1,7 +1,9 @@
 import {BaseView} from './BaseView.js';
+
 import {Navigation} from '../components/Navigation/Navigation.js';
 import {Layout} from '../components/Layout/Layout.js';
 import {ProductCreateForm} from '../components/ProductCreateForm/ProductCreateForm.js';
+
 import {router} from '../modules/router';
 
 /***
@@ -241,7 +243,10 @@ export class ProductEditView extends BaseView {
         this.__productCreate.errorText(message);
     }
 
-
+    /***
+     * Get pic count
+     * @returns {number}
+     */
     getPicCount() {
         return this.__count;
     }

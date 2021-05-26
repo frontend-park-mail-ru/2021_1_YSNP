@@ -1,13 +1,15 @@
 import {BasePresenter} from './BasePresenter';
 
-import {checkIsAuth} from '../modules/checkAuth';
-import {EndlessScroll} from '../modules/handlers/endlessScroll';
 import {eventChatListHandler} from '../modules/handlers/eventHandler';
-import {NotFoundError} from '../modules/http/httpError';
+import {EndlessScroll} from '../modules/handlers/endlessScroll';
+import {NotFoundError, UnauthorizedError} from '../modules/http/httpError';
+import {checkIsAuth} from '../modules/checkAuth';
 
 import {router} from '../modules/router';
 import {frontUrls} from '../modules/urls/frontUrls';
 import {mobile} from '../modules/mobile';
+
+import {sentryManager} from '../modules/sentry';
 
 
 /***
@@ -38,7 +40,11 @@ export class UserChatsPresenter extends BasePresenter {
             .then(() => this.__chatModel.chatList())
             .catch((err) => {
                 //TODO(Serge) нормальная обработка ошибок
+
                 console.log(err.message);
+                if (!UnauthorizedError.isError(err)) {
+                    sentryManager.captureException(err);
+                }
 
                 this.checkOfflineStatus(err);
             });
@@ -50,9 +56,10 @@ export class UserChatsPresenter extends BasePresenter {
      */
     async control() {
         await this.update();
-        if (!this.isRenderView()) {
+        if (this.checkOffline()) {
             return;
         }
+
         checkIsAuth();
 
         await this.__updateChatMessage();
@@ -70,6 +77,8 @@ export class UserChatsPresenter extends BasePresenter {
                 this.__view.deleteChatUnreadMessages(this.__chatID);
             }
         }
+
+        this.checkScrollOffset();
     }
 
     /***
@@ -85,6 +94,7 @@ export class UserChatsPresenter extends BasePresenter {
         this.__chatModel.deleteCallbackList();
 
         // this.__chatModel.close();
+        this.__view.removePage();
     }
 
     /***
@@ -100,6 +110,8 @@ export class UserChatsPresenter extends BasePresenter {
         return this.__chatModel.chatMessage(this.__chatID)
             .catch((err) => {
                 //TODO(Sergey) нормальная обработка ошибок
+
+                sentryManager.captureException(err);
                 console.log(err.message);
 
                 this.checkOfflineStatus(err);
@@ -153,6 +165,8 @@ export class UserChatsPresenter extends BasePresenter {
                 this.__view.addNewChat(data);
             }).catch((err) => {
             //TODO(Sergey) нормальная обработка ошибок
+
+            sentryManager.captureException(err);
             console.log(err.message);
 
             this.checkOfflineStatus(err);
@@ -269,6 +283,11 @@ export class UserChatsPresenter extends BasePresenter {
         ev.preventDefault();
 
         const input = this.__view.getChatMessageInput();
+        if (input.value.length > 1000) {
+            input.value = '';
+            return;
+        }
+
         this.__chatModel.createMessage(input.value);
         input.value = '';
     }
@@ -359,7 +378,8 @@ export class UserChatsPresenter extends BasePresenter {
                 }
             },
             profileSettings: {
-                data: this.__userModel.getData()
+                data: this.__userModel.getData(),
+                owner: true
             }
         };
     }

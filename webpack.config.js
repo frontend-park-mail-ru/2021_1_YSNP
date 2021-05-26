@@ -1,19 +1,24 @@
-/* eslint-disable */
-
 const path = require('path');
+const webpack = require('webpack');
+
+const WebpackPwaManifest = require('webpack-pwa-manifest');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
-const WebpackPwaManifest = require('webpack-pwa-manifest');
+const SentryWebpackPlugin = require('@sentry/webpack-plugin');
 
 module.exports = {
     entry: './public/main.js',
     output: {
-        filename: 'bundle.js',
+        filename: '[name].[contenthash:8].js',
         path: path.resolve(__dirname, 'dist'),
         publicPath: '/'
     },
+    devtool: 'source-map',
     plugins: [
+        new webpack.EnvironmentPlugin({
+            DEBUG: process.env.DEBUG !== undefined ? process.env.DEBUG : true
+        }),
         new WebpackPwaManifest({
             name: 'KOYA',
             short_name: 'KOYA',
@@ -29,8 +34,11 @@ module.exports = {
             theme_color: '#d31e1e',
             background_color: 'white'
         }),
+        new HtmlWebpackPlugin({
+            template: './public/index.html'
+        }),
         new MiniCssExtractPlugin({
-            filename: 'bundle.css'
+            filename: '[name].[contenthash:8].css'
         }),
         new CopyWebpackPlugin({
             patterns: [
@@ -49,13 +57,21 @@ module.exports = {
                 {
                     from: 'public/sw.js',
                     to: ''
+                },
+                {
+                    from: 'public/fonts/',
+                    to: 'fonts/'
                 }
             ]
         }),
-        new HtmlWebpackPlugin({
-            template: './public/index.html'
-        }),
-        require('autoprefixer')
+        new SentryWebpackPlugin({
+            authToken: process.env.SENTRY_AUTH_TOKEN,
+            org: 'ysnp',
+            project: 'ysnp',
+
+            include: './dist',
+            ignore: ['node_modules', 'webpack.config.js', 'all.js', 'sw.js']
+        })
     ],
     module: {
         rules: [

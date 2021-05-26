@@ -1,6 +1,8 @@
 import userMenuTemplate from './UserMenu.hbs';
 import './UserMenu.scss';
 
+import {sentryManager} from '../../../../modules/sentry';
+
 /***
  * Profile pop up component
  */
@@ -57,6 +59,7 @@ export class UserMenu {
             this.__parent.insertAdjacentHTML('beforeend', userMenuTemplate(this.__context.data));
             this.__addListeners();
         } catch (err) {
+            sentryManager.captureException(err);
             console.log(err.message);
         }
     }
@@ -69,6 +72,7 @@ export class UserMenu {
             this.__removeListeners();
             this.__getUserMenu().remove();
         } catch (err) {
+            sentryManager.captureException(err);
             console.log(err.message);
         }
     }

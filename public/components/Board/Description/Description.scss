@@ -15,7 +15,7 @@
       margin-top: 1vh;
 
       @media screen and (max-width: $breakDesktop) {
-        width: 12vh;
+        min-width: 26%;
       }
 
       &__title {

@@ -1,15 +1,17 @@
-import {router} from '../modules/router.js';
-import {frontUrls} from '../modules/urls/frontUrls.js';
+import {AuthUserModel} from '../models/AuthUserModel.js';
+import {user} from '../models/ProfileUserModel.js';
+
 import {eventHandler} from '../modules/handlers/eventHandler.js';
 import {parseTelNumber, telMask} from '../modules/layout/mask.js';
-
-import {user} from '../models/ProfileUserModel.js';
-import {AuthUserModel} from '../models/AuthUserModel.js';
 import {YandexMap} from '../modules/layout/yandexMap.js';
+import {OfflineError, UnauthorizedError} from '../modules/http/httpError.js';
 
-import {OfflineError} from '../modules/http/httpError.js';
+import {router} from '../modules/router.js';
+import {frontUrls} from '../modules/urls/frontUrls.js';
 import {mobile} from '../modules/mobile';
 import {chat} from '../models/ChatModel';
+
+import {sentryManager} from '../modules/sentry';
 
 /***
  * Base presenter
@@ -52,7 +54,12 @@ export class BasePresenter {
                 this.__view.baseContext = this.__makeBaseContext();
 
                 //TODO(Sergey) нормальная обработка ошибок
+
                 console.log(err.message);
+                if (!UnauthorizedError.isError(err)) {
+                    sentryManager.captureException(err);
+                }
+
                 this.checkOfflineStatus(err);
             });
     }
@@ -63,15 +70,6 @@ export class BasePresenter {
      */
     async control() {
         throw new Error('virtual method not initialized!');
-    }
-
-    /***
-     * Prerender control
-     * @returns {boolean}
-     */
-    isRenderView() {
-        this.scrollUp();
-        return !this.checkOffline();
     }
 
     /***
@@ -134,6 +132,27 @@ export class BasePresenter {
      */
     scrollUp() {
         window.scrollTo(0, 0);
+    }
+
+    /***
+     * Check scroll offset
+     */
+    checkScrollOffset() {
+        const state = router.getState();
+
+        if (state && state.x !== undefined && state.y !== undefined) {
+            window.scrollTo(state.x, state.y);
+            return;
+        }
+
+        window.scrollTo(0, 0);
+    }
+
+    /***
+     * Save scroll offset
+     */
+    saveScrollOffset() {
+        router.setState({x: window.scrollX, y: window.scrollY});
     }
 
     /***
@@ -201,7 +220,6 @@ export class BasePresenter {
     __listenerAuthClick(ev) {
         ev.stopPropagation();
 
-        router.redirectEvent(ev);
         eventHandler(ev, this.__getBaseActions().auth);
     }
 
@@ -398,6 +416,15 @@ export class BasePresenter {
     }
 
     /***
+     * Registration click
+     * @private
+     */
+    __regClick(ev) {
+        ev.preventDefault();
+        router.redirect(frontUrls.registration);
+    }
+
+    /***
      * Open / close dropdown menu
      * @private
      */
@@ -434,7 +461,12 @@ export class BasePresenter {
             })
             .catch((err) => {
                 //TODO(Sergey) нормальная обработка ошибок
+
+                sentryManager.captureException(err);
                 console.log(err.message);
+
+                this.checkOfflineStatus(err);
+                this.checkOffline();
             });
     }
 
@@ -498,7 +530,13 @@ export class BasePresenter {
             })
             .catch((err) => {
                 //TODO(Sergey) нормальная обработка ошибок
+
+                sentryManager.captureException(err);
                 console.log(err.message);
+
+                this.checkOfflineStatus(err);
+                this.checkOffline();
+
                 this.__closeMap();
             });
     }
@@ -539,6 +577,9 @@ export class BasePresenter {
             auth: {
                 closeClick: {
                     open: this.__closeAuth.bind(this)
+                },
+                regClick: {
+                    open: this.__regClick.bind(this)
                 }
             },
             map: {
@@ -584,7 +625,8 @@ export class BasePresenter {
                     surname: this.__userModel.getData().surname,
                     name: this.__userModel.getData().name,
                     address: this.__userModel.getData().address,
-                    linkImage: this.__userModel.getData().linkImage
+                    linkImage: this.__userModel.getData().linkImage,
+                    id: this.__userModel.getData().id
                 },
                 listeners: this.__createBaseListeners().header
             },

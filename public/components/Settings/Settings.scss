@@ -1,229 +1,227 @@
 @import "../../scss/main.scss";
-
 .settings {
-  width: 100%;
-  height: 105vh;
-  display: flex;
-  flex-direction: column;
-
-  &-inner {
-    @include shadow-block;
-    display: flex;
-    flex-direction: column;
-    padding: 1vh 2.5vh;
-    height: 100%;
-  }
-
-  &-title {
-    font-size: 2.5vh;
-    color: $textColorDefault;
     width: 100%;
-    height: 8vh;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-
-    &__edit {
-      margin-left: 1vw;
-      cursor: pointer;
-
-      &:hover svg path {
-        fill: black;
-        opacity: 1;
-      }
-    }
-
-    &-right {
-      text-align: right;
-      @media screen and (max-width: $breakDesktop) {
-        display: flex;
-        justify-content: space-between;
-      }
-    }
-
-    &__save_button {
-      @include red-button(17vh, 3.5vh);
-      visibility: hidden;
-      @media screen and (max-width: $breakDesktop) {
-        margin-right: 2vw;
-        width: auto;
-      }
-    }
-
-    &__reset_button {
-      @include cancel-button(17vh, 3.5vh);
-      visibility: hidden;
-      @media screen and (max-width: $breakDesktop) {
-        width: auto;
-      }
-    }
-  }
-
-  &__separator {
-    @include separator;
-  }
-
-  &-components {
-    margin-bottom: 1vh;
-    width: 100%;
-    height: 40vh;
-    display: flex;
-    flex-direction: row;
-    font-style: normal;
-    font-weight: normal;
-
-    &__title {
-      @include description-label;
-      height: 6vh;
-      align-items: center;
-      margin-bottom: 1vh;
-    }
-
-    &__input {
-      background: none;
-      @include input;
-      @media screen and (max-width: $breakDesktop) {
-        width: 100%;
-      }
-
-      &__gender {
-        @include input;
-        background: none;
-        cursor: pointer;
-        @media screen and (max-width: $breakDesktop) {
-          width: 100%;
-        }
-
-        &:disabled {
-          border: 0;
-          cursor: default;
-        }
-      }
-
-      &:read-only {
-        outline: 0;
-        outline-offset: 0;
-        border: none;
-        padding-left: 10px;
-        cursor: default;
-      }
-    }
-  }
-
-  &-left-components {
-    width: 25%;
-    height: 100%;
+    height: 105vh;
     display: flex;
     flex-direction: column;
-    justify-content: left;
-    @media screen and (max-width: $breakDesktop) {
-      width: 30%;
-    }
-  }
-
-  &-right-components {
-    width: 75%;
-    height: 100%;
-    display: flex;
-    flex-direction: column;
-    @media screen and (max-width: $breakDesktop) {
-      padding-left: 1vw;
-      width: 70%;
-    }
-  }
-
-  &-input-inner {
-    position: relative;
-    width: 27vh;
-    height: 6vh;
-    margin-top: 0.6vh;
-    justify-content: left;
-    display: flex;
-    flex-direction: column;
-    @media screen and (max-width: $breakDesktop) {
-      width: 100%;
-    }
-  }
-
-  &-photo-inner {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-  }
-
-  &-avatar {
-    position: relative;
-    margin-left: 8vw;
-    transform: translate(5%, 0);
-    @media screen and (max-width: $breakDesktop) {
-      margin-left: 15vw;
-    }
-
-    &-upload__button {
-      cursor: pointer;
-      width: 1vw;
-      height: 1vw;
-      position: absolute;
-      top: 0;
-      left: 0;
-      transform: translate(7vw, 7vw);
-      visibility: hidden;
-      @media screen and (max-width: $breakDesktop) {
-        top: 4vh;
-        left: 6vh;
-      }
-      @media screen and (max-width: $breakTablet) {
-        top: 5vh;
-        left: 5vh;
-      }
-      @media screen and (max-width: $breakMobile) {
-        top: 8vh;
-        left: 10vh;
-      }
-    }
-
     &-inner {
-      cursor: default;
-      border-radius: 100%;
-      overflow: hidden;
-      @include set-size(16vh, 16vh);
-      border: 1px solid rgba(0, 0, 0, 0.1);
-      @media screen and (max-width: $breakDesktop) {
-        @include set-size(15vh, 15vh);
-      }
-      @media screen and (max-width: $breakTablet) {
-        @include set-size(13vh, 13vh);
-      }
-      @media screen and (max-width: $breakMobile) {
-        @include set-size(16vh, 16vh);
-      }
+        @include shadow-block;
+        display: flex;
+        flex-direction: column;
+        padding: 1vh 2.5vh;
+        height: 100%;
     }
-
-    &__pic {
-      display: block;
-      @include circle;
-      @include set-size(16vh, 16vh);
-      @media screen and (max-width: $breakDesktop) {
-        @include set-size(15vh, 15vh);
-      }
-      @media screen and (max-width: $breakTablet) {
-        @include set-size(13vh, 13vh);
-      }
-      @media screen and (max-width: $breakMobile) {
-        @include set-size(16vh, 16vh);
-      }
+    &-title {
+        font-size: 2.5vh;
+        color: $textColorDefault;
+        width: 100%;
+        height: 8vh;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        &__edit {
+            margin-left: 1vw;
+            cursor: pointer;
+            &:hover svg path {
+                fill: black;
+                opacity: 1;
+            }
+        }
+        &-right {
+            text-align: right;
+            @media screen and (max-width: $breakDesktop) {
+                display: flex;
+                justify-content: space-between;
+            }
+        }
+        &__save_button {
+            @include red-button(17vh, 3.5vh);
+            visibility: hidden;
+            @media screen and (max-width: $breakDesktop) {
+                margin-right: 2vw;
+                font-size: 1.5vh;
+                width: auto;
+            }
+        }
+        &__reset_button {
+            @include cancel-button(17vh, 3.5vh);
+            visibility: hidden;
+            @media screen and (max-width: $breakDesktop) {
+                width: auto;
+                font-size: 1.5vh;
+            }
+        }
     }
-
-    &-upload {
-      top: 167px;
-      right: 30px;
-      color: #666666;
-      opacity: 0.5;
-      transition: all .3s cubic-bezier(.175, .885, .32, 1.275);
+    &__separator {
+        @include separator;
     }
-  }
+    &-components {
+        margin-bottom: 1vh;
+        width: 100%;
+        height: 40vh;
+        display: flex;
+        flex-direction: row;
+        font-style: normal;
+        font-weight: normal;
+        &__title {
+            @include description-label;
+            height: 6vh;
+            align-items: center;
+            margin-bottom: 1vh;
+        }
+        &__input {
+            background: none;
+            @include input;
+            @media screen and (max-width: $breakDesktop) {
+                width: 100%;
+            }
+            &__gender {
+                @include input;
+                background: none;
+                cursor: pointer;
+                @media screen and (max-width: $breakDesktop) {
+                    width: 100%;
+                }
+                &:disabled {
+                    border: 0;
+                    cursor: default;
+                }
+            }
+            &__country {
+                @include set-size(4.8vh, 4vh);
 
-  &-photo-label {
-    visibility: hidden;
-  }
+                &:focus {
+                    outline: none;
+                }
+
+                @media screen and (max-width: $breakMobile) {
+                    @include set-size(5.4vh, 5vh);
+                }
+            }
+
+            &__tel {
+                @include set-size(80%, 4vh);
+                @media screen and (max-width: $breakDesktop) {
+                    @include set-size(calc(100% - 5.3vh), 4vh);
+                }
+                @media screen and (max-width: $breakMobile) {
+                    @include set-size(calc(100% - 6vh), 5vh);
+                }
+            }
+            &:read-only {
+                outline: 0;
+                outline-offset: 0;
+                border: none;
+                padding-left: 10px;
+                cursor: default;
+            }
+        }
+    }
+    &-left-components {
+        width: 25%;
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+        justify-content: left;
+        @media screen and (max-width: $breakDesktop) {
+            width: 30%;
+        }
+    }
+    &-right-components {
+        width: 75%;
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+        @media screen and (max-width: $breakDesktop) {
+            padding-left: 1vw;
+            width: 70%;
+        }
+    }
+    &-input-inner {
+        position: relative;
+        width: 27vh;
+        height: 6vh;
+        margin-top: 0.6vh;
+        justify-content: left;
+        display: flex;
+        flex-direction: column;
+        @media screen and (max-width: $breakDesktop) {
+            width: 100%;
+        }
+    }
+    &-photo-inner {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+    }
+    &-avatar {
+        position: relative;
+        margin-left: 8vw;
+        transform: translate(5%, 0);
+        @media screen and (max-width: $breakDesktop) {
+            margin-left: 15vw;
+        }
+        &-upload__button {
+            cursor: pointer;
+            width: 1vw;
+            height: 1vw;
+            position: absolute;
+            top: 0;
+            left: 0;
+            transform: translate(7vw, 7vw);
+            visibility: hidden;
+            @media screen and (max-width: $breakDesktop) {
+                top: 4vh;
+                left: 6vh;
+            }
+            @media screen and (max-width: $breakTablet) {
+                top: 5vh;
+                left: 5vh;
+            }
+            @media screen and (max-width: $breakMobile) {
+                top: 8vh;
+                left: 10vh;
+            }
+        }
+        &-inner {
+            cursor: default;
+            border-radius: 100%;
+            overflow: hidden;
+            @include set-size(16vh, 16vh);
+            border: 1px solid rgba(0, 0, 0, 0.1);
+            @media screen and (max-width: $breakDesktop) {
+                @include set-size(15vh, 15vh);
+            }
+            @media screen and (max-width: $breakTablet) {
+                @include set-size(13vh, 13vh);
+            }
+            @media screen and (max-width: $breakMobile) {
+                @include set-size(16vh, 16vh);
+            }
+        }
+        &__pic {
+            display: block;
+            @include circle;
+            @include set-size(16vh, 16vh);
+            @media screen and (max-width: $breakDesktop) {
+                @include set-size(15vh, 15vh);
+            }
+            @media screen and (max-width: $breakTablet) {
+                @include set-size(13vh, 13vh);
+            }
+            @media screen and (max-width: $breakMobile) {
+                @include set-size(16vh, 16vh);
+            }
+        }
+        &-upload {
+            top: 167px;
+            right: 30px;
+            color: #666666;
+            opacity: 0.5;
+            transition: all .3s cubic-bezier(.175, .885, .32, 1.275);
+        }
+    }
+    &-photo-label {
+        visibility: hidden;
+    }
 }

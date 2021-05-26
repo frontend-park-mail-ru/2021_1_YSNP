@@ -1,6 +1,8 @@
 import offlineTemplate from './PageOffline.hbs';
 import './PageOffline.scss';
 
+import {sentryManager} from '../../modules/sentry';
+
 /***
  * Page offline component
  */
@@ -20,6 +22,7 @@ export class PageOffline {
         try {
             this.__parent.insertAdjacentHTML('beforeend', offlineTemplate());
         } catch (err) {
+            sentryManager.captureException(err);
             console.log(err.message);
         }
     }

@@ -4,7 +4,7 @@ import {http} from '../modules/http/http.js';
 import {backUrls} from '../modules/urls/backUrls.js';
 
 /***
- * Favorite list model
+ * Trends list model
  */
 export class RecListModel extends ProductListModel {
 
@@ -14,7 +14,7 @@ export class RecListModel extends ProductListModel {
      * @private
      */
     async __updateNewDataPage() {
-        return http.get(backUrls.recProducts)
+        return http.get(backUrls.recProductList)
             .then(({status, data}) => {
                 this.checkError(status, {
                     message: data.message

@@ -4,6 +4,8 @@ import './SearchBar.scss';
 import {ProductTable} from '../ProductTable/ProductTable';
 import {EmptySearch} from './EmptySearch/EmptySearch';
 
+import {sentryManager} from '../../modules/sentry';
+
 /***
  * SearchBar box on profile page
  */
@@ -117,12 +119,17 @@ export class SearchBar {
      * Add component to parent
      */
     render(context) {
-        this.__parent.insertAdjacentHTML('beforeend', searchBarTemplate(context.search.data));
-        this.listeners = context.search.listeners;
+        try {
+            this.__parent.insertAdjacentHTML('beforeend', searchBarTemplate(context.search.data));
+            this.listeners = context.search.listeners;
 
-        this.__productList = new ProductTable(document.getElementById('product-content'));
-        this.__productList.render(context.productList);
+            this.__productList = new ProductTable(document.getElementById('product-content'));
+            this.__productList.render(context.productList);
 
-        this.__addListeners();
+            this.__addListeners();
+        } catch (err) {
+            sentryManager.captureException(err);
+            console.log(err.message);
+        }
     }
 }

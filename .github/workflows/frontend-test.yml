@@ -1,0 +1,59 @@
+name: Frontend Test
+
+on:
+  pull_request:
+    branches:
+      - master
+      - dev
+
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Install Node
+        uses: actions/setup-node@v1
+        with:
+          node-version: 14
+
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Install ESLint
+        run: npm install eslint
+
+      - name: Run ESLint
+        run: npm run lint
+
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Install Node
+        uses: actions/setup-node@v1
+        with:
+          node-version: 14
+
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Login Sentry
+        uses: mathieu-bour/setup-sentry-cli@1.1.0
+        with:
+          token: ${{ secrets.SENTRY_AUTH_TOKEN }}
+          organization: ${{ secrets.SENTRY_ORG }}
+          project: ${{ secrets.SENTRY_PROJECT }}
+
+      - name: Install deps
+        run: npm ci
+
+      - name: Build
+        env:
+          DEBUG: false
+          SENTRY_AUTH_TOKEN: ${{ secrets.SENTRY_AUTH_TOKEN }}
+        run: npm run build
+
+      - name: Upload build result
+        uses: actions/upload-artifact@v1
+        with:
+          name: build
+          path: ./dist

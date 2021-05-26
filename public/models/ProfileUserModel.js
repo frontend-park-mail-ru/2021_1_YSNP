@@ -88,11 +88,11 @@ export class ProfileUserModel extends PasswordUserModel {
             sex: this.__sex,
             email: this.__email,
             telephone: this.__telephone,
-            linkImage: '/img/search-background.webp',
-            // linkImage: this.__linkImages,
+            linkImage: this.__linkImages,
             latitude: this.__latitude,
             longitude: this.__longitude,
             radius: this.__radius,
+            rating: this.__rating,
             address: this.__address ? this.__address : 'Москва'
         };
     }

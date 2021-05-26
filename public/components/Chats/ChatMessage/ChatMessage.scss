@@ -27,6 +27,11 @@
       display: flex;
       margin-right: 1vh;
 
+      &__href {
+        display: flex;
+        appearance: none;
+      }
+
       &__img {
         @include set-size(6vh, 6vh);
         @include circle;
@@ -39,10 +44,14 @@
       display: flex;
       flex-direction: column;
 
-      &-name {
-        @include overflow-text-width;
+      &-user {
+        @include menu-link;
 
-        font-size: 2vh;
+        &__name {
+          @include overflow-text-width;
+
+          font-size: 2vh;
+        }
       }
 
       &-product {

@@ -1,0 +1,37 @@
+@import "../../scss/main.scss";
+
+.await-review-list {
+  @include set-size(100%, 40vh);
+  @include shadow-block;
+
+  margin-bottom: 2vh;
+
+  &-inner {
+
+    &-head {
+      @include set-size(100%, 4vh);
+      @include separator-bottom;
+
+      display: flex;
+      align-items: center;
+
+      &__title {
+        padding-left: 1vh;
+        font-size: 2vh;
+      }
+    }
+
+    &-body {
+      @include set-size(100%, 35vh);
+
+      overflow: scroll;
+      overflow-x: hidden;
+
+      &-inner {
+        display: flex;
+        flex-direction: row;
+        flex-wrap: wrap;
+      }
+    }
+  }
+}

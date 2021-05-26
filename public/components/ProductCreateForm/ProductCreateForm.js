@@ -1,10 +1,13 @@
-import './ProductCreateForm.scss';
 import productCreateFormTemplate from './ProductCreateForm.hbs';
 import productPhotoTemplate from './ProductPhoto.hbs';
 import productFileTemplate from './ProductFile.hbs';
+import './ProductCreateForm.scss';
+
 import {createMessageError} from '../../modules/layout/validationStates.js';
 import {Field} from '../RegistrationPanel/Fields/Field';
+
 import {YandexMap} from '../../modules/layout/yandexMap';
+import {sentryManager} from '../../modules/sentry';
 
 /***
  * @author Max Torzhkov
@@ -186,6 +189,11 @@ export class ProductCreateForm {
         }
     }
 
+    /***
+     * Insert photo
+     * @param {string} url
+     * @param {number} count
+     */
     insertPhoto(url, count) {
         const idPhoto = document.getElementById('productPhoto');
         idPhoto.insertAdjacentHTML('afterbegin', productPhotoTemplate(count + 100));
@@ -355,7 +363,10 @@ export class ProductCreateForm {
             .textContent = message;
     }
 
-
+    /***
+     * Set location
+     * @param {Object} pos
+     */
     setLocation(pos) {
         this.__yaMap.addPoint({
             latitude: pos.latitude,
@@ -374,24 +385,30 @@ export class ProductCreateForm {
      * @this {ProductCreateForm}
      */
     async render(ctx) {
-        this.listeners = ctx.listeners;
-        this.__parent.insertAdjacentHTML('beforeend', productCreateFormTemplate(ctx));
+        try {
+            this.listeners = ctx.listeners;
+            this.__parent.insertAdjacentHTML('beforeend', productCreateFormTemplate(ctx));
 
-        for (const fields in ctx.fields) {
-            const field = new Field(document.getElementById('ProductForm'), ctx.fields[fields]);
-            field.render();
+            for (const fields in ctx.fields) {
+                const field = new Field(document.getElementById('ProductForm'), ctx.fields[fields]);
+                field.render();
+            }
+
+            this.__yaMap = new YandexMap();
+            this.__yaMap.render({
+                searchControl: false,
+                geolocationControl: true,
+                listeners: true,
+                id: 'ya-map-create-product'
+            }, (address) => {
+                document.getElementById('addressInput').value = address;
+            });
+            this.__yaMap.addSearch('addressInput');
+
+            this.addListeners();
+        } catch (err) {
+            sentryManager.captureException(err);
+            console.log(err);
         }
-
-        this.__yaMap = new YandexMap();
-        this.__yaMap.render({
-            searchControl: false,
-            geolocationControl: true,
-            listeners: true,
-            id: 'ya-map-create-product'
-        }, (address) => {
-            document.getElementById('addressInput').value = address;
-        });
-        this.__yaMap.addSearch('addressInput');
-        this.addListeners();
     }
 }

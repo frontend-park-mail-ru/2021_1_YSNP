@@ -24,20 +24,20 @@ class BackUrls {
     }
 
     /***
-     * Get chat list url
-     * @returns {string}
-     */
-    get chatList() {
-        return `${this.__url}${this.__api}/chat/list`;
-    }
-
-    /***
      * Get chat url
      * @param {number} id - chat id
      * @returns {string}
      */
     chat(id) {
         return `${this.__url}${this.__api}/chat/${id}`;
+    }
+
+    /***
+     * Get chat list url
+     * @returns {string}
+     */
+    get chatList() {
+        return `${this.__url}${this.__api}/chat/list`;
     }
 
     /***
@@ -94,6 +94,15 @@ class BackUrls {
      * @param {number} id - user id
      * @returns {string}
      */
+    getUserTelephone(id) {
+        return `${this.__url}${this.__api}/user/${id}/telephone`;
+    }
+
+    /***
+     * Get user min info url
+     * @param {number} id - user id
+     * @returns {string}
+     */
     getUser(id) {
         return `${this.__url}${this.__api}/user/${id}`;
     }
@@ -112,16 +121,6 @@ class BackUrls {
      */
     get newPassword() {
         return `${this.__url}${this.__api}/user/password`;
-    }
-
-    /***
-     * Get product list url
-     * @param {number} from - page number paginator
-     * @param {number} count - count product per page
-     * @returns {string}
-     */
-    productList(from, count) {
-        return `${this.__url}${this.__api}/product/list?from=${from}&count=${count}`;
     }
 
     /***
@@ -172,6 +171,41 @@ class BackUrls {
     }
 
     /***
+     * Get another user ads list
+     * @param {number} from - page number paginator
+     * @param {number} count - count product per page
+     * @param {number} id - user id
+     * @returns {string}
+     */
+    sellerAdList(from, count, id) {
+        return `${this.__url}${this.__api}/user/${id}/ad/list?from=${from}&count=${count}`;
+    }
+
+    /***
+     * Get user seller review
+     * @param {number} id - user id
+     * @param {number} from - page number paginator
+     * @param {number} count - count product per page
+     * @param {string} sort - sort type
+     * @returns {string}
+     */
+    userSellerReviews(id, from, count, sort) {
+        return `${this.__url}${this.__api}/user/${id}/reviews/seller?from=${from}&count=${count}&sort=${sort}`;
+    }
+
+    /***
+     * Get user buyer reviews
+     * @param {number} id - user id
+     * @param {number} from - page number paginator
+     * @param {number} count - count product per page
+     * @param {string} sort - sort type
+     * @returns {string}
+     */
+    userBuyerReviews(id, from, count, sort) {
+        return `${this.__url}${this.__api}/user/${id}/reviews/buyer?from=${from}&count=${count}&sort=${sort}`;
+    }
+
+    /***
      * Get one product url
      * @param {number} id - product id
      * @returns {string}
@@ -189,15 +223,6 @@ class BackUrls {
     }
 
     /***
-     * Post close product
-     * @param {number} id - product id
-     * @returns {string}
-     */
-    closeProduct(id) {
-        return `${this.__url}${this.__api}/product/close/${id}`;
-    }
-
-    /***
      * Get product upload photo url
      *  @param {number} id - product id
      * @returns {string}
@@ -207,11 +232,68 @@ class BackUrls {
     }
 
     /***
-     * Get find products url
+     * Post close product
+     * @param {number} id - product id
      * @returns {string}
      */
-    search(data) {
-        return `${this.__url}${this.__api}/search?category=${data.category}&fromAmount=${data.fromAmount}&toAmount=${data.toAmount}&date=${data.date}&radius=${data.radius}&latitude=${data.latitude}&longitude=${data.longitude}&sorting=${data.sorting}&search=${data.search}&from=${data.from}&count=${data.count}`;
+    closeProduct(id) {
+        return `${this.__url}${this.__api}/product/close/${id}`;
+    }
+
+    /***
+     * Set product buyer
+     * @param {number} id - product id
+     * @returns {string}
+     */
+    setProductBuyer(id) {
+        return `${this.__url}${this.__api}/product/buyer/${id}`;
+    }
+
+    /***
+     * Set product review
+     * @param {number} id - product id
+     * @returns {string}
+     */
+    setProductReview(id) {
+        return `${this.__url}${this.__api}/product/review/${id}`;
+    }
+
+    /***
+     * Seller review await
+     * @param {number} from - page number paginator
+     * @param {number} count - count product per page
+     * @returns {string}
+     */
+    getSellerReviewAwait(from, count) {
+        return `${this.__url}${this.__api}/user/reviews/await/seller?from=${from}&count=${count}`;
+    }
+
+    /***
+     * Buyer review await
+     * @param {number} from - page number paginator
+     * @param {number} count - count product per page
+     * @returns {string}
+     */
+    getBuyerReviewAwait(from, count) {
+        return `${this.__url}${this.__api}/user/reviews/await/buyer?from=${from}&count=${count}`;
+    }
+
+    /***
+     * Get edit product
+     * @return {string}
+     */
+    get editPage() {
+        return `${this.__url}${this.__api}/product/edit`;
+    }
+
+    /***
+     * Get product list url
+     * @param {number} from - page number paginator
+     * @param {number} count - count product per page
+     * @returns {string}
+     */
+    productList(from, count) {
+        return `${this.__url}${this.__api}/product/list?from=${from}&count=${count}`;
     }
 
     /***
@@ -220,6 +302,14 @@ class BackUrls {
      */
     get categories() {
         return `${this.__url}${this.__api}/categories`;
+    }
+
+    /***
+     * Get find products url
+     * @returns {string}
+     */
+    search(data) {
+        return `${this.__url}${this.__api}/search?category=${data.category}&fromAmount=${data.fromAmount}&toAmount=${data.toAmount}&date=${data.date}&radius=${data.radius}&latitude=${data.latitude}&longitude=${data.longitude}&sorting=${data.sorting}&search=${data.search}&from=${data.from}&count=${data.count}`;
     }
 
     /***
@@ -234,16 +324,32 @@ class BackUrls {
      * Get trends products
      * @return {string}
      */
-    get recProducts() {
-        return `${this.__url}${this.__api}/product/trends`;
+    get recProductList() {
+        return `${this.__url}${this.__api}/product/trend/list`;
     }
 
-     /***
-     *
+    /***
+     * Get trends for product
      * @return {string}
      */
-    get editPage() {
-        return `${this.__url}${this.__api}/product/edit`;
+    recForProductList(id) {
+        return `${this.__url}${this.__api}/product/${id}/trend/list`;
+    }
+
+    /***
+     * Get achievements
+     * @return {string}
+     */
+    get achievements() {
+        return `${this.__url}${this.__api}/achievements`;
+    }
+
+    /***
+     * Get achievements seller
+     * @return {string}
+     */
+    achievementsSeller(id) {
+        return `${this.__url}${this.__api}/achievements/${id}`;
     }
 }
 

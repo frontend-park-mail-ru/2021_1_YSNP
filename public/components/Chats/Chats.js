@@ -5,6 +5,8 @@ import {ChatList} from './ChatList/ChatList';
 import {ChatMessage} from './ChatMessage/ChatMessage';
 import {EmptyChat} from './EmptyChat/EmptyChat';
 
+import {sentryManager} from '../../modules/sentry';
+
 /***
  * Chats component
  */
@@ -213,6 +215,7 @@ export class Chats {
                 this.renderChatsMessage(this.__context.message);
             }
         } catch (err) {
+            sentryManager.captureException(err);
             console.log(err.message);
         }
     }

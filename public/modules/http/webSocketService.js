@@ -1,6 +1,11 @@
 /***
  * WebSocket Service
  */
+import {sentryManager} from '../sentry';
+
+/***
+ * WebSocket service
+ */
 export class WebSocketService {
     /***
      * Class constructor
@@ -108,6 +113,7 @@ export class WebSocketService {
                 data: data
             }));
         } catch (err) {
+            sentryManager.captureException(err);
             this.__errorSendCallback(type, data, err);
         }
     }
@@ -125,6 +131,7 @@ export class WebSocketService {
             status = response.status;
             data = response.data;
         } catch (err) {
+            sentryManager.captureException(err);
             this.__errorMessageCallback(ev, err);
         }
 

@@ -1,15 +1,20 @@
 import {BasePresenter} from './BasePresenter.js';
-import {eventHandlerWithDataType, eventProductListHandler} from '../modules/handlers/eventHandler.js';
-import {router} from '../modules/router.js';
-import {frontUrls} from '../modules/urls/frontUrls.js';
+
 import {SearchModel} from '../models/SearchModel.js';
+
+import {eventHandlerWithDataType, eventProductListHandler} from '../modules/handlers/eventHandler.js';
 import {amountMask, parseAmount} from '../modules/layout/mask.js';
+import {EndlessScroll} from '../modules/handlers/endlessScroll';
 import {PageUpHandler} from '../modules/handlers/pageUpHandler.js';
 import {noop} from '../modules/noop';
-import {EndlessScroll} from '../modules/handlers/endlessScroll';
+import {NotFoundError, UnauthorizedError} from '../modules/http/httpError';
 
+import {router} from '../modules/router.js';
+import {frontUrls} from '../modules/urls/frontUrls.js';
 import {customSessionStorage} from '../modules/customSessionStorage.js';
+
 import {categories} from '../modules/layout/fields.js';
+import {sentryManager} from '../modules/sentry';
 
 /***
  *  class SearchPresenter extends BasePresenter
@@ -43,7 +48,12 @@ export class SearchPresenter extends BasePresenter {
         return super.update()
             .catch((err) => {
                 //TODO(Serge) нормальная обработка ошибок
+
                 console.log(err.message);
+                if (!UnauthorizedError.isError(err)) {
+                    sentryManager.captureException(err);
+                }
+
                 this.checkOfflineStatus(err);
             });
     }
@@ -56,7 +66,7 @@ export class SearchPresenter extends BasePresenter {
      */
     async control() {
         await this.update();
-        if (!this.isRenderView()) {
+        if (this.checkOffline()) {
             return;
         }
 
@@ -65,6 +75,8 @@ export class SearchPresenter extends BasePresenter {
 
         this.__endlessScroll.start();
         this.__pageUp.start();
+
+        this.checkScrollOffset();
     }
 
     /***
@@ -75,6 +87,8 @@ export class SearchPresenter extends BasePresenter {
 
         this.__endlessScroll.remove();
         this.__pageUp.remove();
+
+        this.__view.removePage();
     }
 
     /***
@@ -171,6 +185,8 @@ export class SearchPresenter extends BasePresenter {
             })
             .catch((err) => {
                 //TODO(Sergey) нормальная обработка ошибок
+
+         sentryManager.captureException(err);
                 console.log(err.message);
 
                 this.checkOfflineStatus(err);
@@ -184,6 +200,7 @@ export class SearchPresenter extends BasePresenter {
      * @private
      */
     __openCard(id) {
+        this.saveScrollOffset();
         const numberId = parseInt(id, 10);
         router.redirect(frontUrls.product(numberId), '', {title: 'Поиск'});
     }
@@ -268,7 +285,11 @@ export class SearchPresenter extends BasePresenter {
             })
             .catch((err) => {
                 //TODO(Sergey) нормальная обработка ошибок
+
                 console.log(err.message);
+                if (!NotFoundError.isError(err)) {
+                    sentryManager.captureException(err);
+                }
 
                 this.__view.deleteProductList();
 
@@ -299,7 +320,12 @@ export class SearchPresenter extends BasePresenter {
                 }
 
                 //TODO(Sergey) нормальная обработка ошибок
+
+                 sentryManager.captureException(err);
                 console.log(err.message);
+
+                this.checkOfflineStatus(err);
+                this.checkOffline();
             });
     }
 

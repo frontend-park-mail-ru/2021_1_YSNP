@@ -1,85 +1,135 @@
 @import "../../scss/main.scss";
 
-.profile {
-  margin-top: 2vh;
+.profile-menu {
+  width: 100%;
 
-  &-box {
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
+  @include shadow-block;
+
+  display: flex;
+  flex-direction: column;
+
+  &-inner {
+    margin: 2vh;
   }
 
-  &-menu {
+  &-user {
     width: 100%;
-    height: 35vh;
-    display: flex;
-    flex-direction: row;
-    margin-right: 1vh;
 
     &-inner {
-      @include shadow-block;
-      @include set-size(100%, 100%);
-      position: relative;
-      display: flex;
-      flex-direction: column;
-      padding-left: 2.5vh;
-      padding-right: 2.5vh;
-      justify-content: left;
-    }
+      margin-bottom: 1.5vh;
 
-    &__separator {
-      @include separator;
-    }
-
-    &-user {
-      margin-top: 3vh;
-      margin-bottom: 2vh;
-      width: 100%;
-      height: 7vh;
       display: flex;
       flex-direction: row;
+      align-items: center;
+    }
 
-      &-inner {
-        display: flex;
-        flex-direction: column;
-        width: 100%;
-        height: 7vh;
-      }
+    &-avatar {
+      margin-right: 1vh;
 
-      &__avatar {
-        @include set-size(5.5vh, 5.5vh);
+      display: flex;
+
+      &__img {
         @include circle;
+        @include set-size(6vh, 6vh);
       }
+    }
+
+    &-info {
+      display: flex;
+      flex-direction: column;
+      width: calc(100% - 7vh);
 
       &__name {
-        max-width: 10vw;
-        //@include overflow-text-width;
-        @include overflow-text-height(2.5vh);
+        width: 100%;
 
-        @media screen and (max-width: $breakTablet) {
-          max-width: 73vw;
-          margin-right: 10px;
+        @include overflow-text-width;
+        font-size: 2.5vh;
+
+        @media screen and (max-width: $breakMobile) {
+          font-size: 2vh;
         }
       }
 
-      &__name, &__rating {
-        font-size: 2.5vh;
-        margin-left: 1vw;
+      &-rating {
+        @include star;
+        width: 15vh;
+
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+
+        @media screen and (max-width: $breakMobile) {
+          width: 19vh;
+        }
+
+        &__text {
+          font-size: 2vh;
+          margin-right: 0.5vh;
+
+          @media screen and (max-width: $breakDesktop) {
+            font-size: 1.5vh;
+          }
+
+          @media screen and (max-width: $breakMobile) {
+            font-size: 2.5vh;
+          }
+        }
+
+        &__rate span {
+          @media screen and (max-width: $breakDesktop) {
+            font-size: 1.5vh;
+          }
+
+          @media screen and (max-width: $breakMobile) {
+            font-size: 2.5vh;
+          }
+        }
       }
     }
+  }
 
-    &-content-item {
-      @include menu-link;
-      @include set-size(100%, 5vh);
-      padding-left: 0.3vw;
+  &__separator {
+    @include separator-bottom;
+  }
+
+  &-buttons {
+    margin-top: 1.5vh;
+    margin-left: 1vh;
+
+    width: 100%;
+
+    &-inner {
       display: flex;
-      justify-content: left;
-      align-items: center;
-      opacity: 0.7;
+      flex-direction: column;
     }
 
-    &__selected {
-      color: $linkColor;
+    &-item {
+      margin: 1.2vh 0;
+
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+
+      @include menu-link;
+
+      &__logo {
+        @include set-size(2vh, 2vh);
+
+        margin-right: 0.5vh;
+      }
+
+      &__text {
+        opacity: 0.7;
+        font-size: 1.7vh;
+
+        @media screen and (max-width: $breakMobile) {
+          font-size: 2vh;
+        }
+      }
+
+      &_selected {
+        color: $linkColor;
+      }
     }
   }
 }

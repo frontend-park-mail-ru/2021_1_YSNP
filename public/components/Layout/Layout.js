@@ -1,6 +1,8 @@
 import layoutTemplate from './Layout.hbs';
 import './Layout.scss';
 
+import {sentryManager} from '../../modules/sentry';
+
 /***
  * Layout component
  */
@@ -68,6 +70,7 @@ export class Layout {
             this.__parent.insertAdjacentHTML('beforeend', layoutTemplate(context));
             this.__checkIsMain();
         } catch (err) {
+            sentryManager.captureException(err);
             console.log(err.message);
         }
     }

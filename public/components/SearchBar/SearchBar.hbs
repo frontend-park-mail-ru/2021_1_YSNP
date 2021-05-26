@@ -2,53 +2,60 @@
 
     <div class="search-label">
         <div class="search-label__title">Поиск объявлений</div>
-
-        <div class="search-label-text">
-            <span>Радиус поиска влияет на список товаров. </span>
-            <a class="search-label-text__map" id="search-map" data-action="mapClick">Измените радиус поиска</a>
-        </div>
-
     </div>
 
     <div class="search-block">
-        <div class="search-filter">
-            <h3 class="search-filter__title">Фильтр</h3>
+        <div class="search-left">
+            <div class="search-radius">
+                <h3 class="search-radius__title">Радиус поиска</h3>
 
-            <div class="search-filter-elem">
-                <select id="category" class="search-filter-elem__text-field">
-                    <option value="" selected>Все категории</option>
-                    {{#each categories}}
-                        <option {{#if_eq ../optionCategory this.title}} selected {{/if_eq}}> {{this.title}} </option>
-                    {{/each}}
-                </select>
-            </div>
-
-            <div class="search-filter-elem">
-                <div class="search-filter-amount" id="amount">
-                    <input data-action="priceInput" class="search-filter-amount__from" id="fromAmount"
-                           type="text"
-                           placeholder="Цена от, ₽"/>
-                    <input data-action="priceInput" class="search-filter-amount__to" id="toAmount"
-                           type="text"
-                           placeholder="до"/>
+                <div class="search-radius-elem">
+                    <button class="search-radius-elem__text-field" id="search-map" data-action="mapClick">Изменить
+                        радиус
+                    </button>
                 </div>
             </div>
 
-            <div class="search-filter-elem">
-                <select id="date" class="search-filter-elem__text-field">
-                    <option value="" disabled selected hidden>Срок размещения</option>
-                    <option {{#if_eq optionDate 'За 24 часа'}} selected {{/if_eq}}>За 24 часа</option>
-                    <option {{#if_eq optionDate 'За 7 дней'}} selected {{/if_eq}}>За 7 дней</option>
-                    <option {{#if_eq optionDate 'За все время'}} selected {{/if_eq}}>За все время</option>
-                </select>
-            </div>
+            <div class="search-filter">
+                <h3 class="search-filter__title">Фильтр</h3>
 
-            <div class="search-filter-elem">
-                <input class="search-filter-elem__button"
-                       id="submitFilter"
-                       data-action="submitFilter"
-                       type="submit"
-                       value="Применить"/>
+                <div class="search-filter-elem">
+                    <select id="category" class="search-filter-elem__text-field">
+                        <option value="" selected>Все категории</option>
+                        {{#each categories}}
+                            <option {{#if_eq ../optionCategory this.title}}
+                            selected {{/if_eq}}> {{this.title}} </option>
+                        {{/each}}
+                    </select>
+                </div>
+
+                <div class="search-filter-elem">
+                    <div class="search-filter-amount" id="amount">
+                        <input data-action="priceInput" class="search-filter-amount__from" id="fromAmount"
+                               type="text"
+                               placeholder="Цена от, ₽"/>
+                        <input data-action="priceInput" class="search-filter-amount__to" id="toAmount"
+                               type="text"
+                               placeholder="до"/>
+                    </div>
+                </div>
+
+                <div class="search-filter-elem">
+                    <select id="date" class="search-filter-elem__text-field">
+                        <option value="" disabled selected hidden>Срок размещения</option>
+                        <option {{#if_eq optionDate 'За 24 часа'}} selected {{/if_eq}}>За 24 часа</option>
+                        <option {{#if_eq optionDate 'За 7 дней'}} selected {{/if_eq}}>За 7 дней</option>
+                        <option {{#if_eq optionDate 'За все время'}} selected {{/if_eq}}>За все время</option>
+                    </select>
+                </div>
+
+                <div class="search-filter-elem">
+                    <input class="search-filter-elem__button"
+                           id="submitFilter"
+                           data-action="submitFilter"
+                           type="submit"
+                           value="Применить"/>
+                </div>
             </div>
         </div>
 

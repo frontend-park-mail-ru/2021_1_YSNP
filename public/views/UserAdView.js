@@ -3,6 +3,7 @@ import {BaseView} from './BaseView.js';
 import {Layout} from '../components/Layout/Layout.js';
 import {ProductTable} from '../components/ProductTable/ProductTable.js';
 import {ProfileMenu} from '../components/ProfileMenu/ProfileMenu.js';
+
 import {mobile} from '../modules/mobile';
 
 /***
@@ -48,7 +49,8 @@ export class UserAdView extends BaseView {
                 listeners: context.adList.listeners
             },
             profileSettings: {
-                data: context.profileSettings.data
+                data: context.profileSettings.data,
+                owner: context.profileSettings.owner
             }
         };
     }

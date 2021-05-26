@@ -1,14 +1,17 @@
 import {BasePresenter} from './BasePresenter.js';
+
 import {AdListModel} from '../models/AdListModel.js';
 
+import {eventProductListHandler} from '../modules/handlers/eventHandler.js';
 import {EndlessScroll} from '../modules/handlers/endlessScroll.js';
 import {PageUpHandler} from '../modules/handlers/pageUpHandler.js';
+import {checkIsAuth} from '../modules/checkAuth';
+import {NotFoundError, UnauthorizedError} from '../modules/http/httpError';
 
 import {router} from '../modules/router';
-import {frontUrls} from '../modules/urls/frontUrls';
 
-import {eventProductListHandler} from '../modules/handlers/eventHandler.js';
-import {checkIsAuth} from '../modules/checkAuth';
+import {frontUrls} from '../modules/urls/frontUrls';
+import {sentryManager} from '../modules/sentry';
 
 /***
  * favorite presenter
@@ -35,7 +38,12 @@ export class UserAdPresenter extends BasePresenter {
             .then(() => this.__adListModel.update())
             .catch((err) => {
                 //TODO(Sergey) нормальная обработка ошибок
+
                 console.log(err.message);
+                if (!UnauthorizedError.isError(err)) {
+                    sentryManager.captureException(err);
+                }
+
                 this.checkOfflineStatus(err);
             });
     }
@@ -46,7 +54,7 @@ export class UserAdPresenter extends BasePresenter {
      */
     async control() {
         await this.update();
-        if (!this.isRenderView()) {
+        if (this.checkOffline()) {
             return;
         }
 
@@ -55,6 +63,8 @@ export class UserAdPresenter extends BasePresenter {
         this.__view.render(this.__makeContext());
         this.__endlessScroll.start();
         this.__pageUp.start();
+
+        this.checkScrollOffset();
     }
 
     /***
@@ -65,6 +75,8 @@ export class UserAdPresenter extends BasePresenter {
 
         this.__endlessScroll.remove();
         this.__pageUp.remove();
+
+        this.__view.removePage();
     }
 
     /***
@@ -98,7 +110,14 @@ export class UserAdPresenter extends BasePresenter {
                 }
 
                 //TODO(Sergey) нормальная обработка ошибок
+
                 console.log(err.message);
+                if (!NotFoundError.isError(err)) {
+                    sentryManager.captureException(err);
+                }
+
+                this.checkOfflineStatus(err);
+                this.checkOffline();
             });
     }
 
@@ -127,6 +146,7 @@ export class UserAdPresenter extends BasePresenter {
      * @private
      */
     __openCard(id) {
+        this.saveScrollOffset();
         const numberId = parseInt(id, 10);
         router.redirect(frontUrls.product(numberId), '', {title: 'Мои объявления'});
     }
@@ -158,7 +178,8 @@ export class UserAdPresenter extends BasePresenter {
                 listeners: this.__createListeners().adList
             },
             profileSettings: {
-                data: this.__userModel.getData()
+                data: this.__userModel.getData(),
+                owner: true
             }
         };
     }

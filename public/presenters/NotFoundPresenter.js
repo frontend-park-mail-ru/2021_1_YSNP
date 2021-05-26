@@ -1,5 +1,9 @@
 import {BasePresenter} from './BasePresenter.js';
 
+import {UnauthorizedError} from '../modules/http/httpError';
+
+import {sentryManager} from '../modules/sentry';
+
 /***
  * Not found presenter
  */
@@ -23,7 +27,12 @@ export class NotFoundPresenter extends BasePresenter {
         return super.update()
             .catch((err) => {
                 //TODO(Sergey) нормальная обработка ошибок
+
                 console.log(err.message);
+                if (!UnauthorizedError.isError(err)) {
+                    sentryManager.captureException(err);
+                }
+
                 this.checkOfflineStatus(err);
             });
     }
@@ -34,11 +43,13 @@ export class NotFoundPresenter extends BasePresenter {
      */
     async control() {
         await this.update();
-        if (!this.isRenderView()) {
+        if (this.checkOffline()) {
             return;
         }
 
         this.__view.render(this.__makeContext());
+
+        this.checkScrollOffset();
     }
 
     /***
@@ -46,6 +57,8 @@ export class NotFoundPresenter extends BasePresenter {
      */
     removePageListeners() {
         super.removePageListeners();
+
+        this.__view.removePage();
     }
 
     /***

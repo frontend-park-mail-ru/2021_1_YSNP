@@ -1,5 +1,7 @@
-import './Description.scss';
 import descriptionTemplate from './Description.hbs';
+import './Description.scss';
+
+import {sentryManager} from '../../../modules/sentry';
 
 /***
  * @author Ivan Gorshkov
@@ -74,6 +76,11 @@ export class Description {
      * @public
      */
     render() {
-        this.__parent.insertAdjacentHTML('beforeend', descriptionTemplate(this.__reformatContext()));
+        try {
+            this.__parent.insertAdjacentHTML('beforeend', descriptionTemplate(this.__reformatContext()));
+        } catch (err) {
+            sentryManager.captureException(err);
+            console.log(err.message);
+        }
     }
 }

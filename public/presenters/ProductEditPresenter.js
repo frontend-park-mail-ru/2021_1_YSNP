@@ -1,12 +1,18 @@
 import {BasePresenter} from './BasePresenter.js';
+
+import {ProductModel} from '../models/ProductModel.js';
+
+import {eventHandlerWithDataType} from '../modules/handlers/eventHandler';
 import {addSuccesses, hideError, insertError, showError} from '../modules/layout/validationStates.js';
 import {amountMask} from '../modules/layout/mask.js';
-import {router} from '../modules/router.js';
-import {frontUrls} from '../modules/urls/frontUrls.js';
-import {ProductModel} from '../models/ProductModel.js';
-import {eventHandlerWithDataType} from '../modules/handlers/eventHandler';
 import {noop} from '../modules/noop.js';
 import {checkIsAuth} from '../modules/checkAuth.js';
+import {BadRequestError, UnauthorizedError} from '../modules/http/httpError';
+
+import {router} from '../modules/router.js';
+
+import {frontUrls} from '../modules/urls/frontUrls.js';
+import {sentryManager} from '../modules/sentry';
 
 /***
  *  ProductCreatePresenter class, extends from BasePresenter
@@ -16,6 +22,7 @@ export class ProductEditPresenter extends BasePresenter {
     /***
      * Class constructor
      * @param {ProductCreateView} view - view
+     * @param {number} idProduct - product id
      */
     constructor(view, idProduct) {
         super(view);
@@ -62,7 +69,12 @@ export class ProductEditPresenter extends BasePresenter {
             .then(() => this.__model.update())
             .catch((err) => {
                 //TODO(Sergey) нормальная обработка ошибок
+
                 console.log(err.message);
+                if (!UnauthorizedError.isError(err)) {
+                    sentryManager.captureException(err);
+                }
+
                 this.checkOfflineStatus(err);
             });
     }
@@ -76,17 +88,21 @@ export class ProductEditPresenter extends BasePresenter {
      */
     async control() {
         await this.update();
-        this.scrollUp();
         if (this.checkOffline()) {
             return;
         }
+
         checkIsAuth();
+
         if (this.__model.getData().ownerId !== this.__userModel.getData().id) {
             router.redirect(frontUrls.main);
-            return; 
+            return;
         }
+
         this.__view.render(this.__makeContext());
         this.__countAlreadyPhoto = this.__view.getPicCount();
+
+        this.checkScrollOffset();
     }
 
     /***
@@ -94,6 +110,8 @@ export class ProductEditPresenter extends BasePresenter {
      */
     removePageListeners() {
         super.removePageListeners();
+
+        this.__view.removePage();
     }
 
     /***
@@ -306,7 +324,11 @@ export class ProductEditPresenter extends BasePresenter {
                 })
                 .catch((err) => {
                     //TODO(Sergey) нормальная обработка ошибок
+
                     console.log(err.message);
+                    if (!BadRequestError.isError(err)) {
+                        sentryManager.captureException(err);
+                    }
 
                     this.__view.changeEnableButton('Продолжить');
                     this.__view.errorText(err.message);

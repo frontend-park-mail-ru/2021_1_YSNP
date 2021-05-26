@@ -1,6 +1,9 @@
-import './Map.scss';
 import mapTemplate from './Map.hbs';
+import './Map.scss';
+
 import {YandexMap} from '../../../modules/layout/yandexMap';
+
+import {sentryManager} from '../../../modules/sentry';
 
 /***
  * @author Ivan Gorshkov
@@ -23,40 +26,30 @@ export class Map {
 
     /***
      * @author Ivan Gorshkov
-     * main template of component
-     * @return {string}
-     * @private
-     * @this {Map}
-     */
-    __getTemplate() {
-        return `  
-            <div class="product-map" id="ya-map">
-                <span>
-                    Какие-то проблемы с картой
-                </span>
-            </div>
-        `;
-    }
-
-    /***
-     * @author Ivan Gorshkov
      *
      * Add component to parent
      * @this {Map}
      * @public
      */
     async render(context) {
-        this.__parent.insertAdjacentHTML('beforeend', mapTemplate());
-        this.__yaMap = new YandexMap();
-        this.__yaMap.render({
-            searchControl: false,
-            geolocationControl: false,
-            listeners: false,
-            id: 'ya-map-product'
-        });
-        this.__yaMap.movePointByPos({
-            latitude: context.__latitude,
-            longitude: context.__longitude
-        });
+        try {
+            this.__parent.insertAdjacentHTML('beforeend', mapTemplate());
+
+            this.__yaMap = new YandexMap();
+            this.__yaMap.render({
+                searchControl: false,
+                geolocationControl: false,
+                listeners: false,
+                id: 'ya-map-product'
+            });
+
+            this.__yaMap.movePointByPos({
+                latitude: context.__latitude,
+                longitude: context.__longitude
+            });
+        } catch (err) {
+            sentryManager.captureException(err);
+            console.log(err.message);
+        }
     }
 }

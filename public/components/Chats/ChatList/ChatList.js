@@ -3,6 +3,8 @@ import './ChatList.scss';
 
 import {OneChat} from './OneChat/OneChat';
 
+import {sentryManager} from '../../../modules/sentry';
+
 /***
  * Chat list component
  */
@@ -144,6 +146,7 @@ export class ChatList {
                 this.selectChat(this.__context.selectNumber);
             }
         } catch (err) {
+            sentryManager.captureException(err);
             console.log(err.message);
         }
     }

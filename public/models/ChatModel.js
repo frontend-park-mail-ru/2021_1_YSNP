@@ -15,6 +15,10 @@ import {
 } from '../modules/http/httpError';
 import {CustomError} from '../modules/customError';
 
+import {frontUrls} from '../modules/urls/frontUrls';
+import {router} from '../modules/router';
+import {sentryManager} from '../modules/sentry';
+
 /* eslint-disable camelcase */
 
 /***
@@ -149,6 +153,7 @@ class ChatModel extends BaseModel {
     parseOneChat(data, isDown = true) {
         return {
             chatID: data.id,
+            userID: data.partner_id,
             userName: `${data.partner_surname} ${data.partner_name}`,
             userImg: data.partner_avatar,
             productID: data.product_id,
@@ -278,6 +283,7 @@ class ChatModel extends BaseModel {
     parseChatMessage(data) {
         return {
             chatID: data.id,
+            userID: data.partner_id,
             userName: `${data.partner_surname} ${data.partner_name}`,
             productID: data.product_id,
             productName: data.product_name,
@@ -521,8 +527,25 @@ class ChatModel extends BaseModel {
             return;
         }
 
+        const parseData = this.parseNewMessage(data);
+
         if (this.__isActive) {
-            this.__callbackList.chatMessageNewMessage(data.chat_id, this.parseNewMessage(data));
+            this.__callbackList.chatMessageNewMessage(data.chat_id, parseData);
+        } else {
+            const not = new Notification('Чаты', {
+                icon: '/img/favicon.png',
+                body: parseData.text,
+                data: frontUrls.userChat(data.chat_id)
+            });
+
+            not.onclick = (event) => {
+                try {
+                    router.redirect(event.target.data);
+                } catch (err) {
+                    console.log(err.message);
+                    sentryManager.captureException(err);
+                }
+            };
         }
     }
 

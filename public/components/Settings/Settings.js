@@ -1,6 +1,10 @@
-import './Settings.scss';
 import settingsTemplate from './Settings.hbs';
+import './Settings.scss';
+
 import {ChangePassword} from './ChangePassword/ChangePassword.js';
+import {parseTelMask} from '../../modules/layout/mask';
+
+import {sentryManager} from '../../modules/sentry';
 
 /***
  * Settings box on profile page
@@ -38,6 +42,15 @@ export class Settings {
         document
             .getElementById('settings')
             .addEventListener(this.__context.listeners.blurInput.type, this.__context.listeners.blurInput.listener, true);
+        document
+            .getElementById('settings-telephone')
+            .addEventListener(this.__context.listeners.telFocus.type, this.__context.listeners.telFocus.listener, true);
+        document
+            .getElementById('settings-telephone')
+            .addEventListener(this.__context.listeners.telBlur.type, this.__context.listeners.telBlur.listener, true);
+        document
+            .getElementById('settings-telephone')
+            .addEventListener(this.__context.listeners.telInput.type, this.__context.listeners.telInput.listener, true);
     }
 
     /***
@@ -63,6 +76,15 @@ export class Settings {
         document
             .getElementById('settings')
             .removeEventListener(this.__context.listeners.blurInput.type, this.__context.listeners.blurInput.listener, true);
+        document
+            .getElementById('settings-telephone')
+            .removeEventListener(this.__context.listeners.telFocus.type, this.__context.listeners.telFocus.listener, true);
+        document
+            .getElementById('settings-telephone')
+            .removeEventListener(this.__context.listeners.telBlur.type, this.__context.listeners.telBlur.listener, true);
+        document
+            .getElementById('settings-telephone')
+            .removeEventListener(this.__context.listeners.telInput.type, this.__context.listeners.telInput.listener, true);
     }
 
     /***
@@ -166,7 +188,17 @@ export class Settings {
      * Open form settings for editing
      */
     enableEditing() {
-        const {name, surname, gender, birthday, mail, buttonSaveProfile, buttonUploadImg} = this.getSettingsFields();
+        const {
+            name,
+            surname,
+            gender,
+            birthday,
+            phone,
+            phoneCountry,
+            mail,
+            buttonSaveProfile,
+            buttonUploadImg
+        } = this.getSettingsFields();
         buttonSaveProfile.style.visibility = 'visible';
         buttonUploadImg.style.visibility = 'visible';
         surname.removeAttribute('readonly');
@@ -174,7 +206,19 @@ export class Settings {
         gender.removeAttribute('disabled');
         birthday.removeAttribute('readonly');
         mail.removeAttribute('readonly');
+
         document.getElementById('settings-avatar').style.cursor = 'pointer';
+
+        if (this.__context.data.telephone === '') {
+            phone.removeAttribute('readonly');
+            phoneCountry.removeAttribute('readonly');
+        }
+        if (this.__context.data.dateBirth === '') {
+            const {birthday} = this.getSettingsFields();
+            birthday.style.visibility = 'visible';
+        }
+        document.getElementById('settings-telephone-block')
+            .style.visibility = 'visible';
     }
 
     /***
@@ -187,6 +231,7 @@ export class Settings {
             gender,
             birthday,
             phone,
+            phoneCountry,
             mail,
             buttonSaveProfile,
             buttonUploadImg
@@ -207,6 +252,7 @@ export class Settings {
             birthday.parentNode.removeChild(birthday.nextSibling);
         }
         phone.setAttribute('readonly', 'true');
+        phoneCountry.setAttribute('readonly', 'true');
         if (document.getElementById(this.getInputErrorId(phone))) {
             phone.parentNode.removeChild(phone.nextSibling);
         }
@@ -214,7 +260,36 @@ export class Settings {
         if (document.getElementById(this.getInputErrorId(mail))) {
             mail.parentNode.removeChild(mail.nextSibling);
         }
+        if (this.__context.data.dateBirth === '') {
+            const {birthday} = this.getSettingsFields();
+            birthday.style.visibility = 'hidden';
+        }
         document.getElementById('settings-avatar').style.cursor = 'default';
+
+        if (this.__context.data.telephone !== '') {
+            document.getElementById('box-passwords')
+                .style.visibility = 'visible';
+            document.getElementById('settings-telephone-block')
+                .style.visibility = 'visible';
+        } else {
+            document.getElementById('box-passwords')
+                .style.visibility = 'hidden';
+            document.getElementById('settings-telephone-block')
+                .style.visibility = 'hidden';
+        }
+        if (this.__context.data.sex === '') {
+            document
+                .getElementById('settings-gender').options['notstated']
+                .setAttribute('selected', 'true');
+        } else {
+            document
+                .getElementById('settings-gender').options[this.__context.data.sex]
+                .setAttribute('selected', 'true');
+        }
+        if (this.__context.data.dateBirth === '') {
+            const {birthday} = this.getSettingsFields();
+            birthday.style.visibility = 'hidden';
+        }
     }
 
     /***
@@ -227,6 +302,7 @@ export class Settings {
             name: document.getElementById('settings-name'),
             birthday: document.getElementById('settings-birthday'),
             phone: document.getElementById('settings-telephone'),
+            phoneCountry: document.getElementById('settings-telephone-country'),
             mail: document.getElementById('settings-email'),
             gender: document.getElementById('settings-gender'),
             img: document.getElementById('settings-profile-pic'),
@@ -248,13 +324,19 @@ export class Settings {
      * Add component to parent
      */
     render(context) {
-        this.__context = context;
-        this.__parent.insertAdjacentHTML('beforeend', settingsTemplate(this.__context.data));
-        const chPass = new ChangePassword(document.getElementById('settings'));
-        chPass.render();
-        document
-            .getElementById('settings-gender').options[this.__context.data.sex]
-            .setAttribute('selected', 'true');
-        this.__addListeners();
+        try {
+            this.__context = context;
+            this.__context.data.telephone = parseTelMask(this.__context.data.telephone);
+            this.__parent.insertAdjacentHTML('beforeend', settingsTemplate(this.__context.data));
+
+            const chPass = new ChangePassword(document.getElementById('settings'));
+            chPass.render();
+
+            this.disableEditing();
+            this.__addListeners();
+        } catch (err) {
+            sentryManager.captureException(err);
+            console.log(err.message);
+        }
     }
 }

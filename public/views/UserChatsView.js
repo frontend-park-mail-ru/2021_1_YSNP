@@ -1,6 +1,6 @@
 import {BaseView} from './BaseView';
-import {Layout} from '../components/Layout/Layout';
 
+import {Layout} from '../components/Layout/Layout';
 import {ProfileMenu} from '../components/ProfileMenu/ProfileMenu';
 import {Chats} from '../components/Chats/Chats';
 
@@ -147,7 +147,7 @@ export class UserChatsView extends BaseView {
         const left = layout.leftParent;
         const right = layout.rightParent;
 
-        const profileMenu = new ProfileMenu(left, {page: 'favorites'});
+        const profileMenu = new ProfileMenu(left, {page: 'messages'});
         profileMenu.render(this.__context.profileSettings);
 
         this.__chats = new Chats(right);
