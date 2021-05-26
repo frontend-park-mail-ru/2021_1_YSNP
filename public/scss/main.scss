@@ -43,7 +43,8 @@ $themes: (
                 mapTheme: none,
                 selectUrl: url(../../../img/svg/selectDark.svg),
                 placeHolderColor: #909090,
-                addPhotoSvg: url(../../../img/svg/photo.svg)
+                addPhotoSvg: url(../../../img/svg/photo.svg),
+                oneChatBackground: rgb(255, 230, 230)
         ),
         dark: (
                 backgroundColor: #121212,
@@ -67,7 +68,8 @@ $themes: (
                 mapTheme: invert(1) hue-rotate(180deg),
                 selectUrl: url(../../../img/svg/selectLight.svg),
                 placeHolderColor: #c1c1c1,
-                addPhotoSvg: url(../../../img/svg/photoLight.svg)
+                addPhotoSvg: url(../../../img/svg/photoLight.svg),
+                oneChatBackground: #444444
         ),
 );
 

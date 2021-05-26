@@ -20,7 +20,7 @@
   }
 
   &_checked {
-    border: 3px solid rgba(211, 30, 30, 0.8);
+    border: 3px solid rgba(211, 30, 30, 0.8) !important;
   }
 
   &-body {
@@ -103,6 +103,11 @@
       @media screen and (max-width: $breakMobile) {
         @include red-button(15vh, 4.5vh);
         font-size: 2vh;
+      }
+      &:hover {
+        @include themify($themes){
+          background-color: themed('mainColor');
+        }
       }
     }
   }

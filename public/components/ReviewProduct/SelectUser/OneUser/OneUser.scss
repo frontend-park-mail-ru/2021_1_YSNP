@@ -49,7 +49,9 @@
 
     &__select {
       margin-left: auto;
-
+      @include themify($themes) {
+        filter: themed('svgFilter');
+      }
       @include set-size(2vh, 2vh);
     }
   }

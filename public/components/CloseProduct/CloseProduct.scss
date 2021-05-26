@@ -16,6 +16,13 @@
         width: 80%;
       }
 
+      &__close {
+
+        @include themify($themes) {
+          filter: themed('svgFilter');
+        }
+      }
+
       &__title {
         font-size: 2.5vh;
 
