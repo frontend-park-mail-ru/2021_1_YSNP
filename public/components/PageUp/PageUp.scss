@@ -52,7 +52,9 @@
 
     &__img {
       @include set-size(2vh, 2vh);
-
+      @include themify($themes) {
+        filter: themed('svgFilter');
+      }
       margin-right: 0.5vh;
     }
 

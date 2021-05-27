@@ -46,7 +46,8 @@ $themes: (
                 addPhotoSvg: url(../../../img/svg/photo.svg),
                 oneChatBackground: rgb(255, 230, 230),
                 scrollbarBackground: #f9f9fd,
-                scrollbarTrack: #cecece
+                scrollbarTrack: #cecece,
+                themeIcon: url(../../../img/svg/sun.svg)
         ),
         dark: (
                 backgroundColor: #121212,
@@ -73,7 +74,8 @@ $themes: (
                 addPhotoSvg: url(../../../img/svg/photoLight.svg),
                 oneChatBackground: #444444,
                 scrollbarBackground: #5e5e5e,
-                scrollbarTrack: #3e3e3e
+                scrollbarTrack: #3e3e3e,
+                themeIcon: url(../../../img/svg/moon.svg)
         ),
 );
 

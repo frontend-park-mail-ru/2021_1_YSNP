@@ -6,7 +6,7 @@
   z-index: 100;
   top: 0;
   position: fixed;
-  @include themify($themes){
+  @include themify($themes) {
     background: themed('blockBackground');
   }
   display: flex;
@@ -33,7 +33,7 @@
       cursor: pointer;
 
       &__img {
-        @include themify($themes){
+        @include themify($themes) {
           content: themed('logoPath');
         }
       }
@@ -55,7 +55,7 @@
       &__icon {
         height: 1vh;
         width: 1vh;
-        @include themify($themes){
+        @include themify($themes) {
           filter: themed('svgFilter');
         }
         margin-right: 0.4vh;
@@ -63,12 +63,12 @@
 
       &__name {
         font-size: 1.5vh;
-        @include themify($themes){
+        @include themify($themes) {
           color: themed('textGrayColor');
         }
 
         &:hover {
-          @include themify($themes){
+          @include themify($themes) {
             color: themed('linkColor');
           }
         }
@@ -103,7 +103,7 @@
         font-weight: 300;
 
         color: white;
-        @include themify($themes){
+        @include themify($themes) {
           background: themed('mainColor');
         }
 
@@ -122,7 +122,7 @@
       width: 2vh;
 
       margin-right: 2vw;
-      @include themify($themes){
+      @include themify($themes) {
         filter: themed('svgFilter');
       }
       cursor: pointer;
@@ -139,7 +139,7 @@
 
       border: 0;
       background: none;
-      @include themify($themes){
+      @include themify($themes) {
         filter: themed('svgFilter');
       }
       cursor: pointer;
@@ -200,7 +200,7 @@
         margin: 1.3vh 0;
 
         display: block;
-        @include themify($themes){
+        @include themify($themes) {
           color: themed('textColorDefault');
         }
         font-size: 1.7vh;
@@ -216,10 +216,32 @@
         @include set-size(2vh, 2vh);
 
         margin-right: 1vh;
-        @include themify($themes){
+        @include themify($themes) {
           filter: themed('svgFilter');
         }
       }
     }
   }
+}
+
+.theme-box {
+  position: fixed;
+  bottom: 2vh;
+  left: 2vh;
+  cursor: pointer;
+  @include set-size(4vh, 4vh);
+  @include circle;
+  @include shadow-block;
+
+  &-inner {
+    padding: 1vh;
+  }
+
+  &__img {
+    @include set-size(2vh, 2vh);
+    @include themify($themes) {
+      content: themed('themeIcon');
+    }
+  }
+
 }

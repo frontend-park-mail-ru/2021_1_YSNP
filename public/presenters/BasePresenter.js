@@ -12,6 +12,7 @@ import {mobile} from '../modules/mobile';
 import {chat} from '../models/ChatModel';
 
 import {sentryManager} from '../modules/sentry';
+import {customSessionStorage} from '../modules/customSessionStorage';
 
 /***
  * Base presenter
@@ -572,6 +573,9 @@ export class BasePresenter {
                 },
                 closeClick: {
                     open: this.__closeUserMenu.bind(this)
+                },
+                changeTheme: {
+                    open: this.__changeTheme.bind(this)
                 }
             },
             auth: {
@@ -610,6 +614,32 @@ export class BasePresenter {
             radius: this.__userModel.getData().radius,
             address: this.__userModel.getData().address
         };
+    }
+
+    /***
+     * Change theme
+     * @private
+     */
+    __changeTheme() {
+        const theme = customSessionStorage.get('theme');
+        const app = document.getElementsByTagName('html').item(0);
+        if (theme === 'light') {
+            customSessionStorage.set('theme', 'dark');
+            app.className = 'theme-dark';
+        }
+        if (theme === 'dark') {
+            customSessionStorage.set('theme', 'light');
+            app.className = 'theme-light';
+        }
+        if (theme === null) {
+            if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+                customSessionStorage.set('theme', 'dark');
+                app.className = 'theme-dark';
+            } else {
+                customSessionStorage.set('theme', 'light');
+                app.className = 'theme-light';
+            }
+        }
     }
 
     /***
