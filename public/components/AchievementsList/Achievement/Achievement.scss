@@ -15,7 +15,9 @@
   align-items: center;
 
   box-shadow: 0 0 1vw rgba(0, 0, 0,  0.2);
-
+  &-disabled {
+    opacity: 0.2;
+  }
   &-info {
     width: 80%;
     padding: 1vw;
