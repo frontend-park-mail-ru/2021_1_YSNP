@@ -187,6 +187,7 @@ export class BaseView {
     addBackButton() {
         if (mobile.isMobile()) {
             this.__mobileHeader.addBackButton();
+            this.__mobileHeader.removeThemeButton();
         }
     }
 
@@ -196,6 +197,7 @@ export class BaseView {
     removeBackButton() {
         if (mobile.isMobile()) {
             this.__mobileHeader.removeBackButton();
+            this.__mobileHeader.addThemeButton();
         }
     }
 

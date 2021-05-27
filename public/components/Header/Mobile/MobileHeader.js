@@ -25,6 +25,15 @@ export class MobileHeader {
     }
 
     /***
+     * Get theme button
+     * @returns {HTMLElement}
+     * @private
+     */
+    __getThemeButton() {
+        return document.getElementById('mobile-header-theme');
+    }
+
+    /***
      * Add back button
      */
     addBackButton() {
@@ -32,10 +41,24 @@ export class MobileHeader {
     }
 
     /***
+     * Add theme button
+     */
+    addThemeButton() {
+        this.__getThemeButton().classList.remove('mobile-header-left__theme_disabled');
+    }
+
+    /***
      * Remove back button
      */
     removeBackButton() {
         this.__getBackButton().classList.add('mobile-header-left__back_disabled');
+    }
+
+    /***
+     * Remove back button
+     */
+    removeThemeButton() {
+        this.__getThemeButton().classList.add('mobile-header-left__theme_disabled');
     }
 
     /***

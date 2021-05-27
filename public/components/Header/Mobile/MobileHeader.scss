@@ -37,6 +37,17 @@
         display: none;
       }
     }
+    &__theme {
+      @include set-size(3vh, 3vh);
+      @include themify($themes){
+        content: themed('themeIcon');
+      }
+
+      cursor: pointer;
+      &_disabled {
+        display: none;
+      }
+    }
   }
 
   &-middle {
