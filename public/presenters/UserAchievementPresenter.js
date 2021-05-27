@@ -1,7 +1,7 @@
 import {BasePresenter} from './BasePresenter.js';
 import {EndlessScroll} from '../modules/handlers/endlessScroll.js';
 import {PageUpHandler} from '../modules/handlers/pageUpHandler.js';
-import {checkIsAuth} from '../modules/checkAuth';
+
 import {AchievementsModel} from '../models/AchievementsModel';
 import {user} from '../models/ProfileUserModel';
 import {UserModel} from '../models/UserModel';
@@ -52,8 +52,6 @@ export class UserAchievementPresenter extends BasePresenter {
         if (this.checkOffline()) {
             return;
         }
-
-        checkIsAuth();
 
         this.__view.render(this.__makeContext());
         this.__endlessScroll.start();
