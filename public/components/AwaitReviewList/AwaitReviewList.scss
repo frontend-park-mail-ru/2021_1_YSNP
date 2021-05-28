@@ -1,7 +1,8 @@
 @import "../../scss/main.scss";
 
 .await-review-list {
-  @include set-size(100%, 40vh);
+  //@include set-size(100%, 40vh);
+  max-height: 40vh;
   @include shadow-block;
 
   margin-bottom: 2vh;
@@ -22,7 +23,8 @@
     }
 
     &-body {
-      @include set-size(100%, 35vh);
+      //@include set-size(100%, 35vh);
+      max-height: 35vh;
 
       overflow: scroll;
       overflow-x: hidden;
