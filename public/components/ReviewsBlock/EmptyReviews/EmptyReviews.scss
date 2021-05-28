@@ -1,7 +1,8 @@
 @import "../../../scss/main.scss";
 
 .empty-reviews {
-  @include set-size(100%, 50vh);
+  //@include set-size(100%, 50vh);
+  height: 5vh;
 
   &-inner {
     @include set-size(100%, 100%);

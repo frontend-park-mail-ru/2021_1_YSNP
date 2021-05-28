@@ -136,7 +136,7 @@ $themes: (
   }
 
   &::-webkit-scrollbar-track {
-    -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.1);
+    -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.1);
     border-radius: 10px;
 
     @include themify($themes) {
@@ -526,11 +526,11 @@ $themes: (
 }
 
 .input-susses {
-  border: 1px solid green;
+  border: 1px solid green !important;
 }
 
 .input-error {
-  border: 1px solid red;
+  border: 1px solid red !important;
 }
 
 .list-errors {

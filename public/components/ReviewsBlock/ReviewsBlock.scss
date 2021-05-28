@@ -2,7 +2,8 @@
 
 .reviews {
   @include shadow-block;
-  @include set-size(100%, 60vh);
+  //@include set-size(100%, 60vh);
+  max-height: 60vh;
   margin-bottom: 2vh;
 
   &-inner {
@@ -51,7 +52,9 @@
     overflow-x: hidden;
     @include scrollbar;
 
-    height: 50vh;
+    //height: 50vh;
+    max-height: 50vh;
+
     &::-webkit-scrollbar {
       background-color: green;
     }
