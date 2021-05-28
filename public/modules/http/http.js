@@ -1,4 +1,4 @@
-import {customSessionStorage} from '../customSessionStorage.js';
+import {customSessionStorage} from '../storage/customSessionStorage.js';
 
 /***
  * Http module

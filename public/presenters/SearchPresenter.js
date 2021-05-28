@@ -11,7 +11,7 @@ import {NotFoundError, UnauthorizedError} from '../modules/http/httpError';
 
 import {router} from '../modules/router.js';
 import {frontUrls} from '../modules/urls/frontUrls.js';
-import {customSessionStorage} from '../modules/customSessionStorage.js';
+import {customSessionStorage} from '../modules/storage/customSessionStorage.js';
 
 import {categories} from '../modules/layout/fields.js';
 import {sentryManager} from '../modules/sentry';

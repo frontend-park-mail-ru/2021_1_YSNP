@@ -18,10 +18,10 @@ import {checkIsAuth} from '../modules/checkAuth';
 import {UnauthorizedError} from '../modules/http/httpError';
 
 import {router} from '../modules/router';
-
 import {frontUrls} from '../modules/urls/frontUrls';
+import {customLocalStorage} from '../modules/storage/customLocalStorage';
+
 import {sentryManager} from '../modules/sentry';
-import {customSessionStorage} from '../modules/customSessionStorage';
 
 /***
  * Profile settings presenter
@@ -216,7 +216,7 @@ export class UserProfilePresenter extends BasePresenter {
      * @private
      */
     __setLightTheme() {
-        customSessionStorage.set('theme', 'light');
+        customLocalStorage.set('theme', 'light');
         const app = document.getElementsByTagName('html').item(0);
         app.className = 'theme-light';
     }
@@ -226,7 +226,7 @@ export class UserProfilePresenter extends BasePresenter {
      * @private
      */
     __setDarkTheme() {
-        customSessionStorage.set('theme', 'dark');
+        customLocalStorage.set('theme', 'dark');
         const app = document.getElementsByTagName('html').item(0);
         app.className = 'theme-dark';
     }
@@ -270,7 +270,7 @@ export class UserProfilePresenter extends BasePresenter {
 
                     showBackendError(errorPasswordID, err.message);
 
-                sentryManager.captureException(err);
+                    sentryManager.captureException(err);
                     console.log(err.message);
 
                     this.checkOfflineStatus(err);

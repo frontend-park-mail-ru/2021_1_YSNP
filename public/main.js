@@ -43,7 +43,7 @@ import {UserReviewsPresenter} from './presenters/UserReviewsPresenter';
 import {SellerAdPresenter} from './presenters/SellerAdPresenter';
 import {UserAwaitReviewPresenter} from './presenters/UserAwaitReviewPresenter';
 
-import {customSessionStorage} from './modules/customSessionStorage';
+import {customLocalStorage} from './modules/storage/customLocalStorage';
 
 /***
  * Register service worker
@@ -59,13 +59,13 @@ if ('serviceWorker' in navigator) {
 }
 
 const html = document.getElementsByTagName('html').item(0);
-let theme = customSessionStorage.get('theme');
+let theme = customLocalStorage.get('theme');
 if (theme === null) {
     if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
-        customSessionStorage.set('theme', 'dark');
+        customLocalStorage.set('theme', 'dark');
         theme = 'dark';
     } else {
-        customSessionStorage.set('theme', 'light');
+        customLocalStorage.set('theme', 'light');
         theme = 'light';
     }
 }
