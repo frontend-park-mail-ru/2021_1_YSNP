@@ -526,11 +526,11 @@ $themes: (
 }
 
 .input-susses {
-  border: 1px solid green;
+  border: 1px solid green !important;
 }
 
 .input-error {
-  border: 1px solid red;
+  border: 1px solid red !important;
 }
 
 .list-errors {
