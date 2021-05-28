@@ -5,7 +5,7 @@ import {ChangePassword} from './ChangePassword/ChangePassword.js';
 import {parseTelMask} from '../../modules/layout/mask';
 
 import {sentryManager} from '../../modules/sentry';
-import {customSessionStorage} from '../../modules/customSessionStorage';
+import {customSessionStorage} from '../../modules/storage/customSessionStorage';
 
 /***
  * Settings box on profile page

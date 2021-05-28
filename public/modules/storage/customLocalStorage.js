@@ -1,9 +1,9 @@
-import {sentryManager} from './sentry';
+import {sentryManager} from '../sentry';
 
 /***
  * Local storage
  */
-class CustomSessionStorage {
+class CustomLocalStorage {
     /***
      * Get string item
      * @param {string} key - key name
@@ -11,7 +11,7 @@ class CustomSessionStorage {
      */
     get(key) {
         try {
-            return sessionStorage.getItem(key);
+            return localStorage.getItem(key);
         } catch (err) {
             sentryManager.captureException(err);
             console.log(err.message);
@@ -27,7 +27,7 @@ class CustomSessionStorage {
      */
     set(key, val) {
         try {
-            sessionStorage.setItem(key, val);
+            localStorage.setItem(key, val);
         } catch (err) {
             sentryManager.captureException(err);
             console.log(err.message);
@@ -41,7 +41,7 @@ class CustomSessionStorage {
      */
     getJSON(key) {
         try {
-            return JSON.parse(sessionStorage.getItem(key));
+            return JSON.parse(localStorage.getItem(key));
         } catch (err) {
             sentryManager.captureException(err);
             console.log(err.message);
@@ -57,7 +57,7 @@ class CustomSessionStorage {
      */
     setJSON(key, val) {
         try {
-            sessionStorage.setItem(key, JSON.stringify((val)));
+            localStorage.setItem(key, JSON.stringify((val)));
         } catch (err) {
             sentryManager.captureException(err);
             console.log(err.message);
@@ -70,7 +70,7 @@ class CustomSessionStorage {
      */
     del(key) {
         try {
-            sessionStorage.removeItem(key);
+            localStorage.removeItem(key);
         } catch (err) {
             sentryManager.captureException(err);
             console.log(err.message);
@@ -78,4 +78,4 @@ class CustomSessionStorage {
     }
 }
 
-export const customSessionStorage = new CustomSessionStorage();
+export const customLocalStorage = new CustomLocalStorage();

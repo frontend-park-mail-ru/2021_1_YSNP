@@ -10,9 +10,9 @@ import {router} from '../modules/router.js';
 import {frontUrls} from '../modules/urls/frontUrls.js';
 import {mobile} from '../modules/mobile';
 import {chat} from '../models/ChatModel';
+import {customLocalStorage} from '../modules/storage/customLocalStorage';
 
 import {sentryManager} from '../modules/sentry';
-import {customSessionStorage} from '../modules/customSessionStorage';
 
 /***
  * Base presenter
@@ -621,22 +621,22 @@ export class BasePresenter {
      * @private
      */
     __changeTheme() {
-        const theme = customSessionStorage.get('theme');
+        const theme = customLocalStorage.get('theme');
         const app = document.getElementsByTagName('html').item(0);
         if (theme === 'light') {
-            customSessionStorage.set('theme', 'dark');
+            customLocalStorage.set('theme', 'dark');
             app.className = 'theme-dark';
         }
         if (theme === 'dark') {
-            customSessionStorage.set('theme', 'light');
+            customLocalStorage.set('theme', 'light');
             app.className = 'theme-light';
         }
         if (theme === null) {
             if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
-                customSessionStorage.set('theme', 'dark');
+                customLocalStorage.set('theme', 'dark');
                 app.className = 'theme-dark';
             } else {
-                customSessionStorage.set('theme', 'light');
+                customLocalStorage.set('theme', 'light');
                 app.className = 'theme-light';
             }
         }
