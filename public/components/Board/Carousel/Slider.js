@@ -142,7 +142,7 @@ export class Slider {
         return {
             firstPhoto: this.__data.__linkImages[0],
             photos: this.__data.__linkImages,
-            hideCarousel: this.__data.__linkImages.length > 8
+            hideCarousel: this.__data.__linkImages.length > 7
         };
     }
 
