@@ -5,7 +5,7 @@ import {ChangePassword} from './ChangePassword/ChangePassword.js';
 import {parseTelMask} from '../../modules/layout/mask';
 
 import {sentryManager} from '../../modules/sentry';
-import {customSessionStorage} from '../../modules/storage/customSessionStorage';
+import {customLocalStorage} from '../../modules/storage/customLocalStorage';
 
 /***
  * Settings box on profile page
@@ -341,7 +341,7 @@ export class Settings {
             const chPass = new ChangePassword(document.getElementById('settings'));
             chPass.render();
 
-            const theme = customSessionStorage.get('theme');
+            const theme = customLocalStorage.get('theme');
             document.getElementById(`${theme}-theme`).checked = true;
             this.disableEditing();
             this.__addListeners();
