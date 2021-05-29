@@ -1,8 +1,7 @@
 @import "../../../scss/main.scss";
 
 .empty-list {
-  //@include set-size(100%, 35vh);
-  height: 5vh;
+  @include set-size(100%, 5vh);
 
   &-inner {
     @include set-size(100%, 100%);
