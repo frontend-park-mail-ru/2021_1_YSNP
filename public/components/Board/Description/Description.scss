@@ -27,12 +27,13 @@
     }
 
     &-inner {
+      word-break: break-word;
     }
 
     &__text {
       font-family: Open Sans, sans-serif;
       line-height: 3vh;
-      @include themify($themes){
+      @include themify($themes) {
         color: themed('textColorDefault');
       }
     }
