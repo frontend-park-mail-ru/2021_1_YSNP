@@ -100,6 +100,7 @@
 
     &_checked {
       @include red-button(15vh, 3.5vh);
+      color: #ffffff !important;
 
       @media screen and (max-width: $breakMobile) {
         @include red-button(15vh, 4.5vh);
