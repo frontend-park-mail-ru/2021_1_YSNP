@@ -6,12 +6,12 @@ class BackUrls {
      * Class constructor
      */
     constructor() {
-        //this.__url = 'https://ykoya.ru';
-         this.__url = 'http://localhost:8080';
+        this.__url = 'https://ykoya.ru';
+        // this.__url = 'http://localhost:8080';
         this.__api = '/api/v1';
 
-        //this.__wsUrl = 'wss://ykoya.ru';
-         this.__wsUrl = 'ws://localhost:8080';
+        this.__wsUrl = 'wss://ykoya.ru';
+        // this.__wsUrl = 'ws://localhost:8080';
         this.__wsApi = '/api/v1';
     }
 

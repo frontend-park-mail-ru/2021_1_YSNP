@@ -55,4 +55,4 @@ class SentryManager {
     }
 }
 
-export const sentryManager = new SentryManager(true);
+export const sentryManager = new SentryManager();
