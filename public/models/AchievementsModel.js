@@ -69,6 +69,7 @@ export class AchievementModel {
         this.__des = data.description;
         this.__data = this.__datePrepare(data.date);
         this.__pic = data.link_pic;
+        this.__achievemented = data.achieved;
     }
 
     /***
@@ -95,7 +96,8 @@ export class AchievementModel {
             title: this.__title,
             description: this.__des,
             date: this.__data,
-            linkPic: this.__pic
+            linkPic: this.__pic,
+            achievemented: this.__achievemented
         };
     }
 }

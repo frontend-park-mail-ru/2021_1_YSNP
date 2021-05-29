@@ -1,14 +1,22 @@
-<div class="achievement">
+<div class="achievement {{#unless this.achievemented}} achievement-disabled {{/unless}}">
     <div class="achievement-info">
         <div class="achievement-info__title">{{this.title}}</div>
         <div class="achievement-info__des">{{this.description}}</div>
         <div class="achievement-unlcok">
+{{#if this.achievemented}}
             <img src="/img/svg/achieved.svg" alt="logout" class="achieved">
             <div class="achievement-unlcok-info">
                 <span>Разблокировано</span> <br/>
                 <span>{{this.date}}</span>
             </div>
         </div>
+{{else}}
+    <img src="/img/svg/clock.svg" alt="logout" class="achieved">
+    <div class="achievement-unlcok-info">
+        <span>Недоступно</span> <br/>
+    </div>
+</div>
+{{/if}}
     </div>
     <div class="achievement-hero">
         <img class="achievement-hero__img" alt="" src="{{this.linkPic}}">
