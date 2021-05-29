@@ -47,7 +47,8 @@ $themes: (
                 oneChatBackground: rgb(255, 230, 230),
                 scrollbarBackground: #f9f9fd,
                 scrollbarTrack: #cecece,
-                themeIcon: url(../../../img/svg/sun.svg)
+                themeIcon: url(../../../img/svg/sun.svg),
+                pageup: #ECECEC
         ),
         dark: (
                 backgroundColor: #121212,
@@ -75,7 +76,8 @@ $themes: (
                 oneChatBackground: #444444,
                 scrollbarBackground: #5e5e5e,
                 scrollbarTrack: #3e3e3e,
-                themeIcon: url(../../../img/svg/moon.svg)
+                themeIcon: url(../../../img/svg/moon.svg),
+                pageup: #252525
         ),
 );
 

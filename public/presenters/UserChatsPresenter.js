@@ -60,7 +60,9 @@ export class UserChatsPresenter extends BasePresenter {
             return;
         }
 
-        checkIsAuth();
+        if (!checkIsAuth()) {
+            return;
+        }
 
         await this.__updateChatMessage();
         if (this.__notFoundChat) {

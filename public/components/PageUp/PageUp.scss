@@ -10,10 +10,10 @@
   transition-property: color, background-color;
 
   &:hover {
-    @include themify($themes){
+    @include themify($themes) {
       color: themed('linkColor');
+      background-color: themed('pageup');
     }
-    background-color: #ECECEC;
   }
 
   @media screen and (max-width: $breakDesktop) {

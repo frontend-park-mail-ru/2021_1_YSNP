@@ -58,7 +58,9 @@ export class UserFavoritePresenter extends BasePresenter {
             return;
         }
 
-        checkIsAuth();
+        if (!checkIsAuth()) {
+            return;
+        }
 
         this.__view.render(this.__makeContext());
         this.__endlessScroll.start();

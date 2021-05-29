@@ -59,7 +59,9 @@ export class UserAwaitReviewPresenter extends BasePresenter {
             return;
         }
 
-        checkIsAuth();
+        if (!checkIsAuth()) {
+            return;
+        }
 
         this.__view.render(this.__makeContext());
 

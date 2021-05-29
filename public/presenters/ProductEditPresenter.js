@@ -92,7 +92,9 @@ export class ProductEditPresenter extends BasePresenter {
             return;
         }
 
-        checkIsAuth();
+        if (!checkIsAuth()) {
+            return;
+        }
 
         if (this.__model.getData().ownerId !== this.__userModel.getData().id) {
             router.redirect(frontUrls.main);

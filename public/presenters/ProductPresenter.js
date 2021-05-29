@@ -81,7 +81,7 @@ export class ProductPresenter extends BasePresenter {
             return;
         }
 
-        if (this.__notFound) {
+        if (this.__notFound || isNaN(this.__id)) {
             router.redirectNotFound();
             return;
         }
@@ -350,7 +350,7 @@ export class ProductPresenter extends BasePresenter {
             .catch((err) => {
                 //TODO(Sergey) нормальная обработка ошибок
 
-             sentryManager.captureException(err);
+                sentryManager.captureException(err);
                 console.log(err.message);
 
                 this.checkOfflineStatus(err);
@@ -730,7 +730,7 @@ export class ProductPresenter extends BasePresenter {
             .catch((err) => {
                 //TODO(Sergey) нормальная обработка ошибок
 
-            sentryManager.captureException(err);
+                sentryManager.captureException(err);
                 console.log(err.message);
 
                 this.checkOfflineStatus(err);

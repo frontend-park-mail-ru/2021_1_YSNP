@@ -70,7 +70,9 @@ export class RegistrationPresenter extends BasePresenter {
             return;
         }
 
-        checkIsNotAuth();
+        if (!checkIsNotAuth()) {
+            return;
+        }
 
         this.__view.render(this.__makeContext());
 
