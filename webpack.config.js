@@ -61,6 +61,10 @@ module.exports = {
                 {
                     from: 'public/fonts/',
                     to: 'fonts/'
+                },
+                {
+                    from: 'public/yandex_0427d283707135aa.html',
+                    to: ''
                 }
             ]
         }),
