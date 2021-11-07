@@ -55,6 +55,7 @@ export class SearchView extends BaseView {
             productList: {
                 data: context.productList.data,
                 id: 'search',
+                sortType: sessionStorage.getItem('sort'),
                 listeners: context.productList.listeners
             },
             navigation: {
