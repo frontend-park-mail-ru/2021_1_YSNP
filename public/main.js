@@ -48,15 +48,15 @@ import {customLocalStorage} from './modules/storage/customLocalStorage';
 /***
  * Register service worker
  *  */
-if ('serviceWorker' in navigator) {
-    navigator.serviceWorker.register('./sw.js', {scope: '/'})
-        .then(() => {
-            console.log('Service Worker registered.');
-        }).catch((error) => {
-        sentryManager.captureException(error);
-        console.log(`Error while register service worker:${error}`);
-    });
-}
+// if ('serviceWorker' in navigator) {
+//     navigator.serviceWorker.register('./sw.js', {scope: '/'})
+//         .then(() => {
+//             console.log('Service Worker registered.');
+//         }).catch((error) => {
+//         sentryManager.captureException(error);
+//         console.log(`Error while register service worker:${error}`);
+//     });
+// }
 
 const html = document.getElementsByTagName('html').item(0);
 let theme = customLocalStorage.get('theme');

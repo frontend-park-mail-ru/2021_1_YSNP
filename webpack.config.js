@@ -63,11 +63,11 @@ module.exports = {
                     to: 'fonts/'
                 },
                 {
-                    from: 'public/yandex_0427d283707135aa.html',
+                    from: 'yandex_0427d283707135aa.html',
                     to: ''
                 },
                 {
-                    from: 'public/google1988aabd207fda9e.html',
+                    from: 'google1988aabd207fda9e.html',
                     to: ''
                 }
             ]
