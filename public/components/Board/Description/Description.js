@@ -37,7 +37,7 @@ export class Description {
         this.__data = {
             description: this.__data.description.map((value) => ({
                 title: value.title,
-                text: value.text.replaceAll('\n', '<br/>')
+                text: value.text.replaceAll('\n', '\r\n')
             }))
         };
         return this.__data;

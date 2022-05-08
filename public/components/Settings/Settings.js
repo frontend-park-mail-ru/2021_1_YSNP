@@ -94,12 +94,14 @@ export class Settings {
      */
     enablePasswordChange(target) {
         const {buttonSavePass, buttonResetPass} = this.getPasswordInfo();
-        if (target.value !== '') {
-            buttonSavePass.style.visibility = 'visible';
-            buttonResetPass.style.visibility = 'visible';
-        } else {
-            buttonSavePass.style.visibility = 'hidden';
-            buttonResetPass.style.visibility = 'hidden';
+        if (target.id === 'settings-old-pass') {
+            if (target.value !== '') {
+                buttonSavePass.style.visibility = 'visible';
+                buttonResetPass.style.visibility = 'visible';
+            } else {
+                buttonSavePass.style.visibility = 'hidden';
+                buttonResetPass.style.visibility = 'hidden';
+            }
         }
     }
 

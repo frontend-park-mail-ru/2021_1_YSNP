@@ -32,14 +32,14 @@ export class ProductView extends BaseView {
                 data: context.product.data,
                 listeners: context.product.listeners,
                 owner: context.product.owner
-            },
-            trendsList: {
-                title: 'Похожие товары',
-                text: 'Пока нет похожих товаров',
-                id: 'trends',
-                data: context.recList.data,
-                listeners: context.recList.listeners
             }
+            // trendsList: {
+            //     title: 'Похожие товары',
+            //     text: 'Пока нет похожих товаров',
+            //     id: 'trends',
+            //     data: context.recList.data,
+            //     listeners: context.recList.listeners
+            // }
         };
     }
 
@@ -226,8 +226,8 @@ export class ProductView extends BaseView {
         this.__boardSubView = new Board(parent);
         this.__boardSubView.render(this.__context);
 
-        this.__trendsList = new ProductTable(parent);
-        this.__trendsList.render(this.__context.trendsList);
+        // this.__trendsList = new ProductTable(parent);
+        // this.__trendsList.render(this.__context.trendsList);
         super.renderFooter();
     }
 }

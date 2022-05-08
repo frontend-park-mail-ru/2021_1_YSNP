@@ -757,10 +757,10 @@ export class ProductPresenter extends BasePresenter {
                 listeners: this.__createListeners().product,
                 owner: this.__userModel.getData().id === this.__model.getData().ownerId
             },
-            recList: {
-                data: this.__recListModel.getData(),
-                listeners: this.__createListeners().recList
-            },
+            // recList: {
+            //     data: this.__recListModel.getData(),
+            //     listeners: this.__createListeners().recList
+            // },
             closeProduct: {
                 listeners: this.__createListeners().closeProduct
             },
